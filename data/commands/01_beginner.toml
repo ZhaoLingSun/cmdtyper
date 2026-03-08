@@ -1,0 +1,427 @@
+[meta]
+category = "file_ops"
+difficulty = "beginner"
+description = "基础文件和目录操作命令"
+
+[[commands]]
+id = "ls-basic"
+command = "ls"
+summary = "列出当前目录的内容"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出目录内容的命令"
+
+[commands.dictation]
+prompt = "列出当前目录中的文件和目录"
+answers = [
+    "ls",
+    "ls .",
+]
+
+[[commands]]
+id = "ls-all-long"
+command = "ls -la /var/log"
+summary = "显示 /var/log 目录的详细列表（包含隐藏文件）"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出目录内容的命令"
+
+[[commands.tokens]]
+text = "-la"
+desc = "-l 详细列表格式 + -a 显示隐藏文件"
+
+[[commands.tokens]]
+text = "/var/log"
+desc = "目标目录：常见的系统日志目录"
+
+[commands.dictation]
+prompt = "显示 /var/log 目录下所有文件（包含隐藏文件）的详细信息"
+answers = [
+    "ls -la /var/log",
+    "ls -al /var/log",
+    "ls --all -l /var/log",
+    "ls -l -a /var/log",
+]
+
+[[commands]]
+id = "ls-human-size"
+command = "ls -lhS downloads"
+summary = "按文件大小排序并用易读单位显示 downloads 目录内容"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出目录内容的命令"
+
+[[commands.tokens]]
+text = "-lhS"
+desc = "-l 详细列表 + -h 易读大小 + -S 按文件大小排序"
+
+[[commands.tokens]]
+text = "downloads"
+desc = "目标目录：下载文件存放位置"
+
+[commands.dictation]
+prompt = "以易读单位显示 downloads 目录内容，并按文件大小排序"
+answers = [
+    "ls -lhS downloads",
+    "ls -l -h -S downloads",
+    "ls -lh --sort=size downloads",
+]
+
+[[commands]]
+id = "ls-recursive"
+command = "ls -R src"
+summary = "递归列出 src 目录及其子目录内容"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出目录内容的命令"
+
+[[commands.tokens]]
+text = "-R"
+desc = "递归显示子目录中的内容"
+
+[[commands.tokens]]
+text = "src"
+desc = "目标目录：源代码目录"
+
+[commands.dictation]
+prompt = "递归查看 src 目录及其子目录中的内容"
+answers = [
+    "ls -R src",
+    "ls --recursive src",
+    "ls -R ./src",
+]
+
+[[commands]]
+id = "cd-home-default"
+command = "cd"
+summary = "不带参数时切换到当前用户的家目录"
+
+[[commands.tokens]]
+text = "cd"
+desc = "切换当前工作目录的 shell 内建命令"
+
+[commands.dictation]
+prompt = "不带任何参数切换到当前用户的家目录"
+answers = [
+    "cd",
+    "cd ~",
+    "cd $HOME",
+]
+
+[[commands]]
+id = "cd-parent"
+command = "cd .."
+summary = "切换到上一级目录"
+
+[[commands.tokens]]
+text = "cd"
+desc = "切换当前工作目录的 shell 内建命令"
+
+[[commands.tokens]]
+text = ".."
+desc = "表示当前目录的父目录"
+
+[commands.dictation]
+prompt = "切换到当前目录的上一级目录"
+answers = [
+    "cd ..",
+    "cd ../",
+]
+
+[[commands]]
+id = "cd-home-tilde"
+command = "cd ~"
+summary = "使用波浪号快速切换到家目录"
+
+[[commands.tokens]]
+text = "cd"
+desc = "切换当前工作目录的 shell 内建命令"
+
+[[commands.tokens]]
+text = "~"
+desc = "当前用户家目录的简写"
+
+[commands.dictation]
+prompt = "使用波浪号切换到当前用户的家目录"
+answers = [
+    "cd ~",
+    "cd $HOME",
+    "cd ~/",
+]
+
+[[commands]]
+id = "cd-previous"
+command = "cd -"
+summary = "切换回上一次所在的目录"
+
+[[commands.tokens]]
+text = "cd"
+desc = "切换当前工作目录的 shell 内建命令"
+
+[[commands.tokens]]
+text = "-"
+desc = "表示上一次所在的工作目录"
+
+[commands.dictation]
+prompt = "切换回刚才所在的目录"
+answers = [
+    "cd -",
+    "cd $OLDPWD",
+    "cd \"$OLDPWD\"",
+]
+
+[[commands]]
+id = "pwd-basic"
+command = "pwd"
+summary = "显示当前工作目录的绝对路径"
+
+[[commands.tokens]]
+text = "pwd"
+desc = "打印当前工作目录绝对路径的命令"
+
+[commands.dictation]
+prompt = "显示当前所在目录的绝对路径"
+answers = [
+    "pwd",
+    "/bin/pwd",
+]
+
+[[commands]]
+id = "mkdir-parents"
+command = "mkdir -p project/src"
+summary = "递归创建 project/src 目录结构"
+
+[[commands.tokens]]
+text = "mkdir"
+desc = "创建目录的命令"
+
+[[commands.tokens]]
+text = "-p"
+desc = "自动创建缺失的父目录，并在目录已存在时不报错"
+
+[[commands.tokens]]
+text = "project/src"
+desc = "要创建的多级目录路径"
+
+[commands.dictation]
+prompt = "递归创建 project/src 目录结构"
+answers = [
+    "mkdir -p project/src",
+    "mkdir --parents project/src",
+    "mkdir -p ./project/src",
+]
+
+[[commands]]
+id = "touch-file"
+command = "touch notes.txt"
+summary = "创建 notes.txt 文件；如果已存在则更新时间戳"
+
+[[commands.tokens]]
+text = "touch"
+desc = "创建空文件或更新时间戳的命令"
+
+[[commands.tokens]]
+text = "notes.txt"
+desc = "目标文件名"
+
+[commands.dictation]
+prompt = "创建一个名为 notes.txt 的空文件"
+answers = [
+    "touch notes.txt",
+    "touch ./notes.txt",
+]
+
+[[commands]]
+id = "cat-file"
+command = "cat README.md"
+summary = "输出 README.md 文件内容"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取并输出文件内容的命令"
+
+[[commands.tokens]]
+text = "README.md"
+desc = "要查看内容的文件"
+
+[commands.dictation]
+prompt = "把 README.md 文件内容输出到终端"
+answers = [
+    "cat README.md",
+    "cat ./README.md",
+]
+
+[[commands]]
+id = "echo-text"
+command = "echo 'hello world'"
+summary = "在终端输出 hello world 文本"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出文本到终端的命令"
+
+[[commands.tokens]]
+text = "'hello world'"
+desc = "要输出的字符串内容"
+
+[commands.dictation]
+prompt = "在终端输出 hello world 这段文本"
+answers = [
+    "echo 'hello world'",
+    "echo \"hello world\"",
+]
+
+[[commands]]
+id = "cp-file"
+command = "cp file.txt backup/file.txt"
+summary = "把 file.txt 复制为 backup/file.txt"
+
+[[commands.tokens]]
+text = "cp"
+desc = "复制文件或目录的命令"
+
+[[commands.tokens]]
+text = "file.txt"
+desc = "源文件路径"
+
+[[commands.tokens]]
+text = "backup/file.txt"
+desc = "目标文件路径"
+
+[commands.dictation]
+prompt = "把 file.txt 复制到 backup/file.txt"
+answers = [
+    "cp file.txt backup/file.txt",
+    "cp ./file.txt backup/file.txt",
+]
+
+[[commands]]
+id = "mv-file"
+command = "mv old.txt new.txt"
+summary = "把 old.txt 重命名为 new.txt"
+
+[[commands.tokens]]
+text = "mv"
+desc = "移动文件或重命名文件的命令"
+
+[[commands.tokens]]
+text = "old.txt"
+desc = "原文件名"
+
+[[commands.tokens]]
+text = "new.txt"
+desc = "新的文件名"
+
+[commands.dictation]
+prompt = "把 old.txt 重命名为 new.txt"
+answers = [
+    "mv old.txt new.txt",
+    "mv ./old.txt new.txt",
+]
+
+[[commands]]
+id = "rm-file"
+command = "rm temp.log"
+summary = "删除 temp.log 文件"
+
+[[commands.tokens]]
+text = "rm"
+desc = "删除文件或目录的命令"
+
+[[commands.tokens]]
+text = "temp.log"
+desc = "要删除的文件"
+
+[commands.dictation]
+prompt = "删除名为 temp.log 的文件"
+answers = [
+    "rm temp.log",
+    "rm ./temp.log",
+]
+
+[[commands]]
+id = "head-lines"
+command = "head -n 20 app.log"
+summary = "查看 app.log 的前 20 行"
+
+[[commands.tokens]]
+text = "head"
+desc = "查看文件开头内容的命令"
+
+[[commands.tokens]]
+text = "-n"
+desc = "指定要显示的行数"
+
+[[commands.tokens]]
+text = "20"
+desc = "显示前 20 行"
+
+[[commands.tokens]]
+text = "app.log"
+desc = "要查看的日志文件"
+
+[commands.dictation]
+prompt = "查看 app.log 文件的前 20 行"
+answers = [
+    "head -n 20 app.log",
+    "head -20 app.log",
+    "head --lines 20 app.log",
+]
+
+[[commands]]
+id = "tail-follow"
+command = "tail -f app.log"
+summary = "持续跟踪 app.log 文件末尾新增的内容"
+
+[[commands.tokens]]
+text = "tail"
+desc = "查看文件末尾内容的命令"
+
+[[commands.tokens]]
+text = "-f"
+desc = "持续跟踪文件追加的内容"
+
+[[commands.tokens]]
+text = "app.log"
+desc = "要持续观察的日志文件"
+
+[commands.dictation]
+prompt = "持续跟踪 app.log 文件末尾新增的内容"
+answers = [
+    "tail -f app.log",
+    "tail --follow app.log",
+    "tail -f ./app.log",
+]
+
+[[commands]]
+id = "ln-symbolic"
+command = "ln -s /var/log logs"
+summary = "创建指向 /var/log 的符号链接 logs"
+
+[[commands.tokens]]
+text = "ln"
+desc = "创建链接文件的命令"
+
+[[commands.tokens]]
+text = "-s"
+desc = "创建符号链接而不是硬链接"
+
+[[commands.tokens]]
+text = "/var/log"
+desc = "符号链接指向的源路径"
+
+[[commands.tokens]]
+text = "logs"
+desc = "新建的符号链接名称"
+
+[commands.dictation]
+prompt = "创建一个名为 logs 的符号链接，指向 /var/log"
+answers = [
+    "ln -s /var/log logs",
+    "ln --symbolic /var/log logs",
+    "ln -s /var/log ./logs",
+]
