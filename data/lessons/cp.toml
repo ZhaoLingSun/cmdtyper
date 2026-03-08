@@ -1,0 +1,119 @@
+[meta]
+command = "cp"
+full_name = "copy"
+category = "file_ops"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "复制文件和目录"
+explanation = """cp 是 Linux 中最基本的文件操作命令之一，用于复制文件或目录。\
+它可以将一个或多个源文件复制到指定的目标位置。\
+默认情况下，cp 只复制普通文件，不复制目录（需要加 -r 选项）。\
+复制时如果目标文件已存在，默认会直接覆盖而不提示，\
+因此在操作重要文件时建议使用 -i 选项开启交互确认。\
+cp 还支持保留文件属性（权限、时间戳等），这在备份和部署场景中非常重要。"""
+
+[syntax]
+basic = "cp [选项] 源文件... 目标"
+[[syntax.parts]]
+name = "源文件"
+desc = "要复制的文件或目录，可以指定多个"
+[[syntax.parts]]
+name = "目标"
+desc = "目标路径。如果是目录则将源文件复制到该目录中；如果是文件名则复制为该文件"
+
+[[options]]
+flag = "-r"
+name = "递归复制"
+example = "cp -r src/ backup/"
+note = "复制整个目录及其所有内容，-R 效果相同"
+
+[[options]]
+flag = "-i"
+name = "交互确认"
+example = "cp -i file.txt /tmp/"
+note = "覆盖已有文件前询问用户确认"
+
+[[options]]
+flag = "-v"
+name = "显示详情"
+example = "cp -v *.log /backup/"
+note = "显示每个被复制的文件名"
+
+[[options]]
+flag = "-p"
+name = "保留属性"
+example = "cp -p config.yml config.yml.bak"
+note = "保留文件的权限、所有者和时间戳"
+
+[[options]]
+flag = "-a"
+name = "归档模式"
+example = "cp -a /var/www /backup/www"
+note = "等同于 -dR --preserve=all，完整保留所有属性，适合备份"
+
+[[options]]
+flag = "-u"
+name = "仅更新"
+example = "cp -u *.txt /backup/"
+note = "仅当源文件比目标文件新或目标不存在时才复制"
+
+[[examples]]
+level = 1
+command = "cp file.txt backup.txt"
+summary = "将 file.txt 复制为 backup.txt"
+simulated_output = ""
+
+[[examples]]
+level = 1
+command = "cp -v report.pdf ~/Documents/"
+summary = "复制文件到 Documents 目录并显示详情"
+simulated_output = """'report.pdf' -> '/home/ace/Documents/report.pdf'"""
+
+[[examples]]
+level = 2
+command = "cp -r project/ project-backup/"
+summary = "递归复制整个项目目录作为备份"
+simulated_output = ""
+
+[[examples]]
+level = 3
+command = "cp -a /etc/nginx /backup/nginx-$(date +%Y%m%d)"
+summary = "归档模式备份 nginx 配置目录，目标目录名包含日期"
+simulated_output = ""
+
+[[examples]]
+level = 3
+command = "cp -iv *.conf /etc/app/"
+summary = "复制所有配置文件到目标目录，有冲突时交互确认"
+simulated_output = """'app.conf' -> '/etc/app/app.conf'
+cp: overwrite '/etc/app/db.conf'? y
+'db.conf' -> '/etc/app/db.conf'
+'log.conf' -> '/etc/app/log.conf'"""
+
+[[examples]]
+level = 4
+command = "cp -au /home/ace/projects/ /mnt/backup/projects/"
+summary = "增量备份：仅复制有更新的文件，保留所有属性"
+simulated_output = ""
+
+[[gotchas]]
+title = "cp 默认覆盖不提示"
+content = """cp 默认不会在覆盖已有文件时提示确认，这可能导致重要文件被意外覆盖。
+建议：
+  - 重要操作使用 cp -i（交互确认）
+  - 可以在 ~/.bashrc 中设置 alias cp='cp -i' 使其默认提示
+  - 注意：即使设置了 alias，在脚本中 cp 仍然不会提示
+
+另一个常见问题是忘记 -r 选项复制目录：
+  cp mydir /tmp/          — 错误！会提示 "omitting directory"
+  cp -r mydir /tmp/       — 正确"""
+
+[[gotchas]]
+title = "复制符号链接的行为"
+content = """默认情况下，cp 会跟随符号链接复制链接指向的实际文件内容。
+如果你想保留符号链接本身（不跟随），需要使用 -d 或 -a 选项：
+  cp link.txt /tmp/       — 复制的是链接指向的文件内容
+  cp -d link.txt /tmp/    — 复制的是符号链接本身
+  cp -a src/ dst/         — 归档模式，保留所有符号链接"""

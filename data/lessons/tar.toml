@@ -1,0 +1,151 @@
+[meta]
+command = "tar"
+full_name = "tape archive"
+category = "archive"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "打包和压缩文件归档"
+explanation = """tar 是 Linux 中最常用的归档工具，名称来源于 "tape archive"（磁带归档）。\
+tar 本身只负责将多个文件打包成一个归档文件（.tar），\
+通常配合压缩工具（gzip、bzip2、xz）一起使用来减小文件大小。\
+最常见的组合是 tar + gzip（生成 .tar.gz 或 .tgz 文件）。\
+tar 的核心操作只有三个：创建归档（c）、查看内容（t）、解压归档（x），\
+配合压缩选项（z=gzip, j=bzip2, J=xz）就能覆盖日常所有归档需求。\
+记住口诀：czf 压缩、xzf 解压、tzf 查看。"""
+
+[syntax]
+basic = "tar [选项] [归档文件] [文件...]"
+[[syntax.parts]]
+name = "归档文件"
+desc = "归档文件的路径，通常以 .tar.gz、.tgz、.tar.bz2 等结尾"
+[[syntax.parts]]
+name = "文件"
+desc = "要打包的文件或目录（创建归档时使用）"
+
+[[options]]
+flag = "-c"
+name = "创建归档"
+example = "tar -cf archive.tar files/"
+note = "创建新的归档文件"
+
+[[options]]
+flag = "-x"
+name = "解压归档"
+example = "tar -xf archive.tar.gz"
+note = "从归档中提取文件"
+
+[[options]]
+flag = "-t"
+name = "查看内容"
+example = "tar -tf archive.tar.gz"
+note = "列出归档中的文件列表而不解压"
+
+[[options]]
+flag = "-z"
+name = "gzip 压缩"
+example = "tar -czf archive.tar.gz files/"
+note = "使用 gzip 压缩/解压（.tar.gz 或 .tgz）"
+
+[[options]]
+flag = "-j"
+name = "bzip2 压缩"
+example = "tar -cjf archive.tar.bz2 files/"
+note = "使用 bzip2 压缩（压缩率更高但速度较慢）"
+
+[[options]]
+flag = "-v"
+name = "显示详情"
+example = "tar -czvf archive.tar.gz files/"
+note = "显示正在处理的文件名"
+
+[[options]]
+flag = "-C"
+name = "指定解压目录"
+example = "tar -xzf archive.tar.gz -C /opt/"
+note = "将文件解压到指定目录"
+
+[[options]]
+flag = "--exclude"
+name = "排除文件"
+example = "tar -czf backup.tar.gz --exclude='*.log' project/"
+note = "排除匹配模式的文件"
+
+[[examples]]
+level = 1
+command = "tar -czf project.tar.gz project/"
+summary = "将 project 目录打包并用 gzip 压缩"
+simulated_output = ""
+
+[[examples]]
+level = 1
+command = "tar -xzf project.tar.gz"
+summary = "解压 .tar.gz 归档文件"
+simulated_output = ""
+
+[[examples]]
+level = 2
+command = "tar -tzf backup.tar.gz"
+summary = "查看 .tar.gz 归档中的文件列表"
+simulated_output = """backup/
+backup/config.yml
+backup/data/
+backup/data/users.db
+backup/data/products.db
+backup/logs/
+backup/logs/app.log
+backup/README.md"""
+
+[[examples]]
+level = 2
+command = "tar -czvf backup.tar.gz --exclude='*.log' --exclude='node_modules' project/"
+summary = "打包项目但排除日志文件和 node_modules"
+display = "tar -czvf backup.tar.gz \\\n  --exclude='*.log' \\\n  --exclude='node_modules' \\\n  project/"
+simulated_output = """project/
+project/package.json
+project/src/
+project/src/index.js
+project/src/app.js
+project/public/
+project/public/index.html
+project/README.md"""
+
+[[examples]]
+level = 3
+command = "tar -xzf release-v2.0.tar.gz -C /opt/app/"
+summary = "将归档解压到指定目录"
+simulated_output = ""
+
+[[examples]]
+level = 4
+command = "tar -czf /backup/www-$(date +%Y%m%d).tar.gz -C /var/www html/"
+summary = "备份网站目录，文件名包含日期"
+display = "tar -czf /backup/www-$(date +%Y%m%d).tar.gz \\\n  -C /var/www html/"
+simulated_output = ""
+
+[[gotchas]]
+title = "tar 选项中 f 必须在最后"
+content = """tar 的 -f 选项后面必须紧跟归档文件名，因此 f 通常放在选项组合的最后：
+  tar -czf archive.tar.gz files/   ✓  f 后面是文件名
+  tar -cfz archive.tar.gz files/   ✗  f 后面变成了 z！
+
+另外，现代 GNU tar 可以自动检测压缩格式，解压时可以省略 z/j/J：
+  tar -xf archive.tar.gz    ✓ 自动检测 gzip
+  tar -xf archive.tar.bz2   ✓ 自动检测 bzip2
+  tar -xf archive.tar.xz    ✓ 自动检测 xz
+但创建归档时必须指定压缩选项。"""
+
+[[gotchas]]
+title = "tar 解压时注意目录结构"
+content = """解压 tar 归档时，需要注意归档内的目录结构：
+  1. 如果归档的根目录是 project/，解压后会创建 project/ 目录
+  2. 如果归档没有根目录，文件会直接散落在当前目录
+
+安全做法：先用 tar -tf 查看内容，再决定如何解压：
+  tar -tf unknown.tar.gz | head -10
+  如果文件没有统一的根目录，建议创建一个目录再解压到其中：
+  mkdir output && tar -xzf unknown.tar.gz -C output/
+
+另外注意带绝对路径的归档（以 / 开头的路径）可能覆盖系统文件！
+GNU tar 默认会去掉前导 /，但使用第三方打包的归档时要警惕。"""

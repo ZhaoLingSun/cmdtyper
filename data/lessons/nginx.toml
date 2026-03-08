@@ -1,0 +1,121 @@
+[meta]
+command = "nginx"
+full_name = "Nginx Web Server"
+category = "network"
+difficulty = "advanced"
+importance = "core"
+
+[overview]
+summary = "高性能 Web 服务器，也是反向代理和负载均衡器"
+explanation = """Nginx（发音 engine-x）是一个高性能的 Web 服务器，以其低内存占用和高并发处理能力而闻名，广泛用于静态文件服务和反向代理。Nginx 采用事件驱动的异步架构，单进程可处理数万并发连接，远优于传统的 Apache 的进程/线程模型。主要用途：静态文件服务（HTML、CSS、JS、图片）、反向代理（转发请求到后端应用）、负载均衡（分发流量到多台后端服务器）、SSL 终止（处理 HTTPS 加解密）。Nginx 配置文件使用声明式语法，核心是 server block（虚拟主机配置）和 location block（路径规则）。"""
+
+[syntax]
+basic = "nginx [选项]"
+[[syntax.parts]]
+name = "选项"
+desc = "控制 nginx 行为：-t 测试配置，-s reload 重载，-v 查看版本等"
+
+[[options]]
+flag = "-t"
+name = "测试配置文件"
+example = "nginx -t"
+note = "检查配置文件语法是否正确，不启动服务，部署前必做"
+
+[[options]]
+flag = "-s reload"
+name = "重载配置"
+example = "nginx -s reload"
+note = "不中断服务地重新加载配置，等同于 systemctl reload nginx"
+
+[[options]]
+flag = "-s stop"
+name = "快速停止"
+example = "nginx -s stop"
+note = "立即停止 nginx，不等待请求处理完毕"
+
+[[options]]
+flag = "-s quit"
+name = "优雅停止"
+example = "nginx -s quit"
+note = "等待当前请求处理完毕后再停止"
+
+[[options]]
+flag = "-v"
+name = "查看版本"
+example = "nginx -v"
+note = "显示 nginx 版本号"
+
+[[examples]]
+level = 1
+command = "nginx -t"
+summary = "测试 Nginx 配置文件语法"
+simulated_output = """nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful"""
+
+[[examples]]
+level = 1
+command = "systemctl status nginx"
+summary = "查看 Nginx 服务运行状态"
+simulated_output = """● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sat 2024-03-09 08:00:15 UTC; 3h 12min ago
+    Process: 1234 ExecStartPre=/usr/sbin/nginx -t (code=exited, status=0/SUCCESS)
+   Main PID: 1235 (nginx)"""
+
+[[examples]]
+level = 2
+command = "cat /etc/nginx/sites-available/mysite.conf"
+summary = "查看静态文件服务的 server block 配置"
+simulated_output = """server {
+    listen 80;
+    server_name mysite.com www.mysite.com;
+
+    root /var/www/mysite;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    access_log /var/log/nginx/mysite_access.log;
+    error_log  /var/log/nginx/mysite_error.log;
+}"""
+
+[[examples]]
+level = 2
+command = "cat /etc/nginx/sites-available/api-proxy.conf"
+summary = "查看反向代理配置示例"
+simulated_output = """server {
+    listen 80;
+    server_name api.example.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}"""
+
+[[examples]]
+level = 3
+command = "ln -s /etc/nginx/sites-available/mysite.conf /etc/nginx/sites-enabled/ && nginx -t && systemctl reload nginx"
+summary = "启用站点配置、测试语法并重载服务"
+simulated_output = """nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful"""
+
+[[examples]]
+level = 3
+command = "tail -f /var/log/nginx/access.log"
+summary = "实时监控 Nginx 访问日志"
+simulated_output = """203.0.113.42 - - [09/Mar/2024:10:30:01 +0000] "GET / HTTP/1.1" 200 4821 "https://google.com/" "Mozilla/5.0"
+10.0.0.5 - - [09/Mar/2024:10:30:02 +0000] "GET /api/status HTTP/1.1" 200 42 "-" "curl/7.88.1"
+203.0.113.99 - - [09/Mar/2024:10:30:18 +0000] "POST /api/login HTTP/1.1" 200 128 "-" "python-requests/2.31""""
+
+[[gotchas]]
+title = "修改配置后务必先测试语法"
+content = """直接 reload 一个有语法错误的 nginx 配置会导致 reload 失败，但服务不会中断（旧配置继续运行）。而直接 start 一个有错误的配置会导致服务启动失败！标准操作流程：编辑配置 → nginx -t 测试 → systemctl reload nginx如果 nginx -t 报错，修复后再 reload，永远不要跳过测试步骤。"""
+
+[[gotchas]]
+title = "sites-available 和 sites-enabled 的关系"
+content = """Nginx 的标准目录结构中：/etc/nginx/sites-available/ 存放所有站点的配置文件（不一定激活）。/etc/nginx/sites-enabled/ 存放指向 sites-available 文件的软链接，表示已激活的站点。启用站点：ln -s /etc/nginx/sites-available/mysite.conf /etc/nginx/sites-enabled/禁用站点：rm /etc/nginx/sites-enabled/mysite.conf（只删除链接，不删除原配置）。"""

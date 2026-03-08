@@ -1,0 +1,114 @@
+[meta]
+command = "docker"
+full_name = "Docker Container Platform"
+category = "dev_tools"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "容器化平台，用于构建、运行和管理应用容器"
+explanation = """Docker 是最流行的容器化平台，让应用及其所有依赖被打包成一个可移植的镜像。容器与虚拟机不同：容器共享宿主机内核，启动更快、资源占用更少。核心概念：镜像（image）是模板，容器（container）是运行中的镜像实例。Dockerfile 定义如何构建镜像；Docker Compose 管理多容器应用。Docker 是现代 DevOps 和微服务架构的基础，掌握 Docker 命令是当代后端开发者和运维工程师的必备技能。"""
+
+[syntax]
+basic = "docker <子命令> [选项] [参数]"
+[[syntax.parts]]
+name = "子命令"
+desc = "操作类型：run、ps、build、exec、images、logs、compose 等"
+[[syntax.parts]]
+name = "参数"
+desc = "容器名/ID、镜像名、文件路径等，根据子命令而定"
+
+[[options]]
+flag = "ps"
+name = "列出容器"
+example = "docker ps -a"
+note = "列出运行中的容器；-a 显示所有容器（含已停止的）"
+
+[[options]]
+flag = "run"
+name = "创建并运行容器"
+example = "docker run -d -p 8080:80 nginx"
+note = "-d 后台运行，-p 端口映射（宿主机:容器）"
+
+[[options]]
+flag = "build"
+name = "构建镜像"
+example = "docker build -t myapp:v1 ."
+note = "-t 指定镜像名和标签，. 表示 Dockerfile 在当前目录"
+
+[[options]]
+flag = "exec"
+name = "在容器中执行命令"
+example = "docker exec -it mycontainer bash"
+note = "-i 交互，-t 分配终端，bash 进入容器 shell"
+
+[[options]]
+flag = "images"
+name = "列出本地镜像"
+example = "docker images"
+note = "显示本地存储的所有镜像及其大小"
+
+[[options]]
+flag = "logs"
+name = "查看容器日志"
+example = "docker logs -f mycontainer"
+note = "-f 实时跟踪日志输出（类似 tail -f）"
+
+[[examples]]
+level = 1
+command = "docker ps"
+summary = "列出所有正在运行的容器"
+simulated_output = """CONTAINER ID   IMAGE          COMMAND                  CREATED       STATUS       PORTS                  NAMES
+a1b2c3d4e5f6   nginx:latest   "/docker-entrypoint.…"   2 hours ago   Up 2 hours   0.0.0.0:80->80/tcp     webserver
+b7c8d9e0f1a2   postgres:15    "docker-entrypoint.s…"   3 hours ago   Up 3 hours   5432/tcp               mydb"""
+
+[[examples]]
+level = 1
+command = "docker images"
+summary = "列出本地所有 Docker 镜像"
+simulated_output = """REPOSITORY   TAG       IMAGE ID       CREATED        SIZE
+nginx        latest    61395b4c586d   3 days ago     187MB
+postgres     15        ceccf204404e   2 weeks ago    417MB
+python       3.11      a5d7930b60cc   3 weeks ago    1.01GB
+ubuntu       22.04     3b418d7b466a   4 weeks ago    77.8MB"""
+
+[[examples]]
+level = 2
+command = "docker run -d --name webserver -p 8080:80 nginx"
+summary = "后台运行 Nginx 容器并映射端口"
+simulated_output = "f3e2d1c0b9a847563412fedcba987654321012345678901234567890abcdef"
+
+[[examples]]
+level = 2
+command = "docker exec -it webserver bash"
+summary = "进入正在运行的 Nginx 容器的 shell"
+simulated_output = "root@f3e2d1c0b9a8:/# "
+
+[[examples]]
+level = 3
+command = "docker build -t myapp:v1.0 ."
+summary = "在当前目录用 Dockerfile 构建镜像"
+simulated_output = """[+] Building 12.4s (8/8) FINISHED
+ => [internal] load build definition from Dockerfile            0.1s
+ => [1/4] FROM python:3.11-slim                                 5.2s
+ => [2/4] WORKDIR /app                                          0.0s
+ => [3/4] COPY requirements.txt .                               0.1s
+ => [4/4] RUN pip install -r requirements.txt                   6.8s
+ => exporting to image                                          0.2s
+ => naming to docker.io/library/myapp:v1.0                      0.0s"""
+
+[[examples]]
+level = 3
+command = "docker logs -f --tail 50 webserver"
+summary = "实时查看容器最后 50 行日志"
+simulated_output = """203.0.113.42 - - [09/Mar/2024:10:30:01 +0000] "GET / HTTP/1.1" 200 615
+10.0.0.5 - - [09/Mar/2024:10:30:02 +0000] "GET /api/health HTTP/1.1" 200 17
+203.0.113.42 - - [09/Mar/2024:10:30:15 +0000] "POST /api/login HTTP/1.1" 200 128"""
+
+[[gotchas]]
+title = "容器停止后数据默认丢失"
+content = """Docker 容器的文件系统是临时的：容器删除后，内部的数据也随之消失。持久化数据应使用 Volume（卷）：docker run -v /host/path:/container/path ...或使用具名卷：docker run -v mydata:/data ...数据库、上传文件、配置文件等都应该挂载卷，否则重启后数据会丢失。"""
+
+[[gotchas]]
+title = "docker run 每次都创建新容器"
+content = """每次执行 docker run 都会创建一个全新的容器实例，而非重启已有容器。如果要重启已停止的容器，应使用 docker start 容器名/ID。用 docker run --rm 可以让容器在退出后自动删除，适合一次性任务。长期运行的服务容器建议使用 docker compose 管理，更易于维护。"""

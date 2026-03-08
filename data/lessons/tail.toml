@@ -1,0 +1,144 @@
+[meta]
+command = "tail"
+full_name = "tail"
+category = "text_process"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "显示文件的末尾部分，支持实时跟踪"
+explanation = """tail 命令用于显示文件的末尾部分内容，默认显示最后 10 行。\
+tail 最强大的功能是 -f（follow）选项，它可以实时跟踪文件的新增内容，\
+这在监控日志文件时极其常用。当应用程序持续写入日志时，\
+tail -f 会自动显示新追加的内容，直到你按 Ctrl+C 中断。\
+与 head 命令相对应，tail 查看文件末尾，head 查看文件开头。\
+在日常运维和开发调试中，tail -f 几乎是使用频率最高的命令之一。"""
+
+[syntax]
+basic = "tail [选项] [文件]..."
+[[syntax.parts]]
+name = "选项"
+desc = "控制输出行数或启用实时跟踪"
+[[syntax.parts]]
+name = "文件"
+desc = "要查看的文件，省略时从标准输入读取"
+
+[[options]]
+flag = "-n"
+name = "指定行数"
+example = "tail -n 20 app.log"
+note = "显示文件最后 N 行，也可以写成 tail -20 app.log"
+
+[[options]]
+flag = "-f"
+name = "实时跟踪"
+example = "tail -f /var/log/syslog"
+note = "持续输出文件新增的内容，Ctrl+C 停止"
+
+[[options]]
+flag = "-F"
+name = "跟踪并重试"
+example = "tail -F app.log"
+note = "类似 -f，但文件被删除重建后会自动重新打开（日志轮转场景）"
+
+[[options]]
+flag = "-c"
+name = "指定字节数"
+example = "tail -c 1024 file.bin"
+note = "显示文件最后 N 个字节"
+
+[[options]]
+flag = "--pid"
+name = "跟踪进程"
+example = "tail -f --pid=1234 app.log"
+note = "当指定 PID 的进程终止后，自动停止 tail"
+
+[[options]]
+flag = "-q"
+name = "静默模式"
+example = "tail -q log1.txt log2.txt"
+note = "读取多个文件时不显示文件名标题"
+
+[[examples]]
+level = 1
+command = "tail /var/log/syslog"
+summary = "查看系统日志的最后 10 行"
+simulated_output = """Mar  9 14:20:01 ubuntu CRON[12345]: (root) CMD (test -x /usr/sbin/anacron)
+Mar  9 14:22:33 ubuntu systemd[1]: Starting Daily apt upgrade and clean...
+Mar  9 14:22:35 ubuntu systemd[1]: Started Daily apt upgrade and clean.
+Mar  9 14:25:01 ubuntu CRON[12389]: (ace) CMD (/home/ace/scripts/backup.sh)
+Mar  9 14:28:44 ubuntu kernel: [42156.892341] TCP: eth0: driver bug
+Mar  9 14:30:01 ubuntu CRON[12412]: (root) CMD (test -x /usr/sbin/anacron)
+Mar  9 14:31:18 ubuntu sshd[12450]: Accepted publickey for ace from 192.168.1.50 port 52341 ssh2
+Mar  9 14:31:18 ubuntu systemd-logind[652]: New session 42 of user ace.
+Mar  9 14:33:21 ubuntu nginx[1205]: 192.168.1.50 - - [09/Mar/2026:14:33:21 +0800] "GET / HTTP/1.1" 200 612
+Mar  9 14:35:01 ubuntu CRON[12478]: (root) CMD (test -x /usr/sbin/anacron)"""
+
+[[examples]]
+level = 1
+command = "tail -n 5 ~/.bash_history"
+summary = "查看最近执行的 5 条命令"
+simulated_output = """docker ps -a
+git pull origin main
+npm run build
+tail -f /var/log/nginx/access.log
+sudo systemctl restart nginx"""
+
+[[examples]]
+level = 2
+command = "tail -f /var/log/nginx/access.log"
+summary = "实时跟踪 Nginx 访问日志"
+simulated_output = """192.168.1.50 - - [09/Mar/2026:14:35:22 +0800] "GET /api/users HTTP/1.1" 200 1842
+192.168.1.51 - - [09/Mar/2026:14:35:23 +0800] "POST /api/login HTTP/1.1" 200 256
+192.168.1.52 - - [09/Mar/2026:14:35:25 +0800] "GET /static/main.css HTTP/1.1" 304 0
+10.0.0.5 - - [09/Mar/2026:14:35:26 +0800] "GET /health HTTP/1.1" 200 2
+192.168.1.50 - - [09/Mar/2026:14:35:28 +0800] "GET /api/users/42 HTTP/1.1" 404 32"""
+
+[[examples]]
+level = 3
+command = "tail -n +2 data.csv"
+summary = "跳过 CSV 文件第一行（表头），从第 2 行开始显示"
+simulated_output = """1,Alice,alice@example.com,admin
+2,Bob,bob@example.com,user
+3,Charlie,charlie@example.com,user
+4,Diana,diana@example.com,moderator"""
+
+[[examples]]
+level = 3
+command = "tail -f /var/log/syslog | grep --line-buffered ERROR"
+summary = "实时跟踪日志并过滤只显示错误信息"
+display = "tail -f /var/log/syslog \\\n  | grep --line-buffered ERROR"
+simulated_output = """Mar  9 14:40:12 ubuntu app[5678]: [ERROR] Database connection timeout
+Mar  9 14:42:55 ubuntu app[5678]: [ERROR] Failed to process request #12345"""
+
+[[examples]]
+level = 4
+command = "tail -f access.log error.log"
+summary = "同时跟踪多个日志文件"
+simulated_output = """==> access.log <==
+192.168.1.50 - - [09/Mar/2026:14:45:01 +0800] "GET / HTTP/1.1" 200 612
+
+==> error.log <==
+2026/03/09 14:45:03 [warn] 1205#0: conflicting server name "localhost"
+
+==> access.log <==
+192.168.1.51 - - [09/Mar/2026:14:45:05 +0800] "POST /api/data HTTP/1.1" 201 48"""
+
+[[gotchas]]
+title = "tail -f 与日志轮转"
+content = """当日志文件被 logrotate 轮转（重命名并创建新文件）时：
+  tail -f  — 会继续跟踪旧文件（已被重命名的那个），看不到新日志
+  tail -F  — 会检测到文件被替换，自动重新打开新文件
+
+在监控生产环境日志时，推荐使用 tail -F 而不是 tail -f。
+tail -F 等价于 tail --follow=name --retry。"""
+
+[[gotchas]]
+title = "tail -n 的加号用法"
+content = """tail -n 参数支持加号（+）前缀，表示从第 N 行开始显示到文件末尾：
+  tail -n 10 file.txt   — 显示最后 10 行
+  tail -n +10 file.txt  — 从第 10 行开始显示到末尾
+
+这在跳过文件头部（如 CSV 表头、配置文件注释）时很有用：
+  tail -n +2 data.csv   — 跳过第 1 行表头
+  tail -n +4 script.sh  — 跳过前 3 行注释"""

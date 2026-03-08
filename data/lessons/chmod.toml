@@ -1,0 +1,139 @@
+[meta]
+command = "chmod"
+full_name = "change mode"
+category = "permission"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "修改文件或目录的访问权限"
+explanation = """chmod 是 Linux 中管理文件权限的核心命令，名称来源于 "change mode"（更改模式）。\
+Linux 的权限系统基于三类用户：文件所有者（user）、所属组（group）和其他用户（others），\
+每类用户可以拥有读（r=4）、写（w=2）、执行（x=1）三种权限。\
+chmod 支持两种设置方式：数字模式（如 755）和符号模式（如 u+x）。\
+数字模式将 rwx 权限转换为三位八进制数，每位对应一类用户；\
+符号模式则更直观地描述"给谁""做什么""哪个权限"。\
+理解文件权限是 Linux 系统管理的基础，错误的权限设置可能导致程序无法运行或安全漏洞。"""
+
+[syntax]
+basic = "chmod [选项] 模式 文件..."
+[[syntax.parts]]
+name = "模式"
+desc = "权限模式，可以是数字（如 755）或符号（如 u+rwx,go+rx）"
+[[syntax.parts]]
+name = "文件"
+desc = "要修改权限的文件或目录，支持通配符"
+
+[[options]]
+flag = "-R"
+name = "递归修改"
+example = "chmod -R 755 /var/www"
+note = "递归修改目录及其所有子文件和子目录的权限"
+
+[[options]]
+flag = "-v"
+name = "显示详情"
+example = "chmod -v 644 file.txt"
+note = "显示每个文件的权限修改详情"
+
+[[options]]
+flag = "-c"
+name = "仅显示变更"
+example = "chmod -c 755 *.sh"
+note = "仅当权限实际发生变更时才显示信息"
+
+[[options]]
+flag = "--reference"
+name = "参考文件"
+example = "chmod --reference=template.txt target.txt"
+note = "将 target.txt 的权限设为与 template.txt 相同"
+
+[[options]]
+flag = "u+x"
+name = "符号模式：添加执行权限"
+example = "chmod u+x script.sh"
+note = "u=user, g=group, o=others, a=all; +=添加, -=移除, ==设置"
+
+[[options]]
+flag = "go-w"
+name = "符号模式：移除写权限"
+example = "chmod go-w config.yml"
+note = "移除组用户和其他用户的写权限"
+
+[[examples]]
+level = 1
+command = "chmod 755 deploy.sh"
+summary = "给脚本设置可执行权限（所有者 rwx，其他人 rx）"
+simulated_output = ""
+
+[[examples]]
+level = 1
+command = "chmod u+x script.sh"
+summary = "用符号模式给文件所有者添加执行权限"
+simulated_output = ""
+
+[[examples]]
+level = 2
+command = "chmod 644 index.html"
+summary = "设置网页文件权限：所有者可读写，其他人只读"
+simulated_output = ""
+
+[[examples]]
+level = 2
+command = "chmod -v go-rwx secret.key"
+summary = "移除组和其他用户的所有权限并显示变更"
+simulated_output = """mode of 'secret.key' changed from 0644 (rw-r--r--) to 0600 (rw-------)"""
+
+[[examples]]
+level = 3
+command = "chmod -R 755 /var/www/html"
+summary = "递归设置网站目录权限"
+simulated_output = ""
+
+[[examples]]
+level = 3
+command = "chmod a+r,u+w,go-w report.pdf"
+summary = "组合符号模式：所有人可读，所有者可写，组和其他人不可写"
+simulated_output = ""
+
+[[examples]]
+level = 4
+command = "find /var/www -type f -exec chmod 644 {} +"
+summary = "只修改目录下所有文件（不含目录）的权限为 644"
+display = "find /var/www -type f \\\n  -exec chmod 644 {} +"
+simulated_output = ""
+
+[[gotchas]]
+title = "目录的执行权限（x）含义特殊"
+content = """对于目录来说，执行权限（x）的含义与文件不同：
+  文件的 x：表示可以运行该文件（作为程序或脚本）
+  目录的 x：表示可以进入（cd）该目录和访问其中的文件
+
+如果目录只有 r 权限没有 x 权限，你可以用 ls 看到文件名列表，
+但无法读取文件内容或进入子目录。常见的目录权限：
+  755 — 标准目录权限（所有者完全控制，他人可浏览）
+  700 — 私有目录（只有所有者可以访问）
+  1777 — 粘滞位目录如 /tmp（所有人可写，但只能删除自己的文件）"""
+
+[[gotchas]]
+title = "chmod 与 chown 的区别"
+content = """chmod 修改的是文件的访问权限（rwx），而 chown 修改的是文件的所有者和所属组。
+两者通常需要配合使用：
+  chmod 755 script.sh     — 设置权限
+  chown alice:dev script.sh — 更改所有者为 alice，所属组为 dev
+
+注意：只有文件所有者和 root 才能使用 chmod 修改权限，
+而 chown 通常只有 root 才能使用。
+如果你发现脚本无法执行，先用 ls -l 检查权限，
+大多数情况下是缺少 x（执行）权限：chmod +x script.sh"""
+
+[[gotchas]]
+title = "递归修改权限时区分文件和目录"
+content = """使用 chmod -R 递归修改权限时，如果对文件和目录使用相同的权限可能会有问题：
+  chmod -R 755 /var/www  — 文件也变成了可执行（755），通常不需要
+  chmod -R 644 /var/www  — 目录失去了 x 权限，无法进入！
+
+正确做法是分别设置：
+  find /var/www -type d -exec chmod 755 {} +  — 目录设 755
+  find /var/www -type f -exec chmod 644 {} +  — 文件设 644
+这样目录可以正常浏览，而普通文件没有不必要的执行权限。"""

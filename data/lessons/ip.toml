@@ -1,0 +1,148 @@
+[meta]
+command = "ip"
+full_name = "iproute2"
+category = "network"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "管理网络接口、IP 地址和路由"
+explanation = """ip 命令是 Linux 中管理网络配置的核心工具，属于 iproute2 工具集。\
+它替代了传统的 ifconfig、route、arp 等命令，功能更强大、输出更结构化。\
+ip 命令采用"对象+动作"的语法结构：ip <对象> <动作>。\
+常用对象包括：addr（IP 地址）、link（网络接口）、route（路由表）、neigh（ARP 邻居）。\
+在现代 Linux 系统中，强烈建议使用 ip 命令而不是已弃用的 ifconfig。\
+ip 命令的输出信息更详细，支持 IPv6，并且在所有 Linux 发行版上都预装。"""
+
+[syntax]
+basic = "ip [选项] 对象 [命令]"
+[[syntax.parts]]
+name = "对象"
+desc = "操作对象：addr（地址）、link（接口）、route（路由）、neigh（邻居）"
+[[syntax.parts]]
+name = "命令"
+desc = "对象上的操作：show、add、del 等"
+
+[[options]]
+flag = "addr"
+name = "IP 地址管理"
+example = "ip addr show"
+note = "查看、添加或删除网络接口的 IP 地址"
+
+[[options]]
+flag = "link"
+name = "网络接口管理"
+example = "ip link show"
+note = "查看或修改网络接口的状态"
+
+[[options]]
+flag = "route"
+name = "路由管理"
+example = "ip route show"
+note = "查看或修改路由表"
+
+[[options]]
+flag = "neigh"
+name = "ARP 邻居表"
+example = "ip neigh show"
+note = "查看 ARP 缓存（局域网中的设备 MAC 地址）"
+
+[[options]]
+flag = "-c"
+name = "彩色输出"
+example = "ip -c addr show"
+note = "以彩色高亮显示输出，更易阅读"
+
+[[options]]
+flag = "-br"
+name = "简洁模式"
+example = "ip -br addr show"
+note = "以简洁格式显示，一行一个接口"
+
+[[examples]]
+level = 1
+command = "ip addr show"
+summary = "显示所有网络接口的 IP 地址信息"
+simulated_output = """1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute
+       valid_lft forever preferred_lft forever
+2: ens33: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:4a:5b:6c brd ff:ff:ff:ff:ff:ff
+    inet 192.168.1.100/24 brd 192.168.1.255 scope global dynamic noprefixroute ens33
+       valid_lft 85432sec preferred_lft 85432sec
+    inet6 fe80::20c:29ff:fe4a:5b6c/64 scope link
+       valid_lft forever preferred_lft forever"""
+
+[[examples]]
+level = 1
+command = "ip -br addr show"
+summary = "以简洁格式显示所有网络接口和 IP 地址"
+simulated_output = """lo               UNKNOWN        127.0.0.1/8 ::1/128
+ens33            UP             192.168.1.100/24 fe80::20c:29ff:fe4a:5b6c/64
+docker0          DOWN           172.17.0.1/16"""
+
+[[examples]]
+level = 2
+command = "ip route show"
+summary = "查看系统路由表"
+simulated_output = """default via 192.168.1.1 dev ens33 proto dhcp src 192.168.1.100 metric 100
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown
+192.168.1.0/24 dev ens33 proto kernel scope link src 192.168.1.100 metric 100"""
+
+[[examples]]
+level = 2
+command = "ip link show"
+summary = "查看所有网络接口的链路状态"
+simulated_output = """1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: ens33: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000
+    link/ether 00:0c:29:4a:5b:6c brd ff:ff:ff:ff:ff:ff"""
+
+[[examples]]
+level = 3
+command = "ip neigh show"
+summary = "查看 ARP 邻居表（局域网设备）"
+simulated_output = """192.168.1.1 dev ens33 lladdr e4:f0:42:a1:b2:c3 REACHABLE
+192.168.1.105 dev ens33 lladdr 08:00:27:d4:e5:f6 STALE
+192.168.1.110 dev ens33 lladdr 5c:e0:c5:12:34:56 REACHABLE"""
+
+[[examples]]
+level = 4
+command = "sudo ip addr add 192.168.1.200/24 dev ens33"
+summary = "为 ens33 网卡添加一个额外的 IP 地址"
+simulated_output = ""
+
+[[gotchas]]
+title = "ip 命令 vs ifconfig"
+content = """ifconfig 已被弃用，ip 命令是现代替代品：
+  ifconfig              →  ip addr show
+  ifconfig eth0         →  ip addr show dev eth0
+  ifconfig eth0 up      →  ip link set eth0 up
+  ifconfig eth0 down    →  ip link set eth0 down
+  ifconfig eth0 IP      →  ip addr add IP/24 dev eth0
+  route -n              →  ip route show
+  arp -a                →  ip neigh show
+
+注意：ip 命令的修改在重启后会失效。
+要永久修改网络配置，需要编辑 /etc/netplan/（Ubuntu）
+或 /etc/sysconfig/network-scripts/（RHEL/CentOS）。"""
+
+[[gotchas]]
+title = "ip addr 的临时性"
+content = """使用 ip 命令添加的 IP 地址或路由是临时的，重启后会丢失。
+要实现永久配置，不同发行版有不同的方式：
+
+Ubuntu/Debian (Netplan):
+  编辑 /etc/netplan/*.yaml 然后执行 sudo netplan apply
+
+RHEL/CentOS:
+  编辑 /etc/sysconfig/network-scripts/ifcfg-eth0
+
+Arch Linux:
+  使用 systemd-networkd 或 NetworkManager
+
+通用方法：
+  使用 nmcli（NetworkManager 的命令行工具）进行永久配置。"""

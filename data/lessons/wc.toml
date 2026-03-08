@@ -1,0 +1,104 @@
+[meta]
+command = "wc"
+full_name = "word count"
+category = "text_process"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "统计文件的行数、单词数和字节数"
+explanation = """wc（word count）命令用于统计文件中的行数、单词数和字节数。\
+它是最简单但最实用的文本处理工具之一。\
+wc 经常通过管道与其他命令配合使用，例如统计搜索结果的数量、\
+统计代码行数、检查文件记录数等。\
+不带任何选项时，wc 会同时输出行数、单词数和字节数。"""
+
+[syntax]
+basic = "wc [选项] [文件]..."
+[[syntax.parts]]
+name = "选项"
+desc = "指定统计哪种计数"
+[[syntax.parts]]
+name = "文件"
+desc = "要统计的文件，省略时从标准输入读取"
+
+[[options]]
+flag = "-l"
+name = "统计行数"
+example = "wc -l file.txt"
+note = "只输出行数，这是最常用的选项"
+
+[[options]]
+flag = "-w"
+name = "统计单词数"
+example = "wc -w essay.txt"
+note = "按空白字符分隔统计单词数量"
+
+[[options]]
+flag = "-c"
+name = "统计字节数"
+example = "wc -c file.bin"
+note = "输出文件的字节大小"
+
+[[options]]
+flag = "-m"
+name = "统计字符数"
+example = "wc -m chinese.txt"
+note = "统计字符数（中文等多字节字符算 1 个），与 -c 不同"
+
+[[options]]
+flag = "-L"
+name = "最长行长度"
+example = "wc -L code.py"
+note = "输出文件中最长行的字符数"
+
+[[examples]]
+level = 1
+command = "wc /etc/passwd"
+summary = "统计 /etc/passwd 的行数、单词数和字节数"
+simulated_output = """  42  68 2456 /etc/passwd"""
+
+[[examples]]
+level = 1
+command = "wc -l /etc/passwd"
+summary = "统计系统中有多少个用户账户"
+simulated_output = """42 /etc/passwd"""
+
+[[examples]]
+level = 2
+command = "find . -name '*.rs' | wc -l"
+summary = "统计当前项目中有多少个 Rust 源文件"
+simulated_output = """18"""
+
+[[examples]]
+level = 2
+command = "wc -l src/*.rs"
+summary = "分别统计每个 Rust 源文件的行数"
+simulated_output = """   45 src/main.rs
+  128 src/app.rs
+   89 src/event.rs
+  234 src/lib.rs
+  496 total"""
+
+[[examples]]
+level = 3
+command = "cat access.log | grep '404' | wc -l"
+summary = "统计访问日志中 404 错误的数量"
+simulated_output = """237"""
+
+[[examples]]
+level = 4
+command = "find . -name '*.rs' -exec cat {} + | wc -l"
+summary = "统计项目中所有 Rust 源文件的总行数"
+display = "find . -name '*.rs' \\\n  -exec cat {} + | wc -l"
+simulated_output = """3847"""
+
+[[gotchas]]
+title = "wc -l 统计的是换行符数量"
+content = """wc -l 实际上是统计换行符（\\n）的数量，而不是"行数"。
+如果文件最后一行没有换行符，该行不会被计入：
+  echo -n "hello" | wc -l    → 0（没有换行符）
+  echo "hello" | wc -l       → 1（有一个换行符）
+
+大多数正常的文本文件最后都有换行符，所以通常不会出问题。
+但处理某些工具生成的文件时需要注意这一点。"""

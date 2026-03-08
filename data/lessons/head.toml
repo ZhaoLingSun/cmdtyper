@@ -1,0 +1,112 @@
+[meta]
+command = "head"
+full_name = "head"
+category = "text_process"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "显示文件的开头部分"
+explanation = """head 命令用于显示文件的开头部分内容，默认显示前 10 行。\
+它在快速预览大文件内容、查看日志文件的最早记录、\
+检查 CSV/JSON 文件的格式等场景中非常实用。\
+head 经常与管道配合使用，从其他命令的输出中截取前几行，\
+例如 ls -lt | head -5 可以查看最近修改的 5 个文件。\
+与 tail 命令相对应，head 看开头，tail 看结尾。"""
+
+[syntax]
+basic = "head [选项] [文件]..."
+[[syntax.parts]]
+name = "选项"
+desc = "控制输出行数或字节数"
+[[syntax.parts]]
+name = "文件"
+desc = "要查看的文件，省略时从标准输入读取"
+
+[[options]]
+flag = "-n"
+name = "指定行数"
+example = "head -n 20 file.txt"
+note = "显示文件前 N 行，也可以写成 head -20 file.txt"
+
+[[options]]
+flag = "-c"
+name = "指定字节数"
+example = "head -c 100 file.txt"
+note = "显示文件前 N 个字节，支持 K、M 等后缀"
+
+[[options]]
+flag = "-q"
+name = "静默模式"
+example = "head -q file1.txt file2.txt"
+note = "读取多个文件时不显示文件名标题"
+
+[[options]]
+flag = "-v"
+name = "显示文件名"
+example = "head -v file.txt"
+note = "总是显示文件名标题，即使只有一个文件"
+
+[[examples]]
+level = 1
+command = "head /etc/passwd"
+summary = "查看 /etc/passwd 文件的前 10 行（默认行数）"
+simulated_output = """root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin"""
+
+[[examples]]
+level = 1
+command = "head -n 5 README.md"
+summary = "查看 README 文件的前 5 行"
+simulated_output = """# My Project
+> A command-line tool for learning Linux commands
+
+## Installation
+
+```bash"""
+
+[[examples]]
+level = 2
+command = "head -n 1 *.csv"
+summary = "查看所有 CSV 文件的表头行"
+simulated_output = """==> users.csv <==
+id,name,email,role
+
+==> orders.csv <==
+order_id,user_id,amount,date
+
+==> products.csv <==
+product_id,name,price,category"""
+
+[[examples]]
+level = 3
+command = "ls -lt | head -6"
+summary = "通过管道查看最近修改的 5 个文件（第1行是 total）"
+simulated_output = """total 128
+-rw-r--r-- 1 ace ace  4520 Mar  9 14:30 app.log
+-rw-r--r-- 1 ace ace  2048 Mar  9 14:25 config.yml
+drwxr-xr-x 3 ace ace  4096 Mar  9 14:20 src
+-rw-r--r-- 1 ace ace  1280 Mar  9 13:50 Cargo.toml
+-rw-r--r-- 1 ace ace   890 Mar  8 22:15 README.md"""
+
+[[examples]]
+level = 3
+command = "head -c 16 /dev/urandom | xxd"
+summary = "从随机设备读取 16 字节并用十六进制显示"
+simulated_output = """00000000: 4a8f 2c71 b3e5 19d4 07a6 c8f2 5d3b 0e91  J.,q........];.."""
+
+[[gotchas]]
+title = "head -n 的负数用法"
+content = """head -n 支持负数参数，表示显示除了最后 N 行之外的所有行：
+  head -n -5 file.txt  — 显示除最后 5 行外的所有内容
+
+这在需要去掉文件末尾几行时很有用，例如去掉 CSV 文件的汇总行。
+注意这是 GNU head 的扩展功能，BSD/macOS 的 head 不支持。"""

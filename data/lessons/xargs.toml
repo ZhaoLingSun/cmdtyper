@@ -1,0 +1,128 @@
+[meta]
+command = "xargs"
+full_name = "extended arguments"
+category = "pipeline"
+difficulty = "advanced"
+importance = "common"
+
+[overview]
+summary = "从标准输入构建并执行命令"
+explanation = """xargs 从标准输入读取数据，将其转换为指定命令的参数并执行。\
+它是管道操作中的重要桥梁，解决了很多命令不能直接从 stdin 读取参数的问题。\
+例如 rm 不接受管道输入文件名，但通过 xargs 可以实现：\
+find . -name '*.tmp' | xargs rm。\
+xargs 会将输入按空白字符分割成参数，默认传递给 echo 命令。\
+在处理大量文件时，xargs 比 find -exec 更高效，\
+因为它会将多个参数合并成一次命令调用，减少进程创建开销。"""
+
+[syntax]
+basic = "... | xargs [选项] [命令]"
+[[syntax.parts]]
+name = "命令"
+desc = "要执行的命令，默认为 echo"
+
+[[options]]
+flag = "-I"
+name = "替换字符串"
+example = "ls *.txt | xargs -I {} cp {} /backup/"
+note = "将 {} 替换为每一行输入，每次执行一行"
+
+[[options]]
+flag = "-n"
+name = "每次传递参数数量"
+example = "echo 1 2 3 4 | xargs -n 2 echo"
+note = "每次向命令传递 N 个参数"
+
+[[options]]
+flag = "-d"
+name = "指定分隔符"
+example = "echo 'a:b:c' | xargs -d: echo"
+note = "使用指定字符作为输入分隔符（默认为空白）"
+
+[[options]]
+flag = "-0"
+name = "空字符分隔"
+example = "find . -name '*.txt' -print0 | xargs -0 rm"
+note = "使用 NULL 字符作为分隔符，处理文件名中有空格的情况"
+
+[[options]]
+flag = "-p"
+name = "交互确认"
+example = "find . -name '*.bak' | xargs -p rm"
+note = "执行每条命令前询问确认"
+
+[[options]]
+flag = "-t"
+name = "显示命令"
+example = "ls *.log | xargs -t rm"
+note = "执行前先打印将要执行的命令"
+
+[[examples]]
+level = 1
+command = "find . -name '*.tmp' | xargs rm"
+summary = "删除当前目录下所有 .tmp 文件"
+simulated_output = ""
+
+[[examples]]
+level = 2
+command = "find . -name '*.log' -print0 | xargs -0 wc -l"
+summary = "安全统计所有日志文件的行数（处理特殊文件名）"
+display = "find . -name '*.log' -print0 \\\n  | xargs -0 wc -l"
+simulated_output = """   234 ./app.log
+  1523 ./error.log
+    45 ./debug.log
+  1802 total"""
+
+[[examples]]
+level = 2
+command = "echo 1 2 3 4 5 6 | xargs -n 2 echo"
+summary = "每次传递 2 个参数"
+simulated_output = """1 2
+3 4
+5 6"""
+
+[[examples]]
+level = 3
+command = "ls *.jpg | xargs -I {} convert {} -resize 50% thumb_{}"
+summary = "批量将 jpg 图片缩小 50% 并加前缀 thumb_"
+display = "ls *.jpg | xargs -I {} \\\n  convert {} -resize 50% thumb_{}"
+simulated_output = ""
+
+[[examples]]
+level = 3
+command = "cat urls.txt | xargs -n 1 -P 4 wget -q"
+summary = "并行下载 URL 列表中的文件（4 个并发）"
+display = "cat urls.txt \\\n  | xargs -n 1 -P 4 wget -q"
+simulated_output = ""
+
+[[examples]]
+level = 4
+command = "grep -rl 'old_api' ./src | xargs sed -i 's/old_api/new_api/g'"
+summary = "查找包含 old_api 的文件并批量替换为 new_api"
+display = "grep -rl 'old_api' ./src \\\n  | xargs sed -i 's/old_api/new_api/g'"
+simulated_output = ""
+
+[[gotchas]]
+title = "文件名包含空格或特殊字符"
+content = """xargs 默认用空白字符分割输入，如果文件名包含空格会导致问题：
+  文件 "my file.txt" 会被 xargs 解析为 "my" 和 "file.txt" 两个参数
+
+解决方案是使用 NULL 字符分隔：
+  find . -name '*.txt' -print0 | xargs -0 rm
+  -print0 使 find 用 NULL 字符分隔结果
+  -0 使 xargs 用 NULL 字符分割输入
+
+这是处理任意文件名时的最佳实践，应该养成习惯使用。"""
+
+[[gotchas]]
+title = "xargs 与 find -exec 的对比"
+content = """xargs 和 find -exec 都可以对搜索结果执行命令，各有优劣：
+  find -exec cmd {} \\;   — 每个文件执行一次命令（慢）
+  find -exec cmd {} +    — 批量传参（快，推荐）
+  find | xargs cmd       — 管道传参（快，但空格问题）
+  find -print0 | xargs -0 cmd — 管道传参（快且安全）
+
+xargs 的独特优势：
+  - 可以与任何产生文件列表的命令配合（不限于 find）
+  - -P 选项支持并行执行
+  - -I 支持灵活的参数位置替换"""
