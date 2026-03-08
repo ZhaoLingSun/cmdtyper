@@ -23,3 +23,7 @@ pub fn format_time(secs: f64) -> String {
     let s = total % 60;
     format!("{:02}:{:02}", m, s)
 }
+
+pub fn format_duration_ms(ms: u64) -> String {
+    format_time(ms as f64 / 1000.0)
+}

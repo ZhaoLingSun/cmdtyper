@@ -1,11 +1,11 @@
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, HashMap};
 
-use chrono::{NaiveDate, TimeZone, Utc};
 use crate::data::models::{
     Category, CharSpeedPoint, CharStat, Command, CommandProgress, DailyStat, Keystroke,
     SessionRecord, UserStats,
 };
+use chrono::{NaiveDate, TimeZone, Utc};
 
 pub fn update_stats(stats: &mut UserStats, record: &SessionRecord) {
     let previous_sessions = stats.total_sessions as f64;

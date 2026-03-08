@@ -118,13 +118,33 @@ pub fn render(f: &mut Frame, app: &App) {
 
     // Bottom help bar
     let help = Line::from(vec![
-        Span::styled(" ↑↓", Style::default().fg(Color::White).add_modifier(Modifier::BOLD)),
+        Span::styled(
+            " ↑↓",
+            Style::default()
+                .fg(Color::White)
+                .add_modifier(Modifier::BOLD),
+        ),
         Span::styled(" 选择  ", Style::default().fg(Color::DarkGray)),
-        Span::styled("◀▶", Style::default().fg(Color::White).add_modifier(Modifier::BOLD)),
+        Span::styled(
+            "◀▶",
+            Style::default()
+                .fg(Color::White)
+                .add_modifier(Modifier::BOLD),
+        ),
         Span::styled(" 难度  ", Style::default().fg(Color::DarkGray)),
-        Span::styled("Enter", Style::default().fg(Color::White).add_modifier(Modifier::BOLD)),
+        Span::styled(
+            "Enter",
+            Style::default()
+                .fg(Color::White)
+                .add_modifier(Modifier::BOLD),
+        ),
         Span::styled(" 确认  ", Style::default().fg(Color::DarkGray)),
-        Span::styled("q/Esc", Style::default().fg(Color::White).add_modifier(Modifier::BOLD)),
+        Span::styled(
+            "q/Esc",
+            Style::default()
+                .fg(Color::White)
+                .add_modifier(Modifier::BOLD),
+        ),
         Span::styled(" 退出", Style::default().fg(Color::DarkGray)),
     ]);
     let help_bar = Paragraph::new(help).alignment(Alignment::Center);
@@ -159,15 +179,10 @@ pub fn handle_key(key: KeyEvent, app: &mut App) -> Option<AppState> {
             None
         }
         KeyCode::Enter => match app.current_menu_item() {
-            MenuItem::Learn => {
-                app.enter_learn_mode();
-                Some(AppState::Learn)
-            }
-            MenuItem::Type => {
-                app.enter_typing_mode();
-                Some(AppState::Typing)
-            }
-            _ => None, // Dictation and Stats not yet implemented
+            MenuItem::Learn => app.enter_learn_mode(),
+            MenuItem::Type => app.enter_typing_mode(),
+            MenuItem::Dictation => app.enter_dictation_mode(),
+            MenuItem::Stats => Some(app.enter_stats_mode()),
         },
         _ => None,
     }

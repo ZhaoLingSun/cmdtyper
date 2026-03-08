@@ -158,9 +158,13 @@ answers = ["tar -tf backup.tar"]
         let file_ops = load_by_category(&commands, Category::FileOps);
         let search = load_by_category(&commands, Category::Search);
 
-        assert!(beginner.iter().all(|command| command.difficulty == Difficulty::Beginner));
+        assert!(beginner
+            .iter()
+            .all(|command| command.difficulty == Difficulty::Beginner));
         assert_eq!(beginner.len(), 1);
-        assert!(file_ops.iter().all(|command| command.category == Category::FileOps));
+        assert!(file_ops
+            .iter()
+            .all(|command| command.category == Category::FileOps));
         assert!(file_ops.is_empty());
         assert_eq!(search.len(), 1);
         assert_eq!(search[0].id, "grep-basic");

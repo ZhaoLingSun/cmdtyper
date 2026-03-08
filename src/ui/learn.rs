@@ -13,7 +13,7 @@ pub fn render(f: &mut Frame, app: &App) {
 
     let chunks = Layout::vertical([
         Constraint::Length(3), // top bar
-        Constraint::Fill(1),  // main area
+        Constraint::Fill(1),   // main area
         Constraint::Length(2), // bottom bar
     ])
     .split(area);
@@ -24,11 +24,11 @@ pub fn render(f: &mut Frame, app: &App) {
 }
 
 fn render_top_bar(f: &mut Frame, area: Rect, app: &App) {
-    let progress = format!(
-        "{}/{}",
-        app.learn_command_index + 1,
-        app.commands.len()
-    );
+    let progress = if app.commands.is_empty() {
+        "0/0".to_string()
+    } else {
+        format!("{}/{}", app.learn_command_index + 1, app.commands.len())
+    };
 
     let line = Line::from(vec![
         Span::styled(
@@ -56,6 +56,8 @@ fn render_top_bar(f: &mut Frame, area: Rect, app: &App) {
 
 fn render_main_area(f: &mut Frame, area: Rect, app: &App) {
     if app.commands.is_empty() {
+        let empty = Paragraph::new("  当前难度下没有可学习的命令。按 Esc 返回菜单。");
+        f.render_widget(empty, area);
         return;
     }
     let cmd = &app.commands[app.learn_command_index];
@@ -214,11 +216,26 @@ fn render_bottom_bar(f: &mut Frame, area: Rect, app: &App) {
             Style::default().fg(ratatui::style::Color::White),
         ),
         Span::styled("  │  ", Style::default().fg(colors::PENDING)),
-        Span::styled("Esc", Style::default().fg(ratatui::style::Color::White).add_modifier(Modifier::BOLD)),
+        Span::styled(
+            "Esc",
+            Style::default()
+                .fg(ratatui::style::Color::White)
+                .add_modifier(Modifier::BOLD),
+        ),
         Span::styled(" 菜单 ", Style::default().fg(colors::PENDING)),
-        Span::styled("←→", Style::default().fg(ratatui::style::Color::White).add_modifier(Modifier::BOLD)),
+        Span::styled(
+            "←→",
+            Style::default()
+                .fg(ratatui::style::Color::White)
+                .add_modifier(Modifier::BOLD),
+        ),
         Span::styled(" 切换 ", Style::default().fg(colors::PENDING)),
-        Span::styled("^R", Style::default().fg(ratatui::style::Color::White).add_modifier(Modifier::BOLD)),
+        Span::styled(
+            "^R",
+            Style::default()
+                .fg(ratatui::style::Color::White)
+                .add_modifier(Modifier::BOLD),
+        ),
         Span::styled(" 重练", Style::default().fg(colors::PENDING)),
     ]);
 
@@ -228,10 +245,7 @@ fn render_bottom_bar(f: &mut Frame, area: Rect, app: &App) {
 
 pub fn handle_key(key: KeyEvent, app: &mut App) -> Option<AppState> {
     match key.code {
-        KeyCode::Esc => {
-            app.learn_engine = None;
-            Some(AppState::Home)
-        }
+        KeyCode::Esc => Some(app.return_home()),
         KeyCode::Char('c') if key.modifiers.contains(KeyModifiers::CONTROL) => {
             Some(AppState::Quitting)
         }
@@ -248,8 +262,13 @@ pub fn handle_key(key: KeyEvent, app: &mut App) -> Option<AppState> {
             None
         }
         KeyCode::Char(ch) => {
+            let mut completed = false;
             if let Some(engine) = &mut app.learn_engine {
                 engine.input(ch);
+                completed = engine.is_complete();
+            }
+            if completed {
+                return app.complete_learn_round();
             }
             None
         }
