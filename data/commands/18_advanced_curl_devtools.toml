@@ -1,0 +1,252 @@
+[meta]
+category = "network"
+difficulty = "advanced"
+description = "进阶补充：curl 高级用法、开发者常用构建/运行命令与调试工具"
+
+[[commands]]
+id = "curl-upload-file"
+command = "curl -F 'file=@photo.jpg' https://api.example.com/upload"
+summary = "通过表单方式上传 photo.jpg 到接口"
+[[commands.tokens]]
+text = "curl"
+desc = "发送 HTTP 请求的命令行工具"
+[[commands.tokens]]
+text = "-F"
+desc = "以 multipart/form-data 格式提交表单数据"
+[[commands.tokens]]
+text = "'file=@photo.jpg'"
+desc = "表单字段名=文件路径，@ 表示读取文件内容"
+[[commands.tokens]]
+text = "https://api.example.com/upload"
+desc = "上传目标 URL"
+[commands.dictation]
+prompt = "通过表单方式把 photo.jpg 上传到 https://api.example.com/upload"
+answers = ["curl -F 'file=@photo.jpg' https://api.example.com/upload"]
+
+[[commands]]
+id = "curl-basic-auth"
+command = "curl -u admin:secret https://api.example.com/status"
+summary = "使用 Basic Auth 认证请求接口"
+[[commands.tokens]]
+text = "curl"
+desc = "发送 HTTP 请求的命令行工具"
+[[commands.tokens]]
+text = "-u"
+desc = "提供用户名和密码进行认证"
+[[commands.tokens]]
+text = "admin:secret"
+desc = "用户名:密码"
+[[commands.tokens]]
+text = "https://api.example.com/status"
+desc = "目标 API 地址"
+[commands.dictation]
+prompt = "使用 Basic Auth 用 admin:secret 认证请求 API"
+answers = ["curl -u admin:secret https://api.example.com/status"]
+
+[[commands]]
+id = "curl-cookie-save"
+command = "curl -c cookies.txt https://example.com/login"
+summary = "把服务端返回的 cookie 保存到 cookies.txt"
+[[commands.tokens]]
+text = "curl"
+desc = "发送 HTTP 请求的命令行工具"
+[[commands.tokens]]
+text = "-c"
+desc = "把收到的 cookie 写入指定文件"
+[[commands.tokens]]
+text = "cookies.txt"
+desc = "保存 cookie 的文件"
+[[commands.tokens]]
+text = "https://example.com/login"
+desc = "登录页面 URL"
+[commands.dictation]
+prompt = "请求登录页面并把 cookie 保存到 cookies.txt"
+answers = ["curl -c cookies.txt https://example.com/login"]
+
+[[commands]]
+id = "curl-cookie-send"
+command = "curl -b cookies.txt https://example.com/dashboard"
+summary = "使用保存的 cookie 访问需要认证的页面"
+[[commands.tokens]]
+text = "curl"
+desc = "发送 HTTP 请求的命令行工具"
+[[commands.tokens]]
+text = "-b"
+desc = "从指定文件读取 cookie 并发送"
+[[commands.tokens]]
+text = "cookies.txt"
+desc = "包含 cookie 的文件"
+[[commands.tokens]]
+text = "https://example.com/dashboard"
+desc = "需要认证的目标页面"
+[commands.dictation]
+prompt = "带上 cookies.txt 中的 cookie 访问 dashboard 页面"
+answers = ["curl -b cookies.txt https://example.com/dashboard"]
+
+[[commands]]
+id = "curl-download-output"
+command = "curl -sSfL -o app.tar.gz https://github.com/user/repo/releases/download/v1.0/app.tar.gz"
+summary = "静默下载 release 包并保存为 app.tar.gz，失败时报错"
+[[commands.tokens]]
+text = "curl"
+desc = "发送 HTTP 请求的命令行工具"
+[[commands.tokens]]
+text = "-sSfL"
+desc = "静默+不显示错误+失败报错+跟随重定向"
+[[commands.tokens]]
+text = "-o"
+desc = "指定输出文件名"
+[[commands.tokens]]
+text = "app.tar.gz"
+desc = "保存后的文件名"
+[[commands.tokens]]
+text = "https://github.com/user/repo/releases/download/v1.0/app.tar.gz"
+desc = "下载地址"
+[commands.dictation]
+prompt = "静默下载 GitHub release 包并保存为 app.tar.gz"
+answers = ["curl -sSfL -o app.tar.gz https://github.com/user/repo/releases/download/v1.0/app.tar.gz"]
+
+[[commands]]
+id = "pip-install-requirements"
+command = "pip install -r requirements.txt"
+summary = "安装 requirements.txt 中列出的所有 Python 依赖"
+[[commands.tokens]]
+text = "pip"
+desc = "Python 包管理工具"
+[[commands.tokens]]
+text = "install"
+desc = "安装软件包"
+[[commands.tokens]]
+text = "-r"
+desc = "从文件读取依赖列表"
+[[commands.tokens]]
+text = "requirements.txt"
+desc = "列出 Python 依赖的文件"
+[commands.dictation]
+prompt = "安装 requirements.txt 中的所有 Python 依赖"
+answers = ["pip install -r requirements.txt", "pip3 install -r requirements.txt"]
+
+[[commands]]
+id = "python-venv-create"
+command = "python3 -m venv .venv"
+summary = "在当前目录创建名为 .venv 的 Python 虚拟环境"
+[[commands.tokens]]
+text = "python3"
+desc = "Python 3 解释器"
+[[commands.tokens]]
+text = "-m"
+desc = "运行指定模块"
+[[commands.tokens]]
+text = "venv"
+desc = "Python 虚拟环境模块"
+[[commands.tokens]]
+text = ".venv"
+desc = "虚拟环境目录名"
+[commands.dictation]
+prompt = "创建一个名为 .venv 的 Python 虚拟环境"
+answers = ["python3 -m venv .venv"]
+
+[[commands]]
+id = "source-venv-activate"
+command = "source .venv/bin/activate"
+summary = "激活 Python 虚拟环境"
+[[commands.tokens]]
+text = "source"
+desc = "在当前 shell 中执行脚本"
+[[commands.tokens]]
+text = ".venv/bin/activate"
+desc = "虚拟环境的激活脚本"
+[commands.dictation]
+prompt = "激活当前目录下的 Python 虚拟环境"
+answers = ["source .venv/bin/activate", ". .venv/bin/activate"]
+
+[[commands]]
+id = "npm-install-basic"
+command = "npm install"
+summary = "安装 package.json 中列出的所有 Node.js 依赖"
+[[commands.tokens]]
+text = "npm"
+desc = "Node.js 包管理工具"
+[[commands.tokens]]
+text = "install"
+desc = "安装项目依赖"
+[commands.dictation]
+prompt = "安装 package.json 中的所有 Node.js 依赖"
+answers = ["npm install", "npm i"]
+
+[[commands]]
+id = "npm-run-dev"
+command = "npm run dev"
+summary = "运行 package.json 中定义的 dev 脚本"
+[[commands.tokens]]
+text = "npm"
+desc = "Node.js 包管理工具"
+[[commands.tokens]]
+text = "run"
+desc = "执行自定义脚本"
+[[commands.tokens]]
+text = "dev"
+desc = "脚本名称"
+[commands.dictation]
+prompt = "运行 package.json 中的 dev 脚本"
+answers = ["npm run dev"]
+
+[[commands]]
+id = "cargo-build-release"
+command = "cargo build --release"
+summary = "以 release 模式编译 Rust 项目"
+[[commands.tokens]]
+text = "cargo"
+desc = "Rust 的构建和包管理工具"
+[[commands.tokens]]
+text = "build"
+desc = "编译项目"
+[[commands.tokens]]
+text = "--release"
+desc = "优化编译，用于生产发布"
+[commands.dictation]
+prompt = "以 release 模式编译 Rust 项目"
+answers = ["cargo build --release"]
+
+[[commands]]
+id = "make-clean-build"
+command = "make clean && make -j$(nproc)"
+summary = "清理构建产物后用全部 CPU 核心重新编译"
+[[commands.tokens]]
+text = "make"
+desc = "执行 Makefile 构建任务"
+[[commands.tokens]]
+text = "clean"
+desc = "清理之前的构建产物"
+[[commands.tokens]]
+text = "&&"
+desc = "前一步成功后才执行后一步"
+[[commands.tokens]]
+text = "make"
+desc = "再次执行构建"
+[[commands.tokens]]
+text = "-j$(nproc)"
+desc = "用所有 CPU 核心并行编译"
+[commands.dictation]
+prompt = "清理构建产物后用全部 CPU 核心重新编译"
+answers = ["make clean && make -j$(nproc)"]
+
+[[commands]]
+id = "strace-pid"
+command = "strace -p 12345 -f"
+summary = "跟踪 PID 12345 的系统调用（包含子进程）"
+[[commands.tokens]]
+text = "strace"
+desc = "跟踪进程系统调用的调试工具"
+[[commands.tokens]]
+text = "-p"
+desc = "附加到已运行的进程"
+[[commands.tokens]]
+text = "12345"
+desc = "目标进程 PID"
+[[commands.tokens]]
+text = "-f"
+desc = "同时跟踪子进程"
+[commands.dictation]
+prompt = "跟踪 PID 12345 及其子进程的系统调用"
+answers = ["strace -p 12345 -f"]

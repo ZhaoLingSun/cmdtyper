@@ -1,0 +1,420 @@
+[meta]
+category = "pipeline"
+difficulty = "practical"
+description = "实战中的日志分析、备份、同步与系统诊断命令"
+
+[[commands]]
+id = "tail-follow-nginx-500"
+command = "tail -f /var/log/nginx/access.log | grep 500"
+summary = "实时跟踪 nginx 访问日志，并筛出状态码 500 的请求"
+
+[[commands.tokens]]
+text = "tail"
+desc = "查看文件末尾内容，并可持续跟踪追加内容"
+
+[[commands.tokens]]
+text = "-f"
+desc = "持续跟踪文件新增内容"
+
+[[commands.tokens]]
+text = "/var/log/nginx/access.log"
+desc = "nginx 访问日志文件"
+
+[[commands.tokens]]
+text = "|"
+desc = "把 tail 的输出传给 grep 继续筛选"
+
+[[commands.tokens]]
+text = "grep"
+desc = "按模式过滤文本行的命令"
+
+[[commands.tokens]]
+text = "500"
+desc = "要匹配的 HTTP 状态码"
+
+[commands.dictation]
+prompt = "实时跟踪 nginx 访问日志，只看状态码 500 的请求"
+answers = [
+    "tail -f /var/log/nginx/access.log | grep 500",
+    "tail --follow /var/log/nginx/access.log | grep 500",
+]
+
+[[commands]]
+id = "journalctl-nginx-last-100"
+command = "journalctl -u nginx -n 100"
+summary = "查看 nginx 服务最近 100 条日志"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "查看 systemd 日志的命令"
+
+[[commands.tokens]]
+text = "-u"
+desc = "按 systemd unit 名称过滤日志"
+
+[[commands.tokens]]
+text = "nginx"
+desc = "要查看日志的服务名称"
+
+[[commands.tokens]]
+text = "-n"
+desc = "指定要显示的最近日志条数"
+
+[[commands.tokens]]
+text = "100"
+desc = "显示最近 100 条日志"
+
+[commands.dictation]
+prompt = "查看 nginx 服务最近的 100 条日志"
+answers = [
+    "journalctl -u nginx -n 100",
+    "journalctl --unit nginx --lines 100",
+]
+
+[[commands]]
+id = "journalctl-nginx-today-errors"
+command = "journalctl -u nginx --since today | grep ERROR"
+summary = "查看 nginx 今天以来的日志，并筛出 ERROR 相关内容"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "查看 systemd 日志的命令"
+
+[[commands.tokens]]
+text = "-u"
+desc = "按 systemd unit 名称过滤日志"
+
+[[commands.tokens]]
+text = "nginx"
+desc = "要查看日志的服务名称"
+
+[[commands.tokens]]
+text = "--since"
+desc = "限定日志起始时间"
+
+[[commands.tokens]]
+text = "today"
+desc = "从今天开始筛选日志"
+
+[[commands.tokens]]
+text = "|"
+desc = "把日志输出继续传给 grep 过滤"
+
+[[commands.tokens]]
+text = "grep"
+desc = "按模式过滤文本行的命令"
+
+[[commands.tokens]]
+text = "ERROR"
+desc = "要筛选的错误关键字"
+
+[commands.dictation]
+prompt = "查看 nginx 今天以来的日志，并只保留包含 ERROR 的行"
+answers = [
+    "journalctl -u nginx --since today | grep ERROR",
+    "journalctl --unit nginx --since today | grep ERROR",
+]
+
+[[commands]]
+id = "find-logs-xargs-grep-error"
+command = "find /var/log -type f -name '*.log' | xargs grep -H ERROR"
+summary = "在 /var/log 下所有 .log 文件中查找 ERROR，并显示文件名"
+
+[[commands.tokens]]
+text = "find"
+desc = "在目录树中按条件查找文件的命令"
+
+[[commands.tokens]]
+text = "/var/log"
+desc = "查找起点：系统日志目录"
+
+[[commands.tokens]]
+text = "-type"
+desc = "按文件类型过滤结果"
+
+[[commands.tokens]]
+text = "f"
+desc = "只匹配普通文件"
+
+[[commands.tokens]]
+text = "-name"
+desc = "按文件名模式匹配"
+
+[[commands.tokens]]
+text = "'*.log'"
+desc = "只匹配以 .log 结尾的日志文件"
+
+[[commands.tokens]]
+text = "|"
+desc = "把 find 找到的文件列表传给 xargs"
+
+[[commands.tokens]]
+text = "xargs"
+desc = "把标准输入转换为命令参数列表"
+
+[[commands.tokens]]
+text = "grep"
+desc = "在传入的文件中查找关键字"
+
+[[commands.tokens]]
+text = "-H"
+desc = "输出匹配结果时强制显示文件名"
+
+[[commands.tokens]]
+text = "ERROR"
+desc = "要查找的错误关键字"
+
+[commands.dictation]
+prompt = "在 /var/log 下所有 .log 文件中查找 ERROR，并显示所属文件名"
+answers = [
+    "find /var/log -type f -name '*.log' | xargs grep -H ERROR",
+    "find /var/log -type f -name '*.log' | xargs grep --with-filename ERROR",
+]
+
+[[commands]]
+id = "tar-backup-etc"
+command = "tar czf etc-backup.tar.gz /etc"
+summary = "把 /etc 目录打包并压缩成 etc-backup.tar.gz"
+
+[[commands.tokens]]
+text = "tar"
+desc = "创建、解包和查看归档文件的命令"
+
+[[commands.tokens]]
+text = "czf"
+desc = "c 创建归档 + z 使用 gzip 压缩 + f 指定输出文件名"
+
+[[commands.tokens]]
+text = "etc-backup.tar.gz"
+desc = "生成的配置备份压缩包"
+
+[[commands.tokens]]
+text = "/etc"
+desc = "要备份的系统配置目录"
+
+[commands.dictation]
+prompt = "把 /etc 打包成名为 etc-backup.tar.gz 的 gzip 压缩包"
+answers = [
+    "tar czf etc-backup.tar.gz /etc",
+    "tar -czf etc-backup.tar.gz /etc",
+]
+
+[[commands]]
+id = "rsync-www-backup"
+command = "rsync -av --delete /srv/www/ /backup/www/"
+summary = "把网站目录同步到备份目录，并删除目标中多余文件"
+
+[[commands.tokens]]
+text = "rsync"
+desc = "高效同步文件和目录的命令"
+
+[[commands.tokens]]
+text = "-av"
+desc = "-a 归档模式保留属性 + -v 输出详细过程"
+
+[[commands.tokens]]
+text = "--delete"
+desc = "删除目标目录中源目录已不存在的文件"
+
+[[commands.tokens]]
+text = "/srv/www/"
+desc = "源网站目录"
+
+[[commands.tokens]]
+text = "/backup/www/"
+desc = "目标备份目录"
+
+[commands.dictation]
+prompt = "把 /srv/www/ 同步到 /backup/www/，并删除目标端多余文件"
+answers = [
+    "rsync -av --delete /srv/www/ /backup/www/",
+    "rsync --archive --verbose --delete /srv/www/ /backup/www/",
+]
+
+[[commands]]
+id = "ps-grep-nginx"
+command = "ps aux | grep '[n]ginx'"
+summary = "查找正在运行的 nginx 进程，并避免匹配到 grep 自身"
+
+[[commands.tokens]]
+text = "ps"
+desc = "查看进程状态的命令"
+
+[[commands.tokens]]
+text = "aux"
+desc = "a 显示所有终端进程 + u 用户格式 + x 包含无终端进程"
+
+[[commands.tokens]]
+text = "|"
+desc = "把进程列表传给 grep 继续过滤"
+
+[[commands.tokens]]
+text = "grep"
+desc = "按模式过滤文本行的命令"
+
+[[commands.tokens]]
+text = "'[n]ginx'"
+desc = "利用字符类避免匹配到当前 grep 命令本身"
+
+[commands.dictation]
+prompt = "查找 nginx 进程，并避免把 grep 自己也匹配出来"
+answers = [
+    "ps aux | grep '[n]ginx'",
+    "ps axu | grep '[n]ginx'",
+]
+
+[[commands]]
+id = "du-sort-var-log"
+command = "du -sh /var/log/* | sort -h"
+summary = "统计 /var/log 下各项大小，并按体积从小到大排序"
+
+[[commands.tokens]]
+text = "du"
+desc = "统计文件和目录占用空间的命令"
+
+[[commands.tokens]]
+text = "-sh"
+desc = "-s 只显示汇总结果 + -h 以易读单位显示大小"
+
+[[commands.tokens]]
+text = "/var/log/*"
+desc = "统计 /var/log 下每个子项的大小"
+
+[[commands.tokens]]
+text = "|"
+desc = "把大小统计结果传给 sort 排序"
+
+[[commands.tokens]]
+text = "sort"
+desc = "对文本行进行排序"
+
+[[commands.tokens]]
+text = "-h"
+desc = "按易读的大小单位进行排序"
+
+[commands.dictation]
+prompt = "查看 /var/log 下各子项大小，并按大小顺序排序"
+answers = [
+    "du -sh /var/log/* | sort -h",
+    "du -s -h /var/log/* | sort -h",
+]
+
+[[commands]]
+id = "curl-head-example"
+command = "curl -I https://example.com"
+summary = "仅请求 https://example.com 的响应头"
+
+[[commands.tokens]]
+text = "curl"
+desc = "发起 HTTP 等网络请求的命令"
+
+[[commands.tokens]]
+text = "-I"
+desc = "只获取响应头，不下载响应体"
+
+[[commands.tokens]]
+text = "https://example.com"
+desc = "要访问的目标 URL"
+
+[commands.dictation]
+prompt = "只获取 https://example.com 的 HTTP 响应头"
+answers = [
+    "curl -I https://example.com",
+    "curl --head https://example.com",
+]
+
+[[commands]]
+id = "curl-health-check"
+command = "curl -fsSL https://example.com/health"
+summary = "安静地请求健康检查接口，失败时返回错误"
+
+[[commands.tokens]]
+text = "curl"
+desc = "发起 HTTP 等网络请求的命令"
+
+[[commands.tokens]]
+text = "-fsSL"
+desc = "-f 失败时返回错误 + -s 静默模式 + -S 显示错误 + -L 跟随重定向"
+
+[[commands.tokens]]
+text = "https://example.com/health"
+desc = "健康检查接口地址"
+
+[commands.dictation]
+prompt = "静默请求健康检查接口，失败时报错并跟随重定向"
+answers = [
+    "curl -fsSL https://example.com/health",
+    "curl --fail --silent --show-error --location https://example.com/health",
+]
+
+[[commands]]
+id = "systemctl-status-nginx"
+command = "systemctl status nginx"
+summary = "查看 nginx 服务当前状态"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "管理 systemd 服务和单元的命令"
+
+[[commands.tokens]]
+text = "status"
+desc = "查看指定服务或单元的状态"
+
+[[commands.tokens]]
+text = "nginx"
+desc = "要查看状态的服务名称"
+
+[commands.dictation]
+prompt = "查看 nginx 服务当前运行状态"
+answers = [
+    "systemctl status nginx",
+    "systemctl status nginx.service",
+]
+
+[[commands]]
+id = "systemctl-restart-nginx"
+command = "systemctl restart nginx"
+summary = "重启 nginx 服务"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "管理 systemd 服务和单元的命令"
+
+[[commands.tokens]]
+text = "restart"
+desc = "停止后重新启动指定服务"
+
+[[commands.tokens]]
+text = "nginx"
+desc = "要重启的服务名称"
+
+[commands.dictation]
+prompt = "重启 nginx 服务"
+answers = [
+    "systemctl restart nginx",
+    "systemctl restart nginx.service",
+]
+
+[[commands]]
+id = "journalctl-debug-sshd"
+command = "journalctl -xeu sshd"
+summary = "查看 sshd 服务的最新详细日志并附带解释信息"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "查看 systemd 日志的命令"
+
+[[commands.tokens]]
+text = "-xeu"
+desc = "-x 添加说明文本 + -e 跳到日志末尾附近 + -u 按 unit 过滤"
+
+[[commands.tokens]]
+text = "sshd"
+desc = "要查看日志的 ssh 服务名称"
+
+[commands.dictation]
+prompt = "查看 sshd 服务最近的详细日志，并附带解释信息"
+answers = [
+    "journalctl -xeu sshd",
+    "journalctl -x -e -u sshd",
+]

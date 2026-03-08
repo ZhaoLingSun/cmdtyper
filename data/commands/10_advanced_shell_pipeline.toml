@@ -1,0 +1,500 @@
+[meta]
+category = "scripting"
+difficulty = "advanced"
+description = "进阶补充：shell 语法、重定向、替换、条件执行与脚本片段"
+
+[[commands]]
+id = "redirect-stdout"
+command = "echo hello > hello.txt"
+summary = "把 hello 输出写入 hello.txt，覆盖原有内容"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出文本到标准输出的命令"
+
+[[commands.tokens]]
+text = "hello"
+desc = "要输出的文本"
+
+[[commands.tokens]]
+text = ">"
+desc = "把标准输出重定向到文件，并覆盖原内容"
+
+[[commands.tokens]]
+text = "hello.txt"
+desc = "接收输出内容的文件"
+
+[commands.dictation]
+prompt = "把 hello 这段文本写入 hello.txt，并覆盖原内容"
+answers = [
+    "echo hello > hello.txt",
+    "echo \"hello\" > hello.txt",
+]
+
+[[commands]]
+id = "redirect-append"
+command = "echo done >> build.log"
+summary = "把 done 追加到 build.log 末尾"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出文本到标准输出的命令"
+
+[[commands.tokens]]
+text = "done"
+desc = "要追加的文本"
+
+[[commands.tokens]]
+text = ">>"
+desc = "把标准输出追加到文件末尾"
+
+[[commands.tokens]]
+text = "build.log"
+desc = "接收追加内容的日志文件"
+
+[commands.dictation]
+prompt = "把 done 追加到 build.log 文件末尾"
+answers = [
+    "echo done >> build.log",
+    "echo \"done\" >> build.log",
+]
+
+[[commands]]
+id = "redirect-stderr"
+command = "grep ERROR app.log 2> errors.log"
+summary = "把 grep 的错误输出重定向到 errors.log"
+
+[[commands.tokens]]
+text = "grep"
+desc = "按模式搜索文本的命令"
+
+[[commands.tokens]]
+text = "ERROR"
+desc = "要匹配的关键字"
+
+[[commands.tokens]]
+text = "app.log"
+desc = "要搜索的文件"
+
+[[commands.tokens]]
+text = "2>"
+desc = "把标准错误重定向到文件"
+
+[[commands.tokens]]
+text = "errors.log"
+desc = "接收错误输出的文件"
+
+[commands.dictation]
+prompt = "把 grep 搜索 app.log 时产生的错误输出写到 errors.log"
+answers = [
+    "grep ERROR app.log 2> errors.log",
+    "grep \"ERROR\" app.log 2> errors.log",
+]
+
+[[commands]]
+id = "redirect-both"
+command = "python3 app.py > app.log 2>&1"
+summary = "把标准输出和标准错误都写入 app.log"
+
+[[commands.tokens]]
+text = "python3"
+desc = "Python 3 解释器"
+
+[[commands.tokens]]
+text = "app.py"
+desc = "要运行的 Python 程序"
+
+[[commands.tokens]]
+text = ">"
+desc = "先把标准输出重定向到文件"
+
+[[commands.tokens]]
+text = "app.log"
+desc = "日志输出文件"
+
+[[commands.tokens]]
+text = "2>&1"
+desc = "再把标准错误重定向到标准输出的同一位置"
+
+[commands.dictation]
+prompt = "运行 python3 app.py，并把标准输出和标准错误都写入 app.log"
+answers = [
+    "python3 app.py > app.log 2>&1",
+]
+
+[[commands]]
+id = "tee-build-log"
+command = "make 2>&1 | tee build.log"
+summary = "把构建输出同时显示在终端并写入 build.log"
+
+[[commands.tokens]]
+text = "make"
+desc = "执行构建任务的命令"
+
+[[commands.tokens]]
+text = "2>&1"
+desc = "把标准错误并入标准输出"
+
+[[commands.tokens]]
+text = "|"
+desc = "把输出传给 tee"
+
+[[commands.tokens]]
+text = "tee"
+desc = "把输入同时输出到终端和文件"
+
+[[commands.tokens]]
+text = "build.log"
+desc = "保存构建日志的文件"
+
+[commands.dictation]
+prompt = "运行 make，并把输出一边显示在终端一边写入 build.log"
+answers = [
+    "make 2>&1 | tee build.log",
+]
+
+[[commands]]
+id = "command-substitution-date"
+command = "echo 2026-03-08"
+summary = "输出当前日期，格式为年-月-日"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出文本到标准输出的命令"
+
+[[commands.tokens]]
+text = "2026-03-08"
+desc = "命令替换：先执行 date，再把结果插入命令行"
+
+[commands.dictation]
+prompt = "使用命令替换输出当前日期，格式为年-月-日"
+answers = [
+    "echo 2026-03-08",
+]
+
+[[commands]]
+id = "if-file-exists"
+command = "test -f .env && echo exists"
+summary = "如果 .env 文件存在，就输出 exists"
+
+[[commands.tokens]]
+text = "test"
+desc = "测试条件是否成立的命令"
+
+[[commands.tokens]]
+text = "-f"
+desc = "判断路径是否为普通文件"
+
+[[commands.tokens]]
+text = ".env"
+desc = "要检查是否存在的文件"
+
+[[commands.tokens]]
+text = "&&"
+desc = "前一个命令成功时才执行后一个命令"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出文本的命令"
+
+[[commands.tokens]]
+text = "exists"
+desc = "条件成立时输出的文本"
+
+[commands.dictation]
+prompt = "如果 .env 是普通文件，就输出 exists"
+answers = [
+    "test -f .env && echo exists",
+    "test -f .env && echo \"exists\"",
+]
+
+[[commands]]
+id = "or-install-curl"
+command = "command -v curl >/dev/null || sudo apt install -y curl"
+summary = "如果系统里没有 curl，就用 apt 安装它"
+
+[[commands.tokens]]
+text = "command"
+desc = "shell 内建命令，可检查命令是否存在"
+
+[[commands.tokens]]
+text = "-v"
+desc = "检查命令路径是否存在"
+
+[[commands.tokens]]
+text = "curl"
+desc = "要检查的命令名"
+
+[[commands.tokens]]
+text = ">/dev/null"
+desc = "把正常输出丢弃"
+
+[[commands.tokens]]
+text = "||"
+desc = "前一个命令失败时才执行后一个命令"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以更高权限执行后续命令"
+
+[[commands.tokens]]
+text = "apt"
+desc = "Debian/Ubuntu 包管理命令"
+
+[[commands.tokens]]
+text = "install"
+desc = "安装软件包"
+
+[[commands.tokens]]
+text = "-y"
+desc = "自动回答 yes"
+
+[[commands.tokens]]
+text = "curl"
+desc = "要安装的软件包名"
+
+[commands.dictation]
+prompt = "如果系统中没有 curl，就用 apt 自动安装 curl"
+answers = [
+    "command -v curl >/dev/null || sudo apt install -y curl",
+]
+
+[[commands]]
+id = "for-loop-jpg"
+command = "for f in *.jpg; do echo \"\"; done"
+summary = "遍历当前目录下所有 jpg 文件并逐个输出文件名"
+
+[[commands.tokens]]
+text = "for"
+desc = "shell 的循环关键字"
+
+[[commands.tokens]]
+text = "f"
+desc = "循环变量名"
+
+[[commands.tokens]]
+text = "in"
+desc = "指定循环遍历的数据集合"
+
+[[commands.tokens]]
+text = "*.jpg"
+desc = "匹配当前目录下所有 jpg 文件"
+
+[[commands.tokens]]
+text = "do"
+desc = "循环体开始"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出变量内容"
+
+[[commands.tokens]]
+text = "\"\""
+desc = "引用当前循环变量，保留可能的空格"
+
+[[commands.tokens]]
+text = ";"
+desc = "命令分隔符"
+
+[[commands.tokens]]
+text = "done"
+desc = "循环体结束"
+
+[commands.dictation]
+prompt = "遍历当前目录下所有 jpg 文件，并逐个输出文件名"
+answers = [
+    "for f in *.jpg; do echo \"\"; done",
+]
+
+[[commands]]
+id = "while-read-file"
+command = "while read -r line; do echo \"\"; done < names.txt"
+summary = "逐行读取 names.txt，并原样输出每一行"
+
+[[commands.tokens]]
+text = "while"
+desc = "shell 的循环关键字"
+
+[[commands.tokens]]
+text = "read"
+desc = "从标准输入读取一行文本"
+
+[[commands.tokens]]
+text = "-r"
+desc = "按原始方式读取，不处理反斜杠转义"
+
+[[commands.tokens]]
+text = "line"
+desc = "接收每一行内容的变量名"
+
+[[commands.tokens]]
+text = ";"
+desc = "命令分隔符"
+
+[[commands.tokens]]
+text = "do"
+desc = "循环体开始"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出读取到的变量内容"
+
+[[commands.tokens]]
+text = "\"\""
+desc = "引用当前读取到的一行文本"
+
+[[commands.tokens]]
+text = ";"
+desc = "命令分隔符"
+
+[[commands.tokens]]
+text = "done"
+desc = "循环体结束"
+
+[[commands.tokens]]
+text = "<"
+desc = "把文件作为标准输入重定向给 while 循环"
+
+[[commands.tokens]]
+text = "names.txt"
+desc = "要逐行读取的输入文件"
+
+[commands.dictation]
+prompt = "逐行读取 names.txt，并原样输出每一行"
+answers = [
+    "while read -r line; do echo \"\"; done < names.txt",
+]
+
+[[commands]]
+id = "xargs-replace-hostname"
+command = "cat hosts.txt | xargs -I{} ssh root@{} hostname"
+summary = "读取 hosts.txt 中的主机列表，并逐台通过 SSH 执行 hostname"
+
+[[commands.tokens]]
+text = "cat"
+desc = "输出文件内容到标准输出"
+
+[[commands.tokens]]
+text = "hosts.txt"
+desc = "保存主机列表的文件"
+
+[[commands.tokens]]
+text = "|"
+desc = "把文件内容传给 xargs"
+
+[[commands.tokens]]
+text = "xargs"
+desc = "把标准输入转换成命令参数列表"
+
+[[commands.tokens]]
+text = "-I{}"
+desc = "把每个输入项替换到 {} 占位符位置"
+
+[[commands.tokens]]
+text = "ssh"
+desc = "远程登录命令"
+
+[[commands.tokens]]
+text = "root@{}"
+desc = "把当前主机替换到 SSH 登录目标中"
+
+[[commands.tokens]]
+text = "hostname"
+desc = "在远程主机上执行的命令"
+
+[commands.dictation]
+prompt = "读取 hosts.txt 中的主机列表，并逐台 SSH 执行 hostname"
+answers = [
+    "cat hosts.txt | xargs -I{} ssh root@{} hostname",
+]
+
+[[commands]]
+id = "find-exec-rm"
+command = "find . -name *.tmp -exec rm {} +"
+summary = "查找当前目录下所有 .tmp 文件并批量删除"
+
+[[commands.tokens]]
+text = "find"
+desc = "按条件查找文件的命令"
+
+[[commands.tokens]]
+text = "."
+desc = "从当前目录开始查找"
+
+[[commands.tokens]]
+text = "-name"
+desc = "按文件名模式匹配"
+
+[[commands.tokens]]
+text = "*.tmp"
+desc = "匹配所有 .tmp 文件"
+
+[[commands.tokens]]
+text = "-exec"
+desc = "对查找到的结果执行命令"
+
+[[commands.tokens]]
+text = "rm"
+desc = "删除匹配到的文件"
+
+[[commands.tokens]]
+text = "{}"
+desc = "代表当前 find 匹配到的文件路径"
+
+[[commands.tokens]]
+text = "+"
+desc = "把多个匹配结果批量传给一次 rm 调用"
+
+[commands.dictation]
+prompt = "查找当前目录下所有 .tmp 文件，并用 find 直接批量删除"
+answers = [
+    "find . -name *.tmp -exec rm {} +",
+    "find . -name \"*.tmp\" -exec rm {} +",
+]
+
+[[commands]]
+id = "source-bashrc"
+command = "source ~/.bashrc"
+summary = "重新加载当前用户的 bash 配置文件"
+
+[[commands.tokens]]
+text = "source"
+desc = "在当前 shell 中执行脚本文件内容的命令"
+
+[[commands.tokens]]
+text = "~/.bashrc"
+desc = "当前用户的 Bash 配置文件"
+
+[commands.dictation]
+prompt = "重新加载当前用户的 ~/.bashrc 配置"
+answers = [
+    "source ~/.bashrc",
+    ". ~/.bashrc",
+]
+
+[[commands]]
+id = "here-doc-cat"
+command = "cat <<EOF > note.txt"
+summary = "开始一个 here document，把多行内容写入 note.txt"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取标准输入并输出的命令"
+
+[[commands.tokens]]
+text = "<<EOF"
+desc = "开始 here document，多行输入直到 EOF 结束"
+
+[[commands.tokens]]
+text = ">"
+desc = "把 here document 输出写入文件"
+
+[[commands.tokens]]
+text = "note.txt"
+desc = "接收多行内容的文件"
+
+[commands.dictation]
+prompt = "开始一个 here document，并把后续多行内容写入 note.txt"
+answers = [
+    "cat <<EOF > note.txt",
+]

@@ -1,0 +1,448 @@
+[meta]
+category = "text_process"
+difficulty = "advanced"
+description = "进阶文本处理、流式转换与管道组合命令"
+
+[[commands]]
+id = "awk-print-first-field"
+command = "awk '{print $1}' access.log"
+summary = "输出 access.log 每一行的第 1 列"
+
+[[commands.tokens]]
+text = "awk"
+desc = "按字段处理文本的脚本式命令"
+
+[[commands.tokens]]
+text = "'{print $1}'"
+desc = "awk 程序：打印当前行的第 1 个字段"
+
+[[commands.tokens]]
+text = "access.log"
+desc = "要处理的输入文件"
+
+[commands.dictation]
+prompt = "打印 access.log 中每一行的第一个字段"
+answers = [
+    "awk '{print $1}' access.log",
+    "awk '{ print $1 }' access.log",
+]
+
+[[commands]]
+id = "awk-passwd-first-field"
+command = "awk -F: '{print $1}' /etc/passwd"
+summary = "按冒号分隔，输出 /etc/passwd 的用户名字段"
+
+[[commands.tokens]]
+text = "awk"
+desc = "按字段处理文本的脚本式命令"
+
+[[commands.tokens]]
+text = "-F:"
+desc = "把字段分隔符设置为冒号"
+
+[[commands.tokens]]
+text = "'{print $1}'"
+desc = "awk 程序：打印当前行的第 1 个字段"
+
+[[commands.tokens]]
+text = "/etc/passwd"
+desc = "系统用户信息文件"
+
+[commands.dictation]
+prompt = "从 /etc/passwd 中按冒号分隔取出第一列用户名"
+answers = [
+    "awk -F: '{print $1}' /etc/passwd",
+    "awk -F ':' '{print $1}' /etc/passwd",
+]
+
+[[commands]]
+id = "awk-first-line"
+command = "awk 'NR==1 {print $0}' data.csv"
+summary = "只输出 data.csv 的第一行"
+
+[[commands.tokens]]
+text = "awk"
+desc = "按字段处理文本的脚本式命令"
+
+[[commands.tokens]]
+text = "'NR==1 {print $0}'"
+desc = "awk 程序：当行号等于 1 时打印整行"
+
+[[commands.tokens]]
+text = "data.csv"
+desc = "要处理的输入文件"
+
+[commands.dictation]
+prompt = "只打印 data.csv 的第一行"
+answers = [
+    "awk 'NR==1 {print $0}' data.csv",
+    "awk 'NR == 1 {print $0}' data.csv",
+]
+
+[[commands]]
+id = "sed-replace-first"
+command = "sed 's/foo/bar/' app.conf"
+summary = "把 app.conf 每行中第一个 foo 替换成 bar"
+
+[[commands.tokens]]
+text = "sed"
+desc = "按规则流式编辑文本的命令"
+
+[[commands.tokens]]
+text = "'s/foo/bar/'"
+desc = "替换表达式：把每行首次出现的 foo 替换为 bar"
+
+[[commands.tokens]]
+text = "app.conf"
+desc = "要处理的配置文件"
+
+[commands.dictation]
+prompt = "把 app.conf 每行中的第一个 foo 替换成 bar"
+answers = [
+    "sed 's/foo/bar/' app.conf",
+    "sed -e 's/foo/bar/' app.conf",
+]
+
+[[commands]]
+id = "sed-inplace-localhost"
+command = "sed -i 's/localhost/127.0.0.1/' .env"
+summary = "原地把 .env 中的 localhost 替换为 127.0.0.1"
+
+[[commands.tokens]]
+text = "sed"
+desc = "按规则流式编辑文本的命令"
+
+[[commands.tokens]]
+text = "-i"
+desc = "直接修改原文件，而不是只输出结果"
+
+[[commands.tokens]]
+text = "'s/localhost/127.0.0.1/'"
+desc = "替换表达式：把 localhost 替换为 127.0.0.1"
+
+[[commands.tokens]]
+text = ".env"
+desc = "要原地修改的环境变量文件"
+
+[commands.dictation]
+prompt = "直接修改 .env，把 localhost 替换成 127.0.0.1"
+answers = [
+    "sed -i 's/localhost/127.0.0.1/' .env",
+    "sed --in-place 's/localhost/127.0.0.1/' .env",
+]
+
+[[commands]]
+id = "sed-print-range"
+command = "sed -n '1,5p' server.log"
+summary = "只输出 server.log 的第 1 到第 5 行"
+
+[[commands.tokens]]
+text = "sed"
+desc = "按规则流式编辑文本的命令"
+
+[[commands.tokens]]
+text = "-n"
+desc = "默认不输出，只有显式匹配的内容才打印"
+
+[[commands.tokens]]
+text = "'1,5p'"
+desc = "打印第 1 行到第 5 行"
+
+[[commands.tokens]]
+text = "server.log"
+desc = "要查看的日志文件"
+
+[commands.dictation]
+prompt = "只显示 server.log 的第 1 到第 5 行"
+answers = [
+    "sed -n '1,5p' server.log",
+    "sed --quiet '1,5p' server.log",
+]
+
+[[commands]]
+id = "xargs-echo-lines"
+command = "cat ids.txt | xargs -n 1 echo"
+summary = "把 ids.txt 中的内容逐项传给 echo，每次一个参数"
+
+[[commands.tokens]]
+text = "cat"
+desc = "输出文件内容到标准输出"
+
+[[commands.tokens]]
+text = "ids.txt"
+desc = "提供参数列表的输入文件"
+
+[[commands.tokens]]
+text = "|"
+desc = "把前一个命令的输出传给后一个命令"
+
+[[commands.tokens]]
+text = "xargs"
+desc = "把标准输入转换为命令参数列表"
+
+[[commands.tokens]]
+text = "-n"
+desc = "限制每次命令调用使用的参数个数"
+
+[[commands.tokens]]
+text = "1"
+desc = "每次只传递 1 个参数"
+
+[[commands.tokens]]
+text = "echo"
+desc = "接收 xargs 传入的参数并输出"
+
+[commands.dictation]
+prompt = "把 ids.txt 中的每一项依次传给 echo，一次一个参数"
+answers = [
+    "cat ids.txt | xargs -n 1 echo",
+    "cat ids.txt | xargs --max-args 1 echo",
+]
+
+[[commands]]
+id = "sort-uniq-users"
+command = "sort users.txt | uniq"
+summary = "先排序，再去掉 users.txt 中相邻重复的行"
+
+[[commands.tokens]]
+text = "sort"
+desc = "按字典序对文本行排序"
+
+[[commands.tokens]]
+text = "users.txt"
+desc = "要排序的输入文件"
+
+[[commands.tokens]]
+text = "|"
+desc = "把前一个命令的输出传给后一个命令"
+
+[[commands.tokens]]
+text = "uniq"
+desc = "去除相邻重复行"
+
+[commands.dictation]
+prompt = "对 users.txt 排序后去重"
+answers = [
+    "sort users.txt | uniq",
+    "sort ./users.txt | uniq",
+]
+
+[[commands]]
+id = "sort-uniq-count-access"
+command = "sort access.log | uniq -c"
+summary = "统计 access.log 中每种相同行出现的次数"
+
+[[commands.tokens]]
+text = "sort"
+desc = "按字典序对文本行排序"
+
+[[commands.tokens]]
+text = "access.log"
+desc = "要排序的日志文件"
+
+[[commands.tokens]]
+text = "|"
+desc = "把前一个命令的输出传给后一个命令"
+
+[[commands.tokens]]
+text = "uniq"
+desc = "去除相邻重复行或统计重复次数"
+
+[[commands.tokens]]
+text = "-c"
+desc = "在每行前显示重复次数"
+
+[commands.dictation]
+prompt = "对 access.log 排序后统计每种重复行出现多少次"
+answers = [
+    "sort access.log | uniq -c",
+    "sort ./access.log | uniq -c",
+]
+
+[[commands]]
+id = "pipeline-error-frequency"
+command = "grep ERROR app.log | sort | uniq -c | sort -rn"
+summary = "统计 app.log 中 ERROR 行的出现频次，并按次数从高到低排序"
+
+[[commands.tokens]]
+text = "grep"
+desc = "按模式搜索文本行的命令"
+
+[[commands.tokens]]
+text = "ERROR"
+desc = "要筛出的关键字"
+
+[[commands.tokens]]
+text = "app.log"
+desc = "要分析的日志文件"
+
+[[commands.tokens]]
+text = "|"
+desc = "把前一个命令的输出传给后一个命令"
+
+[[commands.tokens]]
+text = "sort"
+desc = "先把相同内容排到一起，方便后续统计"
+
+[[commands.tokens]]
+text = "|"
+desc = "继续把排序结果传给 uniq"
+
+[[commands.tokens]]
+text = "uniq"
+desc = "合并相邻重复行或统计重复次数"
+
+[[commands.tokens]]
+text = "-c"
+desc = "显示每种重复行的数量"
+
+[[commands.tokens]]
+text = "|"
+desc = "把计数结果继续传给下一次排序"
+
+[[commands.tokens]]
+text = "sort"
+desc = "对计数结果再次排序"
+
+[[commands.tokens]]
+text = "-rn"
+desc = "-r 倒序排列 + -n 按数值排序"
+
+[commands.dictation]
+prompt = "统计 app.log 中 ERROR 行出现的次数，并按次数从高到低排序"
+answers = [
+    "grep ERROR app.log | sort | uniq -c | sort -rn",
+    "grep 'ERROR' app.log | sort | uniq -c | sort -rn",
+]
+
+[[commands]]
+id = "wc-line-count"
+command = "wc -l access.log"
+summary = "统计 access.log 一共有多少行"
+
+[[commands.tokens]]
+text = "wc"
+desc = "统计行数、单词数和字节数的命令"
+
+[[commands.tokens]]
+text = "-l"
+desc = "只统计行数"
+
+[[commands.tokens]]
+text = "access.log"
+desc = "要统计的文件"
+
+[commands.dictation]
+prompt = "统计 access.log 的总行数"
+answers = [
+    "wc -l access.log",
+    "wc --lines access.log",
+]
+
+[[commands]]
+id = "cut-passwd-first-field"
+command = "cut -d: -f1 /etc/passwd"
+summary = "从 /etc/passwd 中按冒号切出第 1 列"
+
+[[commands.tokens]]
+text = "cut"
+desc = "按字段位置截取文本的命令"
+
+[[commands.tokens]]
+text = "-d:"
+desc = "把字段分隔符设置为冒号"
+
+[[commands.tokens]]
+text = "-f1"
+desc = "只保留第 1 个字段"
+
+[[commands.tokens]]
+text = "/etc/passwd"
+desc = "要截取字段的系统文件"
+
+[commands.dictation]
+prompt = "从 /etc/passwd 中按冒号分隔取出第一列"
+answers = [
+    "cut -d: -f1 /etc/passwd",
+    "cut --delimiter=: --fields=1 /etc/passwd",
+]
+
+[[commands]]
+id = "tr-upper-names"
+command = "cat names.txt | tr 'a-z' 'A-Z'"
+summary = "把 names.txt 中的小写字母转换成大写"
+
+[[commands.tokens]]
+text = "cat"
+desc = "输出文件内容到标准输出"
+
+[[commands.tokens]]
+text = "names.txt"
+desc = "提供原始文本的输入文件"
+
+[[commands.tokens]]
+text = "|"
+desc = "把前一个命令的输出传给后一个命令"
+
+[[commands.tokens]]
+text = "tr"
+desc = "按字符集合做替换或删除的命令"
+
+[[commands.tokens]]
+text = "'a-z'"
+desc = "源字符范围：所有小写英文字母"
+
+[[commands.tokens]]
+text = "'A-Z'"
+desc = "目标字符范围：所有大写英文字母"
+
+[commands.dictation]
+prompt = "把 names.txt 的小写字母全部转成大写"
+answers = [
+    "cat names.txt | tr 'a-z' 'A-Z'",
+    "cat ./names.txt | tr 'a-z' 'A-Z'",
+]
+
+[[commands]]
+id = "cut-sort-uniq-second-column"
+command = "cut -d, -f2 sales.csv | sort | uniq"
+summary = "提取 sales.csv 的第 2 列后排序并去重"
+
+[[commands.tokens]]
+text = "cut"
+desc = "按字段位置截取文本的命令"
+
+[[commands.tokens]]
+text = "-d,"
+desc = "把字段分隔符设置为逗号"
+
+[[commands.tokens]]
+text = "-f2"
+desc = "只保留第 2 个字段"
+
+[[commands.tokens]]
+text = "sales.csv"
+desc = "要处理的 CSV 文件"
+
+[[commands.tokens]]
+text = "|"
+desc = "把 cut 的结果传给 sort"
+
+[[commands.tokens]]
+text = "sort"
+desc = "先对提取出的列值排序"
+
+[[commands.tokens]]
+text = "|"
+desc = "把排序结果传给 uniq 去重"
+
+[[commands.tokens]]
+text = "uniq"
+desc = "去除相邻重复行"
+
+[commands.dictation]
+prompt = "提取 sales.csv 的第二列，排序后去重"
+answers = [
+    "cut -d, -f2 sales.csv | sort | uniq",
+    "cut --delimiter=, --fields=2 sales.csv | sort | uniq",
+]

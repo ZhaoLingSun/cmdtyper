@@ -1,0 +1,226 @@
+[meta]
+category = "permission"
+difficulty = "basic"
+description = "基础补充：防火墙、用户管理与 sudo 操作命令"
+
+[[commands]]
+id = "ufw-status"
+command = "sudo ufw status verbose"
+summary = "查看 ufw 防火墙当前状态和规则详情"
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限执行"
+[[commands.tokens]]
+text = "ufw"
+desc = "简易防火墙管理工具"
+[[commands.tokens]]
+text = "status"
+desc = "查看防火墙状态"
+[[commands.tokens]]
+text = "verbose"
+desc = "输出详细信息"
+[commands.dictation]
+prompt = "查看 ufw 防火墙的详细状态和规则"
+answers = ["sudo ufw status verbose"]
+
+[[commands]]
+id = "ufw-allow-ssh"
+command = "sudo ufw allow 22/tcp"
+summary = "允许 TCP 22 端口的入站连接（SSH）"
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限执行"
+[[commands.tokens]]
+text = "ufw"
+desc = "简易防火墙管理工具"
+[[commands.tokens]]
+text = "allow"
+desc = "添加允许规则"
+[[commands.tokens]]
+text = "22/tcp"
+desc = "TCP 协议的 22 端口"
+[commands.dictation]
+prompt = "用 ufw 允许 SSH 端口的入站连接"
+answers = ["sudo ufw allow 22/tcp"]
+
+[[commands]]
+id = "ufw-deny-port"
+command = "sudo ufw deny 3306"
+summary = "禁止 3306 端口的入站连接（MySQL）"
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限执行"
+[[commands.tokens]]
+text = "ufw"
+desc = "简易防火墙管理工具"
+[[commands.tokens]]
+text = "deny"
+desc = "添加拒绝规则"
+[[commands.tokens]]
+text = "3306"
+desc = "MySQL 默认端口"
+[commands.dictation]
+prompt = "用 ufw 拒绝 3306 端口的入站连接"
+answers = ["sudo ufw deny 3306"]
+
+[[commands]]
+id = "ufw-enable"
+command = "sudo ufw enable"
+summary = "启用 ufw 防火墙"
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限执行"
+[[commands.tokens]]
+text = "ufw"
+desc = "简易防火墙管理工具"
+[[commands.tokens]]
+text = "enable"
+desc = "启用防火墙"
+[commands.dictation]
+prompt = "启用 ufw 防火墙"
+answers = ["sudo ufw enable"]
+
+[[commands]]
+id = "useradd-create"
+command = "sudo useradd -m -s /bin/bash deploy"
+summary = "创建 deploy 用户，自动创建家目录并设置 bash 为登录 shell"
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限执行"
+[[commands.tokens]]
+text = "useradd"
+desc = "创建新用户的命令"
+[[commands.tokens]]
+text = "-m"
+desc = "自动创建用户的家目录"
+[[commands.tokens]]
+text = "-s"
+desc = "指定登录 shell"
+[[commands.tokens]]
+text = "/bin/bash"
+desc = "使用 bash 作为登录 shell"
+[[commands.tokens]]
+text = "deploy"
+desc = "要创建的用户名"
+[commands.dictation]
+prompt = "创建 deploy 用户，自动创建家目录，使用 bash 作为 shell"
+answers = ["sudo useradd -m -s /bin/bash deploy"]
+
+[[commands]]
+id = "passwd-user"
+command = "sudo passwd deploy"
+summary = "设置或修改 deploy 用户的密码"
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限执行"
+[[commands.tokens]]
+text = "passwd"
+desc = "修改用户密码的命令"
+[[commands.tokens]]
+text = "deploy"
+desc = "要修改密码的用户名"
+[commands.dictation]
+prompt = "设置或修改 deploy 用户的密码"
+answers = ["sudo passwd deploy"]
+
+[[commands]]
+id = "usermod-add-group"
+command = "sudo usermod -aG docker deploy"
+summary = "把 deploy 用户添加到 docker 组"
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限执行"
+[[commands.tokens]]
+text = "usermod"
+desc = "修改用户信息的命令"
+[[commands.tokens]]
+text = "-aG"
+desc = "-a 追加 + -G 指定附加组"
+[[commands.tokens]]
+text = "docker"
+desc = "要加入的用户组"
+[[commands.tokens]]
+text = "deploy"
+desc = "要修改的用户名"
+[commands.dictation]
+prompt = "把 deploy 用户添加到 docker 用户组"
+answers = ["sudo usermod -aG docker deploy"]
+
+[[commands]]
+id = "userdel-remove"
+command = "sudo userdel -r olduser"
+summary = "删除 olduser 用户并移除其家目录"
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限执行"
+[[commands.tokens]]
+text = "userdel"
+desc = "删除用户的命令"
+[[commands.tokens]]
+text = "-r"
+desc = "同时删除用户的家目录和邮件"
+[[commands.tokens]]
+text = "olduser"
+desc = "要删除的用户名"
+[commands.dictation]
+prompt = "删除 olduser 用户并移除其家目录"
+answers = ["sudo userdel -r olduser"]
+
+[[commands]]
+id = "su-switch-user"
+command = "su - deploy"
+summary = "切换到 deploy 用户并加载完整登录环境"
+[[commands.tokens]]
+text = "su"
+desc = "切换用户身份的命令"
+[[commands.tokens]]
+text = "-"
+desc = "加载目标用户的完整登录环境"
+[[commands.tokens]]
+text = "deploy"
+desc = "要切换到的用户名"
+[commands.dictation]
+prompt = "切换到 deploy 用户并加载完整登录环境"
+answers = ["su - deploy"]
+
+[[commands]]
+id = "sudo-last-command"
+command = "sudo !!"
+summary = "用 sudo 重新执行上一条命令"
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限执行"
+[[commands.tokens]]
+text = "!!"
+desc = "引用上一条执行的命令"
+[commands.dictation]
+prompt = "用 sudo 重新执行上一条命令"
+answers = ["sudo !!"]
+
+[[commands]]
+id = "visudo-basic"
+command = "sudo visudo"
+summary = "安全地编辑 sudoers 配置文件"
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限执行"
+[[commands.tokens]]
+text = "visudo"
+desc = "编辑 sudoers 配置的安全命令（会做语法检查）"
+[commands.dictation]
+prompt = "安全地编辑 sudoers 配置文件"
+answers = ["sudo visudo"]
+
+[[commands]]
+id = "last-logins"
+command = "last -10"
+summary = "查看最近 10 条用户登录记录"
+[[commands.tokens]]
+text = "last"
+desc = "显示用户登录历史的命令"
+[[commands.tokens]]
+text = "-10"
+desc = "只显示最近 10 条记录"
+[commands.dictation]
+prompt = "查看最近 10 条用户登录记录"
+answers = ["last -10", "last -n 10"]

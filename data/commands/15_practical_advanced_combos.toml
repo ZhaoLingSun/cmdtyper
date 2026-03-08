@@ -1,0 +1,301 @@
+[meta]
+category = "pipeline"
+difficulty = "practical"
+description = "实战补充：高级管道组合、文本批处理、一行式运维与日志分析片段"
+
+[[commands]]
+id = "awk-sum-column"
+command = "awk '{sum += $3} END {print sum}' data.csv"
+summary = "用 awk 计算 data.csv 第三列的合计值"
+[[commands.tokens]]
+text = "awk"
+desc = "按字段处理文本的脚本式命令"
+[[commands.tokens]]
+text = "'{sum += $3} END {print sum}'"
+desc = "累加第三列的值，最后输出合计"
+[[commands.tokens]]
+text = "data.csv"
+desc = "输入文件"
+[commands.dictation]
+prompt = "用 awk 计算 data.csv 中第三列的合计值"
+answers = ["awk '{sum += $3} END {print sum}' data.csv"]
+
+[[commands]]
+id = "sed-global-replace"
+command = "sed -i 's/http:/https:/g' config.yml"
+summary = "在 config.yml 中把所有 http: 替换为 https:"
+[[commands.tokens]]
+text = "sed"
+desc = "按规则流式编辑文本的命令"
+[[commands.tokens]]
+text = "-i"
+desc = "直接修改原文件"
+[[commands.tokens]]
+text = "'s/http:/https:/g'"
+desc = "把每行中所有的 http: 替换为 https:"
+[[commands.tokens]]
+text = "config.yml"
+desc = "要修改的配置文件"
+[commands.dictation]
+prompt = "在 config.yml 中把所有 http: 替换为 https:"
+answers = ["sed -i 's/http:/https:/g' config.yml"]
+
+[[commands]]
+id = "tr-lowercase"
+command = "echo 'Hello World' | tr '[:upper:]' '[:lower:]'"
+summary = "把文本全部转为小写"
+[[commands.tokens]]
+text = "echo"
+desc = "输出文本到标准输出"
+[[commands.tokens]]
+text = "'Hello World'"
+desc = "要转换的文本"
+[[commands.tokens]]
+text = "|"
+desc = "把文本传给 tr 转换"
+[[commands.tokens]]
+text = "tr"
+desc = "按字符映射表转换文本的命令"
+[[commands.tokens]]
+text = "'[:upper:]'"
+desc = "源字符集：所有大写字母"
+[[commands.tokens]]
+text = "'[:lower:]'"
+desc = "目标字符集：所有小写字母"
+[commands.dictation]
+prompt = "把 Hello World 全部转为小写"
+answers = ["echo 'Hello World' | tr '[:upper:]' '[:lower:]'"]
+
+[[commands]]
+id = "paste-merge-columns"
+command = "paste names.txt scores.txt"
+summary = "把两个文件按行并排合并"
+[[commands.tokens]]
+text = "paste"
+desc = "按行并列合并多个文件的命令"
+[[commands.tokens]]
+text = "names.txt"
+desc = "第一个文件"
+[[commands.tokens]]
+text = "scores.txt"
+desc = "第二个文件"
+[commands.dictation]
+prompt = "把 names.txt 和 scores.txt 按行并排合并"
+answers = ["paste names.txt scores.txt"]
+
+[[commands]]
+id = "diff-color"
+command = "diff --color old.conf new.conf"
+summary = "彩色对比两个配置文件的差异"
+[[commands.tokens]]
+text = "diff"
+desc = "比较文件差异的命令"
+[[commands.tokens]]
+text = "--color"
+desc = "用颜色高亮差异"
+[[commands.tokens]]
+text = "old.conf"
+desc = "旧版本文件"
+[[commands.tokens]]
+text = "new.conf"
+desc = "新版本文件"
+[commands.dictation]
+prompt = "用颜色高亮比较 old.conf 和 new.conf 的差异"
+answers = ["diff --color old.conf new.conf"]
+
+[[commands]]
+id = "find-mtime-delete"
+command = "find /var/log -name '*.log' -mtime +30 -delete"
+summary = "删除 /var/log 下超过 30 天的 .log 文件"
+[[commands.tokens]]
+text = "find"
+desc = "按条件查找文件的命令"
+[[commands.tokens]]
+text = "/var/log"
+desc = "查找起点目录"
+[[commands.tokens]]
+text = "-name"
+desc = "按文件名模式匹配"
+[[commands.tokens]]
+text = "'*.log'"
+desc = "匹配所有 .log 文件"
+[[commands.tokens]]
+text = "-mtime"
+desc = "按修改时间过滤"
+[[commands.tokens]]
+text = "+30"
+desc = "超过 30 天未修改"
+[[commands.tokens]]
+text = "-delete"
+desc = "直接删除匹配到的文件"
+[commands.dictation]
+prompt = "删除 /var/log 下修改时间超过 30 天的所有 .log 文件"
+answers = ["find /var/log -name '*.log' -mtime +30 -delete"]
+
+[[commands]]
+id = "jq-array-map"
+command = "jq '.[].name' users.json"
+summary = "从 users.json 数组中提取每个元素的 name 字段"
+[[commands.tokens]]
+text = "jq"
+desc = "处理 JSON 数据的命令行工具"
+[[commands.tokens]]
+text = "'.[].name'"
+desc = "jq 过滤器：遍历数组并取出每个对象的 name"
+[[commands.tokens]]
+text = "users.json"
+desc = "输入的 JSON 文件"
+[commands.dictation]
+prompt = "从 users.json 数组中提取每个元素的 name 字段"
+answers = ["jq '.[].name' users.json"]
+
+[[commands]]
+id = "jq-select-filter"
+command = "jq '.[] | select(.age > 18)' users.json"
+summary = "从 users.json 中筛出年龄大于 18 的记录"
+[[commands.tokens]]
+text = "jq"
+desc = "处理 JSON 数据的命令行工具"
+[[commands.tokens]]
+text = "'.[] | select(.age > 18)'"
+desc = "jq 过滤器：遍历数组，只保留 age 大于 18 的"
+[[commands.tokens]]
+text = "users.json"
+desc = "输入的 JSON 文件"
+[commands.dictation]
+prompt = "从 users.json 中筛选出年龄大于 18 的记录"
+answers = ["jq '.[] | select(.age > 18)' users.json"]
+
+[[commands]]
+id = "docker-system-prune"
+command = "docker system prune -af"
+summary = "清理所有未使用的容器、镜像和网络"
+[[commands.tokens]]
+text = "docker"
+desc = "容器管理命令"
+[[commands.tokens]]
+text = "system"
+desc = "系统级操作子命令"
+[[commands.tokens]]
+text = "prune"
+desc = "清理未使用的资源"
+[[commands.tokens]]
+text = "-af"
+desc = "-a 包含所有未使用镜像 + -f 跳过确认"
+[commands.dictation]
+prompt = "清理 Docker 中所有未使用的容器、镜像和网络"
+answers = ["docker system prune -af"]
+
+[[commands]]
+id = "docker-compose-up"
+command = "docker compose up -d --build"
+summary = "重新构建并后台启动所有服务"
+[[commands.tokens]]
+text = "docker"
+desc = "容器管理命令"
+[[commands.tokens]]
+text = "compose"
+desc = "多容器编排子命令"
+[[commands.tokens]]
+text = "up"
+desc = "创建并启动服务"
+[[commands.tokens]]
+text = "-d"
+desc = "后台运行"
+[[commands.tokens]]
+text = "--build"
+desc = "启动前先重新构建镜像"
+[commands.dictation]
+prompt = "重新构建并后台启动 Docker Compose 中的所有服务"
+answers = ["docker compose up -d --build"]
+
+[[commands]]
+id = "watch-docker-ps"
+command = "watch -n 5 docker ps"
+summary = "每 5 秒刷新一次 Docker 容器列表"
+[[commands.tokens]]
+text = "watch"
+desc = "定期执行命令并刷新显示"
+[[commands.tokens]]
+text = "-n"
+desc = "指定刷新间隔秒数"
+[[commands.tokens]]
+text = "5"
+desc = "每 5 秒执行一次"
+[[commands.tokens]]
+text = "docker"
+desc = "容器管理命令"
+[[commands.tokens]]
+text = "ps"
+desc = "列出运行中的容器"
+[commands.dictation]
+prompt = "每 5 秒刷新一次 Docker 容器列表"
+answers = ["watch -n 5 docker ps"]
+
+[[commands]]
+id = "tar-exclude-vcs"
+command = "tar czf release.tar.gz --exclude=.git --exclude=node_modules project"
+summary = "打包 project 目录但排除 .git 和 node_modules"
+[[commands.tokens]]
+text = "tar"
+desc = "打包和解包归档文件的命令"
+[[commands.tokens]]
+text = "czf"
+desc = "创建 gzip 压缩归档"
+[[commands.tokens]]
+text = "release.tar.gz"
+desc = "输出归档文件名"
+[[commands.tokens]]
+text = "--exclude=.git"
+desc = "排除 .git 目录"
+[[commands.tokens]]
+text = "--exclude=node_modules"
+desc = "排除 node_modules 目录"
+[[commands.tokens]]
+text = "project"
+desc = "要打包的源目录"
+[commands.dictation]
+prompt = "打包 project 目录为 gzip 归档，但排除 .git 和 node_modules"
+answers = ["tar czf release.tar.gz --exclude=.git --exclude=node_modules project"]
+
+[[commands]]
+id = "crontab-edit"
+command = "crontab -e"
+summary = "编辑当前用户的定时任务列表"
+[[commands.tokens]]
+text = "crontab"
+desc = "管理定时任务的命令"
+[[commands.tokens]]
+text = "-e"
+desc = "编辑当前用户的 crontab"
+[commands.dictation]
+prompt = "编辑当前用户的定时任务列表"
+answers = ["crontab -e"]
+
+[[commands]]
+id = "crontab-list"
+command = "crontab -l"
+summary = "列出当前用户的定时任务"
+[[commands.tokens]]
+text = "crontab"
+desc = "管理定时任务的命令"
+[[commands.tokens]]
+text = "-l"
+desc = "列出当前 crontab 的内容"
+[commands.dictation]
+prompt = "列出当前用户已配置的定时任务"
+answers = ["crontab -l"]
+
+[[commands]]
+id = "alias-ll"
+command = "alias ll='ls -latr'"
+summary = "创建 ll 别名为详细按时间倒序显示目录内容"
+[[commands.tokens]]
+text = "alias"
+desc = "创建命令别名的 shell 命令"
+[[commands.tokens]]
+text = "ll='ls -latr'"
+desc = "别名 ll 展开为 ls -latr"
+[commands.dictation]
+prompt = "创建别名 ll，展开为 ls -latr"
+answers = ["alias ll='ls -latr'"]

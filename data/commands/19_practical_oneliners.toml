@@ -1,0 +1,306 @@
+[meta]
+category = "scripting"
+difficulty = "practical"
+description = "实战补充：真实运维一行式、批量操作、磁盘清理与日志切割命令"
+
+[[commands]]
+id = "rename-batch-jpg"
+command = "for f in *.jpeg; do mv -- \"$f\" \"${f%.jpeg}.jpg\"; done"
+summary = "把当前目录下所有 .jpeg 文件重命名为 .jpg"
+[[commands.tokens]]
+text = "for"
+desc = "shell 循环关键字"
+[[commands.tokens]]
+text = "f"
+desc = "循环变量"
+[[commands.tokens]]
+text = "in"
+desc = "指定循环数据"
+[[commands.tokens]]
+text = "*.jpeg"
+desc = "匹配所有 .jpeg 文件"
+[[commands.tokens]]
+text = ";"
+desc = "命令分隔符"
+[[commands.tokens]]
+text = "do"
+desc = "循环体开始"
+[[commands.tokens]]
+text = "mv"
+desc = "移动或重命名文件"
+[[commands.tokens]]
+text = "--"
+desc = "防止文件名被当作选项"
+[[commands.tokens]]
+text = "\"$f\""
+desc = "原文件名"
+[[commands.tokens]]
+text = "\"${f%.jpeg}.jpg\""
+desc = "去掉 .jpeg 后缀再加上 .jpg"
+[[commands.tokens]]
+text = ";"
+desc = "命令分隔符"
+[[commands.tokens]]
+text = "done"
+desc = "循环体结束"
+[commands.dictation]
+prompt = "把当前目录下所有 .jpeg 文件批量重命名为 .jpg"
+answers = ["for f in *.jpeg; do mv -- \"$f\" \"${f%.jpeg}.jpg\"; done"]
+
+[[commands]]
+id = "disk-top-dirs"
+command = "du -h --max-depth=1 / 2>/dev/null | sort -rh | head -20"
+summary = "查看根目录下各一级子目录的空间占用，按大小排列取前 20"
+[[commands.tokens]]
+text = "du"
+desc = "查看磁盘占用大小的命令"
+[[commands.tokens]]
+text = "-h"
+desc = "以易读单位显示"
+[[commands.tokens]]
+text = "--max-depth=1"
+desc = "只统计一级子目录"
+[[commands.tokens]]
+text = "/"
+desc = "从根目录开始"
+[[commands.tokens]]
+text = "2>/dev/null"
+desc = "丢弃权限不足等错误输出"
+[[commands.tokens]]
+text = "|"
+desc = "管道"
+[[commands.tokens]]
+text = "sort"
+desc = "排序"
+[[commands.tokens]]
+text = "-rh"
+desc = "按易读数值逆序"
+[[commands.tokens]]
+text = "|"
+desc = "管道"
+[[commands.tokens]]
+text = "head"
+desc = "取前几行"
+[[commands.tokens]]
+text = "-20"
+desc = "取前 20 项"
+[commands.dictation]
+prompt = "查看根目录下各一级子目录的空间占用，按大小排列取前 20"
+answers = ["du -h --max-depth=1 / 2>/dev/null | sort -rh | head -20"]
+
+[[commands]]
+id = "find-empty-dirs"
+command = "find . -type d -empty -delete"
+summary = "查找并删除当前目录下所有空目录"
+[[commands.tokens]]
+text = "find"
+desc = "按条件查找文件的命令"
+[[commands.tokens]]
+text = "."
+desc = "从当前目录开始"
+[[commands.tokens]]
+text = "-type"
+desc = "按类型筛选"
+[[commands.tokens]]
+text = "d"
+desc = "只匹配目录"
+[[commands.tokens]]
+text = "-empty"
+desc = "只匹配空的"
+[[commands.tokens]]
+text = "-delete"
+desc = "删除匹配结果"
+[commands.dictation]
+prompt = "查找并删除当前目录下所有空目录"
+answers = ["find . -type d -empty -delete"]
+
+[[commands]]
+id = "grep-count-error-per-hour"
+command = "grep 'ERROR' app.log | awk '{print substr($2,1,13)}' | sort | uniq -c"
+summary = "按小时统计 app.log 中 ERROR 的出现次数"
+[[commands.tokens]]
+text = "grep"
+desc = "按模式搜索文本行"
+[[commands.tokens]]
+text = "'ERROR'"
+desc = "要匹配的关键字"
+[[commands.tokens]]
+text = "app.log"
+desc = "日志文件"
+[[commands.tokens]]
+text = "|"
+desc = "管道"
+[[commands.tokens]]
+text = "awk"
+desc = "按字段处理文本"
+[[commands.tokens]]
+text = "'{print substr($2,1,13)}'"
+desc = "截取第二列的前 13 个字符（小时级时间戳）"
+[[commands.tokens]]
+text = "|"
+desc = "管道"
+[[commands.tokens]]
+text = "sort"
+desc = "排序"
+[[commands.tokens]]
+text = "|"
+desc = "管道"
+[[commands.tokens]]
+text = "uniq"
+desc = "统计相邻重复行"
+[[commands.tokens]]
+text = "-c"
+desc = "显示每种重复行的计数"
+[commands.dictation]
+prompt = "按小时统计 app.log 中 ERROR 出现的次数"
+answers = ["grep 'ERROR' app.log | awk '{print substr($2,1,13)}' | sort | uniq -c"]
+
+[[commands]]
+id = "ssh-keygen-ed25519"
+command = "ssh-keygen -t ed25519 -C 'deploy@server'"
+summary = "生成一个 ed25519 SSH 密钥对并附带注释"
+[[commands.tokens]]
+text = "ssh-keygen"
+desc = "生成 SSH 密钥对的命令"
+[[commands.tokens]]
+text = "-t"
+desc = "指定密钥类型"
+[[commands.tokens]]
+text = "ed25519"
+desc = "使用 Ed25519 算法"
+[[commands.tokens]]
+text = "-C"
+desc = "添加注释信息"
+[[commands.tokens]]
+text = "'deploy@server'"
+desc = "密钥注释内容"
+[commands.dictation]
+prompt = "生成一个 ed25519 类型的 SSH 密钥对，附带注释 deploy@server"
+answers = ["ssh-keygen -t ed25519 -C 'deploy@server'"]
+
+[[commands]]
+id = "ssh-copy-id"
+command = "ssh-copy-id admin@example.com"
+summary = "把本机公钥复制到远程主机实现免密登录"
+[[commands.tokens]]
+text = "ssh-copy-id"
+desc = "把公钥安装到远程主机的命令"
+[[commands.tokens]]
+text = "admin@example.com"
+desc = "远程主机登录目标"
+[commands.dictation]
+prompt = "把本机公钥复制到 admin@example.com 实现免密登录"
+answers = ["ssh-copy-id admin@example.com"]
+
+[[commands]]
+id = "awk-csv-filter"
+command = "awk -F, '$3 > 100 {print $1, $3}' sales.csv"
+summary = "从 sales.csv 中筛出第三列大于 100 的行，输出第一和第三列"
+[[commands.tokens]]
+text = "awk"
+desc = "按字段处理文本的脚本式命令"
+[[commands.tokens]]
+text = "-F,"
+desc = "把字段分隔符设为逗号"
+[[commands.tokens]]
+text = "'$3 > 100 {print $1, $3}'"
+desc = "当第三列大于 100 时，打印第一和第三列"
+[[commands.tokens]]
+text = "sales.csv"
+desc = "输入的 CSV 文件"
+[commands.dictation]
+prompt = "从 sales.csv 中筛出第三列大于 100 的行，输出第一和第三列"
+answers = ["awk -F, '$3 > 100 {print $1, $3}' sales.csv"]
+
+[[commands]]
+id = "sed-delete-blank-lines"
+command = "sed -i '/^$/d' notes.txt"
+summary = "原地删除 notes.txt 中的所有空行"
+[[commands.tokens]]
+text = "sed"
+desc = "按规则流式编辑文本的命令"
+[[commands.tokens]]
+text = "-i"
+desc = "直接修改原文件"
+[[commands.tokens]]
+text = "'/^$/d'"
+desc = "匹配空行并删除"
+[[commands.tokens]]
+text = "notes.txt"
+desc = "要处理的文件"
+[commands.dictation]
+prompt = "原地删除 notes.txt 中的所有空行"
+answers = ["sed -i '/^$/d' notes.txt"]
+
+[[commands]]
+id = "parallel-ping"
+command = "seq 1 254 | xargs -P 50 -I{} ping -c 1 -W 1 192.168.1.{}"
+summary = "并行 ping 整个子网 192.168.1.0/24 的所有主机"
+[[commands.tokens]]
+text = "seq"
+desc = "生成数字序列"
+[[commands.tokens]]
+text = "1"
+desc = "起始值"
+[[commands.tokens]]
+text = "254"
+desc = "结束值"
+[[commands.tokens]]
+text = "|"
+desc = "管道"
+[[commands.tokens]]
+text = "xargs"
+desc = "把输入转换成命令参数"
+[[commands.tokens]]
+text = "-P"
+desc = "最大并行进程数"
+[[commands.tokens]]
+text = "50"
+desc = "同时运行 50 个 ping"
+[[commands.tokens]]
+text = "-I{}"
+desc = "把每个输入项替换到 {} 处"
+[[commands.tokens]]
+text = "ping"
+desc = "网络探测"
+[[commands.tokens]]
+text = "-c"
+desc = "发送次数"
+[[commands.tokens]]
+text = "1"
+desc = "只发 1 次"
+[[commands.tokens]]
+text = "-W"
+desc = "超时秒数"
+[[commands.tokens]]
+text = "1"
+desc = "1 秒超时"
+[[commands.tokens]]
+text = "192.168.1.{}"
+desc = "IP 地址中最后一段由 seq 生成"
+[commands.dictation]
+prompt = "并行 ping 192.168.1.0/24 子网中的所有 254 台主机"
+answers = ["seq 1 254 | xargs -P 50 -I{} ping -c 1 -W 1 192.168.1.{}"]
+
+[[commands]]
+id = "tar-incremental-backup"
+command = "tar czf backup-$(date +%F).tar.gz --newer-mtime='1 day ago' /srv/data"
+summary = "只打包 /srv/data 中最近 1 天修改过的文件作为增量备份"
+[[commands.tokens]]
+text = "tar"
+desc = "打包归档命令"
+[[commands.tokens]]
+text = "czf"
+desc = "创建 gzip 压缩归档"
+[[commands.tokens]]
+text = "backup-$(date +%F).tar.gz"
+desc = "归档名中嵌入当天日期"
+[[commands.tokens]]
+text = "--newer-mtime='1 day ago'"
+desc = "只包含最近 1 天修改过的文件"
+[[commands.tokens]]
+text = "/srv/data"
+desc = "要备份的数据目录"
+[commands.dictation]
+prompt = "只打包 /srv/data 中最近一天修改过的文件，做增量备份"
+answers = ["tar czf backup-$(date +%F).tar.gz --newer-mtime='1 day ago' /srv/data"]

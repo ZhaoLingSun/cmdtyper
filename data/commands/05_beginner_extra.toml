@@ -1,0 +1,375 @@
+[meta]
+category = "file_ops"
+difficulty = "beginner"
+description = "入门补充：常见文件查看、复制、移动、删除与目录浏览命令"
+
+[[commands]]
+id = "cp-file-basic"
+command = "cp notes.txt notes.bak"
+summary = "把 notes.txt 复制为 notes.bak"
+
+[[commands.tokens]]
+text = "cp"
+desc = "复制文件或目录的命令"
+
+[[commands.tokens]]
+text = "notes.txt"
+desc = "源文件"
+
+[[commands.tokens]]
+text = "notes.bak"
+desc = "目标文件"
+
+[commands.dictation]
+prompt = "把 notes.txt 复制为 notes.bak"
+answers = [
+    "cp notes.txt notes.bak",
+    "cp ./notes.txt ./notes.bak",
+]
+
+[[commands]]
+id = "cp-recursive-dir"
+command = "cp -r assets backup-assets"
+summary = "递归复制 assets 目录为 backup-assets"
+
+[[commands.tokens]]
+text = "cp"
+desc = "复制文件或目录的命令"
+
+[[commands.tokens]]
+text = "-r"
+desc = "递归复制目录及其内容"
+
+[[commands.tokens]]
+text = "assets"
+desc = "源目录"
+
+[[commands.tokens]]
+text = "backup-assets"
+desc = "目标目录"
+
+[commands.dictation]
+prompt = "递归复制 assets 目录为 backup-assets"
+answers = [
+    "cp -r assets backup-assets",
+    "cp --recursive assets backup-assets",
+]
+
+[[commands]]
+id = "mv-rename-file"
+command = "mv draft.txt final.txt"
+summary = "把 draft.txt 重命名为 final.txt"
+
+[[commands.tokens]]
+text = "mv"
+desc = "移动或重命名文件的命令"
+
+[[commands.tokens]]
+text = "draft.txt"
+desc = "原文件名"
+
+[[commands.tokens]]
+text = "final.txt"
+desc = "新文件名"
+
+[commands.dictation]
+prompt = "把 draft.txt 重命名为 final.txt"
+answers = [
+    "mv draft.txt final.txt",
+    "mv ./draft.txt ./final.txt",
+]
+
+[[commands]]
+id = "mv-file-to-dir"
+command = "mv report.txt archive/"
+summary = "把 report.txt 移动到 archive 目录"
+
+[[commands.tokens]]
+text = "mv"
+desc = "移动或重命名文件的命令"
+
+[[commands.tokens]]
+text = "report.txt"
+desc = "要移动的文件"
+
+[[commands.tokens]]
+text = "archive/"
+desc = "目标目录"
+
+[commands.dictation]
+prompt = "把 report.txt 移动到 archive 目录"
+answers = [
+    "mv report.txt archive/",
+    "mv ./report.txt ./archive/",
+]
+
+[[commands]]
+id = "rm-file-basic"
+command = "rm temp.txt"
+summary = "删除 temp.txt 文件"
+
+[[commands.tokens]]
+text = "rm"
+desc = "删除文件或目录的命令"
+
+[[commands.tokens]]
+text = "temp.txt"
+desc = "要删除的文件"
+
+[commands.dictation]
+prompt = "删除 temp.txt 文件"
+answers = [
+    "rm temp.txt",
+    "rm ./temp.txt",
+]
+
+[[commands]]
+id = "rm-recursive-dir"
+command = "rm -r build"
+summary = "递归删除 build 目录及其内容"
+
+[[commands.tokens]]
+text = "rm"
+desc = "删除文件或目录的命令"
+
+[[commands.tokens]]
+text = "-r"
+desc = "递归删除目录及其内容"
+
+[[commands.tokens]]
+text = "build"
+desc = "要删除的目录"
+
+[commands.dictation]
+prompt = "递归删除 build 目录及其所有内容"
+answers = [
+    "rm -r build",
+    "rm --recursive build",
+]
+
+[[commands]]
+id = "rmdir-empty-dir"
+command = "rmdir old-cache"
+summary = "删除空目录 old-cache"
+
+[[commands.tokens]]
+text = "rmdir"
+desc = "删除空目录的命令"
+
+[[commands.tokens]]
+text = "old-cache"
+desc = "要删除的空目录"
+
+[commands.dictation]
+prompt = "删除空目录 old-cache"
+answers = [
+    "rmdir old-cache",
+    "rmdir ./old-cache",
+]
+
+[[commands]]
+id = "file-type-check"
+command = "file app.tar.gz"
+summary = "检测 app.tar.gz 的文件类型"
+
+[[commands.tokens]]
+text = "file"
+desc = "识别文件类型的命令"
+
+[[commands.tokens]]
+text = "app.tar.gz"
+desc = "要检测类型的文件"
+
+[commands.dictation]
+prompt = "检测 app.tar.gz 是什么类型的文件"
+answers = [
+    "file app.tar.gz",
+    "file ./app.tar.gz",
+]
+
+[[commands]]
+id = "stat-file-basic"
+command = "stat notes.txt"
+summary = "查看 notes.txt 的详细元数据"
+
+[[commands.tokens]]
+text = "stat"
+desc = "显示文件详细状态信息的命令"
+
+[[commands.tokens]]
+text = "notes.txt"
+desc = "要查看状态的文件"
+
+[commands.dictation]
+prompt = "查看 notes.txt 的详细元数据"
+answers = [
+    "stat notes.txt",
+    "stat ./notes.txt",
+]
+
+[[commands]]
+id = "less-file-basic"
+command = "less server.log"
+summary = "分页查看 server.log 文件内容"
+
+[[commands.tokens]]
+text = "less"
+desc = "分页查看文本内容的命令"
+
+[[commands.tokens]]
+text = "server.log"
+desc = "要查看的日志文件"
+
+[commands.dictation]
+prompt = "分页查看 server.log 文件内容"
+answers = [
+    "less server.log",
+    "less ./server.log",
+]
+
+[[commands]]
+id = "head-lines-10"
+command = "head -n 10 server.log"
+summary = "查看 server.log 的前 10 行"
+
+[[commands.tokens]]
+text = "head"
+desc = "查看文件开头内容的命令"
+
+[[commands.tokens]]
+text = "-n"
+desc = "指定显示的行数"
+
+[[commands.tokens]]
+text = "10"
+desc = "显示前 10 行"
+
+[[commands.tokens]]
+text = "server.log"
+desc = "要查看的日志文件"
+
+[commands.dictation]
+prompt = "查看 server.log 的前 10 行"
+answers = [
+    "head -n 10 server.log",
+    "head -10 server.log",
+    "head --lines 10 server.log",
+]
+
+[[commands]]
+id = "tail-lines-50"
+command = "tail -n 50 server.log"
+summary = "查看 server.log 的最后 50 行"
+
+[[commands.tokens]]
+text = "tail"
+desc = "查看文件结尾内容的命令"
+
+[[commands.tokens]]
+text = "-n"
+desc = "指定显示的行数"
+
+[[commands.tokens]]
+text = "50"
+desc = "显示最后 50 行"
+
+[[commands.tokens]]
+text = "server.log"
+desc = "要查看的日志文件"
+
+[commands.dictation]
+prompt = "查看 server.log 的最后 50 行"
+answers = [
+    "tail -n 50 server.log",
+    "tail -50 server.log",
+    "tail --lines 50 server.log",
+]
+
+[[commands]]
+id = "wc-lines-basic"
+command = "wc -l access.log"
+summary = "统计 access.log 的总行数"
+
+[[commands.tokens]]
+text = "wc"
+desc = "统计字符、单词和行数的命令"
+
+[[commands.tokens]]
+text = "-l"
+desc = "只统计行数"
+
+[[commands.tokens]]
+text = "access.log"
+desc = "要统计的文件"
+
+[commands.dictation]
+prompt = "统计 access.log 一共有多少行"
+answers = [
+    "wc -l access.log",
+    "wc --lines access.log",
+]
+
+[[commands]]
+id = "tree-depth-two"
+command = "tree -L 2 project"
+summary = "以树形结构显示 project 目录的两层内容"
+
+[[commands.tokens]]
+text = "tree"
+desc = "以树形结构显示目录内容的命令（通常需要额外安装）"
+
+[[commands.tokens]]
+text = "-L"
+desc = "限制显示的目录深度"
+
+[[commands.tokens]]
+text = "2"
+desc = "最多显示两层目录"
+
+[[commands.tokens]]
+text = "project"
+desc = "要查看的目录"
+
+[commands.dictation]
+prompt = "以树形结构显示 project 目录的前两层"
+answers = [
+    "tree -L 2 project",
+]
+
+[[commands]]
+id = "basename-path"
+command = "basename /var/log/syslog"
+summary = "取出路径 /var/log/syslog 的文件名部分"
+
+[[commands.tokens]]
+text = "basename"
+desc = "从路径中提取最后一段名称的命令"
+
+[[commands.tokens]]
+text = "/var/log/syslog"
+desc = "要提取文件名的完整路径"
+
+[commands.dictation]
+prompt = "从 /var/log/syslog 中取出最后的文件名部分"
+answers = [
+    "basename /var/log/syslog",
+]
+
+[[commands]]
+id = "dirname-path"
+command = "dirname /var/log/syslog"
+summary = "取出路径 /var/log/syslog 的目录部分"
+
+[[commands.tokens]]
+text = "dirname"
+desc = "从路径中提取目录部分的命令"
+
+[[commands.tokens]]
+text = "/var/log/syslog"
+desc = "要提取目录部分的完整路径"
+
+[commands.dictation]
+prompt = "从 /var/log/syslog 中取出目录路径部分"
+answers = [
+    "dirname /var/log/syslog",
+]

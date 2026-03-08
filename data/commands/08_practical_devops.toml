@@ -1,0 +1,445 @@
+[meta]
+category = "pipeline"
+difficulty = "practical"
+description = "实战补充：开发、运维、Git、tmux、Docker 与远程协作命令"
+
+[[commands]]
+id = "git-status-short"
+command = "git status -sb"
+summary = "用简洁分支格式查看当前 Git 工作区状态"
+
+[[commands.tokens]]
+text = "git"
+desc = "分布式版本控制系统命令"
+
+[[commands.tokens]]
+text = "status"
+desc = "查看工作区和暂存区状态"
+
+[[commands.tokens]]
+text = "-sb"
+desc = "简洁输出并显示分支信息"
+
+[commands.dictation]
+prompt = "用简洁格式查看当前 Git 工作区状态，并带上分支信息"
+answers = [
+    "git status -sb",
+]
+
+[[commands]]
+id = "git-log-oneline-graph"
+command = "git log --oneline --graph --decorate -10"
+summary = "以单行图形化方式查看最近 10 条提交"
+
+[[commands.tokens]]
+text = "git"
+desc = "分布式版本控制系统命令"
+
+[[commands.tokens]]
+text = "log"
+desc = "查看提交历史"
+
+[[commands.tokens]]
+text = "--oneline"
+desc = "每个提交只显示一行摘要"
+
+[[commands.tokens]]
+text = "--graph"
+desc = "用 ASCII 图显示分支合并关系"
+
+[[commands.tokens]]
+text = "--decorate"
+desc = "显示分支和标签引用名"
+
+[[commands.tokens]]
+text = "-10"
+desc = "只显示最近 10 条提交"
+
+[commands.dictation]
+prompt = "图形化地查看最近 10 条 Git 提交，每条只显示一行"
+answers = [
+    "git log --oneline --graph --decorate -10",
+]
+
+[[commands]]
+id = "git-diff-staged"
+command = "git diff --staged"
+summary = "查看已经暂存但尚未提交的改动"
+
+[[commands.tokens]]
+text = "git"
+desc = "分布式版本控制系统命令"
+
+[[commands.tokens]]
+text = "diff"
+desc = "比较改动差异"
+
+[[commands.tokens]]
+text = "--staged"
+desc = "只查看暂存区相对于 HEAD 的改动"
+
+[commands.dictation]
+prompt = "查看已经暂存但还没提交的 Git 改动"
+answers = [
+    "git diff --staged",
+    "git diff --cached",
+]
+
+[[commands]]
+id = "git-grep-todo"
+command = "git grep -n TODO"
+summary = "在 Git 跟踪文件中搜索 TODO，并显示行号"
+
+[[commands.tokens]]
+text = "git"
+desc = "分布式版本控制系统命令"
+
+[[commands.tokens]]
+text = "grep"
+desc = "在 Git 跟踪文件里搜索文本"
+
+[[commands.tokens]]
+text = "-n"
+desc = "显示匹配结果的行号"
+
+[[commands.tokens]]
+text = "TODO"
+desc = "要搜索的关键字"
+
+[commands.dictation]
+prompt = "在当前 Git 仓库已跟踪文件中搜索 TODO，并显示行号"
+answers = [
+    "git grep -n TODO",
+]
+
+[[commands]]
+id = "tmux-new-session"
+command = "tmux new -s dev"
+summary = "创建一个名为 dev 的 tmux 新会话"
+
+[[commands.tokens]]
+text = "tmux"
+desc = "终端复用器，可保持长期会话（通常需要额外安装）"
+
+[[commands.tokens]]
+text = "new"
+desc = "创建新会话"
+
+[[commands.tokens]]
+text = "-s"
+desc = "指定会话名称"
+
+[[commands.tokens]]
+text = "dev"
+desc = "新建的会话名"
+
+[commands.dictation]
+prompt = "创建一个名为 dev 的 tmux 会话"
+answers = [
+    "tmux new -s dev",
+    "tmux new-session -s dev",
+]
+
+[[commands]]
+id = "tmux-attach-session"
+command = "tmux attach -t dev"
+summary = "重新连接到名为 dev 的 tmux 会话"
+
+[[commands.tokens]]
+text = "tmux"
+desc = "终端复用器"
+
+[[commands.tokens]]
+text = "attach"
+desc = "连接到已有会话"
+
+[[commands.tokens]]
+text = "-t"
+desc = "指定目标会话"
+
+[[commands.tokens]]
+text = "dev"
+desc = "要连接的会话名"
+
+[commands.dictation]
+prompt = "重新连接到名为 dev 的 tmux 会话"
+answers = [
+    "tmux attach -t dev",
+    "tmux attach-session -t dev",
+]
+
+[[commands]]
+id = "docker-ps-format"
+command = "docker ps --format {{.Names}} {{.Status}}"
+summary = "只显示容器名称和状态"
+
+[[commands.tokens]]
+text = "docker"
+desc = "容器管理命令"
+
+[[commands.tokens]]
+text = "ps"
+desc = "列出正在运行的容器"
+
+[[commands.tokens]]
+text = "--format"
+desc = "自定义输出格式"
+
+[[commands.tokens]]
+text = "{{.Names}} {{.Status}}"
+desc = "只输出容器名称和状态字段"
+
+[commands.dictation]
+prompt = "用自定义格式列出 Docker 容器名称和状态"
+answers = [
+    "docker ps --format {{.Names}} {{.Status}}",
+    "docker ps --format \"{{.Names}} {{.Status}}\"",
+]
+
+[[commands]]
+id = "docker-logs-tail-follow"
+command = "docker logs -f --tail 100 web"
+summary = "持续跟踪 web 容器最近 100 行日志"
+
+[[commands.tokens]]
+text = "docker"
+desc = "容器管理命令"
+
+[[commands.tokens]]
+text = "logs"
+desc = "查看容器日志"
+
+[[commands.tokens]]
+text = "-f"
+desc = "持续跟踪新增日志"
+
+[[commands.tokens]]
+text = "--tail"
+desc = "只显示末尾指定行数的日志"
+
+[[commands.tokens]]
+text = "100"
+desc = "先显示最近 100 行"
+
+[[commands.tokens]]
+text = "web"
+desc = "目标容器名"
+
+[commands.dictation]
+prompt = "持续跟踪 web 容器最近 100 行日志"
+answers = [
+    "docker logs -f --tail 100 web",
+]
+
+[[commands]]
+id = "docker-exec-shell"
+command = "docker exec -it web sh"
+summary = "进入 web 容器的交互式 shell"
+
+[[commands.tokens]]
+text = "docker"
+desc = "容器管理命令"
+
+[[commands.tokens]]
+text = "exec"
+desc = "在运行中的容器里执行命令"
+
+[[commands.tokens]]
+text = "-it"
+desc = "分配交互终端"
+
+[[commands.tokens]]
+text = "web"
+desc = "目标容器名"
+
+[[commands.tokens]]
+text = "sh"
+desc = "在容器里启动 shell"
+
+[commands.dictation]
+prompt = "进入 web 容器的交互式 shell"
+answers = [
+    "docker exec -it web sh",
+]
+
+[[commands]]
+id = "ssh-port-host"
+command = "ssh -p 2222 admin@example.com"
+summary = "通过 2222 端口 SSH 登录远程主机"
+
+[[commands.tokens]]
+text = "ssh"
+desc = "远程登录主机的命令"
+
+[[commands.tokens]]
+text = "-p"
+desc = "指定 SSH 端口号"
+
+[[commands.tokens]]
+text = "2222"
+desc = "目标 SSH 端口"
+
+[[commands.tokens]]
+text = "admin@example.com"
+desc = "登录用户和主机"
+
+[commands.dictation]
+prompt = "使用 2222 端口 SSH 登录 admin@example.com"
+answers = [
+    "ssh -p 2222 admin@example.com",
+]
+
+[[commands]]
+id = "scp-recursive-upload"
+command = "scp -r dist/ admin@example.com:/srv/www/"
+summary = "把 dist 目录递归上传到远程站点目录"
+
+[[commands.tokens]]
+text = "scp"
+desc = "通过 SSH 安全复制文件的命令"
+
+[[commands.tokens]]
+text = "-r"
+desc = "递归复制目录"
+
+[[commands.tokens]]
+text = "dist/"
+desc = "本地源目录"
+
+[[commands.tokens]]
+text = "admin@example.com:/srv/www/"
+desc = "远程目标路径"
+
+[commands.dictation]
+prompt = "把本地 dist 目录递归上传到 admin@example.com 的 /srv/www/"
+answers = [
+    "scp -r dist/ admin@example.com:/srv/www/",
+]
+
+[[commands]]
+id = "rsync-ssh-progress"
+command = "rsync -avzP -e ssh dist/ admin@example.com:/srv/www/"
+summary = "通过 SSH 压缩同步 dist 目录，并显示进度"
+
+[[commands.tokens]]
+text = "rsync"
+desc = "高效同步文件和目录的命令"
+
+[[commands.tokens]]
+text = "-avzP"
+desc = "归档 + 详细输出 + 压缩传输 + 显示进度"
+
+[[commands.tokens]]
+text = "-e"
+desc = "指定远程 shell 命令"
+
+[[commands.tokens]]
+text = "ssh"
+desc = "使用 ssh 作为远程传输通道"
+
+[[commands.tokens]]
+text = "dist/"
+desc = "本地源目录"
+
+[[commands.tokens]]
+text = "admin@example.com:/srv/www/"
+desc = "远程目标路径"
+
+[commands.dictation]
+prompt = "通过 SSH 压缩同步 dist 目录到远程站点，并显示进度"
+answers = [
+    "rsync -avzP -e ssh dist/ admin@example.com:/srv/www/",
+]
+
+[[commands]]
+id = "journalctl-follow-unit"
+command = "journalctl -fu docker"
+summary = "实时跟踪 docker 服务日志"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "查看 systemd 日志的命令"
+
+[[commands.tokens]]
+text = "-fu"
+desc = "-f 持续跟踪 + -u 按 unit 过滤"
+
+[[commands.tokens]]
+text = "docker"
+desc = "要查看日志的服务名称"
+
+[commands.dictation]
+prompt = "实时跟踪 docker 服务日志"
+answers = [
+    "journalctl -fu docker",
+    "journalctl -f -u docker",
+]
+
+[[commands]]
+id = "find-large-files"
+command = "find /var/log -type f -size +100M"
+summary = "查找 /var/log 下大于 100MB 的文件"
+
+[[commands.tokens]]
+text = "find"
+desc = "在目录树中查找文件的命令"
+
+[[commands.tokens]]
+text = "/var/log"
+desc = "查找起点目录"
+
+[[commands.tokens]]
+text = "-type"
+desc = "按文件类型筛选"
+
+[[commands.tokens]]
+text = "f"
+desc = "只匹配普通文件"
+
+[[commands.tokens]]
+text = "-size"
+desc = "按文件大小筛选"
+
+[[commands.tokens]]
+text = "+100M"
+desc = "只匹配大于 100MB 的文件"
+
+[commands.dictation]
+prompt = "查找 /var/log 目录下所有大于 100MB 的文件"
+answers = [
+    "find /var/log -type f -size +100M",
+]
+
+[[commands]]
+id = "ncdu-root-filesystem"
+command = "ncdu /"
+summary = "交互式分析根文件系统空间占用"
+
+[[commands.tokens]]
+text = "ncdu"
+desc = "交互式磁盘占用分析工具（通常需要额外安装）"
+
+[[commands.tokens]]
+text = "/"
+desc = "要分析的目录"
+
+[commands.dictation]
+prompt = "使用 ncdu 交互式分析根目录的磁盘占用情况"
+answers = [
+    "ncdu /",
+]
+
+[[commands]]
+id = "btop-basic"
+command = "btop"
+summary = "启动 btop 交互式系统监控界面"
+
+[[commands.tokens]]
+text = "btop"
+desc = "现代化系统监控工具（通常需要额外安装）"
+
+[commands.dictation]
+prompt = "启动 btop 交互式系统监控界面"
+answers = [
+    "btop",
+]
