@@ -13,11 +13,11 @@ text = "ip"
 desc = "现代网络配置与查看命令"
 
 [[commands.tokens]]
-text = "route"
+text = " route"
 desc = "路由相关子命令"
 
 [[commands.tokens]]
-text = "show"
+text = " show"
 desc = "显示当前路由配置"
 
 [commands.dictation]
@@ -37,7 +37,7 @@ text = "ss"
 desc = "查看套接字和网络连接状态的命令"
 
 [[commands.tokens]]
-text = "-tunlp"
+text = " -tunlp"
 desc = "显示 TCP/UDP、数字地址、监听状态和进程信息"
 
 [commands.dictation]
@@ -56,11 +56,11 @@ text = "lsof"
 desc = "列出打开文件和网络连接的命令"
 
 [[commands.tokens]]
-text = "-i"
+text = " -i"
 desc = "按网络连接过滤"
 
 [[commands.tokens]]
-text = ":80"
+text = " :80"
 desc = "目标端口号 80"
 
 [commands.dictation]
@@ -79,15 +79,15 @@ text = "nc"
 desc = "netcat，可用于测试端口和收发数据"
 
 [[commands.tokens]]
-text = "-vz"
+text = " -vz"
 desc = "只做连接探测并显示详细结果"
 
 [[commands.tokens]]
-text = "127.0.0.1"
+text = " 127.0.0.1"
 desc = "目标主机地址"
 
 [[commands.tokens]]
-text = "5432"
+text = " 5432"
 desc = "目标端口号"
 
 [commands.dictation]
@@ -106,7 +106,7 @@ text = "traceroute"
 desc = "跟踪网络路径跳数的命令"
 
 [[commands.tokens]]
-text = "example.com"
+text = " example.com"
 desc = "目标域名"
 
 [commands.dictation]
@@ -125,7 +125,7 @@ text = "host"
 desc = "查询 DNS 的命令行工具"
 
 [[commands.tokens]]
-text = "example.com"
+text = " example.com"
 desc = "要查询的域名"
 
 [commands.dictation]
@@ -144,23 +144,23 @@ text = "curl"
 desc = "发送 HTTP 请求的命令行工具"
 
 [[commands.tokens]]
-text = "-s"
+text = " -s"
 desc = "静默模式，不显示进度条"
 
 [[commands.tokens]]
-text = "-o"
+text = " -o"
 desc = "把响应体输出到指定文件"
 
 [[commands.tokens]]
-text = "/dev/null"
+text = " /dev/null"
 desc = "丢弃响应体内容"
 
 [[commands.tokens]]
-text = "-w"
+text = " -w"
 desc = "自定义输出格式"
 
 [[commands.tokens]]
-text = "%{http_code}\n"
+text = " %{http_code}n "
 desc = "只输出 HTTP 状态码和换行"
 
 [[commands.tokens]]
@@ -184,31 +184,31 @@ text = "curl"
 desc = "发送 HTTP 请求的命令行工具"
 
 [[commands.tokens]]
-text = "-X"
+text = " -X"
 desc = "指定 HTTP 方法"
 
 [[commands.tokens]]
-text = "POST"
+text = " POST"
 desc = "使用 POST 方法"
 
 [[commands.tokens]]
-text = "-H"
+text = " -H"
 desc = "添加请求头"
 
 [[commands.tokens]]
-text = "Content-Type: application/json"
+text = " 'Content-Type: application/json"
 desc = "告诉服务端请求体是 JSON"
 
 [[commands.tokens]]
-text = "-d"
+text = "' -d"
 desc = "发送请求体数据"
 
 [[commands.tokens]]
-text = '{"name":"alice"}'
+text = " '{\"name\":\"alice\"}"
 desc = "要发送的 JSON 数据"
 
 [[commands.tokens]]
-text = "https://api.example.com/users"
+text = "' https://api.example.com/users"
 desc = "目标 API 地址"
 
 [commands.dictation]
@@ -228,11 +228,11 @@ text = "curl"
 desc = "发送 HTTP 请求的命令行工具"
 
 [[commands.tokens]]
-text = "-L"
+text = " -L"
 desc = "自动跟随 3xx 重定向"
 
 [[commands.tokens]]
-text = "https://example.com"
+text = " https://example.com"
 desc = "目标 URL"
 
 [commands.dictation]
@@ -252,11 +252,11 @@ text = "wget"
 desc = "下载文件的命令行工具"
 
 [[commands.tokens]]
-text = "-c"
+text = " -c"
 desc = "支持断点续传下载"
 
 [[commands.tokens]]
-text = "https://example.com/big.iso"
+text = " https://example.com/big.iso"
 desc = "要下载的大文件地址"
 
 [commands.dictation]
@@ -276,15 +276,15 @@ text = "ssh"
 desc = "远程登录主机的命令"
 
 [[commands.tokens]]
-text = "-L"
+text = " -L"
 desc = "建立本地端口转发"
 
 [[commands.tokens]]
-text = "5432:127.0.0.1:5432"
+text = " 5432:127.0.0.1:5432"
 desc = "本地端口:远程目标地址:远程目标端口"
 
 [[commands.tokens]]
-text = "admin@example.com"
+text = " admin@example.com"
 desc = "SSH 登录目标"
 
 [commands.dictation]
@@ -303,15 +303,15 @@ text = "ssh"
 desc = "远程登录主机的命令"
 
 [[commands.tokens]]
-text = "-R"
+text = " -R"
 desc = "建立远程端口转发"
 
 [[commands.tokens]]
-text = "8080:127.0.0.1:3000"
+text = " 8080:127.0.0.1:3000"
 desc = "远程端口:本地目标地址:本地目标端口"
 
 [[commands.tokens]]
-text = "admin@example.com"
+text = " admin@example.com"
 desc = "SSH 登录目标"
 
 [commands.dictation]
@@ -330,55 +330,55 @@ text = "echo"
 desc = "向 openssl 提供一个空输入"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把空输入传给 openssl s_client"
 
 [[commands.tokens]]
-text = "openssl"
+text = " openssl"
 desc = "OpenSSL 工具集命令"
 
 [[commands.tokens]]
-text = "s_client"
+text = " s_client"
 desc = "建立 TLS 连接并输出证书信息"
 
 [[commands.tokens]]
-text = "-servername"
+text = " -servername"
 desc = "指定 SNI 主机名"
 
 [[commands.tokens]]
-text = "example.com"
+text = " example.com"
 desc = "目标域名"
 
 [[commands.tokens]]
-text = "-connect"
+text = " -connect"
 desc = "指定 TLS 连接目标"
 
 [[commands.tokens]]
-text = "example.com:443"
+text = " example.com:443"
 desc = "目标主机和端口"
 
 [[commands.tokens]]
-text = "2>/dev/null"
+text = " 2>/dev/null"
 desc = "丢弃 TLS 握手过程中的标准错误输出"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把证书输出传给 openssl x509"
 
 [[commands.tokens]]
-text = "openssl"
+text = " openssl"
 desc = "OpenSSL 工具集命令"
 
 [[commands.tokens]]
-text = "x509"
+text = " x509"
 desc = "解析 X.509 证书信息"
 
 [[commands.tokens]]
-text = "-noout"
+text = " -noout"
 desc = "不输出证书正文"
 
 [[commands.tokens]]
-text = "-dates"
+text = " -dates"
 desc = "只输出证书时间字段"
 
 [commands.dictation]

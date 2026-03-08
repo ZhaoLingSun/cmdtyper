@@ -11,13 +11,13 @@ summary = "通过表单方式上传 photo.jpg 到接口"
 text = "curl"
 desc = "发送 HTTP 请求的命令行工具"
 [[commands.tokens]]
-text = "-F"
+text = " -F"
 desc = "以 multipart/form-data 格式提交表单数据"
 [[commands.tokens]]
-text = "'file=@photo.jpg'"
+text = " 'file=@photo.jpg'"
 desc = "表单字段名=文件路径，@ 表示读取文件内容"
 [[commands.tokens]]
-text = "https://api.example.com/upload"
+text = " https://api.example.com/upload"
 desc = "上传目标 URL"
 [commands.dictation]
 prompt = "通过表单方式把 photo.jpg 上传到 https://api.example.com/upload"
@@ -31,13 +31,13 @@ summary = "使用 Basic Auth 认证请求接口"
 text = "curl"
 desc = "发送 HTTP 请求的命令行工具"
 [[commands.tokens]]
-text = "-u"
+text = " -u"
 desc = "提供用户名和密码进行认证"
 [[commands.tokens]]
-text = "admin:secret"
+text = " admin:secret"
 desc = "用户名:密码"
 [[commands.tokens]]
-text = "https://api.example.com/status"
+text = " https://api.example.com/status"
 desc = "目标 API 地址"
 [commands.dictation]
 prompt = "使用 Basic Auth 用 admin:secret 认证请求 API"
@@ -51,13 +51,13 @@ summary = "把服务端返回的 cookie 保存到 cookies.txt"
 text = "curl"
 desc = "发送 HTTP 请求的命令行工具"
 [[commands.tokens]]
-text = "-c"
+text = " -c"
 desc = "把收到的 cookie 写入指定文件"
 [[commands.tokens]]
-text = "cookies.txt"
+text = " cookies.txt"
 desc = "保存 cookie 的文件"
 [[commands.tokens]]
-text = "https://example.com/login"
+text = " https://example.com/login"
 desc = "登录页面 URL"
 [commands.dictation]
 prompt = "请求登录页面并把 cookie 保存到 cookies.txt"
@@ -71,13 +71,13 @@ summary = "使用保存的 cookie 访问需要认证的页面"
 text = "curl"
 desc = "发送 HTTP 请求的命令行工具"
 [[commands.tokens]]
-text = "-b"
+text = " -b"
 desc = "从指定文件读取 cookie 并发送"
 [[commands.tokens]]
-text = "cookies.txt"
+text = " cookies.txt"
 desc = "包含 cookie 的文件"
 [[commands.tokens]]
-text = "https://example.com/dashboard"
+text = " https://example.com/dashboard"
 desc = "需要认证的目标页面"
 [commands.dictation]
 prompt = "带上 cookies.txt 中的 cookie 访问 dashboard 页面"
@@ -91,16 +91,16 @@ summary = "静默下载 release 包并保存为 app.tar.gz，失败时报错"
 text = "curl"
 desc = "发送 HTTP 请求的命令行工具"
 [[commands.tokens]]
-text = "-sSfL"
+text = " -sSfL"
 desc = "静默+不显示错误+失败报错+跟随重定向"
 [[commands.tokens]]
-text = "-o"
+text = " -o"
 desc = "指定输出文件名"
 [[commands.tokens]]
-text = "app.tar.gz"
+text = " app.tar.gz"
 desc = "保存后的文件名"
 [[commands.tokens]]
-text = "https://github.com/user/repo/releases/download/v1.0/app.tar.gz"
+text = " https://github.com/user/repo/releases/download/v1.0/app.tar.gz"
 desc = "下载地址"
 [commands.dictation]
 prompt = "静默下载 GitHub release 包并保存为 app.tar.gz"
@@ -114,13 +114,13 @@ summary = "安装 requirements.txt 中列出的所有 Python 依赖"
 text = "pip"
 desc = "Python 包管理工具"
 [[commands.tokens]]
-text = "install"
+text = " install"
 desc = "安装软件包"
 [[commands.tokens]]
-text = "-r"
+text = " -r"
 desc = "从文件读取依赖列表"
 [[commands.tokens]]
-text = "requirements.txt"
+text = " requirements.txt"
 desc = "列出 Python 依赖的文件"
 [commands.dictation]
 prompt = "安装 requirements.txt 中的所有 Python 依赖"
@@ -134,13 +134,13 @@ summary = "在当前目录创建名为 .venv 的 Python 虚拟环境"
 text = "python3"
 desc = "Python 3 解释器"
 [[commands.tokens]]
-text = "-m"
+text = " -m"
 desc = "运行指定模块"
 [[commands.tokens]]
-text = "venv"
+text = " venv"
 desc = "Python 虚拟环境模块"
 [[commands.tokens]]
-text = ".venv"
+text = " .venv"
 desc = "虚拟环境目录名"
 [commands.dictation]
 prompt = "创建一个名为 .venv 的 Python 虚拟环境"
@@ -154,7 +154,7 @@ summary = "激活 Python 虚拟环境"
 text = "source"
 desc = "在当前 shell 中执行脚本"
 [[commands.tokens]]
-text = ".venv/bin/activate"
+text = " .venv/bin/activate"
 desc = "虚拟环境的激活脚本"
 [commands.dictation]
 prompt = "激活当前目录下的 Python 虚拟环境"
@@ -168,7 +168,7 @@ summary = "安装 package.json 中列出的所有 Node.js 依赖"
 text = "npm"
 desc = "Node.js 包管理工具"
 [[commands.tokens]]
-text = "install"
+text = " install"
 desc = "安装项目依赖"
 [commands.dictation]
 prompt = "安装 package.json 中的所有 Node.js 依赖"
@@ -182,10 +182,10 @@ summary = "运行 package.json 中定义的 dev 脚本"
 text = "npm"
 desc = "Node.js 包管理工具"
 [[commands.tokens]]
-text = "run"
+text = " run"
 desc = "执行自定义脚本"
 [[commands.tokens]]
-text = "dev"
+text = " dev"
 desc = "脚本名称"
 [commands.dictation]
 prompt = "运行 package.json 中的 dev 脚本"
@@ -199,10 +199,10 @@ summary = "以 release 模式编译 Rust 项目"
 text = "cargo"
 desc = "Rust 的构建和包管理工具"
 [[commands.tokens]]
-text = "build"
+text = " build"
 desc = "编译项目"
 [[commands.tokens]]
-text = "--release"
+text = " --release"
 desc = "优化编译，用于生产发布"
 [commands.dictation]
 prompt = "以 release 模式编译 Rust 项目"
@@ -216,16 +216,16 @@ summary = "清理构建产物后用全部 CPU 核心重新编译"
 text = "make"
 desc = "执行 Makefile 构建任务"
 [[commands.tokens]]
-text = "clean"
+text = " clean"
 desc = "清理之前的构建产物"
 [[commands.tokens]]
-text = "&&"
+text = " &&"
 desc = "前一步成功后才执行后一步"
 [[commands.tokens]]
-text = "make"
+text = " make"
 desc = "再次执行构建"
 [[commands.tokens]]
-text = "-j$(nproc)"
+text = " -j$(nproc)"
 desc = "用所有 CPU 核心并行编译"
 [commands.dictation]
 prompt = "清理构建产物后用全部 CPU 核心重新编译"
@@ -239,13 +239,13 @@ summary = "跟踪 PID 12345 的系统调用（包含子进程）"
 text = "strace"
 desc = "跟踪进程系统调用的调试工具"
 [[commands.tokens]]
-text = "-p"
+text = " -p"
 desc = "附加到已运行的进程"
 [[commands.tokens]]
-text = "12345"
+text = " 12345"
 desc = "目标进程 PID"
 [[commands.tokens]]
-text = "-f"
+text = " -f"
 desc = "同时跟踪子进程"
 [commands.dictation]
 prompt = "跟踪 PID 12345 及其子进程的系统调用"

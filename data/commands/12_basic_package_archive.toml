@@ -13,11 +13,11 @@ text = "sudo"
 desc = "以管理员权限执行后续命令"
 
 [[commands.tokens]]
-text = "apt"
+text = " apt"
 desc = "Debian/Ubuntu 的包管理命令"
 
 [[commands.tokens]]
-text = "update"
+text = " update"
 desc = "更新可用软件包列表"
 
 [commands.dictation]
@@ -36,19 +36,19 @@ text = "sudo"
 desc = "以管理员权限执行后续命令"
 
 [[commands.tokens]]
-text = "apt"
+text = " apt"
 desc = "Debian/Ubuntu 的包管理命令"
 
 [[commands.tokens]]
-text = "install"
+text = " install"
 desc = "安装软件包"
 
 [[commands.tokens]]
-text = "-y"
+text = " -y"
 desc = "自动回答 yes，跳过确认提示"
 
 [[commands.tokens]]
-text = "vim"
+text = " vim"
 desc = "要安装的文本编辑器软件包"
 
 [commands.dictation]
@@ -68,15 +68,15 @@ text = "sudo"
 desc = "以管理员权限执行后续命令"
 
 [[commands.tokens]]
-text = "apt"
+text = " apt"
 desc = "Debian/Ubuntu 的包管理命令"
 
 [[commands.tokens]]
-text = "remove"
+text = " remove"
 desc = "卸载软件包但保留配置文件"
 
 [[commands.tokens]]
-text = "nginx"
+text = " nginx"
 desc = "要卸载的软件包"
 
 [commands.dictation]
@@ -96,11 +96,11 @@ text = "apt"
 desc = "Debian/Ubuntu 的包管理命令"
 
 [[commands.tokens]]
-text = "search"
+text = " search"
 desc = "按关键字搜索可用软件包"
 
 [[commands.tokens]]
-text = "docker"
+text = " docker"
 desc = "要搜索的关键字"
 
 [commands.dictation]
@@ -120,19 +120,19 @@ text = "dpkg"
 desc = "底层 Debian 包管理工具"
 
 [[commands.tokens]]
-text = "-l"
+text = " -l"
 desc = "列出所有已安装的软件包"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把列表传给 grep 过滤"
 
 [[commands.tokens]]
-text = "grep"
+text = " grep"
 desc = "按模式过滤文本行的命令"
 
 [[commands.tokens]]
-text = "nginx"
+text = " nginx"
 desc = "要匹配的包名关键字"
 
 [commands.dictation]
@@ -151,11 +151,11 @@ text = "tar"
 desc = "打包和解包归档文件的命令"
 
 [[commands.tokens]]
-text = "tf"
+text = " tf"
 desc = "t 列出归档内容 + f 指定归档文件名"
 
 [[commands.tokens]]
-text = "backup.tar.gz"
+text = " backup.tar.gz"
 desc = "要查看内容的归档压缩包"
 
 [commands.dictation]
@@ -166,7 +166,7 @@ answers = [
 ]
 
 [[commands]]
-id = "tar-extract-gzip"
+id = "tar-extract-gzip-archive"
 command = "tar xzf backup.tar.gz -C /tmp"
 summary = "把 backup.tar.gz 解压到 /tmp 目录"
 
@@ -175,19 +175,19 @@ text = "tar"
 desc = "打包和解包归档文件的命令"
 
 [[commands.tokens]]
-text = "xzf"
+text = " xzf"
 desc = "x 解包 + z 解压 gzip + f 指定归档文件名"
 
 [[commands.tokens]]
-text = "backup.tar.gz"
+text = " backup.tar.gz"
 desc = "要解压的归档压缩包"
 
 [[commands.tokens]]
-text = "-C"
+text = " -C"
 desc = "指定解压目标目录"
 
 [[commands.tokens]]
-text = "/tmp"
+text = " /tmp"
 desc = "解压到 /tmp 目录"
 
 [commands.dictation]
@@ -207,7 +207,7 @@ text = "gzip"
 desc = "使用 gzip 算法压缩文件的命令"
 
 [[commands.tokens]]
-text = "access.log"
+text = " access.log"
 desc = "要压缩的文件"
 
 [commands.dictation]
@@ -226,7 +226,7 @@ text = "gunzip"
 desc = "解压 gzip 文件的命令"
 
 [[commands.tokens]]
-text = "access.log.gz"
+text = " access.log.gz"
 desc = "要解压的 gzip 文件"
 
 [commands.dictation]
@@ -246,15 +246,15 @@ text = "zip"
 desc = "创建 zip 压缩包的命令"
 
 [[commands.tokens]]
-text = "-r"
+text = " -r"
 desc = "递归包含目录中的文件"
 
 [[commands.tokens]]
-text = "project.zip"
+text = " project.zip"
 desc = "输出的 zip 压缩包名"
 
 [[commands.tokens]]
-text = "project"
+text = " project"
 desc = "要压缩的源目录"
 
 [commands.dictation]
@@ -273,15 +273,15 @@ text = "unzip"
 desc = "解压 zip 文件的命令"
 
 [[commands.tokens]]
-text = "project.zip"
+text = " project.zip"
 desc = "要解压的 zip 文件"
 
 [[commands.tokens]]
-text = "-d"
+text = " -d"
 desc = "指定解压目标目录"
 
 [[commands.tokens]]
-text = "/tmp"
+text = " /tmp"
 desc = "解压到 /tmp 目录"
 
 [commands.dictation]
@@ -300,11 +300,11 @@ text = "xz"
 desc = "xz 压缩/解压命令"
 
 [[commands.tokens]]
-text = "-d"
+text = " -d"
 desc = "解压模式"
 
 [[commands.tokens]]
-text = "kernel.tar.xz"
+text = " kernel.tar.xz"
 desc = "要解压的 xz 文件"
 
 [commands.dictation]
@@ -324,11 +324,11 @@ text = "zstd"
 desc = "高性能压缩工具 zstandard（通常需要额外安装）"
 
 [[commands.tokens]]
-text = "-T0"
+text = " -T0"
 desc = "使用系统所有可用 CPU 核心进行压缩"
 
 [[commands.tokens]]
-text = "database.sql"
+text = " database.sql"
 desc = "要压缩的文件"
 
 [commands.dictation]

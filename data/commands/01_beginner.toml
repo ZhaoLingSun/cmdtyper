@@ -43,11 +43,11 @@ text = "ls"
 desc = "列出目录内容的命令"
 
 [[commands.tokens]]
-text = "-la"
+text = " -la"
 desc = "-l 详细列表格式 + -a 显示隐藏文件"
 
 [[commands.tokens]]
-text = "/var/log"
+text = " /var/log"
 desc = "目标目录：常见的系统日志目录"
 
 [commands.dictation]
@@ -77,11 +77,11 @@ text = "ls"
 desc = "列出目录内容的命令"
 
 [[commands.tokens]]
-text = "-lhS"
+text = " -lhS"
 desc = "-l 详细列表 + -h 易读大小 + -S 按文件大小排序"
 
 [[commands.tokens]]
-text = "downloads"
+text = " downloads"
 desc = "目标目录：下载文件存放位置"
 
 [commands.dictation]
@@ -108,11 +108,11 @@ text = "ls"
 desc = "列出目录内容的命令"
 
 [[commands.tokens]]
-text = "-R"
+text = " -R"
 desc = "递归显示子目录中的内容"
 
 [[commands.tokens]]
-text = "src"
+text = " src"
 desc = "目标目录：源代码目录"
 
 [commands.dictation]
@@ -152,7 +152,7 @@ text = "cd"
 desc = "切换当前工作目录的 shell 内建命令"
 
 [[commands.tokens]]
-text = ".."
+text = " .."
 desc = "表示当前目录的父目录"
 
 [commands.dictation]
@@ -173,7 +173,7 @@ text = "cd"
 desc = "切换当前工作目录的 shell 内建命令"
 
 [[commands.tokens]]
-text = "~"
+text = " ~"
 desc = "当前用户家目录的简写"
 
 [commands.dictation]
@@ -195,7 +195,7 @@ text = "cd"
 desc = "切换当前工作目录的 shell 内建命令"
 
 [[commands.tokens]]
-text = "-"
+text = " -"
 desc = "表示上一次所在的工作目录"
 
 [commands.dictation]
@@ -234,11 +234,11 @@ text = "mkdir"
 desc = "创建目录的命令"
 
 [[commands.tokens]]
-text = "-p"
+text = " -p"
 desc = "自动创建缺失的父目录，并在目录已存在时不报错"
 
 [[commands.tokens]]
-text = "project/src"
+text = " project/src"
 desc = "要创建的多级目录路径"
 
 [commands.dictation]
@@ -260,7 +260,7 @@ text = "touch"
 desc = "创建空文件或更新时间戳的命令"
 
 [[commands.tokens]]
-text = "notes.txt"
+text = " notes.txt"
 desc = "目标文件名"
 
 [commands.dictation]
@@ -290,7 +290,7 @@ text = "cat"
 desc = "读取并输出文件内容的命令"
 
 [[commands.tokens]]
-text = "README.md"
+text = " README.md"
 desc = "要查看内容的文件"
 
 [commands.dictation]
@@ -311,7 +311,7 @@ text = "echo"
 desc = "输出文本到终端的命令"
 
 [[commands.tokens]]
-text = "'hello world'"
+text = " 'hello world'"
 desc = "要输出的字符串内容"
 
 [commands.dictation]
@@ -332,11 +332,11 @@ text = "cp"
 desc = "复制文件或目录的命令"
 
 [[commands.tokens]]
-text = "file.txt"
+text = " file.txt"
 desc = "源文件路径"
 
 [[commands.tokens]]
-text = "backup/file.txt"
+text = " backup/file.txt"
 desc = "目标文件路径"
 
 [commands.dictation]
@@ -357,11 +357,11 @@ text = "mv"
 desc = "移动文件或重命名文件的命令"
 
 [[commands.tokens]]
-text = "old.txt"
+text = " old.txt"
 desc = "原文件名"
 
 [[commands.tokens]]
-text = "new.txt"
+text = " new.txt"
 desc = "新的文件名"
 
 [commands.dictation]
@@ -382,7 +382,7 @@ text = "rm"
 desc = "删除文件或目录的命令"
 
 [[commands.tokens]]
-text = "temp.log"
+text = " temp.log"
 desc = "要删除的文件"
 
 [commands.dictation]
@@ -423,15 +423,15 @@ text = "head"
 desc = "查看文件开头内容的命令"
 
 [[commands.tokens]]
-text = "-n"
+text = " -n"
 desc = "指定要显示的行数"
 
 [[commands.tokens]]
-text = "20"
+text = " 20"
 desc = "显示前 20 行"
 
 [[commands.tokens]]
-text = "app.log"
+text = " app.log"
 desc = "要查看的日志文件"
 
 [commands.dictation]
@@ -458,11 +458,11 @@ text = "tail"
 desc = "查看文件末尾内容的命令"
 
 [[commands.tokens]]
-text = "-f"
+text = " -f"
 desc = "持续跟踪文件追加的内容"
 
 [[commands.tokens]]
-text = "app.log"
+text = " app.log"
 desc = "要持续观察的日志文件"
 
 [commands.dictation]
@@ -484,15 +484,15 @@ text = "ln"
 desc = "创建链接文件的命令"
 
 [[commands.tokens]]
-text = "-s"
+text = " -s"
 desc = "创建符号链接而不是硬链接"
 
 [[commands.tokens]]
-text = "/var/log"
+text = " /var/log"
 desc = "符号链接指向的源路径"
 
 [[commands.tokens]]
-text = "logs"
+text = " logs"
 desc = "新建的符号链接名称"
 
 [commands.dictation]

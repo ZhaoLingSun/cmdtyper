@@ -13,15 +13,15 @@ text = "rg"
 desc = "ripgrep，递归搜索文本的高性能工具（通常需要额外安装）"
 
 [[commands.tokens]]
-text = "-n"
+text = " -n"
 desc = "显示匹配结果所在的行号"
 
 [[commands.tokens]]
-text = "TODO"
+text = " TODO"
 desc = "要搜索的关键字"
 
 [[commands.tokens]]
-text = "src"
+text = " src"
 desc = "要搜索的目录"
 
 [commands.dictation]
@@ -41,15 +41,15 @@ text = "rg"
 desc = "ripgrep，递归搜索文本的高性能工具"
 
 [[commands.tokens]]
-text = "-uuu"
+text = " -uuu"
 desc = "关闭常见过滤，包含隐藏文件和被忽略文件"
 
 [[commands.tokens]]
-text = "api_key"
+text = " api_key"
 desc = "要搜索的关键字"
 
 [[commands.tokens]]
-text = "."
+text = " ."
 desc = "从当前目录开始搜索"
 
 [commands.dictation]
@@ -69,19 +69,19 @@ text = "fd"
 desc = "fd，现代化文件查找工具（通常需要额外安装）"
 
 [[commands.tokens]]
-text = "-e"
+text = " -e"
 desc = "按文件扩展名过滤"
 
 [[commands.tokens]]
-text = "rs"
+text = " rs"
 desc = "只匹配 Rust 源码文件"
 
 [[commands.tokens]]
-text = "main"
+text = " main"
 desc = "文件名匹配模式"
 
 [[commands.tokens]]
-text = "src"
+text = " src"
 desc = "搜索目录"
 
 [commands.dictation]
@@ -101,11 +101,11 @@ text = "bat"
 desc = "带语法高亮的 cat 替代工具（通常需要额外安装）"
 
 [[commands.tokens]]
-text = "-n"
+text = " -n"
 desc = "显示行号"
 
 [[commands.tokens]]
-text = "README.md"
+text = " README.md"
 desc = "要查看的文件"
 
 [commands.dictation]
@@ -124,11 +124,11 @@ text = "bat"
 desc = "带语法高亮的 cat 替代工具"
 
 [[commands.tokens]]
-text = "-A"
+text = " -A"
 desc = "显示不可见字符"
 
 [[commands.tokens]]
-text = "/etc/hosts"
+text = " /etc/hosts"
 desc = "要查看的系统 hosts 文件"
 
 [commands.dictation]
@@ -148,11 +148,11 @@ text = "eza"
 desc = "eza，现代化 ls 替代工具（通常需要额外安装）"
 
 [[commands.tokens]]
-text = "-la"
+text = " -la"
 desc = "详细列表并显示隐藏文件"
 
 [[commands.tokens]]
-text = "--icons"
+text = " --icons"
 desc = "显示文件类型图标"
 
 [commands.dictation]
@@ -171,11 +171,11 @@ text = "jq"
 desc = "处理 JSON 数据的命令行工具（通常需要额外安装）"
 
 [[commands.tokens]]
-text = "."
+text = " ."
 desc = "jq 过滤器：原样输出并格式化整个 JSON"
 
 [[commands.tokens]]
-text = "response.json"
+text = " response.json"
 desc = "输入的 JSON 文件"
 
 [commands.dictation]
@@ -195,15 +195,15 @@ text = "jq"
 desc = "处理 JSON 数据的命令行工具"
 
 [[commands.tokens]]
-text = "-r"
+text = " -r"
 desc = "输出原始字符串，不带 JSON 引号"
 
 [[commands.tokens]]
-text = ".name"
+text = " .name"
 desc = "jq 过滤器：读取顶层 name 字段"
 
 [[commands.tokens]]
-text = "package.json"
+text = " package.json"
 desc = "输入的 JSON 文件"
 
 [commands.dictation]
@@ -223,11 +223,11 @@ text = "fzf"
 desc = "交互式模糊搜索工具（通常需要额外安装）"
 
 [[commands.tokens]]
-text = "--preview"
+text = " --preview"
 desc = "为候选项提供预览命令"
 
 [[commands.tokens]]
-text = "bat --color=always --line-range=:200 {}"
+text = " bat --color=always --line-range=:200 {}"
 desc = "使用 bat 彩色预览选中文件前 200 行"
 
 [commands.dictation]
@@ -247,35 +247,35 @@ text = "find"
 desc = "按条件查找文件"
 
 [[commands.tokens]]
-text = "."
+text = " ."
 desc = "从当前目录开始查找"
 
 [[commands.tokens]]
-text = "-name"
+text = " -name"
 desc = "按文件名模式匹配"
 
 [[commands.tokens]]
-text = "*.log"
+text = " *.log"
 desc = "匹配所有 .log 文件"
 
 [[commands.tokens]]
-text = "-print0"
+text = " -print0"
 desc = "用空字符分隔输出结果，避免空格问题"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把查找结果传给 xargs"
 
 [[commands.tokens]]
-text = "xargs"
+text = " xargs"
 desc = "把标准输入转换成命令参数列表"
 
 [[commands.tokens]]
-text = "-0"
+text = " -0"
 desc = "按空字符读取输入项"
 
 [[commands.tokens]]
-text = "rm"
+text = " rm"
 desc = "删除传入的文件"
 
 [commands.dictation]
@@ -295,19 +295,19 @@ text = "grep"
 desc = "按模式搜索文本行的命令"
 
 [[commands.tokens]]
-text = "-C"
+text = " -C"
 desc = "显示匹配行前后指定数量的上下文"
 
 [[commands.tokens]]
-text = "2"
+text = " 2"
 desc = "显示前后各 2 行"
 
 [[commands.tokens]]
-text = "ERROR"
+text = " ERROR"
 desc = "要匹配的错误关键字"
 
 [[commands.tokens]]
-text = "app.log"
+text = " app.log"
 desc = "要搜索的日志文件"
 
 [commands.dictation]
@@ -328,15 +328,15 @@ text = "cut"
 desc = "按分隔符提取字段的命令"
 
 [[commands.tokens]]
-text = "-d:"
+text = " -d:"
 desc = "把字段分隔符指定为冒号"
 
 [[commands.tokens]]
-text = "-f1"
+text = " -f1"
 desc = "只取第 1 个字段"
 
 [[commands.tokens]]
-text = "/etc/passwd"
+text = " /etc/passwd"
 desc = "输入文件"
 
 [commands.dictation]
@@ -356,55 +356,55 @@ text = "cut"
 desc = "按分隔符提取字段的命令"
 
 [[commands.tokens]]
-text = "-d "
+text = " -d "
 desc = "把字段分隔符指定为空格"
 
 [[commands.tokens]]
-text = "-f1"
+text = " -f1"
 desc = "只取第一列 IP 地址"
 
 [[commands.tokens]]
-text = "access.log"
+text = " access.log"
 desc = "输入访问日志文件"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把前一个命令的输出传给下一个命令"
 
 [[commands.tokens]]
-text = "sort"
+text = " sort"
 desc = "对文本行排序"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把排序后的结果继续传递"
 
 [[commands.tokens]]
-text = "uniq"
+text = " uniq"
 desc = "统计相邻重复行"
 
 [[commands.tokens]]
-text = "-c"
+text = " -c"
 desc = "显示每种重复行的出现次数"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "继续把结果传递到后续命令"
 
 [[commands.tokens]]
-text = "sort"
+text = " sort"
 desc = "再次排序统计结果"
 
 [[commands.tokens]]
-text = "-rn"
+text = " -rn"
 desc = "按数值逆序排序"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把排序结果传给 head"
 
 [[commands.tokens]]
-text = "head"
+text = " head"
 desc = "只显示开头几行结果"
 
 [commands.dictation]

@@ -1,7 +1,7 @@
 [meta]
 command = "docker"
 full_name = "Docker Container Platform"
-category = "dev_tools"
+category = "scripting"
 difficulty = "basic"
 importance = "core"
 

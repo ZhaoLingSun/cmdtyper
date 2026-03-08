@@ -11,13 +11,13 @@ summary = "查看 ufw 防火墙当前状态和规则详情"
 text = "sudo"
 desc = "以管理员权限执行"
 [[commands.tokens]]
-text = "ufw"
+text = " ufw"
 desc = "简易防火墙管理工具"
 [[commands.tokens]]
-text = "status"
+text = " status"
 desc = "查看防火墙状态"
 [[commands.tokens]]
-text = "verbose"
+text = " verbose"
 desc = "输出详细信息"
 [commands.dictation]
 prompt = "查看 ufw 防火墙的详细状态和规则"
@@ -31,13 +31,13 @@ summary = "允许 TCP 22 端口的入站连接（SSH）"
 text = "sudo"
 desc = "以管理员权限执行"
 [[commands.tokens]]
-text = "ufw"
+text = " ufw"
 desc = "简易防火墙管理工具"
 [[commands.tokens]]
-text = "allow"
+text = " allow"
 desc = "添加允许规则"
 [[commands.tokens]]
-text = "22/tcp"
+text = " 22/tcp"
 desc = "TCP 协议的 22 端口"
 [commands.dictation]
 prompt = "用 ufw 允许 SSH 端口的入站连接"
@@ -51,13 +51,13 @@ summary = "禁止 3306 端口的入站连接（MySQL）"
 text = "sudo"
 desc = "以管理员权限执行"
 [[commands.tokens]]
-text = "ufw"
+text = " ufw"
 desc = "简易防火墙管理工具"
 [[commands.tokens]]
-text = "deny"
+text = " deny"
 desc = "添加拒绝规则"
 [[commands.tokens]]
-text = "3306"
+text = " 3306"
 desc = "MySQL 默认端口"
 [commands.dictation]
 prompt = "用 ufw 拒绝 3306 端口的入站连接"
@@ -71,10 +71,10 @@ summary = "启用 ufw 防火墙"
 text = "sudo"
 desc = "以管理员权限执行"
 [[commands.tokens]]
-text = "ufw"
+text = " ufw"
 desc = "简易防火墙管理工具"
 [[commands.tokens]]
-text = "enable"
+text = " enable"
 desc = "启用防火墙"
 [commands.dictation]
 prompt = "启用 ufw 防火墙"
@@ -88,19 +88,19 @@ summary = "创建 deploy 用户，自动创建家目录并设置 bash 为登录 
 text = "sudo"
 desc = "以管理员权限执行"
 [[commands.tokens]]
-text = "useradd"
+text = " useradd"
 desc = "创建新用户的命令"
 [[commands.tokens]]
-text = "-m"
+text = " -m"
 desc = "自动创建用户的家目录"
 [[commands.tokens]]
-text = "-s"
+text = " -s"
 desc = "指定登录 shell"
 [[commands.tokens]]
-text = "/bin/bash"
+text = " /bin/bash"
 desc = "使用 bash 作为登录 shell"
 [[commands.tokens]]
-text = "deploy"
+text = " deploy"
 desc = "要创建的用户名"
 [commands.dictation]
 prompt = "创建 deploy 用户，自动创建家目录，使用 bash 作为 shell"
@@ -114,10 +114,10 @@ summary = "设置或修改 deploy 用户的密码"
 text = "sudo"
 desc = "以管理员权限执行"
 [[commands.tokens]]
-text = "passwd"
+text = " passwd"
 desc = "修改用户密码的命令"
 [[commands.tokens]]
-text = "deploy"
+text = " deploy"
 desc = "要修改密码的用户名"
 [commands.dictation]
 prompt = "设置或修改 deploy 用户的密码"
@@ -131,16 +131,16 @@ summary = "把 deploy 用户添加到 docker 组"
 text = "sudo"
 desc = "以管理员权限执行"
 [[commands.tokens]]
-text = "usermod"
+text = " usermod"
 desc = "修改用户信息的命令"
 [[commands.tokens]]
-text = "-aG"
+text = " -aG"
 desc = "-a 追加 + -G 指定附加组"
 [[commands.tokens]]
-text = "docker"
+text = " docker"
 desc = "要加入的用户组"
 [[commands.tokens]]
-text = "deploy"
+text = " deploy"
 desc = "要修改的用户名"
 [commands.dictation]
 prompt = "把 deploy 用户添加到 docker 用户组"
@@ -154,13 +154,13 @@ summary = "删除 olduser 用户并移除其家目录"
 text = "sudo"
 desc = "以管理员权限执行"
 [[commands.tokens]]
-text = "userdel"
+text = " userdel"
 desc = "删除用户的命令"
 [[commands.tokens]]
-text = "-r"
+text = " -r"
 desc = "同时删除用户的家目录和邮件"
 [[commands.tokens]]
-text = "olduser"
+text = " olduser"
 desc = "要删除的用户名"
 [commands.dictation]
 prompt = "删除 olduser 用户并移除其家目录"
@@ -174,10 +174,10 @@ summary = "切换到 deploy 用户并加载完整登录环境"
 text = "su"
 desc = "切换用户身份的命令"
 [[commands.tokens]]
-text = "-"
+text = " -"
 desc = "加载目标用户的完整登录环境"
 [[commands.tokens]]
-text = "deploy"
+text = " deploy"
 desc = "要切换到的用户名"
 [commands.dictation]
 prompt = "切换到 deploy 用户并加载完整登录环境"
@@ -191,7 +191,7 @@ summary = "用 sudo 重新执行上一条命令"
 text = "sudo"
 desc = "以管理员权限执行"
 [[commands.tokens]]
-text = "!!"
+text = " !!"
 desc = "引用上一条执行的命令"
 [commands.dictation]
 prompt = "用 sudo 重新执行上一条命令"
@@ -205,7 +205,7 @@ summary = "安全地编辑 sudoers 配置文件"
 text = "sudo"
 desc = "以管理员权限执行"
 [[commands.tokens]]
-text = "visudo"
+text = " visudo"
 desc = "编辑 sudoers 配置的安全命令（会做语法检查）"
 [commands.dictation]
 prompt = "安全地编辑 sudoers 配置文件"
@@ -219,7 +219,7 @@ summary = "查看最近 10 条用户登录记录"
 text = "last"
 desc = "显示用户登录历史的命令"
 [[commands.tokens]]
-text = "-10"
+text = " -10"
 desc = "只显示最近 10 条记录"
 [commands.dictation]
 prompt = "查看最近 10 条用户登录记录"

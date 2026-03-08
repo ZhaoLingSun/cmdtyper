@@ -18,23 +18,23 @@ text = "tail"
 desc = "查看文件末尾内容，并可持续跟踪追加内容"
 
 [[commands.tokens]]
-text = "-f"
+text = " -f"
 desc = "持续跟踪文件新增内容"
 
 [[commands.tokens]]
-text = "/var/log/nginx/access.log"
+text = " /var/log/nginx/access.log"
 desc = "nginx 访问日志文件"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把 tail 的输出传给 grep 继续筛选"
 
 [[commands.tokens]]
-text = "grep"
+text = " grep"
 desc = "按模式过滤文本行的命令"
 
 [[commands.tokens]]
-text = "500"
+text = " 500"
 desc = "要匹配的 HTTP 状态码"
 
 [commands.dictation]
@@ -60,19 +60,19 @@ text = "journalctl"
 desc = "查看 systemd 日志的命令"
 
 [[commands.tokens]]
-text = "-u"
+text = " -u"
 desc = "按 systemd unit 名称过滤日志"
 
 [[commands.tokens]]
-text = "nginx"
+text = " nginx"
 desc = "要查看日志的服务名称"
 
 [[commands.tokens]]
-text = "-n"
+text = " -n"
 desc = "指定要显示的最近日志条数"
 
 [[commands.tokens]]
-text = "100"
+text = " 100"
 desc = "显示最近 100 条日志"
 
 [commands.dictation]
@@ -97,31 +97,31 @@ text = "journalctl"
 desc = "查看 systemd 日志的命令"
 
 [[commands.tokens]]
-text = "-u"
+text = " -u"
 desc = "按 systemd unit 名称过滤日志"
 
 [[commands.tokens]]
-text = "nginx"
+text = " nginx"
 desc = "要查看日志的服务名称"
 
 [[commands.tokens]]
-text = "--since"
+text = " --since"
 desc = "限定日志起始时间"
 
 [[commands.tokens]]
-text = "today"
+text = " today"
 desc = "从今天开始筛选日志"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把日志输出继续传给 grep 过滤"
 
 [[commands.tokens]]
-text = "grep"
+text = " grep"
 desc = "按模式过滤文本行的命令"
 
 [[commands.tokens]]
-text = "ERROR"
+text = " ERROR"
 desc = "要筛选的错误关键字"
 
 [commands.dictation]
@@ -147,43 +147,43 @@ text = "find"
 desc = "在目录树中按条件查找文件的命令"
 
 [[commands.tokens]]
-text = "/var/log"
+text = " /var/log"
 desc = "查找起点：系统日志目录"
 
 [[commands.tokens]]
-text = "-type"
+text = " -type"
 desc = "按文件类型过滤结果"
 
 [[commands.tokens]]
-text = "f"
+text = " f"
 desc = "只匹配普通文件"
 
 [[commands.tokens]]
-text = "-name"
+text = " -name"
 desc = "按文件名模式匹配"
 
 [[commands.tokens]]
-text = "'*.log'"
+text = " '*.log'"
 desc = "只匹配以 .log 结尾的日志文件"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把 find 找到的文件列表传给 xargs"
 
 [[commands.tokens]]
-text = "xargs"
+text = " xargs"
 desc = "把标准输入转换为命令参数列表"
 
 [[commands.tokens]]
-text = "grep"
+text = " grep"
 desc = "在传入的文件中查找关键字"
 
 [[commands.tokens]]
-text = "-H"
+text = " -H"
 desc = "输出匹配结果时强制显示文件名"
 
 [[commands.tokens]]
-text = "ERROR"
+text = " ERROR"
 desc = "要查找的错误关键字"
 
 [commands.dictation]
@@ -204,15 +204,15 @@ text = "tar"
 desc = "创建、解包和查看归档文件的命令"
 
 [[commands.tokens]]
-text = "czf"
+text = " czf"
 desc = "c 创建归档 + z 使用 gzip 压缩 + f 指定输出文件名"
 
 [[commands.tokens]]
-text = "etc-backup.tar.gz"
+text = " etc-backup.tar.gz"
 desc = "生成的配置备份压缩包"
 
 [[commands.tokens]]
-text = "/etc"
+text = " /etc"
 desc = "要备份的系统配置目录"
 
 [commands.dictation]
@@ -243,19 +243,19 @@ text = "rsync"
 desc = "高效同步文件和目录的命令"
 
 [[commands.tokens]]
-text = "-av"
+text = " -av"
 desc = "-a 归档模式保留属性 + -v 输出详细过程"
 
 [[commands.tokens]]
-text = "--delete"
+text = " --delete"
 desc = "删除目标目录中源目录已不存在的文件"
 
 [[commands.tokens]]
-text = "/srv/www/"
+text = " /srv/www/"
 desc = "源网站目录"
 
 [[commands.tokens]]
-text = "/backup/www/"
+text = " /backup/www/"
 desc = "目标备份目录"
 
 [commands.dictation]
@@ -280,19 +280,19 @@ text = "ps"
 desc = "查看进程状态的命令"
 
 [[commands.tokens]]
-text = "aux"
+text = " aux"
 desc = "a 显示所有终端进程 + u 用户格式 + x 包含无终端进程"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把进程列表传给 grep 继续过滤"
 
 [[commands.tokens]]
-text = "grep"
+text = " grep"
 desc = "按模式过滤文本行的命令"
 
 [[commands.tokens]]
-text = "'[n]ginx'"
+text = " '[n]ginx'"
 desc = "利用字符类避免匹配到当前 grep 命令本身"
 
 [commands.dictation]
@@ -322,23 +322,23 @@ text = "du"
 desc = "统计文件和目录占用空间的命令"
 
 [[commands.tokens]]
-text = "-sh"
+text = " -sh"
 desc = "-s 只显示汇总结果 + -h 以易读单位显示大小"
 
 [[commands.tokens]]
-text = "/var/log/*"
+text = " /var/log/*"
 desc = "统计 /var/log 下每个子项的大小"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把大小统计结果传给 sort 排序"
 
 [[commands.tokens]]
-text = "sort"
+text = " sort"
 desc = "对文本行进行排序"
 
 [[commands.tokens]]
-text = "-h"
+text = " -h"
 desc = "按易读的大小单位进行排序"
 
 [commands.dictation]
@@ -366,11 +366,11 @@ text = "curl"
 desc = "发起 HTTP 等网络请求的命令"
 
 [[commands.tokens]]
-text = "-I"
+text = " -I"
 desc = "只获取响应头，不下载响应体"
 
 [[commands.tokens]]
-text = "https://example.com"
+text = " https://example.com"
 desc = "要访问的目标 URL"
 
 [commands.dictation]
@@ -391,11 +391,11 @@ text = "curl"
 desc = "发起 HTTP 等网络请求的命令"
 
 [[commands.tokens]]
-text = "-fsSL"
+text = " -fsSL"
 desc = "-f 失败时返回错误 + -s 静默模式 + -S 显示错误 + -L 跟随重定向"
 
 [[commands.tokens]]
-text = "https://example.com/health"
+text = " https://example.com/health"
 desc = "健康检查接口地址"
 
 [commands.dictation]
@@ -427,11 +427,11 @@ text = "systemctl"
 desc = "管理 systemd 服务和单元的命令"
 
 [[commands.tokens]]
-text = "status"
+text = " status"
 desc = "查看指定服务或单元的状态"
 
 [[commands.tokens]]
-text = "nginx"
+text = " nginx"
 desc = "要查看状态的服务名称"
 
 [commands.dictation]
@@ -452,11 +452,11 @@ text = "systemctl"
 desc = "管理 systemd 服务和单元的命令"
 
 [[commands.tokens]]
-text = "restart"
+text = " restart"
 desc = "停止后重新启动指定服务"
 
 [[commands.tokens]]
-text = "nginx"
+text = " nginx"
 desc = "要重启的服务名称"
 
 [commands.dictation]
@@ -482,11 +482,11 @@ text = "journalctl"
 desc = "查看 systemd 日志的命令"
 
 [[commands.tokens]]
-text = "-xeu"
+text = " -xeu"
 desc = "-x 添加说明文本 + -e 跳到日志末尾附近 + -u 按 unit 过滤"
 
 [[commands.tokens]]
-text = "sshd"
+text = " sshd"
 desc = "要查看日志的 ssh 服务名称"
 
 [commands.dictation]

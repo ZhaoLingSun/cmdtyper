@@ -20,11 +20,11 @@ text = "awk"
 desc = "按字段处理文本的脚本式命令"
 
 [[commands.tokens]]
-text = "'{print $1}'"
+text = " '{print $1}'"
 desc = "awk 程序：打印当前行的第 1 个字段"
 
 [[commands.tokens]]
-text = "access.log"
+text = " access.log"
 desc = "要处理的输入文件"
 
 [commands.dictation]
@@ -54,15 +54,15 @@ text = "awk"
 desc = "按字段处理文本的脚本式命令"
 
 [[commands.tokens]]
-text = "-F:"
+text = " -F:"
 desc = "把字段分隔符设置为冒号"
 
 [[commands.tokens]]
-text = "'{print $1}'"
+text = " '{print $1}'"
 desc = "awk 程序：打印当前行的第 1 个字段"
 
 [[commands.tokens]]
-text = "/etc/passwd"
+text = " /etc/passwd"
 desc = "系统用户信息文件"
 
 [commands.dictation]
@@ -83,11 +83,11 @@ text = "awk"
 desc = "按字段处理文本的脚本式命令"
 
 [[commands.tokens]]
-text = "'NR==1 {print $0}'"
+text = " 'NR==1 {print $0}'"
 desc = "awk 程序：当行号等于 1 时打印整行"
 
 [[commands.tokens]]
-text = "data.csv"
+text = " data.csv"
 desc = "要处理的输入文件"
 
 [commands.dictation]
@@ -113,11 +113,11 @@ text = "sed"
 desc = "按规则流式编辑文本的命令"
 
 [[commands.tokens]]
-text = "'s/foo/bar/'"
+text = " 's/foo/bar/'"
 desc = "替换表达式：把每行首次出现的 foo 替换为 bar"
 
 [[commands.tokens]]
-text = "app.conf"
+text = " app.conf"
 desc = "要处理的配置文件"
 
 [commands.dictation]
@@ -138,15 +138,15 @@ text = "sed"
 desc = "按规则流式编辑文本的命令"
 
 [[commands.tokens]]
-text = "-i"
+text = " -i"
 desc = "直接修改原文件，而不是只输出结果"
 
 [[commands.tokens]]
-text = "'s/localhost/127.0.0.1/'"
+text = " 's/localhost/127.0.0.1/'"
 desc = "替换表达式：把 localhost 替换为 127.0.0.1"
 
 [[commands.tokens]]
-text = ".env"
+text = " .env"
 desc = "要原地修改的环境变量文件"
 
 [commands.dictation]
@@ -172,15 +172,15 @@ text = "sed"
 desc = "按规则流式编辑文本的命令"
 
 [[commands.tokens]]
-text = "-n"
+text = " -n"
 desc = "默认不输出，只有显式匹配的内容才打印"
 
 [[commands.tokens]]
-text = "'1,5p'"
+text = " '1,5p'"
 desc = "打印第 1 行到第 5 行"
 
 [[commands.tokens]]
-text = "server.log"
+text = " server.log"
 desc = "要查看的日志文件"
 
 [commands.dictation]
@@ -207,27 +207,27 @@ text = "cat"
 desc = "输出文件内容到标准输出"
 
 [[commands.tokens]]
-text = "ids.txt"
+text = " ids.txt"
 desc = "提供参数列表的输入文件"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把前一个命令的输出传给后一个命令"
 
 [[commands.tokens]]
-text = "xargs"
+text = " xargs"
 desc = "把标准输入转换为命令参数列表"
 
 [[commands.tokens]]
-text = "-n"
+text = " -n"
 desc = "限制每次命令调用使用的参数个数"
 
 [[commands.tokens]]
-text = "1"
+text = " 1"
 desc = "每次只传递 1 个参数"
 
 [[commands.tokens]]
-text = "echo"
+text = " echo"
 desc = "接收 xargs 传入的参数并输出"
 
 [commands.dictation]
@@ -254,15 +254,15 @@ text = "sort"
 desc = "按字典序对文本行排序"
 
 [[commands.tokens]]
-text = "users.txt"
+text = " users.txt"
 desc = "要排序的输入文件"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把前一个命令的输出传给后一个命令"
 
 [[commands.tokens]]
-text = "uniq"
+text = " uniq"
 desc = "去除相邻重复行"
 
 [commands.dictation]
@@ -289,19 +289,19 @@ text = "sort"
 desc = "按字典序对文本行排序"
 
 [[commands.tokens]]
-text = "access.log"
+text = " access.log"
 desc = "要排序的日志文件"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把前一个命令的输出传给后一个命令"
 
 [[commands.tokens]]
-text = "uniq"
+text = " uniq"
 desc = "去除相邻重复行或统计重复次数"
 
 [[commands.tokens]]
-text = "-c"
+text = " -c"
 desc = "在每行前显示重复次数"
 
 [commands.dictation]
@@ -328,43 +328,43 @@ text = "grep"
 desc = "按模式搜索文本行的命令"
 
 [[commands.tokens]]
-text = "ERROR"
+text = " ERROR"
 desc = "要筛出的关键字"
 
 [[commands.tokens]]
-text = "app.log"
+text = " app.log"
 desc = "要分析的日志文件"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把前一个命令的输出传给后一个命令"
 
 [[commands.tokens]]
-text = "sort"
+text = " sort"
 desc = "先把相同内容排到一起，方便后续统计"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "继续把排序结果传给 uniq"
 
 [[commands.tokens]]
-text = "uniq"
+text = " uniq"
 desc = "合并相邻重复行或统计重复次数"
 
 [[commands.tokens]]
-text = "-c"
+text = " -c"
 desc = "显示每种重复行的数量"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把计数结果继续传给下一次排序"
 
 [[commands.tokens]]
-text = "sort"
+text = " sort"
 desc = "对计数结果再次排序"
 
 [[commands.tokens]]
-text = "-rn"
+text = " -rn"
 desc = "-r 倒序排列 + -n 按数值排序"
 
 [commands.dictation]
@@ -385,11 +385,11 @@ text = "wc"
 desc = "统计行数、单词数和字节数的命令"
 
 [[commands.tokens]]
-text = "-l"
+text = " -l"
 desc = "只统计行数"
 
 [[commands.tokens]]
-text = "access.log"
+text = " access.log"
 desc = "要统计的文件"
 
 [commands.dictation]
@@ -419,15 +419,15 @@ text = "cut"
 desc = "按字段位置截取文本的命令"
 
 [[commands.tokens]]
-text = "-d:"
+text = " -d:"
 desc = "把字段分隔符设置为冒号"
 
 [[commands.tokens]]
-text = "-f1"
+text = " -f1"
 desc = "只保留第 1 个字段"
 
 [[commands.tokens]]
-text = "/etc/passwd"
+text = " /etc/passwd"
 desc = "要截取字段的系统文件"
 
 [commands.dictation]
@@ -454,23 +454,23 @@ text = "cat"
 desc = "输出文件内容到标准输出"
 
 [[commands.tokens]]
-text = "names.txt"
+text = " names.txt"
 desc = "提供原始文本的输入文件"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把前一个命令的输出传给后一个命令"
 
 [[commands.tokens]]
-text = "tr"
+text = " tr"
 desc = "按字符集合做替换或删除的命令"
 
 [[commands.tokens]]
-text = "'a-z'"
+text = " 'a-z'"
 desc = "源字符范围：所有小写英文字母"
 
 [[commands.tokens]]
-text = "'A-Z'"
+text = " 'A-Z'"
 desc = "目标字符范围：所有大写英文字母"
 
 [commands.dictation]
@@ -497,31 +497,31 @@ text = "cut"
 desc = "按字段位置截取文本的命令"
 
 [[commands.tokens]]
-text = "-d,"
+text = " -d,"
 desc = "把字段分隔符设置为逗号"
 
 [[commands.tokens]]
-text = "-f2"
+text = " -f2"
 desc = "只保留第 2 个字段"
 
 [[commands.tokens]]
-text = "sales.csv"
+text = " sales.csv"
 desc = "要处理的 CSV 文件"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把 cut 的结果传给 sort"
 
 [[commands.tokens]]
-text = "sort"
+text = " sort"
 desc = "先对提取出的列值排序"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把排序结果传给 uniq 去重"
 
 [[commands.tokens]]
-text = "uniq"
+text = " uniq"
 desc = "去除相邻重复行"
 
 [commands.dictation]

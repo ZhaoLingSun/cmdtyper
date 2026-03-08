@@ -30,7 +30,7 @@ prompt = "查看当前系统上的登录用户和他们的活动"
 answers = ["w"]
 
 [[commands]]
-id = "top-basic"
+id = "top-basic-monitor"
 command = "top"
 summary = "实时查看系统进程和资源占用"
 
@@ -65,15 +65,15 @@ text = "dmesg"
 desc = "显示内核环缓冲区消息的命令"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把内核日志传给 tail 截取"
 
 [[commands.tokens]]
-text = "tail"
+text = " tail"
 desc = "取文本末尾行的命令"
 
 [[commands.tokens]]
-text = "-30"
+text = " -30"
 desc = "显示最后 30 行"
 
 [commands.dictation]
@@ -90,15 +90,15 @@ text = "sudo"
 desc = "以管理员权限执行后续命令"
 
 [[commands.tokens]]
-text = "systemctl"
+text = " systemctl"
 desc = "管理 systemd 服务的命令"
 
 [[commands.tokens]]
-text = "enable"
+text = " enable"
 desc = "设置服务为开机自启"
 
 [[commands.tokens]]
-text = "docker"
+text = " docker"
 desc = "要设置为开机自启的服务名"
 
 [commands.dictation]
@@ -115,15 +115,15 @@ text = "sudo"
 desc = "以管理员权限执行后续命令"
 
 [[commands.tokens]]
-text = "systemctl"
+text = " systemctl"
 desc = "管理 systemd 服务的命令"
 
 [[commands.tokens]]
-text = "disable"
+text = " disable"
 desc = "取消服务的开机自启"
 
 [[commands.tokens]]
-text = "bluetooth"
+text = " bluetooth"
 desc = "要取消自启的服务名"
 
 [commands.dictation]
@@ -140,11 +140,11 @@ text = "sudo"
 desc = "以管理员权限执行后续命令"
 
 [[commands.tokens]]
-text = "systemctl"
+text = " systemctl"
 desc = "管理 systemd 服务的命令"
 
 [[commands.tokens]]
-text = "daemon-reload"
+text = " daemon-reload"
 desc = "重新加载所有 systemd unit 文件"
 
 [commands.dictation]
@@ -161,15 +161,15 @@ text = "journalctl"
 desc = "查看 systemd 日志的命令"
 
 [[commands.tokens]]
-text = "-p"
+text = " -p"
 desc = "按优先级过滤日志"
 
 [[commands.tokens]]
-text = "err"
+text = " err"
 desc = "只显示 error 及以上级别"
 
 [[commands.tokens]]
-text = "-b"
+text = " -b"
 desc = "只看本次启动以来的日志"
 
 [commands.dictation]
@@ -186,11 +186,11 @@ text = "journalctl"
 desc = "查看 systemd 日志的命令"
 
 [[commands.tokens]]
-text = "--since"
+text = " --since"
 desc = "限定日志起始时间"
 
 [[commands.tokens]]
-text = "'1 hour ago'"
+text = " '1 hour ago'"
 desc = "从 1 小时之前开始"
 
 [commands.dictation]
@@ -233,7 +233,7 @@ text = "date"
 desc = "显示或设置系统时间的命令"
 
 [[commands.tokens]]
-text = "'+%Y-%m-%d %H:%M:%S'"
+text = " '+%Y-%m-%d %H:%M:%S'"
 desc = "自定义输出格式：年-月-日 时:分:秒"
 
 [commands.dictation]

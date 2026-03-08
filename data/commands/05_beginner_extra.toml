@@ -13,11 +13,11 @@ text = "cp"
 desc = "复制文件或目录的命令"
 
 [[commands.tokens]]
-text = "notes.txt"
+text = " notes.txt"
 desc = "源文件"
 
 [[commands.tokens]]
-text = "notes.bak"
+text = " notes.bak"
 desc = "目标文件"
 
 [commands.dictation]
@@ -37,15 +37,15 @@ text = "cp"
 desc = "复制文件或目录的命令"
 
 [[commands.tokens]]
-text = "-r"
+text = " -r"
 desc = "递归复制目录及其内容"
 
 [[commands.tokens]]
-text = "assets"
+text = " assets"
 desc = "源目录"
 
 [[commands.tokens]]
-text = "backup-assets"
+text = " backup-assets"
 desc = "目标目录"
 
 [commands.dictation]
@@ -65,11 +65,11 @@ text = "mv"
 desc = "移动或重命名文件的命令"
 
 [[commands.tokens]]
-text = "draft.txt"
+text = " draft.txt"
 desc = "原文件名"
 
 [[commands.tokens]]
-text = "final.txt"
+text = " final.txt"
 desc = "新文件名"
 
 [commands.dictation]
@@ -89,11 +89,11 @@ text = "mv"
 desc = "移动或重命名文件的命令"
 
 [[commands.tokens]]
-text = "report.txt"
+text = " report.txt"
 desc = "要移动的文件"
 
 [[commands.tokens]]
-text = "archive/"
+text = " archive/"
 desc = "目标目录"
 
 [commands.dictation]
@@ -113,7 +113,7 @@ text = "rm"
 desc = "删除文件或目录的命令"
 
 [[commands.tokens]]
-text = "temp.txt"
+text = " temp.txt"
 desc = "要删除的文件"
 
 [commands.dictation]
@@ -133,11 +133,11 @@ text = "rm"
 desc = "删除文件或目录的命令"
 
 [[commands.tokens]]
-text = "-r"
+text = " -r"
 desc = "递归删除目录及其内容"
 
 [[commands.tokens]]
-text = "build"
+text = " build"
 desc = "要删除的目录"
 
 [commands.dictation]
@@ -157,7 +157,7 @@ text = "rmdir"
 desc = "删除空目录的命令"
 
 [[commands.tokens]]
-text = "old-cache"
+text = " old-cache"
 desc = "要删除的空目录"
 
 [commands.dictation]
@@ -177,7 +177,7 @@ text = "file"
 desc = "识别文件类型的命令"
 
 [[commands.tokens]]
-text = "app.tar.gz"
+text = " app.tar.gz"
 desc = "要检测类型的文件"
 
 [commands.dictation]
@@ -197,7 +197,7 @@ text = "stat"
 desc = "显示文件详细状态信息的命令"
 
 [[commands.tokens]]
-text = "notes.txt"
+text = " notes.txt"
 desc = "要查看状态的文件"
 
 [commands.dictation]
@@ -217,7 +217,7 @@ text = "less"
 desc = "分页查看文本内容的命令"
 
 [[commands.tokens]]
-text = "server.log"
+text = " server.log"
 desc = "要查看的日志文件"
 
 [commands.dictation]
@@ -237,15 +237,15 @@ text = "head"
 desc = "查看文件开头内容的命令"
 
 [[commands.tokens]]
-text = "-n"
+text = " -n"
 desc = "指定显示的行数"
 
 [[commands.tokens]]
-text = "10"
+text = " 10"
 desc = "显示前 10 行"
 
 [[commands.tokens]]
-text = "server.log"
+text = " server.log"
 desc = "要查看的日志文件"
 
 [commands.dictation]
@@ -266,15 +266,15 @@ text = "tail"
 desc = "查看文件结尾内容的命令"
 
 [[commands.tokens]]
-text = "-n"
+text = " -n"
 desc = "指定显示的行数"
 
 [[commands.tokens]]
-text = "50"
+text = " 50"
 desc = "显示最后 50 行"
 
 [[commands.tokens]]
-text = "server.log"
+text = " server.log"
 desc = "要查看的日志文件"
 
 [commands.dictation]
@@ -295,11 +295,11 @@ text = "wc"
 desc = "统计字符、单词和行数的命令"
 
 [[commands.tokens]]
-text = "-l"
+text = " -l"
 desc = "只统计行数"
 
 [[commands.tokens]]
-text = "access.log"
+text = " access.log"
 desc = "要统计的文件"
 
 [commands.dictation]
@@ -319,15 +319,15 @@ text = "tree"
 desc = "以树形结构显示目录内容的命令（通常需要额外安装）"
 
 [[commands.tokens]]
-text = "-L"
+text = " -L"
 desc = "限制显示的目录深度"
 
 [[commands.tokens]]
-text = "2"
+text = " 2"
 desc = "最多显示两层目录"
 
 [[commands.tokens]]
-text = "project"
+text = " project"
 desc = "要查看的目录"
 
 [commands.dictation]
@@ -346,7 +346,7 @@ text = "basename"
 desc = "从路径中提取最后一段名称的命令"
 
 [[commands.tokens]]
-text = "/var/log/syslog"
+text = " /var/log/syslog"
 desc = "要提取文件名的完整路径"
 
 [commands.dictation]
@@ -365,7 +365,7 @@ text = "dirname"
 desc = "从路径中提取目录部分的命令"
 
 [[commands.tokens]]
-text = "/var/log/syslog"
+text = " /var/log/syslog"
 desc = "要提取目录部分的完整路径"
 
 [commands.dictation]

@@ -13,15 +13,15 @@ text = "echo"
 desc = "输出文本到标准输出的命令"
 
 [[commands.tokens]]
-text = "hello"
+text = " hello"
 desc = "要输出的文本"
 
 [[commands.tokens]]
-text = ">"
+text = " >"
 desc = "把标准输出重定向到文件，并覆盖原内容"
 
 [[commands.tokens]]
-text = "hello.txt"
+text = " hello.txt"
 desc = "接收输出内容的文件"
 
 [commands.dictation]
@@ -41,15 +41,15 @@ text = "echo"
 desc = "输出文本到标准输出的命令"
 
 [[commands.tokens]]
-text = "done"
+text = " done"
 desc = "要追加的文本"
 
 [[commands.tokens]]
-text = ">>"
+text = " >>"
 desc = "把标准输出追加到文件末尾"
 
 [[commands.tokens]]
-text = "build.log"
+text = " build.log"
 desc = "接收追加内容的日志文件"
 
 [commands.dictation]
@@ -69,19 +69,19 @@ text = "grep"
 desc = "按模式搜索文本的命令"
 
 [[commands.tokens]]
-text = "ERROR"
+text = " ERROR"
 desc = "要匹配的关键字"
 
 [[commands.tokens]]
-text = "app.log"
+text = " app.log"
 desc = "要搜索的文件"
 
 [[commands.tokens]]
-text = "2>"
+text = " 2>"
 desc = "把标准错误重定向到文件"
 
 [[commands.tokens]]
-text = "errors.log"
+text = " errors.log"
 desc = "接收错误输出的文件"
 
 [commands.dictation]
@@ -101,19 +101,19 @@ text = "python3"
 desc = "Python 3 解释器"
 
 [[commands.tokens]]
-text = "app.py"
+text = " app.py"
 desc = "要运行的 Python 程序"
 
 [[commands.tokens]]
-text = ">"
+text = " >"
 desc = "先把标准输出重定向到文件"
 
 [[commands.tokens]]
-text = "app.log"
+text = " app.log"
 desc = "日志输出文件"
 
 [[commands.tokens]]
-text = "2>&1"
+text = " 2>&1"
 desc = "再把标准错误重定向到标准输出的同一位置"
 
 [commands.dictation]
@@ -132,19 +132,19 @@ text = "make"
 desc = "执行构建任务的命令"
 
 [[commands.tokens]]
-text = "2>&1"
+text = " 2>&1"
 desc = "把标准错误并入标准输出"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把输出传给 tee"
 
 [[commands.tokens]]
-text = "tee"
+text = " tee"
 desc = "把输入同时输出到终端和文件"
 
 [[commands.tokens]]
-text = "build.log"
+text = " build.log"
 desc = "保存构建日志的文件"
 
 [commands.dictation]
@@ -163,7 +163,7 @@ text = "echo"
 desc = "输出文本到标准输出的命令"
 
 [[commands.tokens]]
-text = "2026-03-08"
+text = " 2026-03-08"
 desc = "命令替换：先执行 date，再把结果插入命令行"
 
 [commands.dictation]
@@ -182,23 +182,23 @@ text = "test"
 desc = "测试条件是否成立的命令"
 
 [[commands.tokens]]
-text = "-f"
+text = " -f"
 desc = "判断路径是否为普通文件"
 
 [[commands.tokens]]
-text = ".env"
+text = " .env"
 desc = "要检查是否存在的文件"
 
 [[commands.tokens]]
-text = "&&"
+text = " &&"
 desc = "前一个命令成功时才执行后一个命令"
 
 [[commands.tokens]]
-text = "echo"
+text = " echo"
 desc = "输出文本的命令"
 
 [[commands.tokens]]
-text = "exists"
+text = " exists"
 desc = "条件成立时输出的文本"
 
 [commands.dictation]
@@ -218,39 +218,39 @@ text = "command"
 desc = "shell 内建命令，可检查命令是否存在"
 
 [[commands.tokens]]
-text = "-v"
+text = " -v"
 desc = "检查命令路径是否存在"
 
 [[commands.tokens]]
-text = "curl"
+text = " curl"
 desc = "要检查的命令名"
 
 [[commands.tokens]]
-text = ">/dev/null"
+text = " >/dev/null"
 desc = "把正常输出丢弃"
 
 [[commands.tokens]]
-text = "||"
+text = " ||"
 desc = "前一个命令失败时才执行后一个命令"
 
 [[commands.tokens]]
-text = "sudo"
+text = " sudo"
 desc = "以更高权限执行后续命令"
 
 [[commands.tokens]]
-text = "apt"
+text = " apt"
 desc = "Debian/Ubuntu 包管理命令"
 
 [[commands.tokens]]
-text = "install"
+text = " install"
 desc = "安装软件包"
 
 [[commands.tokens]]
-text = "-y"
+text = " -y"
 desc = "自动回答 yes"
 
 [[commands.tokens]]
-text = "curl"
+text = " curl"
 desc = "要安装的软件包名"
 
 [commands.dictation]
@@ -269,27 +269,27 @@ text = "for"
 desc = "shell 的循环关键字"
 
 [[commands.tokens]]
-text = "f"
+text = " f"
 desc = "循环变量名"
 
 [[commands.tokens]]
-text = "in"
+text = " in"
 desc = "指定循环遍历的数据集合"
 
 [[commands.tokens]]
-text = "*.jpg"
+text = " *.jpg"
 desc = "匹配当前目录下所有 jpg 文件"
 
 [[commands.tokens]]
-text = "do"
+text = "; do"
 desc = "循环体开始"
 
 [[commands.tokens]]
-text = "echo"
+text = " echo"
 desc = "输出变量内容"
 
 [[commands.tokens]]
-text = "\"\""
+text = " \"\""
 desc = "引用当前循环变量，保留可能的空格"
 
 [[commands.tokens]]
@@ -297,7 +297,7 @@ text = ";"
 desc = "命令分隔符"
 
 [[commands.tokens]]
-text = "done"
+text = " done"
 desc = "循环体结束"
 
 [commands.dictation]
@@ -316,15 +316,15 @@ text = "while"
 desc = "shell 的循环关键字"
 
 [[commands.tokens]]
-text = "read"
+text = " read"
 desc = "从标准输入读取一行文本"
 
 [[commands.tokens]]
-text = "-r"
+text = " -r"
 desc = "按原始方式读取，不处理反斜杠转义"
 
 [[commands.tokens]]
-text = "line"
+text = " line"
 desc = "接收每一行内容的变量名"
 
 [[commands.tokens]]
@@ -332,15 +332,15 @@ text = ";"
 desc = "命令分隔符"
 
 [[commands.tokens]]
-text = "do"
+text = " do"
 desc = "循环体开始"
 
 [[commands.tokens]]
-text = "echo"
+text = " echo"
 desc = "输出读取到的变量内容"
 
 [[commands.tokens]]
-text = "\"\""
+text = " \"\""
 desc = "引用当前读取到的一行文本"
 
 [[commands.tokens]]
@@ -348,15 +348,15 @@ text = ";"
 desc = "命令分隔符"
 
 [[commands.tokens]]
-text = "done"
+text = " done"
 desc = "循环体结束"
 
 [[commands.tokens]]
-text = "<"
+text = " <"
 desc = "把文件作为标准输入重定向给 while 循环"
 
 [[commands.tokens]]
-text = "names.txt"
+text = " names.txt"
 desc = "要逐行读取的输入文件"
 
 [commands.dictation]
@@ -375,31 +375,31 @@ text = "cat"
 desc = "输出文件内容到标准输出"
 
 [[commands.tokens]]
-text = "hosts.txt"
+text = " hosts.txt"
 desc = "保存主机列表的文件"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把文件内容传给 xargs"
 
 [[commands.tokens]]
-text = "xargs"
+text = " xargs"
 desc = "把标准输入转换成命令参数列表"
 
 [[commands.tokens]]
-text = "-I{}"
+text = " -I{}"
 desc = "把每个输入项替换到 {} 占位符位置"
 
 [[commands.tokens]]
-text = "ssh"
+text = " ssh"
 desc = "远程登录命令"
 
 [[commands.tokens]]
-text = "root@{}"
+text = " root@{}"
 desc = "把当前主机替换到 SSH 登录目标中"
 
 [[commands.tokens]]
-text = "hostname"
+text = " hostname"
 desc = "在远程主机上执行的命令"
 
 [commands.dictation]
@@ -418,31 +418,31 @@ text = "find"
 desc = "按条件查找文件的命令"
 
 [[commands.tokens]]
-text = "."
+text = " ."
 desc = "从当前目录开始查找"
 
 [[commands.tokens]]
-text = "-name"
+text = " -name"
 desc = "按文件名模式匹配"
 
 [[commands.tokens]]
-text = "*.tmp"
+text = " *.tmp"
 desc = "匹配所有 .tmp 文件"
 
 [[commands.tokens]]
-text = "-exec"
+text = " -exec"
 desc = "对查找到的结果执行命令"
 
 [[commands.tokens]]
-text = "rm"
+text = " rm"
 desc = "删除匹配到的文件"
 
 [[commands.tokens]]
-text = "{}"
+text = " {}"
 desc = "代表当前 find 匹配到的文件路径"
 
 [[commands.tokens]]
-text = "+"
+text = " +"
 desc = "把多个匹配结果批量传给一次 rm 调用"
 
 [commands.dictation]
@@ -462,7 +462,7 @@ text = "source"
 desc = "在当前 shell 中执行脚本文件内容的命令"
 
 [[commands.tokens]]
-text = "~/.bashrc"
+text = " ~/.bashrc"
 desc = "当前用户的 Bash 配置文件"
 
 [commands.dictation]
@@ -482,15 +482,15 @@ text = "cat"
 desc = "读取标准输入并输出的命令"
 
 [[commands.tokens]]
-text = "<<EOF"
+text = " <<EOF"
 desc = "开始 here document，多行输入直到 EOF 结束"
 
 [[commands.tokens]]
-text = ">"
+text = " >"
 desc = "把 here document 输出写入文件"
 
 [[commands.tokens]]
-text = "note.txt"
+text = " note.txt"
 desc = "接收多行内容的文件"
 
 [commands.dictation]

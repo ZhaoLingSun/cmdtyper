@@ -13,7 +13,7 @@ text = "which"
 desc = "在 PATH 中查找命令位置的命令"
 
 [[commands.tokens]]
-text = "python3"
+text = " python3"
 desc = "要查找路径的命令名"
 
 [commands.dictation]
@@ -32,7 +32,7 @@ text = "whereis"
 desc = "查找命令相关文件位置的命令"
 
 [[commands.tokens]]
-text = "nginx"
+text = " nginx"
 desc = "要查找的程序名"
 
 [commands.dictation]
@@ -51,7 +51,7 @@ text = "type"
 desc = "判断命令类型的 shell 命令"
 
 [[commands.tokens]]
-text = "cd"
+text = " cd"
 desc = "要检查类型的命令"
 
 [commands.dictation]
@@ -70,7 +70,7 @@ text = "man"
 desc = "查看命令手册页的命令"
 
 [[commands.tokens]]
-text = "grep"
+text = " grep"
 desc = "要查看手册的命令名"
 
 [commands.dictation]
@@ -89,7 +89,7 @@ text = "apropos"
 desc = "按关键字搜索 man 手册主题的命令"
 
 [[commands.tokens]]
-text = "password"
+text = " password"
 desc = "要搜索的关键词"
 
 [commands.dictation]
@@ -108,15 +108,15 @@ text = "find"
 desc = "在目录树中查找文件的命令"
 
 [[commands.tokens]]
-text = "."
+text = " ."
 desc = "从当前目录开始查找"
 
 [[commands.tokens]]
-text = "-iname"
+text = " -iname"
 desc = "按文件名匹配且忽略大小写"
 
 [[commands.tokens]]
-text = "*.jpg"
+text = " *.jpg"
 desc = "匹配所有 jpg 图片文件名"
 
 [commands.dictation]
@@ -136,7 +136,7 @@ text = "locate"
 desc = "基于索引数据库快速查找路径的命令"
 
 [[commands.tokens]]
-text = "bashrc"
+text = " bashrc"
 desc = "要搜索的路径关键字"
 
 [commands.dictation]
@@ -155,7 +155,7 @@ text = "uname"
 desc = "显示系统内核和架构信息的命令"
 
 [[commands.tokens]]
-text = "-a"
+text = " -a"
 desc = "显示全部系统信息"
 
 [commands.dictation]
@@ -166,7 +166,7 @@ answers = [
 ]
 
 [[commands]]
-id = "df-human"
+id = "df-human-search"
 command = "df -h"
 summary = "以易读单位查看各文件系统磁盘使用情况"
 
@@ -175,7 +175,7 @@ text = "df"
 desc = "查看文件系统磁盘空间使用情况的命令"
 
 [[commands.tokens]]
-text = "-h"
+text = " -h"
 desc = "以 KB、MB、GB 等易读单位显示"
 
 [commands.dictation]
@@ -195,11 +195,11 @@ text = "du"
 desc = "查看文件或目录磁盘占用大小的命令"
 
 [[commands.tokens]]
-text = "-sh"
+text = " -sh"
 desc = "-s 只给出汇总 + -h 以易读单位显示"
 
 [[commands.tokens]]
-text = "/var/log"
+text = " /var/log"
 desc = "要统计大小的目录"
 
 [commands.dictation]
@@ -210,7 +210,7 @@ answers = [
 ]
 
 [[commands]]
-id = "free-human"
+id = "free-human-search"
 command = "free -h"
 summary = "以易读单位查看内存和 swap 使用情况"
 
@@ -219,7 +219,7 @@ text = "free"
 desc = "查看内存使用情况的命令"
 
 [[commands.tokens]]
-text = "-h"
+text = " -h"
 desc = "以易读单位显示内存大小"
 
 [commands.dictation]
@@ -254,11 +254,11 @@ text = "ip"
 desc = "现代网络配置与查看命令"
 
 [[commands.tokens]]
-text = "addr"
+text = " addr"
 desc = "地址相关子命令"
 
 [[commands.tokens]]
-text = "show"
+text = " show"
 desc = "显示当前配置和状态"
 
 [commands.dictation]
@@ -278,7 +278,7 @@ text = "ss"
 desc = "查看套接字和网络连接状态的命令"
 
 [[commands.tokens]]
-text = "-lnt"
+text = " -lnt"
 desc = "-l 只看监听 + -n 不解析名称 + -t 只看 TCP"
 
 [commands.dictation]
@@ -298,15 +298,15 @@ text = "ping"
 desc = "测试网络连通性和延迟的命令"
 
 [[commands.tokens]]
-text = "-c"
+text = " -c"
 desc = "指定发送请求的次数"
 
 [[commands.tokens]]
-text = "4"
+text = " 4"
 desc = "发送 4 次请求"
 
 [[commands.tokens]]
-text = "8.8.8.8"
+text = " 8.8.8.8"
 desc = "目标 IP 地址"
 
 [commands.dictation]
@@ -316,7 +316,7 @@ answers = [
 ]
 
 [[commands]]
-id = "curl-head-example"
+id = "curl-head-search"
 command = "curl -I https://example.com"
 summary = "只获取 https://example.com 的响应头"
 
@@ -325,11 +325,11 @@ text = "curl"
 desc = "发送 HTTP 请求的命令行工具"
 
 [[commands.tokens]]
-text = "-I"
+text = " -I"
 desc = "只请求并显示响应头"
 
 [[commands.tokens]]
-text = "https://example.com"
+text = " https://example.com"
 desc = "目标 URL"
 
 [commands.dictation]
@@ -349,15 +349,15 @@ text = "wget"
 desc = "下载文件的命令行工具"
 
 [[commands.tokens]]
-text = "-O"
+text = " -O"
 desc = "指定输出文件名"
 
 [[commands.tokens]]
-text = "index.html"
+text = " index.html"
 desc = "保存后的文件名"
 
 [[commands.tokens]]
-text = "https://example.com"
+text = " https://example.com"
 desc = "要下载的 URL"
 
 [commands.dictation]
@@ -376,11 +376,11 @@ text = "dig"
 desc = "查询 DNS 记录的命令"
 
 [[commands.tokens]]
-text = "+short"
+text = " +short"
 desc = "只输出精简结果"
 
 [[commands.tokens]]
-text = "example.com"
+text = " example.com"
 desc = "要查询解析的域名"
 
 [commands.dictation]
