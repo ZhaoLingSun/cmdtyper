@@ -176,7 +176,7 @@ answers = [
 
 [[commands]]
 id = "curl-json-post"
-command = "curl -X POST -H Content-Type: application/json -d {"name":"alice"} https://api.example.com/users"
+command = "curl -X POST -H 'Content-Type: application/json' -d '{\"name\":\"alice\"}' https://api.example.com/users"
 summary = "向接口发送一个 JSON POST 请求"
 
 [[commands.tokens]]
@@ -204,7 +204,7 @@ text = "-d"
 desc = "发送请求体数据"
 
 [[commands.tokens]]
-text = "{"name":"alice"}"
+text = '{"name":"alice"}'
 desc = "要发送的 JSON 数据"
 
 [[commands.tokens]]
@@ -214,8 +214,8 @@ desc = "目标 API 地址"
 [commands.dictation]
 prompt = "向 https://api.example.com/users 发送一个 JSON POST 请求，内容为 name=alice"
 answers = [
-    "curl -X POST -H Content-Type: application/json -d {"name":"alice"} https://api.example.com/users",
-    "curl -X POST -H \"Content-Type: application/json\" -d {"name":"alice"} https://api.example.com/users",
+    "curl -X POST -H 'Content-Type: application/json' -d '{\"name\":\"alice\"}' https://api.example.com/users",
+    "curl -X POST -H 'Content-Type: application/json' -d '{\"name\":\"alice\"}' https://api.example.com/users",
 ]
 
 [[commands]]
