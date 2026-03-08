@@ -1,0 +1,388 @@
+[meta]
+category = "network"
+difficulty = "practical"
+description = "实战补充：网络探测、HTTP 调试、端口测试、路由与远程协作命令"
+
+[[commands]]
+id = "ip-route-show"
+command = "ip route show"
+summary = "查看当前系统的路由表"
+
+[[commands.tokens]]
+text = "ip"
+desc = "现代网络配置与查看命令"
+
+[[commands.tokens]]
+text = "route"
+desc = "路由相关子命令"
+
+[[commands.tokens]]
+text = "show"
+desc = "显示当前路由配置"
+
+[commands.dictation]
+prompt = "查看当前系统的路由表"
+answers = [
+    "ip route show",
+    "ip r",
+]
+
+[[commands]]
+id = "ss-tunlp"
+command = "ss -tunlp"
+summary = "查看 TCP/UDP 连接与监听端口，并显示进程信息"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查看套接字和网络连接状态的命令"
+
+[[commands.tokens]]
+text = "-tunlp"
+desc = "显示 TCP/UDP、数字地址、监听状态和进程信息"
+
+[commands.dictation]
+prompt = "查看 TCP 和 UDP 的监听端口及对应进程信息"
+answers = [
+    "ss -tunlp",
+]
+
+[[commands]]
+id = "lsof-listen-80"
+command = "lsof -i :80"
+summary = "查看哪个进程占用了 80 端口"
+
+[[commands.tokens]]
+text = "lsof"
+desc = "列出打开文件和网络连接的命令"
+
+[[commands.tokens]]
+text = "-i"
+desc = "按网络连接过滤"
+
+[[commands.tokens]]
+text = ":80"
+desc = "目标端口号 80"
+
+[commands.dictation]
+prompt = "查看哪个进程占用了 80 端口"
+answers = [
+    "lsof -i :80",
+]
+
+[[commands]]
+id = "nc-port-test"
+command = "nc -vz 127.0.0.1 5432"
+summary = "测试本机 5432 端口是否可连通"
+
+[[commands.tokens]]
+text = "nc"
+desc = "netcat，可用于测试端口和收发数据"
+
+[[commands.tokens]]
+text = "-vz"
+desc = "只做连接探测并显示详细结果"
+
+[[commands.tokens]]
+text = "127.0.0.1"
+desc = "目标主机地址"
+
+[[commands.tokens]]
+text = "5432"
+desc = "目标端口号"
+
+[commands.dictation]
+prompt = "测试本机 5432 端口是否开放并可连接"
+answers = [
+    "nc -vz 127.0.0.1 5432",
+]
+
+[[commands]]
+id = "traceroute-domain"
+command = "traceroute example.com"
+summary = "跟踪到 example.com 的网络路径"
+
+[[commands.tokens]]
+text = "traceroute"
+desc = "跟踪网络路径跳数的命令"
+
+[[commands.tokens]]
+text = "example.com"
+desc = "目标域名"
+
+[commands.dictation]
+prompt = "跟踪到 example.com 的网络路径"
+answers = [
+    "traceroute example.com",
+]
+
+[[commands]]
+id = "host-domain"
+command = "host example.com"
+summary = "查询 example.com 的 DNS 解析结果"
+
+[[commands.tokens]]
+text = "host"
+desc = "查询 DNS 的命令行工具"
+
+[[commands.tokens]]
+text = "example.com"
+desc = "要查询的域名"
+
+[commands.dictation]
+prompt = "查询 example.com 的 DNS 解析结果"
+answers = [
+    "host example.com",
+]
+
+[[commands]]
+id = "curl-status-code"
+command = "curl -s -o /dev/null -w %{http_code}n https://example.com"
+summary = "只输出 https://example.com 的 HTTP 状态码"
+
+[[commands.tokens]]
+text = "curl"
+desc = "发送 HTTP 请求的命令行工具"
+
+[[commands.tokens]]
+text = "-s"
+desc = "静默模式，不显示进度条"
+
+[[commands.tokens]]
+text = "-o"
+desc = "把响应体输出到指定文件"
+
+[[commands.tokens]]
+text = "/dev/null"
+desc = "丢弃响应体内容"
+
+[[commands.tokens]]
+text = "-w"
+desc = "自定义输出格式"
+
+[[commands.tokens]]
+text = "%{http_code}\n"
+desc = "只输出 HTTP 状态码和换行"
+
+[[commands.tokens]]
+text = "https://example.com"
+desc = "目标 URL"
+
+[commands.dictation]
+prompt = "只输出 https://example.com 的 HTTP 状态码"
+answers = [
+    "curl -s -o /dev/null -w %{http_code}\n https://example.com",
+    "curl -s -o /dev/null -w \"%{http_code}\n\" https://example.com",
+]
+
+[[commands]]
+id = "curl-json-post"
+command = "curl -X POST -H Content-Type: application/json -d {"name":"alice"} https://api.example.com/users"
+summary = "向接口发送一个 JSON POST 请求"
+
+[[commands.tokens]]
+text = "curl"
+desc = "发送 HTTP 请求的命令行工具"
+
+[[commands.tokens]]
+text = "-X"
+desc = "指定 HTTP 方法"
+
+[[commands.tokens]]
+text = "POST"
+desc = "使用 POST 方法"
+
+[[commands.tokens]]
+text = "-H"
+desc = "添加请求头"
+
+[[commands.tokens]]
+text = "Content-Type: application/json"
+desc = "告诉服务端请求体是 JSON"
+
+[[commands.tokens]]
+text = "-d"
+desc = "发送请求体数据"
+
+[[commands.tokens]]
+text = "{"name":"alice"}"
+desc = "要发送的 JSON 数据"
+
+[[commands.tokens]]
+text = "https://api.example.com/users"
+desc = "目标 API 地址"
+
+[commands.dictation]
+prompt = "向 https://api.example.com/users 发送一个 JSON POST 请求，内容为 name=alice"
+answers = [
+    "curl -X POST -H Content-Type: application/json -d {"name":"alice"} https://api.example.com/users",
+    "curl -X POST -H \"Content-Type: application/json\" -d {"name":"alice"} https://api.example.com/users",
+]
+
+[[commands]]
+id = "curl-follow-redirect"
+command = "curl -L https://example.com"
+summary = "请求网页并自动跟随重定向"
+
+[[commands.tokens]]
+text = "curl"
+desc = "发送 HTTP 请求的命令行工具"
+
+[[commands.tokens]]
+text = "-L"
+desc = "自动跟随 3xx 重定向"
+
+[[commands.tokens]]
+text = "https://example.com"
+desc = "目标 URL"
+
+[commands.dictation]
+prompt = "请求 https://example.com 并自动跟随重定向"
+answers = [
+    "curl -L https://example.com",
+    "curl --location https://example.com",
+]
+
+[[commands]]
+id = "wget-continue-download"
+command = "wget -c https://example.com/big.iso"
+summary = "断点续传下载 big.iso"
+
+[[commands.tokens]]
+text = "wget"
+desc = "下载文件的命令行工具"
+
+[[commands.tokens]]
+text = "-c"
+desc = "支持断点续传下载"
+
+[[commands.tokens]]
+text = "https://example.com/big.iso"
+desc = "要下载的大文件地址"
+
+[commands.dictation]
+prompt = "断点续传下载 https://example.com/big.iso"
+answers = [
+    "wget -c https://example.com/big.iso",
+    "wget --continue https://example.com/big.iso",
+]
+
+[[commands]]
+id = "ssh-local-forward"
+command = "ssh -L 5432:127.0.0.1:5432 admin@example.com"
+summary = "把远程主机的 5432 端口转发到本地 5432"
+
+[[commands.tokens]]
+text = "ssh"
+desc = "远程登录主机的命令"
+
+[[commands.tokens]]
+text = "-L"
+desc = "建立本地端口转发"
+
+[[commands.tokens]]
+text = "5432:127.0.0.1:5432"
+desc = "本地端口:远程目标地址:远程目标端口"
+
+[[commands.tokens]]
+text = "admin@example.com"
+desc = "SSH 登录目标"
+
+[commands.dictation]
+prompt = "建立 SSH 本地端口转发，把远程的 5432 映射到本地 5432"
+answers = [
+    "ssh -L 5432:127.0.0.1:5432 admin@example.com",
+]
+
+[[commands]]
+id = "ssh-remote-forward"
+command = "ssh -R 8080:127.0.0.1:3000 admin@example.com"
+summary = "把本地 3000 端口反向转发到远程 8080"
+
+[[commands.tokens]]
+text = "ssh"
+desc = "远程登录主机的命令"
+
+[[commands.tokens]]
+text = "-R"
+desc = "建立远程端口转发"
+
+[[commands.tokens]]
+text = "8080:127.0.0.1:3000"
+desc = "远程端口:本地目标地址:本地目标端口"
+
+[[commands.tokens]]
+text = "admin@example.com"
+desc = "SSH 登录目标"
+
+[commands.dictation]
+prompt = "建立 SSH 反向端口转发，把本地 3000 暴露到远程 8080"
+answers = [
+    "ssh -R 8080:127.0.0.1:3000 admin@example.com",
+]
+
+[[commands]]
+id = "openssl-cert-dates"
+command = "echo | openssl s_client -servername example.com -connect example.com:443 2>/dev/null | openssl x509 -noout -dates"
+summary = "查看 example.com HTTPS 证书的生效和过期时间"
+
+[[commands.tokens]]
+text = "echo"
+desc = "向 openssl 提供一个空输入"
+
+[[commands.tokens]]
+text = "|"
+desc = "把空输入传给 openssl s_client"
+
+[[commands.tokens]]
+text = "openssl"
+desc = "OpenSSL 工具集命令"
+
+[[commands.tokens]]
+text = "s_client"
+desc = "建立 TLS 连接并输出证书信息"
+
+[[commands.tokens]]
+text = "-servername"
+desc = "指定 SNI 主机名"
+
+[[commands.tokens]]
+text = "example.com"
+desc = "目标域名"
+
+[[commands.tokens]]
+text = "-connect"
+desc = "指定 TLS 连接目标"
+
+[[commands.tokens]]
+text = "example.com:443"
+desc = "目标主机和端口"
+
+[[commands.tokens]]
+text = "2>/dev/null"
+desc = "丢弃 TLS 握手过程中的标准错误输出"
+
+[[commands.tokens]]
+text = "|"
+desc = "把证书输出传给 openssl x509"
+
+[[commands.tokens]]
+text = "openssl"
+desc = "OpenSSL 工具集命令"
+
+[[commands.tokens]]
+text = "x509"
+desc = "解析 X.509 证书信息"
+
+[[commands.tokens]]
+text = "-noout"
+desc = "不输出证书正文"
+
+[[commands.tokens]]
+text = "-dates"
+desc = "只输出证书时间字段"
+
+[commands.dictation]
+prompt = "查看 example.com 的 HTTPS 证书生效时间和过期时间"
+answers = [
+    "echo | openssl s_client -servername example.com -connect example.com:443 2>/dev/null | openssl x509 -noout -dates",
+]

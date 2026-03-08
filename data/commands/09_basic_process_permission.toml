@@ -1,0 +1,345 @@
+[meta]
+category = "process"
+difficulty = "basic"
+description = "基础补充：用户、权限、进程、作业控制与环境变量命令"
+
+[[commands]]
+id = "whoami-basic"
+command = "whoami"
+summary = "显示当前登录用户名"
+
+[[commands.tokens]]
+text = "whoami"
+desc = "显示当前有效用户名的命令"
+
+[commands.dictation]
+prompt = "显示当前登录的用户名"
+answers = [
+    "whoami",
+]
+
+[[commands]]
+id = "id-basic"
+command = "id"
+summary = "显示当前用户的 UID、GID 和用户组信息"
+
+[[commands.tokens]]
+text = "id"
+desc = "查看用户身份和所属组信息的命令"
+
+[commands.dictation]
+prompt = "显示当前用户的 UID、GID 和所属组信息"
+answers = [
+    "id",
+]
+
+[[commands]]
+id = "groups-basic"
+command = "groups"
+summary = "显示当前用户所属的所有用户组"
+
+[[commands.tokens]]
+text = "groups"
+desc = "显示当前用户所属用户组的命令"
+
+[commands.dictation]
+prompt = "显示当前用户所属的所有用户组"
+answers = [
+    "groups",
+]
+
+[[commands]]
+id = "chmod-symbolic-user"
+command = "chmod u+x deploy.sh"
+summary = "给 deploy.sh 的所有者增加执行权限"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "修改文件权限的命令"
+
+[[commands.tokens]]
+text = "u+x"
+desc = "给文件所有者增加执行权限"
+
+[[commands.tokens]]
+text = "deploy.sh"
+desc = "要修改权限的脚本文件"
+
+[commands.dictation]
+prompt = "给 deploy.sh 的所有者增加执行权限"
+answers = [
+    "chmod u+x deploy.sh",
+]
+
+[[commands]]
+id = "chgrp-www-data"
+command = "chgrp www-data /srv/www/index.html"
+summary = "把 index.html 的所属组改为 www-data"
+
+[[commands.tokens]]
+text = "chgrp"
+desc = "修改文件所属组的命令"
+
+[[commands.tokens]]
+text = "www-data"
+desc = "新的所属组"
+
+[[commands.tokens]]
+text = "/srv/www/index.html"
+desc = "要修改所属组的文件"
+
+[commands.dictation]
+prompt = "把 /srv/www/index.html 的所属组改为 www-data"
+answers = [
+    "chgrp www-data /srv/www/index.html",
+]
+
+[[commands]]
+id = "umask-show"
+command = "umask"
+summary = "查看当前 shell 的默认权限掩码"
+
+[[commands.tokens]]
+text = "umask"
+desc = "查看或设置默认权限掩码的 shell 命令"
+
+[commands.dictation]
+prompt = "查看当前 shell 的默认权限掩码"
+answers = [
+    "umask",
+]
+
+[[commands]]
+id = "export-editor-vim"
+command = "export EDITOR=vim"
+summary = "把环境变量 EDITOR 设置为 vim"
+
+[[commands.tokens]]
+text = "export"
+desc = "导出环境变量到当前 shell 及其子进程"
+
+[[commands.tokens]]
+text = "EDITOR=vim"
+desc = "把 EDITOR 环境变量设置为 vim"
+
+[commands.dictation]
+prompt = "把环境变量 EDITOR 设置为 vim"
+answers = [
+    "export EDITOR=vim",
+]
+
+[[commands]]
+id = "env-grep-path"
+command = "env | grep ^PATH="
+summary = "查看当前环境变量中的 PATH"
+
+[[commands.tokens]]
+text = "env"
+desc = "输出当前环境变量的命令"
+
+[[commands.tokens]]
+text = "|"
+desc = "把环境变量输出传给 grep 过滤"
+
+[[commands.tokens]]
+text = "grep"
+desc = "按模式过滤文本行的命令"
+
+[[commands.tokens]]
+text = "^PATH="
+desc = "只匹配以 PATH= 开头的那一行"
+
+[commands.dictation]
+prompt = "查看当前环境变量中的 PATH 这一项"
+answers = [
+    "env | grep ^PATH=",
+    "env | grep \"^PATH=\"",
+]
+
+[[commands]]
+id = "ps-ef-basic"
+command = "ps -ef"
+summary = "以完整格式查看系统中的所有进程"
+
+[[commands.tokens]]
+text = "ps"
+desc = "查看进程状态的命令"
+
+[[commands.tokens]]
+text = "-ef"
+desc = "显示所有进程并使用完整格式输出"
+
+[commands.dictation]
+prompt = "以完整格式查看系统中的所有进程"
+answers = [
+    "ps -ef",
+]
+
+[[commands]]
+id = "pgrep-sshd"
+command = "pgrep sshd"
+summary = "查找名为 sshd 的进程 PID"
+
+[[commands.tokens]]
+text = "pgrep"
+desc = "按进程名查找 PID 的命令"
+
+[[commands.tokens]]
+text = "sshd"
+desc = "要查找的进程名"
+
+[commands.dictation]
+prompt = "查找 sshd 进程的 PID"
+answers = [
+    "pgrep sshd",
+]
+
+[[commands]]
+id = "pkill-nginx"
+command = "pkill nginx"
+summary = "按进程名向 nginx 发送终止信号"
+
+[[commands.tokens]]
+text = "pkill"
+desc = "按进程名发送信号的命令"
+
+[[commands.tokens]]
+text = "nginx"
+desc = "要发送信号的进程名"
+
+[commands.dictation]
+prompt = "按进程名结束 nginx 进程"
+answers = [
+    "pkill nginx",
+]
+
+[[commands]]
+id = "kill-sigkill"
+command = "kill -9 12345"
+summary = "向 PID 12345 发送 SIGKILL"
+
+[[commands.tokens]]
+text = "kill"
+desc = "向进程发送信号的命令"
+
+[[commands.tokens]]
+text = "-9"
+desc = "发送 SIGKILL 信号，强制终止进程"
+
+[[commands.tokens]]
+text = "12345"
+desc = "目标进程 PID"
+
+[commands.dictation]
+prompt = "向 PID 12345 发送 SIGKILL 强制终止它"
+answers = [
+    "kill -9 12345",
+    "kill -KILL 12345",
+]
+
+[[commands]]
+id = "killall-node"
+command = "killall node"
+summary = "结束所有名为 node 的进程"
+
+[[commands.tokens]]
+text = "killall"
+desc = "按进程名结束所有匹配进程的命令"
+
+[[commands.tokens]]
+text = "node"
+desc = "要结束的进程名"
+
+[commands.dictation]
+prompt = "结束所有名为 node 的进程"
+answers = [
+    "killall node",
+]
+
+[[commands]]
+id = "jobs-basic"
+command = "jobs"
+summary = "查看当前 shell 的后台作业列表"
+
+[[commands.tokens]]
+text = "jobs"
+desc = "查看当前 shell 作业列表的命令"
+
+[commands.dictation]
+prompt = "查看当前 shell 的后台作业列表"
+answers = [
+    "jobs",
+]
+
+[[commands]]
+id = "bg-job-one"
+command = "bg %1"
+summary = "让编号为 1 的挂起作业转到后台继续运行"
+
+[[commands.tokens]]
+text = "bg"
+desc = "让挂起作业在后台继续运行的 shell 命令"
+
+[[commands.tokens]]
+text = "%1"
+desc = "作业号 1"
+
+[commands.dictation]
+prompt = "让作业号 1 在后台继续运行"
+answers = [
+    "bg %1",
+]
+
+[[commands]]
+id = "fg-job-one"
+command = "fg %1"
+summary = "把编号为 1 的后台作业切回前台"
+
+[[commands.tokens]]
+text = "fg"
+desc = "把后台作业切回前台的 shell 命令"
+
+[[commands.tokens]]
+text = "%1"
+desc = "作业号 1"
+
+[commands.dictation]
+prompt = "把作业号 1 切回前台运行"
+answers = [
+    "fg %1",
+]
+
+[[commands]]
+id = "nohup-python-server"
+command = "nohup python3 -m http.server 8000 &"
+summary = "让 Python HTTP 服务脱离终端在后台运行"
+
+[[commands.tokens]]
+text = "nohup"
+desc = "让命令在退出终端后继续运行"
+
+[[commands.tokens]]
+text = "python3"
+desc = "Python 3 解释器"
+
+[[commands.tokens]]
+text = "-m"
+desc = "运行指定模块"
+
+[[commands.tokens]]
+text = "http.server"
+desc = "Python 内置的简单 HTTP 服务模块"
+
+[[commands.tokens]]
+text = "8000"
+desc = "监听端口号"
+
+[[commands.tokens]]
+text = "&"
+desc = "把命令放到后台执行"
+
+[commands.dictation]
+prompt = "让 Python 简单 HTTP 服务在 8000 端口后台运行，并在退出终端后继续保持"
+answers = [
+    "nohup python3 -m http.server 8000 &",
+]

@@ -1,0 +1,246 @@
+[meta]
+category = "scripting"
+difficulty = "advanced"
+description = "进阶补充：Git 现代工作流、分支管理与版本控制高级操作"
+
+[[commands]]
+id = "git-switch-branch"
+command = "git switch dev"
+summary = "切换到 dev 分支"
+[[commands.tokens]]
+text = "git"
+desc = "分布式版本控制系统命令"
+[[commands.tokens]]
+text = "switch"
+desc = "切换分支（比 checkout 更安全明确）"
+[[commands.tokens]]
+text = "dev"
+desc = "目标分支名"
+[commands.dictation]
+prompt = "使用 switch 切换到 dev 分支"
+answers = ["git switch dev"]
+
+[[commands]]
+id = "git-switch-create"
+command = "git switch -c feature/auth"
+summary = "创建并切换到 feature/auth 新分支"
+[[commands.tokens]]
+text = "git"
+desc = "分布式版本控制系统命令"
+[[commands.tokens]]
+text = "switch"
+desc = "切换分支"
+[[commands.tokens]]
+text = "-c"
+desc = "创建新分支"
+[[commands.tokens]]
+text = "feature/auth"
+desc = "新分支名"
+[commands.dictation]
+prompt = "创建并切换到 feature/auth 分支"
+answers = ["git switch -c feature/auth"]
+
+[[commands]]
+id = "git-restore-file"
+command = "git restore src/main.rs"
+summary = "撤销工作区中 src/main.rs 的修改"
+[[commands.tokens]]
+text = "git"
+desc = "分布式版本控制系统命令"
+[[commands.tokens]]
+text = "restore"
+desc = "恢复文件到已知状态"
+[[commands.tokens]]
+text = "src/main.rs"
+desc = "要恢复的文件"
+[commands.dictation]
+prompt = "撤销工作区中 src/main.rs 的修改"
+answers = ["git restore src/main.rs"]
+
+[[commands]]
+id = "git-restore-staged"
+command = "git restore --staged config.toml"
+summary = "把 config.toml 从暂存区移回工作区"
+[[commands.tokens]]
+text = "git"
+desc = "分布式版本控制系统命令"
+[[commands.tokens]]
+text = "restore"
+desc = "恢复文件到已知状态"
+[[commands.tokens]]
+text = "--staged"
+desc = "针对暂存区操作"
+[[commands.tokens]]
+text = "config.toml"
+desc = "要从暂存区移出的文件"
+[commands.dictation]
+prompt = "把 config.toml 从暂存区取消暂存"
+answers = ["git restore --staged config.toml"]
+
+[[commands]]
+id = "git-fetch-prune"
+command = "git fetch --all --prune"
+summary = "获取所有远程更新并清理已删除的远程分支引用"
+[[commands.tokens]]
+text = "git"
+desc = "分布式版本控制系统命令"
+[[commands.tokens]]
+text = "fetch"
+desc = "从远程仓库拉取更新但不合并"
+[[commands.tokens]]
+text = "--all"
+desc = "获取所有远程仓库的更新"
+[[commands.tokens]]
+text = "--prune"
+desc = "清理远程已删除的分支引用"
+[commands.dictation]
+prompt = "获取所有远程仓库更新，并清理已删除的远程分支引用"
+answers = ["git fetch --all --prune"]
+
+[[commands]]
+id = "git-stash-push"
+command = "git stash push -u -m 'wip: refactor auth'"
+summary = "把当前改动（含未跟踪文件）暂存到 stash 并附带说明"
+[[commands.tokens]]
+text = "git"
+desc = "分布式版本控制系统命令"
+[[commands.tokens]]
+text = "stash"
+desc = "暂存当前工作区改动"
+[[commands.tokens]]
+text = "push"
+desc = "把改动压入 stash 栈"
+[[commands.tokens]]
+text = "-u"
+desc = "同时暂存未跟踪的新文件"
+[[commands.tokens]]
+text = "-m"
+desc = "附带说明信息"
+[[commands.tokens]]
+text = "'wip: refactor auth'"
+desc = "stash 说明信息"
+[commands.dictation]
+prompt = "把工作区改动和未跟踪文件一起暂存到 stash，并附上说明"
+answers = ["git stash push -u -m 'wip: refactor auth'"]
+
+[[commands]]
+id = "git-stash-pop"
+command = "git stash pop"
+summary = "恢复最近一次 stash 的内容并从栈中移除"
+[[commands.tokens]]
+text = "git"
+desc = "分布式版本控制系统命令"
+[[commands.tokens]]
+text = "stash"
+desc = "管理暂存的工作区改动"
+[[commands.tokens]]
+text = "pop"
+desc = "恢复并移除最近一条 stash"
+[commands.dictation]
+prompt = "恢复最近一次暂存的改动并从 stash 中移除"
+answers = ["git stash pop"]
+
+[[commands]]
+id = "git-rebase-main"
+command = "git rebase main"
+summary = "把当前分支的提交变基到 main 分支最新位置"
+[[commands.tokens]]
+text = "git"
+desc = "分布式版本控制系统命令"
+[[commands.tokens]]
+text = "rebase"
+desc = "把当前分支的提交重新应用到另一个基底上"
+[[commands.tokens]]
+text = "main"
+desc = "变基的目标分支"
+[commands.dictation]
+prompt = "把当前分支的提交变基到 main 的最新位置"
+answers = ["git rebase main"]
+
+[[commands]]
+id = "git-cherry-pick"
+command = "git cherry-pick abc1234"
+summary = "把提交 abc1234 应用到当前分支"
+[[commands.tokens]]
+text = "git"
+desc = "分布式版本控制系统命令"
+[[commands.tokens]]
+text = "cherry-pick"
+desc = "把其他分支的某个提交应用到当前分支"
+[[commands.tokens]]
+text = "abc1234"
+desc = "要应用的提交哈希值"
+[commands.dictation]
+prompt = "把提交 abc1234 应用到当前分支"
+answers = ["git cherry-pick abc1234"]
+
+[[commands]]
+id = "git-remote-verbose"
+command = "git remote -v"
+summary = "显示所有远程仓库的 URL"
+[[commands.tokens]]
+text = "git"
+desc = "分布式版本控制系统命令"
+[[commands.tokens]]
+text = "remote"
+desc = "管理远程仓库"
+[[commands.tokens]]
+text = "-v"
+desc = "显示详细信息，包含 URL"
+[commands.dictation]
+prompt = "查看所有 Git 远程仓库的 URL"
+answers = ["git remote -v", "git remote --verbose"]
+
+[[commands]]
+id = "git-add-patch"
+command = "git add -p"
+summary = "交互式逐块选择要暂存的修改"
+[[commands.tokens]]
+text = "git"
+desc = "分布式版本控制系统命令"
+[[commands.tokens]]
+text = "add"
+desc = "把修改添加到暂存区"
+[[commands.tokens]]
+text = "-p"
+desc = "交互式逐块选择要暂存的修改"
+[commands.dictation]
+prompt = "交互式逐块选择要暂存的修改"
+answers = ["git add -p", "git add --patch"]
+
+[[commands]]
+id = "git-commit-amend"
+command = "git commit --amend --no-edit"
+summary = "把暂存区的改动追加到上一次提交，不修改提交信息"
+[[commands.tokens]]
+text = "git"
+desc = "分布式版本控制系统命令"
+[[commands.tokens]]
+text = "commit"
+desc = "创建一次版本提交"
+[[commands.tokens]]
+text = "--amend"
+desc = "追加到上一次提交"
+[[commands.tokens]]
+text = "--no-edit"
+desc = "不修改提交信息"
+[commands.dictation]
+prompt = "把暂存区改动追加到上一次提交，保持原来的提交信息"
+answers = ["git commit --amend --no-edit"]
+
+[[commands]]
+id = "git-blame-file"
+command = "git blame src/main.rs"
+summary = "查看 src/main.rs 每一行是谁在哪次提交中修改的"
+[[commands.tokens]]
+text = "git"
+desc = "分布式版本控制系统命令"
+[[commands.tokens]]
+text = "blame"
+desc = "逐行标注文件的最后修改者和提交"
+[[commands.tokens]]
+text = "src/main.rs"
+desc = "要查看注解历史的文件"
+[commands.dictation]
+prompt = "查看 src/main.rs 每一行最后是被谁修改的"
+answers = ["git blame src/main.rs"]

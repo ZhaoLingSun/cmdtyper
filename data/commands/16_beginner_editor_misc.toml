@@ -1,0 +1,228 @@
+[meta]
+category = "file_ops"
+difficulty = "beginner"
+description = "入门补充：编辑器启动、通配符、别名与 Shell 常用快捷操作"
+
+[[commands]]
+id = "nano-edit"
+command = "nano config.yml"
+summary = "用 nano 编辑器打开 config.yml"
+[[commands.tokens]]
+text = "nano"
+desc = "简单易用的终端文本编辑器"
+[[commands.tokens]]
+text = "config.yml"
+desc = "要编辑的配置文件"
+[commands.dictation]
+prompt = "用 nano 编辑器打开 config.yml"
+answers = ["nano config.yml"]
+
+[[commands]]
+id = "vim-edit"
+command = "vim main.py"
+summary = "用 vim 编辑器打开 main.py"
+[[commands.tokens]]
+text = "vim"
+desc = "功能强大的终端文本编辑器"
+[[commands.tokens]]
+text = "main.py"
+desc = "要编辑的 Python 源文件"
+[commands.dictation]
+prompt = "用 vim 编辑器打开 main.py"
+answers = ["vim main.py", "vi main.py"]
+
+[[commands]]
+id = "cat-number"
+command = "cat -n main.py"
+summary = "显示 main.py 的内容并给每行加上行号"
+[[commands.tokens]]
+text = "cat"
+desc = "输出文件内容的命令"
+[[commands.tokens]]
+text = "-n"
+desc = "在每一行前显示行号"
+[[commands.tokens]]
+text = "main.py"
+desc = "要查看的文件"
+[commands.dictation]
+prompt = "显示 main.py 的内容并带上行号"
+answers = ["cat -n main.py", "cat --number main.py"]
+
+[[commands]]
+id = "echo-var-home"
+command = "echo $HOME"
+summary = "输出当前用户的家目录路径"
+[[commands.tokens]]
+text = "echo"
+desc = "输出文本到标准输出的命令"
+[[commands.tokens]]
+text = "$HOME"
+desc = "保存家目录路径的环境变量"
+[commands.dictation]
+prompt = "输出当前用户的家目录路径"
+answers = ["echo $HOME", "echo \"$HOME\""]
+
+[[commands]]
+id = "echo-var-shell"
+command = "echo $SHELL"
+summary = "显示当前使用的 shell 路径"
+[[commands.tokens]]
+text = "echo"
+desc = "输出文本到标准输出的命令"
+[[commands.tokens]]
+text = "$SHELL"
+desc = "保存当前 shell 路径的环境变量"
+[commands.dictation]
+prompt = "显示当前使用的 shell 路径"
+answers = ["echo $SHELL", "echo \"$SHELL\""]
+
+[[commands]]
+id = "history-basic"
+command = "history | tail -20"
+summary = "查看最近 20 条命令历史"
+[[commands.tokens]]
+text = "history"
+desc = "显示命令历史记录的 shell 命令"
+[[commands.tokens]]
+text = "|"
+desc = "把历史记录传给 tail 截取"
+[[commands.tokens]]
+text = "tail"
+desc = "取末尾行"
+[[commands.tokens]]
+text = "-20"
+desc = "只显示最后 20 条"
+[commands.dictation]
+prompt = "查看最近 20 条命令历史记录"
+answers = ["history | tail -20", "history | tail -n 20"]
+
+[[commands]]
+id = "clear-basic"
+command = "clear"
+summary = "清除终端屏幕内容"
+[[commands.tokens]]
+text = "clear"
+desc = "清屏命令"
+[commands.dictation]
+prompt = "清除终端屏幕"
+answers = ["clear"]
+
+[[commands]]
+id = "reset-terminal"
+command = "reset"
+summary = "重置终端状态（终端显示异常时使用）"
+[[commands.tokens]]
+text = "reset"
+desc = "重新初始化终端的命令"
+[commands.dictation]
+prompt = "重置终端到初始状态"
+answers = ["reset"]
+
+[[commands]]
+id = "tee-append"
+command = "echo 'new entry' | tee -a log.txt"
+summary = "把内容同时输出到终端和追加到 log.txt"
+[[commands.tokens]]
+text = "echo"
+desc = "输出文本的命令"
+[[commands.tokens]]
+text = "'new entry'"
+desc = "要输出的文本"
+[[commands.tokens]]
+text = "|"
+desc = "把输出传给 tee"
+[[commands.tokens]]
+text = "tee"
+desc = "同时输出到终端和文件"
+[[commands.tokens]]
+text = "-a"
+desc = "追加模式而非覆盖"
+[[commands.tokens]]
+text = "log.txt"
+desc = "接收追加内容的文件"
+[commands.dictation]
+prompt = "把 new entry 同时输出到终端并追加到 log.txt"
+answers = ["echo 'new entry' | tee -a log.txt"]
+
+[[commands]]
+id = "sort-numeric-reverse"
+command = "sort -rn scores.txt"
+summary = "按数值从大到小排列 scores.txt 中的行"
+[[commands.tokens]]
+text = "sort"
+desc = "对文本行排序的命令"
+[[commands.tokens]]
+text = "-rn"
+desc = "-r 逆序 + -n 按数值排序"
+[[commands.tokens]]
+text = "scores.txt"
+desc = "要排序的文件"
+[commands.dictation]
+prompt = "按数值从大到小排序 scores.txt"
+answers = ["sort -rn scores.txt", "sort -n -r scores.txt"]
+
+[[commands]]
+id = "uniq-count"
+command = "uniq -c sorted.txt"
+summary = "统计 sorted.txt 中每种相邻重复行出现的次数"
+[[commands.tokens]]
+text = "uniq"
+desc = "去除或统计相邻重复行的命令"
+[[commands.tokens]]
+text = "-c"
+desc = "在每行前显示重复次数"
+[[commands.tokens]]
+text = "sorted.txt"
+desc = "已排序的输入文件"
+[commands.dictation]
+prompt = "统计 sorted.txt 中每种相邻重复行的出现次数"
+answers = ["uniq -c sorted.txt"]
+
+[[commands]]
+id = "du-sort-top"
+command = "du -sh * | sort -rh | head"
+summary = "查看当前目录下各项的大小，按从大到小排列取前几项"
+[[commands.tokens]]
+text = "du"
+desc = "查看磁盘占用大小的命令"
+[[commands.tokens]]
+text = "-sh"
+desc = "-s 汇总 + -h 易读单位"
+[[commands.tokens]]
+text = "*"
+desc = "当前目录下所有项"
+[[commands.tokens]]
+text = "|"
+desc = "把结果传给 sort"
+[[commands.tokens]]
+text = "sort"
+desc = "排序"
+[[commands.tokens]]
+text = "-rh"
+desc = "-r 逆序 + -h 按易读数值排序"
+[[commands.tokens]]
+text = "|"
+desc = "把排序结果传给 head"
+[[commands.tokens]]
+text = "head"
+desc = "只显示前几行"
+[commands.dictation]
+prompt = "查看当前目录下各项大小，按从大到小排列显示前几项"
+answers = ["du -sh * | sort -rh | head"]
+
+[[commands]]
+id = "readlink-canonical"
+command = "readlink -f /usr/bin/python3"
+summary = "解析符号链接得到最终的真实路径"
+[[commands.tokens]]
+text = "readlink"
+desc = "解析符号链接指向的命令"
+[[commands.tokens]]
+text = "-f"
+desc = "递归解析到最终的绝对路径"
+[[commands.tokens]]
+text = "/usr/bin/python3"
+desc = "要解析的符号链接路径"
+[commands.dictation]
+prompt = "解析 /usr/bin/python3 符号链接到最终的真实路径"
+answers = ["readlink -f /usr/bin/python3"]

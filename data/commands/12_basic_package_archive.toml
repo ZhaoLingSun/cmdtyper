@@ -1,0 +1,338 @@
+[meta]
+category = "archive"
+difficulty = "basic"
+description = "基础补充：包管理、压缩归档与解压命令"
+
+[[commands]]
+id = "apt-update"
+command = "sudo apt update"
+summary = "更新 APT 软件包索引"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限执行后续命令"
+
+[[commands.tokens]]
+text = "apt"
+desc = "Debian/Ubuntu 的包管理命令"
+
+[[commands.tokens]]
+text = "update"
+desc = "更新可用软件包列表"
+
+[commands.dictation]
+prompt = "更新 APT 的软件包索引"
+answers = [
+    "sudo apt update",
+]
+
+[[commands]]
+id = "apt-install-vim"
+command = "sudo apt install -y vim"
+summary = "自动确认安装 vim 编辑器"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限执行后续命令"
+
+[[commands.tokens]]
+text = "apt"
+desc = "Debian/Ubuntu 的包管理命令"
+
+[[commands.tokens]]
+text = "install"
+desc = "安装软件包"
+
+[[commands.tokens]]
+text = "-y"
+desc = "自动回答 yes，跳过确认提示"
+
+[[commands.tokens]]
+text = "vim"
+desc = "要安装的文本编辑器软件包"
+
+[commands.dictation]
+prompt = "自动确认安装 vim"
+answers = [
+    "sudo apt install -y vim",
+    "sudo apt-get install -y vim",
+]
+
+[[commands]]
+id = "apt-remove-nginx"
+command = "sudo apt remove nginx"
+summary = "卸载 nginx 软件包（保留配置文件）"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限执行后续命令"
+
+[[commands.tokens]]
+text = "apt"
+desc = "Debian/Ubuntu 的包管理命令"
+
+[[commands.tokens]]
+text = "remove"
+desc = "卸载软件包但保留配置文件"
+
+[[commands.tokens]]
+text = "nginx"
+desc = "要卸载的软件包"
+
+[commands.dictation]
+prompt = "卸载 nginx 但保留其配置文件"
+answers = [
+    "sudo apt remove nginx",
+    "sudo apt-get remove nginx",
+]
+
+[[commands]]
+id = "apt-search-docker"
+command = "apt search docker"
+summary = "搜索名称或描述中包含 docker 的软件包"
+
+[[commands.tokens]]
+text = "apt"
+desc = "Debian/Ubuntu 的包管理命令"
+
+[[commands.tokens]]
+text = "search"
+desc = "按关键字搜索可用软件包"
+
+[[commands.tokens]]
+text = "docker"
+desc = "要搜索的关键字"
+
+[commands.dictation]
+prompt = "在 APT 仓库中搜索包含 docker 的软件包"
+answers = [
+    "apt search docker",
+    "apt-cache search docker",
+]
+
+[[commands]]
+id = "dpkg-list-installed"
+command = "dpkg -l | grep nginx"
+summary = "查看 nginx 相关的已安装 deb 包"
+
+[[commands.tokens]]
+text = "dpkg"
+desc = "底层 Debian 包管理工具"
+
+[[commands.tokens]]
+text = "-l"
+desc = "列出所有已安装的软件包"
+
+[[commands.tokens]]
+text = "|"
+desc = "把列表传给 grep 过滤"
+
+[[commands.tokens]]
+text = "grep"
+desc = "按模式过滤文本行的命令"
+
+[[commands.tokens]]
+text = "nginx"
+desc = "要匹配的包名关键字"
+
+[commands.dictation]
+prompt = "列出与 nginx 相关的已安装 deb 包"
+answers = [
+    "dpkg -l | grep nginx",
+]
+
+[[commands]]
+id = "tar-list-contents"
+command = "tar tf backup.tar.gz"
+summary = "列出 backup.tar.gz 归档中的文件清单"
+
+[[commands.tokens]]
+text = "tar"
+desc = "打包和解包归档文件的命令"
+
+[[commands.tokens]]
+text = "tf"
+desc = "t 列出归档内容 + f 指定归档文件名"
+
+[[commands.tokens]]
+text = "backup.tar.gz"
+desc = "要查看内容的归档压缩包"
+
+[commands.dictation]
+prompt = "列出 backup.tar.gz 中包含的文件清单"
+answers = [
+    "tar tf backup.tar.gz",
+    "tar -tf backup.tar.gz",
+]
+
+[[commands]]
+id = "tar-extract-gzip"
+command = "tar xzf backup.tar.gz -C /tmp"
+summary = "把 backup.tar.gz 解压到 /tmp 目录"
+
+[[commands.tokens]]
+text = "tar"
+desc = "打包和解包归档文件的命令"
+
+[[commands.tokens]]
+text = "xzf"
+desc = "x 解包 + z 解压 gzip + f 指定归档文件名"
+
+[[commands.tokens]]
+text = "backup.tar.gz"
+desc = "要解压的归档压缩包"
+
+[[commands.tokens]]
+text = "-C"
+desc = "指定解压目标目录"
+
+[[commands.tokens]]
+text = "/tmp"
+desc = "解压到 /tmp 目录"
+
+[commands.dictation]
+prompt = "把 backup.tar.gz 解压到 /tmp 目录"
+answers = [
+    "tar xzf backup.tar.gz -C /tmp",
+    "tar -xzf backup.tar.gz -C /tmp",
+]
+
+[[commands]]
+id = "gzip-file"
+command = "gzip access.log"
+summary = "压缩 access.log 为 access.log.gz（原文件被替换）"
+
+[[commands.tokens]]
+text = "gzip"
+desc = "使用 gzip 算法压缩文件的命令"
+
+[[commands.tokens]]
+text = "access.log"
+desc = "要压缩的文件"
+
+[commands.dictation]
+prompt = "把 access.log 压缩为 gzip 格式"
+answers = [
+    "gzip access.log",
+]
+
+[[commands]]
+id = "gunzip-file"
+command = "gunzip access.log.gz"
+summary = "解压 access.log.gz 还原为 access.log"
+
+[[commands.tokens]]
+text = "gunzip"
+desc = "解压 gzip 文件的命令"
+
+[[commands.tokens]]
+text = "access.log.gz"
+desc = "要解压的 gzip 文件"
+
+[commands.dictation]
+prompt = "把 access.log.gz 解压还原"
+answers = [
+    "gunzip access.log.gz",
+    "gzip -d access.log.gz",
+]
+
+[[commands]]
+id = "zip-recursive"
+command = "zip -r project.zip project"
+summary = "递归压缩 project 目录为 project.zip"
+
+[[commands.tokens]]
+text = "zip"
+desc = "创建 zip 压缩包的命令"
+
+[[commands.tokens]]
+text = "-r"
+desc = "递归包含目录中的文件"
+
+[[commands.tokens]]
+text = "project.zip"
+desc = "输出的 zip 压缩包名"
+
+[[commands.tokens]]
+text = "project"
+desc = "要压缩的源目录"
+
+[commands.dictation]
+prompt = "把 project 目录递归压缩为 project.zip"
+answers = [
+    "zip -r project.zip project",
+]
+
+[[commands]]
+id = "unzip-to-dir"
+command = "unzip project.zip -d /tmp"
+summary = "把 project.zip 解压到 /tmp 目录"
+
+[[commands.tokens]]
+text = "unzip"
+desc = "解压 zip 文件的命令"
+
+[[commands.tokens]]
+text = "project.zip"
+desc = "要解压的 zip 文件"
+
+[[commands.tokens]]
+text = "-d"
+desc = "指定解压目标目录"
+
+[[commands.tokens]]
+text = "/tmp"
+desc = "解压到 /tmp 目录"
+
+[commands.dictation]
+prompt = "把 project.zip 解压到 /tmp 目录"
+answers = [
+    "unzip project.zip -d /tmp",
+]
+
+[[commands]]
+id = "xz-decompress"
+command = "xz -d kernel.tar.xz"
+summary = "解压 xz 压缩的归档文件"
+
+[[commands.tokens]]
+text = "xz"
+desc = "xz 压缩/解压命令"
+
+[[commands.tokens]]
+text = "-d"
+desc = "解压模式"
+
+[[commands.tokens]]
+text = "kernel.tar.xz"
+desc = "要解压的 xz 文件"
+
+[commands.dictation]
+prompt = "解压 kernel.tar.xz"
+answers = [
+    "xz -d kernel.tar.xz",
+    "unxz kernel.tar.xz",
+]
+
+[[commands]]
+id = "zstd-compress"
+command = "zstd -T0 database.sql"
+summary = "使用所有 CPU 核心以 zstd 压缩 database.sql"
+
+[[commands.tokens]]
+text = "zstd"
+desc = "高性能压缩工具 zstandard（通常需要额外安装）"
+
+[[commands.tokens]]
+text = "-T0"
+desc = "使用系统所有可用 CPU 核心进行压缩"
+
+[[commands.tokens]]
+text = "database.sql"
+desc = "要压缩的文件"
+
+[commands.dictation]
+prompt = "使用所有 CPU 核心以 zstd 压缩 database.sql"
+answers = [
+    "zstd -T0 database.sql",
+]
