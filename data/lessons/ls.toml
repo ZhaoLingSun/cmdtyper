@@ -1,0 +1,127 @@
+[meta]
+command = "ls"
+full_name = "list"
+category = "file_ops"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "列出目录中的文件和子目录"
+explanation = """ls 是 Linux 中最常用的命令之一，用于列出指定目录中的文件和子目录。\
+默认情况下，ls 会列出当前工作目录下的内容，不包括以点（.）开头的隐藏文件。\
+通过组合不同的选项，你可以查看文件的详细信息（权限、大小、修改时间等）、\
+显示隐藏文件、按不同方式排序，以及递归列出子目录的内容。\
+ls 是你在终端中导航和了解文件系统结构时最基础、最重要的工具。"""
+
+[syntax]
+basic = "ls [选项]... [文件或目录]..."
+[[syntax.parts]]
+name = "选项"
+desc = "控制输出格式和排序方式的标志，如 -l、-a、-h 等"
+[[syntax.parts]]
+name = "文件或目录"
+desc = "要列出的目标路径，省略时默认为当前目录"
+
+[[options]]
+flag = "-l"
+name = "长格式输出"
+example = "ls -l"
+note = "显示权限、所有者、大小、修改日期等详细信息"
+
+[[options]]
+flag = "-a"
+name = "显示所有文件"
+example = "ls -a"
+note = "包括以点（.）开头的隐藏文件，例如 .bashrc、.gitignore"
+
+[[options]]
+flag = "-h"
+name = "人类可读的大小"
+example = "ls -lh"
+note = "将文件大小以 K、M、G 等单位显示，必须与 -l 配合使用才有效果"
+
+[[options]]
+flag = "-R"
+name = "递归列出"
+example = "ls -R"
+note = "递归列出所有子目录的内容"
+
+[[options]]
+flag = "-t"
+name = "按修改时间排序"
+example = "ls -lt"
+note = "最近修改的文件排在前面"
+
+[[options]]
+flag = "-S"
+name = "按文件大小排序"
+example = "ls -lS"
+note = "最大的文件排在前面"
+
+[[examples]]
+level = 1
+command = "ls"
+summary = "列出当前目录的文件"
+simulated_output = """Desktop    Documents  Downloads  Music  Pictures  Public  Templates  Videos"""
+
+[[examples]]
+level = 1
+command = "ls /etc"
+summary = "列出 /etc 目录的内容"
+simulated_output = """adduser.conf    bash.bashrc   crontab     fstab       hostname    hosts
+alternatives    ca-certificates  debconf.conf  group       hosts.allow  init.d
+apt             cron.d        default     grub.d      hosts.deny   kernel"""
+
+[[examples]]
+level = 2
+command = "ls -la"
+summary = "以长格式显示所有文件（含隐藏文件）"
+simulated_output = """total 112
+drwxr-xr-x 18 alice alice  4096 Mar  9 10:23 .
+drwxr-xr-x  3 root  root   4096 Jan 15 09:00 ..
+-rw-------  1 alice alice  8923 Mar  9 09:45 .bash_history
+-rw-r--r--  1 alice alice   220 Jan 15 09:00 .bash_logout
+-rw-r--r--  1 alice alice  3771 Jan 15 09:00 .bashrc
+drwxr-xr-x  8 alice alice  4096 Feb 20 14:30 .config
+drwxr-xr-x  2 alice alice  4096 Feb 10 08:00 Desktop
+drwxr-xr-x  5 alice alice  4096 Mar  8 16:42 Documents
+drwxr-xr-x  2 alice alice  4096 Mar  7 11:20 Downloads
+-rw-r--r--  1 alice alice   807 Jan 15 09:00 .profile
+drwx------  2 alice alice  4096 Jan 20 10:15 .ssh"""
+
+[[examples]]
+level = 3
+command = "ls -lhS /var/log"
+summary = "按大小排序并以可读格式显示 /var/log 目录"
+simulated_output = """-rw-r-----  1 syslog adm    48M Mar  9 10:20 syslog
+-rw-r-----  1 syslog adm    12M Mar  8 23:59 syslog.1
+-rw-r-----  1 syslog adm   8.5M Mar  9 10:20 kern.log
+-rw-r-----  1 syslog adm   4.2M Mar  9 10:20 auth.log
+-rw-rw-r--  1 root   utmp  1.3M Mar  9 08:00 wtmp
+-rw-r-----  1 syslog adm   892K Mar  9 10:18 dpkg.log
+-rw-r--r--  1 root   root  256K Mar  5 03:10 alternatives.log
+-rw-r--r--  1 root   root   32K Feb 28 06:25 bootstrap.log
+-rw-rw-r--  1 root   utmp     0 Mar  1 00:00 btmp"""
+
+[[examples]]
+level = 4
+command = "ls -la /etc | grep -i net"
+summary = "结合管道过滤 /etc 下与网络相关的文件"
+simulated_output = """-rw-r--r--  1 root root     92 Jan 15 09:00 networks
+drwxr-xr-x  7 root root   4096 Feb 10 08:30 NetworkManager
+-rw-r--r--  1 root root    116 Jan 15 09:00 netconfig
+drwxr-xr-x  2 root root   4096 Jan 20 11:00 netplan"""
+
+[[gotchas]]
+title = "隐藏文件不会默认显示"
+content = """Linux 中以点（.）开头的文件和目录是隐藏文件（称为 dotfiles）。\
+使用普通的 ls 命令看不到它们。你必须加上 -a 选项才能显示这些文件。\
+许多重要的配置文件都是隐藏的，例如 .bashrc、.ssh/、.gitconfig 等。\
+如果你觉得目录里「什么都没有」，请先试试 ls -a。"""
+
+[[gotchas]]
+title = "-h 选项需要配合 -l 使用"
+content = """-h（human-readable）选项只会在长格式输出中生效。\
+如果单独使用 ls -h，你不会看到任何变化，因为普通 ls 本来就不显示文件大小。\
+正确的用法是 ls -lh，这样文件大小才会以 K、M、G 等单位显示，\
+而不是默认的字节数。"""

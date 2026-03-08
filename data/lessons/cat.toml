@@ -1,0 +1,148 @@
+[meta]
+command = "cat"
+full_name = "concatenate"
+category = "file_ops"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "连接并显示文件内容"
+explanation = """cat 是 Linux 中最常用的文件查看命令，名称来源于 concatenate（连接）。\
+它的主要功能是将一个或多个文件的内容输出到标准输出（通常是终端屏幕）。\
+除了查看文件内容，cat 还可以用来连接多个文件、创建新文件、追加内容到文件等。\
+对于小文件，cat 非常方便；但对于大文件，建议使用 less 或 more 命令，\
+因为 cat 会一次性输出所有内容，大量文本会瞬间刷过屏幕。\
+cat 也是管道操作中常用的数据源命令。"""
+
+[syntax]
+basic = "cat [选项]... [文件]..."
+[[syntax.parts]]
+name = "选项"
+desc = "控制输出格式的标志，如 -n（显示行号）、-b（非空行编号）等"
+[[syntax.parts]]
+name = "文件"
+desc = "要查看的一个或多个文件路径，省略时从标准输入读取"
+
+[[options]]
+flag = "-n"
+name = "显示行号"
+example = "cat -n script.sh"
+note = "为所有输出行添加行号，包括空行"
+
+[[options]]
+flag = "-b"
+name = "非空行编号"
+example = "cat -b script.sh"
+note = "只为非空行编号，空行不编号（会覆盖 -n 选项）"
+
+[[options]]
+flag = "-s"
+name = "压缩空行"
+example = "cat -s document.txt"
+note = "将连续的多个空行压缩为一个空行"
+
+[[options]]
+flag = "-E"
+name = "显示行尾标记"
+example = "cat -E config.ini"
+note = "在每行末尾显示 $ 符号，用于检查是否有行尾多余空格"
+
+[[options]]
+flag = "-A"
+name = "显示所有不可见字符"
+example = "cat -A config.ini"
+note = "等价于 -vET，显示制表符（^I）、行尾（$）及其他不可见字符，调试文件格式问题时很有用"
+
+[[examples]]
+level = 1
+command = "cat /etc/hostname"
+summary = "查看主机名文件"
+simulated_output = """ubuntu-server"""
+
+[[examples]]
+level = 1
+command = "cat ~/.bashrc"
+summary = "查看用户的 bash 配置文件"
+simulated_output = """# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# don't put duplicate lines or lines starting with space in the history.
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000"""
+
+[[examples]]
+level = 2
+command = "cat -n /etc/passwd | head -5"
+summary = "显示 /etc/passwd 前 5 行并带行号"
+simulated_output = """     1\troot:x:0:0:root:/root:/bin/bash
+     2\tdaemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+     3\tbin:x:2:2:bin:/bin:/usr/sbin/nologin
+     4\tsys:x:3:3:sys:/dev:/usr/sbin/nologin
+     5\tsync:x:4:65534:sync:/bin:/bin/sync"""
+
+[[examples]]
+level = 3
+command = "cat file1.txt file2.txt file3.txt > combined.txt"
+summary = "将多个文件合并为一个文件"
+simulated_output = """"""
+
+[[examples]]
+level = 3
+command = "cat -A config.ini"
+summary = "显示不可见字符，调试文件格式"
+simulated_output = """[database]$
+host = 127.0.0.1$
+port = 5432  $
+name = myapp$
+^I$
+[server]$
+host = 0.0.0.0$
+port = 8080$"""
+
+[[examples]]
+level = 4
+command = "cat access.log | grep \"POST\" | awk '{print $7}' | sort | uniq -c | sort -rn | head -10"
+summary = "分析日志中 POST 请求最多的 URL"
+simulated_output = """    342 /api/login
+    218 /api/users
+    156 /api/orders
+     89 /api/upload
+     67 /api/comments
+     45 /api/search
+     34 /api/checkout
+     23 /api/register
+     12 /api/feedback
+      8 /api/logout"""
+
+[[gotchas]]
+title = "大文件不要用 cat 查看"
+content = """cat 会一次性把文件的全部内容输出到终端。如果文件有几千行甚至几百万行，\
+终端会被大量文本刷屏，你几乎无法阅读。
+对于大文件，请使用：
+  less filename   - 可以前后翻页查看
+  head -20 filename - 只看前 20 行
+  tail -20 filename - 只看后 20 行
+cat 最适合用于查看短小的配置文件或者在管道中传递数据。"""
+
+[[gotchas]]
+title = "二进制文件不要用 cat 查看"
+content = """如果你不小心 cat 了一个二进制文件（如图片、可执行文件等），\
+终端会显示大量乱码，甚至可能导致终端显示异常。\
+如果遇到这种情况，可以输入 reset 命令来恢复终端。\
+查看二进制文件应该使用 hexdump -C 或 xxd 等专用工具。\
+使用 file 命令可以先判断文件类型：
+  file somefile
+  somefile: ELF 64-bit LSB executable, x86-64"""

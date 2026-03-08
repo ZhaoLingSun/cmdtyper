@@ -1,0 +1,154 @@
+[meta]
+command = "grep"
+full_name = "Global Regular Expression Print"
+category = "text_process"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "在文件中搜索匹配指定模式的文本行"
+explanation = """grep 是 Linux 中最强大的文本搜索工具之一，名称来源于 \
+"Global Regular Expression Print"（全局正则表达式打印）。\
+它可以在一个或多个文件中搜索匹配指定模式（字符串或正则表达式）的行，\
+并将匹配的行输出到终端。grep 在日志分析、代码搜索、配置文件排查等场景中\
+极其常用。它也是管道操作中最核心的过滤器之一，\
+经常与 cat、ps、find 等命令组合使用。掌握 grep 的基本用法和正则表达式，\
+能极大提升你在终端中处理文本的效率。"""
+
+[syntax]
+basic = "grep [选项]... 模式 [文件]..."
+[[syntax.parts]]
+name = "模式"
+desc = "要搜索的字符串或正则表达式"
+[[syntax.parts]]
+name = "文件"
+desc = "要搜索的文件，省略时从标准输入读取（常用于管道）"
+
+[[options]]
+flag = "-i"
+name = "忽略大小写"
+example = "grep -i 'error' syslog"
+note = "搜索时不区分大小写，Error、ERROR、error 都会被匹配"
+
+[[options]]
+flag = "-r"
+name = "递归搜索"
+example = "grep -r 'TODO' ./src"
+note = "递归搜索目录下的所有文件，-R 效果相同"
+
+[[options]]
+flag = "-n"
+name = "显示行号"
+example = "grep -n 'main' program.c"
+note = "在输出中显示匹配行的行号"
+
+[[options]]
+flag = "-v"
+name = "反向匹配"
+example = "grep -v '^#' config.ini"
+note = "输出不匹配模式的行，常用于过滤注释行"
+
+[[options]]
+flag = "-c"
+name = "仅计数"
+example = "grep -c 'error' syslog"
+note = "只输出匹配行的数量，不显示匹配内容"
+
+[[options]]
+flag = "-l"
+name = "仅显示文件名"
+example = "grep -rl 'password' /etc"
+note = "只输出包含匹配内容的文件名，不显示匹配行"
+
+[[options]]
+flag = "-E"
+name = "扩展正则表达式"
+example = "grep -E 'error|warning|fatal' syslog"
+note = "启用扩展正则表达式，支持 |、+、? 等语法，等同于 egrep"
+
+[[options]]
+flag = "-w"
+name = "全词匹配"
+example = "grep -w 'log' server.conf"
+note = "只匹配整个单词，例如搜索 log 不会匹配到 logging 或 catalog"
+
+[[examples]]
+level = 1
+command = "grep 'error' /var/log/syslog"
+summary = "在系统日志中搜索包含 error 的行"
+simulated_output = """Mar  9 02:15:33 ubuntu kernel: [  2.451203] ACPI error: Method parse/execution failed
+Mar  9 08:30:12 ubuntu systemd[1]: Failed to start error-report.service
+Mar  9 09:45:07 ubuntu nginx[1523]: 2026/03/09 09:45:07 [error] 1523#0: *2847 open() failed
+Mar  9 10:12:44 ubuntu postfix/smtp[8821]: connect to mail.example.com: connection error"""
+
+[[examples]]
+level = 2
+command = "grep -rn 'TODO' ./src"
+summary = "递归搜索源码目录中的所有 TODO 注释并显示行号"
+simulated_output = """./src/main.rs:23:    // TODO: add error handling
+./src/main.rs:87:    // TODO: implement retry logic
+./src/lib.rs:15:    // TODO: write unit tests for this module
+./src/config.rs:42:    // TODO: support YAML config format
+./src/handlers/auth.rs:108:    // TODO: add rate limiting
+./src/handlers/api.rs:56:    // TODO: validate input parameters"""
+
+[[examples]]
+level = 3
+command = "grep -v '^#' /etc/ssh/sshd_config | grep -v '^$'"
+summary = "过滤掉注释行和空行，查看 SSH 的有效配置"
+simulated_output = """Include /etc/ssh/sshd_config.d/*.conf
+Port 22
+AddressFamily any
+ListenAddress 0.0.0.0
+PermitRootLogin prohibit-password
+MaxAuthTries 6
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys
+PasswordAuthentication no
+ChallengeResponseAuthentication no
+UsePAM yes
+X11Forwarding yes
+PrintMotd no
+AcceptEnv LANG LC_*
+Subsystem sftp /usr/lib/openssh/sftp-server"""
+
+[[examples]]
+level = 3
+command = "grep -E '([0-9]{1,3}\\.){3}[0-9]{1,3}' /var/log/auth.log | head -5"
+summary = "使用正则表达式搜索日志中的 IP 地址"
+simulated_output = """Mar  9 03:22:15 ubuntu sshd[4521]: Failed password for invalid user admin from 192.168.1.105 port 52341 ssh2
+Mar  9 03:22:18 ubuntu sshd[4523]: Failed password for invalid user root from 10.0.0.34 port 48923 ssh2
+Mar  9 05:10:33 ubuntu sshd[5102]: Accepted publickey for alice from 172.16.0.50 port 61023 ssh2
+Mar  9 06:45:01 ubuntu sshd[5890]: Failed password for invalid user test from 203.0.113.42 port 39182 ssh2
+Mar  9 08:12:55 ubuntu sshd[6234]: Accepted password for bob from 192.168.1.200 port 55412 ssh2"""
+
+[[examples]]
+level = 4
+command = "ps aux | grep -w 'python' | grep -v grep"
+summary = "查找正在运行的 Python 进程（排除 grep 自身）"
+simulated_output = """alice    12345  0.5  1.2 234560 48320 ?   S    09:30   0:15 python3 /home/alice/app/server.py
+alice    12890  0.1  0.8 187240 32100 pts/1 S+  10:00   0:03 python3 manage.py runserver
+root     14567  0.0  0.3  45680 12400 ?   S    08:00   0:01 python3 /usr/local/bin/monitor.py"""
+
+[[gotchas]]
+title = "正则表达式特殊字符需要转义"
+content = """在 grep 的基本正则表达式（BRE）模式下，许多特殊字符有特殊含义。\
+如果你想搜索包含这些字符本身的文本，需要用反斜杠 \\ 进行转义。常见需要转义的字符：
+  .  表示任意字符，搜索点号用 \\.
+  *  表示重复前一个字符，搜索星号用 \\*
+  [  表示字符类的开始，搜索方括号用 \\[
+  $  表示行尾，搜索美元符号用 \\$
+例如搜索 IP 地址中的点：
+  grep '192\\.168\\.1\\.1' access.log
+如果不转义点号，grep '192.168.1.1' 也会匹配 192x168y1z1 这种文本。\
+另一种方式是使用 -F 选项（固定字符串模式），禁用正则表达式。"""
+
+[[gotchas]]
+title = "grep 与 egrep 的区别"
+content = """传统 grep 使用基本正则表达式（BRE），在 BRE 中 |、+、?、( ) 等\
+需要用反斜杠转义才有特殊含义。egrep（或 grep -E）使用扩展正则表达式（ERE），\
+这些字符直接就有特殊含义，更直观方便。
+BRE（grep）：    grep 'error\\|warning' file
+ERE（grep -E）：  grep -E 'error|warning' file
+现代 Linux 系统中，建议统一使用 grep -E，因为 egrep 已被标记为弃用。\
+另外还有 fgrep（等同于 grep -F），用于搜索固定字符串，不使用正则表达式。"""

@@ -1,0 +1,352 @@
+[meta]
+id = "pipe_redirect"
+topic = "管道与重定向"
+description = "学习 Shell 中管道和重定向操作符，掌握数据流的连接、输出重定向、错误重定向等核心概念"
+difficulty = "basic"
+icon = "🔀"
+
+# ─────────────────────────────────────────────
+# 1. | 管道
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "pipe"
+char_repr = "|"
+name = "管道"
+summary = "将前一个命令的标准输出连接到后一个命令的标准输入"
+explanation = """管道（pipe）是 Unix/Linux 中最强大的概念之一。
+它用竖线符号 | 将两个或多个命令串联起来，前一个命令的标准输出（stdout）
+会自动成为后一个命令的标准输入（stdin），无需创建临时文件。
+
+管道可以无限链接，形成强大的命令流水线：
+  命令A | 命令B | 命令C | ...
+
+注意：管道只传递 stdout，不传递 stderr。如果需要同时传递 stderr，
+需要先用 2>&1 将 stderr 合并到 stdout。"""
+
+[[symbols.examples]]
+command = "ls -la /etc | head -5"
+explanation = "列出 /etc 目录下所有文件的详细信息，通过管道只显示前 5 行"
+simulated_output = """total 1284
+drwxr-xr-x 142 root root   12288 Mar  5 08:30 .
+drwxr-xr-x  20 root root    4096 Jan 12 14:22 ..
+-rw-r--r--   1 root root    3028 Jan 12 14:22 adduser.conf
+-rw-r--r--   1 root root      44 Feb 20 09:15 adjtime"""
+
+[[symbols.examples]]
+command = "cat /var/log/syslog | grep error | wc -l"
+explanation = "读取系统日志文件，过滤包含 error 的行，最后统计行数——典型的三段管道链"
+simulated_output = "42"
+
+[[symbols.examples]]
+command = "ps aux | grep nginx | grep -v grep"
+explanation = "列出所有进程，过滤出 nginx 相关进程，再排除 grep 自身的进程"
+simulated_output = """root      1234  0.0  0.1  65432  2048 ?        Ss   08:00   0:00 nginx: master process /usr/sbin/nginx
+www-data  1235  0.0  0.3  65896  6144 ?        S    08:00   0:05 nginx: worker process
+www-data  1236  0.0  0.3  65896  6080 ?        S    08:00   0:04 nginx: worker process"""
+
+# ─────────────────────────────────────────────
+# 2. > 输出重定向（覆盖）
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "redirect_stdout_overwrite"
+char_repr = ">"
+name = "输出重定向（覆盖）"
+summary = "将命令的标准输出写入文件，若文件已存在则覆盖"
+explanation = """> 将命令的标准输出（stdout，文件描述符 1）重定向到指定文件。
+如果目标文件不存在，系统会自动创建它；如果文件已存在，其内容会被完全覆盖。
+
+语法：命令 > 文件名
+
+注意：> 等价于 1>，因为文件描述符 1 代表标准输出。
+在 Bash 中可以设置 set -o noclobber 来防止意外覆盖已有文件，
+此时需要用 >| 来强制覆盖。"""
+
+[[symbols.examples]]
+command = "echo \"Hello, Linux!\" > greeting.txt"
+explanation = "将字符串写入 greeting.txt 文件。如果文件已存在，原内容被覆盖"
+simulated_output = ""
+
+[[symbols.examples]]
+command = "ls -la /home > file_list.txt"
+explanation = "将 /home 目录的详细文件列表保存到 file_list.txt 中"
+simulated_output = ""
+
+[[symbols.examples]]
+command = "date > timestamp.txt && cat timestamp.txt"
+explanation = "将当前日期时间写入文件，然后用 cat 验证内容"
+simulated_output = "Sun Mar  8 15:30:42 CST 2026"
+
+# ─────────────────────────────────────────────
+# 3. >> 输出重定向（追加）
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "redirect_stdout_append"
+char_repr = ">>"
+name = "输出重定向（追加）"
+summary = "将命令的标准输出追加到文件末尾，不覆盖已有内容"
+explanation = """>> 与 > 类似，但不会覆盖文件原有内容，而是将输出追加到文件末尾。
+如果文件不存在，同样会自动创建。
+
+这在日志记录、逐步构建文件等场景中非常常用。
+
+语法：命令 >> 文件名
+
+常见用法：
+  echo \"新的一行\" >> logfile.txt
+  date >> build_log.txt"""
+
+[[symbols.examples]]
+command = "echo \"第一行\" > notes.txt && echo \"第二行\" >> notes.txt && cat notes.txt"
+explanation = "先用 > 创建文件写入第一行，再用 >> 追加第二行，最后查看完整内容"
+simulated_output = """第一行
+第二行"""
+
+[[symbols.examples]]
+command = "echo \"[$(date)] 服务启动\" >> /var/log/app.log"
+explanation = "将带有时间戳的日志信息追加到应用日志文件中"
+simulated_output = ""
+
+[[symbols.examples]]
+command = "for i in 1 2 3; do echo \"Item $i\" >> list.txt; done && cat list.txt"
+explanation = "在循环中使用 >> 逐行追加内容到文件"
+simulated_output = """Item 1
+Item 2
+Item 3"""
+
+# ─────────────────────────────────────────────
+# 4. 2> 错误重定向
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "redirect_stderr"
+char_repr = "2>"
+name = "标准错误重定向"
+summary = "将命令的标准错误（stderr）重定向到文件"
+explanation = """在 Linux 中，每个进程有三个标准文件描述符：
+  0 = stdin（标准输入）
+  1 = stdout（标准输出）
+  2 = stderr（标准错误）
+
+2> 将文件描述符 2（标准错误）重定向到指定文件。
+这常用于将错误信息和正常输出分开保存。
+
+同样，2>> 表示将 stderr 追加到文件。
+2>/dev/null 表示丢弃所有错误信息（/dev/null 是"黑洞"设备）。"""
+
+[[symbols.examples]]
+command = "ls /nonexistent 2> errors.txt && cat errors.txt"
+explanation = "访问不存在的路径会产生错误，2> 将错误信息保存到 errors.txt"
+simulated_output = "ls: cannot access '/nonexistent': No such file or directory"
+
+[[symbols.examples]]
+command = "find / -name \"*.conf\" 2>/dev/null | head -3"
+explanation = "查找所有 .conf 文件，将权限不足等错误信息丢弃到 /dev/null，只显示正常结果"
+simulated_output = """/etc/sysctl.conf
+/etc/resolv.conf
+/etc/adduser.conf"""
+
+[[symbols.examples]]
+command = "gcc program.c -o program 2> compile_errors.txt"
+explanation = "编译 C 程序，将编译错误和警告保存到文件中以便后续分析"
+simulated_output = ""
+
+# ─────────────────────────────────────────────
+# 5. 2>&1 合并 stderr 到 stdout
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "redirect_stderr_to_stdout"
+char_repr = "2>&1"
+name = "合并标准错误到标准输出"
+summary = "将 stderr 重定向到 stdout 所指向的同一目标"
+explanation = """2>&1 表示将文件描述符 2（stderr）重定向到文件描述符 1（stdout）
+当前所指向的位置。注意顺序很重要：
+
+  命令 > file 2>&1   — stdout 和 stderr 都写入 file ✓
+  命令 2>&1 > file   — 只有 stdout 写入 file，stderr 仍到终端 ✗
+
+在 Bash 中也可以用简写 &> 来同时重定向 stdout 和 stderr：
+  命令 &> file   等价于   命令 > file 2>&1
+
+常见用法是在管道中同时捕获正常输出和错误输出：
+  命令 2>&1 | grep something"""
+
+[[symbols.examples]]
+command = "ls /etc /nonexistent 2>&1 | grep -i \"cannot\""
+explanation = "同时列出存在和不存在的路径，将 stderr 合并到 stdout 后过滤错误信息"
+simulated_output = "ls: cannot access '/nonexistent': No such file or directory"
+
+[[symbols.examples]]
+command = "make build > build.log 2>&1"
+explanation = "将编译的正常输出和错误输出都保存到 build.log 中"
+simulated_output = ""
+
+[[symbols.examples]]
+command = "python3 script.py 2>&1 | tee output.log"
+explanation = "运行 Python 脚本，合并 stdout 和 stderr，同时显示在终端并保存到文件"
+simulated_output = """Processing data...
+Warning: missing value at line 42
+Result: 128 records processed"""
+
+# ─────────────────────────────────────────────
+# 6. < 输入重定向
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "redirect_stdin"
+char_repr = "<"
+name = "输入重定向"
+summary = "将文件内容作为命令的标准输入"
+explanation = """< 将指定文件的内容作为命令的标准输入（stdin，文件描述符 0）。
+
+语法：命令 < 文件名
+
+虽然很多命令本身可以直接读取文件参数（如 cat file），但 < 在以下场景更有用：
+  - 命令只接受 stdin 不接受文件参数时
+  - 需要明确表示数据方向时
+  - 与其他重定向组合使用时
+
+组合示例：
+  sort < unsorted.txt > sorted.txt
+  将 unsorted.txt 的内容排序后保存到 sorted.txt"""
+
+[[symbols.examples]]
+command = "wc -l < /etc/passwd"
+explanation = "统计 /etc/passwd 文件的行数。与 wc -l /etc/passwd 不同的是，不会显示文件名"
+simulated_output = "42"
+
+[[symbols.examples]]
+command = "sort < names.txt > sorted_names.txt && head -3 sorted_names.txt"
+explanation = "将 names.txt 的内容排序后保存到新文件，同时演示输入输出重定向的组合"
+simulated_output = """Alice
+Bob
+Charlie"""
+
+[[symbols.examples]]
+command = "mysql -u root -p mydb < backup.sql"
+explanation = "将 SQL 备份文件通过输入重定向导入到 MySQL 数据库中"
+simulated_output = ""
+
+# ─────────────────────────────────────────────
+# 7. << Here Document
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "heredoc"
+char_repr = "<<"
+name = "Here Document"
+summary = "将多行文本作为命令的标准输入，直到遇到指定的结束标记"
+explanation = """<< 用于创建"Here Document"（此处文档），允许在命令行中直接嵌入多行输入。
+
+语法：
+  命令 << 结束标记
+  第一行内容
+  第二行内容
+  结束标记
+
+结束标记可以是任意字符串，常用 EOF、END、HEREDOC 等。
+结束标记必须独占一行，前面不能有空格（除非使用 <<- 来忽略前导 Tab）。
+
+Here Document 中支持变量展开和命令替换。
+如果要禁止展开，可以给结束标记加单引号：<< 'EOF'"""
+
+[[symbols.examples]]
+command = "cat << EOF\nHello, $USER!\nToday is $(date +%A).\nEOF"
+explanation = "使用 Here Document 创建包含变量和命令替换的多行文本"
+simulated_output = """Hello, ace!
+Today is Sunday."""
+
+[[symbols.examples]]
+command = "cat << 'EOF'\nPrice is $100\nPath is $HOME\nEOF"
+explanation = "使用加引号的结束标记来禁止变量展开，所有 $ 符号保持原样"
+simulated_output = """Price is $100
+Path is $HOME"""
+
+[[symbols.examples]]
+command = "tee config.ini << EOF\n[database]\nhost = localhost\nport = 5432\nname = myapp\nEOF"
+explanation = "使用 Here Document 配合 tee 创建配置文件"
+simulated_output = """[database]
+host = localhost
+port = 5432
+name = myapp"""
+
+# ─────────────────────────────────────────────
+# 8. tee 分流器
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "tee"
+char_repr = "tee"
+name = "tee 分流器"
+summary = "从标准输入读取数据，同时输出到标准输出和一个或多个文件"
+explanation = """tee 命令的名字来源于 T 型管道接头——它将数据流一分为二：
+一份继续流向标准输出（可在终端显示或通过管道传递），
+一份写入指定的文件。
+
+语法：命令 | tee [选项] 文件名
+
+常用选项：
+  -a    追加模式（等价于 >> 的效果），不覆盖文件已有内容
+  文件1 文件2    可以同时写入多个文件
+
+典型场景：
+  - 需要同时查看输出并保存日志
+  - 在管道链中间保存中间结果
+  - 配合 sudo 写入需要权限的文件"""
+
+[[symbols.examples]]
+command = "df -h | tee disk_usage.txt"
+explanation = "查看磁盘使用情况，结果同时显示在终端并保存到文件"
+simulated_output = """Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        50G   32G   16G  67% /
+tmpfs           3.9G  1.2M  3.9G   1% /dev/shm
+/dev/sda2       200G  128G   62G  68% /home"""
+
+[[symbols.examples]]
+command = "echo \"deb http://archive.ubuntu.com/ubuntu jammy main\" | sudo tee /etc/apt/sources.list.d/custom.list"
+explanation = "使用 tee 配合 sudo 写入需要 root 权限的文件（直接用 sudo > 是不行的）"
+simulated_output = "deb http://archive.ubuntu.com/ubuntu jammy main"
+
+[[symbols.examples]]
+command = "cat server.log | grep ERROR | tee -a error_report.txt | wc -l"
+explanation = "过滤日志中的错误，追加保存到报告文件，同时统计错误总数"
+simulated_output = "17"
+
+# ─────────────────────────────────────────────
+# 练习题
+# ─────────────────────────────────────────────
+[[exercises]]
+prompt = "将 ls -l 的输出保存到 filelist.txt 文件中（覆盖写入）"
+answers = [
+    "ls -l > filelist.txt",
+    "ls -l >filelist.txt",
+]
+
+[[exercises]]
+prompt = "查找 /var/log 下的所有 .log 文件，忽略权限错误"
+answers = [
+    "find /var/log -name \"*.log\" 2>/dev/null",
+    "find /var/log -name '*.log' 2>/dev/null",
+    "find /var/log -name \"*.log\" 2> /dev/null",
+    "find /var/log -name '*.log' 2> /dev/null",
+]
+
+[[exercises]]
+prompt = "将 make build 的标准输出和标准错误都保存到 build.log"
+answers = [
+    "make build > build.log 2>&1",
+    "make build >build.log 2>&1",
+    "make build &> build.log",
+    "make build &>build.log",
+]
+
+[[exercises]]
+prompt = "统计 /etc/passwd 文件中包含 bash 的行数（使用管道）"
+answers = [
+    "grep bash /etc/passwd | wc -l",
+    "cat /etc/passwd | grep bash | wc -l",
+    "grep \"bash\" /etc/passwd | wc -l",
+    "grep 'bash' /etc/passwd | wc -l",
+]
+
+[[exercises]]
+prompt = "将当前日期追加到 log.txt 文件末尾"
+answers = [
+    "date >> log.txt",
+    "date >>log.txt",
+]

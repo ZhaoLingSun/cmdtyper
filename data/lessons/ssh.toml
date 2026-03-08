@@ -1,0 +1,267 @@
+[meta]
+command = "ssh"
+full_name = "Secure Shell"
+category = "network"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "通过加密通道安全远程登录和管理 Linux 服务器"
+explanation = """SSH（Secure Shell）是 Linux 系统管理中最核心的远程访问工具。它通过加密隧道在\
+客户端和服务器之间建立安全连接，替代了早期不安全的 telnet 和 rsh 协议。
+
+SSH 的主要用途包括：
+- 远程登录服务器执行命令
+- 通过 SCP/SFTP 安全传输文件
+- 端口转发（隧道）实现安全的网络服务访问
+- 密钥认证实现免密码登录
+
+SSH 默认使用 22 端口，支持密码认证和更安全的公钥认证。在生产环境中，\
+强烈建议禁用密码登录，仅使用密钥认证。"""
+
+[syntax]
+basic = "ssh [选项] [用户名@]主机名 [命令]"
+[[syntax.parts]]
+name = "用户名"
+desc = "远程服务器的登录用户名，省略则使用当前本地用户名"
+[[syntax.parts]]
+name = "主机名"
+desc = "远程服务器的 IP 地址或域名"
+[[syntax.parts]]
+name = "命令"
+desc = "可选，登录后直接执行的命令，执行完毕自动断开"
+
+[[options]]
+flag = "-p"
+name = "指定端口"
+example = "ssh -p 2222 user@server"
+note = "当服务器 SSH 监听非默认端口时使用，注意是小写 -p"
+
+[[options]]
+flag = "-i"
+name = "指定私钥文件"
+example = "ssh -i ~/.ssh/id_ed25519 user@server"
+note = "当有多个密钥对时，手动指定要使用的私钥"
+
+[[options]]
+flag = "-L"
+name = "本地端口转发"
+example = "ssh -L 8080:localhost:80 user@server"
+note = "将本地端口映射到远程服务，常用于访问内网服务"
+
+[[options]]
+flag = "-R"
+name = "远程端口转发"
+example = "ssh -R 9090:localhost:3000 user@server"
+note = "将远程端口映射到本地服务，可实现内网穿透"
+
+[[options]]
+flag = "-N"
+name = "不执行远程命令"
+example = "ssh -N -L 8080:localhost:80 user@server"
+note = "仅建立端口转发隧道，不打开远程 shell"
+
+[[options]]
+flag = "-v"
+name = "详细调试模式"
+example = "ssh -v user@server"
+note = "输出详细连接调试信息，排查连接问题时非常有用"
+
+[[options]]
+flag = "-X"
+name = "启用 X11 转发"
+example = "ssh -X user@server"
+note = "允许在本地显示远程服务器的图形界面程序"
+
+# ── 示例 ──
+
+[[examples]]
+level = 1
+command = "ssh user@192.168.1.100"
+summary = "最基本的 SSH 登录"
+simulated_output = """The authenticity of host '192.168.1.100 (192.168.1.100)' can't be established.
+ED25519 key fingerprint is SHA256:AbCdEfGhIjKlMnOpQrStUvWxYz1234567890abcd.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.1.100' (ED25519) to the list of known hosts.
+user@192.168.1.100's password:
+Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+Last login: Mon Mar  9 10:23:45 2026 from 192.168.1.50
+user@server:~$"""
+
+[[examples]]
+level = 1
+command = "ssh root@myserver.com"
+summary = "使用域名和指定用户登录"
+simulated_output = """root@myserver.com's password:
+Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)
+
+Last login: Sun Mar  8 18:30:22 2026 from 203.0.113.50
+root@myserver:~#"""
+
+[[examples]]
+level = 2
+command = "ssh -i ~/.ssh/id_ed25519 deploy@10.0.0.5"
+summary = "使用指定私钥文件登录"
+simulated_output = """Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)
+
+Last login: Mon Mar  9 08:15:30 2026 from 10.0.0.1
+deploy@prod-web-01:~$"""
+
+[[examples]]
+level = 2
+command = "ssh -p 2222 admin@192.168.1.200"
+summary = "连接非标准端口的 SSH 服务"
+simulated_output = """admin@192.168.1.200's password:
+Welcome to Debian GNU/Linux 12 (bookworm)
+
+Last login: Sat Mar  7 22:10:05 2026 from 192.168.1.50
+admin@firewall:~$"""
+
+[[examples]]
+level = 2
+command = "ssh user@server uptime"
+summary = "远程执行单条命令后自动断开"
+simulated_output = """ 14:23:45 up 127 days,  3:42,  2 users,  load average: 0.15, 0.10, 0.08"""
+
+[[examples]]
+level = 3
+command = "ssh -L 8080:localhost:80 user@webserver"
+summary = "本地端口转发 —— 通过 SSH 隧道访问远程 Web 服务"
+simulated_output = """user@webserver's password:
+Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)
+
+Last login: Mon Mar  9 09:00:12 2026 from 192.168.1.50
+user@webserver:~$
+# 现在访问本地 http://localhost:8080 即可安全访问远程 80 端口"""
+
+[[examples]]
+level = 3
+command = "ssh -N -L 5433:db-internal:5432 user@jumphost"
+summary = "通过跳板机建立到内网数据库的隧道"
+simulated_output = """# 终端无输出（-N 不开启 shell），隧道已建立
+# 现在可以用 psql -h localhost -p 5433 连接内网数据库"""
+
+[[examples]]
+level = 3
+command = "ssh -v user@192.168.1.100"
+summary = "开启调试模式排查连接问题"
+simulated_output = """OpenSSH_9.6p1 Ubuntu-3ubuntu1, OpenSSL 3.0.13 30 Jan 2024
+debug1: Reading configuration data /home/user/.ssh/config
+debug1: Reading configuration data /etc/ssh/ssh_config
+debug1: Connecting to 192.168.1.100 [192.168.1.100] port 22.
+debug1: Connection established.
+debug1: identity file /home/user/.ssh/id_ed25519 type 3
+debug1: Local version string SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu1
+debug1: Remote protocol version 2.0, remote software version OpenSSH_8.9p1
+debug1: Authenticating to 192.168.1.100:22 as 'user'
+debug1: SSH2_MSG_KEX_ECDH_INIT sent
+debug1: expecting SSH2_MSG_KEX_ECDH_REPLY
+debug1: Server host key: ssh-ed25519 SHA256:AbCdEfGhIjKlMnOpQrStUvWxYz
+debug1: Host '192.168.1.100' is known and matches the ED25519 host key.
+debug1: Found key in /home/user/.ssh/known_hosts:5
+debug1: Authentication succeeded (publickey).
+Authenticated to 192.168.1.100 ([192.168.1.100]:22) using "publickey".
+user@server:~$"""
+
+[[examples]]
+level = 4
+command = "ssh-keygen -t ed25519 -C \"user@workstation\""
+summary = "生成 Ed25519 密钥对（推荐算法）"
+simulated_output = """Generating public/private ed25519 key pair.
+Enter file in which to save the key (/home/user/.ssh/id_ed25519):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/user/.ssh/id_ed25519
+Your public key has been saved in /home/user/.ssh/id_ed25519.pub
+The key fingerprint is:
+SHA256:xK9m3pQrStUvWxYz1234567890AbCdEfGhIjKlMnOp user@workstation
+The key's randomart image is:
++--[ED25519 256]--+
+|        .oo=+o   |
+|       . o.=.+   |
+|      . + o =    |
+|     . = + . .   |
+|    . = S .   .  |
+|   . + = o     . |
+|    + + + .   .  |
+|   . = . o  E  . |
+|    +.o.. .o .o. |
++----[SHA256]-----+"""
+
+[[examples]]
+level = 4
+command = "ssh-copy-id -i ~/.ssh/id_ed25519.pub user@192.168.1.100"
+summary = "将公钥复制到远程服务器，实现免密码登录"
+simulated_output = """/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/user/.ssh/id_ed25519.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+user@192.168.1.100's password:
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'user@192.168.1.100'"
+and check to make sure that only the key(s) you wanted were added."""
+
+[[examples]]
+level = 4
+command = "ssh -R 8080:localhost:3000 user@public-server"
+summary = "远程端口转发 —— 将内网开发服务器暴露到公网"
+simulated_output = """Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)
+
+Last login: Mon Mar  9 11:45:00 2026 from 203.0.113.10
+user@public-server:~$
+# 外部用户访问 public-server:8080 即可到达你本地的 localhost:3000"""
+
+# ── 易错点 ──
+
+[[gotchas]]
+title = "私钥文件权限必须严格限制"
+content = """SSH 对密钥文件权限要求非常严格：
+- 私钥文件（如 id_ed25519）权限必须是 600（仅所有者可读写）
+- .ssh 目录权限必须是 700（仅所有者可读写执行）
+- authorized_keys 文件权限必须是 600
+
+如果权限过于宽松，SSH 会直接拒绝使用该密钥：
+  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  @         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  Permissions 0644 for '/home/user/.ssh/id_ed25519' are too open.
+
+修复方法：
+  chmod 700 ~/.ssh
+  chmod 600 ~/.ssh/id_ed25519
+  chmod 600 ~/.ssh/authorized_keys"""
+
+[[gotchas]]
+title = "首次连接的主机密钥验证"
+content = """首次连接新服务器时，SSH 会提示确认主机指纹：
+  The authenticity of host 'server (1.2.3.4)' can't be established.
+  ED25519 key fingerprint is SHA256:xxxxx
+  Are you sure you want to continue connecting?
+
+这是正常安全机制，不是报错！但如果之前连接过的服务器突然又出现此提示，\
+可能意味着：
+- 服务器重装了系统
+- 遭受中间人攻击（Man-in-the-Middle）
+
+遇到 "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!" 时需要谨慎确认，\
+确认安全后可用以下命令清除旧指纹：
+  ssh-keygen -R 服务器地址"""
+
+[[gotchas]]
+title = "本地端口转发与远程端口转发的区别"
+content = """-L（Local）本地转发：将本地端口转到远程网络
+  ssh -L 本地端口:目标主机:目标端口 跳板机
+  场景：通过跳板机访问内网数据库
+
+-R（Remote）远程转发：将远程端口转到本地网络
+  ssh -R 远程端口:目标主机:目标端口 远程服务器
+  场景：将本地开发服务暴露到公网
+
+记忆技巧：L = 我要访问那边的服务，R = 让那边访问我的服务"""
