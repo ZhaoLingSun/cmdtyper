@@ -1,0 +1,15 @@
+services:
+  cmdtyper:
+    build: .
+    image: cmdtyper:dev
+    container_name: cmdtyper
+    stdin_open: true
+    tty: true
+    volumes:
+      - cmdtyper_data:/data
+    environment:
+      - TERM=xterm-256color
+      - LANG=zh_CN.UTF-8
+
+volumes:
+  cmdtyper_data:
