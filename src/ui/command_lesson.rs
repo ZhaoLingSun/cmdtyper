@@ -205,8 +205,8 @@ pub fn render_example(
     // Token descriptions from command
     // Find matching command tokens
     let matching_cmd = app.commands.iter().find(|c| c.command == example.command);
-    if let Some(cmd) = matching_cmd {
-        if !cmd.tokens.is_empty() {
+    if let Some(cmd) = matching_cmd
+        && !cmd.tokens.is_empty() {
             lines.push(Line::from(Span::styled(
                 "\u{8bcd}\u{5143}\u{89e3}\u{6790}:",
                 Style::default().fg(HEADER),
@@ -219,7 +219,6 @@ pub fn render_example(
             }
             lines.push(Line::from(""));
         }
-    }
 
     let content = Paragraph::new(lines).wrap(Wrap { trim: false });
     frame.render_widget(content, chunks[1]);

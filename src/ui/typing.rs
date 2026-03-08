@@ -27,11 +27,8 @@ fn render_terminal_area(frame: &mut Frame, app: &App, area: Rect) {
     // Completed lines from history
     let visible = app.terminal_history.visible_lines(area.height);
     for tl in visible {
-        match tl.status {
-            LineStatus::Completed => {
-                lines.push(render_completed_line(&tl.prompt, &tl.command_display));
-            }
-            _ => {}
+        if tl.status == LineStatus::Completed {
+            lines.push(render_completed_line(&tl.prompt, &tl.command_display));
         }
     }
 

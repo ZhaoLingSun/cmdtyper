@@ -65,8 +65,8 @@ pub fn render(frame: &mut Frame, app: &App) {
         lines.push(Line::from(""));
 
         // Show result after submission
-        if app.dictation_submitted {
-            if let Some(result) = &app.dictation_result {
+        if app.dictation_submitted
+            && let Some(result) = &app.dictation_result {
                 match result {
                     MatchResult::Exact(_) => {
                         lines.push(Line::from(Span::styled(
@@ -119,7 +119,6 @@ pub fn render(frame: &mut Frame, app: &App) {
                     }
                 }
             }
-        }
     } else {
         lines.push(Line::from(Span::styled(
             "\u{6682}\u{65e0}\u{9ed8}\u{5199}\u{9898}\u{76ee}",
