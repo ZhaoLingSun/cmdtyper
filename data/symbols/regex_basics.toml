@@ -1,0 +1,423 @@
+[meta]
+id = "regex_basics"
+topic = "正则表达式基础"
+description = "学习 Shell 和命令行工具中常用的正则表达式元字符，掌握文本模式匹配的核心概念"
+difficulty = "advanced"
+icon = "🔤"
+
+# ─────────────────────────────────────────────
+# 1. . 匹配任意单个字符
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "regex_dot"
+char_repr = "."
+name = "点号元字符"
+summary = "匹配除换行符以外的任意单个字符"
+explanation = """点号 . 是正则表达式中最基础的元字符之一，它匹配任意一个字符（除换行符 \\n 外）。
+
+基本规则：
+  h.t       匹配 hat、hit、hot、hut 等（中间恰好一个任意字符）
+  c.t       匹配 cat、cut、cot 等
+  ..t       匹配任意两个字符后面跟 t 的模式
+
+重要特性：
+  - 一个 . 恰好匹配一个字符，不多不少
+  - 可以连续使用多个点号：... 匹配任意三个字符
+  - 如果要匹配字面量的点号，需要用反斜杠转义：\\.
+
+常见用法：
+  grep 'h.t' file       在 file 中搜索 h 加任意字符加 t 的模式
+  grep '...' file       搜索至少包含三个连续字符的行"""
+
+[[symbols.examples]]
+command = "echo -e 'hat\\nhit\\nhot\\nhut\\nht' | grep 'h.t'"
+explanation = "用点号匹配 h 和 t 之间的任意一个字符，ht 因为中间没有字符所以不匹配"
+simulated_output = """hat
+hit
+hot
+hut"""
+
+[[symbols.examples]]
+command = "echo -e 'cat\\ncut\\ncot\\ncart' | grep 'c.t'"
+explanation = "匹配 c 加任意一个字符加 t 的模式；cart 不匹配因为 c 和 t 之间有两个字符"
+simulated_output = """cat
+cut
+cot"""
+
+[[symbols.examples]]
+command = "ls /etc | grep 'h..t'"
+explanation = "在 /etc 目录下查找文件名中包含 h 加两个任意字符加 t 的文件"
+simulated_output = """host.conf
+hosts"""
+
+# ─────────────────────────────────────────────
+# 2. * 匹配零个或多个前导元素
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "regex_star"
+char_repr = "*"
+name = "星号量词"
+summary = "匹配前面的元素出现零次或多次（贪婪匹配）"
+explanation = """在正则表达式中，星号 * 表示前面的字符或元素可以出现零次或多次。
+
+注意区别：
+  - Shell 通配符中 * 单独表示"任意字符串"
+  - 正则表达式中 * 是量词，必须跟在某个元素后面
+
+基本规则：
+  ab*c      匹配 ac、abc、abbc、abbbc ...（b 出现零次或多次）
+  go*gle    匹配 ggle、gogle、google、gooogle ...
+  .*        匹配任意长度的任意字符串（. 加 * 的组合）
+
+特殊组合：
+  .*  是"万能匹配"，等同于 Shell 通配符中的 *
+  它在 grep 中常用于模糊搜索：grep 'error.*fail' 表示匹配
+  error 和 fail 之间有任意内容的行。
+
+重要：* 是贪婪的，它会尽可能多地匹配字符。"""
+
+[[symbols.examples]]
+command = "echo -e 'ac\\nabc\\nabbc\\nabbbc' | grep 'ab*c'"
+explanation = "星号使 b 可以出现零次或多次，因此 ac（零个 b）和 abc、abbc 等都匹配"
+simulated_output = """ac
+abc
+abbc
+abbbc"""
+
+[[symbols.examples]]
+command = "echo -e 'ggle\\ngogle\\ngoogle\\ngooogle' | grep 'go*gle'"
+explanation = "o 出现零次或多次都匹配，所以 ggle 到 gooogle 全部被选中"
+simulated_output = """ggle
+gogle
+google
+gooogle"""
+
+[[symbols.examples]]
+command = "grep 'error.*timeout' /var/log/syslog"
+explanation = "搜索同一行中先出现 error 后出现 timeout 的日志条目，中间可以有任意内容"
+simulated_output = """Mar  8 10:15:23 server kernel: error: connection timeout after 30s
+Mar  8 14:22:01 server app[1234]: error reading socket: timeout exceeded"""
+
+# ─────────────────────────────────────────────
+# 3. + 匹配一个或多个前导元素
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "regex_plus"
+char_repr = "+"
+name = "加号量词"
+summary = "匹配前面的元素出现一次或多次（扩展正则表达式）"
+explanation = """加号 + 是扩展正则表达式（ERE）中的量词，表示前面的元素必须出现至少一次。
+
+与 * 的区别：
+  * 匹配零次或多次 → 前面的元素可以不出现
+  + 匹配一次或多次 → 前面的元素至少出现一次
+
+使用要求：
+  + 属于扩展正则表达式，需要使用以下方式之一：
+  - grep -E（或 egrep）
+  - sed -E
+  - awk（默认支持 ERE）
+
+基本规则：
+  go+gle    匹配 gogle、google、gooogle ...（但不匹配 ggle）
+  [0-9]+    匹配一个或多个连续数字
+
+在基本正则表达式（BRE）中需要转义：grep 'go\\+gle' 等价于 grep -E 'go+gle'"""
+
+[[symbols.examples]]
+command = "echo -e 'ggle\\ngogle\\ngoogle\\ngooogle' | grep -E 'go+gle'"
+explanation = "加号要求 o 至少出现一次，所以 ggle（零个 o）不匹配，其余都匹配"
+simulated_output = """gogle
+google
+gooogle"""
+
+[[symbols.examples]]
+command = "echo -e 'gl\\ngol\\ngool\\ngoool' | grep -E 'go+l'"
+explanation = "匹配 g 后面跟一个或多个 o 再跟 l 的模式，gl 因为没有 o 而不匹配"
+simulated_output = """gol
+gool
+goool"""
+
+[[symbols.examples]]
+command = "echo -e 'abc\\na1b2c3\\n123\\nabc123' | grep -E '[0-9]+'"
+explanation = "匹配包含一个或多个连续数字的行"
+simulated_output = """a1b2c3
+123
+abc123"""
+
+# ─────────────────────────────────────────────
+# 4. ? 匹配零个或一个前导元素
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "regex_question"
+char_repr = "?"
+name = "问号量词"
+summary = "匹配前面的元素出现零次或一次（扩展正则表达式）"
+explanation = """问号 ? 是扩展正则表达式中的量词，表示前面的元素可以出现零次或恰好一次。
+
+它使前面的元素变成"可选的"：
+  colou?r     匹配 color 和 colour（u 是可选的）
+  https?      匹配 http 和 https（s 是可选的）
+  -?[0-9]+    匹配可选负号后跟数字（匹配正数和负数）
+
+使用要求：
+  和 + 一样，? 属于扩展正则表达式，需要：
+  - grep -E（或 egrep）
+  - sed -E
+
+在基本正则表达式中需要转义：grep 'colou\\?r' 等价于 grep -E 'colou?r'
+
+典型应用场景：
+  - 处理美式/英式拼写差异
+  - 匹配协议前缀（http/https）
+  - 处理可选的符号或前缀"""
+
+[[symbols.examples]]
+command = "echo -e 'color\\ncolour\\ncolouur' | grep -E 'colou?r'"
+explanation = "问号使 u 可选，color 和 colour 都匹配，但 colouur 有两个 u 所以不匹配整个模式"
+simulated_output = """color
+colour"""
+
+[[symbols.examples]]
+command = "echo -e 'http://example.com\\nhttps://example.com\\nhttpss://bad' | grep -E 'https?://'"
+explanation = "匹配 http:// 和 https:// 两种协议前缀，s 是可选的"
+simulated_output = """http://example.com
+https://example.com"""
+
+[[symbols.examples]]
+command = "echo -e '42\\n-7\\n+10\\n3.14' | grep -E '^-?[0-9]+$'"
+explanation = "匹配可选负号后跟一个或多个数字的整数，+10 和 3.14 不匹配"
+simulated_output = """42
+-7"""
+
+# ─────────────────────────────────────────────
+# 5. ^ 匹配行首
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "regex_caret"
+char_repr = "^"
+name = "脱字符（行首锚点）"
+summary = "匹配行的开头位置，限定模式必须出现在行首"
+explanation = """脱字符 ^ 是一个位置锚点，它不匹配任何字符，而是匹配行的起始位置。
+
+将 ^ 放在模式开头，表示该模式必须出现在行首：
+  ^root      匹配以 root 开头的行
+  ^#         匹配以 # 开头的行（通常是注释）
+  ^$         匹配空行（行首紧接行尾）
+
+注意 ^ 在不同位置的含义：
+  - 在模式开头：行首锚点
+  - 在 [] 字符类中的第一个位置 [^abc]：取反，表示"不是 a、b、c 中的任何一个"
+  - 在其他位置：匹配字面量 ^
+
+常用场景：
+  - 过滤配置文件中的注释行：grep '^#' config
+  - 查找特定用户的条目：grep '^username:' /etc/passwd
+  - 删除空行：grep -v '^$' file"""
+
+[[symbols.examples]]
+command = "grep '^root' /etc/passwd"
+explanation = "查找 /etc/passwd 中以 root 开头的行，通常会匹配到 root 用户的条目"
+simulated_output = "root:x:0:0:root:/root:/bin/bash"
+
+[[symbols.examples]]
+command = "echo -e '# 这是注释\\nname=value\\n# 另一个注释\\nport=8080' | grep '^#'"
+explanation = "过滤出以 # 号开头的注释行"
+simulated_output = """# 这是注释
+# 另一个注释"""
+
+[[symbols.examples]]
+command = "grep -c '^$' /etc/config.conf"
+explanation = "统计配置文件中空行的数量（^$ 表示行首紧接行尾，即空行）"
+simulated_output = "5"
+
+# ─────────────────────────────────────────────
+# 6. $ 匹配行尾
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "regex_dollar"
+char_repr = "$"
+name = "美元符号（行尾锚点）"
+summary = "匹配行的结尾位置，限定模式必须出现在行尾"
+explanation = """美元符号 $ 是行尾锚点，它不匹配任何字符，而是匹配行的结束位置。
+
+将 $ 放在模式末尾，表示该模式必须出现在行尾：
+  bash$       匹配以 bash 结尾的行
+  \\.conf$     匹配以 .conf 结尾的行（\\. 转义点号）
+  ^$          匹配空行（配合 ^ 使用）
+
+注意：在正则表达式中，$ 只有在模式末尾时才是行尾锚点。
+在其他位置它可能匹配字面量 $（取决于工具的具体实现）。
+
+常见组合：
+  ^...$       精确匹配整行内容
+  ^.*pattern$ 匹配以 pattern 结尾的行
+  grep -v '^ *$'  过滤空行和只包含空格的行
+
+常用场景：
+  - 查找使用特定 Shell 的用户：grep 'bash$' /etc/passwd
+  - 查找特定类型的文件名：grep '\\.log$' filelist.txt
+  - 配合 ^ 做精确匹配：grep '^exact_match$' file"""
+
+[[symbols.examples]]
+command = "grep 'bash$' /etc/passwd"
+explanation = "查找 /etc/passwd 中以 bash 结尾的行，即使用 bash 作为登录 Shell 的用户"
+simulated_output = """root:x:0:0:root:/root:/bin/bash
+ace:x:1000:1000:Ace:/home/ace:/bin/bash"""
+
+[[symbols.examples]]
+command = "echo -e 'readme.conf\\nsetup.conf\\nreadme.txt\\nnotes.conf.bak' | grep '\\.conf$'"
+explanation = "查找以 .conf 结尾的行；用 \\. 转义确保匹配字面量点号，$ 确保在行尾"
+simulated_output = """readme.conf
+setup.conf"""
+
+[[symbols.examples]]
+command = "grep -E '^.{0,40}$' data.txt"
+explanation = "查找长度不超过 40 个字符的行（从行首到行尾最多 40 个任意字符）"
+simulated_output = """short line
+this is a medium line here
+another short one"""
+
+# ─────────────────────────────────────────────
+# 7. [] 字符类
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "regex_bracket"
+char_repr = "[]"
+name = "方括号字符类"
+summary = "匹配方括号内指定的任意一个字符或字符范围"
+explanation = """方括号 [] 定义一个字符类，匹配其中列出的任意一个字符。
+
+基本语法：
+  [aeiou]     匹配任意一个元音字母
+  [0-9]       匹配任意一个数字（范围表示法）
+  [a-zA-Z]    匹配任意一个英文字母
+  [a-z0-9_]   匹配小写字母、数字或下划线
+
+取反（否定字符类）：
+  [^abc]      匹配除 a、b、c 以外的任意一个字符
+  [^0-9]      匹配任意一个非数字字符
+  [^a-z]      匹配任意一个非小写字母字符
+
+特殊字符在 [] 内的处理：
+  - ] 需要放在第一个位置或转义：[]abc] 或 [a\\]bc]
+  - - 需要放在首尾位置或转义：[-abc] 或 [abc-]
+  - ^ 只在第一个位置表示取反，其他位置是普通字符
+  - . * + 等元字符在 [] 内失去特殊含义
+
+字符类是正则表达式中精确控制匹配范围的核心工具。"""
+
+[[symbols.examples]]
+command = "echo -e 'apple\\nbanana\\norange\\numbrella' | grep '[aeiou]'"
+explanation = "匹配包含至少一个元音字母的行（几乎所有英文单词都会匹配）"
+simulated_output = """apple
+banana
+orange
+umbrella"""
+
+[[symbols.examples]]
+command = "echo -e 'abc\\na1b2\\n123\\n!@#' | grep '[0-9]'"
+explanation = "匹配包含至少一个数字的行"
+simulated_output = """a1b2
+123"""
+
+[[symbols.examples]]
+command = "echo -e 'Hello\\nhello\\nHELLO\\n123abc' | grep '[^a-z]'"
+explanation = "匹配包含至少一个非小写字母字符的行；hello 纯小写所以不匹配"
+simulated_output = """Hello
+HELLO
+123abc"""
+
+# ─────────────────────────────────────────────
+# 8. () 分组
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "regex_group"
+char_repr = "()"
+name = "圆括号分组"
+summary = "将多个元素组合为一个整体，可配合量词或交替使用（扩展正则表达式）"
+explanation = """圆括号 () 在扩展正则表达式中用于将模式元素分组，使其作为一个整体参与运算。
+
+分组的主要用途：
+
+1. 配合量词重复整组模式：
+   (ab)+      匹配 ab、abab、ababab ...（整个 ab 重复）
+   (ha){2,}   匹配 haha、hahaha ...（ha 至少重复两次）
+
+2. 配合交替符 | 进行"或"匹配：
+   (error|warning)     匹配 error 或 warning
+   (cat|dog) food      匹配 cat food 或 dog food
+
+3. 反向引用（在支持的工具中）：
+   (word).*\\1          匹配同一个 word 出现两次的行
+
+使用要求：
+  () 属于扩展正则表达式，需要 grep -E 或 egrep。
+  在基本正则表达式中需要转义：grep '\\(ab\\)\\+' 等价于 grep -E '(ab)+'
+
+注意：在交替匹配中，| 的优先级很低，所以 abc|def 匹配的是 abc 或 def，
+而不是 ab(c|d)ef。使用分组可以精确控制 | 的作用范围。"""
+
+[[symbols.examples]]
+command = "echo -e 'ab\\nabab\\nababab\\naabb' | grep -E '(ab)+'"
+explanation = "将 ab 作为一组进行重复匹配，匹配一个或多个连续的 ab 模式"
+simulated_output = """ab
+abab
+ababab"""
+
+[[symbols.examples]]
+command = "grep -E '(error|warning)' /var/log/syslog | head -5"
+explanation = "在系统日志中搜索包含 error 或 warning 的行，使用分组配合交替符"
+simulated_output = """Mar  8 08:01:12 server kernel: warning: low memory
+Mar  8 08:15:33 server app[921]: error: connection refused
+Mar  8 09:22:01 server sshd[1042]: warning: authentication failure
+Mar  8 10:05:44 server nginx[780]: error: upstream timeout
+Mar  8 10:30:17 server kernel: warning: disk space low"""
+
+[[symbols.examples]]
+command = "echo -e 'haha\\nhahaha\\nha\\nho' | grep -E '^(ha){2,}$'"
+explanation = "匹配 ha 重复两次或更多次且占满整行的字符串"
+simulated_output = """haha
+hahaha"""
+
+# ─────────────────────────────────────────────
+# 练习题
+# ─────────────────────────────────────────────
+[[exercises]]
+prompt = "在 /etc/passwd 中查找以 root 开头的行"
+answers = [
+    "grep '^root' /etc/passwd",
+    "grep \"^root\" /etc/passwd",
+]
+
+[[exercises]]
+prompt = "在文件 data.txt 中搜索包含 error 或 warning 的行（使用扩展正则表达式）"
+answers = [
+    "grep -E '(error|warning)' data.txt",
+    "grep -E \"(error|warning)\" data.txt",
+    "egrep '(error|warning)' data.txt",
+    "egrep \"(error|warning)\" data.txt",
+]
+
+[[exercises]]
+prompt = "匹配 color 和 colour 两种拼写（使用扩展正则表达式）"
+answers = [
+    "grep -E 'colou?r' file",
+    "grep -E \"colou?r\" file",
+    "egrep 'colou?r' file",
+]
+
+[[exercises]]
+prompt = "查找 /etc/passwd 中以 bash 结尾的行"
+answers = [
+    "grep 'bash$' /etc/passwd",
+    "grep \"bash$\" /etc/passwd",
+]
+
+[[exercises]]
+prompt = "在文件 log.txt 中查找包含一个或多个连续数字的行"
+answers = [
+    "grep -E '[0-9]+' log.txt",
+    "grep -E \"[0-9]+\" log.txt",
+    "egrep '[0-9]+' log.txt",
+]

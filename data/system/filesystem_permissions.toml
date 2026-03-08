@@ -1,0 +1,260 @@
+[meta]
+id = "filesystem_permissions"
+topic = "文件系统权限"
+description = "理解 Linux 文件权限体系：rwx 权限位、数字权限、umask、特殊权限（SUID/SGID/Sticky）、chmod/chown 命令"
+difficulty = "basic"
+icon = "🔒"
+
+overview = """
+┌─────────────────────────────────────────────────────────────┐
+│              Linux 文件权限结构详解                            │
+│                                                             │
+│  -rwxr-xr-- 1 alice developers 4096 Mar  5 10:30 script.sh │
+│  │└┬┘└┬┘└┬┘                                                │
+│  │ │  │  └── 其他用户 (other): r-- (只读)                    │
+│  │ │  └───── 所属组 (group):  r-x (读+执行)                  │
+│  │ └──────── 所有者 (owner):  rwx (读+写+执行)               │
+│  └────────── 文件类型: - (普通文件)                           │
+│                                                             │
+│  文件类型标识：                                               │
+│    -  普通文件        l  符号链接                              │
+│    d  目录            c  字符设备                              │
+│    b  块设备          s  套接字                                │
+│    p  管道 (FIFO)                                            │
+│                                                             │
+│  权限数字对照表：                                              │
+│  ┌─────┬───────┬───────┐                                    │
+│  │ 数字 │ 权限   │ 含义   │                                   │
+│  ├─────┼───────┼───────┤                                    │
+│  │  4  │  r--  │ 只读   │                                    │
+│  │  2  │  -w-  │ 只写   │                                    │
+│  │  1  │  --x  │ 只执行  │                                   │
+│  │  5  │  r-x  │ 读+执行 │                                   │
+│  │  6  │  rw-  │ 读+写   │                                   │
+│  │  7  │  rwx  │ 全部    │                                   │
+│  │  0  │  ---  │ 无权限  │                                    │
+│  └─────┴───────┴───────┘                                    │
+│                                                             │
+│  常见权限组合：                                               │
+│    755 = rwxr-xr-x  — 可执行文件/目录                        │
+│    644 = rw-r--r--  — 普通文件                               │
+│    600 = rw-------  — 私密文件（如 SSH 密钥）                  │
+│    777 = rwxrwxrwx  — 所有人可读写执行（⚠ 危险）              │
+│                                                             │
+│  特殊权限位：                                                 │
+│    4xxx — SUID  所有者权限执行 (如 /usr/bin/passwd)           │
+│    2xxx — SGID  所属组权限执行/继承组                          │
+│    1xxx — Sticky Bit 仅所有者可删 (如 /tmp)                  │
+└─────────────────────────────────────────────────────────────┘"""
+
+# ============================================================
+# Section 1: rwx 权限基础
+# ============================================================
+[[sections]]
+id = "rwx-basics"
+title = "rwx 权限基础"
+description = """Linux 中每个文件和目录都有三组权限，分别针对三类用户：
+
+  所有者 (owner/user) — 文件的创建者或指定拥有者
+  所属组 (group)      — 文件关联的用户组
+  其他用户 (other)     — 系统上的其他所有用户
+
+每组权限由三个位组成：
+  r (read)    = 4  — 读取文件内容 / 列出目录内容
+  w (write)   = 2  — 修改文件内容 / 在目录中创建、删除文件
+  x (execute) = 1  — 执行文件 / 进入目录（cd）
+
+数字权限由三位组成，每位是 r+w+x 的和：
+  rwx = 4+2+1 = 7    r-x = 4+0+1 = 5
+  rw- = 4+2+0 = 6    r-- = 4+0+0 = 4
+
+例如 755 表示：所有者 rwx(7)，所属组 r-x(5)，其他用户 r-x(5)。"""
+
+[[sections.commands]]
+command = "ls -la /home/"
+summary = "查看 /home/ 目录下所有文件和目录的详细权限信息"
+simulated_output = """total 16
+drwxr-xr-x  4 root  root  4096 Jan 15 09:00 .
+drwxr-xr-x 20 root  root  4096 Jan 10 08:00 ..
+drwxr-x--- 18 alice alice 4096 Mar  9 08:30 alice
+drwxr-x--- 12 bob   bob   4096 Mar  8 17:45 bob
+drwxr-xr-x  5 guest users 4096 Feb 20 14:00 guest"""
+
+[[sections.commands]]
+command = "stat -c '%A %a %U:%G %n' /etc/passwd"
+summary = "以数字和符号两种格式显示文件权限及所有者信息"
+simulated_output = """-rw-r--r-- 644 root:root /etc/passwd"""
+
+[[sections.commands]]
+command = "ls -la /usr/bin/passwd"
+summary = "查看 passwd 命令的权限（注意 SUID 标志 s）"
+simulated_output = """-rwsr-xr-x 1 root root 68208 Mar 14 2025 /usr/bin/passwd"""
+
+# ============================================================
+# Section 2: chmod 修改权限
+# ============================================================
+[[sections]]
+id = "chmod"
+title = "chmod 修改权限"
+description = """chmod（change mode）命令用于修改文件或目录的权限。支持两种模式：
+
+数字模式（推荐）：
+  chmod 755 file  — 直接设定完整权限
+  chmod 600 file  — 只有所有者可读写
+
+符号模式（灵活）：
+  chmod u+x file  — 给所有者添加执行权限
+  chmod go-w file — 去除组和其他用户的写权限
+  chmod a+r file  — 给所有人添加读权限
+
+符号含义：
+  u = user（所有者）  g = group（组）  o = other（其他）  a = all（全部）
+  + 添加权限          - 移除权限       = 设定权限
+
+-R 选项可递归修改目录及其所有内容的权限。"""
+
+[[sections.commands]]
+command = "chmod 755 script.sh && ls -la script.sh"
+summary = "将 script.sh 设为所有者可读写执行、其他人可读执行"
+simulated_output = """-rwxr-xr-x 1 alice developers 2048 Mar  9 10:15 script.sh"""
+
+[[sections.commands]]
+command = "chmod u+x deploy.sh && ls -la deploy.sh"
+summary = "给所有者添加执行权限"
+simulated_output = """-rwxr--r-- 1 alice developers 1536 Mar  8 16:20 deploy.sh"""
+
+[[sections.commands]]
+command = "chmod go-w config.ini && ls -la config.ini"
+summary = "移除组和其他用户的写权限，保护配置文件"
+simulated_output = """-rw-r--r-- 1 alice developers 512 Mar  7 09:45 config.ini"""
+
+[[sections.commands]]
+command = "chmod -R 644 docs/"
+summary = "递归设置 docs/ 目录下所有文件为 644 权限（rw-r--r--）"
+simulated_output = """"""
+
+# ============================================================
+# Section 3: chown/chgrp 修改归属
+# ============================================================
+[[sections]]
+id = "chown-chgrp"
+title = "chown/chgrp 修改归属"
+description = """chown（change owner）用于修改文件的所有者和所属组。
+chgrp（change group）仅修改文件的所属组。
+
+chown 语法：
+  chown 用户 文件           — 只改所有者
+  chown 用户:组 文件        — 同时改所有者和组
+  chown :组 文件            — 只改组（等同于 chgrp）
+
+常用选项：
+  -R  递归修改目录及其内容的归属
+  -v  显示详细操作信息
+  -c  仅在发生更改时显示信息
+
+注意：修改文件归属通常需要 root 权限（sudo）。
+普通用户只能用 chgrp 将文件改为自己所属的组。"""
+
+[[sections.commands]]
+command = "chown alice:developers project/ && ls -ld project/"
+summary = "将 project/ 目录的所有者改为 alice，所属组改为 developers"
+simulated_output = """drwxr-xr-x 5 alice developers 4096 Mar  9 11:00 project/"""
+
+[[sections.commands]]
+command = "chown -R www-data:www-data /var/www/"
+summary = "递归修改 /var/www/ 的归属为 Web 服务器用户"
+simulated_output = """"""
+
+[[sections.commands]]
+command = "chgrp docker /usr/local/bin/docker-compose && ls -la /usr/local/bin/docker-compose"
+summary = "将 docker-compose 的所属组改为 docker 组"
+simulated_output = """-rwxr-xr-x 1 root docker 12345678 Feb 10 14:30 /usr/local/bin/docker-compose"""
+
+# ============================================================
+# Section 4: umask 默认权限掩码
+# ============================================================
+[[sections]]
+id = "umask"
+title = "umask 默认权限掩码"
+description = """umask（user file-creation mode mask）决定了新建文件和目录的默认权限。
+
+工作原理：
+  新文件默认权限 = 666 - umask
+  新目录默认权限 = 777 - umask
+
+常见 umask 值：
+  022 → 文件 644 (rw-r--r--)，目录 755 (rwxr-xr-x) — 最常见
+  027 → 文件 640 (rw-r-----)，目录 750 (rwxr-x---) — 更安全
+  077 → 文件 600 (rw-------)，目录 700 (rwx------) — 最严格
+
+umask 是一个"掩码"，它指定要从默认权限中去掉的位。
+例如 umask 022：去掉组和其他用户的写权限 (w=2)。
+
+可在 ~/.bashrc 或 /etc/profile 中设置永久 umask。"""
+
+[[sections.commands]]
+command = "umask"
+summary = "显示当前的 umask 值（八进制）"
+simulated_output = """0022"""
+
+[[sections.commands]]
+command = "umask -S"
+summary = "以符号形式显示当前 umask 对应的默认权限"
+simulated_output = """u=rwx,g=rx,o=rx"""
+
+# ============================================================
+# Section 5: 特殊权限（SUID/SGID/Sticky Bit）
+# ============================================================
+[[sections]]
+id = "special-permissions"
+title = "特殊权限（SUID/SGID/Sticky Bit）"
+description = """除了基本的 rwx 权限外，Linux 还有三种特殊权限位：
+
+SUID (Set User ID) — 数字 4：
+  设置在可执行文件上，运行时以文件所有者身份执行。
+  典型例子：/usr/bin/passwd（普通用户也能修改 /etc/shadow）。
+  权限标识：所有者的 x 位变为 s（如 rwsr-xr-x）。
+
+SGID (Set Group ID) — 数字 2：
+  设置在可执行文件上：运行时以文件所属组身份执行。
+  设置在目录上：新建文件自动继承目录的所属组。
+  权限标识：组的 x 位变为 s（如 rwxr-sr-x）。
+
+Sticky Bit — 数字 1：
+  通常设置在公共目录上（如 /tmp），
+  只有文件所有者和 root 才能删除或重命名其中的文件。
+  权限标识：其他用户的 x 位变为 t（如 rwxrwxrwt）。
+
+设置特殊权限：使用四位数字权限的第一位。
+  chmod 4755 file  — 设置 SUID
+  chmod 2755 dir   — 设置 SGID
+  chmod 1777 dir   — 设置 Sticky Bit"""
+
+[[sections.commands]]
+command = "ls -la /usr/bin/passwd"
+summary = "查看 SUID 程序 — 所有者执行位显示为 s"
+simulated_output = """-rwsr-xr-x 1 root root 68208 Mar 14 2025 /usr/bin/passwd"""
+
+[[sections.commands]]
+command = "ls -la /usr/bin/wall"
+summary = "查看 SGID 程序 — 组执行位显示为 s"
+simulated_output = """-rwxr-sr-x 1 root tty 19024 Feb  8 2025 /usr/bin/wall"""
+
+[[sections.commands]]
+command = "ls -ld /tmp"
+summary = "查看 Sticky Bit 目录 — 其他用户执行位显示为 t"
+simulated_output = """drwxrwxrwt 15 root root 4096 Mar  9 12:00 /tmp"""
+
+[[sections.commands]]
+command = "chmod 4755 program"
+summary = "设置 SUID 权限：程序运行时以所有者（通常是 root）身份执行"
+simulated_output = """"""
+
+[[sections.commands]]
+command = "find / -perm -4000 2>/dev/null | head -5"
+summary = "在系统中查找所有设置了 SUID 的文件"
+simulated_output = """/usr/bin/passwd
+/usr/bin/sudo
+/usr/bin/chfn
+/usr/bin/gpasswd
+/usr/bin/newgrp"""

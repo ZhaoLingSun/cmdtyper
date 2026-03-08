@@ -7,6 +7,7 @@ description = "基础权限、查找与系统管理命令"
 id = "chmod-644"
 command = "chmod 644 notes.txt"
 summary = "把 notes.txt 设置为所有者可读写、其他用户只读"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "chmod"
@@ -31,6 +32,7 @@ answers = [
 id = "chmod-exec"
 command = "chmod +x deploy.sh"
 summary = "为 deploy.sh 增加可执行权限"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "chmod"
@@ -56,6 +58,7 @@ answers = [
 id = "chmod-recursive"
 command = "chmod -R 755 scripts"
 summary = "递归把 scripts 目录及其内容设置为 755 权限"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "chmod"
@@ -85,6 +88,7 @@ answers = [
 id = "chown-user-group"
 command = "chown alice:alice app.log"
 summary = "把 app.log 的所有者和所属组改为 alice"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "chown"
@@ -109,6 +113,10 @@ answers = [
 id = "grep-basic"
 command = "grep 'ERROR' app.log"
 summary = "在 app.log 中查找包含 ERROR 的行"
+simulated_output = """
+2025-03-09 08:03:01 [ERROR] Connection timeout: upstream server
+2025-03-09 08:15:44 [ERROR] Failed to parse JSON: unexpected token
+2025-03-09 08:32:19 [ERROR] Out of memory: cannot allocate 512MB"""
 
 [[commands.tokens]]
 text = "grep"
@@ -134,6 +142,10 @@ answers = [
 id = "grep-recursive"
 command = "grep -R 'TODO' src"
 summary = "递归查找 src 目录中包含 TODO 的文本"
+simulated_output = """
+src/main.rs:// TODO: add error handling
+src/utils/config.rs:// TODO: support YAML format
+src/utils/helpers.rs:// TODO: refactor this function"""
 
 [[commands.tokens]]
 text = "grep"
@@ -163,6 +175,11 @@ answers = [
 id = "grep-line-number"
 command = "grep -n 'main' src/main.rs"
 summary = "查找 src/main.rs 中包含 main 的行并显示行号"
+simulated_output = """
+1:fn main() {
+5:    let config = load_main_config();
+12:    // main loop
+13:    main_loop(&config);"""
 
 [[commands.tokens]]
 text = "grep"
@@ -192,6 +209,11 @@ answers = [
 id = "find-name"
 command = "find . -name '*.log'"
 summary = "在当前目录及子目录中查找所有 .log 文件"
+simulated_output = """
+./app.log
+./logs/access.log
+./logs/error.log
+./tmp/debug.log"""
 
 [[commands.tokens]]
 text = "find"
@@ -221,6 +243,14 @@ answers = [
 id = "find-type-file"
 command = "find /var/log -type f"
 summary = "在 /var/log 目录下查找所有普通文件"
+simulated_output = """
+/var/log/syslog
+/var/log/auth.log
+/var/log/kern.log
+/var/log/alternatives.log
+/var/log/bootstrap.log
+/var/log/nginx/access.log
+/var/log/nginx/error.log"""
 
 [[commands.tokens]]
 text = "find"
@@ -249,6 +279,7 @@ answers = [
 id = "tar-create-gzip"
 command = "tar -czf backup.tar.gz project"
 summary = "把 project 目录打包并压缩为 backup.tar.gz"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "tar"
@@ -278,6 +309,7 @@ answers = [
 id = "tar-extract-gzip"
 command = "tar -xzf backup.tar.gz"
 summary = "解压 backup.tar.gz 压缩归档文件"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "tar"
@@ -303,6 +335,14 @@ answers = [
 id = "ps-aux"
 command = "ps aux"
 summary = "以详细格式显示当前系统中的所有进程"
+simulated_output = """
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.1 169356 13280 ?        Ss   Mar08   0:03 /sbin/init
+root         2  0.0  0.0      0     0 ?        S    Mar08   0:00 [kthreadd]
+root       412  0.0  0.2  72312 20148 ?        Ss   Mar08   0:01 /usr/sbin/sshd -D
+www-data  1024  0.2  0.5 145892 42360 ?        S    Mar08   2:15 nginx: worker process
+ace       1587  0.0  0.1  10864  5440 pts/0    Ss   10:00   0:00 -bash
+ace       2103  0.0  0.0   7060  1584 pts/0    R+   10:22   0:00 ps aux"""
 
 [[commands.tokens]]
 text = "ps"
@@ -324,6 +364,7 @@ answers = [
 id = "kill-force"
 command = "kill -9 1234"
 summary = "强制终止 PID 为 1234 的进程"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "kill"
@@ -349,6 +390,16 @@ answers = [
 id = "top-basic"
 command = "top"
 summary = "实时查看系统进程和资源占用"
+simulated_output = """
+top - 10:22:35 up 1 day,  2:30,  1 user,  load average: 0.15, 0.10, 0.09
+Tasks: 128 total,   1 running, 127 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  2.3 us,  0.8 sy,  0.0 ni, 96.7 id,  0.1 wa,  0.0 hi,  0.1 si
+MiB Mem :   7948.4 total,   3124.6 free,   2108.3 used,   2715.5 buff/cache
+MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   5438.2 avail Mem
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+ 1024 www-data  20   0  145892  42360  12480 S   0.7   0.5   2:15.34 nginx
+  412 root      20   0   72312  20148   8320 S   0.0   0.2   0:01.52 sshd"""
 
 [[commands.tokens]]
 text = "top"
@@ -365,6 +416,18 @@ answers = [
 id = "sudo-status"
 command = "sudo systemctl status nginx"
 summary = "以管理员权限查看 nginx 服务状态"
+simulated_output = """
+● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; preset: enabled)
+     Active: active (running) since Sat 2025-03-08 07:52:10 CST; 1 day ago
+       Docs: man:nginx(8)
+   Main PID: 1020 (nginx)
+      Tasks: 3 (limit: 9447)
+     Memory: 8.5M
+        CPU: 320ms
+     CGroup: /system.slice/nginx.service
+             ├─1020 "nginx: master process /usr/sbin/nginx"
+             └─1024 "nginx: worker process" """
 
 [[commands.tokens]]
 text = "sudo"
@@ -393,6 +456,12 @@ answers = [
 id = "df-human"
 command = "df -h"
 summary = "以易读单位显示磁盘分区使用情况"
+simulated_output = """
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        50G   18G   30G  38% /
+tmpfs           3.9G     0  3.9G   0% /dev/shm
+/dev/sda2       200G   95G   95G  50% /home
+tmpfs           798M  1.2M  797M   1% /run"""
 
 [[commands.tokens]]
 text = "df"
@@ -413,6 +482,7 @@ answers = [
 id = "du-summary"
 command = "du -sh /var/log"
 summary = "汇总显示 /var/log 目录占用空间"
+simulated_output = "248M\t/var/log"
 
 [[commands.tokens]]
 text = "du"
@@ -438,6 +508,10 @@ answers = [
 id = "free-human"
 command = "free -h"
 summary = "以易读单位显示内存使用情况"
+simulated_output = """
+               total        used        free      shared  buff/cache   available
+Mem:           7.8Gi       2.1Gi       3.1Gi       128Mi       2.7Gi       5.3Gi
+Swap:          2.0Gi          0B       2.0Gi"""
 
 [[commands.tokens]]
 text = "free"

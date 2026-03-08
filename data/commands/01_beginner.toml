@@ -7,6 +7,7 @@ description = "基础文件和目录操作命令"
 id = "ls-basic"
 command = "ls"
 summary = "列出当前目录的内容"
+simulated_output = "Desktop  Documents  Downloads  Music  Pictures  projects  README.md"
 
 [[commands.tokens]]
 text = "ls"
@@ -23,6 +24,19 @@ answers = [
 id = "ls-all-long"
 command = "ls -la /var/log"
 summary = "显示 /var/log 目录的详细列表（包含隐藏文件）"
+simulated_output = """
+total 4832
+drwxr-xr-x  12 root root    4096 Mar  9 00:00 .
+drwxr-xr-x  14 root root    4096 Jan 15 08:30 ..
+-rw-r--r--   1 root root   31245 Mar  9 10:22 alternatives.log
+drwxr-x---   2 root adm     4096 Mar  9 00:00 apache2
+-rw-r-----   1 root adm   189643 Mar  9 10:15 auth.log
+-rw-r--r--   1 root root   58712 Mar  8 06:25 bootstrap.log
+drwxr-xr-x   2 root root    4096 Mar  9 00:00 cups
+-rw-r-----   1 root adm    12487 Mar  9 09:55 kern.log
+-rw-rw-r--   1 root utmp  292584 Mar  9 10:20 lastlog
+-rw-r-----   1 root adm  1547832 Mar  9 10:22 syslog
+-rw-rw-r--   1 root utmp   73920 Mar  9 10:20 wtmp"""
 
 [[commands.tokens]]
 text = "ls"
@@ -49,6 +63,14 @@ answers = [
 id = "ls-human-size"
 command = "ls -lhS downloads"
 summary = "按文件大小排序并用易读单位显示 downloads 目录内容"
+simulated_output = """
+total 1.2G
+-rw-r--r-- 1 ace ace 512M Mar  5 14:20 ubuntu-24.04.iso
+-rw-r--r-- 1 ace ace 380M Mar  7 09:15 node-v20.11.0.tar.gz
+-rw-r--r-- 1 ace ace 256M Mar  1 11:30 backup.zip
+-rw-r--r-- 1 ace ace  45M Feb 28 16:44 slides.pdf
+-rw-r--r-- 1 ace ace 8.2M Mar  8 20:10 photo.png
+-rw-r--r-- 1 ace ace 1.5K Mar  9 08:00 notes.txt"""
 
 [[commands.tokens]]
 text = "ls"
@@ -74,6 +96,12 @@ answers = [
 id = "ls-recursive"
 command = "ls -R src"
 summary = "递归列出 src 目录及其子目录内容"
+simulated_output = """
+src:
+main.rs  lib.rs  utils
+
+src/utils:
+config.rs  helpers.rs  mod.rs"""
 
 [[commands.tokens]]
 text = "ls"
@@ -99,6 +127,7 @@ answers = [
 id = "cd-home-default"
 command = "cd"
 summary = "不带参数时切换到当前用户的家目录"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "cd"
@@ -116,6 +145,7 @@ answers = [
 id = "cd-parent"
 command = "cd .."
 summary = "切换到上一级目录"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "cd"
@@ -136,6 +166,7 @@ answers = [
 id = "cd-home-tilde"
 command = "cd ~"
 summary = "使用波浪号快速切换到家目录"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "cd"
@@ -157,6 +188,7 @@ answers = [
 id = "cd-previous"
 command = "cd -"
 summary = "切换回上一次所在的目录"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "cd"
@@ -178,6 +210,7 @@ answers = [
 id = "pwd-basic"
 command = "pwd"
 summary = "显示当前工作目录的绝对路径"
+simulated_output = "/home/ace/projects"
 
 [[commands.tokens]]
 text = "pwd"
@@ -194,6 +227,7 @@ answers = [
 id = "mkdir-parents"
 command = "mkdir -p project/src"
 summary = "递归创建 project/src 目录结构"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "mkdir"
@@ -219,6 +253,7 @@ answers = [
 id = "touch-file"
 command = "touch notes.txt"
 summary = "创建 notes.txt 文件；如果已存在则更新时间戳"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "touch"
@@ -239,6 +274,16 @@ answers = [
 id = "cat-file"
 command = "cat README.md"
 summary = "输出 README.md 文件内容"
+simulated_output = """
+# My Project
+
+A simple command-line tool for text processing.
+
+## Usage
+  ./run.sh --input data.csv
+
+## License
+MIT"""
 
 [[commands.tokens]]
 text = "cat"
@@ -259,6 +304,7 @@ answers = [
 id = "echo-text"
 command = "echo 'hello world'"
 summary = "在终端输出 hello world 文本"
+simulated_output = "hello world"
 
 [[commands.tokens]]
 text = "echo"
@@ -279,6 +325,7 @@ answers = [
 id = "cp-file"
 command = "cp file.txt backup/file.txt"
 summary = "把 file.txt 复制为 backup/file.txt"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "cp"
@@ -303,6 +350,7 @@ answers = [
 id = "mv-file"
 command = "mv old.txt new.txt"
 summary = "把 old.txt 重命名为 new.txt"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "mv"
@@ -327,6 +375,7 @@ answers = [
 id = "rm-file"
 command = "rm temp.log"
 summary = "删除 temp.log 文件"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "rm"
@@ -347,6 +396,27 @@ answers = [
 id = "head-lines"
 command = "head -n 20 app.log"
 summary = "查看 app.log 的前 20 行"
+simulated_output = """
+2025-03-09 08:00:01 [INFO] Application starting...
+2025-03-09 08:00:01 [INFO] Loading configuration from /etc/app/config.yaml
+2025-03-09 08:00:02 [INFO] Database connection established
+2025-03-09 08:00:02 [INFO] Running migrations...
+2025-03-09 08:00:03 [INFO] Migration complete: 3 tables updated
+2025-03-09 08:00:03 [INFO] Cache initialized (Redis @ 127.0.0.1:6379)
+2025-03-09 08:00:04 [INFO] Starting worker pool (4 workers)
+2025-03-09 08:00:04 [INFO] Listening on 0.0.0.0:8080
+2025-03-09 08:01:15 [INFO] GET /api/health 200 2ms
+2025-03-09 08:01:22 [WARN] Slow query detected: 1523ms
+2025-03-09 08:02:05 [INFO] POST /api/login 200 45ms
+2025-03-09 08:02:30 [INFO] GET /api/users 200 12ms
+2025-03-09 08:03:01 [ERROR] Connection timeout: upstream server
+2025-03-09 08:03:01 [INFO] Retrying request (attempt 2/3)
+2025-03-09 08:03:02 [INFO] GET /api/users 200 89ms
+2025-03-09 08:04:15 [INFO] POST /api/upload 201 340ms
+2025-03-09 08:05:00 [INFO] Scheduled task: cleanup started
+2025-03-09 08:05:02 [INFO] Removed 12 expired sessions
+2025-03-09 08:05:30 [WARN] Disk usage at 82%
+2025-03-09 08:06:01 [INFO] GET /api/health 200 1ms"""
 
 [[commands.tokens]]
 text = "head"
@@ -376,6 +446,12 @@ answers = [
 id = "tail-follow"
 command = "tail -f app.log"
 summary = "持续跟踪 app.log 文件末尾新增的内容"
+simulated_output = """
+2025-03-09 10:18:32 [INFO] GET /api/users 200 15ms
+2025-03-09 10:18:45 [INFO] POST /api/orders 201 120ms
+2025-03-09 10:19:01 [WARN] Rate limit approaching: 85/100
+2025-03-09 10:19:15 [INFO] GET /api/health 200 2ms
+2025-03-09 10:19:30 [ERROR] Failed to send email: SMTP timeout"""
 
 [[commands.tokens]]
 text = "tail"
@@ -401,6 +477,7 @@ answers = [
 id = "ln-symbolic"
 command = "ln -s /var/log logs"
 summary = "创建指向 /var/log 的符号链接 logs"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "ln"

@@ -7,6 +7,13 @@ description = "进阶文本处理、流式转换与管道组合命令"
 id = "awk-print-first-field"
 command = "awk '{print $1}' access.log"
 summary = "输出 access.log 每一行的第 1 列"
+simulated_output = """
+192.168.1.10
+10.0.0.5
+192.168.1.10
+172.16.0.22
+10.0.0.5
+192.168.1.35"""
 
 [[commands.tokens]]
 text = "awk"
@@ -31,6 +38,16 @@ answers = [
 id = "awk-passwd-first-field"
 command = "awk -F: '{print $1}' /etc/passwd"
 summary = "按冒号分隔，输出 /etc/passwd 的用户名字段"
+simulated_output = """
+root
+daemon
+bin
+sys
+sync
+nobody
+ace
+www-data
+sshd"""
 
 [[commands.tokens]]
 text = "awk"
@@ -59,6 +76,7 @@ answers = [
 id = "awk-first-line"
 command = "awk 'NR==1 {print $0}' data.csv"
 summary = "只输出 data.csv 的第一行"
+simulated_output = "id,name,email,department,salary"
 
 [[commands.tokens]]
 text = "awk"
@@ -83,6 +101,12 @@ answers = [
 id = "sed-replace-first"
 command = "sed 's/foo/bar/' app.conf"
 summary = "把 app.conf 每行中第一个 foo 替换成 bar"
+simulated_output = """
+[server]
+host = bar.example.com
+port = 8080
+debug = false
+log_file = /var/log/bar.log"""
 
 [[commands.tokens]]
 text = "sed"
@@ -107,6 +131,7 @@ answers = [
 id = "sed-inplace-localhost"
 command = "sed -i 's/localhost/127.0.0.1/' .env"
 summary = "原地把 .env 中的 localhost 替换为 127.0.0.1"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "sed"
@@ -135,6 +160,12 @@ answers = [
 id = "sed-print-range"
 command = "sed -n '1,5p' server.log"
 summary = "只输出 server.log 的第 1 到第 5 行"
+simulated_output = """
+2025-03-09 00:00:01 [INFO] Server starting on port 443
+2025-03-09 00:00:01 [INFO] TLS certificate loaded
+2025-03-09 00:00:02 [INFO] Worker pool initialized (8 threads)
+2025-03-09 00:00:02 [INFO] Connected to database cluster
+2025-03-09 00:00:03 [INFO] Ready to accept connections"""
 
 [[commands.tokens]]
 text = "sed"
@@ -163,6 +194,13 @@ answers = [
 id = "xargs-echo-lines"
 command = "cat ids.txt | xargs -n 1 echo"
 summary = "把 ids.txt 中的内容逐项传给 echo，每次一个参数"
+display = "cat ids.txt | \\\n  xargs -n 1 echo"
+simulated_output = """
+1001
+1002
+1003
+1004
+1005"""
 
 [[commands.tokens]]
 text = "cat"
@@ -203,6 +241,13 @@ answers = [
 id = "sort-uniq-users"
 command = "sort users.txt | uniq"
 summary = "先排序，再去掉 users.txt 中相邻重复的行"
+display = "sort users.txt | uniq"
+simulated_output = """
+alice
+bob
+charlie
+dave
+eve"""
 
 [[commands.tokens]]
 text = "sort"
@@ -231,6 +276,13 @@ answers = [
 id = "sort-uniq-count-access"
 command = "sort access.log | uniq -c"
 summary = "统计 access.log 中每种相同行出现的次数"
+display = "sort access.log | uniq -c"
+simulated_output = """
+     12 192.168.1.10 - GET /index.html 200
+      8 192.168.1.10 - GET /api/users 200
+      5 10.0.0.5 - POST /api/login 200
+      3 172.16.0.22 - GET /static/style.css 304
+      1 10.0.0.5 - GET /admin 403"""
 
 [[commands.tokens]]
 text = "sort"
@@ -263,6 +315,13 @@ answers = [
 id = "pipeline-error-frequency"
 command = "grep ERROR app.log | sort | uniq -c | sort -rn"
 summary = "统计 app.log 中 ERROR 行的出现频次，并按次数从高到低排序"
+display = "grep ERROR app.log | sort | \\\n  uniq -c | sort -rn"
+simulated_output = """
+     15 [ERROR] Connection timeout: upstream server
+      8 [ERROR] Failed to parse JSON: unexpected token
+      5 [ERROR] Out of memory: cannot allocate 512MB
+      3 [ERROR] Permission denied: /var/run/app.sock
+      1 [ERROR] Disk quota exceeded"""
 
 [[commands.tokens]]
 text = "grep"
@@ -319,6 +378,7 @@ answers = [
 id = "wc-line-count"
 command = "wc -l access.log"
 summary = "统计 access.log 一共有多少行"
+simulated_output = "4832 access.log"
 
 [[commands.tokens]]
 text = "wc"
@@ -343,6 +403,16 @@ answers = [
 id = "cut-passwd-first-field"
 command = "cut -d: -f1 /etc/passwd"
 summary = "从 /etc/passwd 中按冒号切出第 1 列"
+simulated_output = """
+root
+daemon
+bin
+sys
+sync
+nobody
+ace
+www-data
+sshd"""
 
 [[commands.tokens]]
 text = "cut"
@@ -371,6 +441,13 @@ answers = [
 id = "tr-upper-names"
 command = "cat names.txt | tr 'a-z' 'A-Z'"
 summary = "把 names.txt 中的小写字母转换成大写"
+display = "cat names.txt | \\\n  tr 'a-z' 'A-Z'"
+simulated_output = """
+ALICE
+BOB
+CHARLIE
+DAVE
+EVE"""
 
 [[commands.tokens]]
 text = "cat"
@@ -407,6 +484,13 @@ answers = [
 id = "cut-sort-uniq-second-column"
 command = "cut -d, -f2 sales.csv | sort | uniq"
 summary = "提取 sales.csv 的第 2 列后排序并去重"
+display = "cut -d, -f2 sales.csv | \\\n  sort | uniq"
+simulated_output = """
+Electronics
+Furniture
+Kitchen
+Office
+Sports"""
 
 [[commands.tokens]]
 text = "cut"

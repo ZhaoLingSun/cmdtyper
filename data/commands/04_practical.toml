@@ -7,6 +7,11 @@ description = "实战中的日志分析、备份、同步与系统诊断命令"
 id = "tail-follow-nginx-500"
 command = "tail -f /var/log/nginx/access.log | grep 500"
 summary = "实时跟踪 nginx 访问日志，并筛出状态码 500 的请求"
+display = "tail -f /var/log/nginx/access.log | \\\n  grep 500"
+simulated_output = """
+192.168.1.10 - - [09/Mar/2025:10:15:32 +0800] "POST /api/checkout 500" 1024 "-"
+10.0.0.5 - - [09/Mar/2025:10:16:08 +0800] "GET /api/reports 500" 512 "-"
+172.16.0.22 - - [09/Mar/2025:10:18:45 +0800] "POST /api/upload 500" 2048 "-" """
 
 [[commands.tokens]]
 text = "tail"
@@ -43,6 +48,12 @@ answers = [
 id = "journalctl-nginx-last-100"
 command = "journalctl -u nginx -n 100"
 summary = "查看 nginx 服务最近 100 条日志"
+simulated_output = """
+-- Journal begins at Sat 2025-03-08 07:52:10 CST. --
+Mar 09 08:00:01 server nginx[1020]: 192.168.1.10 "GET / HTTP/1.1" 200
+Mar 09 08:01:15 server nginx[1020]: 10.0.0.5 "GET /api/health HTTP/1.1" 200
+Mar 09 08:02:30 server nginx[1020]: 192.168.1.35 "POST /api/login HTTP/1.1" 200
+Mar 09 08:03:01 server nginx[1020]: 172.16.0.22 "GET /static/app.js HTTP/1.1" 304"""
 
 [[commands.tokens]]
 text = "journalctl"
@@ -75,6 +86,11 @@ answers = [
 id = "journalctl-nginx-today-errors"
 command = "journalctl -u nginx --since today | grep ERROR"
 summary = "查看 nginx 今天以来的日志，并筛出 ERROR 相关内容"
+display = "journalctl -u nginx --since today | \\\n  grep ERROR"
+simulated_output = """
+Mar 09 08:15:44 server nginx[1020]: [ERROR] upstream timed out (110: Connection timed out)
+Mar 09 09:32:19 server nginx[1020]: [ERROR] open() "/srv/www/favicon.ico" failed (2: No such file)
+Mar 09 10:05:00 server nginx[1020]: [ERROR] SSL_do_handshake() failed (SSL: certificate verify failed)"""
 
 [[commands.tokens]]
 text = "journalctl"
@@ -119,6 +135,12 @@ answers = [
 id = "find-logs-xargs-grep-error"
 command = "find /var/log -type f -name '*.log' | xargs grep -H ERROR"
 summary = "在 /var/log 下所有 .log 文件中查找 ERROR，并显示文件名"
+display = "find /var/log -type f -name '*.log' | \\\n  xargs grep -H ERROR"
+simulated_output = """
+/var/log/syslog:Mar 09 08:03:01 server app[2045]: [ERROR] Connection refused
+/var/log/auth.log:Mar 09 08:12:30 server sshd[3120]: [ERROR] Authentication failure
+/var/log/nginx/error.log:2025/03/09 08:15:44 [ERROR] upstream timed out
+/var/log/app.log:2025-03-09 09:20:15 [ERROR] Failed to write to disk"""
 
 [[commands.tokens]]
 text = "find"
@@ -175,6 +197,7 @@ answers = [
 id = "tar-backup-etc"
 command = "tar czf etc-backup.tar.gz /etc"
 summary = "把 /etc 目录打包并压缩成 etc-backup.tar.gz"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "tar"
@@ -203,6 +226,17 @@ answers = [
 id = "rsync-www-backup"
 command = "rsync -av --delete /srv/www/ /backup/www/"
 summary = "把网站目录同步到备份目录，并删除目标中多余文件"
+simulated_output = """
+sending incremental file list
+./
+index.html
+css/style.css
+js/app.js
+images/logo.png
+deleting old/removed-page.html
+
+sent 1,245,832 bytes  received 312 bytes  2,492,288.00 bytes/sec
+total size is 1,240,560  speedup is 1.00"""
 
 [[commands.tokens]]
 text = "rsync"
@@ -235,6 +269,11 @@ answers = [
 id = "ps-grep-nginx"
 command = "ps aux | grep '[n]ginx'"
 summary = "查找正在运行的 nginx 进程，并避免匹配到 grep 自身"
+display = "ps aux | grep '[n]ginx'"
+simulated_output = """
+root      1020  0.0  0.1  65432  8764 ?        Ss   Mar08   0:00 nginx: master process /usr/sbin/nginx
+www-data  1024  0.2  0.5 145892 42360 ?        S    Mar08   2:15 nginx: worker process
+www-data  1025  0.1  0.4 145892 38240 ?        S    Mar08   1:58 nginx: worker process"""
 
 [[commands.tokens]]
 text = "ps"
@@ -267,6 +306,16 @@ answers = [
 id = "du-sort-var-log"
 command = "du -sh /var/log/* | sort -h"
 summary = "统计 /var/log 下各项大小，并按体积从小到大排序"
+display = "du -sh /var/log/* | sort -h"
+simulated_output = """
+4.0K\t/var/log/alternatives.log
+12K\t/var/log/bootstrap.log
+64K\t/var/log/cups
+156K\t/var/log/auth.log
+1.5M\t/var/log/kern.log
+8.2M\t/var/log/nginx
+45M\t/var/log/journal
+189M\t/var/log/syslog"""
 
 [[commands.tokens]]
 text = "du"
@@ -303,6 +352,14 @@ answers = [
 id = "curl-head-example"
 command = "curl -I https://example.com"
 summary = "仅请求 https://example.com 的响应头"
+simulated_output = """
+HTTP/2 200
+content-type: text/html; charset=UTF-8
+content-length: 1256
+server: ECAcc (sed/58EA)
+cache-control: max-age=604800
+expires: Sun, 16 Mar 2025 10:22:35 GMT
+last-modified: Thu, 17 Oct 2019 07:18:26 GMT"""
 
 [[commands.tokens]]
 text = "curl"
@@ -327,6 +384,7 @@ answers = [
 id = "curl-health-check"
 command = "curl -fsSL https://example.com/health"
 summary = "安静地请求健康检查接口，失败时返回错误"
+simulated_output = """{"status":"ok","uptime":86432,"version":"2.1.0"}"""
 
 [[commands.tokens]]
 text = "curl"
@@ -351,6 +409,18 @@ answers = [
 id = "systemctl-status-nginx"
 command = "systemctl status nginx"
 summary = "查看 nginx 服务当前状态"
+simulated_output = """
+● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; preset: enabled)
+     Active: active (running) since Sat 2025-03-08 07:52:10 CST; 1 day ago
+       Docs: man:nginx(8)
+   Main PID: 1020 (nginx)
+      Tasks: 3 (limit: 9447)
+     Memory: 8.5M
+        CPU: 320ms
+     CGroup: /system.slice/nginx.service
+             ├─1020 "nginx: master process /usr/sbin/nginx"
+             └─1024 "nginx: worker process" """
 
 [[commands.tokens]]
 text = "systemctl"
@@ -375,6 +445,7 @@ answers = [
 id = "systemctl-restart-nginx"
 command = "systemctl restart nginx"
 summary = "重启 nginx 服务"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "systemctl"
@@ -399,6 +470,12 @@ answers = [
 id = "journalctl-debug-sshd"
 command = "journalctl -xeu sshd"
 summary = "查看 sshd 服务的最新详细日志并附带解释信息"
+simulated_output = """
+Mar 09 08:12:30 server sshd[3120]: Accepted publickey for ace from 192.168.1.10 port 52341 ssh2
+Mar 09 08:12:30 server sshd[3120]: pam_unix(sshd:session): session opened for user ace(uid=1000)
+Mar 09 09:45:12 server sshd[3245]: Failed password for invalid user admin from 10.0.0.99 port 38412 ssh2
+Mar 09 09:45:12 server sshd[3245]: Connection closed by invalid user admin 10.0.0.99 port 38412
+Mar 09 10:01:05 server sshd[3310]: Accepted publickey for ace from 192.168.1.10 port 52890 ssh2"""
 
 [[commands.tokens]]
 text = "journalctl"

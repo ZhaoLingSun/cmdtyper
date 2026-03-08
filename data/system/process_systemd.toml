@@ -1,0 +1,397 @@
+[meta]
+id = "process_systemd"
+topic = "进程管理与 Systemd"
+description = "理解 Linux 进程生命周期、进程状态、信号机制，以及 systemd 服务管理和日志查看"
+difficulty = "advanced"
+icon = "⚙️"
+
+overview = """
+  创建 (fork/exec)
+       │
+       ▼
+  ┌─────────┐    CPU 调度     ┌──────────┐
+  │  就绪 R  │ ──────────────→│  运行 R   │
+  │ (Ready)  │←───────────────│(Running)  │
+  └─────────┘   时间片用完    └──────────┘
+       ▲                           │
+       │                     ┌─────┴─────┐
+   事件完成                  │            │
+       │                  等待 I/O     exit()
+  ┌─────────┐              │            │
+  │  睡眠 S  │←────────────┘    ┌──────────┐
+  │(Sleeping)│                  │  僵尸 Z   │
+  └─────────┘                  │ (Zombie)  │
+                               └──────────┘
+
+  进程状态说明:
+    R (Running/Runnable) — 正在运行或在运行队列中等待
+    S (Sleeping)         — 可中断睡眠，等待事件完成
+    D (Disk Sleep)       — 不可中断睡眠，通常等待 I/O
+    Z (Zombie)           — 已终止但父进程尚未回收
+    T (Stopped)          — 被信号停止（如 Ctrl+Z）"""
+
+# ============================================================
+# Section 1: 进程基础
+# ============================================================
+[[sections]]
+id = "process-basics"
+title = "进程基础"
+description = """每个运行中的程序都是一个进程（Process）。Linux 内核为每个进程分配唯一的进程 ID（PID）。
+
+关键概念：
+  PID  — 进程标识符，系统中唯一
+  PPID — 父进程 ID，表示由哪个进程创建
+  UID  — 运行该进程的用户 ID
+  进程树 — 所有进程以 init/systemd（PID=1）为根，形成树形结构
+
+进程创建方式：
+  fork()  — 创建当前进程的副本（子进程）
+  exec()  — 用新程序替换当前进程的内存映像
+  通常 fork + exec 配合使用来启动新程序
+
+ps 命令用于查看当前系统中的进程快照，pstree 以树形展示进程间的父子关系。"""
+
+[[sections.commands]]
+command = "ps aux | head -10"
+summary = "显示系统所有进程的快照（前 10 行）"
+simulated_output = """USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.3 169436 13212 ?        Ss   09:15   0:02 /sbin/init
+root           2  0.0  0.0      0     0 ?        S    09:15   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        I<   09:15   0:00 [rcu_gp]
+root           4  0.0  0.0      0     0 ?        I<   09:15   0:00 [rcu_par_gp]
+root           5  0.0  0.0      0     0 ?        I<   09:15   0:00 [slub_flushwq]
+root           6  0.0  0.0      0     0 ?        I<   09:15   0:00 [netns]
+root          11  0.0  0.0      0     0 ?        I    09:15   0:00 [rcu_sched]
+root          12  0.0  0.0      0     0 ?        S    09:15   0:00 [migration/0]
+root          13  0.0  0.0      0     0 ?        S    09:15   0:01 [ksoftirqd/0]"""
+
+[[sections.commands]]
+command = "ps aux --sort=-%mem | head -10"
+summary = "按内存占用降序排列进程（前 10 行）"
+simulated_output = """USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+mysql       1342  0.5  8.2 1824560 332480 ?      Ssl  09:16   1:23 /usr/sbin/mysqld
+www-data    1207  0.2  3.1 512340 126720 ?       S    09:16   0:18 nginx: worker process
+root         924  0.0  1.5 225412  61440 ?       Ss   09:15   0:05 /usr/sbin/sshd -D
+root         652  0.0  1.2 185632  48960 ?       Ss   09:15   0:03 /lib/systemd/systemd-journald
+root           1  0.0  0.3 169436  13212 ?       Ss   09:15   0:02 /sbin/init
+root         710  0.0  0.2 152408   9216 ?       Ssl  09:15   0:01 /usr/sbin/rsyslogd -n
+root         831  0.0  0.1  18624   5120 ?       Ss   09:15   0:00 /sbin/dhclient -4 ens33
+root         890  0.0  0.1  12340   4608 ?       Ss   09:15   0:00 /usr/sbin/cron -f
+nobody       653  0.0  0.1  16792   4096 ?       S    09:15   0:00 /lib/systemd/systemd-timesyncd"""
+
+[[sections.commands]]
+command = "pstree -p | head -20"
+summary = "以树形结构显示进程及其 PID"
+simulated_output = """systemd(1)─┬─ModemManager(748)─┬─{ModemManager}(771)
+           │                    └─{ModemManager}(779)
+           ├─cron(890)
+           ├─dbus-daemon(654)
+           ├─dhclient(831)
+           ├─mysqld(1342)─┬─{mysqld}(1350)
+           │              ├─{mysqld}(1351)
+           │              ├─{mysqld}(1352)
+           │              └─{mysqld}(1353)
+           ├─nginx(1205)───nginx(1207)
+           ├─rsyslogd(710)─┬─{rsyslogd}(720)
+           │               ├─{rsyslogd}(721)
+           │               └─{rsyslogd}(722)
+           ├─sshd(924)───sshd(2150)───sshd(2198)───bash(2199)───pstree(2456)
+           ├─systemd-journal(652)
+           ├─systemd-logind(715)
+           ├─systemd-resolve(660)
+           ├─systemd-timesyn(653)───{systemd-timesyn}(670)
+           ├─systemd-udevd(412)
+           └─agetty(895)"""
+
+[[sections.commands]]
+command = "ps -ef | head -10"
+summary = "以完整格式显示所有进程（包含 PPID）"
+simulated_output = """UID          PID    PPID  C STIME TTY          TIME CMD
+root           1       0  0 09:15 ?        00:00:02 /sbin/init
+root           2       0  0 09:15 ?        00:00:00 [kthreadd]
+root           3       2  0 09:15 ?        00:00:00 [rcu_gp]
+root           4       2  0 09:15 ?        00:00:00 [rcu_par_gp]
+root           5       2  0 09:15 ?        00:00:00 [slub_flushwq]
+root           6       2  0 09:15 ?        00:00:00 [netns]
+root          11       2  0 09:15 ?        00:00:00 [rcu_sched]
+root          12       2  0 09:15 ?        00:00:00 [migration/0]
+root          13       2  0 09:15 ?        00:00:01 [ksoftirqd/0]"""
+
+# ============================================================
+# Section 2: 信号与进程控制
+# ============================================================
+[[sections]]
+id = "process-signals"
+title = "信号与进程控制"
+description = """信号（Signal）是 Linux 中进程间通信的一种机制，用于通知进程发生了某个事件。
+
+常用信号：
+  SIGHUP  (1)  — 挂起信号，终端关闭时发送；守护进程通常用它来重新加载配置
+  SIGINT  (2)  — 中断信号，Ctrl+C 发送；请求进程正常终止
+  SIGKILL (9)  — 强制终止，无法被捕获或忽略；内核直接杀死进程
+  SIGTERM (15) — 终止信号，kill 命令默认发送；允许进程优雅退出（清理资源）
+  SIGSTOP (19) — 暂停进程，无法被捕获；Ctrl+Z 发送的是 SIGTSTP(20)
+  SIGCONT (18) — 恢复被暂停的进程
+
+最佳实践：先用 SIGTERM (kill PID) 请求进程正常退出，
+只在进程无响应时才用 SIGKILL (kill -9 PID) 强制终止。"""
+
+[[sections.commands]]
+command = "kill -l"
+summary = "列出所有可用的信号名称和编号"
+simulated_output = """ 1) SIGHUP	 2) SIGINT	 3) SIGQUIT	 4) SIGILL	 5) SIGTRAP
+ 6) SIGABRT	 7) SIGBUS	 8) SIGFPE	 9) SIGKILL	10) SIGUSR1
+11) SIGSEGV	12) SIGUSR2	13) SIGPIPE	14) SIGALRM	15) SIGTERM
+16) SIGSTKFLT	17) SIGCHLD	18) SIGCONT	19) SIGSTOP	20) SIGTSTP
+21) SIGTTIN	22) SIGTTOU	23) SIGURG	24) SIGXCPU	25) SIGXFSZ
+26) SIGVTALRM	27) SIGPROF	28) SIGWINCH	29) SIGIO	30) SIGPWR
+31) SIGSYS	34) SIGRTMIN	35) SIGRTMIN+1	36) SIGRTMIN+2	37) SIGRTMIN+3
+38) SIGRTMIN+4	39) SIGRTMIN+5	40) SIGRTMIN+6	41) SIGRTMIN+7	42) SIGRTMIN+8
+43) SIGRTMIN+9	44) SIGRTMIN+10	45) SIGRTMIN+11	46) SIGRTMIN+12	47) SIGRTMIN+13
+48) SIGRTMIN+14	49) SIGRTMIN+15	50) SIGRTMAX-14	51) SIGRTMAX-13	52) SIGRTMAX-12
+53) SIGRTMAX-11	54) SIGRTMAX-10	55) SIGRTMAX-9	56) SIGRTMAX-8	57) SIGRTMAX-7
+58) SIGRTMAX-6	59) SIGRTMAX-5	60) SIGRTMAX-4	61) SIGRTMAX-3	62) SIGRTMAX-2
+63) SIGRTMAX-1	64) SIGRTMAX"""
+
+[[sections.commands]]
+command = "kill 1234"
+summary = "向 PID 1234 发送 SIGTERM 信号（请求正常退出）"
+simulated_output = """"""
+
+[[sections.commands]]
+command = "kill -9 5678"
+summary = "向 PID 5678 发送 SIGKILL 信号（强制终止）"
+simulated_output = """"""
+
+[[sections.commands]]
+command = "killall nginx"
+summary = "向所有名为 nginx 的进程发送 SIGTERM 信号"
+simulated_output = """"""
+
+[[sections.commands]]
+command = "pkill -f \"python script.py\""
+summary = "终止命令行匹配 \"python script.py\" 的所有进程"
+simulated_output = """"""
+
+# ============================================================
+# Section 3: 作业控制
+# ============================================================
+[[sections]]
+id = "job-control"
+title = "作业控制"
+description = """作业控制（Job Control）允许你在同一终端中管理多个进程，
+在前台和后台之间切换任务。
+
+核心操作：
+  Ctrl+Z  — 暂停当前前台进程（发送 SIGTSTP）
+  jobs    — 查看当前终端的后台作业列表
+  bg %N   — 将作业 N 在后台继续运行
+  fg %N   — 将作业 N 调到前台运行
+  cmd &   — 直接在后台启动命令
+
+nohup 命令让进程忽略 SIGHUP 信号，即使终端关闭进程也不会退出。
+配合 & 使用，可以让程序在退出终端后继续运行。
+
+使用场景：在 SSH 远程连接中运行长时间任务时，
+用 nohup 或 screen/tmux 确保任务不会因断开连接而中止。"""
+
+[[sections.commands]]
+command = "jobs"
+summary = "显示当前终端的后台作业列表"
+simulated_output = """[1]+  Stopped                 vim config.yaml
+[2]   Running                 ./build.sh &
+[3]-  Running                 tail -f /var/log/syslog &"""
+
+[[sections.commands]]
+command = "bg %1"
+summary = "将作业 1 在后台继续运行"
+simulated_output = """[1]+ vim config.yaml &"""
+
+[[sections.commands]]
+command = "fg %1"
+summary = "将作业 1 调到前台运行"
+simulated_output = """vim config.yaml"""
+
+[[sections.commands]]
+command = "nohup ./server.sh &"
+summary = "在后台启动 server.sh，忽略挂断信号（终端关闭后继续运行）"
+simulated_output = """[1] 28456
+nohup: ignoring input and appending output to 'nohup.out'"""
+
+# ============================================================
+# Section 4: Systemd 服务单元
+# ============================================================
+[[sections]]
+id = "systemd-units"
+title = "Systemd 服务单元"
+description = """systemd 是现代 Linux 发行版的初始化系统和服务管理器（PID 1）。
+它使用"单元（Unit）"来管理系统资源。
+
+常见单元类型：
+  .service — 系统服务（如 nginx、sshd、mysql）
+  .timer   — 定时任务（替代 cron）
+  .socket  — 套接字激活（按需启动服务）
+  .target  — 单元组（类似传统的运行级别）
+  .mount   — 文件系统挂载点
+  .path    — 文件路径监控
+
+服务管理常用操作：
+  start    — 立即启动服务
+  stop     — 立即停止服务
+  restart  — 重启服务（先停后启）
+  reload   — 重新加载配置（不中断服务）
+  enable   — 设为开机自启
+  disable  — 取消开机自启
+  status   — 查看服务当前状态"""
+
+[[sections.commands]]
+command = "systemctl list-units --type=service --state=running | head -15"
+summary = "列出当前正在运行的服务"
+simulated_output = """  UNIT                        LOAD   ACTIVE SUB     DESCRIPTION
+  cron.service                loaded active running Regular background program processing daemon
+  dbus.service                loaded active running D-Bus System Message Bus
+  ModemManager.service        loaded active running Modem Manager
+  mysqld.service              loaded active running MySQL Community Server
+  networkd-dispatcher.service loaded active running Dispatcher daemon for systemd-networkd
+  nginx.service               loaded active running A high performance web server and a reverse proxy server
+  rsyslog.service             loaded active running System Logging Service
+  ssh.service                 loaded active running OpenBSD Secure Shell server
+  systemd-journald.service    loaded active running Journal Service
+  systemd-logind.service      loaded active running User Login Management
+  systemd-resolved.service    loaded active running Network Name Resolution
+  systemd-timesyncd.service   loaded active running Network Time Synchronization
+  systemd-udevd.service       loaded active running Rule-based Manager for Device Events and Files
+
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB."""
+
+[[sections.commands]]
+command = "systemctl status nginx"
+summary = "查看 nginx 服务的详细状态"
+simulated_output = """● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+     Active: active (running) since Mon 2026-03-09 09:16:02 CST; 5h 30min ago
+       Docs: man:nginx(8)
+    Process: 1198 ExecStartPre=/usr/sbin/nginx -t -q -g daemon on; master_process on; (code=exited, status=0/SUCCESS)
+    Process: 1204 ExecStart=/usr/sbin/nginx -g daemon on; master_process on; (code=exited, status=0/SUCCESS)
+   Main PID: 1205 (nginx)
+      Tasks: 2 (limit: 4652)
+     Memory: 8.5M
+        CPU: 245ms
+     CGroup: /system.slice/nginx.service
+             ├─1205 "nginx: master process /usr/sbin/nginx -g daemon on; master_process on;"
+             └─1207 "nginx: worker process"
+
+Mar 09 09:16:01 myserver systemd[1]: Starting A high performance web server and a reverse proxy server...
+Mar 09 09:16:02 myserver systemd[1]: Started A high performance web server and a reverse proxy server."""
+
+[[sections.commands]]
+command = "sudo systemctl start nginx"
+summary = "启动 nginx 服务"
+simulated_output = """"""
+
+[[sections.commands]]
+command = "sudo systemctl stop nginx"
+summary = "停止 nginx 服务"
+simulated_output = """"""
+
+[[sections.commands]]
+command = "sudo systemctl restart nginx"
+summary = "重启 nginx 服务"
+simulated_output = """"""
+
+[[sections.commands]]
+command = "sudo systemctl enable nginx"
+summary = "将 nginx 设为开机自启"
+simulated_output = """Synchronizing state of nginx.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install enable nginx
+Created symlink /etc/systemd/system/multi-user.target.wants/nginx.service → /lib/systemd/system/nginx.service."""
+
+[[sections.commands]]
+command = "sudo systemctl disable nginx"
+summary = "取消 nginx 的开机自启"
+simulated_output = """Synchronizing state of nginx.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install disable nginx
+Removed /etc/systemd/system/multi-user.target.wants/nginx.service."""
+
+[[sections.commands]]
+command = "systemctl is-enabled nginx"
+summary = "检查 nginx 是否已设为开机自启"
+simulated_output = """enabled"""
+
+# ============================================================
+# Section 5: Journalctl 日志查看
+# ============================================================
+[[sections]]
+id = "journalctl"
+title = "Journalctl 日志查看"
+description = """journalctl 是 systemd 自带的日志查看工具，用于检索和显示 systemd-journald 收集的日志。
+
+与传统的 /var/log 日志文件相比，journalctl 的优势：
+  - 结构化日志，支持多维度过滤（服务、优先级、时间范围等）
+  - 自动轮转和压缩，磁盘空间可控
+  - 关联进程、服务单元等元数据，方便排查问题
+
+日志优先级（从高到低）：
+  0 emerg   — 系统不可用
+  1 alert   — 必须立即处理
+  2 crit    — 严重错误
+  3 err     — 一般错误
+  4 warning — 警告信息
+  5 notice  — 正常但值得注意
+  6 info    — 一般信息
+  7 debug   — 调试信息"""
+
+[[sections.commands]]
+command = "journalctl -u nginx -n 20"
+summary = "查看 nginx 服务最近 20 条日志"
+simulated_output = """-- Journal begins at Mon 2026-03-09 09:15:01 CST, ends at Mon 2026-03-09 14:46:32 CST. --
+Mar 09 09:16:01 myserver systemd[1]: Starting A high performance web server and a reverse proxy server...
+Mar 09 09:16:02 myserver systemd[1]: Started A high performance web server and a reverse proxy server.
+Mar 09 10:23:15 myserver nginx[1205]: 192.168.1.50 - - [09/Mar/2026:10:23:15 +0800] "GET / HTTP/1.1" 200 612
+Mar 09 10:23:15 myserver nginx[1205]: 192.168.1.50 - - [09/Mar/2026:10:23:15 +0800] "GET /favicon.ico HTTP/1.1" 404 153
+Mar 09 11:05:42 myserver nginx[1205]: 192.168.1.105 - - [09/Mar/2026:11:05:42 +0800] "GET /api/health HTTP/1.1" 200 15
+Mar 09 12:30:18 myserver nginx[1205]: 192.168.1.110 - - [09/Mar/2026:12:30:18 +0800] "POST /api/login HTTP/1.1" 200 256
+Mar 09 13:15:03 myserver nginx[1205]: 10.0.0.50 - - [09/Mar/2026:13:15:03 +0800] "GET /static/app.js HTTP/1.1" 304 0
+Mar 09 14:00:27 myserver nginx[1205]: 192.168.1.50 - - [09/Mar/2026:14:00:27 +0800] "GET /dashboard HTTP/1.1" 200 4523
+Mar 09 14:46:32 myserver nginx[1205]: 192.168.1.105 - - [09/Mar/2026:14:46:32 +0800] "GET / HTTP/1.1" 200 612"""
+
+[[sections.commands]]
+command = "journalctl -u sshd --since \"1 hour ago\""
+summary = "查看 sshd 服务最近一小时的日志"
+simulated_output = """-- Journal begins at Mon 2026-03-09 09:15:01 CST, ends at Mon 2026-03-09 14:46:55 CST. --
+Mar 09 14:02:11 myserver sshd[2150]: Accepted publickey for ace from 192.168.1.50 port 52341 ssh2: RSA SHA256:xB3k...
+Mar 09 14:02:11 myserver sshd[2150]: pam_unix(sshd:session): session opened for user ace(uid=1000) by (uid=0)
+Mar 09 14:15:33 myserver sshd[2280]: Accepted password for deploy from 192.168.1.105 port 48923 ssh2
+Mar 09 14:15:33 myserver sshd[2280]: pam_unix(sshd:session): session opened for user deploy(uid=1001) by (uid=0)
+Mar 09 14:32:07 myserver sshd[2350]: Failed password for root from 10.0.0.99 port 39182 ssh2
+Mar 09 14:32:09 myserver sshd[2350]: Failed password for root from 10.0.0.99 port 39182 ssh2
+Mar 09 14:32:12 myserver sshd[2350]: Connection closed by authenticating user root 10.0.0.99 port 39182 [preauth]
+Mar 09 14:40:55 myserver sshd[2280]: pam_unix(sshd:session): session closed for user deploy"""
+
+[[sections.commands]]
+command = "journalctl -p err -b"
+summary = "查看本次启动以来的所有错误级别（及以上）日志"
+simulated_output = """-- Journal begins at Mon 2026-03-09 09:15:01 CST, ends at Mon 2026-03-09 14:47:10 CST. --
+Mar 09 09:15:03 myserver kernel: ACPI Error: Namespace lookup failure, AE_NOT_FOUND (20230331/dswload2-162)
+Mar 09 09:15:05 myserver kernel: tpm tpm0: [Firmware Bug]: TPM interrupt not working, polling instead
+Mar 09 09:15:12 myserver systemd[1]: Failed to start snap.lxd.activate.service - Service for snap application lxd.activate.
+Mar 09 10:45:18 myserver mysqld[1342]: [ERROR] [MY-010584] [Repl] Slave I/O for channel '': error connecting to master 'repl@10.0.0.5:3306' - retry-time: 60 retries: 3, Error_code: MY-002003
+Mar 09 12:18:45 myserver kernel: EXT4-fs error (device sda1): ext4_lookup:1855: inode #131074: comm find: deleted inode referenced: 262150
+Mar 09 14:32:12 myserver sshd[2350]: error: maximum authentication attempts exceeded for root from 10.0.0.99 port 39182 ssh2 [preauth]"""
+
+[[sections.commands]]
+command = "journalctl --disk-usage"
+summary = "显示日志占用的磁盘空间"
+simulated_output = """Archived and active journals take up 152.3M in the file system."""
+
+[[sections.commands]]
+command = "journalctl -f"
+summary = "实时跟踪最新日志输出（类似 tail -f）"
+simulated_output = """-- Journal begins at Mon 2026-03-09 09:15:01 CST. --
+Mar 09 14:47:20 myserver sshd[2150]: Received disconnect from 192.168.1.50 port 52341:11: disconnected by user
+Mar 09 14:47:20 myserver sshd[2150]: Disconnected from user ace 192.168.1.50 port 52341
+Mar 09 14:47:20 myserver sshd[2150]: pam_unix(sshd:session): session closed for user ace
+Mar 09 14:47:25 myserver systemd[1]: Started Session 15 of User ace.
+Mar 09 14:47:25 myserver sshd[2490]: Accepted publickey for ace from 192.168.1.50 port 52387 ssh2: RSA SHA256:xB3k...
+Mar 09 14:47:25 myserver sshd[2490]: pam_unix(sshd:session): session opened for user ace(uid=1000) by (uid=0)"""
