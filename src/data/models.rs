@@ -149,6 +149,10 @@ pub enum RecordMode {
     LessonPractice,
     #[serde(alias = "symbol_practice")]
     SymbolPractice,
+    #[serde(alias = "symbol_typing")]
+    SymbolTyping,
+    #[serde(alias = "system_typing")]
+    SystemTyping,
     #[serde(alias = "review_typing", alias = "review_practice")]
     ReviewTyping,
     #[serde(alias = "review_dictation")]
@@ -174,6 +178,20 @@ pub enum PromptStyle {
     Full,
     Simple,
     Minimal,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub enum TypingDisplayMode {
+    Terminal,
+    Standard,
+    Detailed,
+}
+
+#[allow(clippy::derivable_impls)]
+impl Default for TypingDisplayMode {
+    fn default() -> Self {
+        Self::Standard
+    }
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -335,6 +353,8 @@ pub struct LessonExample {
     pub token_details: Vec<ExampleTokenDetail>,
     #[serde(default)]
     pub output_explanation: Option<String>,
+    #[serde(default)]
+    pub deep_explanation: Option<String>,
 }
 
 /// 易错点/陷阱
@@ -388,6 +408,16 @@ pub struct SymbolExample {
     pub display: Option<String>,
     #[serde(default)]
     pub simulated_output: Option<String>,
+    #[serde(default)]
+    pub deep_explanation: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub enum ExerciseKind {
+    #[serde(rename = "typing")]
+    Typing,
+    #[serde(rename = "dictation")]
+    Dictation,
 }
 
 /// 练习题
@@ -395,6 +425,12 @@ pub struct SymbolExample {
 pub struct Exercise {
     pub prompt: String,
     pub answers: Vec<String>,
+    #[serde(default)]
+    pub kind: Option<ExerciseKind>,
+    #[serde(default)]
+    pub command: Option<String>,
+    #[serde(default)]
+    pub simulated_output: Option<String>,
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -440,6 +476,8 @@ pub struct SystemCommand {
     pub summary: String,
     #[serde(default)]
     pub simulated_output: Option<String>,
+    #[serde(default)]
+    pub deep_explanation: Option<String>,
 }
 
 /// 配置文件
@@ -490,6 +528,25 @@ pub struct ReviewGroup {
 pub struct ReviewItem {
     pub command: String,
     pub brief: String,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum DeepSource {
+    LessonExample {
+        category_idx: usize,
+        command_idx: usize,
+        example_idx: usize,
+    },
+    SymbolExample {
+        topic_idx: usize,
+        symbol_idx: usize,
+        example_idx: usize,
+    },
+    SystemCommand {
+        topic_idx: usize,
+        section_idx: usize,
+        command_idx: usize,
+    },
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -626,6 +683,8 @@ pub struct UserConfig {
     pub prompt_hostname: String,
     #[serde(default = "default_true")]
     pub show_path: bool,
+    #[serde(default)]
+    pub typing_mode: TypingDisplayMode,
 }
 
 fn default_prompt_style() -> PromptStyle {
@@ -657,6 +716,7 @@ impl Default for UserConfig {
             prompt_username: "user".to_string(),
             prompt_hostname: "cmdtyper".to_string(),
             show_path: true,
+            typing_mode: TypingDisplayMode::Standard,
         }
     }
 }
