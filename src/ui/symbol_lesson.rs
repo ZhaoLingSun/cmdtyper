@@ -33,10 +33,9 @@ pub fn render(
                 None => return,
             };
 
-            // Title
             let title = Paragraph::new(Line::from(Span::styled(
                 format!(
-                    " {} \u{300c}{}\u{300d} \u{2014} {} ",
+                    " {} 「{}」 — {} ",
                     symbol.char_repr, symbol.name, topic.meta.topic
                 ),
                 Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
@@ -49,7 +48,6 @@ pub fn render(
             );
             frame.render_widget(title, chunks[0]);
 
-            // Content
             let mut lines: Vec<Line> = Vec::new();
             lines.push(Line::from(Span::styled(
                 symbol.summary.clone(),
@@ -69,10 +67,7 @@ pub fn render(
             let content = Paragraph::new(lines).wrap(Wrap { trim: false });
             frame.render_widget(content, chunks[1]);
 
-            let hints = hint_line(&[
-                ("\u{2192}/Enter", "\u{67e5}\u{770b}\u{793a}\u{4f8b}"),
-                ("Esc", "\u{8fd4}\u{56de}"),
-            ]);
+            let hints = hint_line(&[("→/Enter", "查看示例"), ("Esc", "返回")]);
             frame.render_widget(
                 Paragraph::new(hints).alignment(Alignment::Center),
                 chunks[2],
@@ -89,12 +84,7 @@ pub fn render(
             };
 
             let title = Paragraph::new(Line::from(Span::styled(
-                format!(
-                    " {} \u{793a}\u{4f8b} {}/{} ",
-                    symbol.name,
-                    idx + 1,
-                    symbol.examples.len()
-                ),
+                format!(" {} 示例 {}/{} ", symbol.name, idx + 1, symbol.examples.len()),
                 Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
             )))
             .alignment(Alignment::Center)
@@ -136,11 +126,7 @@ pub fn render(
             let content = Paragraph::new(lines).wrap(Wrap { trim: false });
             frame.render_widget(content, chunks[1]);
 
-            let hints = hint_line(&[
-                ("\u{2190}\u{2192}", "\u{7ffb}\u{9875}"),
-                ("Enter", "\u{4e0b}\u{4e00}\u{6b65}"),
-                ("Esc", "\u{8fd4}\u{56de}"),
-            ]);
+            let hints = hint_line(&[("←→", "翻页"), ("Enter", "下一步"), ("Esc", "返回")]);
             frame.render_widget(
                 Paragraph::new(hints).alignment(Alignment::Center),
                 chunks[2],
@@ -148,7 +134,7 @@ pub fn render(
         }
         SymbolPhase::Practice => {
             let title = Paragraph::new(Line::from(Span::styled(
-                format!(" {} \u{2014} \u{7ec3}\u{4e60} ", topic.meta.topic),
+                format!(" {} — 练习 ", topic.meta.topic),
                 Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
             )))
             .alignment(Alignment::Center)
@@ -160,32 +146,79 @@ pub fn render(
             frame.render_widget(title, chunks[0]);
 
             let mut lines: Vec<Line> = Vec::new();
-            if topic.exercises.is_empty() {
+            let sp = &app.symbol_practice;
+
+            if sp.completed {
+                let accuracy = if sp.total_count == 0 {
+                    0.0
+                } else {
+                    (sp.correct_count as f64 / sp.total_count as f64) * 100.0
+                };
                 lines.push(Line::from(Span::styled(
-                    "\u{672c}\u{4e13}\u{9898}\u{6682}\u{65e0}\u{7ec3}\u{4e60}\u{9898}",
-                    Style::default().fg(DIM),
+                    "✅ 练习完成",
+                    Style::default().fg(SUCCESS).add_modifier(Modifier::BOLD),
                 )));
-            } else {
+                lines.push(Line::from(""));
+                lines.push(Line::from(format!("总题数: {}", sp.total_count)));
+                lines.push(Line::from(format!("答对: {}", sp.correct_count)));
+                lines.push(Line::from(format!("准确率: {:.0}%", accuracy)));
+            } else if let Some(ex) = app.current_symbol_practice_exercise(topic_index) {
                 lines.push(Line::from(Span::styled(
-                    "\u{7ec3}\u{4e60}\u{9898}:",
+                    format!("题目 {}/{}", sp.current_index + 1, sp.total_count),
                     Style::default().fg(HEADER),
                 )));
-                for (i, ex) in topic.exercises.iter().enumerate() {
-                    lines.push(Line::from(Span::styled(
-                        format!("  {}. {}", i + 1, ex.prompt),
-                        Style::default().fg(Color::White),
-                    )));
-                    lines.push(Line::from(Span::styled(
-                        format!("     \u{53c2}\u{8003}: {}", ex.answers.join(" / ")),
-                        Style::default().fg(DIM),
-                    )));
+                lines.push(Line::from(""));
+                lines.push(Line::from(Span::styled(
+                    "提示（中文描述）:",
+                    Style::default().fg(ACCENT),
+                )));
+                lines.push(Line::from(format!("  {}", ex.prompt)));
+                lines.push(Line::from(""));
+                lines.push(Line::from(Span::styled("你的答案:", Style::default().fg(ACCENT))));
+
+                let input_display = if sp.submitted {
+                    sp.current_input.clone()
+                } else {
+                    format!("{}█", sp.current_input)
+                };
+                lines.push(Line::from(format!("  {}", input_display)));
+
+                if sp.submitted {
+                    lines.push(Line::from(""));
+                    if sp.last_correct == Some(true) {
+                        lines.push(Line::from(Span::styled(
+                            "✅ 正确",
+                            Style::default().fg(SUCCESS).add_modifier(Modifier::BOLD),
+                        )));
+                    } else {
+                        lines.push(Line::from(Span::styled(
+                            format!("❌ 错误（已错 {}/3）", sp.error_count),
+                            Style::default().fg(ERROR).add_modifier(Modifier::BOLD),
+                        )));
+                        if sp.show_answer {
+                            lines.push(Line::from(vec![
+                                Span::styled("正确答案: ", Style::default().fg(DIM)),
+                                Span::styled(ex.answers.join(" / "), Style::default().fg(ACCENT)),
+                            ]));
+                        }
+                    }
                 }
+            } else {
+                lines.push(Line::from(Span::styled("暂无练习题", Style::default().fg(DIM))));
             }
 
             let content = Paragraph::new(lines).wrap(Wrap { trim: false });
             frame.render_widget(content, chunks[1]);
 
-            let hints = hint_line(&[("Enter", "\u{5b8c}\u{6210}"), ("Esc", "\u{8fd4}\u{56de}")]);
+            let hints = if sp.completed {
+                hint_line(&[("Enter", "返回"), ("Esc", "返回")])
+            } else if sp.submitted && sp.last_correct == Some(true) {
+                hint_line(&[("Enter", "下一题"), ("Esc", "返回")])
+            } else if sp.submitted {
+                hint_line(&[("Enter", "重试"), ("Esc", "返回")])
+            } else {
+                hint_line(&[("Enter", "提交"), ("Esc", "返回")])
+            };
             frame.render_widget(
                 Paragraph::new(hints).alignment(Alignment::Center),
                 chunks[2],

@@ -2,7 +2,7 @@ use std::time::{Duration, Instant};
 
 use chrono::Utc;
 
-use crate::data::models::{Keystroke, Mode, SessionRecord};
+use crate::data::models::{Difficulty, Keystroke, RecordMode, SessionRecord};
 
 /// Result of a single keystroke input.
 #[derive(Debug, Clone, PartialEq)]
@@ -143,7 +143,7 @@ impl TypingEngine {
     }
 
     /// Finalize the session into a `SessionRecord`.
-    pub fn finish(&self, command_id: &str, mode: Mode) -> SessionRecord {
+    pub fn finish(&self, command_id: &str, difficulty: Difficulty, mode: RecordMode) -> SessionRecord {
         let now_ms = Utc::now().timestamp_millis();
         let elapsed_secs = self.elapsed_secs();
         let correct_chars = self.cursor as f64;
@@ -180,7 +180,7 @@ impl TypingEngine {
             cpm,
             accuracy: self.current_accuracy(),
             error_count,
-            difficulty: Default::default(),
+            difficulty,
         }
     }
 
@@ -340,9 +340,9 @@ mod tests {
         engine.input('x'); // error
         engine.input('s'); // correct on second attempt
 
-        let record = engine.finish("ls-basic", Mode::Type);
+        let record = engine.finish("ls-basic", Difficulty::Beginner, RecordMode::Typing);
         assert_eq!(record.command_id, "ls-basic");
-        assert_eq!(record.mode, Mode::Type);
+        assert_eq!(record.mode, RecordMode::Typing);
         assert_eq!(record.keystrokes.len(), 2);
         assert_eq!(record.error_count, 1); // 's' had attempts=2 → 1 error
         assert!(record.wpm >= 0.0);

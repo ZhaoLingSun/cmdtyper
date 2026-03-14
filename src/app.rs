@@ -1,8 +1,12 @@
-use std::{env, path::PathBuf};
+use std::{
+    env,
+    path::PathBuf,
+};
 
 use anyhow::Result;
 use chrono::Utc;
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
+use rand::seq::SliceRandom;
 
 use crate::core::engine::TypingEngine;
 use crate::core::matcher::{self, MatchResult};
@@ -84,6 +88,52 @@ pub enum ReviewPhase {
     Practice(usize),
 }
 
+#[derive(Debug, Clone, Default)]
+pub struct SymbolPracticeState {
+    pub current_index: usize,
+    pub current_input: String,
+    pub error_count: u8,
+    pub show_answer: bool,
+    pub correct_count: usize,
+    pub total_count: usize,
+    pub submitted: bool,
+    pub last_correct: Option<bool>,
+    pub completed: bool,
+    pub stats_recorded: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum ReviewExerciseKind {
+    Typing,
+    Dictation,
+}
+
+#[derive(Debug, Clone)]
+pub struct ReviewExercise {
+    pub kind: ReviewExerciseKind,
+    pub command_id: String,
+    pub command: String,
+    pub description: String,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct ReviewPracticeState {
+    pub exercises: Vec<ReviewExercise>,
+    pub current_index: usize,
+    pub dictation_input: String,
+    pub dictation_result: Option<MatchResult>,
+    pub dictation_submitted: bool,
+    pub accuracy_sum: f64,
+    pub total_count: usize,
+    pub typing_wpm_sum: f64,
+    pub typing_accuracy_sum: f64,
+    pub typing_count: usize,
+    pub dictation_accuracy_sum: f64,
+    pub dictation_count: usize,
+    pub completed: bool,
+    pub stats_recorded: bool,
+}
+
 // ─────────────────────────────────────────────────────────────
 // App struct
 // ─────────────────────────────────────────────────────────────
@@ -119,6 +169,12 @@ pub struct App {
     pub dictation_result: Option<MatchResult>,
     pub dictation_submitted: bool,
 
+    // Symbol practice state
+    pub symbol_practice: SymbolPracticeState,
+
+    // Review practice state
+    pub review_practice: ReviewPracticeState,
+
     // Menu navigation indices
     pub home_index: usize,
     pub learn_hub_index: usize,
@@ -139,7 +195,9 @@ pub struct App {
 
 impl App {
     pub fn new() -> Result<Self> {
-        let data_dir = Path::new("data");
+        let data_dir = env::var("CMDTYPER_DATA_DIR")
+            .map(PathBuf::from)
+            .unwrap_or_else(|_| PathBuf::from("./data"));
         let commands = command_loader::load_commands(&data_dir)?;
         let lessons = lesson_loader::load_lessons(&data_dir)?;
         let symbol_topics = symbol_loader::load_symbol_topics(&data_dir)?;
@@ -170,6 +228,8 @@ impl App {
             dictation_input: String::new(),
             dictation_result: None,
             dictation_submitted: false,
+            symbol_practice: SymbolPracticeState::default(),
+            review_practice: ReviewPracticeState::default(),
             home_index: 0,
             learn_hub_index: 0,
             command_topics_index: 0,
@@ -587,43 +647,49 @@ impl App {
             }
             KeyCode::Enter if self.typing_engine.is_complete() => {
                 // Save lesson practice stats using lesson difficulty.
-                let cats = self.get_lesson_categories();
-                if category_index < cats.len() {
-                    let lessons = self.get_lessons_for_category(cats[category_index]);
-                    if command_index < lessons.len() {
-                        let lesson = lessons[command_index];
-                        let command_id = format!(lesson:{}:{}, lesson.meta.command, example_index);
-                        let record = self.typing_engine.finish(
-                            &command_id,
-                            lesson.meta.difficulty,
-                            RecordMode::LessonPractice,
-                        );
-                        scorer::update_stats(&mut self.user_stats, &record);
-                        let _ = self.progress_store.save_stats(&self.user_stats);
-                        let _ = self.progress_store.append_record(&record);
-                        self.history.push(record);
+                let lesson_meta = {
+                    let cats = self.get_lesson_categories();
+                    if category_index < cats.len() {
+                        let lessons = self.get_lessons_for_category(cats[category_index]);
+                        lessons.get(command_index).map(|lesson| {
+                            (
+                                format!("lesson:{}:{}", lesson.meta.command, example_index),
+                                lesson.meta.difficulty,
+                                lesson.examples.len(),
+                            )
+                        })
+                    } else {
+                        None
+                    }
+                };
 
-                        // Move to next example or back to overview
-                        let next_example = example_index + 1;
-                        if next_example < lesson.examples.len() {
-                            if let Some(cmd) = self.get_lesson_example_command(
+                if let Some((command_id, difficulty, example_len)) = lesson_meta {
+                    let record =
+                        self.typing_engine
+                            .finish(&command_id, difficulty, RecordMode::LessonPractice);
+                    scorer::update_stats(&mut self.user_stats, &record);
+                    let _ = self.progress_store.save_stats(&self.user_stats);
+                    let _ = self.progress_store.append_record(&record);
+                    self.history.push(record);
+
+                    // Move to next example or back to overview
+                    let next_example = example_index + 1;
+                    if next_example < example_len {
+                        if let Some(cmd) =
+                            self.get_lesson_example_command(category_index, command_index, next_example)
+                        {
+                            self.typing_engine.reset(&cmd);
+                            self.state = AppState::CommandLessonPractice {
                                 category_index,
                                 command_index,
-                                next_example,
-                            ) {
-                                self.typing_engine.reset(&cmd);
-                                self.state = AppState::CommandLessonPractice {
-                                    category_index,
-                                    command_index,
-                                    example_index: next_example,
-                                };
-                            }
-                        } else {
-                            self.state = AppState::CommandLessonOverview {
-                                category_index,
-                                command_index,
+                                example_index: next_example,
                             };
                         }
+                    } else {
+                        self.state = AppState::CommandLessonOverview {
+                            category_index,
+                            command_index,
+                        };
                     }
                 }
             }
@@ -688,6 +754,11 @@ impl App {
             }
         };
 
+        if matches!(phase, SymbolPhase::Practice) {
+            self.handle_symbol_practice_key(key, topic_index, symbol_index);
+            return;
+        }
+
         match key.code {
             KeyCode::Esc => self.state = AppState::SymbolTopics,
             KeyCode::Enter | KeyCode::Right | KeyCode::Char('l') => match &phase {
@@ -700,6 +771,7 @@ impl App {
                             phase: SymbolPhase::Example(0),
                         };
                     } else if !topic.exercises.is_empty() {
+                        self.start_symbol_practice(topic_index);
                         self.state = AppState::SymbolLesson {
                             topic_index,
                             symbol_index,
@@ -723,6 +795,7 @@ impl App {
                             phase: SymbolPhase::Explain,
                         };
                     } else if !topic.exercises.is_empty() {
+                        self.start_symbol_practice(topic_index);
                         self.state = AppState::SymbolLesson {
                             topic_index,
                             symbol_index,
@@ -769,6 +842,132 @@ impl App {
                     }
                 }
             },
+            _ => {}
+        }
+    }
+
+    fn start_symbol_practice(&mut self, topic_index: usize) {
+        let total_count = self
+            .symbol_topics
+            .get(topic_index)
+            .map(|topic| topic.exercises.len())
+            .unwrap_or(0);
+        self.symbol_practice = SymbolPracticeState {
+            total_count,
+            ..SymbolPracticeState::default()
+        };
+    }
+
+    fn advance_symbol_practice(&mut self, topic_index: usize) {
+        if self.symbol_practice.current_index + 1 < self.symbol_practice.total_count {
+            self.symbol_practice.current_index += 1;
+            self.symbol_practice.current_input.clear();
+            self.symbol_practice.error_count = 0;
+            self.symbol_practice.show_answer = false;
+            self.symbol_practice.submitted = false;
+            self.symbol_practice.last_correct = None;
+            return;
+        }
+
+        self.symbol_practice.completed = true;
+        self.symbol_practice.current_input.clear();
+        self.symbol_practice.submitted = false;
+        self.symbol_practice.last_correct = None;
+
+        if self.symbol_practice.stats_recorded {
+            return;
+        }
+
+        if let Some(topic) = self.symbol_topics.get(topic_index) {
+            let accuracy = if self.symbol_practice.total_count == 0 {
+                1.0
+            } else {
+                self.symbol_practice.correct_count as f64 / self.symbol_practice.total_count as f64
+            };
+            let now_ms = Utc::now().timestamp_millis();
+            let record = SessionRecord {
+                id: format!("{}", now_ms),
+                command_id: format!("symbol:{}", topic.meta.id),
+                mode: RecordMode::SymbolPractice,
+                keystrokes: Vec::new(),
+                started_at: now_ms,
+                finished_at: now_ms,
+                wpm: 0.0,
+                cpm: 0.0,
+                accuracy,
+                error_count: (self.symbol_practice.total_count.saturating_sub(self.symbol_practice.correct_count)) as u32,
+                difficulty: topic.meta.difficulty,
+            };
+            scorer::update_stats(&mut self.user_stats, &record);
+            let _ = self.progress_store.save_stats(&self.user_stats);
+            let _ = self.progress_store.append_record(&record);
+            self.history.push(record);
+            self.symbol_practice.stats_recorded = true;
+        }
+    }
+
+    fn handle_symbol_practice_key(&mut self, key: KeyEvent, topic_index: usize, _symbol_index: usize) {
+        if self.symbol_practice.completed {
+            match key.code {
+                KeyCode::Esc | KeyCode::Enter => self.state = AppState::SymbolTopics,
+                _ => {}
+            }
+            return;
+        }
+
+        let answers = match self
+            .symbol_topics
+            .get(topic_index)
+            .and_then(|topic| topic.exercises.get(self.symbol_practice.current_index))
+            .map(|exercise| exercise.answers.clone())
+        {
+            Some(v) => v,
+            None => {
+                self.state = AppState::SymbolTopics;
+                return;
+            }
+        };
+
+        match key.code {
+            KeyCode::Esc => self.state = AppState::SymbolTopics,
+            KeyCode::Backspace if !self.symbol_practice.submitted => {
+                self.symbol_practice.current_input.pop();
+            }
+            KeyCode::Char(c) if !self.symbol_practice.submitted => {
+                self.symbol_practice.current_input.push(c);
+            }
+            KeyCode::Enter => {
+                if self.symbol_practice.submitted {
+                    if self.symbol_practice.last_correct == Some(true) {
+                        self.advance_symbol_practice(topic_index);
+                    } else {
+                        self.symbol_practice.current_input.clear();
+                        self.symbol_practice.submitted = false;
+                        self.symbol_practice.last_correct = None;
+                        self.symbol_practice.show_answer = false;
+                    }
+                    return;
+                }
+
+                let result = matcher::check(&self.symbol_practice.current_input, &answers);
+                match result {
+                    MatchResult::Exact(_) | MatchResult::Normalized(_) => {
+                        self.symbol_practice.correct_count += 1;
+                        self.symbol_practice.submitted = true;
+                        self.symbol_practice.last_correct = Some(true);
+                        self.symbol_practice.show_answer = false;
+                    }
+                    MatchResult::NoMatch { .. } => {
+                        self.symbol_practice.error_count = self.symbol_practice.error_count.saturating_add(1);
+                        self.symbol_practice.submitted = true;
+                        self.symbol_practice.last_correct = Some(false);
+                        self.symbol_practice.show_answer = true;
+                        if self.symbol_practice.error_count >= 3 {
+                            self.advance_symbol_practice(topic_index);
+                        }
+                    }
+                }
+            }
             _ => {}
         }
     }
@@ -937,21 +1136,266 @@ impl App {
     // ─────────────────────────────────────────────────────────
 
     fn handle_review_key(&mut self, key: KeyEvent, source: ReviewSource, phase: ReviewPhase) {
-        match key.code {
-            KeyCode::Esc => self.state = AppState::LearnHub,
-            KeyCode::Enter => match phase {
-                ReviewPhase::Summary => {
+        match phase {
+            ReviewPhase::Summary => match key.code {
+                KeyCode::Esc => self.state = AppState::LearnHub,
+                KeyCode::Enter => {
+                    self.start_review_practice(&source);
                     self.state = AppState::Review {
                         source,
                         phase: ReviewPhase::Practice(0),
                     };
                 }
-                ReviewPhase::Practice(_) => {
-                    self.state = AppState::LearnHub;
-                }
+                _ => {}
             },
-            _ => {}
+            ReviewPhase::Practice(_) => {
+                if self.review_practice.completed {
+                    match key.code {
+                        KeyCode::Esc | KeyCode::Enter => self.state = AppState::LearnHub,
+                        _ => {}
+                    }
+                    return;
+                }
+
+                let exercise = match self
+                    .review_practice
+                    .exercises
+                    .get(self.review_practice.current_index)
+                    .cloned()
+                {
+                    Some(ex) => ex,
+                    None => {
+                        self.review_practice.completed = true;
+                        self.record_review_stats(&source);
+                        return;
+                    }
+                };
+
+                match exercise.kind {
+                    ReviewExerciseKind::Typing => match key.code {
+                        KeyCode::Esc => self.state = AppState::LearnHub,
+                        KeyCode::Char(c) if !self.typing_engine.is_complete() => {
+                            self.typing_engine.input(c);
+                        }
+                        KeyCode::Enter if self.typing_engine.is_complete() => {
+                            let acc = self.typing_engine.current_accuracy();
+                            let wpm = self.typing_engine.current_wpm();
+                            self.review_practice.typing_count += 1;
+                            self.review_practice.typing_accuracy_sum += acc;
+                            self.review_practice.typing_wpm_sum += wpm;
+                            self.review_practice.accuracy_sum += acc;
+                            self.advance_review_practice(&source);
+                        }
+                        _ => {}
+                    },
+                    ReviewExerciseKind::Dictation => match key.code {
+                        KeyCode::Esc => self.state = AppState::LearnHub,
+                        KeyCode::Backspace if !self.review_practice.dictation_submitted => {
+                            self.review_practice.dictation_input.pop();
+                        }
+                        KeyCode::Char(c) if !self.review_practice.dictation_submitted => {
+                            self.review_practice.dictation_input.push(c);
+                        }
+                        KeyCode::Enter => {
+                            if self.review_practice.dictation_submitted {
+                                self.advance_review_practice(&source);
+                            } else {
+                                let result = matcher::check(
+                                    &self.review_practice.dictation_input,
+                                    &vec![exercise.command.clone()],
+                                );
+                                let acc = match result {
+                                    MatchResult::Exact(_) | MatchResult::Normalized(_) => 1.0,
+                                    MatchResult::NoMatch { .. } => 0.0,
+                                };
+                                self.review_practice.dictation_count += 1;
+                                self.review_practice.dictation_accuracy_sum += acc;
+                                self.review_practice.accuracy_sum += acc;
+                                self.review_practice.dictation_result = Some(result);
+                                self.review_practice.dictation_submitted = true;
+                            }
+                        }
+                        _ => {}
+                    },
+                }
+            }
         }
+    }
+
+    fn review_source_key(source: &ReviewSource) -> String {
+        match source {
+            ReviewSource::CommandCategory(cat) => format!("category:{:?}", cat),
+            ReviewSource::SymbolTopic(name) => format!("symbol:{}", name),
+            ReviewSource::SystemTopic(name) => format!("system:{}", name),
+        }
+    }
+
+    fn build_review_exercises(&self, source: &ReviewSource) -> Vec<ReviewExercise> {
+        let mut base = Vec::new();
+        match source {
+            ReviewSource::CommandCategory(category) => {
+                for cmd in self.commands.iter().filter(|c| c.category == *category) {
+                    base.push(ReviewExercise {
+                        kind: ReviewExerciseKind::Typing,
+                        command_id: cmd.id.clone(),
+                        command: cmd.command.clone(),
+                        description: cmd.dictation.prompt.clone(),
+                    });
+                }
+            }
+            ReviewSource::SymbolTopic(name) => {
+                if let Some(topic) = self
+                    .symbol_topics
+                    .iter()
+                    .find(|topic| topic.meta.topic == *name || topic.meta.id == *name)
+                {
+                    for (idx, exercise) in topic.exercises.iter().enumerate() {
+                        if let Some(answer) = exercise.answers.first() {
+                            base.push(ReviewExercise {
+                                kind: ReviewExerciseKind::Dictation,
+                                command_id: format!("symbol:{}:{}", topic.meta.id, idx),
+                                command: answer.clone(),
+                                description: exercise.prompt.clone(),
+                            });
+                        }
+                    }
+                }
+            }
+            ReviewSource::SystemTopic(name) => {
+                if let Some(topic) = self
+                    .system_topics
+                    .iter()
+                    .find(|topic| topic.meta.topic == *name || topic.meta.id == *name)
+                {
+                    for (sec_idx, section) in topic.sections.iter().enumerate() {
+                        for (cmd_idx, command) in section.commands.iter().enumerate() {
+                            base.push(ReviewExercise {
+                                kind: ReviewExerciseKind::Typing,
+                                command_id: format!("system:{}:{}:{}", topic.meta.id, sec_idx, cmd_idx),
+                                command: command.command.clone(),
+                                description: command.summary.clone(),
+                            });
+                        }
+                    }
+                }
+            }
+        }
+
+        if base.is_empty() {
+            return base;
+        }
+
+        let mut rng = rand::thread_rng();
+        base.shuffle(&mut rng);
+
+        let total = base.len();
+        let mut dictation_count = ((total as f64) * 0.3).round() as usize;
+        if total >= 3 {
+            dictation_count = dictation_count.clamp(1, total.saturating_sub(1));
+        }
+
+        for (idx, exercise) in base.iter_mut().enumerate() {
+            exercise.kind = if idx < dictation_count {
+                ReviewExerciseKind::Dictation
+            } else {
+                ReviewExerciseKind::Typing
+            };
+        }
+        base.shuffle(&mut rng);
+        base
+    }
+
+    fn start_review_practice(&mut self, source: &ReviewSource) {
+        let exercises = self.build_review_exercises(source);
+        let total_count = exercises.len();
+        self.review_practice = ReviewPracticeState {
+            exercises,
+            total_count,
+            ..ReviewPracticeState::default()
+        };
+
+        if let Some(first) = self.review_practice.exercises.first() {
+            if matches!(first.kind, ReviewExerciseKind::Typing) {
+                self.typing_engine.reset(&first.command);
+            }
+        }
+    }
+
+    fn record_review_stats(&mut self, source: &ReviewSource) {
+        if self.review_practice.stats_recorded {
+            return;
+        }
+
+        let now_ms = Utc::now().timestamp_millis();
+        let source_key = Self::review_source_key(source);
+
+        if self.review_practice.typing_count > 0 {
+            let acc = self.review_practice.typing_accuracy_sum / self.review_practice.typing_count as f64;
+            let wpm = self.review_practice.typing_wpm_sum / self.review_practice.typing_count as f64;
+            let record = SessionRecord {
+                id: format!("{}-rt", now_ms),
+                command_id: format!("review:{}:typing", source_key),
+                mode: RecordMode::ReviewPractice,
+                keystrokes: Vec::new(),
+                started_at: now_ms,
+                finished_at: now_ms,
+                wpm,
+                cpm: wpm * 5.0,
+                accuracy: acc,
+                error_count: ((1.0 - acc).max(0.0) * self.review_practice.typing_count as f64).round() as u32,
+                difficulty: Difficulty::Beginner,
+            };
+            scorer::update_stats(&mut self.user_stats, &record);
+            let _ = self.progress_store.append_record(&record);
+            self.history.push(record);
+        }
+
+        if self.review_practice.dictation_count > 0 {
+            let acc = self.review_practice.dictation_accuracy_sum / self.review_practice.dictation_count as f64;
+            let record = SessionRecord {
+                id: format!("{}-rd", now_ms),
+                command_id: format!("review:{}:dictation", source_key),
+                mode: RecordMode::ReviewPractice,
+                keystrokes: Vec::new(),
+                started_at: now_ms,
+                finished_at: now_ms,
+                wpm: 0.0,
+                cpm: 0.0,
+                accuracy: acc,
+                error_count: ((1.0 - acc).max(0.0) * self.review_practice.dictation_count as f64).round() as u32,
+                difficulty: Difficulty::Beginner,
+            };
+            scorer::update_stats(&mut self.user_stats, &record);
+            let _ = self.progress_store.append_record(&record);
+            self.history.push(record);
+        }
+
+        let _ = self.progress_store.save_stats(&self.user_stats);
+        self.review_practice.stats_recorded = true;
+    }
+
+    fn advance_review_practice(&mut self, source: &ReviewSource) {
+        self.review_practice.current_index += 1;
+        self.review_practice.dictation_input.clear();
+        self.review_practice.dictation_result = None;
+        self.review_practice.dictation_submitted = false;
+
+        if self.review_practice.current_index >= self.review_practice.exercises.len() {
+            self.review_practice.completed = true;
+            self.record_review_stats(source);
+            return;
+        }
+
+        if let Some(exercise) = self.review_practice.exercises.get(self.review_practice.current_index)
+            && matches!(exercise.kind, ReviewExerciseKind::Typing)
+        {
+            self.typing_engine.reset(&exercise.command);
+        }
+
+        self.state = AppState::Review {
+            source: source.clone(),
+            phase: ReviewPhase::Practice(self.review_practice.current_index),
+        };
     }
 
     // ─────────────────────────────────────────────────────────
@@ -995,7 +1439,7 @@ impl App {
 
                     let now_ms = Utc::now().timestamp_millis();
                     let record = SessionRecord {
-                        id: format!({}, now_ms),
+                        id: format!("{}", now_ms),
                         command_id: cmd.id.clone(),
                         mode: RecordMode::Dictation,
                         keystrokes: Vec::new(),
@@ -1139,6 +1583,26 @@ impl App {
 
     pub fn current_dictation_command(&self) -> Option<&Command> {
         self.dictation_commands.get(self.dictation_index)
+    }
+
+    pub fn current_symbol_practice_exercise(&self, topic_index: usize) -> Option<&Exercise> {
+        self.symbol_topics
+            .get(topic_index)
+            .and_then(|topic| topic.exercises.get(self.symbol_practice.current_index))
+    }
+
+    pub fn current_review_exercise(&self) -> Option<&ReviewExercise> {
+        self.review_practice
+            .exercises
+            .get(self.review_practice.current_index)
+    }
+
+    pub fn review_accuracy(&self) -> f64 {
+        if self.review_practice.total_count == 0 {
+            0.0
+        } else {
+            self.review_practice.accuracy_sum / self.review_practice.total_count as f64
+        }
     }
 
     pub fn typing_is_finished(&self) -> bool {

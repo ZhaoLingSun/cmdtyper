@@ -5,12 +5,13 @@ use chrono::{NaiveDate, TimeZone, Utc};
 
 use crate::data::models::{
     Category, CharSpeedPoint, CharStat, Command, CommandProgress, DailyStat, Keystroke,
-    SessionRecord, UserStats,
+    RecordMode, SessionRecord, UserStats,
 };
 
 /// Update global user statistics with a completed session record.
 pub fn update_stats(stats: &mut UserStats, record: &SessionRecord) {
     let previous_sessions = stats.total_sessions as f64;
+    let previous_wpm_sessions = stats.total_wpm_sessions as f64;
 
     stats.total_sessions += 1;
     stats.total_keystrokes += record
@@ -21,18 +22,25 @@ pub fn update_stats(stats: &mut UserStats, record: &SessionRecord) {
 
     let duration_ms = record_duration_ms(record);
     stats.total_duration_ms += duration_ms;
-    stats.overall_avg_wpm =
-        weighted_average(stats.overall_avg_wpm, previous_sessions, record.wpm, 1.0);
+    if is_typing_wpm_mode(record.mode) {
+        stats.overall_avg_wpm = weighted_average(
+            stats.overall_avg_wpm,
+            previous_wpm_sessions,
+            record.wpm,
+            1.0,
+        );
+        stats.best_wpm = stats.best_wpm.max(record.wpm);
+        stats.total_wpm_sessions += 1;
+    }
     stats.overall_avg_accuracy = weighted_average(
         stats.overall_avg_accuracy,
         previous_sessions,
         record.accuracy,
         1.0,
     );
-    stats.best_wpm = stats.best_wpm.max(record.wpm);
 
     let date = format_session_date(record.finished_at);
-    update_daily_stat(stats, &date, duration_ms, record.wpm, record.accuracy);
+    update_daily_stat(stats, &date, duration_ms, record.wpm, record.accuracy, is_typing_wpm_mode(record.mode));
     recalculate_streaks(stats);
 
     // Group keystrokes by expected character
@@ -223,6 +231,13 @@ pub fn recommend_commands<'a>(
         .collect()
 }
 
+fn is_typing_wpm_mode(mode: RecordMode) -> bool {
+    matches!(
+        mode,
+        RecordMode::Typing | RecordMode::LessonPractice | RecordMode::ReviewPractice
+    )
+}
+
 fn update_command_progress(stats: &mut UserStats, record: &SessionRecord) {
     let index = if let Some(index) = stats
         .command_progress
@@ -269,20 +284,32 @@ fn get_or_insert_char_stat(stats: &mut UserStats, char_key: char) -> &mut CharSt
         .expect("char stat was just inserted")
 }
 
-fn update_daily_stat(stats: &mut UserStats, date: &str, duration_ms: u64, wpm: f64, accuracy: f64) {
+fn update_daily_stat(
+    stats: &mut UserStats,
+    date: &str,
+    duration_ms: u64,
+    wpm: f64,
+    accuracy: f64,
+    include_wpm: bool,
+) {
     if let Some(day) = stats.daily_stats.iter_mut().find(|day| day.date == date) {
         let previous_sessions = day.sessions_count as f64;
         day.sessions_count += 1;
         day.total_duration_ms += duration_ms;
-        day.avg_wpm = weighted_average(day.avg_wpm, previous_sessions, wpm, 1.0);
+        if include_wpm {
+            let previous_wpm_sessions = day.wpm_sessions_count as f64;
+            day.avg_wpm = weighted_average(day.avg_wpm, previous_wpm_sessions, wpm, 1.0);
+            day.wpm_sessions_count += 1;
+        }
         day.avg_accuracy = weighted_average(day.avg_accuracy, previous_sessions, accuracy, 1.0);
     } else {
         stats.daily_stats.push(DailyStat {
             date: date.to_string(),
             sessions_count: 1,
             total_duration_ms: duration_ms,
-            avg_wpm: wpm,
+            avg_wpm: if include_wpm { wpm } else { 0.0 },
             avg_accuracy: accuracy,
+            wpm_sessions_count: if include_wpm { 1 } else { 0 },
         });
         stats
             .daily_stats
@@ -363,8 +390,8 @@ fn float_cmp(left: f64, right: f64) -> Ordering {
 mod tests {
     use super::*;
     use crate::data::models::{
-        Category, CharStat, Command, CommandProgress, Difficulty, Keystroke, Mode, SessionRecord,
-        UserStats,
+        Category, CharStat, Command, CommandProgress, Difficulty, Keystroke, RecordMode,
+        SessionRecord, UserStats,
     };
 
     fn approx_eq(left: f64, right: f64) {
@@ -393,7 +420,7 @@ mod tests {
         SessionRecord {
             id: id.to_string(),
             command_id: command_id.to_string(),
-            mode: Mode::Type,
+            mode: RecordMode::Typing,
             keystrokes: vec![
                 keystroke('g', false, 2, 120),
                 keystroke('r', true, 1, 100),

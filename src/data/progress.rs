@@ -1,3 +1,4 @@
+use std::env;
 use std::fs;
 use std::io::ErrorKind;
 use std::path::{Path, PathBuf};
@@ -20,9 +21,15 @@ impl ProgressStore {
     /// Create a new store using the platform-standard data directory
     /// (`~/.local/share/cmdtyper/` on Linux).
     pub fn new() -> Result<Self> {
-        let base_dir = dirs::data_local_dir()
-            .unwrap_or_else(|| PathBuf::from("."))
-            .join("cmdtyper");
+        let base_dir = env::var("CMDTYPER_USER_DIR")
+            .map(PathBuf::from)
+            .unwrap_or_else(|_| {
+                dirs::home_dir()
+                    .unwrap_or_else(|| PathBuf::from("."))
+                    .join(".local")
+                    .join("share")
+                    .join("cmdtyper")
+            });
         Self::from_base_dir(base_dir)
     }
 

@@ -4,7 +4,6 @@ pub mod dictation;
 pub mod home;
 pub mod learn_hub;
 pub mod review;
-pub mod round_result;
 pub mod settings;
 pub mod stats;
 pub mod symbol_lesson;
@@ -67,7 +66,6 @@ pub fn render(frame: &mut Frame, app: &App) {
         AppState::Dictation => dictation::render(frame, app),
         AppState::Stats => stats::render(frame, app),
         AppState::Settings => settings::render(frame, app),
-        AppState::RoundResult => round_result::render(frame, app),
         AppState::Quitting => {}
     }
 }

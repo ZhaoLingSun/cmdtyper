@@ -1,7 +1,8 @@
 use ratatui::prelude::*;
 use ratatui::widgets::{Block, Borders, Paragraph, Wrap};
 
-use crate::app::{App, ReviewPhase, ReviewSource};
+use crate::app::{App, ReviewExerciseKind, ReviewPhase, ReviewSource};
+use crate::core::matcher::{DiffKind, MatchResult};
 use crate::ui::widgets::*;
 
 pub fn render(frame: &mut Frame, app: &App, source: &ReviewSource, phase: &ReviewPhase) {
@@ -25,7 +26,7 @@ pub fn render(frame: &mut Frame, app: &App, source: &ReviewSource, phase: &Revie
     match phase {
         ReviewPhase::Summary => {
             let title = Paragraph::new(Line::from(Span::styled(
-                format!(" \u{4e13}\u{9898}\u{590d}\u{4e60} \u{2014} {} \u{2014} \u{77e5}\u{8bc6}\u{68b3}\u{7406} ", source_name),
+                format!(" 专题复习 — {} ", source_name),
                 Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
             )))
             .alignment(Alignment::Center)
@@ -33,96 +34,194 @@ pub fn render(frame: &mut Frame, app: &App, source: &ReviewSource, phase: &Revie
             frame.render_widget(title, chunks[0]);
 
             let mut lines: Vec<Line> = Vec::new();
+            lines.push(Line::from("按 Enter 开始复习练习。"));
+            lines.push(Line::from(""));
+            lines.push(Line::from(Span::styled(
+                "题型比例：打字题 70% + 默写题 30%",
+                Style::default().fg(DIM),
+            )));
+            lines.push(Line::from(""));
 
-            // Build summary table from available data
-            match source {
-                ReviewSource::CommandCategory(cat) => {
-                    let cmds: Vec<_> = app.commands.iter().filter(|c| c.category == *cat).collect();
-                    if cmds.is_empty() {
-                        lines.push(Line::from(Span::styled(
-                            "\u{8be5}\u{7c7b}\u{522b}\u{6682}\u{65e0}\u{547d}\u{4ee4}",
-                            Style::default().fg(DIM),
-                        )));
-                    } else {
-                        lines.push(Line::from(Span::styled(
-                            format!(
-                                "\u{547d}\u{4ee4}\u{6982}\u{89c8} ({} \u{4e2a}):",
-                                cmds.len()
-                            ),
-                            Style::default().fg(HEADER),
-                        )));
-                        lines.push(Line::from(""));
-
-                        // Table header
-                        lines.push(Line::from(vec![
-                            Span::styled(
-                                format!("  {:<24}", "\u{547d}\u{4ee4}"),
-                                Style::default().fg(ACCENT).add_modifier(Modifier::BOLD),
-                            ),
-                            Span::styled(
-                                "\u{8bf4}\u{660e}",
-                                Style::default().fg(ACCENT).add_modifier(Modifier::BOLD),
-                            ),
-                        ]));
-                        lines.push(Line::from(Span::styled(
-                            "  \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}",
-                            Style::default().fg(DIM),
-                        )));
-
-                        for cmd in &cmds {
-                            lines.push(Line::from(vec![
-                                Span::styled(
-                                    format!("  {:<24}", cmd.command),
-                                    Style::default().fg(Color::White),
-                                ),
-                                Span::styled(cmd.summary.clone(), Style::default().fg(DIM)),
-                            ]));
-                        }
-                    }
-                }
-                _ => {
-                    lines.push(Line::from(Span::styled(
-                        "\u{590d}\u{4e60}\u{5185}\u{5bb9}\u{52a0}\u{8f7d}\u{4e2d}...",
-                        Style::default().fg(DIM),
-                    )));
-                }
+            if let ReviewSource::CommandCategory(cat) = source {
+                let count = app.commands.iter().filter(|c| c.category == *cat).count();
+                lines.push(Line::from(format!("可用命令: {}", count)));
             }
 
             let content = Paragraph::new(lines).wrap(Wrap { trim: false });
             frame.render_widget(content, chunks[1]);
 
-            let hints = hint_line(&[
-                ("Enter", "\u{5f00}\u{59cb}\u{7ec3}\u{4e60}"),
-                ("Esc", "\u{8fd4}\u{56de}"),
-            ]);
+            let hints = hint_line(&[("Enter", "开始练习"), ("Esc", "返回")]);
             frame.render_widget(
                 Paragraph::new(hints).alignment(Alignment::Center),
                 chunks[2],
             );
         }
-        ReviewPhase::Practice(idx) => {
+        ReviewPhase::Practice(_) => {
             let title = Paragraph::new(Line::from(Span::styled(
-                format!(" \u{4e13}\u{9898}\u{590d}\u{4e60} \u{2014} {} \u{2014} \u{96c6}\u{4e2d}\u{7ec3}\u{4e60} ", source_name),
+                format!(" 专题复习 — {} ", source_name),
                 Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
             )))
             .alignment(Alignment::Center)
             .block(Block::default().borders(Borders::ALL).border_style(Style::default().fg(DIM)));
             frame.render_widget(title, chunks[0]);
 
-            let content = Paragraph::new(Line::from(Span::styled(
-                format!(
-                    "\u{7ec3}\u{4e60}\u{9898} #{} \u{2014} \u{6309} Enter \u{5b8c}\u{6210}",
-                    idx + 1
-                ),
-                Style::default().fg(Color::White),
-            )));
+            let mut lines: Vec<Line> = Vec::new();
+            let rp = &app.review_practice;
+
+            if rp.completed {
+                let accuracy = app.review_accuracy() * 100.0;
+                let typing_acc = if rp.typing_count == 0 {
+                    0.0
+                } else {
+                    rp.typing_accuracy_sum / rp.typing_count as f64 * 100.0
+                };
+                let typing_wpm = if rp.typing_count == 0 {
+                    0.0
+                } else {
+                    rp.typing_wpm_sum / rp.typing_count as f64
+                };
+                let dict_acc = if rp.dictation_count == 0 {
+                    0.0
+                } else {
+                    rp.dictation_accuracy_sum / rp.dictation_count as f64 * 100.0
+                };
+
+                lines.push(Line::from(Span::styled(
+                    "✅ 复习完成",
+                    Style::default().fg(SUCCESS).add_modifier(Modifier::BOLD),
+                )));
+                lines.push(Line::from(""));
+                lines.push(Line::from(format!("总题数: {}", rp.total_count)));
+                lines.push(Line::from(format!("总体准确率: {:.0}%", accuracy)));
+                lines.push(Line::from(format!("打字题: {}（准确率 {:.0}% / WPM {:.0}）", rp.typing_count, typing_acc, typing_wpm)));
+                lines.push(Line::from(format!("默写题: {}（准确率 {:.0}%）", rp.dictation_count, dict_acc)));
+            } else if let Some(ex) = app.current_review_exercise() {
+                lines.push(Line::from(Span::styled(
+                    format!("题目 {}/{}", rp.current_index + 1, rp.total_count),
+                    Style::default().fg(HEADER),
+                )));
+                lines.push(Line::from(""));
+
+                match ex.kind {
+                    ReviewExerciseKind::Typing => {
+                        lines.push(Line::from(Span::styled("题型: 打字", Style::default().fg(ACCENT))));
+                        lines.push(Line::from(""));
+                        lines.push(render_typing_line("$ ", &app.typing_engine));
+                        lines.push(Line::from(""));
+                        lines.push(Line::from(Span::styled(
+                            format!("当前准确率: {:.0}%", app.typing_engine.current_accuracy() * 100.0),
+                            Style::default().fg(DIM),
+                        )));
+                        lines.push(Line::from(Span::styled(
+                            format!("当前 WPM: {:.0}", app.typing_engine.current_wpm()),
+                            Style::default().fg(DIM),
+                        )));
+                    }
+                    ReviewExerciseKind::Dictation => {
+                        lines.push(Line::from(Span::styled("题型: 默写", Style::default().fg(ACCENT))));
+                        lines.push(Line::from(""));
+                        lines.push(Line::from(Span::styled("提示（中文描述）:", Style::default().fg(ACCENT))));
+                        lines.push(Line::from(format!("  {}", ex.description)));
+                        lines.push(Line::from(""));
+                        lines.push(Line::from(Span::styled("你的答案:", Style::default().fg(ACCENT))));
+                        let input_display = if rp.dictation_submitted {
+                            rp.dictation_input.clone()
+                        } else {
+                            format!("{}█", rp.dictation_input)
+                        };
+                        lines.push(Line::from(format!("  {}", input_display)));
+
+                        if rp.dictation_submitted
+                            && let Some(result) = &rp.dictation_result
+                        {
+                            lines.push(Line::from(""));
+                            match result {
+                                MatchResult::Exact(_) | MatchResult::Normalized(_) => {
+                                    lines.push(Line::from(Span::styled(
+                                        "✅ 正确",
+                                        Style::default().fg(SUCCESS).add_modifier(Modifier::BOLD),
+                                    )));
+                                }
+                                MatchResult::NoMatch { closest, diff } => {
+                                    lines.push(Line::from(Span::styled(
+                                        "❌ 错误",
+                                        Style::default().fg(ERROR).add_modifier(Modifier::BOLD),
+                                    )));
+                                    let mut spans = vec![Span::raw("  ")];
+                                    for seg in diff {
+                                        let style = match seg.kind {
+                                            DiffKind::Same => Style::default().fg(Color::White),
+                                            DiffKind::Added => Style::default().fg(SUCCESS).add_modifier(Modifier::UNDERLINED),
+                                            DiffKind::Removed => Style::default().fg(ERROR).add_modifier(Modifier::CROSSED_OUT),
+                                        };
+                                        spans.push(Span::styled(seg.text.clone(), style));
+                                    }
+                                    lines.push(Line::from(spans));
+                                    lines.push(Line::from(vec![
+                                        Span::styled("正确答案: ", Style::default().fg(DIM)),
+                                        Span::styled(closest.clone(), Style::default().fg(ACCENT)),
+                                    ]));
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                lines.push(Line::from(Span::styled("暂无复习题", Style::default().fg(DIM))));
+            }
+
+            let content = Paragraph::new(lines).wrap(Wrap { trim: false });
             frame.render_widget(content, chunks[1]);
 
-            let hints = hint_line(&[("Enter", "\u{5b8c}\u{6210}"), ("Esc", "\u{8fd4}\u{56de}")]);
+            let hints = if rp.completed {
+                hint_line(&[("Enter", "返回"), ("Esc", "返回")])
+            } else if let Some(ex) = app.current_review_exercise() {
+                match ex.kind {
+                    ReviewExerciseKind::Typing => {
+                        if app.typing_engine.is_complete() {
+                            hint_line(&[("Enter", "下一题"), ("Esc", "返回")])
+                        } else {
+                            hint_line(&[("输入字符", "继续"), ("Esc", "返回")])
+                        }
+                    }
+                    ReviewExerciseKind::Dictation => {
+                        if rp.dictation_submitted {
+                            hint_line(&[("Enter", "下一题"), ("Esc", "返回")])
+                        } else {
+                            hint_line(&[("Enter", "提交"), ("Esc", "返回")])
+                        }
+                    }
+                }
+            } else {
+                hint_line(&[("Esc", "返回")])
+            };
             frame.render_widget(
                 Paragraph::new(hints).alignment(Alignment::Center),
                 chunks[2],
             );
         }
     }
+}
+
+fn render_typing_line<'a>(prompt: &str, engine: &crate::core::engine::TypingEngine) -> Line<'a> {
+    let mut spans = Vec::new();
+    spans.push(Span::styled(prompt.to_string(), Style::default().fg(PROMPT_COLOR)));
+
+    let is_flashing = engine.is_error_flashing();
+    for (idx, ch) in engine.target.iter().enumerate() {
+        let style = if idx < engine.cursor {
+            Style::default().fg(TYPED_CORRECT)
+        } else if idx == engine.cursor {
+            if is_flashing {
+                Style::default().fg(ERROR_FLASH).bg(ERROR_FLASH_BG)
+            } else {
+                Style::default().fg(CURSOR).bg(CURSOR_BG)
+            }
+        } else {
+            Style::default().fg(PENDING).bg(PENDING_BG)
+        };
+        spans.push(Span::styled(ch.to_string(), style));
+    }
+
+    Line::from(spans)
 }

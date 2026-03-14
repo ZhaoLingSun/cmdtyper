@@ -136,6 +136,23 @@ pub enum Mode {
     Dictation,
 }
 
+/// 会话记录模式（统计口径）
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "snake_case")]
+pub enum RecordMode {
+    #[default]
+    #[serde(alias = "type", alias = "typing")]
+    Typing,
+    #[serde(alias = "dictation")]
+    Dictation,
+    #[serde(alias = "learn", alias = "lesson_practice")]
+    LessonPractice,
+    #[serde(alias = "symbol_practice")]
+    SymbolPractice,
+    #[serde(alias = "review_practice")]
+    ReviewPractice,
+}
+
 /// 重要程度
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
 #[serde(rename_all = "lowercase")]
@@ -568,6 +585,8 @@ pub struct DailyStat {
     pub total_duration_ms: u64,
     pub avg_wpm: f64,
     pub avg_accuracy: f64,
+    #[serde(default)]
+    pub wpm_sessions_count: u32,
 }
 
 /// 全局用户统计
@@ -579,6 +598,8 @@ pub struct UserStats {
     pub overall_avg_wpm: f64,
     pub overall_avg_accuracy: f64,
     pub best_wpm: f64,
+    #[serde(default)]
+    pub total_wpm_sessions: u64,
     pub current_streak: u32,
     pub longest_streak: u32,
     pub char_stats: Vec<CharStat>,

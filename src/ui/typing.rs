@@ -68,10 +68,29 @@ fn render_terminal_area(frame: &mut Frame, app: &App, area: Rect) {
             }
         }
     } else if app.typing_is_finished() {
-        lines.push(Line::from(Span::styled(
-            "  \u{5168}\u{90e8}\u{5b8c}\u{6210}\u{ff01}\u{6309} Esc \u{8fd4}\u{56de}\u{4e3b}\u{83dc}\u{5355}",
-            Style::default().fg(SUCCESS),
-        )));
+        let completed = app.typing_round_records.len() as f64;
+        let avg_wpm = if completed > 0.0 {
+            app.typing_round_records.iter().map(|r| r.wpm).sum::<f64>() / completed
+        } else {
+            0.0
+        };
+        let avg_acc = if completed > 0.0 {
+            app.typing_round_records
+                .iter()
+                .map(|r| r.accuracy)
+                .sum::<f64>()
+                / completed
+        } else {
+            0.0
+        };
+
+        let summary = format!(
+            "🎉 本轮完成！{} 条 | 平均 WPM {:.0} | 平均准确率 {:.1}% | Enter/Esc 返回主页",
+            app.typing_round_records.len(),
+            avg_wpm,
+            avg_acc * 100.0
+        );
+        lines.push(Line::from(Span::styled(summary, Style::default().fg(SUCCESS))));
     }
 
     // Pad remaining lines
