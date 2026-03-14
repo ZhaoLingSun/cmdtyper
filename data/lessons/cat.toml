@@ -59,6 +59,9 @@ command = "cat /etc/hostname"
 summary = "查看主机名文件"
 simulated_output = """ubuntu-server"""
 output_explanation = "输出展示了 cat 读取（或拼接）后的文件内容。cat 本身不做格式化，看到什么就原样输出什么，适合快速核对文件内容。"
+[[examples.token_details]]
+token = "/etc/hostname"
+explanation = "系统主机名配置文件，通常只包含一行主机名文本。"
 [[examples]]
 level = 1
 command = "cat ~/.bashrc"
@@ -83,6 +86,9 @@ shopt -s histappend
 HISTSIZE=1000
 HISTFILESIZE=2000"""
 output_explanation = "输出展示了 cat 读取（或拼接）后的文件内容。cat 本身不做格式化，看到什么就原样输出什么，适合快速核对文件内容。"
+[[examples.token_details]]
+token = "~/.bashrc"
+explanation = "当前用户的 Bash 配置文件，常用来设置别名、环境变量和提示符。"
 [[examples]]
 level = 2
 command = "cat -n /etc/passwd | head -5"
@@ -148,6 +154,13 @@ name = myapp$
 host = 0.0.0.0$
 port = 8080$"""
 output_explanation = "输出展示了 cat 读取（或拼接）后的文件内容。cat 本身不做格式化，看到什么就原样输出什么，适合快速核对文件内容。"
+[[examples.token_details]]
+token = "-A"
+explanation = "显示所有不可见字符（等价于 -vET），便于排查制表符、行尾空格等格式问题。"
+
+[[examples.token_details]]
+token = "config.ini"
+explanation = "要检查格式的配置文件。"
 [[examples]]
 level = 4
 command = "cat access.log | grep \"POST\" | awk '{print $7}' | sort | uniq -c | sort -rn | head -10"

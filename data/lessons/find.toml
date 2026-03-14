@@ -131,6 +131,18 @@ simulated_output = """./project-a/node_modules
 ./project-b/node_modules
 ./old-projects/webapp/node_modules"""
 output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
+[[examples.token_details]]
+token = "."
+explanation = "从当前目录开始递归搜索。"
+
+[[examples.token_details]]
+token = "-type d"
+explanation = "只匹配目录（directory）。"
+
+[[examples.token_details]]
+token = "-name 'node_modules'"
+explanation = "只查找名称正好为 `node_modules` 的目录。"
+
 [[examples]]
 level = 3
 command = "find /tmp -type f -mtime +30 -exec rm -v {} \\;"
@@ -141,6 +153,22 @@ removed '/tmp/core.12345'
 removed '/tmp/download.7Rkm3P'
 removed '/tmp/upload_cache_old.dat'"""
 output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
+[[examples.token_details]]
+token = "/tmp"
+explanation = "在临时目录中搜索待清理文件。"
+
+[[examples.token_details]]
+token = "-type f"
+explanation = "只匹配普通文件，避免误删目录。"
+
+[[examples.token_details]]
+token = "-mtime +30"
+explanation = "只匹配 30 天前修改过的旧文件。"
+
+[[examples.token_details]]
+token = "-exec rm -v {} \\;"
+explanation = "对每个匹配文件执行 `rm -v` 删除并打印删除记录。"
+
 [[examples]]
 level = 3
 command = "find /home -name '*.sh' -type f -perm -u+x"
@@ -151,6 +179,22 @@ simulated_output = """/home/alice/scripts/backup.sh
 /home/bob/scripts/monitor.sh
 /home/bob/cron/daily-report.sh"""
 output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
+[[examples.token_details]]
+token = "/home"
+explanation = "从所有用户主目录开始搜索。"
+
+[[examples.token_details]]
+token = "-name '*.sh'"
+explanation = "筛选文件名以 `.sh` 结尾的脚本文件。"
+
+[[examples.token_details]]
+token = "-type f"
+explanation = "仅保留普通文件。"
+
+[[examples.token_details]]
+token = "-perm -u+x"
+explanation = "要求文件对属主具有可执行权限（u+x）。"
+
 [[examples]]
 level = 4
 command = "find ./src -name '*.py' -type f -exec grep -l 'import requests' {} +"
@@ -160,6 +204,18 @@ simulated_output = """./src/api/client.py
 ./src/utils/downloader.py
 ./src/tests/test_api.py"""
 output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
+[[examples.token_details]]
+token = "./src"
+explanation = "在项目源码目录中递归搜索。"
+
+[[examples.token_details]]
+token = "-name '*.py'"
+explanation = "只检查 Python 源码文件。"
+
+[[examples.token_details]]
+token = "-exec grep -l 'import requests' {} +"
+explanation = "对匹配到的文件批量执行 grep，输出包含 `import requests` 的文件名。"
+
 [[examples]]
 level = 4
 command = "find / -type f -perm -4000 -ls 2>/dev/null"
@@ -173,6 +229,26 @@ simulated_output = """   131073     40 -rwsr-xr-x   1 root     root        39144
    131112     36 -rwsr-xr-x   1 root     root        35192 Mar  7  2025 /usr/bin/umount
    131115     56 -rwsr-xr-x   1 root     root        55528 Mar  7  2025 /usr/bin/mount"""
 output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
+[[examples.token_details]]
+token = "/"
+explanation = "从系统根目录开始全盘扫描。"
+
+[[examples.token_details]]
+token = "-type f"
+explanation = "只检查普通文件。"
+
+[[examples.token_details]]
+token = "-perm -4000"
+explanation = "匹配设置了 SUID 位（4000）的文件，常用于安全审计。"
+
+[[examples.token_details]]
+token = "-ls"
+explanation = "以类似 `ls -dils` 的详细格式输出匹配结果。"
+
+[[examples.token_details]]
+token = "2>/dev/null"
+explanation = "把权限不足等错误信息丢弃，避免输出被报错刷屏。"
+
 [[gotchas]]
 title = "-name 区分大小写，用 -iname 忽略大小写"
 content = """-name 选项在匹配文件名时是区分大小写的。例如：

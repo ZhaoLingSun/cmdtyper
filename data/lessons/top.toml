@@ -75,6 +75,10 @@ MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   4380.2 avail Mem
       1 root      20   0  168960  11264   7680 S   0.0   0.1  10:23.45 systemd"""
 
 output_explanation = "这是系统实时资源视图，包含 CPU、内存和进程排行。可据此快速定位占用异常的进程。"
+[[examples.token_details]]
+token = "top"
+explanation = "启动交互式实时监控界面，默认按 CPU 占用展示进程。"
+
 [[examples]]
 level = 2
 command = "top -u ace"
