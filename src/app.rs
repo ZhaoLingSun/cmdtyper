@@ -159,6 +159,7 @@ pub struct App {
     pub typing_index: usize,
     pub show_hint: bool,
     pub typing_showing_output: bool,
+    pub typing_mode: TypingDisplayMode,
 
     // Dictation mode state
     pub dictation_commands: Vec<Command>,
@@ -204,6 +205,7 @@ impl App {
         let progress_store = ProgressStore::new()?;
         let user_stats = progress_store.load_stats()?;
         let user_config = progress_store.load_config()?;
+        let typing_mode = user_config.typing_mode.clone();
         let history = progress_store.load_history()?;
 
         Ok(Self {
@@ -222,6 +224,7 @@ impl App {
             typing_index: 0,
             show_hint: true,
             typing_showing_output: false,
+            typing_mode,
             dictation_commands: Vec::new(),
             dictation_index: 0,
             dictation_input: String::new(),
@@ -591,8 +594,8 @@ impl App {
     // ─────────────────────────────────────────────────────────
 
     fn handle_settings_key(&mut self, key: KeyEvent) {
-        // 6 editable items + 2 read-only display items
-        const SETTINGS_COUNT: usize = 6;
+        // 7 editable items + 2 read-only display items
+        const SETTINGS_COUNT: usize = 7;
         match key.code {
             KeyCode::Esc => {
                 let _ = self.progress_store.save_config(&self.user_config);
@@ -629,16 +632,25 @@ impl App {
                 };
             }
             1 => {
+                // Typing mode: Terminal → Standard → Detailed → Terminal
+                self.typing_mode = match self.typing_mode {
+                    TypingDisplayMode::Terminal => TypingDisplayMode::Standard,
+                    TypingDisplayMode::Standard => TypingDisplayMode::Detailed,
+                    TypingDisplayMode::Detailed => TypingDisplayMode::Terminal,
+                };
+                self.user_config.typing_mode = self.typing_mode.clone();
+            }
+            2 => {
                 // Target WPM +5
                 self.user_config.target_wpm = (self.user_config.target_wpm + 5.0).min(200.0);
             }
-            2 => {
+            3 => {
                 // Error flash +50ms
                 self.user_config.error_flash_ms = (self.user_config.error_flash_ms + 50).min(500);
             }
-            3 => self.user_config.show_token_hints = !self.user_config.show_token_hints,
-            4 => self.user_config.adaptive_recommend = !self.user_config.adaptive_recommend,
-            5 => self.user_config.show_path = !self.user_config.show_path,
+            4 => self.user_config.show_token_hints = !self.user_config.show_token_hints,
+            5 => self.user_config.adaptive_recommend = !self.user_config.adaptive_recommend,
+            6 => self.user_config.show_path = !self.user_config.show_path,
             _ => {}
         }
         let _ = self.progress_store.save_config(&self.user_config);
@@ -654,15 +666,24 @@ impl App {
                 };
             }
             1 => {
-                self.user_config.target_wpm = (self.user_config.target_wpm - 5.0).max(10.0);
+                // Reverse cycle: Terminal ← Standard ← Detailed ← Terminal
+                self.typing_mode = match self.typing_mode {
+                    TypingDisplayMode::Terminal => TypingDisplayMode::Detailed,
+                    TypingDisplayMode::Standard => TypingDisplayMode::Terminal,
+                    TypingDisplayMode::Detailed => TypingDisplayMode::Standard,
+                };
+                self.user_config.typing_mode = self.typing_mode.clone();
             }
             2 => {
+                self.user_config.target_wpm = (self.user_config.target_wpm - 5.0).max(10.0);
+            }
+            3 => {
                 self.user_config.error_flash_ms =
                     self.user_config.error_flash_ms.saturating_sub(50).max(50);
             }
-            3 => self.user_config.show_token_hints = !self.user_config.show_token_hints,
-            4 => self.user_config.adaptive_recommend = !self.user_config.adaptive_recommend,
-            5 => self.user_config.show_path = !self.user_config.show_path,
+            4 => self.user_config.show_token_hints = !self.user_config.show_token_hints,
+            5 => self.user_config.adaptive_recommend = !self.user_config.adaptive_recommend,
+            6 => self.user_config.show_path = !self.user_config.show_path,
             _ => {}
         }
         let _ = self.progress_store.save_config(&self.user_config);

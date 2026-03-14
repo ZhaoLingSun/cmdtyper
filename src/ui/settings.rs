@@ -1,8 +1,8 @@
 use ratatui::prelude::*;
-use ratatui::widgets::{Block, Borders, Paragraph};
+use ratatui::widgets::{Block, Borders, Paragraph, Wrap};
 
 use crate::app::App;
-use crate::data::models::PromptStyle;
+use crate::data::models::{PromptStyle, TypingDisplayMode};
 use crate::ui::widgets::*;
 
 struct SettingItem {
@@ -43,6 +43,15 @@ pub fn render(frame: &mut Frame, app: &App) {
                 PromptStyle::Full => "完整 (user@host:~$)".to_string(),
                 PromptStyle::Simple => "简单 ($)".to_string(),
                 PromptStyle::Minimal => "最简 (>)".to_string(),
+            },
+            selectable: true,
+        },
+        SettingItem {
+            label: "打字模式",
+            value: match app.typing_mode {
+                TypingDisplayMode::Terminal => "终端".to_string(),
+                TypingDisplayMode::Standard => "标准".to_string(),
+                TypingDisplayMode::Detailed => "详解".to_string(),
             },
             selectable: true,
         },
@@ -142,17 +151,14 @@ pub fn render(frame: &mut Frame, app: &App) {
 
     // Preview prompt
     lines.push(Line::from(""));
-    lines.push(Line::from(Span::styled(
-        "  预览:",
-        Style::default().fg(HEADER),
-    )));
+    lines.push(Line::from(Span::styled("  预览:", Style::default().fg(HEADER))));
     lines.push(Line::from(vec![
         Span::styled("  ", Style::default()),
         Span::styled(app.format_prompt(), Style::default().fg(PROMPT_COLOR)),
         Span::styled("ls -la /var/log", Style::default().fg(Color::White)),
     ]));
 
-    let content = Paragraph::new(lines);
+    let content = Paragraph::new(lines).wrap(Wrap { trim: false });
     frame.render_widget(content, chunks[1]);
 
     let hints = hint_line(&[("↑↓", "移动"), ("←→/Enter", "调整"), ("Esc", "保存返回")]);

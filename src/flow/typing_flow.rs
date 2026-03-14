@@ -1,8 +1,11 @@
+use std::thread;
+use std::time::Duration;
+
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 
 use crate::app::{App, AppState};
 use crate::core::scorer;
-use crate::data::models::RecordMode;
+use crate::data::models::{RecordMode, TypingDisplayMode};
 
 pub fn enter_typing(app: &mut App) {
     app.terminal_history.clear();
@@ -21,6 +24,7 @@ pub fn enter_typing(app: &mut App) {
     app.typing_index = 0;
     app.typing_round_records.clear();
     app.typing_showing_output = false;
+    app.typing_mode = app.user_config.typing_mode.clone();
     let cmd = &app.typing_commands[0];
     app.typing_engine.reset(&cmd.command);
     app.show_hint = app.user_config.show_token_hints;
@@ -38,6 +42,11 @@ pub fn handle_typing_key(app: &mut App, key: KeyEvent) {
             app.state = AppState::Home;
         }
         KeyCode::Enter => typing_submit_or_advance(app),
+        KeyCode::Char('m') | KeyCode::Char('M')
+            if key.modifiers == KeyModifiers::NONE || key.modifiers == KeyModifiers::SHIFT =>
+        {
+            cycle_typing_mode(app);
+        }
         KeyCode::Char('h') | KeyCode::Char('H')
             if key.modifiers == KeyModifiers::NONE || key.modifiers == KeyModifiers::SHIFT =>
         {
@@ -69,10 +78,22 @@ pub fn handle_typing_char_input(app: &mut App, key: KeyCode) {
     }
 }
 
+fn cycle_typing_mode(app: &mut App) {
+    app.typing_mode = match app.typing_mode {
+        TypingDisplayMode::Terminal => TypingDisplayMode::Standard,
+        TypingDisplayMode::Standard => TypingDisplayMode::Detailed,
+        TypingDisplayMode::Detailed => TypingDisplayMode::Terminal,
+    };
+    app.user_config.typing_mode = app.typing_mode.clone();
+    let _ = app.progress_store.save_config(&app.user_config);
+}
+
 fn typing_submit_or_advance(app: &mut App) {
     if !app.typing_engine.is_complete() || app.typing_is_finished() {
         return;
     }
+
+    let mode = app.typing_mode.clone();
 
     if app.typing_showing_output {
         typing_finalize_current_command(app);
@@ -85,6 +106,15 @@ fn typing_submit_or_advance(app: &mut App) {
         .and_then(|cmd| cmd.simulated_output.as_deref())
         .map(|text| !text.trim().is_empty())
         .unwrap_or(false);
+
+    if mode == TypingDisplayMode::Terminal {
+        if has_output {
+            app.typing_showing_output = true;
+            thread::sleep(Duration::from_millis(450));
+        }
+        typing_finalize_current_command(app);
+        return;
+    }
 
     if has_output {
         app.typing_showing_output = true;

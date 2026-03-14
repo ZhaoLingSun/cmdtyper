@@ -225,7 +225,7 @@ pub fn render_commands(
         height: (sim_height as u16).min(chunks[1].height.saturating_sub(3)),
     };
 
-    let content = Paragraph::new(lines);
+    let content = Paragraph::new(lines).wrap(Wrap { trim: false });
     frame.render_widget(content, chunks[1]);
     frame.render_widget(sim, sim_area);
 
