@@ -111,6 +111,7 @@ pub struct ReviewExercise {
     pub command_id: String,
     pub command: String,
     pub description: String,
+    pub difficulty: Difficulty,
 }
 
 #[derive(Debug, Clone, Default)]
@@ -1235,6 +1236,12 @@ impl App {
                             self.review_practice.typing_accuracy_sum += acc;
                             self.review_practice.typing_wpm_sum += wpm;
                             self.review_practice.accuracy_sum += acc;
+                            self.record_review_exercise_result(
+                                &exercise,
+                                RecordMode::ReviewTyping,
+                                wpm,
+                                acc,
+                            );
                             self.advance_review_practice(&source);
                         }
                         _ => {}
@@ -1262,6 +1269,12 @@ impl App {
                                 self.review_practice.dictation_count += 1;
                                 self.review_practice.dictation_accuracy_sum += acc;
                                 self.review_practice.accuracy_sum += acc;
+                                self.record_review_exercise_result(
+                                    &exercise,
+                                    RecordMode::ReviewDictation,
+                                    0.0,
+                                    acc,
+                                );
                                 self.review_practice.dictation_result = Some(result);
                                 self.review_practice.dictation_submitted = true;
                             }
@@ -1270,14 +1283,6 @@ impl App {
                     },
                 }
             }
-        }
-    }
-
-    fn review_source_key(source: &ReviewSource) -> String {
-        match source {
-            ReviewSource::CommandCategory(cat) => format!("category:{:?}", cat),
-            ReviewSource::SymbolTopic(name) => format!("symbol:{}", name),
-            ReviewSource::SystemTopic(name) => format!("system:{}", name),
         }
     }
 
@@ -1291,6 +1296,7 @@ impl App {
                         command_id: cmd.id.clone(),
                         command: cmd.command.clone(),
                         description: cmd.dictation.prompt.clone(),
+                        difficulty: cmd.difficulty,
                     });
                 }
             }
@@ -1307,6 +1313,7 @@ impl App {
                                 command_id: format!("symbol:{}:{}", topic.meta.id, idx),
                                 command: answer.clone(),
                                 description: exercise.prompt.clone(),
+                                difficulty: topic.meta.difficulty,
                             });
                         }
                     }
@@ -1328,6 +1335,7 @@ impl App {
                                 ),
                                 command: command.command.clone(),
                                 description: command.summary.clone(),
+                                difficulty: topic.meta.difficulty,
                             });
                         }
                     }
@@ -1375,58 +1383,36 @@ impl App {
         }
     }
 
-    fn record_review_stats(&mut self, source: &ReviewSource) {
+    fn record_review_exercise_result(
+        &mut self,
+        exercise: &ReviewExercise,
+        mode: RecordMode,
+        wpm: f64,
+        accuracy: f64,
+    ) {
+        let now_ms = Utc::now().timestamp_millis();
+        let error_count = if accuracy >= 1.0 { 0 } else { 1 };
+        let record = SessionRecord {
+            id: format!("{}-{}", now_ms, exercise.command_id),
+            command_id: exercise.command_id.clone(),
+            mode,
+            keystrokes: Vec::new(),
+            started_at: now_ms,
+            finished_at: now_ms,
+            wpm,
+            cpm: wpm * 5.0,
+            accuracy,
+            error_count,
+            difficulty: exercise.difficulty,
+        };
+        scorer::update_stats(&mut self.user_stats, &record);
+        let _ = self.progress_store.append_record(&record);
+        self.history.push(record);
+    }
+
+    fn record_review_stats(&mut self, _source: &ReviewSource) {
         if self.review_practice.stats_recorded {
             return;
-        }
-
-        let now_ms = Utc::now().timestamp_millis();
-        let source_key = Self::review_source_key(source);
-
-        if self.review_practice.typing_count > 0 {
-            let acc =
-                self.review_practice.typing_accuracy_sum / self.review_practice.typing_count as f64;
-            let wpm =
-                self.review_practice.typing_wpm_sum / self.review_practice.typing_count as f64;
-            let record = SessionRecord {
-                id: format!("{}-rt", now_ms),
-                command_id: format!("review:{}:typing", source_key),
-                mode: RecordMode::ReviewPractice,
-                keystrokes: Vec::new(),
-                started_at: now_ms,
-                finished_at: now_ms,
-                wpm,
-                cpm: wpm * 5.0,
-                accuracy: acc,
-                error_count: ((1.0 - acc).max(0.0) * self.review_practice.typing_count as f64)
-                    .round() as u32,
-                difficulty: Difficulty::Beginner,
-            };
-            scorer::update_stats(&mut self.user_stats, &record);
-            let _ = self.progress_store.append_record(&record);
-            self.history.push(record);
-        }
-
-        if self.review_practice.dictation_count > 0 {
-            let acc = self.review_practice.dictation_accuracy_sum
-                / self.review_practice.dictation_count as f64;
-            let record = SessionRecord {
-                id: format!("{}-rd", now_ms),
-                command_id: format!("review:{}:dictation", source_key),
-                mode: RecordMode::ReviewPractice,
-                keystrokes: Vec::new(),
-                started_at: now_ms,
-                finished_at: now_ms,
-                wpm: 0.0,
-                cpm: 0.0,
-                accuracy: acc,
-                error_count: ((1.0 - acc).max(0.0) * self.review_practice.dictation_count as f64)
-                    .round() as u32,
-                difficulty: Difficulty::Beginner,
-            };
-            scorer::update_stats(&mut self.user_stats, &record);
-            let _ = self.progress_store.append_record(&record);
-            self.history.push(record);
         }
 
         let _ = self.progress_store.save_stats(&self.user_stats);

@@ -149,8 +149,10 @@ pub enum RecordMode {
     LessonPractice,
     #[serde(alias = "symbol_practice")]
     SymbolPractice,
-    #[serde(alias = "review_practice")]
-    ReviewPractice,
+    #[serde(alias = "review_typing", alias = "review_practice")]
+    ReviewTyping,
+    #[serde(alias = "review_dictation")]
+    ReviewDictation,
 }
 
 /// 重要程度
