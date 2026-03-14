@@ -350,3 +350,66 @@ answers = [
     "date >> log.txt",
     "date >>log.txt",
 ]
+
+# Wave E 扩展练习（10）
+[[exercises]]
+kind = "typing"
+prompt = "筛选 auth.log 中包含 failed 的前 5 行"
+answers = ["cat auth.log | grep -i failed | head -5"]
+command = "cat auth.log | grep -i failed | head -5"
+simulated_output = "Mar 14 09:11:20 sshd[101]: Failed password for root from 10.0.0.7\nMar 14 09:12:01 sshd[104]: Failed password for admin from 10.0.0.8"
+
+[[exercises]]
+kind = "typing"
+prompt = "将 dmesg 中 error 信息追加到 kernel.err"
+answers = ["dmesg | grep -i error >> kernel.err"]
+command = "dmesg | grep -i error >> kernel.err"
+simulated_output = ""
+
+[[exercises]]
+kind = "typing"
+prompt = "统计 nginx.log 中 500 状态码数量"
+answers = ["cat nginx.log | grep ' 500 ' | wc -l"]
+command = "cat nginx.log | grep ' 500 ' | wc -l"
+simulated_output = "27"
+
+[[exercises]]
+kind = "typing"
+prompt = "把 stdout/stderr 都重定向到 deploy.log"
+answers = ["./deploy.sh > deploy.log 2>&1"]
+command = "./deploy.sh > deploy.log 2>&1"
+simulated_output = ""
+
+[[exercises]]
+kind = "typing"
+prompt = "读取 users.txt 并按第 3 列排序写入 sorted.txt"
+answers = ["sort -k3 users.txt > sorted.txt"]
+command = "sort -k3 users.txt > sorted.txt"
+simulated_output = ""
+
+[[exercises]]
+kind = "typing"
+prompt = "用 tee 同时显示并保存 ping 输出"
+answers = ["ping -c 3 8.8.8.8 | tee ping.out"]
+command = "ping -c 3 8.8.8.8 | tee ping.out"
+simulated_output = "PING 8.8.8.8 (8.8.8.8): 56 data bytes\n64 bytes from 8.8.8.8: icmp_seq=0 ttl=115 time=28.1 ms"
+
+[[exercises]]
+kind = "dictation"
+prompt = "将 stderr 追加到 err.log（不覆盖）"
+answers = ["some_command 2>> err.log"]
+
+[[exercises]]
+kind = "dictation"
+prompt = "统计 /etc/passwd 中包含 nologin 的行数（使用管道）"
+answers = ["grep nologin /etc/passwd | wc -l", "cat /etc/passwd | grep nologin | wc -l"]
+
+[[exercises]]
+kind = "dictation"
+prompt = "将 list.txt 作为 sort 的输入并输出到 result.txt"
+answers = ["sort < list.txt > result.txt"]
+
+[[exercises]]
+kind = "dictation"
+prompt = "运行脚本并丢弃所有错误输出"
+answers = ["bash run.sh 2>/dev/null", "./run.sh 2>/dev/null"]

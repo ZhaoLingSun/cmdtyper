@@ -401,3 +401,66 @@ answers = [
     "cd ~",
     "cd",
 ]
+
+# Wave E 扩展练习（10）
+[[exercises]]
+kind = "typing"
+prompt = "先更新索引再安装 nginx（仅前者成功时执行后者）"
+answers = ["sudo apt update && sudo apt install -y nginx"]
+command = "sudo apt update && sudo apt install -y nginx"
+simulated_output = "Reading package lists... Done\nnginx is already the newest version"
+
+[[exercises]]
+kind = "typing"
+prompt = "若 main.py 失败则打印 fallback"
+answers = ["python3 main.py || echo fallback"]
+command = "python3 main.py || echo fallback"
+simulated_output = "fallback"
+
+[[exercises]]
+kind = "typing"
+prompt = "顺序执行三条命令并总是继续"
+answers = ["echo start; sleep 1; echo done"]
+command = "echo start; sleep 1; echo done"
+simulated_output = "start\ndone"
+
+[[exercises]]
+kind = "typing"
+prompt = "后台启动服务并立即打印 PID"
+answers = ["./service.sh & echo $!"]
+command = "./service.sh & echo $!"
+simulated_output = "41872"
+
+[[exercises]]
+kind = "typing"
+prompt = "切到 app 目录并仅在成功时启动 npm"
+answers = ["cd app && npm start"]
+command = "cd app && npm start"
+simulated_output = "> app@1.0.0 start\n> node server.js"
+
+[[exercises]]
+kind = "typing"
+prompt = "source env.sh 后再打印 MODE"
+answers = ["source env.sh && echo $MODE", ". env.sh && echo $MODE"]
+command = "source env.sh && echo $MODE"
+simulated_output = "production"
+
+[[exercises]]
+kind = "dictation"
+prompt = "执行备份脚本，若失败则输出 backup failed"
+answers = ["bash backup.sh || echo backup failed", "./backup.sh || echo backup failed"]
+
+[[exercises]]
+kind = "dictation"
+prompt = "先输出 A，再输出 B（使用分号）"
+answers = ["echo A; echo B"]
+
+[[exercises]]
+kind = "dictation"
+prompt = "将 rsync 放到后台执行"
+answers = ["rsync -av ./src ./dst &"]
+
+[[exercises]]
+kind = "dictation"
+prompt = "重新加载当前 shell 的 profile"
+answers = ["source ~/.profile", ". ~/.profile"]

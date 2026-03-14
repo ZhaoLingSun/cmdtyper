@@ -240,3 +240,66 @@ answers = [
     "kernel=`uname -r` && echo $kernel",
     "kernel=`uname -r` && echo \"$kernel\"",
 ]
+
+# Wave E 扩展练习（10）
+[[exercises]]
+kind = "typing"
+prompt = "输出带空格的字符串并包含变量 USER"
+answers = ["echo \"login user: $USER\""]
+command = "echo \"login user: $USER\""
+simulated_output = "login user: ace"
+
+[[exercises]]
+kind = "typing"
+prompt = "使用单引号输出字面量 $(date)"
+answers = ["echo '$(date)'"]
+command = "echo '$(date)'"
+simulated_output = "$(date)"
+
+[[exercises]]
+kind = "typing"
+prompt = "在双引号中转义美元符号输出 Price: $99"
+answers = ["echo \"Price: \\$99\""]
+command = "echo \"Price: \\$99\""
+simulated_output = "Price: $99"
+
+[[exercises]]
+kind = "typing"
+prompt = "使用命令替换输出当前目录"
+answers = ["echo \"cwd=$(pwd)\""]
+command = "echo \"cwd=$(pwd)\""
+simulated_output = "cwd=/home/ace/workspaces/cmdtyper-v2"
+
+[[exercises]]
+kind = "typing"
+prompt = "在双引号里输出 she said \"ok\""
+answers = ["echo \"she said \\\"ok\\\"\""]
+command = "echo \"she said \\\"ok\\\"\""
+simulated_output = "she said \"ok\""
+
+[[exercises]]
+kind = "typing"
+prompt = "使用旧式反引号拼接用户和主机"
+answers = ["echo `whoami`@`hostname`"]
+command = "echo `whoami`@`hostname`"
+simulated_output = "ace@cmdtyper"
+
+[[exercises]]
+kind = "dictation"
+prompt = "原样输出字符串 $PATH（不展开）"
+answers = ["echo '$PATH'", "echo \"\\$PATH\""]
+
+[[exercises]]
+kind = "dictation"
+prompt = "使用 $() 输出今天日期（格式 YYYY-MM-DD）"
+answers = ["echo $(date +%F)", "echo \"$(date +%F)\""]
+
+[[exercises]]
+kind = "dictation"
+prompt = "打印文件名 file name.txt（包含空格，使用转义）"
+answers = ["echo file\\ name.txt"]
+
+[[exercises]]
+kind = "dictation"
+prompt = "将 whoami 的结果赋值给变量 u 并输出"
+answers = ["u=$(whoami) && echo $u", "u=$(whoami) && echo \"$u\""]

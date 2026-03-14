@@ -22,7 +22,7 @@ pub fn render_overview(frame: &mut Frame, app: &App, topic_index: usize) {
         .split(area);
 
     let title = Paragraph::new(Line::from(Span::styled(
-        format!(" {} \u{2014} \u{603b}\u{89c8} ", topic.meta.topic),
+        format!(" {} — 总览 ", topic.meta.topic),
         Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
     )))
     .alignment(Alignment::Center)
@@ -51,7 +51,7 @@ pub fn render_overview(frame: &mut Frame, app: &App, topic_index: usize) {
 
     lines.push(Line::from(""));
     lines.push(Line::from(Span::styled(
-        format!("\u{5171} {} \u{4e2a}\u{7ae0}\u{8282}", topic.sections.len()),
+        format!("共 {} 个章节", topic.sections.len()),
         Style::default().fg(DIM),
     )));
     for (i, section) in topic.sections.iter().enumerate() {
@@ -64,10 +64,7 @@ pub fn render_overview(frame: &mut Frame, app: &App, topic_index: usize) {
     let content = Paragraph::new(lines).wrap(Wrap { trim: false });
     frame.render_widget(content, chunks[1]);
 
-    let hints = hint_line(&[
-        ("Enter/\u{2192}", "\u{8fdb}\u{5165}\u{7ae0}\u{8282}"),
-        ("Esc", "\u{8fd4}\u{56de}"),
-    ]);
+    let hints = hint_line(&[("Enter/→", "进入章节"), ("Esc", "返回")]);
     frame.render_widget(
         Paragraph::new(hints).alignment(Alignment::Center),
         chunks[2],
@@ -97,7 +94,7 @@ pub fn render_detail(frame: &mut Frame, app: &App, topic_index: usize, section_i
 
     let title = Paragraph::new(Line::from(Span::styled(
         format!(
-            " {} \u{2014} {}/{} {} ",
+            " {} — {}/{} {} ",
             topic.meta.topic,
             section_index + 1,
             topic.sections.len(),
@@ -124,19 +121,13 @@ pub fn render_detail(frame: &mut Frame, app: &App, topic_index: usize, section_i
     if !section.commands.is_empty() {
         lines.push(Line::from(""));
         lines.push(Line::from(Span::styled(
-            format!(
-                "\u{5e38}\u{7528}\u{547d}\u{4ee4}: {} \u{4e2a}",
-                section.commands.len()
-            ),
+            format!("常用命令: {} 个", section.commands.len()),
             Style::default().fg(DIM),
         )));
     }
     if !section.config_files.is_empty() {
         lines.push(Line::from(Span::styled(
-            format!(
-                "\u{914d}\u{7f6e}\u{6587}\u{4ef6}: {} \u{4e2a}",
-                section.config_files.len()
-            ),
+            format!("配置文件: {} 个", section.config_files.len()),
             Style::default().fg(DIM),
         )));
     }
@@ -144,19 +135,15 @@ pub fn render_detail(frame: &mut Frame, app: &App, topic_index: usize, section_i
     let content = Paragraph::new(lines).wrap(Wrap { trim: false });
     frame.render_widget(content, chunks[1]);
 
-    let hints = hint_line(&[
-        ("\u{2191}\u{2193}", "\u{4e0a}\u{4e0b}\u{7ae0}\u{8282}"),
-        ("Enter/\u{2192}", "\u{67e5}\u{770b}\u{547d}\u{4ee4}"),
-        ("Esc", "\u{8fd4}\u{56de}"),
-    ]);
+    let hints = hint_line(&[("↑↓", "上下章节"), ("Enter/→", "开始命令练习"), ("Esc", "返回")]);
     frame.render_widget(
         Paragraph::new(hints).alignment(Alignment::Center),
         chunks[2],
     );
 }
 
-/// Commands phase: command + simulated output
-pub fn render_commands(
+/// TypingPractice phase: command typing + simulated output
+pub fn render_typing_practice(
     frame: &mut Frame,
     app: &App,
     topic_index: usize,
@@ -187,12 +174,7 @@ pub fn render_commands(
         .split(area);
 
     let title = Paragraph::new(Line::from(Span::styled(
-        format!(
-            " {} \u{2014} \u{547d}\u{4ee4} {}/{} ",
-            section.title,
-            cmd_idx + 1,
-            section.commands.len()
-        ),
+        format!(" {} — 命令练习 {}/{} ", section.title, cmd_idx + 1, section.commands.len()),
         Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
     )))
     .alignment(Alignment::Center)
@@ -203,37 +185,61 @@ pub fn render_commands(
     );
     frame.render_widget(title, chunks[0]);
 
-    let lines: Vec<Line> = vec![
+    let mut lines: Vec<Line> = vec![
         Line::from(Span::styled(
             cmd.summary.clone(),
-            Style::default()
-                .fg(Color::White)
-                .add_modifier(Modifier::BOLD),
+            Style::default().fg(Color::White).add_modifier(Modifier::BOLD),
         )),
         Line::from(""),
+        render_typing_line("$ ", &app.typing_engine),
+        Line::from(""),
+        Line::from(Span::styled(
+            format!("当前准确率: {:.0}%", app.typing_engine.current_accuracy() * 100.0),
+            Style::default().fg(DIM),
+        )),
+        Line::from(Span::styled(
+            format!("当前 WPM: {:.0}", app.typing_engine.current_wpm()),
+            Style::default().fg(DIM),
+        )),
     ];
 
-    let sim = render_simulated_output(&cmd.command, cmd.simulated_output.as_deref());
-    let sim_height = 2 + cmd
-        .simulated_output
-        .as_deref()
-        .map_or(1, |o| o.lines().count() + 1);
-    let sim_area = Rect {
-        x: chunks[1].x,
-        y: chunks[1].y + 3,
-        width: chunks[1].width,
-        height: (sim_height as u16).min(chunks[1].height.saturating_sub(3)),
-    };
+    if app.typing_engine.is_complete() && app.system_typing_showing_output {
+        lines.push(Line::from(""));
+        lines.push(Line::from(Span::styled("模拟输出:", Style::default().fg(ACCENT))));
+        if let Some(output) = &cmd.simulated_output {
+            for line in output.lines() {
+                lines.push(Line::from(Span::styled(
+                    line.to_string(),
+                    Style::default().fg(Color::White),
+                )));
+            }
+        }
+    }
 
     let content = Paragraph::new(lines).wrap(Wrap { trim: false });
     frame.render_widget(content, chunks[1]);
-    frame.render_widget(sim, sim_area);
 
-    let mut hint_items = vec![("Enter/\u{2192}", "\u{4e0b}\u{4e00}\u{4e2a}")];
+    let has_output = cmd
+        .simulated_output
+        .as_deref()
+        .map(|text| !text.trim().is_empty())
+        .unwrap_or(false);
+    let mut hint_items = if app.typing_engine.is_complete() {
+        if app.system_typing_showing_output {
+            vec![("Enter", "下一步")]
+        } else if has_output {
+            vec![("Enter", "查看输出")]
+        } else {
+            vec![("Enter", "下一步")]
+        }
+    } else {
+        vec![("输入字符", "继续")]
+    };
+
     if cmd.deep_explanation.is_some() {
-        hint_items.push(("D", "\u{67e5}\u{770b}\u{8be6}\u{89e3}"));
+        hint_items.push(("D", "查看详解"));
     }
-    hint_items.push(("Esc", "\u{8fd4}\u{56de}"));
+    hint_items.push(("Esc", "返回"));
     let hints = hint_line(&hint_items);
     frame.render_widget(
         Paragraph::new(hints).alignment(Alignment::Center),
@@ -273,7 +279,7 @@ pub fn render_config_file(
         .split(area);
 
     let title = Paragraph::new(Line::from(Span::styled(
-        format!(" {} \u{2014} {} ", cf.name, cf.path),
+        format!(" {} — {} ", cf.name, cf.path),
         Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
     )))
     .alignment(Alignment::Center)
@@ -291,11 +297,7 @@ pub fn render_config_file(
     )));
     lines.push(Line::from(""));
 
-    // Sample content
-    lines.push(Line::from(Span::styled(
-        "\u{793a}\u{4f8b}\u{5185}\u{5bb9}:",
-        Style::default().fg(HEADER),
-    )));
+    lines.push(Line::from(Span::styled("示例内容:", Style::default().fg(HEADER))));
     for line in cf.sample_content.lines() {
         lines.push(Line::from(Span::styled(
             format!("  {}", line),
@@ -304,20 +306,17 @@ pub fn render_config_file(
     }
     lines.push(Line::from(""));
 
-    // Config lessons
     for lesson in &cf.lessons {
         lines.push(Line::from(Span::styled(
-            format!("\u{2022} {}", lesson.title),
-            Style::default()
-                .fg(Color::White)
-                .add_modifier(Modifier::BOLD),
+            format!("• {}", lesson.title),
+            Style::default().fg(Color::White).add_modifier(Modifier::BOLD),
         )));
         lines.push(Line::from(vec![
-            Span::styled("  \u{524d}: ", Style::default().fg(ERROR)),
+            Span::styled("  前: ", Style::default().fg(ERROR)),
             Span::styled(lesson.before.clone(), Style::default().fg(Color::White)),
         ]));
         lines.push(Line::from(vec![
-            Span::styled("  \u{540e}: ", Style::default().fg(SUCCESS)),
+            Span::styled("  后: ", Style::default().fg(SUCCESS)),
             Span::styled(lesson.after.clone(), Style::default().fg(Color::White)),
         ]));
         for line in lesson.explanation.lines() {
@@ -332,12 +331,35 @@ pub fn render_config_file(
     let content = Paragraph::new(lines).wrap(Wrap { trim: false });
     frame.render_widget(content, chunks[1]);
 
-    let hints = hint_line(&[
-        ("Enter/\u{2192}", "\u{4e0b}\u{4e00}\u{4e2a}"),
-        ("Esc", "\u{8fd4}\u{56de}"),
-    ]);
+    let hints = hint_line(&[("Enter/→", "下一个"), ("Esc", "返回")]);
     frame.render_widget(
         Paragraph::new(hints).alignment(Alignment::Center),
         chunks[2],
     );
+}
+
+fn render_typing_line<'a>(prompt: &str, engine: &crate::core::engine::TypingEngine) -> Line<'a> {
+    let mut spans = Vec::new();
+    spans.push(Span::styled(
+        prompt.to_string(),
+        Style::default().fg(PROMPT_COLOR),
+    ));
+
+    let is_flashing = engine.is_error_flashing();
+    for (idx, ch) in engine.target.iter().enumerate() {
+        let style = if idx < engine.cursor {
+            Style::default().fg(TYPED_CORRECT)
+        } else if idx == engine.cursor {
+            if is_flashing {
+                Style::default().fg(ERROR_FLASH).bg(ERROR_FLASH_BG)
+            } else {
+                Style::default().fg(CURSOR).bg(CURSOR_BG)
+            }
+        } else {
+            Style::default().fg(PENDING).bg(PENDING_BG)
+        };
+        spans.push(Span::styled(ch.to_string(), style));
+    }
+
+    Line::from(spans)
 }

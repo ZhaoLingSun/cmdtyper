@@ -65,6 +65,7 @@ pub enum AppState {
 pub enum SymbolPhase {
     Explain,
     Example(usize),
+    TypingPractice { exercise_idx: usize },
     Practice,
 }
 
@@ -72,7 +73,7 @@ pub enum SymbolPhase {
 pub enum SystemPhase {
     Overview,
     Detail,
-    Commands(usize),
+    TypingPractice { command_idx: usize },
     ConfigFile(usize),
 }
 
@@ -95,10 +96,22 @@ pub struct SymbolPracticeState {
     pub current_input: String,
     pub error_count: u8,
     pub show_answer: bool,
-    pub correct_count: usize,
-    pub total_count: usize,
     pub submitted: bool,
     pub last_correct: Option<bool>,
+
+    pub typing_indices: Vec<usize>,
+    pub dictation_indices: Vec<usize>,
+    pub total_count: usize,
+
+    pub typing_showing_output: bool,
+    pub typing_wpm_sum: f64,
+    pub typing_accuracy_sum: f64,
+    pub typing_count: usize,
+
+    pub dictation_correct_count: usize,
+    pub dictation_accuracy_sum: f64,
+    pub dictation_count: usize,
+
     pub completed: bool,
     pub stats_recorded: bool,
 }
@@ -179,6 +192,9 @@ pub struct App {
     // Symbol practice state
     pub symbol_practice: SymbolPracticeState,
 
+    // System lesson typing phase state
+    pub system_typing_showing_output: bool,
+
     // Review practice state
     pub review_practice: ReviewPracticeState,
 
@@ -242,6 +258,7 @@ impl App {
             dictation_result: None,
             dictation_submitted: false,
             symbol_practice: SymbolPracticeState::default(),
+            system_typing_showing_output: false,
             review_practice: ReviewPracticeState::default(),
             home_index: 0,
             learn_hub_index: 0,
@@ -845,7 +862,9 @@ impl App {
             } => AppState::SystemLesson {
                 topic_index: *topic_idx,
                 section_index: *section_idx,
-                phase: SystemPhase::Commands(*command_idx),
+                phase: SystemPhase::TypingPractice {
+                    command_idx: *command_idx,
+                },
             },
         }
     }
@@ -954,9 +973,33 @@ impl App {
     }
 
     pub fn current_symbol_practice_exercise(&self, topic_index: usize) -> Option<&Exercise> {
+        let idx = self
+            .symbol_practice
+            .dictation_indices
+            .get(self.symbol_practice.current_index)
+            .copied()
+            .unwrap_or(self.symbol_practice.current_index);
+
         self.symbol_topics
             .get(topic_index)
-            .and_then(|topic| topic.exercises.get(self.symbol_practice.current_index))
+            .and_then(|topic| topic.exercises.get(idx))
+    }
+
+    pub fn current_symbol_typing_exercise(
+        &self,
+        topic_index: usize,
+        exercise_idx: usize,
+    ) -> Option<&Exercise> {
+        let idx = self
+            .symbol_practice
+            .typing_indices
+            .get(exercise_idx)
+            .copied()
+            .unwrap_or(exercise_idx);
+
+        self.symbol_topics
+            .get(topic_index)
+            .and_then(|topic| topic.exercises.get(idx))
     }
 
     pub fn current_review_exercise(&self) -> Option<&ReviewExercise> {

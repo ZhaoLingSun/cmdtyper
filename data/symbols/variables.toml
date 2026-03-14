@@ -379,3 +379,66 @@ answers = [
     "bash -c \"echo $#\" _ x y z",
     "bash -c 'echo \"$#\"' _ x y z",
 ]
+
+# Wave E 扩展练习（10）
+[[exercises]]
+kind = "typing"
+prompt = "输出 USER 和 HOME 两个变量"
+answers = ["echo \"$USER:$HOME\""]
+command = "echo \"$USER:$HOME\""
+simulated_output = "ace:/home/ace"
+
+[[exercises]]
+kind = "typing"
+prompt = "设置临时变量 PORT=8080 并输出"
+answers = ["PORT=8080 && echo $PORT"]
+command = "PORT=8080 && echo $PORT"
+simulated_output = "8080"
+
+[[exercises]]
+kind = "typing"
+prompt = "用默认值展开变量 NAME"
+answers = ["echo \"${NAME:-guest}\""]
+command = "echo \"${NAME:-guest}\""
+simulated_output = "guest"
+
+[[exercises]]
+kind = "typing"
+prompt = "命令替换获取当前分支名"
+answers = ["echo \"branch=$(git branch --show-current)\""]
+command = "echo \"branch=$(git branch --show-current)\""
+simulated_output = "branch=main"
+
+[[exercises]]
+kind = "typing"
+prompt = "把 date +%F 保存到 TODAY 并输出"
+answers = ["TODAY=$(date +%F) && echo $TODAY"]
+command = "TODAY=$(date +%F) && echo $TODAY"
+simulated_output = "2026-03-14"
+
+[[exercises]]
+kind = "typing"
+prompt = "后台运行 sleep 并显示其 PID"
+answers = ["sleep 20 & echo $!"]
+command = "sleep 20 & echo $!"
+simulated_output = "53210"
+
+[[exercises]]
+kind = "dictation"
+prompt = "输出当前脚本名（特殊变量）"
+answers = ["echo $0", "echo \"$0\""]
+
+[[exercises]]
+kind = "dictation"
+prompt = "输出最近一个后台任务 PID"
+answers = ["echo $!", "echo \"$!\""]
+
+[[exercises]]
+kind = "dictation"
+prompt = "输出参数总数"
+answers = ["echo $#", "echo \"$#\""]
+
+[[exercises]]
+kind = "dictation"
+prompt = "打印变量 LOG_DIR，若未设置则使用 /var/log"
+answers = ["echo \"${LOG_DIR:-/var/log}\""]

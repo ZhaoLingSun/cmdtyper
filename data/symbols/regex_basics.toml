@@ -421,3 +421,66 @@ answers = [
     "grep -E \"[0-9]+\" log.txt",
     "egrep '[0-9]+' log.txt",
 ]
+
+# Wave E 扩展练习（10）
+[[exercises]]
+kind = "typing"
+prompt = "匹配以 error 开头的日志行"
+answers = ["grep '^error' app.log", "grep \"^error\" app.log"]
+command = "grep '^error' app.log"
+simulated_output = "error: failed to connect\nerror: timeout reached"
+
+[[exercises]]
+kind = "typing"
+prompt = "匹配以 .conf 结尾的文件名"
+answers = ["grep -E '\\.conf$' files.txt"]
+command = "grep -E '\\.conf$' files.txt"
+simulated_output = "nginx.conf\nsshd.conf"
+
+[[exercises]]
+kind = "typing"
+prompt = "查找只包含数字的整行"
+answers = ["grep -E '^[0-9]+$' nums.txt"]
+command = "grep -E '^[0-9]+$' nums.txt"
+simulated_output = "42\n9001"
+
+[[exercises]]
+kind = "typing"
+prompt = "匹配 IPv4 风格前缀 192.168."
+answers = ["grep -E '^192\\.168\\.' hosts.txt"]
+command = "grep -E '^192\\.168\\.' hosts.txt"
+simulated_output = "192.168.1.10\n192.168.1.88"
+
+[[exercises]]
+kind = "typing"
+prompt = "过滤以 # 开头的注释行"
+answers = ["grep '^#' config.ini", "grep \"^#\" config.ini"]
+command = "grep '^#' config.ini"
+simulated_output = "# server config\n# timeout settings"
+
+[[exercises]]
+kind = "typing"
+prompt = "匹配含有 warning 或 error 的行"
+answers = ["grep -E '(warning|error)' app.log"]
+command = "grep -E '(warning|error)' app.log"
+simulated_output = "warning: disk usage high\nerror: cannot open file"
+
+[[exercises]]
+kind = "dictation"
+prompt = "匹配以 bash 结尾的账号行"
+answers = ["grep 'bash$' /etc/passwd", "grep \"bash$\" /etc/passwd"]
+
+[[exercises]]
+kind = "dictation"
+prompt = "用扩展正则匹配 color 和 colour"
+answers = ["grep -E 'colou?r' words.txt", "egrep 'colou?r' words.txt"]
+
+[[exercises]]
+kind = "dictation"
+prompt = "统计空行数量（行首行尾锚点）"
+answers = ["grep -c '^$' data.txt", "grep -c \"^$\" data.txt"]
+
+[[exercises]]
+kind = "dictation"
+prompt = "匹配 2026-03-14 这种日期格式"
+answers = ["grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' log.txt"]

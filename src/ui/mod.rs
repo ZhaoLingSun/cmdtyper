@@ -58,9 +58,13 @@ pub fn render(frame: &mut Frame, app: &App) {
             SystemPhase::Detail => {
                 system_lesson::render_detail(frame, app, *topic_index, *section_index)
             }
-            SystemPhase::Commands(cmd_idx) => {
-                system_lesson::render_commands(frame, app, *topic_index, *section_index, *cmd_idx)
-            }
+            SystemPhase::TypingPractice { command_idx } => system_lesson::render_typing_practice(
+                frame,
+                app,
+                *topic_index,
+                *section_index,
+                *command_idx,
+            ),
             SystemPhase::ConfigFile(cf_idx) => {
                 system_lesson::render_config_file(frame, app, *topic_index, *section_index, *cf_idx)
             }

@@ -201,3 +201,66 @@ answers = [
     "ls data?.csv",
     "ls data{1..9}.csv",
 ]
+
+# Wave E 扩展练习（10）
+[[exercises]]
+kind = "typing"
+prompt = "列出 src 目录下所有 .rs 文件"
+answers = ["ls src/*.rs"]
+command = "ls src/*.rs"
+simulated_output = "src/app.rs\nsrc/main.rs\nsrc/lib.rs"
+
+[[exercises]]
+kind = "typing"
+prompt = "删除所有 .tmp 文件"
+answers = ["rm *.tmp", "rm -f *.tmp"]
+command = "rm -f *.tmp"
+simulated_output = ""
+
+[[exercises]]
+kind = "typing"
+prompt = "匹配 file1.txt 到 file9.txt"
+answers = ["ls file[1-9].txt"]
+command = "ls file[1-9].txt"
+simulated_output = "file1.txt\nfile2.txt\nfile9.txt"
+
+[[exercises]]
+kind = "typing"
+prompt = "列出单字符扩展名日志，如 a.log"
+answers = ["ls ?.log"]
+command = "ls ?.log"
+simulated_output = "a.log\nb.log"
+
+[[exercises]]
+kind = "typing"
+prompt = "批量创建 day01 到 day07 目录"
+answers = ["mkdir -p day{01..07}"]
+command = "mkdir -p day{01..07}"
+simulated_output = ""
+
+[[exercises]]
+kind = "typing"
+prompt = "快速备份 settings.json 为 settings.json.bak"
+answers = ["cp settings.json{,.bak}"]
+command = "cp settings.json{,.bak}"
+simulated_output = ""
+
+[[exercises]]
+kind = "dictation"
+prompt = "删除所有 .log.1 轮转日志"
+answers = ["rm *.log.1", "rm -f *.log.1"]
+
+[[exercises]]
+kind = "dictation"
+prompt = "列出 image_001.png 到 image_099.png"
+answers = ["ls image_[0-9][0-9][0-9].png"]
+
+[[exercises]]
+kind = "dictation"
+prompt = "一次创建目录 api、worker、web"
+answers = ["mkdir -p {api,worker,web}", "mkdir {api,worker,web}"]
+
+[[exercises]]
+kind = "dictation"
+prompt = "列出 reportA.txt 到 reportZ.txt"
+answers = ["ls report[A-Z].txt"]
