@@ -151,7 +151,10 @@ pub fn render(frame: &mut Frame, app: &App) {
 
     // Preview prompt
     lines.push(Line::from(""));
-    lines.push(Line::from(Span::styled("  预览:", Style::default().fg(HEADER))));
+    lines.push(Line::from(Span::styled(
+        "  预览:",
+        Style::default().fg(HEADER),
+    )));
     lines.push(Line::from(vec![
         Span::styled("  ", Style::default()),
         Span::styled(app.format_prompt(), Style::default().fg(PROMPT_COLOR)),

@@ -109,7 +109,11 @@ fn render_token_panel(frame: &mut Frame, app: &App, area: Rect) {
     };
 
     let token_details = current_token_details(app, cmd);
-    let active_idx = active_token_index(cmd.command.as_str(), &token_details, app.typing_engine.cursor);
+    let active_idx = active_token_index(
+        cmd.command.as_str(),
+        &token_details,
+        app.typing_engine.cursor,
+    );
 
     let mut lines: Vec<Line> = Vec::new();
     if token_details.is_empty() {
@@ -172,7 +176,11 @@ fn current_token_details(app: &App, cmd: &Command) -> Vec<(String, String)> {
         .collect()
 }
 
-fn active_token_index(command: &str, token_details: &[(String, String)], cursor: usize) -> Option<usize> {
+fn active_token_index(
+    command: &str,
+    token_details: &[(String, String)],
+    cursor: usize,
+) -> Option<usize> {
     if token_details.is_empty() {
         return None;
     }
@@ -330,8 +338,11 @@ fn render_round_summary(frame: &mut Frame, app: &App, area: Rect, mode: TypingDi
         avg_acc * 100.0
     );
 
-    let para = Paragraph::new(Line::from(Span::styled(summary, Style::default().fg(SUCCESS))))
-        .wrap(Wrap { trim: false });
+    let para = Paragraph::new(Line::from(Span::styled(
+        summary,
+        Style::default().fg(SUCCESS),
+    )))
+    .wrap(Wrap { trim: false });
     frame.render_widget(para, area);
 }
 

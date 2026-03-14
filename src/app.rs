@@ -23,6 +23,7 @@ use crate::data::system_loader;
 pub enum AppState {
     Home,
     Typing,
+    TypingFilter,
     LearnHub,
     CommandTopics,
     CommandLessonOverview {
@@ -160,6 +161,9 @@ pub struct App {
     pub show_hint: bool,
     pub typing_showing_output: bool,
     pub typing_mode: TypingDisplayMode,
+    pub filter_difficulty: Option<Difficulty>,
+    pub filter_category: Option<Category>,
+    pub typing_filter_row: usize,
 
     // Dictation mode state
     pub dictation_commands: Vec<Command>,
@@ -225,6 +229,9 @@ impl App {
             show_hint: true,
             typing_showing_output: false,
             typing_mode,
+            filter_difficulty: None,
+            filter_category: None,
+            typing_filter_row: 0,
             dictation_commands: Vec::new(),
             dictation_index: 0,
             dictation_input: String::new(),
@@ -278,6 +285,7 @@ impl App {
         match self.state.clone() {
             AppState::Home => self.handle_home_key(key),
             AppState::Typing => crate::flow::typing_flow::handle_typing_key(self, key),
+            AppState::TypingFilter => self.handle_typing_filter_key(key),
             AppState::LearnHub => self.handle_learn_hub_key(key),
             AppState::CommandTopics => self.handle_command_topics_key(key),
             AppState::CommandLessonOverview {
@@ -351,7 +359,10 @@ impl App {
                 }
             }
             KeyCode::Enter => match self.home_index {
-                0 => crate::flow::typing_flow::enter_typing(self),
+                0 => {
+                    self.typing_filter_row = 0;
+                    self.state = AppState::TypingFilter;
+                }
                 1 => self.state = AppState::LearnHub,
                 2 => self.enter_dictation(),
                 3 => self.state = AppState::Stats,
@@ -364,13 +375,80 @@ impl App {
     }
 
     // ─────────────────────────────────────────────────────────
-    // Typing mode
+    // Typing filter
     // ─────────────────────────────────────────────────────────
+
+    fn handle_typing_filter_key(&mut self, key: KeyEvent) {
+        match key.code {
+            KeyCode::Esc => self.state = AppState::Home,
+            KeyCode::Up | KeyCode::Char('k') | KeyCode::Down | KeyCode::Char('j') => {
+                self.typing_filter_row = 1 - self.typing_filter_row;
+            }
+            KeyCode::Left | KeyCode::Char('h') => {
+                if self.typing_filter_row == 0 {
+                    self.cycle_filter_difficulty(false);
+                } else {
+                    self.cycle_filter_category(false);
+                }
+            }
+            KeyCode::Right | KeyCode::Char('l') => {
+                if self.typing_filter_row == 0 {
+                    self.cycle_filter_difficulty(true);
+                } else {
+                    self.cycle_filter_category(true);
+                }
+            }
+            KeyCode::Enter => crate::flow::typing_flow::enter_typing_filtered(
+                self,
+                self.filter_difficulty,
+                self.filter_category,
+            ),
+            _ => {}
+        }
+    }
+
+    fn cycle_filter_difficulty(&mut self, forward: bool) {
+        let options: [Option<Difficulty>; 5] = [
+            None,
+            Some(Difficulty::Beginner),
+            Some(Difficulty::Basic),
+            Some(Difficulty::Advanced),
+            Some(Difficulty::Practical),
+        ];
+        let current = options
+            .iter()
+            .position(|opt| *opt == self.filter_difficulty)
+            .unwrap_or(0);
+        let next = if forward {
+            (current + 1) % options.len()
+        } else {
+            (current + options.len() - 1) % options.len()
+        };
+        self.filter_difficulty = options[next];
+    }
+
+    fn cycle_filter_category(&mut self, forward: bool) {
+        let mut options: Vec<Option<Category>> = vec![None];
+        options.extend(Category::ALL.into_iter().map(Some));
+        let current = options
+            .iter()
+            .position(|opt| *opt == self.filter_category)
+            .unwrap_or(0);
+        let next = if forward {
+            (current + 1) % options.len()
+        } else {
+            (current + options.len() - 1) % options.len()
+        };
+        self.filter_category = options[next];
+    }
+
     // ─────────────────────────────────────────────────────────
     // Learn Hub
     // ─────────────────────────────────────────────────────────
 
     fn handle_learn_hub_key(&mut self, key: KeyEvent) {
+        const LEARN_HUB_LAST_INDEX: usize = 7;
+
         match key.code {
             KeyCode::Esc => self.state = AppState::Home,
             KeyCode::Up | KeyCode::Char('k') => {
@@ -379,25 +457,28 @@ impl App {
                 }
             }
             KeyCode::Down | KeyCode::Char('j') => {
-                if self.learn_hub_index < 3 {
+                if self.learn_hub_index < LEARN_HUB_LAST_INDEX {
                     self.learn_hub_index += 1;
                 }
             }
             KeyCode::Enter => match self.learn_hub_index {
-                0 => {
+                0 => self.enter_typing_with_filter(Some(Difficulty::Beginner), None),
+                1 => self.enter_typing_with_filter(Some(Difficulty::Basic), None),
+                2 => self.enter_typing_with_filter(Some(Difficulty::Advanced), None),
+                3 => self.enter_typing_with_filter(Some(Difficulty::Practical), None),
+                4 => {
                     self.command_topics_index = 0;
                     self.state = AppState::CommandTopics;
                 }
-                1 => {
+                5 => {
                     self.symbol_topics_index = 0;
                     self.state = AppState::SymbolTopics;
                 }
-                2 => {
+                6 => {
                     self.system_topics_index = 0;
                     self.state = AppState::SystemTopics;
                 }
-                3 => {
-                    // Direct review — pick first available category
+                7 => {
                     if let Some(cat) = Category::ALL.first() {
                         self.state = AppState::Review {
                             source: ReviewSource::CommandCategory(*cat),
@@ -687,6 +768,37 @@ impl App {
             _ => {}
         }
         let _ = self.progress_store.save_config(&self.user_config);
+    }
+
+    pub fn enter_typing_with_filter(
+        &mut self,
+        difficulty: Option<Difficulty>,
+        category: Option<Category>,
+    ) {
+        self.filter_difficulty = difficulty;
+        self.filter_category = category;
+        crate::flow::typing_flow::enter_typing_filtered(self, difficulty, category);
+    }
+
+    pub fn filtered_commands(
+        &self,
+        difficulty: Option<Difficulty>,
+        category: Option<Category>,
+    ) -> Vec<Command> {
+        self.commands
+            .iter()
+            .filter(|cmd| difficulty.map_or(true, |d| cmd.difficulty == d))
+            .filter(|cmd| category.map_or(true, |c| cmd.category == c))
+            .cloned()
+            .collect()
+    }
+
+    pub fn current_filter_match_count(&self) -> usize {
+        self.commands
+            .iter()
+            .filter(|cmd| self.filter_difficulty.map_or(true, |d| cmd.difficulty == d))
+            .filter(|cmd| self.filter_category.map_or(true, |c| cmd.category == c))
+            .count()
     }
 
     // ─────────────────────────────────────────────────────────

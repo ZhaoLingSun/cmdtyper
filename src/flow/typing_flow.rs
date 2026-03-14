@@ -5,17 +5,29 @@ use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 
 use crate::app::{App, AppState};
 use crate::core::scorer;
-use crate::data::models::{RecordMode, TypingDisplayMode};
+use crate::data::models::{Category, Difficulty, RecordMode, TypingDisplayMode};
 
 pub fn enter_typing(app: &mut App) {
+    enter_typing_filtered(app, app.filter_difficulty, app.filter_category);
+}
+
+pub fn enter_typing_filtered(
+    app: &mut App,
+    difficulty: Option<Difficulty>,
+    category: Option<Category>,
+) {
+    app.filter_difficulty = difficulty;
+    app.filter_category = category;
     app.terminal_history.clear();
+
+    let filtered = app.filtered_commands(difficulty, category);
     app.typing_commands = if app.user_config.adaptive_recommend {
-        scorer::recommend_commands(&app.user_stats, &app.commands, app.commands.len())
+        scorer::recommend_commands(&app.user_stats, &filtered, filtered.len())
             .into_iter()
             .cloned()
             .collect()
     } else {
-        app.commands.clone()
+        filtered
     };
 
     if app.typing_commands.is_empty() {

@@ -1,6 +1,7 @@
 pub mod command_lesson;
 pub mod command_topics;
 pub mod dictation;
+pub mod filter_select;
 pub mod home;
 pub mod learn_hub;
 pub mod review;
@@ -22,6 +23,7 @@ pub fn render(frame: &mut Frame, app: &App) {
     match &app.state {
         AppState::Home => home::render(frame, app),
         AppState::Typing => typing::render(frame, app),
+        AppState::TypingFilter => filter_select::render(frame, app),
         AppState::LearnHub => learn_hub::render(frame, app),
         AppState::CommandTopics => command_topics::render(frame, app),
         AppState::CommandLessonOverview {
