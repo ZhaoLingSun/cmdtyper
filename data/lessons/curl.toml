@@ -75,6 +75,11 @@ command = "curl https://api.github.com/zen"
 summary = "发送简单的 GET 请求"
 simulated_output = """Responsive is better than fast."""
 
+output_explanation = "这是 curl 请求返回的示例内容，可能是响应体、响应头或状态统计信息。排障时重点看 HTTP 状态码、关键头部和返回正文是否与接口文档一致。"
+[[examples.token_details]]
+token = "https://api.github.com/zen"
+explanation = "目标 URL，命令会对这个网络地址发起请求。"
+
 [[examples]]
 level = 2
 command = "curl -I https://example.com"
@@ -92,6 +97,15 @@ server: ECAcc (sac/254D)
 x-cache: HIT
 content-length: 1256"""
 
+output_explanation = "这是 curl 请求返回的示例内容，可能是响应体、响应头或状态统计信息。排障时重点看 HTTP 状态码、关键头部和返回正文是否与接口文档一致。"
+[[examples.token_details]]
+token = "-I"
+explanation = "只获取响应头，或把输入项插入模板位置。"
+
+[[examples.token_details]]
+token = "https://example.com"
+explanation = "替换模板中的占位符。"
+
 [[examples]]
 level = 2
 command = "curl -s https://api.github.com/users/torvalds | jq '.name, .bio'"
@@ -100,12 +114,58 @@ display = "curl -s https://api.github.com/users/torvalds \\\n  | jq '.name, .bio
 simulated_output = """"Linus Torvalds"
 null"""
 
+output_explanation = "这是 curl 请求返回的示例内容，可能是响应体、响应头或状态统计信息。排障时重点看 HTTP 状态码、关键头部和返回正文是否与接口文档一致。"
+[[examples.token_details]]
+token = "-s"
+explanation = "静默模式、包大小或排序方式（取决于命令）。"
+
+[[examples.token_details]]
+token = "https://api.github.com/users/torvalds"
+explanation = "指定数据包大小或其他尺寸参数。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = ".name, .bio"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
 [[examples]]
 level = 3
 command = "curl -X POST -H 'Content-Type: application/json' -d '{\"username\":\"alice\",\"email\":\"alice@example.com\"}' https://api.example.com/users"
 summary = "发送 JSON 格式的 POST 请求创建用户"
 display = "curl -X POST \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"username\":\"alice\",\"email\":\"alice@example.com\"}' \\\n  https://api.example.com/users"
 simulated_output = """{"id":42,"username":"alice","email":"alice@example.com","created_at":"2026-03-09T14:30:00Z"}"""
+
+output_explanation = "这是 curl 请求返回的示例内容，可能是响应体、响应头或状态统计信息。排障时重点看 HTTP 状态码、关键头部和返回正文是否与接口文档一致。"
+[[examples.token_details]]
+token = "-X"
+explanation = "显式指定 HTTP 方法（如 GET/POST）。"
+
+[[examples.token_details]]
+token = "POST"
+explanation = "明确指定 HTTP 请求方法。"
+
+[[examples.token_details]]
+token = "-H"
+explanation = "添加请求头信息。"
+
+[[examples.token_details]]
+token = "Content-Type: application/json"
+explanation = "这里是 HTTP 请求头，告诉服务端请求体/认证等信息。"
+
+[[examples.token_details]]
+token = "-d"
+explanation = "通常用于后台运行、延迟间隔或指定目录（看命令上下文）。"
+
+[[examples.token_details]]
+token = "{\"username\":\"alice\",\"email\":\"alice@example.com\"}"
+explanation = "这里提供请求体、延迟值或其他数据参数。"
+
+[[examples.token_details]]
+token = "https://api.example.com/users"
+explanation = "目标 URL，命令会对这个网络地址发起请求。"
 
 [[examples]]
 level = 3
@@ -126,6 +186,23 @@ simulated_output = """*   Trying 93.184.216.34:443...
 <
 {"users":1234,"active_today":567,"requests_per_minute":89}"""
 
+output_explanation = "这是 curl 请求返回的示例内容，可能是响应体、响应头或状态统计信息。排障时重点看 HTTP 状态码、关键头部和返回正文是否与接口文档一致。"
+[[examples.token_details]]
+token = "-v"
+explanation = "显示详细执行过程，便于观察发生了什么。"
+
+[[examples.token_details]]
+token = "-u"
+explanation = "指定用户或认证用户。"
+
+[[examples.token_details]]
+token = "admin:secret"
+explanation = "指定用户名/认证信息。"
+
+[[examples.token_details]]
+token = "https://api.example.com/admin/stats"
+explanation = "目标 URL，命令会对这个网络地址发起请求。"
+
 [[examples]]
 level = 4
 command = "curl -s -w '\\nHTTP_CODE: %{http_code}\\nTIME_TOTAL: %{time_total}s\\nSIZE: %{size_download} bytes\\n' -o /dev/null https://example.com"
@@ -135,6 +212,31 @@ simulated_output = """
 HTTP_CODE: 200
 TIME_TOTAL: 0.234s
 SIZE: 1256 bytes"""
+
+output_explanation = "这是 curl 请求返回的示例内容，可能是响应体、响应头或状态统计信息。排障时重点看 HTTP 状态码、关键头部和返回正文是否与接口文档一致。"
+[[examples.token_details]]
+token = "-s"
+explanation = "静默模式、包大小或排序方式（取决于命令）。"
+
+[[examples.token_details]]
+token = "-w"
+explanation = "匹配完整单词，避免部分匹配。"
+
+[[examples.token_details]]
+token = "\\nHTTP_CODE: %{http_code}\\nTIME_TOTAL: %{time_total}s\\nSIZE: %{size_download} bytes\\n"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-o"
+explanation = "指定输出列或输出文件（按命令定义）。"
+
+[[examples.token_details]]
+token = "/dev/null"
+explanation = "空设备，写入会被丢弃，常用于忽略输出。"
+
+[[examples.token_details]]
+token = "https://example.com"
+explanation = "目标 URL，命令会对这个网络地址发起请求。"
 
 [[gotchas]]
 title = "curl 的引号和特殊字符"

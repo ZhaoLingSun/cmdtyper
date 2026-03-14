@@ -74,6 +74,11 @@ mysql       1342  0.3  2.1 1843200 172032 ?      Ssl  Mar01   5:47 /usr/sbin/mys
 ace         2156  0.0  0.1  10692  5888 pts/0    Ss   09:12   0:00 -bash
 ace         3847  0.0  0.0  10072  3456 pts/0    R+   10:35   0:00 ps aux"""
 
+output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
+[[examples.token_details]]
+token = "aux"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
 [[examples]]
 level = 1
 command = "ps -ef"
@@ -89,6 +94,11 @@ mysql       1342       1  0 Mar01 ?        00:05:47 /usr/sbin/mysqld
 ace         2156     2150  0 09:12 pts/0    00:00:00 -bash
 ace         3901     2156  0 10:36 pts/0    00:00:00 ps -ef"""
 
+output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
+[[examples.token_details]]
+token = "-ef"
+explanation = "使用完整格式显示进程信息（常见于 ps）。"
+
 [[examples]]
 level = 2
 command = "ps aux | grep nginx"
@@ -99,6 +109,19 @@ www-data    1206  0.1  0.4 456780 38920 ?        S    Mar02   1:18 nginx: worker
 www-data    1207  0.0  0.4 456780 37480 ?        S    Mar02   1:15 nginx: worker process
 www-data    1208  0.1  0.5 456780 41280 ?        S    Mar02   1:22 nginx: worker process
 ace         3955  0.0  0.0   6480  2176 pts/0    S+   10:38   0:00 grep --color=auto nginx"""
+
+output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
+[[examples.token_details]]
+token = "aux"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "nginx"
+explanation = "服务名/容器名，用来指定要查看或操作的目标。"
 
 [[examples]]
 level = 2
@@ -114,6 +137,15 @@ root         934  0.0  0.1  15420  9440 ?        Ss   Mar01   0:00 /usr/sbin/ssh
 ace         2156  0.0  0.1  10692  5888 pts/0    Ss   09:12   0:00 -bash
 ace         4012  0.0  0.0  10072  3456 pts/0    R+   10:39   0:00 ps aux --sort=-%mem"""
 
+output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
+[[examples.token_details]]
+token = "aux"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "--sort=-%mem"
+explanation = "按内存使用率从高到低排序。"
+
 [[examples]]
 level = 3
 command = "ps -eo pid,user,%cpu,%mem,comm --sort=-%cpu | head -10"
@@ -128,6 +160,27 @@ simulated_output = """    PID USER     %CPU %MEM COMMAND
     934 root      0.0  0.1 sshd
       1 root      0.0  0.1 init
    2156 ace       0.0  0.1 bash"""
+
+output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
+[[examples.token_details]]
+token = "-eo"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "pid,user,%cpu,%mem,comm"
+explanation = "指定 ps 要输出的列。"
+
+[[examples.token_details]]
+token = "--sort=-%cpu"
+explanation = "按 CPU 使用率从高到低排序。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-10"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[examples]]
 level = 3
@@ -147,6 +200,15 @@ www-data    1205    1180  0 Mar02 ?        00:01:24      \\_ nginx: worker proce
 www-data    1206    1180  0 Mar02 ?        00:01:18      \\_ nginx: worker process
 mysql       1342       1  0 Mar01 ?        00:05:47  \\_ mysqld"""
 
+output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
+[[examples.token_details]]
+token = "-ef"
+explanation = "使用完整格式显示进程信息（常见于 ps）。"
+
+[[examples.token_details]]
+token = "--forest"
+explanation = "以树形结构展示进程父子关系。"
+
 [[examples]]
 level = 4
 command = "ps -p 1342 -o pid,user,%cpu,%mem,etime,args"
@@ -154,12 +216,46 @@ summary = "查看指定 PID 进程的详细资源使用情况"
 simulated_output = """    PID USER     %CPU %MEM     ELAPSED COMMAND
    1342 mysql     0.3  2.1  1-23:47:12 /usr/sbin/mysqld --defaults-file=/etc/mysql/mysql.conf.d/mysqld.cnf"""
 
+output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
+[[examples.token_details]]
+token = "-p"
+explanation = "指定端口、PID 或创建父目录（取决于命令）。"
+
+[[examples.token_details]]
+token = "1342"
+explanation = "指定端口号、PID，或要求创建父目录。"
+
+[[examples.token_details]]
+token = "-o"
+explanation = "指定输出列或输出文件（按命令定义）。"
+
+[[examples.token_details]]
+token = "pid,user,%cpu,%mem,etime,args"
+explanation = "指定输出内容格式或输出目标。"
+
 [[examples]]
 level = 4
 command = "ps aux --sort=-%mem | awk 'NR==1 || $4>1.0'"
 summary = "找出内存占用超过 1% 的进程"
 simulated_output = """USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 mysql       1342  0.3  2.1 1843200 172032 ?      Ssl  Mar01   5:47 /usr/sbin/mysqld"""
+
+output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
+[[examples.token_details]]
+token = "aux"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "--sort=-%mem"
+explanation = "按内存使用率从高到低排序。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "NR==1 || $4>1.0"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[gotchas]]
 title = "ps 只显示瞬时快照"

@@ -61,11 +61,25 @@ command = "kill 12345"
 summary = "向进程 12345 发送默认的 SIGTERM 信号"
 simulated_output = ""
 
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "12345"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
 [[examples]]
 level = 1
 command = "kill -9 12345"
 summary = "强制终止不响应的进程"
 simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "-9"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "12345"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
 
 [[examples]]
 level = 2
@@ -79,12 +93,30 @@ simulated_output = """ 1) SIGHUP\t 2) SIGINT\t 3) SIGQUIT\t 4) SIGILL\t 5) SIGTR
 26) SIGVTALRM\t27) SIGPROF\t28) SIGWINCH\t29) SIGIO\t30) SIGPWR
 31) SIGSYS"""
 
+output_explanation = "该命令用于向进程发送信号。成功时通常无输出，若使用 `-l` 会列出信号编号与名称；建议先确认 PID，避免误杀关键进程。"
+[[examples.token_details]]
+token = "-l"
+explanation = "列表模式或逐行统计（取决于命令）。"
+
 [[examples]]
 level = 2
 command = "kill -HUP $(cat /var/run/nginx.pid)"
 summary = "让 Nginx 重新加载配置文件而不停止服务"
 display = "kill -HUP \\\n  $(cat /var/run/nginx.pid)"
 simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "-HUP"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "$(cat"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "/var/run/nginx.pid)"
+explanation = "文件或目录路径，指定命令要操作的位置。"
 
 [[examples]]
 level = 3
@@ -93,11 +125,29 @@ summary = "终止所有名为 python3 的进程并显示详情"
 simulated_output = """Killed python3(12345): uid 1000 pid 12345 sig 15
 Killed python3(12890): uid 1000 pid 12890 sig 15"""
 
+output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
+[[examples.token_details]]
+token = "-v"
+explanation = "显示详细执行过程，便于观察发生了什么。"
+
+[[examples.token_details]]
+token = "python3"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
 [[examples]]
 level = 4
 command = "pkill -f 'gunicorn.*myapp'"
 summary = "终止所有匹配完整命令行模式的 gunicorn 进程"
 simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "-f"
+explanation = "持续跟随输出变化，或指定文件脚本（取决于命令）。"
+
+[[examples.token_details]]
+token = "gunicorn.*myapp"
+explanation = "通配符模式，会匹配一组符合条件的文件名。"
 
 [[gotchas]]
 title = "SIGTERM 与 SIGKILL 的区别"

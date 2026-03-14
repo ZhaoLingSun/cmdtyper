@@ -71,6 +71,11 @@ file.tar.gz         100%[===================>]  15.00M  8.42MB/s    in 1.8s
 
 2026-03-09 14:30:27 (8.42 MB/s) - 'file.tar.gz' saved [15728640/15728640]"""
 
+output_explanation = "输出展示下载进度、速度、保存文件名及完成状态。关注 HTTP 状态、断点续传信息和最终文件大小。"
+[[examples.token_details]]
+token = "https://example.com/file.tar.gz"
+explanation = "目标 URL，命令会对这个网络地址发起请求。"
+
 [[examples]]
 level = 2
 command = "wget -O go1.22.tar.gz https://go.dev/dl/go1.22.linux-amd64.tar.gz"
@@ -87,6 +92,19 @@ go1.22.tar.gz       100%[===================>]  65.03M  12.5MB/s    in 5.2s
 
 2026-03-09 14:31:10 (12.5 MB/s) - 'go1.22.tar.gz' saved [68182016/68182016]"""
 
+output_explanation = "输出展示下载进度、速度、保存文件名及完成状态。关注 HTTP 状态、断点续传信息和最终文件大小。"
+[[examples.token_details]]
+token = "-O"
+explanation = "指定下载后的输出文件名。"
+
+[[examples.token_details]]
+token = "go1.22.tar.gz"
+explanation = "指定下载后保存的文件名。"
+
+[[examples.token_details]]
+token = "https://go.dev/dl/go1.22.linux-amd64.tar.gz"
+explanation = "目标 URL，命令会对这个网络地址发起请求。"
+
 [[examples]]
 level = 2
 command = "wget -c https://releases.ubuntu.com/24.04/ubuntu-24.04-live-server-amd64.iso"
@@ -101,11 +119,37 @@ Saving to: 'ubuntu-24.04-live-server-amd64.iso'
 
 ubuntu-24.04-live-  75%[+++++++++======>    ]   1.88G  5.24MB/s    eta 2m 15s"""
 
+output_explanation = "输出展示下载进度、速度、保存文件名及完成状态。关注 HTTP 状态、断点续传信息和最终文件大小。"
+[[examples.token_details]]
+token = "-c"
+explanation = "指定次数或统计计数（具体含义取决于命令）。"
+
+[[examples.token_details]]
+token = "https://releases.ubuntu.com/24.04/ubuntu-24.04-live-server-amd64.iso"
+explanation = "目标 URL，命令会对这个网络地址发起请求。"
+
 [[examples]]
 level = 3
 command = "wget -q -O - https://api.github.com/zen"
 summary = "将下载内容输出到标准输出（类似 curl）"
 simulated_output = """Responsive is better than fast."""
+
+output_explanation = "输出展示下载进度、速度、保存文件名及完成状态。关注 HTTP 状态、断点续传信息和最终文件大小。"
+[[examples.token_details]]
+token = "-q"
+explanation = "静默模式，尽量减少输出。"
+
+[[examples.token_details]]
+token = "-O"
+explanation = "指定下载后的输出文件名。"
+
+[[examples.token_details]]
+token = "-"
+explanation = "在不同命令中可表示上一个位置或标准输入/输出。"
+
+[[examples.token_details]]
+token = "https://api.github.com/zen"
+explanation = "目标 URL，命令会对这个网络地址发起请求。"
 
 [[examples]]
 level = 4
@@ -122,6 +166,31 @@ Saving to: 'docs.example.com/index.html'
 FINISHED --2026-03-09 14:35:45--
 Total wall clock time: 45s
 Downloaded: 87 files, 4.2M in 12s (358 KB/s)"""
+
+output_explanation = "输出展示下载进度、速度、保存文件名及完成状态。关注 HTTP 状态、断点续传信息和最终文件大小。"
+[[examples.token_details]]
+token = "--mirror"
+explanation = "镜像下载站点内容（递归并保留结构）。"
+
+[[examples.token_details]]
+token = "--convert-links"
+explanation = "下载网页后把链接改写为本地可访问路径。"
+
+[[examples.token_details]]
+token = "--adjust-extension"
+explanation = "按内容类型自动补全文件扩展名。"
+
+[[examples.token_details]]
+token = "--page-requisites"
+explanation = "连同页面依赖资源（CSS/JS/图片）一起下载。"
+
+[[examples.token_details]]
+token = "--no-parent"
+explanation = "递归下载时不回溯到父级目录。"
+
+[[examples.token_details]]
+token = "https://docs.example.com/"
+explanation = "目标 URL，命令会对这个网络地址发起请求。"
 
 [[gotchas]]
 title = "wget 与 curl 的选择"

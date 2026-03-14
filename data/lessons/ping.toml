@@ -71,6 +71,19 @@ simulated_output = """PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 4 packets transmitted, 4 received, 0% packet loss, time 3005ms
 rtt min/avg/max/mdev = 11.802/12.025/12.301/0.185 ms"""
 
+output_explanation = "输出展示了 ICMP 连通性测试结果。重点关注丢包率和 RTT（min/avg/max）；丢包高或延迟抖动大通常说明链路不稳定。"
+[[examples.token_details]]
+token = "-c"
+explanation = "指定次数或统计计数（具体含义取决于命令）。"
+
+[[examples.token_details]]
+token = "4"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples.token_details]]
+token = "8.8.8.8"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
 [[examples]]
 level = 1
 command = "ping -c 3 google.com"
@@ -83,6 +96,19 @@ simulated_output = """PING google.com (142.250.185.14) 56(84) bytes of data.
 --- google.com ping statistics ---
 3 packets transmitted, 3 received, 0% packet loss, time 2003ms
 rtt min/avg/max/mdev = 8.150/8.283/8.420/0.110 ms"""
+
+output_explanation = "输出展示了 ICMP 连通性测试结果。重点关注丢包率和 RTT（min/avg/max）；丢包高或延迟抖动大通常说明链路不稳定。"
+[[examples.token_details]]
+token = "-c"
+explanation = "指定次数或统计计数（具体含义取决于命令）。"
+
+[[examples.token_details]]
+token = "3"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples.token_details]]
+token = "google.com"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[examples]]
 level = 2
@@ -98,6 +124,19 @@ simulated_output = """PING 192.168.1.1 (192.168.1.1) 56(84) bytes of data.
 4 packets transmitted, 4 received, 0% packet loss, time 3004ms
 rtt min/avg/max/mdev = 0.481/0.529/0.614/0.051 ms"""
 
+output_explanation = "输出展示了 ICMP 连通性测试结果。重点关注丢包率和 RTT（min/avg/max）；丢包高或延迟抖动大通常说明链路不稳定。"
+[[examples.token_details]]
+token = "-c"
+explanation = "指定次数或统计计数（具体含义取决于命令）。"
+
+[[examples.token_details]]
+token = "4"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples.token_details]]
+token = "192.168.1.1"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
 [[examples]]
 level = 3
 command = "ping -qc 100 server.example.com"
@@ -107,6 +146,19 @@ simulated_output = """PING server.example.com (203.0.113.42) 56(84) bytes of dat
 --- server.example.com ping statistics ---
 100 packets transmitted, 97 received, 3% packet loss, time 99132ms
 rtt min/avg/max/mdev = 10.234/15.678/89.432/8.901 ms"""
+
+output_explanation = "输出展示了 ICMP 连通性测试结果。重点关注丢包率和 RTT（min/avg/max）；丢包高或延迟抖动大通常说明链路不稳定。"
+[[examples.token_details]]
+token = "-qc"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "100"
+explanation = "八进制权限位（如 755/644），分别控制所有者、组、其他用户权限。"
+
+[[examples.token_details]]
+token = "server.example.com"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[examples]]
 level = 3
@@ -121,6 +173,27 @@ simulated_output = """PING 10.0.0.1 (10.0.0.1) 1400(1428) bytes of data.
 --- 10.0.0.1 ping statistics ---
 4 packets transmitted, 4 received, 0% packet loss, time 3004ms
 rtt min/avg/max/mdev = 0.845/0.876/0.901/0.021 ms"""
+
+output_explanation = "输出展示了 ICMP 连通性测试结果。重点关注丢包率和 RTT（min/avg/max）；丢包高或延迟抖动大通常说明链路不稳定。"
+[[examples.token_details]]
+token = "-c"
+explanation = "指定次数或统计计数（具体含义取决于命令）。"
+
+[[examples.token_details]]
+token = "4"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples.token_details]]
+token = "-s"
+explanation = "静默模式、包大小或排序方式（取决于命令）。"
+
+[[examples.token_details]]
+token = "1400"
+explanation = "指定数据包大小或其他尺寸参数。"
+
+[[examples.token_details]]
+token = "10.0.0.1"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[gotchas]]
 title = "ping 不通不一定是网络有问题"

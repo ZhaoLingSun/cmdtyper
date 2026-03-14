@@ -74,6 +74,11 @@ Mar  9 14:31:18 ubuntu systemd-logind[652]: New session 42 of user ace.
 Mar  9 14:33:21 ubuntu nginx[1205]: 192.168.1.50 - - [09/Mar/2026:14:33:21 +0800] "GET / HTTP/1.1" 200 612
 Mar  9 14:35:01 ubuntu CRON[12478]: (root) CMD (test -x /usr/sbin/anacron)"""
 
+output_explanation = "tail 显示文件末尾内容，`-f` 会持续跟随新日志。适合实时观察服务运行状态和错误信息。"
+[[examples.token_details]]
+token = "/var/log/syslog"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
 [[examples]]
 level = 1
 command = "tail -n 5 ~/.bash_history"
@@ -83,6 +88,19 @@ git pull origin main
 npm run build
 tail -f /var/log/nginx/access.log
 sudo systemctl restart nginx"""
+
+output_explanation = "tail 显示文件末尾内容，`-f` 会持续跟随新日志。适合实时观察服务运行状态和错误信息。"
+[[examples.token_details]]
+token = "-n"
+explanation = "指定行数/次数，或仅显示数字信息。"
+
+[[examples.token_details]]
+token = "5"
+explanation = "指定数量（如行数、分组大小、请求次数）。"
+
+[[examples.token_details]]
+token = "~/.bash_history"
+explanation = "文件或目录路径，指定命令要操作的位置。"
 
 [[examples]]
 level = 2
@@ -94,6 +112,15 @@ simulated_output = """192.168.1.50 - - [09/Mar/2026:14:35:22 +0800] "GET /api/us
 10.0.0.5 - - [09/Mar/2026:14:35:26 +0800] "GET /health HTTP/1.1" 200 2
 192.168.1.50 - - [09/Mar/2026:14:35:28 +0800] "GET /api/users/42 HTTP/1.1" 404 32"""
 
+output_explanation = "tail 显示文件末尾内容，`-f` 会持续跟随新日志。适合实时观察服务运行状态和错误信息。"
+[[examples.token_details]]
+token = "-f"
+explanation = "持续跟随输出变化，或指定文件脚本（取决于命令）。"
+
+[[examples.token_details]]
+token = "/var/log/nginx/access.log"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
 [[examples]]
 level = 3
 command = "tail -n +2 data.csv"
@@ -103,6 +130,19 @@ simulated_output = """1,Alice,alice@example.com,admin
 3,Charlie,charlie@example.com,user
 4,Diana,diana@example.com,moderator"""
 
+output_explanation = "tail 显示文件末尾内容，`-f` 会持续跟随新日志。适合实时观察服务运行状态和错误信息。"
+[[examples.token_details]]
+token = "-n"
+explanation = "指定行数/次数，或仅显示数字信息。"
+
+[[examples.token_details]]
+token = "+2"
+explanation = "指定数量（如行数、分组大小、请求次数）。"
+
+[[examples.token_details]]
+token = "data.csv"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
 [[examples]]
 level = 3
 command = "tail -f /var/log/syslog | grep --line-buffered ERROR"
@@ -110,6 +150,27 @@ summary = "实时跟踪日志并过滤只显示错误信息"
 display = "tail -f /var/log/syslog \\\n  | grep --line-buffered ERROR"
 simulated_output = """Mar  9 14:40:12 ubuntu app[5678]: [ERROR] Database connection timeout
 Mar  9 14:42:55 ubuntu app[5678]: [ERROR] Failed to process request #12345"""
+
+output_explanation = "tail 显示文件末尾内容，`-f` 会持续跟随新日志。适合实时观察服务运行状态和错误信息。"
+[[examples.token_details]]
+token = "-f"
+explanation = "持续跟随输出变化，或指定文件脚本（取决于命令）。"
+
+[[examples.token_details]]
+token = "/var/log/syslog"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "--line-buffered"
+explanation = "按行刷新输出，适合实时管道查看。"
+
+[[examples.token_details]]
+token = "ERROR"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[examples]]
 level = 4
@@ -123,6 +184,19 @@ simulated_output = """==> access.log <==
 
 ==> access.log <==
 192.168.1.51 - - [09/Mar/2026:14:45:05 +0800] "POST /api/data HTTP/1.1" 201 48"""
+
+output_explanation = "tail 显示文件末尾内容，`-f` 会持续跟随新日志。适合实时观察服务运行状态和错误信息。"
+[[examples.token_details]]
+token = "-f"
+explanation = "持续跟随输出变化，或指定文件脚本（取决于命令）。"
+
+[[examples.token_details]]
+token = "access.log"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "error.log"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
 
 [[gotchas]]
 title = "tail -f 与日志轮转"

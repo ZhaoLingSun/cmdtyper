@@ -63,11 +63,25 @@ command = "rm temp.log"
 summary = "删除单个文件"
 simulated_output = ""
 
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "temp.log"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
 [[examples]]
 level = 1
 command = "rm -i important.doc"
 summary = "删除文件前确认"
 simulated_output = """rm: remove regular file 'important.doc'? y"""
+
+output_explanation = "该结果表示文件删除操作已执行。带 `-v` 会显示被删除对象；批量删除前务必确认匹配范围，避免误删。"
+[[examples.token_details]]
+token = "-i"
+explanation = "启用交互确认，覆盖/删除前先询问。"
+
+[[examples.token_details]]
+token = "important.doc"
+explanation = "指定私钥文件路径，用该密钥进行 SSH 身份认证。"
 
 [[examples]]
 level = 2
@@ -80,6 +94,15 @@ removed 'old_project/Cargo.toml'
 removed 'old_project/README.md'
 removed directory 'old_project/'"""
 
+output_explanation = "该结果表示文件删除操作已执行。带 `-v` 会显示被删除对象；批量删除前务必确认匹配范围，避免误删。"
+[[examples.token_details]]
+token = "-rv"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "old_project/"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
 [[examples]]
 level = 2
 command = "rm -v *.tmp *.bak"
@@ -88,11 +111,49 @@ simulated_output = """removed 'data.tmp'
 removed 'output.tmp'
 removed 'config.bak'"""
 
+output_explanation = "该结果表示文件删除操作已执行。带 `-v` 会显示被删除对象；批量删除前务必确认匹配范围，避免误删。"
+[[examples.token_details]]
+token = "-v"
+explanation = "显示详细执行过程，便于观察发生了什么。"
+
+[[examples.token_details]]
+token = "*.tmp"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "*.bak"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
 [[examples]]
 level = 3
 command = "find /tmp -type f -mtime +30 -delete"
 summary = "删除 /tmp 下超过 30 天的文件（使用 find 更安全）"
 simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "/tmp"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples.token_details]]
+token = "-type"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "f"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-mtime"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "+30"
+explanation = "带正号的数值参数，常用于从第 N 行开始等偏移语义。"
+
+[[examples.token_details]]
+token = "-delete"
+explanation = "直接删除 find 匹配到的结果。"
 
 [[examples]]
 level = 4
@@ -102,6 +163,43 @@ display = "find . -name '*.pyc' -type f \\\n  -exec rm -v {} +"
 simulated_output = """removed './app/__pycache__/main.cpython-312.pyc'
 removed './app/__pycache__/utils.cpython-312.pyc'
 removed './tests/__pycache__/test_main.cpython-312.pyc'"""
+
+output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
+[[examples.token_details]]
+token = "."
+explanation = "当前目录。"
+
+[[examples.token_details]]
+token = "-name"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "*.pyc"
+explanation = "通配符模式，会匹配一组符合条件的文件名。"
+
+[[examples.token_details]]
+token = "-type"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "f"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-exec"
+explanation = "对匹配到的每个结果执行后续命令。"
+
+[[examples.token_details]]
+token = "-v"
+explanation = "显示详细执行过程，便于观察发生了什么。"
+
+[[examples.token_details]]
+token = "{}"
+explanation = "占位符，代表 find/xargs 传入的当前文件。"
+
+[[examples.token_details]]
+token = "+"
+explanation = "与 -exec 连用，表示尽量批量传参以减少进程启动次数。"
 
 [[gotchas]]
 title = "rm -rf 的致命危险"

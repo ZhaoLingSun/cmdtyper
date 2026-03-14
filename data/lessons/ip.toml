@@ -76,6 +76,15 @@ simulated_output = """1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue stat
     inet6 fe80::20c:29ff:fe4a:5b6c/64 scope link
        valid_lft forever preferred_lft forever"""
 
+output_explanation = "输出展示了网络接口、IP 地址、路由或邻居表信息。排障时重点看网卡状态、地址前缀和默认路由是否正确。"
+[[examples.token_details]]
+token = "addr"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "show"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
 [[examples]]
 level = 1
 command = "ip -br addr show"
@@ -84,6 +93,19 @@ simulated_output = """lo               UNKNOWN        127.0.0.1/8 ::1/128
 ens33            UP             192.168.1.100/24 fe80::20c:29ff:fe4a:5b6c/64
 docker0          DOWN           172.17.0.1/16"""
 
+output_explanation = "输出展示了网络接口、IP 地址、路由或邻居表信息。排障时重点看网卡状态、地址前缀和默认路由是否正确。"
+[[examples.token_details]]
+token = "-br"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "addr"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "show"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
 [[examples]]
 level = 2
 command = "ip route show"
@@ -91,6 +113,15 @@ summary = "查看系统路由表"
 simulated_output = """default via 192.168.1.1 dev ens33 proto dhcp src 192.168.1.100 metric 100
 172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown
 192.168.1.0/24 dev ens33 proto kernel scope link src 192.168.1.100 metric 100"""
+
+output_explanation = "输出展示了网络接口、IP 地址、路由或邻居表信息。排障时重点看网卡状态、地址前缀和默认路由是否正确。"
+[[examples.token_details]]
+token = "route"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "show"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[examples]]
 level = 2
@@ -101,6 +132,15 @@ simulated_output = """1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue stat
 2: ens33: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000
     link/ether 00:0c:29:4a:5b:6c brd ff:ff:ff:ff:ff:ff"""
 
+output_explanation = "输出展示了网络接口、IP 地址、路由或邻居表信息。排障时重点看网卡状态、地址前缀和默认路由是否正确。"
+[[examples.token_details]]
+token = "link"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "show"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
 [[examples]]
 level = 3
 command = "ip neigh show"
@@ -109,11 +149,45 @@ simulated_output = """192.168.1.1 dev ens33 lladdr e4:f0:42:a1:b2:c3 REACHABLE
 192.168.1.105 dev ens33 lladdr 08:00:27:d4:e5:f6 STALE
 192.168.1.110 dev ens33 lladdr 5c:e0:c5:12:34:56 REACHABLE"""
 
+output_explanation = "输出展示了网络接口、IP 地址、路由或邻居表信息。排障时重点看网卡状态、地址前缀和默认路由是否正确。"
+[[examples.token_details]]
+token = "neigh"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "show"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
 [[examples]]
 level = 4
 command = "sudo ip addr add 192.168.1.200/24 dev ens33"
 summary = "为 ens33 网卡添加一个额外的 IP 地址"
 simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "sudo"
+explanation = "以管理员权限执行后续命令。"
+
+[[examples.token_details]]
+token = "addr"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "add"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "192.168.1.200/24"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples.token_details]]
+token = "dev"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "ens33"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[gotchas]]
 title = "ip 命令 vs ifconfig"

@@ -62,6 +62,11 @@ simulated_output = """CONTAINER ID   IMAGE          COMMAND                  CRE
 a1b2c3d4e5f6   nginx:latest   "/docker-entrypoint.…"   2 hours ago   Up 2 hours   0.0.0.0:80->80/tcp     webserver
 b7c8d9e0f1a2   postgres:15    "docker-entrypoint.s…"   3 hours ago   Up 3 hours   5432/tcp               mydb"""
 
+output_explanation = "输出显示了 Docker 容器/镜像/构建或日志相关信息。重点关注容器状态（Up/Exited）、镜像标签、端口映射及错误日志。"
+[[examples.token_details]]
+token = "ps"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
 [[examples]]
 level = 1
 command = "docker images"
@@ -72,17 +77,68 @@ postgres     15        ceccf204404e   2 weeks ago    417MB
 python       3.11      a5d7930b60cc   3 weeks ago    1.01GB
 ubuntu       22.04     3b418d7b466a   4 weeks ago    77.8MB"""
 
+output_explanation = "输出显示了 Docker 容器/镜像/构建或日志相关信息。重点关注容器状态（Up/Exited）、镜像标签、端口映射及错误日志。"
+[[examples.token_details]]
+token = "images"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
 [[examples]]
 level = 2
 command = "docker run -d --name webserver -p 8080:80 nginx"
 summary = "后台运行 Nginx 容器并映射端口"
 simulated_output = "f3e2d1c0b9a847563412fedcba987654321012345678901234567890abcdef"
 
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "run"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-d"
+explanation = "通常用于后台运行、延迟间隔或指定目录（看命令上下文）。"
+
+[[examples.token_details]]
+token = "--name"
+explanation = "这里提供请求体、延迟值或其他数据参数。"
+
+[[examples.token_details]]
+token = "webserver"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-p"
+explanation = "指定端口、PID 或创建父目录（取决于命令）。"
+
+[[examples.token_details]]
+token = "8080:80"
+explanation = "指定端口号、PID，或要求创建父目录。"
+
+[[examples.token_details]]
+token = "nginx"
+explanation = "服务名/容器名，用来指定要查看或操作的目标。"
+
 [[examples]]
 level = 2
 command = "docker exec -it webserver bash"
 summary = "进入正在运行的 Nginx 容器的 shell"
 simulated_output = "root@f3e2d1c0b9a8:/# "
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "exec"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-it"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "webserver"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "bash"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[examples]]
 level = 3
@@ -97,6 +153,23 @@ simulated_output = """[+] Building 12.4s (8/8) FINISHED
  => exporting to image                                          0.2s
  => naming to docker.io/library/myapp:v1.0                      0.0s"""
 
+output_explanation = "输出显示了 Docker 容器/镜像/构建或日志相关信息。重点关注容器状态（Up/Exited）、镜像标签、端口映射及错误日志。"
+[[examples.token_details]]
+token = "build"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-t"
+explanation = "指定类型、压缩格式或算法类型。"
+
+[[examples.token_details]]
+token = "myapp:v1.0"
+explanation = "指定类型、压缩算法或密钥算法。"
+
+[[examples.token_details]]
+token = "."
+explanation = "当前目录。"
+
 [[examples]]
 level = 3
 command = "docker logs -f --tail 50 webserver"
@@ -104,6 +177,27 @@ summary = "实时查看容器最后 50 行日志"
 simulated_output = """203.0.113.42 - - [09/Mar/2024:10:30:01 +0000] "GET / HTTP/1.1" 200 615
 10.0.0.5 - - [09/Mar/2024:10:30:02 +0000] "GET /api/health HTTP/1.1" 200 17
 203.0.113.42 - - [09/Mar/2024:10:30:15 +0000] "POST /api/login HTTP/1.1" 200 128"""
+
+output_explanation = "输出显示了 Docker 容器/镜像/构建或日志相关信息。重点关注容器状态（Up/Exited）、镜像标签、端口映射及错误日志。"
+[[examples.token_details]]
+token = "logs"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-f"
+explanation = "持续跟随输出变化，或指定文件脚本（取决于命令）。"
+
+[[examples.token_details]]
+token = "--tail"
+explanation = "只显示最后若干行日志。"
+
+[[examples.token_details]]
+token = "50"
+explanation = "限制日志尾部显示的行数。"
+
+[[examples.token_details]]
+token = "webserver"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[gotchas]]
 title = "容器停止后数据默认丢失"

@@ -64,6 +64,7 @@ command = "ls"
 summary = "列出当前目录的文件"
 simulated_output = """Desktop    Documents  Downloads  Music  Pictures  Public  Templates  Videos"""
 
+output_explanation = "这是目录列表输出。长格式下可读到权限、属主、大小、时间等元数据，便于判断文件是否存在及访问权限是否正确。"
 [[examples]]
 level = 1
 command = "ls /etc"
@@ -71,6 +72,11 @@ summary = "列出 /etc 目录的内容"
 simulated_output = """adduser.conf    bash.bashrc   crontab     fstab       hostname    hosts
 alternatives    ca-certificates  debconf.conf  group       hosts.allow  init.d
 apt             cron.d        default     grub.d      hosts.deny   kernel"""
+
+output_explanation = "这是目录列表输出。长格式下可读到权限、属主、大小、时间等元数据，便于判断文件是否存在及访问权限是否正确。"
+[[examples.token_details]]
+token = "/etc"
+explanation = "文件或目录路径，指定命令要操作的位置。"
 
 [[examples]]
 level = 2
@@ -89,6 +95,11 @@ drwxr-xr-x  2 alice alice  4096 Mar  7 11:20 Downloads
 -rw-r--r--  1 alice alice   807 Jan 15 09:00 .profile
 drwx------  2 alice alice  4096 Jan 20 10:15 .ssh"""
 
+output_explanation = "这是目录列表输出。长格式下可读到权限、属主、大小、时间等元数据，便于判断文件是否存在及访问权限是否正确。"
+[[examples.token_details]]
+token = "-la"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
 [[examples]]
 level = 3
 command = "ls -lhS /var/log"
@@ -103,6 +114,15 @@ simulated_output = """-rw-r-----  1 syslog adm    48M Mar  9 10:20 syslog
 -rw-r--r--  1 root   root   32K Feb 28 06:25 bootstrap.log
 -rw-rw-r--  1 root   utmp     0 Mar  1 00:00 btmp"""
 
+output_explanation = "这是目录列表输出。长格式下可读到权限、属主、大小、时间等元数据，便于判断文件是否存在及访问权限是否正确。"
+[[examples.token_details]]
+token = "-lhS"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "/var/log"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
 [[examples]]
 level = 4
 command = "ls -la /etc | grep -i net"
@@ -111,6 +131,27 @@ simulated_output = """-rw-r--r--  1 root root     92 Jan 15 09:00 networks
 drwxr-xr-x  7 root root   4096 Feb 10 08:30 NetworkManager
 -rw-r--r--  1 root root    116 Jan 15 09:00 netconfig
 drwxr-xr-x  2 root root   4096 Jan 20 11:00 netplan"""
+
+output_explanation = "这是目录列表输出。长格式下可读到权限、属主、大小、时间等元数据，便于判断文件是否存在及访问权限是否正确。"
+[[examples.token_details]]
+token = "-la"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "/etc"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-i"
+explanation = "启用交互确认，覆盖/删除前先询问。"
+
+[[examples.token_details]]
+token = "net"
+explanation = "指定私钥文件路径，用该密钥进行 SSH 身份认证。"
 
 [[gotchas]]
 title = "隐藏文件不会默认显示"

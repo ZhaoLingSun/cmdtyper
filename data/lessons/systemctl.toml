@@ -86,17 +86,48 @@ simulated_output = """● nginx.service - A high performance web server and a re
 Mar 09 08:00:15 myhost nginx[1234]: nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
 Mar 09 08:00:15 myhost nginx[1235]: nginx: configuration file /etc/nginx/nginx.conf test is successful"""
 
+output_explanation = "该输出用于显示 systemd 服务状态或控制结果。重点关注 Active、Loaded、Main PID 以及近期日志中的报错。"
+[[examples.token_details]]
+token = "status"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "nginx"
+explanation = "服务名/容器名，用来指定要查看或操作的目标。"
+
 [[examples]]
 level = 1
 command = "systemctl start sshd"
 summary = "启动 SSH 服务"
 simulated_output = ""
 
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "start"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "sshd"
+explanation = "服务名/容器名，用来指定要查看或操作的目标。"
+
 [[examples]]
 level = 2
 command = "systemctl enable --now docker"
 summary = "设置 Docker 开机自启并立即启动"
 simulated_output = """Created symlink /etc/systemd/system/multi-user.target.wants/docker.service → /lib/systemd/system/docker.service."""
+
+output_explanation = "该输出用于显示 systemd 服务状态或控制结果。重点关注 Active、Loaded、Main PID 以及近期日志中的报错。"
+[[examples.token_details]]
+token = "enable"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "--now"
+explanation = "与 enable/start 一起使用，表示立刻生效。"
+
+[[examples.token_details]]
+token = "docker"
+explanation = "服务名/容器名，用来指定要查看或操作的目标。"
 
 [[examples]]
 level = 2
@@ -109,12 +140,46 @@ simulated_output = """  UNIT                        LOAD   ACTIVE SUB     DESCRI
   ssh.service                 loaded active running OpenBSD Secure Shell server
   systemd-journald.service    loaded active running Journal Service"""
 
+output_explanation = "该输出用于显示 systemd 服务状态或控制结果。重点关注 Active、Loaded、Main PID 以及近期日志中的报错。"
+[[examples.token_details]]
+token = "list-units"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "--type=service"
+explanation = "只筛选 service 类型单元。"
+
+[[examples.token_details]]
+token = "--state=running"
+explanation = "仅显示运行中的单元。"
+
 [[examples]]
 level = 3
 command = "journalctl -u nginx -f --since '10 minutes ago'"
 summary = "实时查看 Nginx 服务近10分钟的日志"
 simulated_output = """Mar 09 10:28:01 myhost nginx[1235]: 203.0.113.42 - - [09/Mar/2024:10:28:01 +0000] "GET / HTTP/1.1" 200 615
 Mar 09 10:29:15 myhost nginx[1235]: 10.0.0.5 - - [09/Mar/2024:10:29:15 +0000] "POST /api/data HTTP/1.1" 201 89"""
+
+output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
+[[examples.token_details]]
+token = "-u"
+explanation = "指定用户或认证用户。"
+
+[[examples.token_details]]
+token = "nginx"
+explanation = "指定用户名/认证信息。"
+
+[[examples.token_details]]
+token = "-f"
+explanation = "持续跟随输出变化，或指定文件脚本（取决于命令）。"
+
+[[examples.token_details]]
+token = "--since"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "10 minutes ago"
+explanation = "日志起始时间，只显示该时间之后的记录。"
 
 [[gotchas]]
 title = "start 和 enable 是独立的操作"

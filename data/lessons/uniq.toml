@@ -68,6 +68,15 @@ Charlie
 Diana
 Eve"""
 
+output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
+[[examples.token_details]]
+token = "names.txt"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
 [[examples]]
 level = 2
 command = "sort names.txt | uniq -c"
@@ -78,6 +87,19 @@ simulated_output = """      3 Alice
       1 Diana
       4 Eve"""
 
+output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
+[[examples.token_details]]
+token = "names.txt"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-c"
+explanation = "指定次数或统计计数（具体含义取决于命令）。"
+
 [[examples]]
 level = 2
 command = "sort names.txt | uniq -d"
@@ -85,6 +107,19 @@ summary = "只显示有重复的名字"
 simulated_output = """Alice
 Charlie
 Eve"""
+
+output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
+[[examples.token_details]]
+token = "names.txt"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-d"
+explanation = "通常用于后台运行、延迟间隔或指定目录（看命令上下文）。"
 
 [[examples]]
 level = 3
@@ -96,6 +131,27 @@ simulated_output = """    523 192.168.1.50 - GET /index.html
     187 192.168.1.105 - POST /api/login
     145 172.16.0.20 - GET /static/main.js
      98 192.168.1.200 - GET /favicon.ico"""
+
+output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
+[[examples.token_details]]
+token = "access.log"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-c"
+explanation = "指定次数或统计计数（具体含义取决于命令）。"
+
+[[examples.token_details]]
+token = "-rn"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-5"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[examples]]
 level = 4
@@ -112,6 +168,31 @@ simulated_output = """   1523 192.168.1.50
     145 192.168.1.30
      98 10.0.0.100
      76 172.16.0.55"""
+
+output_explanation = "这是 awk 的筛选/字段处理结果：它按给定规则对输入文本逐行处理，只输出匹配或计算后的内容。可重点关注字段分隔符、条件表达式和 END 统计是否符合预期。"
+[[examples.token_details]]
+token = "{print $1}"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "access.log"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-c"
+explanation = "指定次数或统计计数（具体含义取决于命令）。"
+
+[[examples.token_details]]
+token = "-rn"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-10"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[gotchas]]
 title = "uniq 只去除相邻的重复行"

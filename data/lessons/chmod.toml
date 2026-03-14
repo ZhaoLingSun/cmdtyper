@@ -66,11 +66,29 @@ command = "chmod 755 deploy.sh"
 summary = "给脚本设置可执行权限（所有者 rwx，其他人 rx）"
 simulated_output = ""
 
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "755"
+explanation = "八进制权限位（如 755/644），分别控制所有者、组、其他用户权限。"
+
+[[examples.token_details]]
+token = "deploy.sh"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
 [[examples]]
 level = 1
 command = "chmod u+x script.sh"
 summary = "用符号模式给文件所有者添加执行权限"
 simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "u+x"
+explanation = "符号权限写法，按用户类别增减读写执行权限。"
+
+[[examples.token_details]]
+token = "script.sh"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
 
 [[examples]]
 level = 2
@@ -78,11 +96,33 @@ command = "chmod 644 index.html"
 summary = "设置网页文件权限：所有者可读写，其他人只读"
 simulated_output = ""
 
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "644"
+explanation = "八进制权限位（如 755/644），分别控制所有者、组、其他用户权限。"
+
+[[examples.token_details]]
+token = "index.html"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
 [[examples]]
 level = 2
 command = "chmod -v go-rwx secret.key"
 summary = "移除组和其他用户的所有权限并显示变更"
 simulated_output = """mode of 'secret.key' changed from 0644 (rw-r--r--) to 0600 (rw-------)"""
+
+output_explanation = "该结果表示权限修改命令已执行。若使用 `-v` 会显示权限变化详情；建议再用 `ls -l` 复核最终权限位是否符合预期。"
+[[examples.token_details]]
+token = "-v"
+explanation = "显示详细执行过程，便于观察发生了什么。"
+
+[[examples.token_details]]
+token = "go-rwx"
+explanation = "符号权限写法，按用户类别增减读写执行权限。"
+
+[[examples.token_details]]
+token = "secret.key"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
 
 [[examples]]
 level = 3
@@ -90,11 +130,33 @@ command = "chmod -R 755 /var/www/html"
 summary = "递归设置网站目录权限"
 simulated_output = ""
 
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "-R"
+explanation = "递归处理目录，或建立反向端口转发。"
+
+[[examples.token_details]]
+token = "755"
+explanation = "反向转发规则：远端端口:本地主机:本地端口。"
+
+[[examples.token_details]]
+token = "/var/www/html"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
 [[examples]]
 level = 3
 command = "chmod a+r,u+w,go-w report.pdf"
 summary = "组合符号模式：所有人可读，所有者可写，组和其他人不可写"
 simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "a+r,u+w,go-w"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "report.pdf"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
 
 [[examples]]
 level = 4
@@ -102,6 +164,35 @@ command = "find /var/www -type f -exec chmod 644 {} +"
 summary = "只修改目录下所有文件（不含目录）的权限为 644"
 display = "find /var/www -type f \\\n  -exec chmod 644 {} +"
 simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "/var/www"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples.token_details]]
+token = "-type"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "f"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-exec"
+explanation = "对匹配到的每个结果执行后续命令。"
+
+[[examples.token_details]]
+token = "644"
+explanation = "八进制权限位（如 755/644），分别控制所有者、组、其他用户权限。"
+
+[[examples.token_details]]
+token = "{}"
+explanation = "占位符，代表 find/xargs 传入的当前文件。"
+
+[[examples.token_details]]
+token = "+"
+explanation = "与 -exec 连用，表示尽量批量传参以减少进程启动次数。"
 
 [[gotchas]]
 title = "目录的执行权限（x）含义特殊"

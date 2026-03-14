@@ -78,11 +78,33 @@ command = "tar -czf project.tar.gz project/"
 summary = "将 project 目录打包并用 gzip 压缩"
 simulated_output = ""
 
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "-czf"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "project.tar.gz"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "project/"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
 [[examples]]
 level = 1
 command = "tar -xzf project.tar.gz"
 summary = "解压 .tar.gz 归档文件"
 simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "-xzf"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "project.tar.gz"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
 
 [[examples]]
 level = 2
@@ -96,6 +118,15 @@ backup/data/products.db
 backup/logs/
 backup/logs/app.log
 backup/README.md"""
+
+output_explanation = "输出展示了打包/解包/列出归档内容的结果。`-v` 会逐项打印文件名，便于确认归档范围是否正确。"
+[[examples.token_details]]
+token = "-tzf"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "backup.tar.gz"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
 
 [[examples]]
 level = 2
@@ -111,11 +142,49 @@ project/public/
 project/public/index.html
 project/README.md"""
 
+output_explanation = "输出展示了打包/解包/列出归档内容的结果。`-v` 会逐项打印文件名，便于确认归档范围是否正确。"
+[[examples.token_details]]
+token = "-czvf"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "backup.tar.gz"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "--exclude=*.log"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "--exclude=node_modules"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "project/"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
 [[examples]]
 level = 3
 command = "tar -xzf release-v2.0.tar.gz -C /opt/app/"
 summary = "将归档解压到指定目录"
 simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "-xzf"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "release-v2.0.tar.gz"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "-C"
+explanation = "添加注释或指定目录/上下文（具体取决于命令）。"
+
+[[examples.token_details]]
+token = "/opt/app/"
+explanation = "这里通常是注释文本或目标目录参数。"
 
 [[examples]]
 level = 4
@@ -123,6 +192,31 @@ command = "tar -czf /backup/www-$(date +%Y%m%d).tar.gz -C /var/www html/"
 summary = "备份网站目录，文件名包含日期"
 display = "tar -czf /backup/www-$(date +%Y%m%d).tar.gz \\\n  -C /var/www html/"
 simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "-czf"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "/backup/www-$(date"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples.token_details]]
+token = "+%Y%m%d).tar.gz"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "-C"
+explanation = "添加注释或指定目录/上下文（具体取决于命令）。"
+
+[[examples.token_details]]
+token = "/var/www"
+explanation = "这里通常是注释文本或目标目录参数。"
+
+[[examples.token_details]]
+token = "html/"
+explanation = "文件或目录路径，指定命令要操作的位置。"
 
 [[gotchas]]
 title = "tar 选项中 f 必须在最后"

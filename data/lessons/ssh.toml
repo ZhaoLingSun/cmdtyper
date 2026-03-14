@@ -94,6 +94,11 @@ Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)
 Last login: Mon Mar  9 10:23:45 2026 from 192.168.1.50
 user@server:~$"""
 
+output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
+[[examples.token_details]]
+token = "user@192.168.1.100"
+explanation = "远程登录目标，格式为 用户名@主机。"
+
 [[examples]]
 level = 1
 command = "ssh root@myserver.com"
@@ -104,6 +109,11 @@ Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)
 Last login: Sun Mar  8 18:30:22 2026 from 203.0.113.50
 root@myserver:~#"""
 
+output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
+[[examples.token_details]]
+token = "root@myserver.com"
+explanation = "远程登录目标，格式为 用户名@主机。"
+
 [[examples]]
 level = 2
 command = "ssh -i ~/.ssh/id_ed25519 deploy@10.0.0.5"
@@ -112,6 +122,19 @@ simulated_output = """Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic
 
 Last login: Mon Mar  9 08:15:30 2026 from 10.0.0.1
 deploy@prod-web-01:~$"""
+
+output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
+[[examples.token_details]]
+token = "-i"
+explanation = "启用交互确认，覆盖/删除前先询问。"
+
+[[examples.token_details]]
+token = "~/.ssh/id_ed25519"
+explanation = "指定私钥文件路径，用该密钥进行 SSH 身份认证。"
+
+[[examples.token_details]]
+token = "deploy@10.0.0.5"
+explanation = "远程登录目标，格式为 用户名@主机。"
 
 [[examples]]
 level = 2
@@ -123,11 +146,33 @@ Welcome to Debian GNU/Linux 12 (bookworm)
 Last login: Sat Mar  7 22:10:05 2026 from 192.168.1.50
 admin@firewall:~$"""
 
+output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
+[[examples.token_details]]
+token = "-p"
+explanation = "指定端口、PID 或创建父目录（取决于命令）。"
+
+[[examples.token_details]]
+token = "2222"
+explanation = "指定端口号、PID，或要求创建父目录。"
+
+[[examples.token_details]]
+token = "admin@192.168.1.200"
+explanation = "远程登录目标，格式为 用户名@主机。"
+
 [[examples]]
 level = 2
 command = "ssh user@server uptime"
 summary = "远程执行单条命令后自动断开"
 simulated_output = """ 14:23:45 up 127 days,  3:42,  2 users,  load average: 0.15, 0.10, 0.08"""
+
+output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
+[[examples.token_details]]
+token = "user@server"
+explanation = "远程登录目标，格式为 用户名@主机。"
+
+[[examples.token_details]]
+token = "uptime"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[examples]]
 level = 3
@@ -140,12 +185,42 @@ Last login: Mon Mar  9 09:00:12 2026 from 192.168.1.50
 user@webserver:~$
 # 现在访问本地 http://localhost:8080 即可安全访问远程 80 端口"""
 
+output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
+[[examples.token_details]]
+token = "-L"
+explanation = "本地端口转发，把本地端口映射到远端目标。"
+
+[[examples.token_details]]
+token = "8080:localhost:80"
+explanation = "本地转发规则：本地端口:目标主机:目标端口。"
+
+[[examples.token_details]]
+token = "user@webserver"
+explanation = "远程登录目标，格式为 用户名@主机。"
+
 [[examples]]
 level = 3
 command = "ssh -N -L 5433:db-internal:5432 user@jumphost"
 summary = "通过跳板机建立到内网数据库的隧道"
 simulated_output = """# 终端无输出（-N 不开启 shell），隧道已建立
 # 现在可以用 psql -h localhost -p 5433 连接内网数据库"""
+
+output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
+[[examples.token_details]]
+token = "-N"
+explanation = "不执行远端命令，只建立通道（常用于隧道）。"
+
+[[examples.token_details]]
+token = "-L"
+explanation = "本地端口转发，把本地端口映射到远端目标。"
+
+[[examples.token_details]]
+token = "5433:db-internal:5432"
+explanation = "本地转发规则：本地端口:目标主机:目标端口。"
+
+[[examples.token_details]]
+token = "user@jumphost"
+explanation = "远程登录目标，格式为 用户名@主机。"
 
 [[examples]]
 level = 3
@@ -168,6 +243,15 @@ debug1: Found key in /home/user/.ssh/known_hosts:5
 debug1: Authentication succeeded (publickey).
 Authenticated to 192.168.1.100 ([192.168.1.100]:22) using "publickey".
 user@server:~$"""
+
+output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
+[[examples.token_details]]
+token = "-v"
+explanation = "显示详细执行过程，便于观察发生了什么。"
+
+[[examples.token_details]]
+token = "user@192.168.1.100"
+explanation = "远程登录目标，格式为 用户名@主机。"
 
 [[examples]]
 level = 4
@@ -194,6 +278,23 @@ The key's randomart image is:
 |    +.o.. .o .o. |
 +----[SHA256]-----+"""
 
+output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
+[[examples.token_details]]
+token = "-t"
+explanation = "指定类型、压缩格式或算法类型。"
+
+[[examples.token_details]]
+token = "ed25519"
+explanation = "指定类型、压缩算法或密钥算法。"
+
+[[examples.token_details]]
+token = "-C"
+explanation = "添加注释或指定目录/上下文（具体取决于命令）。"
+
+[[examples.token_details]]
+token = "user@workstation"
+explanation = "这里通常是注释文本或目标目录参数。"
+
 [[examples]]
 level = 4
 command = "ssh-copy-id -i ~/.ssh/id_ed25519.pub user@192.168.1.100"
@@ -208,6 +309,19 @@ Number of key(s) added: 1
 Now try logging into the machine, with:   "ssh 'user@192.168.1.100'"
 and check to make sure that only the key(s) you wanted were added."""
 
+output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
+[[examples.token_details]]
+token = "-i"
+explanation = "启用交互确认，覆盖/删除前先询问。"
+
+[[examples.token_details]]
+token = "~/.ssh/id_ed25519.pub"
+explanation = "指定私钥文件路径，用该密钥进行 SSH 身份认证。"
+
+[[examples.token_details]]
+token = "user@192.168.1.100"
+explanation = "远程登录目标，格式为 用户名@主机。"
+
 [[examples]]
 level = 4
 command = "ssh -R 8080:localhost:3000 user@public-server"
@@ -219,6 +333,19 @@ user@public-server:~$
 # 外部用户访问 public-server:8080 即可到达你本地的 localhost:3000"""
 
 # ── 易错点 ──
+
+output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
+[[examples.token_details]]
+token = "-R"
+explanation = "递归处理目录，或建立反向端口转发。"
+
+[[examples.token_details]]
+token = "8080:localhost:3000"
+explanation = "反向转发规则：远端端口:本地主机:本地端口。"
+
+[[examples.token_details]]
+token = "user@public-server"
+explanation = "远程登录目标，格式为 用户名@主机。"
 
 [[gotchas]]
 title = "私钥文件权限必须严格限制"

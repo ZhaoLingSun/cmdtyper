@@ -62,6 +62,11 @@ lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
 mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
 news:x:9:9:news:/var/spool/news:/usr/sbin/nologin"""
 
+output_explanation = "输出是目标内容的前几行（或前几个字节），用于快速预览文件开头结构，避免一次性打开大文件。"
+[[examples.token_details]]
+token = "/etc/passwd"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
 [[examples]]
 level = 1
 command = "head -n 5 README.md"
@@ -72,6 +77,19 @@ simulated_output = """# My Project
 ## Installation
 
 ```bash"""
+
+output_explanation = "输出是目标内容的前几行（或前几个字节），用于快速预览文件开头结构，避免一次性打开大文件。"
+[[examples.token_details]]
+token = "-n"
+explanation = "指定行数/次数，或仅显示数字信息。"
+
+[[examples.token_details]]
+token = "5"
+explanation = "指定数量（如行数、分组大小、请求次数）。"
+
+[[examples.token_details]]
+token = "README.md"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[examples]]
 level = 2
@@ -86,6 +104,19 @@ order_id,user_id,amount,date
 ==> products.csv <==
 product_id,name,price,category"""
 
+output_explanation = "输出是目标内容的前几行（或前几个字节），用于快速预览文件开头结构，避免一次性打开大文件。"
+[[examples.token_details]]
+token = "-n"
+explanation = "指定行数/次数，或仅显示数字信息。"
+
+[[examples.token_details]]
+token = "1"
+explanation = "指定数量（如行数、分组大小、请求次数）。"
+
+[[examples.token_details]]
+token = "*.csv"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
 [[examples]]
 level = 3
 command = "ls -lt | head -6"
@@ -97,11 +128,41 @@ drwxr-xr-x 3 ace ace  4096 Mar  9 14:20 src
 -rw-r--r-- 1 ace ace  1280 Mar  9 13:50 Cargo.toml
 -rw-r--r-- 1 ace ace   890 Mar  8 22:15 README.md"""
 
+output_explanation = "这是目录列表输出。长格式下可读到权限、属主、大小、时间等元数据，便于判断文件是否存在及访问权限是否正确。"
+[[examples.token_details]]
+token = "-lt"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-6"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
 [[examples]]
 level = 3
 command = "head -c 16 /dev/urandom | xxd"
 summary = "从随机设备读取 16 字节并用十六进制显示"
 simulated_output = """00000000: 4a8f 2c71 b3e5 19d4 07a6 c8f2 5d3b 0e91  J.,q........];.."""
+
+output_explanation = "输出是目标内容的前几行（或前几个字节），用于快速预览文件开头结构，避免一次性打开大文件。"
+[[examples.token_details]]
+token = "-c"
+explanation = "指定次数或统计计数（具体含义取决于命令）。"
+
+[[examples.token_details]]
+token = "16"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples.token_details]]
+token = "/dev/urandom"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
 
 [[gotchas]]
 title = "head -n 的负数用法"

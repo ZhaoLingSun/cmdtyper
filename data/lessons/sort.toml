@@ -70,6 +70,11 @@ Diana
 Eve
 Frank"""
 
+output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
+[[examples.token_details]]
+token = "names.txt"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
 [[examples]]
 level = 2
 command = "sort -rn scores.txt"
@@ -81,6 +86,15 @@ simulated_output = """98
 76
 65"""
 
+output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
+[[examples.token_details]]
+token = "-rn"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "scores.txt"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
 [[examples]]
 level = 2
 command = "sort -t: -k3 -n /etc/passwd | head -5"
@@ -90,6 +104,31 @@ daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
 bin:x:2:2:bin:/bin:/usr/sbin/nologin
 sys:x:3:3:sys:/dev:/usr/sbin/nologin
 sync:x:4:65534:sync:/bin:/bin/sync"""
+
+output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
+[[examples.token_details]]
+token = "-t:"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-k3"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-n"
+explanation = "指定行数/次数，或仅显示数字信息。"
+
+[[examples.token_details]]
+token = "/etc/passwd"
+explanation = "指定数量（如行数、分组大小、请求次数）。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-5"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[examples]]
 level = 3
@@ -107,6 +146,27 @@ simulated_output = """1.2G	/var/log/journal
 2.1M	/var/log/apt
 1.4M	/var/log/kern.log"""
 
+output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
+[[examples.token_details]]
+token = "-sh"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "/var/log/*"
+explanation = "通配符模式，会匹配一组符合条件的文件名。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-rh"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-10"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
 [[examples]]
 level = 4
 command = "cat access.log | awk '{print $1}' | sort | uniq -c | sort -rn | head -10"
@@ -122,6 +182,31 @@ simulated_output = """   1523 192.168.1.50
     145 192.168.1.30
      98 10.0.0.100
      76 172.16.0.55"""
+
+output_explanation = "输出展示了 cat 读取（或拼接）后的文件内容。cat 本身不做格式化，看到什么就原样输出什么，适合快速核对文件内容。"
+[[examples.token_details]]
+token = "access.log"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "{print $1}"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-c"
+explanation = "指定次数或统计计数（具体含义取决于命令）。"
+
+[[examples.token_details]]
+token = "-rn"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-10"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[gotchas]]
 title = "字典序与数值排序的区别"

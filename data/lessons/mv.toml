@@ -65,11 +65,29 @@ command = "mv old.txt new.txt"
 summary = "将 old.txt 重命名为 new.txt"
 simulated_output = ""
 
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "old.txt"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "new.txt"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
 [[examples]]
 level = 1
 command = "mv report.pdf ~/Documents/"
 summary = "将文件移动到 Documents 目录"
 simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "report.pdf"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "~/Documents/"
+explanation = "文件或目录路径，指定命令要操作的位置。"
 
 [[examples]]
 level = 2
@@ -79,11 +97,37 @@ simulated_output = """renamed 'access.log' -> '/var/log/archive/access.log'
 renamed 'error.log' -> '/var/log/archive/error.log'
 renamed 'app.log' -> '/var/log/archive/app.log'"""
 
+output_explanation = "该结果表示重命名或移动操作执行完成。带 `-v/-i` 时会给出移动详情或交互提示；操作后建议检查目标路径是否符合预期。"
+[[examples.token_details]]
+token = "-v"
+explanation = "显示详细执行过程，便于观察发生了什么。"
+
+[[examples.token_details]]
+token = "*.log"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "/var/log/archive/"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
 [[examples]]
 level = 2
 command = "mv -i config.yml config.yml.bak"
 summary = "重命名配置文件为备份，覆盖前确认"
 simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "-i"
+explanation = "启用交互确认，覆盖/删除前先询问。"
+
+[[examples.token_details]]
+token = "config.yml"
+explanation = "指定私钥文件路径，用该密钥进行 SSH 身份认证。"
+
+[[examples.token_details]]
+token = "config.yml.bak"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
 
 [[examples]]
 level = 3
@@ -91,12 +135,58 @@ command = "mv project-v1/ project-v2/"
 summary = "重命名整个目录（无需 -r 选项）"
 simulated_output = ""
 
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "project-v1/"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples.token_details]]
+token = "project-v2/"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
 [[examples]]
 level = 4
 command = "find /tmp -name '*.tmp' -mtime +7 -exec mv {} /tmp/archive/ \\;"
 summary = "将 /tmp 下超过 7 天的临时文件移到归档目录"
 display = "find /tmp -name '*.tmp' -mtime +7 \\\n  -exec mv {} /tmp/archive/ \\;"
 simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "/tmp"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples.token_details]]
+token = "-name"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "*.tmp"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "-mtime"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "+7"
+explanation = "带正号的数值参数，常用于从第 N 行开始等偏移语义。"
+
+[[examples.token_details]]
+token = "-exec"
+explanation = "对匹配到的每个结果执行后续命令。"
+
+[[examples.token_details]]
+token = "{}"
+explanation = "占位符，代表 find/xargs 传入的当前文件。"
+
+[[examples.token_details]]
+token = "/tmp/archive/"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples.token_details]]
+token = ";"
+explanation = "顺序执行多个命令，不检查前一个命令是否成功。"
 
 [[gotchas]]
 title = "mv 不需要 -r 选项移动目录"

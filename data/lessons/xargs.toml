@@ -63,6 +63,27 @@ command = "find . -name '*.tmp' | xargs rm"
 summary = "删除当前目录下所有 .tmp 文件"
 simulated_output = ""
 
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "."
+explanation = "当前目录。"
+
+[[examples.token_details]]
+token = "-name"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "*.tmp"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "rm"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
 [[examples]]
 level = 2
 command = "find . -name '*.log' -print0 | xargs -0 wc -l"
@@ -73,6 +94,39 @@ simulated_output = """   234 ./app.log
     45 ./debug.log
   1802 total"""
 
+output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
+[[examples.token_details]]
+token = "."
+explanation = "当前目录。"
+
+[[examples.token_details]]
+token = "-name"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "*.log"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "-print0"
+explanation = "用 NUL 分隔输出，避免文件名含空格时被误拆分。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-0"
+explanation = "按 NUL 分隔读取输入，和 find -print0 搭配最安全。"
+
+[[examples.token_details]]
+token = "wc"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-l"
+explanation = "列表模式或逐行统计（取决于命令）。"
+
 [[examples]]
 level = 2
 command = "echo 1 2 3 4 5 6 | xargs -n 2 echo"
@@ -81,12 +135,82 @@ simulated_output = """1 2
 3 4
 5 6"""
 
+output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
+[[examples.token_details]]
+token = "1"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples.token_details]]
+token = "2"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples.token_details]]
+token = "3"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples.token_details]]
+token = "4"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples.token_details]]
+token = "5"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples.token_details]]
+token = "6"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-n"
+explanation = "指定行数/次数，或仅显示数字信息。"
+
+[[examples.token_details]]
+token = "echo"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
 [[examples]]
 level = 3
 command = "ls *.jpg | xargs -I {} convert {} -resize 50% thumb_{}"
 summary = "批量将 jpg 图片缩小 50% 并加前缀 thumb_"
 display = "ls *.jpg | xargs -I {} \\\n  convert {} -resize 50% thumb_{}"
 simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "*.jpg"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-I"
+explanation = "只获取响应头，或把输入项插入模板位置。"
+
+[[examples.token_details]]
+token = "{}"
+explanation = "占位符，代表 find/xargs 传入的当前文件。"
+
+[[examples.token_details]]
+token = "convert"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-resize"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "50%"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "thumb_{}"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[examples]]
 level = 3
@@ -95,12 +219,74 @@ summary = "并行下载 URL 列表中的文件（4 个并发）"
 display = "cat urls.txt \\\n  | xargs -n 1 -P 4 wget -q"
 simulated_output = ""
 
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "urls.txt"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-n"
+explanation = "指定行数/次数，或仅显示数字信息。"
+
+[[examples.token_details]]
+token = "1"
+explanation = "指定数量（如行数、分组大小、请求次数）。"
+
+[[examples.token_details]]
+token = "-P"
+explanation = "并行度（同时运行的任务数）。"
+
+[[examples.token_details]]
+token = "4"
+explanation = "并行任务数，值越大并发越高。"
+
+[[examples.token_details]]
+token = "wget"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-q"
+explanation = "静默模式，尽量减少输出。"
+
 [[examples]]
 level = 4
 command = "grep -rl 'old_api' ./src | xargs sed -i 's/old_api/new_api/g'"
 summary = "查找包含 old_api 的文件并批量替换为 new_api"
 display = "grep -rl 'old_api' ./src \\\n  | xargs sed -i 's/old_api/new_api/g'"
 simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。 另外，原地编辑配置文件存在风险，建议先 `cp file file.bak` 备份。"
+[[examples.token_details]]
+token = "-rl"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "old_api"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "./src"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "sed"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-i"
+explanation = "启用交互确认，覆盖/删除前先询问。"
+
+[[examples.token_details]]
+token = "s/old_api/new_api/g"
+explanation = "指定私钥文件路径，用该密钥进行 SSH 身份认证。"
 
 [[gotchas]]
 title = "文件名包含空格或特殊字符"
