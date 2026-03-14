@@ -74,9 +74,13 @@ pub fn render(frame: &mut Frame, app: &App, source: &DeepSource, scroll: usize) 
         )));
     }
 
+    let visible_height = chunks[1].height as usize;
+    let total_lines = lines.len();
+    let clamped_scroll = clamp_scroll(scroll, total_lines, visible_height);
+
     let content = Paragraph::new(lines)
         .wrap(Wrap { trim: false })
-        .scroll((scroll as u16, 0));
+        .scroll((clamped_scroll as u16, 0));
     frame.render_widget(content, chunks[1]);
 
     let hints = hint_line(&[
@@ -172,4 +176,13 @@ fn get_deep_content(app: &App, source: &DeepSource) -> (String, String) {
             )
         }
     }
+}
+
+fn clamp_scroll(scroll: usize, total_lines: usize, visible_height: usize) -> usize {
+    if total_lines <= visible_height {
+        return 0;
+    }
+
+    let max_scroll = total_lines.saturating_sub(visible_height);
+    scroll.min(max_scroll)
 }

@@ -81,7 +81,7 @@ explanation = "启用交互确认，覆盖/删除前先询问。"
 
 [[examples.token_details]]
 token = "important.doc"
-explanation = "指定私钥文件路径，用该密钥进行 SSH 身份认证。"
+explanation = "输入文件路径，表示要删除的目标文件。"
 
 [[examples]]
 level = 2

@@ -368,7 +368,6 @@ answers = [
 prompt = "将 sleep 300 放入后台运行，并显示其进程 ID"
 answers = [
     "sleep 300 & echo $!",
-    "sleep 300 &; echo $!",
     "sleep 300 & echo \"$!\"",
 ]
 

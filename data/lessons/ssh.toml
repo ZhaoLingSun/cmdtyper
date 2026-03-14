@@ -126,7 +126,7 @@ deploy@prod-web-01:~$"""
 output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
 [[examples.token_details]]
 token = "-i"
-explanation = "启用交互确认，覆盖/删除前先询问。"
+explanation = "指定身份密钥文件（identity file），用于 SSH 认证。"
 
 [[examples.token_details]]
 token = "~/.ssh/id_ed25519"
@@ -312,11 +312,11 @@ and check to make sure that only the key(s) you wanted were added."""
 output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
 [[examples.token_details]]
 token = "-i"
-explanation = "启用交互确认，覆盖/删除前先询问。"
+explanation = "指定身份密钥文件（identity file），用于 SSH 认证。"
 
 [[examples.token_details]]
 token = "~/.ssh/id_ed25519.pub"
-explanation = "指定私钥文件路径，用该密钥进行 SSH 身份认证。"
+explanation = "要安装到远端 authorized_keys 的公钥文件路径。"
 
 [[examples.token_details]]
 token = "user@192.168.1.100"
