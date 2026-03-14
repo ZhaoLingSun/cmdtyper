@@ -7,6 +7,11 @@ description = "实战补充：网络探测、HTTP 调试、端口测试、路由
 id = "ip-route-show"
 command = "ip route show"
 summary = "查看当前系统的路由表"
+simulated_output = """
+default via 10.9.146.1 dev eth0 proto dhcp metric 100
+10.9.146.0/24 dev eth0 proto kernel scope link src 10.9.146.6
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1
+"""
 
 [[commands.tokens]]
 text = "ip"
@@ -31,6 +36,11 @@ answers = [
 id = "ss-tunlp"
 command = "ss -tunlp"
 summary = "查看 TCP/UDP 连接与监听端口，并显示进程信息"
+simulated_output = """
+Netid State  Recv-Q Send-Q Local Address:Port Peer Address:Port Process
+tcp   LISTEN 0      4096   0.0.0.0:22        0.0.0.0:* users:(("sshd",pid=842,fd=3))
+tcp   LISTEN 0      511    127.0.0.1:5432    0.0.0.0:* users:(("postgres",pid=1901,fd=7))
+"""
 
 [[commands.tokens]]
 text = "ss"
@@ -50,6 +60,11 @@ answers = [
 id = "lsof-listen-80"
 command = "lsof -i :80"
 summary = "查看哪个进程占用了 80 端口"
+simulated_output = """
+COMMAND PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+nginx   921 root    6u  IPv4  23456      0t0  TCP *:http (LISTEN)
+nginx   922 www-data 6u IPv4  23456      0t0  TCP *:http (LISTEN)
+"""
 
 [[commands.tokens]]
 text = "lsof"
@@ -73,6 +88,7 @@ answers = [
 id = "nc-port-test"
 command = "nc -vz 127.0.0.1 5432"
 summary = "测试本机 5432 端口是否可连通"
+simulated_output = "Connection to 127.0.0.1 5432 port [tcp/postgresql] succeeded!"
 
 [[commands.tokens]]
 text = "nc"
@@ -100,6 +116,12 @@ answers = [
 id = "traceroute-domain"
 command = "traceroute example.com"
 summary = "跟踪到 example.com 的网络路径"
+simulated_output = """
+traceroute to example.com (93.184.216.34), 30 hops max, 60 byte packets
+ 1  10.9.146.1  0.431 ms  0.398 ms  0.385 ms
+ 2  100.64.0.1  2.102 ms  1.994 ms  2.011 ms
+ 4  93.184.216.34  28.918 ms  29.104 ms  28.776 ms
+"""
 
 [[commands.tokens]]
 text = "traceroute"
@@ -119,6 +141,7 @@ answers = [
 id = "host-domain"
 command = "host example.com"
 summary = "查询 example.com 的 DNS 解析结果"
+simulated_output = "example.com has address 93.184.216.34"
 
 [[commands.tokens]]
 text = "host"
@@ -138,6 +161,7 @@ answers = [
 id = "curl-status-code"
 command = "curl -s -o /dev/null -w %{http_code}n https://example.com"
 summary = "只输出 https://example.com 的 HTTP 状态码"
+simulated_output = "200"
 
 [[commands.tokens]]
 text = "curl"
@@ -178,6 +202,7 @@ answers = [
 id = "curl-json-post"
 command = "curl -X POST -H 'Content-Type: application/json' -d '{\"name\":\"alice\"}' https://api.example.com/users"
 summary = "向接口发送一个 JSON POST 请求"
+simulated_output = "{\"id\":101,\"name\":\"alice\",\"created\":true}"
 
 [[commands.tokens]]
 text = "curl"
@@ -222,6 +247,13 @@ answers = [
 id = "curl-follow-redirect"
 command = "curl -L https://example.com"
 summary = "请求网页并自动跟随重定向"
+simulated_output = """
+<!doctype html>
+<html>
+<head><title>Example Domain</title></head>
+<body>...</body>
+</html>
+"""
 
 [[commands.tokens]]
 text = "curl"
@@ -246,6 +278,13 @@ answers = [
 id = "wget-continue-download"
 command = "wget -c https://example.com/big.iso"
 summary = "断点续传下载 big.iso"
+simulated_output = """
+--2026-03-14 08:48:11--  https://example.com/big.iso
+Length: 1073741824 (1.0G)
+Saving to: big.iso
+
+big.iso 14%[==>                 ] 143.21M 12.1MB/s eta 72s
+"""
 
 [[commands.tokens]]
 text = "wget"
@@ -270,6 +309,7 @@ answers = [
 id = "ssh-local-forward"
 command = "ssh -L 5432:127.0.0.1:5432 admin@example.com"
 summary = "把远程主机的 5432 端口转发到本地 5432"
+simulated_output = "Last login: Sat Mar 14 08:48:53 2026 from 10.0.0.5"
 
 [[commands.tokens]]
 text = "ssh"
@@ -297,6 +337,7 @@ answers = [
 id = "ssh-remote-forward"
 command = "ssh -R 8080:127.0.0.1:3000 admin@example.com"
 summary = "把本地 3000 端口反向转发到远程 8080"
+simulated_output = "Last login: Sat Mar 14 08:49:10 2026 from 10.0.0.5"
 
 [[commands.tokens]]
 text = "ssh"
@@ -324,6 +365,10 @@ answers = [
 id = "openssl-cert-dates"
 command = "echo | openssl s_client -servername example.com -connect example.com:443 2>/dev/null | openssl x509 -noout -dates"
 summary = "查看 example.com HTTPS 证书的生效和过期时间"
+simulated_output = """
+notBefore=Jan  1 00:00:00 2026 GMT
+notAfter=Mar 31 23:59:59 2026 GMT
+"""
 
 [[commands.tokens]]
 text = "echo"

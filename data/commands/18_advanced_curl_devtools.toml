@@ -7,6 +7,7 @@ description = "进阶补充：curl 高级用法、开发者常用构建/运行�
 id = "curl-upload-file"
 command = "curl -F 'file=@photo.jpg' https://api.example.com/upload"
 summary = "通过表单方式上传 photo.jpg 到接口"
+simulated_output = "{\"url\":\"https://cdn.example.com/uploads/photo.jpg\",\"size\":245120}"
 [[commands.tokens]]
 text = "curl"
 desc = "发送 HTTP 请求的命令行工具"
@@ -27,6 +28,7 @@ answers = ["curl -F 'file=@photo.jpg' https://api.example.com/upload"]
 id = "curl-basic-auth"
 command = "curl -u admin:secret https://api.example.com/status"
 summary = "使用 Basic Auth 认证请求接口"
+simulated_output = "{\"status\":\"ok\",\"service\":\"api\",\"uptime\":\"72h\"}"
 [[commands.tokens]]
 text = "curl"
 desc = "发送 HTTP 请求的命令行工具"
@@ -47,6 +49,10 @@ answers = ["curl -u admin:secret https://api.example.com/status"]
 id = "curl-cookie-save"
 command = "curl -c cookies.txt https://example.com/login"
 summary = "把服务端返回的 cookie 保存到 cookies.txt"
+simulated_output = """
+<!doctype html>
+<html><body>Login page</body></html>
+"""
 [[commands.tokens]]
 text = "curl"
 desc = "发送 HTTP 请求的命令行工具"
@@ -67,6 +73,10 @@ answers = ["curl -c cookies.txt https://example.com/login"]
 id = "curl-cookie-send"
 command = "curl -b cookies.txt https://example.com/dashboard"
 summary = "使用保存的 cookie 访问需要认证的页面"
+simulated_output = """
+<!doctype html>
+<html><body>Welcome back, alice</body></html>
+"""
 [[commands.tokens]]
 text = "curl"
 desc = "发送 HTTP 请求的命令行工具"
@@ -87,6 +97,7 @@ answers = ["curl -b cookies.txt https://example.com/dashboard"]
 id = "curl-download-output"
 command = "curl -sSfL -o app.tar.gz https://github.com/user/repo/releases/download/v1.0/app.tar.gz"
 summary = "静默下载 release 包并保存为 app.tar.gz，失败时报错"
+simulated_output = ""
 [[commands.tokens]]
 text = "curl"
 desc = "发送 HTTP 请求的命令行工具"
@@ -110,6 +121,12 @@ answers = ["curl -sSfL -o app.tar.gz https://github.com/user/repo/releases/downl
 id = "pip-install-requirements"
 command = "pip install -r requirements.txt"
 summary = "安装 requirements.txt 中列出的所有 Python 依赖"
+simulated_output = """
+Collecting fastapi
+Collecting uvicorn
+Installing collected packages: fastapi, uvicorn
+Successfully installed fastapi-0.116.0 uvicorn-0.35.0
+"""
 [[commands.tokens]]
 text = "pip"
 desc = "Python 包管理工具"
@@ -130,6 +147,7 @@ answers = ["pip install -r requirements.txt", "pip3 install -r requirements.txt"
 id = "python-venv-create"
 command = "python3 -m venv .venv"
 summary = "在当前目录创建名为 .venv 的 Python 虚拟环境"
+simulated_output = ""
 [[commands.tokens]]
 text = "python3"
 desc = "Python 3 解释器"
@@ -150,6 +168,7 @@ answers = ["python3 -m venv .venv"]
 id = "source-venv-activate"
 command = "source .venv/bin/activate"
 summary = "激活 Python 虚拟环境"
+simulated_output = ""
 [[commands.tokens]]
 text = "source"
 desc = "在当前 shell 中执行脚本"
@@ -164,6 +183,11 @@ answers = ["source .venv/bin/activate", ". .venv/bin/activate"]
 id = "npm-install-basic"
 command = "npm install"
 summary = "安装 package.json 中列出的所有 Node.js 依赖"
+simulated_output = """
+added 312 packages, and audited 313 packages in 7s
+42 packages are looking for funding
+found 0 vulnerabilities
+"""
 [[commands.tokens]]
 text = "npm"
 desc = "Node.js 包管理工具"
@@ -178,6 +202,13 @@ answers = ["npm install", "npm i"]
 id = "npm-run-dev"
 command = "npm run dev"
 summary = "运行 package.json 中定义的 dev 脚本"
+simulated_output = """
+> app@1.0.0 dev
+> vite
+
+VITE v5.4.1  ready in 420 ms
+➜  Local:   http://localhost:5173/
+"""
 [[commands.tokens]]
 text = "npm"
 desc = "Node.js 包管理工具"
@@ -195,6 +226,10 @@ answers = ["npm run dev"]
 id = "cargo-build-release"
 command = "cargo build --release"
 summary = "以 release 模式编译 Rust 项目"
+simulated_output = """
+Compiling cmdtyper-v2 v0.1.0 (/home/ace/workspaces/cmdtyper-v2)
+Finished release [optimized] target(s) in 6.42s
+"""
 [[commands.tokens]]
 text = "cargo"
 desc = "Rust 的构建和包管理工具"
@@ -212,6 +247,12 @@ answers = ["cargo build --release"]
 id = "make-clean-build"
 command = "make clean && make -j$(nproc)"
 summary = "清理构建产物后用全部 CPU 核心重新编译"
+simulated_output = """
+rm -f *.o app
+cc -O2 -c main.c
+cc -O2 -c util.c
+cc -O2 -o app main.o util.o
+"""
 [[commands.tokens]]
 text = "make"
 desc = "执行 Makefile 构建任务"
@@ -235,6 +276,11 @@ answers = ["make clean && make -j$(nproc)"]
 id = "strace-pid"
 command = "strace -p 12345 -f"
 summary = "跟踪 PID 12345 的系统调用（包含子进程）"
+simulated_output = """
+strace: Process 12345 attached
+[pid 12345] epoll_wait(7, [], 1024, 1000) = 0
+[pid 12345] recvfrom(12, 0x7ffd..., 4096, 0, NULL, NULL) = -1 EAGAIN
+"""
 [[commands.tokens]]
 text = "strace"
 desc = "跟踪进程系统调用的调试工具"

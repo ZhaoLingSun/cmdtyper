@@ -7,6 +7,7 @@ description = "基础补充：搜索、帮助、系统信息与网络诊断命�
 id = "which-python3"
 command = "which python3"
 summary = "查看 python3 命令实际会执行哪个可执行文件"
+simulated_output = "/usr/bin/python3"
 
 [[commands.tokens]]
 text = "which"
@@ -26,6 +27,7 @@ answers = [
 id = "whereis-nginx"
 command = "whereis nginx"
 summary = "查找 nginx 的二进制、源码和 man 手册位置"
+simulated_output = "nginx: /usr/sbin/nginx /usr/lib/nginx /etc/nginx /usr/share/nginx"
 
 [[commands.tokens]]
 text = "whereis"
@@ -45,6 +47,7 @@ answers = [
 id = "type-cd"
 command = "type cd"
 summary = "查看 cd 是 shell 内建、别名还是外部命令"
+simulated_output = "cd is a shell builtin"
 
 [[commands.tokens]]
 text = "type"
@@ -64,6 +67,11 @@ answers = [
 id = "man-grep"
 command = "man grep"
 summary = "打开 grep 命令的手册页"
+simulated_output = """
+GREP(1) User Commands GREP(1)
+NAME
+    grep, egrep, fgrep - print lines that match patterns
+"""
 
 [[commands.tokens]]
 text = "man"
@@ -83,6 +91,11 @@ answers = [
 id = "apropos-password"
 command = "apropos password"
 summary = "搜索和 password 相关的 man 手册条目"
+simulated_output = """
+passwd (1) - change user password
+chpasswd (8) - update passwords in batch mode
+pwck (8) - verify integrity of password files
+"""
 
 [[commands.tokens]]
 text = "apropos"
@@ -102,6 +115,11 @@ answers = [
 id = "find-case-insensitive"
 command = "find . -iname *.jpg"
 summary = "不区分大小写地查找当前目录下的 jpg 图片"
+simulated_output = """
+./photos/IMG_1024.JPG
+./assets/banner.jpg
+./screenshots/homepage.JPG
+"""
 
 [[commands.tokens]]
 text = "find"
@@ -130,6 +148,10 @@ answers = [
 id = "locate-bashrc"
 command = "locate bashrc"
 summary = "快速查找系统中名字包含 bashrc 的路径"
+simulated_output = """
+/etc/bash.bashrc
+/home/ace/.bashrc
+"""
 
 [[commands.tokens]]
 text = "locate"
@@ -149,6 +171,7 @@ answers = [
 id = "uname-all"
 command = "uname -a"
 summary = "显示内核、主机名和系统架构等完整信息"
+simulated_output = "Linux intranet 6.8.0-58-generic #60-Ubuntu SMP x86_64 GNU/Linux"
 
 [[commands.tokens]]
 text = "uname"
@@ -169,6 +192,11 @@ answers = [
 id = "df-human-search"
 command = "df -h"
 summary = "以易读单位查看各文件系统磁盘使用情况"
+simulated_output = """
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/nvme0n1p2   1.8T  612G  1.1T  36% /
+tmpfs            126G  2.0M  126G   1% /run
+"""
 
 [[commands.tokens]]
 text = "df"
@@ -189,6 +217,7 @@ answers = [
 id = "du-human-summary"
 command = "du -sh /var/log"
 summary = "汇总查看 /var/log 目录占用了多少磁盘空间"
+simulated_output = "2.1G	/var/log"
 
 [[commands.tokens]]
 text = "du"
@@ -213,6 +242,11 @@ answers = [
 id = "free-human-search"
 command = "free -h"
 summary = "以易读单位查看内存和 swap 使用情况"
+simulated_output = """
+               total        used        free      shared  buff/cache   available
+Mem:           1.5Ti       112Gi       1.1Ti       512Mi       302Gi       1.3Ti
+Swap:           32Gi          0B        32Gi
+"""
 
 [[commands.tokens]]
 text = "free"
@@ -233,6 +267,12 @@ answers = [
 id = "lsblk-basic"
 command = "lsblk"
 summary = "以树状结构显示块设备列表"
+simulated_output = """
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+nvme0n1     259:0    0   1.8T  0 disk
+├─nvme0n1p1 259:1    0     1G  0 part /boot/efi
+└─nvme0n1p2 259:2    0   1.8T  0 part /
+"""
 
 [[commands.tokens]]
 text = "lsblk"
@@ -248,6 +288,12 @@ answers = [
 id = "ip-address-show"
 command = "ip addr show"
 summary = "查看所有网络接口的地址信息"
+simulated_output = """
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500
+    inet 10.9.146.6/24 brd 10.9.146.255 scope global eth0
+3: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536
+    inet 127.0.0.1/8 scope host lo
+"""
 
 [[commands.tokens]]
 text = "ip"
@@ -272,6 +318,11 @@ answers = [
 id = "ss-listen-tcp"
 command = "ss -lnt"
 summary = "查看当前正在监听的 TCP 端口"
+simulated_output = """
+State  Recv-Q Send-Q Local Address:Port  Peer Address:Port
+LISTEN 0      511         0.0.0.0:22         0.0.0.0:*
+LISTEN 0      128       127.0.0.1:5432       0.0.0.0:*
+"""
 
 [[commands.tokens]]
 text = "ss"
@@ -292,6 +343,13 @@ answers = [
 id = "ping-count-four"
 command = "ping -c 4 8.8.8.8"
 summary = "向 8.8.8.8 发送 4 次 ping 请求"
+simulated_output = """
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=31.8 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=117 time=32.1 ms
+--- 8.8.8.8 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss
+"""
 
 [[commands.tokens]]
 text = "ping"
@@ -319,6 +377,11 @@ answers = [
 id = "curl-head-search"
 command = "curl -I https://example.com"
 summary = "只获取 https://example.com 的响应头"
+simulated_output = """
+HTTP/2 200
+content-type: text/html; charset=UTF-8
+content-length: 1256
+"""
 
 [[commands.tokens]]
 text = "curl"
@@ -343,6 +406,13 @@ answers = [
 id = "wget-output-file"
 command = "wget -O index.html https://example.com"
 summary = "下载网页并保存为 index.html"
+simulated_output = """
+--2026-03-14 08:30:12--  https://example.com/
+Resolving example.com... 93.184.216.34
+Saving to: index.html
+
+index.html 100%[===================>] 1.23K  --.-KB/s in 0s
+"""
 
 [[commands.tokens]]
 text = "wget"
@@ -370,6 +440,7 @@ answers = [
 id = "dig-short-domain"
 command = "dig +short example.com"
 summary = "快速查询 example.com 的解析结果"
+simulated_output = "93.184.216.34"
 
 [[commands.tokens]]
 text = "dig"

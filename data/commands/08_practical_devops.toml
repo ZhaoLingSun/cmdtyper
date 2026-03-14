@@ -7,6 +7,11 @@ description = "实战补充：开发、运维、Git、tmux、Docker 与远程协
 id = "git-status-short"
 command = "git status -sb"
 summary = "用简洁分支格式查看当前 Git 工作区状态"
+simulated_output = """
+## main...origin/main
+ M src/main.rs
+ M data/commands/05_beginner_extra.toml
+"""
 
 [[commands.tokens]]
 text = "git"
@@ -30,6 +35,11 @@ answers = [
 id = "git-log-oneline-graph"
 command = "git log --oneline --graph --decorate -10"
 summary = "以单行图形化方式查看最近 10 条提交"
+simulated_output = """
+* 9f1a3d2 (HEAD -> main, origin/main) feat: add practical command set
+* 4c8b771 fix: normalize dictation prompts
+* a1e7c90 docs: update README examples
+"""
 
 [[commands.tokens]]
 text = "git"
@@ -65,6 +75,14 @@ answers = [
 id = "git-diff-staged"
 command = "git diff --staged"
 summary = "查看已经暂存但尚未提交的改动"
+simulated_output = """
+diff --git a/src/main.rs b/src/main.rs
+index 1c2e3d4..8a9b0c1 100644
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -10,6 +10,7 @@
++    println!("ready");
+"""
 
 [[commands.tokens]]
 text = "git"
@@ -89,6 +107,10 @@ answers = [
 id = "git-grep-todo"
 command = "git grep -n TODO"
 summary = "在 Git 跟踪文件中搜索 TODO，并显示行号"
+simulated_output = """
+src/main.rs:14:// TODO: improve error message
+src/ui/mod.rs:88:// TODO: add key hint
+"""
 
 [[commands.tokens]]
 text = "git"
@@ -116,6 +138,7 @@ answers = [
 id = "tmux-new-session"
 command = "tmux new -s dev"
 summary = "创建一个名为 dev 的 tmux 新会话"
+simulated_output = "[detached (from session dev)]"
 
 [[commands.tokens]]
 text = "tmux"
@@ -144,6 +167,7 @@ answers = [
 id = "tmux-attach-session"
 command = "tmux attach -t dev"
 summary = "重新连接到名为 dev 的 tmux 会话"
+simulated_output = "[attached to session dev]"
 
 [[commands.tokens]]
 text = "tmux"
@@ -172,6 +196,11 @@ answers = [
 id = "docker-ps-format"
 command = "docker ps --format {{.Names}} {{.Status}}"
 summary = "只显示容器名称和状态"
+simulated_output = """
+web Up 3 hours
+db Up 3 hours (healthy)
+redis Up 3 hours
+"""
 
 [[commands.tokens]]
 text = "docker"
@@ -200,6 +229,11 @@ answers = [
 id = "docker-logs-tail-follow"
 command = "docker logs -f --tail 100 web"
 summary = "持续跟踪 web 容器最近 100 行日志"
+simulated_output = """
+[2026-03-14T08:41:02Z] INFO server started on :8080
+[2026-03-14T08:41:05Z] INFO GET /health 200 1.1ms
+[2026-03-14T08:41:09Z] INFO GET /api/users 200 12.3ms
+"""
 
 [[commands.tokens]]
 text = "docker"
@@ -235,6 +269,7 @@ answers = [
 id = "docker-exec-shell"
 command = "docker exec -it web sh"
 summary = "进入 web 容器的交互式 shell"
+simulated_output = "/ # "
 
 [[commands.tokens]]
 text = "docker"
@@ -266,6 +301,11 @@ answers = [
 id = "ssh-port-host"
 command = "ssh -p 2222 admin@example.com"
 summary = "通过 2222 端口 SSH 登录远程主机"
+simulated_output = """
+The authenticity of host '[example.com]:2222' can't be established.
+ED25519 key fingerprint is SHA256:AbCdEf1234567890.
+admin@example.com's password:
+"""
 
 [[commands.tokens]]
 text = "ssh"
@@ -293,6 +333,11 @@ answers = [
 id = "scp-recursive-upload"
 command = "scp -r dist/ admin@example.com:/srv/www/"
 summary = "把 dist 目录递归上传到远程站点目录"
+simulated_output = """
+index.html 100% 12KB 72.4KB/s 00:00
+assets/app.js 100% 356KB 1.8MB/s 00:00
+assets/style.css 100% 42KB 234.9KB/s 00:00
+"""
 
 [[commands.tokens]]
 text = "scp"
@@ -320,6 +365,15 @@ answers = [
 id = "rsync-ssh-progress"
 command = "rsync -avzP -e ssh dist/ admin@example.com:/srv/www/"
 summary = "通过 SSH 压缩同步 dist 目录，并显示进度"
+simulated_output = """
+sending incremental file list
+./
+index.html
+assets/app.js
+assets/style.css
+
+sent 421,012 bytes  received 94 bytes  842,212.00 bytes/sec
+"""
 
 [[commands.tokens]]
 text = "rsync"
@@ -355,6 +409,10 @@ answers = [
 id = "journalctl-follow-unit"
 command = "journalctl -fu docker"
 summary = "实时跟踪 docker 服务日志"
+simulated_output = """
+Mar 14 08:43:01 intranet dockerd[1187]: Daemon has completed initialization
+Mar 14 08:43:05 intranet dockerd[1187]: API listen on /run/docker.sock
+"""
 
 [[commands.tokens]]
 text = "journalctl"
@@ -379,6 +437,11 @@ answers = [
 id = "find-large-files"
 command = "find /var/log -type f -size +100M"
 summary = "查找 /var/log 下大于 100MB 的文件"
+simulated_output = """
+/var/log/journal/9d.../system.journal
+/var/log/syslog.1
+/var/log/kern.log.1
+"""
 
 [[commands.tokens]]
 text = "find"
@@ -414,6 +477,12 @@ answers = [
 id = "ncdu-root-filesystem"
 command = "ncdu /"
 summary = "交互式分析根文件系统空间占用"
+simulated_output = """
+--- / ---
+45.2 GiB [##########] /var
+18.1 GiB [###       ] /home
+9.7 GiB [#         ] /usr
+"""
 
 [[commands.tokens]]
 text = "ncdu"
@@ -433,6 +502,11 @@ answers = [
 id = "btop-basic"
 command = "btop"
 summary = "启动 btop 交互式系统监控界面"
+simulated_output = """
+btop 1.3.2
+CPU 12%  MEM 112G/1.5T  SWAP 0B/32G
+Tasks: 842, 12 running
+"""
 
 [[commands.tokens]]
 text = "btop"

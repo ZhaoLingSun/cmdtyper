@@ -7,6 +7,7 @@ description = "入门补充：常见文件查看、复制、移动、删除与�
 id = "cp-file-basic"
 command = "cp notes.txt notes.bak"
 summary = "把 notes.txt 复制为 notes.bak"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "cp"
@@ -31,6 +32,7 @@ answers = [
 id = "cp-recursive-dir"
 command = "cp -r assets backup-assets"
 summary = "递归复制 assets 目录为 backup-assets"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "cp"
@@ -59,6 +61,7 @@ answers = [
 id = "mv-rename-file"
 command = "mv draft.txt final.txt"
 summary = "把 draft.txt 重命名为 final.txt"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "mv"
@@ -83,6 +86,7 @@ answers = [
 id = "mv-file-to-dir"
 command = "mv report.txt archive/"
 summary = "把 report.txt 移动到 archive 目录"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "mv"
@@ -107,6 +111,7 @@ answers = [
 id = "rm-file-basic"
 command = "rm temp.txt"
 summary = "删除 temp.txt 文件"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "rm"
@@ -127,6 +132,7 @@ answers = [
 id = "rm-recursive-dir"
 command = "rm -r build"
 summary = "递归删除 build 目录及其内容"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "rm"
@@ -151,6 +157,7 @@ answers = [
 id = "rmdir-empty-dir"
 command = "rmdir old-cache"
 summary = "删除空目录 old-cache"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "rmdir"
@@ -171,6 +178,7 @@ answers = [
 id = "file-type-check"
 command = "file app.tar.gz"
 summary = "检测 app.tar.gz 的文件类型"
+simulated_output = "app.tar.gz: gzip compressed data, from Unix, original size modulo 2^32 10240"
 
 [[commands.tokens]]
 text = "file"
@@ -191,6 +199,14 @@ answers = [
 id = "stat-file-basic"
 command = "stat notes.txt"
 summary = "查看 notes.txt 的详细元数据"
+simulated_output = """
+  File: notes.txt
+  Size: 128		Blocks: 8		IO Block: 4096 regular file
+Device: 259,2	Inode: 1835021	Links: 1
+Access: (0644/-rw-r--r--)  Uid: (1000/ace)   Gid: (1000/ace)
+Access: 2026-03-14 08:12:01.000000000 +0000
+Modify: 2026-03-14 08:10:47.000000000 +0000
+"""
 
 [[commands.tokens]]
 text = "stat"
@@ -211,6 +227,12 @@ answers = [
 id = "less-file-basic"
 command = "less server.log"
 summary = "分页查看 server.log 文件内容"
+simulated_output = """
+[1] 2026-03-14 08:10:01 INFO server started on :8080
+[2] 2026-03-14 08:10:03 INFO connected to postgres
+[3] 2026-03-14 08:10:08 WARN retrying request /api/profile
+server.log (END)
+"""
 
 [[commands.tokens]]
 text = "less"
@@ -231,6 +253,12 @@ answers = [
 id = "head-lines-10"
 command = "head -n 10 server.log"
 summary = "查看 server.log 的前 10 行"
+simulated_output = """
+2026-03-14 08:10:01 INFO server started on :8080
+2026-03-14 08:10:03 INFO connected to postgres
+2026-03-14 08:10:07 INFO listening for requests
+2026-03-14 08:10:10 INFO request completed 200 /health
+"""
 
 [[commands.tokens]]
 text = "head"
@@ -260,6 +288,12 @@ answers = [
 id = "tail-lines-50"
 command = "tail -n 50 server.log"
 summary = "查看 server.log 的最后 50 行"
+simulated_output = """
+2026-03-14 08:58:44 INFO request completed 200 /api/projects
+2026-03-14 08:58:47 WARN upstream timeout, retry=1
+2026-03-14 08:58:49 INFO retry succeeded /api/report
+2026-03-14 08:58:58 INFO graceful shutdown signal received
+"""
 
 [[commands.tokens]]
 text = "tail"
@@ -289,6 +323,7 @@ answers = [
 id = "wc-lines-basic"
 command = "wc -l access.log"
 summary = "统计 access.log 的总行数"
+simulated_output = "4821 access.log"
 
 [[commands.tokens]]
 text = "wc"
@@ -313,6 +348,18 @@ answers = [
 id = "tree-depth-two"
 command = "tree -L 2 project"
 summary = "以树形结构显示 project 目录的两层内容"
+simulated_output = """
+project
+├── Cargo.toml
+├── README.md
+├── src
+│   ├── main.rs
+│   └── lib.rs
+└── tests
+    └── basic.rs
+
+3 directories, 5 files
+"""
 
 [[commands.tokens]]
 text = "tree"
@@ -340,6 +387,7 @@ answers = [
 id = "basename-path"
 command = "basename /var/log/syslog"
 summary = "取出路径 /var/log/syslog 的文件名部分"
+simulated_output = "syslog"
 
 [[commands.tokens]]
 text = "basename"
@@ -359,6 +407,7 @@ answers = [
 id = "dirname-path"
 command = "dirname /var/log/syslog"
 summary = "取出路径 /var/log/syslog 的目录部分"
+simulated_output = "/var/log"
 
 [[commands.tokens]]
 text = "dirname"

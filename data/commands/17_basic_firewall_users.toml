@@ -7,6 +7,15 @@ description = "基础补充：防火墙、用户管理与 sudo 操作命令"
 id = "ufw-status"
 command = "sudo ufw status verbose"
 summary = "查看 ufw 防火墙当前状态和规则详情"
+simulated_output = """
+Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), deny (routed)
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW IN    Anywhere
+"""
 [[commands.tokens]]
 text = "sudo"
 desc = "以管理员权限执行"
@@ -27,6 +36,10 @@ answers = ["sudo ufw status verbose"]
 id = "ufw-allow-ssh"
 command = "sudo ufw allow 22/tcp"
 summary = "允许 TCP 22 端口的入站连接（SSH）"
+simulated_output = """
+Rule added
+Rule added (v6)
+"""
 [[commands.tokens]]
 text = "sudo"
 desc = "以管理员权限执行"
@@ -47,6 +60,10 @@ answers = ["sudo ufw allow 22/tcp"]
 id = "ufw-deny-port"
 command = "sudo ufw deny 3306"
 summary = "禁止 3306 端口的入站连接（MySQL）"
+simulated_output = """
+Rule added
+Rule added (v6)
+"""
 [[commands.tokens]]
 text = "sudo"
 desc = "以管理员权限执行"
@@ -67,6 +84,10 @@ answers = ["sudo ufw deny 3306"]
 id = "ufw-enable"
 command = "sudo ufw enable"
 summary = "启用 ufw 防火墙"
+simulated_output = """
+Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
+Firewall is active and enabled on system startup
+"""
 [[commands.tokens]]
 text = "sudo"
 desc = "以管理员权限执行"
@@ -84,6 +105,7 @@ answers = ["sudo ufw enable"]
 id = "useradd-create"
 command = "sudo useradd -m -s /bin/bash deploy"
 summary = "创建 deploy 用户，自动创建家目录并设置 bash 为登录 shell"
+simulated_output = ""
 [[commands.tokens]]
 text = "sudo"
 desc = "以管理员权限执行"
@@ -110,6 +132,11 @@ answers = ["sudo useradd -m -s /bin/bash deploy"]
 id = "passwd-user"
 command = "sudo passwd deploy"
 summary = "设置或修改 deploy 用户的密码"
+simulated_output = """
+New password:
+Retype new password:
+passwd: password updated successfully
+"""
 [[commands.tokens]]
 text = "sudo"
 desc = "以管理员权限执行"
@@ -127,6 +154,7 @@ answers = ["sudo passwd deploy"]
 id = "usermod-add-group"
 command = "sudo usermod -aG docker deploy"
 summary = "把 deploy 用户添加到 docker 组"
+simulated_output = ""
 [[commands.tokens]]
 text = "sudo"
 desc = "以管理员权限执行"
@@ -150,6 +178,7 @@ answers = ["sudo usermod -aG docker deploy"]
 id = "userdel-remove"
 command = "sudo userdel -r olduser"
 summary = "删除 olduser 用户并移除其家目录"
+simulated_output = "userdel: olduser mail spool (/var/mail/olduser) not found"
 [[commands.tokens]]
 text = "sudo"
 desc = "以管理员权限执行"
@@ -170,6 +199,10 @@ answers = ["sudo userdel -r olduser"]
 id = "su-switch-user"
 command = "su - deploy"
 summary = "切换到 deploy 用户并加载完整登录环境"
+simulated_output = """
+$ whoami
+deploy
+"""
 [[commands.tokens]]
 text = "su"
 desc = "切换用户身份的命令"
@@ -187,6 +220,10 @@ answers = ["su - deploy"]
 id = "sudo-last-command"
 command = "sudo !!"
 summary = "用 sudo 重新执行上一条命令"
+simulated_output = """
+[sudo] password for ace:
+<previous command output ...>
+"""
 [[commands.tokens]]
 text = "sudo"
 desc = "以管理员权限执行"
@@ -201,6 +238,10 @@ answers = ["sudo !!"]
 id = "visudo-basic"
 command = "sudo visudo"
 summary = "安全地编辑 sudoers 配置文件"
+simulated_output = """
+visudo: /etc/sudoers.tmp: parsed OK
+visudo: /etc/sudoers.d/README: parsed OK
+"""
 [[commands.tokens]]
 text = "sudo"
 desc = "以管理员权限执行"
@@ -215,6 +256,11 @@ answers = ["sudo visudo"]
 id = "last-logins"
 command = "last -10"
 summary = "查看最近 10 条用户登录记录"
+simulated_output = """
+ace      pts/2        10.0.0.7        Sat Mar 14 08:40   still logged in
+ace      pts/1        10.0.0.5        Sat Mar 14 08:30   still logged in
+reboot   system boot  6.8.0-58        Fri Mar 13 22:19
+"""
 [[commands.tokens]]
 text = "last"
 desc = "显示用户登录历史的命令"

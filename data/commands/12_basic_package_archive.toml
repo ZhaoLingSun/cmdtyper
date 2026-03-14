@@ -7,6 +7,12 @@ description = "基础补充：包管理、压缩归档与解压命令"
 id = "apt-update"
 command = "sudo apt update"
 summary = "更新 APT 软件包索引"
+simulated_output = """
+Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu noble-updates InRelease
+Reading package lists... Done
+All packages are up to date.
+"""
 
 [[commands.tokens]]
 text = "sudo"
@@ -30,6 +36,12 @@ answers = [
 id = "apt-install-vim"
 command = "sudo apt install -y vim"
 summary = "自动确认安装 vim 编辑器"
+simulated_output = """
+Reading package lists... Done
+The following NEW packages will be installed:
+  vim vim-runtime
+0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.
+"""
 
 [[commands.tokens]]
 text = "sudo"
@@ -62,6 +74,12 @@ answers = [
 id = "apt-remove-nginx"
 command = "sudo apt remove nginx"
 summary = "卸载 nginx 软件包（保留配置文件）"
+simulated_output = """
+Reading package lists... Done
+The following packages will be REMOVED:
+  nginx nginx-common
+After this operation, 1,842 kB disk space will be freed.
+"""
 
 [[commands.tokens]]
 text = "sudo"
@@ -90,6 +108,12 @@ answers = [
 id = "apt-search-docker"
 command = "apt search docker"
 summary = "搜索名称或描述中包含 docker 的软件包"
+simulated_output = """
+Sorting... Done
+Full Text Search... Done
+docker.io/noble 26.1.3-0ubuntu1 amd64
+  Linux container runtime
+"""
 
 [[commands.tokens]]
 text = "apt"
@@ -114,6 +138,10 @@ answers = [
 id = "dpkg-list-installed"
 command = "dpkg -l | grep nginx"
 summary = "查看 nginx 相关的已安装 deb 包"
+simulated_output = """
+ii  nginx        1.24.0-2ubuntu7  amd64  small, powerful, scalable web/proxy server
+ii  nginx-common 1.24.0-2ubuntu7  all    small, powerful, scalable web/proxy server - common files
+"""
 
 [[commands.tokens]]
 text = "dpkg"
@@ -145,6 +173,12 @@ answers = [
 id = "tar-list-contents"
 command = "tar tf backup.tar.gz"
 summary = "列出 backup.tar.gz 归档中的文件清单"
+simulated_output = """
+backup/
+backup/config.yml
+backup/data.db
+backup/logs/app.log
+"""
 
 [[commands.tokens]]
 text = "tar"
@@ -169,6 +203,7 @@ answers = [
 id = "tar-extract-gzip-archive"
 command = "tar xzf backup.tar.gz -C /tmp"
 summary = "把 backup.tar.gz 解压到 /tmp 目录"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "tar"
@@ -201,6 +236,7 @@ answers = [
 id = "gzip-file"
 command = "gzip access.log"
 summary = "压缩 access.log 为 access.log.gz（原文件被替换）"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "gzip"
@@ -220,6 +256,7 @@ answers = [
 id = "gunzip-file"
 command = "gunzip access.log.gz"
 summary = "解压 access.log.gz 还原为 access.log"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "gunzip"
@@ -240,6 +277,11 @@ answers = [
 id = "zip-recursive"
 command = "zip -r project.zip project"
 summary = "递归压缩 project 目录为 project.zip"
+simulated_output = """
+  adding: project/ (stored 0%)
+  adding: project/README.md (deflated 42%)
+  adding: project/src/main.rs (deflated 61%)
+"""
 
 [[commands.tokens]]
 text = "zip"
@@ -267,6 +309,12 @@ answers = [
 id = "unzip-to-dir"
 command = "unzip project.zip -d /tmp"
 summary = "把 project.zip 解压到 /tmp 目录"
+simulated_output = """
+Archive:  project.zip
+   creating: /tmp/project/
+  inflating: /tmp/project/README.md
+  inflating: /tmp/project/src/main.rs
+"""
 
 [[commands.tokens]]
 text = "unzip"
@@ -294,6 +342,7 @@ answers = [
 id = "xz-decompress"
 command = "xz -d kernel.tar.xz"
 summary = "解压 xz 压缩的归档文件"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "xz"
@@ -318,6 +367,7 @@ answers = [
 id = "zstd-compress"
 command = "zstd -T0 database.sql"
 summary = "使用所有 CPU 核心以 zstd 压缩 database.sql"
+simulated_output = "database.sql : 23.41% (512 MiB => 120 MiB, database.sql.zst)"
 
 [[commands.tokens]]
 text = "zstd"
