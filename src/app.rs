@@ -1,7 +1,4 @@
-use std::{
-    env,
-    path::PathBuf,
-};
+use std::{env, path::PathBuf};
 
 use anyhow::Result;
 use chrono::Utc;
@@ -161,6 +158,7 @@ pub struct App {
     pub typing_commands: Vec<Command>,
     pub typing_index: usize,
     pub show_hint: bool,
+    pub typing_showing_output: bool,
 
     // Dictation mode state
     pub dictation_commands: Vec<Command>,
@@ -223,6 +221,7 @@ impl App {
             typing_commands: Vec::new(),
             typing_index: 0,
             show_hint: true,
+            typing_showing_output: false,
             dictation_commands: Vec::new(),
             dictation_index: 0,
             dictation_input: String::new(),
@@ -361,6 +360,7 @@ impl App {
         }
         self.typing_index = 0;
         self.typing_round_records.clear();
+        self.typing_showing_output = false;
         let cmd = &self.typing_commands[0];
         self.typing_engine.reset(&cmd.command);
         self.show_hint = self.user_config.show_token_hints;
@@ -370,27 +370,35 @@ impl App {
     fn handle_typing_key(&mut self, key: KeyEvent) {
         match key.code {
             KeyCode::Esc => {
+                self.typing_showing_output = false;
                 self.state = AppState::Home;
             }
             KeyCode::Enter if self.typing_is_finished() => {
+                self.typing_showing_output = false;
                 self.state = AppState::Home;
             }
+            KeyCode::Enter => self.typing_submit_or_advance(),
             KeyCode::Char('h') | KeyCode::Char('H')
                 if key.modifiers == KeyModifiers::NONE || key.modifiers == KeyModifiers::SHIFT =>
             {
                 // If engine hasn't started or is complete, toggle hint
                 if self.typing_engine.start_time.is_none() || self.typing_engine.is_complete() {
                     self.show_hint = !self.show_hint;
-                } else {
+                } else if !self.typing_showing_output {
                     // Otherwise it's a regular char input
                     self.typing_char_input(key.code);
                 }
             }
-            KeyCode::Tab => self.typing_skip(),
+            KeyCode::Tab if !self.typing_is_finished() => self.typing_skip(),
             KeyCode::Char('r') if key.modifiers.contains(KeyModifiers::CONTROL) => {
                 self.typing_retry();
             }
-            KeyCode::Char(c) => {
+            KeyCode::Backspace
+                if !self.typing_showing_output && !self.typing_engine.is_complete() =>
+            {
+                self.typing_engine.backspace();
+            }
+            KeyCode::Char(c) if !self.typing_showing_output => {
                 self.typing_char_input(KeyCode::Char(c));
             }
             _ => {}
@@ -399,24 +407,50 @@ impl App {
 
     fn typing_char_input(&mut self, key: KeyCode) {
         if let KeyCode::Char(c) = key {
-            let result = self.typing_engine.input(c);
-            if self.typing_engine.is_complete() {
-                self.typing_complete_line();
-            }
-            let _ = result;
+            let _ = self.typing_engine.input(c);
         }
     }
 
-    fn typing_complete_line(&mut self) {
-        let cmd = &self.typing_commands[self.typing_index];
+    fn typing_submit_or_advance(&mut self) {
+        if !self.typing_engine.is_complete() || self.typing_is_finished() {
+            return;
+        }
+
+        if self.typing_showing_output {
+            self.typing_finalize_current_command();
+            return;
+        }
+
+        let has_output = self
+            .typing_commands
+            .get(self.typing_index)
+            .and_then(|cmd| cmd.simulated_output.as_deref())
+            .map(|text| !text.trim().is_empty())
+            .unwrap_or(false);
+
+        if has_output {
+            self.typing_showing_output = true;
+        } else {
+            self.typing_finalize_current_command();
+        }
+    }
+
+    fn typing_finalize_current_command(&mut self) {
+        let Some(cmd) = self.typing_commands.get(self.typing_index) else {
+            return;
+        };
+
         let prompt = self.format_prompt();
         let display = cmd.display_text().to_string();
+        let command_id = cmd.id.clone();
+        let difficulty = cmd.difficulty;
+
         self.terminal_history.push_completed(&prompt, &display);
 
         // Record session
         let record = self
             .typing_engine
-            .finish(&cmd.id, cmd.difficulty, RecordMode::Typing);
+            .finish(&command_id, difficulty, RecordMode::Typing);
         scorer::update_stats(&mut self.user_stats, &record);
         let _ = self.progress_store.save_stats(&self.user_stats);
         let _ = self.progress_store.append_record(&record);
@@ -424,6 +458,7 @@ impl App {
         self.typing_round_records.push(record);
 
         // Advance to next command
+        self.typing_showing_output = false;
         self.typing_index += 1;
         if self.typing_index < self.typing_commands.len() {
             let next_cmd = &self.typing_commands[self.typing_index];
@@ -437,6 +472,7 @@ impl App {
         let display = cmd.display_text().to_string();
         self.terminal_history.push_completed(&prompt, &display);
 
+        self.typing_showing_output = false;
         self.typing_index += 1;
         if self.typing_index < self.typing_commands.len() {
             let next_cmd = &self.typing_commands[self.typing_index];
@@ -447,6 +483,7 @@ impl App {
     fn typing_retry(&mut self) {
         if !self.typing_commands.is_empty() && self.typing_index < self.typing_commands.len() {
             let cmd = &self.typing_commands[self.typing_index];
+            self.typing_showing_output = false;
             self.typing_engine.reset(&cmd.command);
         }
     }
@@ -664,9 +701,11 @@ impl App {
                 };
 
                 if let Some((command_id, difficulty, example_len)) = lesson_meta {
-                    let record =
-                        self.typing_engine
-                            .finish(&command_id, difficulty, RecordMode::LessonPractice);
+                    let record = self.typing_engine.finish(
+                        &command_id,
+                        difficulty,
+                        RecordMode::LessonPractice,
+                    );
                     scorer::update_stats(&mut self.user_stats, &record);
                     let _ = self.progress_store.save_stats(&self.user_stats);
                     let _ = self.progress_store.append_record(&record);
@@ -675,9 +714,11 @@ impl App {
                     // Move to next example or back to overview
                     let next_example = example_index + 1;
                     if next_example < example_len {
-                        if let Some(cmd) =
-                            self.get_lesson_example_command(category_index, command_index, next_example)
-                        {
+                        if let Some(cmd) = self.get_lesson_example_command(
+                            category_index,
+                            command_index,
+                            next_example,
+                        ) {
                             self.typing_engine.reset(&cmd);
                             self.state = AppState::CommandLessonPractice {
                                 category_index,
@@ -895,7 +936,11 @@ impl App {
                 wpm: 0.0,
                 cpm: 0.0,
                 accuracy,
-                error_count: (self.symbol_practice.total_count.saturating_sub(self.symbol_practice.correct_count)) as u32,
+                error_count: (self
+                    .symbol_practice
+                    .total_count
+                    .saturating_sub(self.symbol_practice.correct_count))
+                    as u32,
                 difficulty: topic.meta.difficulty,
             };
             scorer::update_stats(&mut self.user_stats, &record);
@@ -906,7 +951,12 @@ impl App {
         }
     }
 
-    fn handle_symbol_practice_key(&mut self, key: KeyEvent, topic_index: usize, _symbol_index: usize) {
+    fn handle_symbol_practice_key(
+        &mut self,
+        key: KeyEvent,
+        topic_index: usize,
+        _symbol_index: usize,
+    ) {
         if self.symbol_practice.completed {
             match key.code {
                 KeyCode::Esc | KeyCode::Enter => self.state = AppState::SymbolTopics,
@@ -958,7 +1008,8 @@ impl App {
                         self.symbol_practice.show_answer = false;
                     }
                     MatchResult::NoMatch { .. } => {
-                        self.symbol_practice.error_count = self.symbol_practice.error_count.saturating_add(1);
+                        self.symbol_practice.error_count =
+                            self.symbol_practice.error_count.saturating_add(1);
                         self.symbol_practice.submitted = true;
                         self.symbol_practice.last_correct = Some(false);
                         self.symbol_practice.show_answer = true;
@@ -1271,7 +1322,10 @@ impl App {
                         for (cmd_idx, command) in section.commands.iter().enumerate() {
                             base.push(ReviewExercise {
                                 kind: ReviewExerciseKind::Typing,
-                                command_id: format!("system:{}:{}:{}", topic.meta.id, sec_idx, cmd_idx),
+                                command_id: format!(
+                                    "system:{}:{}:{}",
+                                    topic.meta.id, sec_idx, cmd_idx
+                                ),
                                 command: command.command.clone(),
                                 description: command.summary.clone(),
                             });
@@ -1330,8 +1384,10 @@ impl App {
         let source_key = Self::review_source_key(source);
 
         if self.review_practice.typing_count > 0 {
-            let acc = self.review_practice.typing_accuracy_sum / self.review_practice.typing_count as f64;
-            let wpm = self.review_practice.typing_wpm_sum / self.review_practice.typing_count as f64;
+            let acc =
+                self.review_practice.typing_accuracy_sum / self.review_practice.typing_count as f64;
+            let wpm =
+                self.review_practice.typing_wpm_sum / self.review_practice.typing_count as f64;
             let record = SessionRecord {
                 id: format!("{}-rt", now_ms),
                 command_id: format!("review:{}:typing", source_key),
@@ -1342,7 +1398,8 @@ impl App {
                 wpm,
                 cpm: wpm * 5.0,
                 accuracy: acc,
-                error_count: ((1.0 - acc).max(0.0) * self.review_practice.typing_count as f64).round() as u32,
+                error_count: ((1.0 - acc).max(0.0) * self.review_practice.typing_count as f64)
+                    .round() as u32,
                 difficulty: Difficulty::Beginner,
             };
             scorer::update_stats(&mut self.user_stats, &record);
@@ -1351,7 +1408,8 @@ impl App {
         }
 
         if self.review_practice.dictation_count > 0 {
-            let acc = self.review_practice.dictation_accuracy_sum / self.review_practice.dictation_count as f64;
+            let acc = self.review_practice.dictation_accuracy_sum
+                / self.review_practice.dictation_count as f64;
             let record = SessionRecord {
                 id: format!("{}-rd", now_ms),
                 command_id: format!("review:{}:dictation", source_key),
@@ -1362,7 +1420,8 @@ impl App {
                 wpm: 0.0,
                 cpm: 0.0,
                 accuracy: acc,
-                error_count: ((1.0 - acc).max(0.0) * self.review_practice.dictation_count as f64).round() as u32,
+                error_count: ((1.0 - acc).max(0.0) * self.review_practice.dictation_count as f64)
+                    .round() as u32,
                 difficulty: Difficulty::Beginner,
             };
             scorer::update_stats(&mut self.user_stats, &record);
@@ -1386,7 +1445,10 @@ impl App {
             return;
         }
 
-        if let Some(exercise) = self.review_practice.exercises.get(self.review_practice.current_index)
+        if let Some(exercise) = self
+            .review_practice
+            .exercises
+            .get(self.review_practice.current_index)
             && matches!(exercise.kind, ReviewExerciseKind::Typing)
         {
             self.typing_engine.reset(&exercise.command);

@@ -91,6 +91,18 @@ impl TypingEngine {
         }
     }
 
+    pub fn backspace(&mut self) {
+        if self.cursor == 0 {
+            return;
+        }
+
+        self.cursor -= 1;
+        self.current_attempts = 0;
+        self.error_flash = None;
+        self.completed_at = None;
+        self.keystrokes.pop();
+    }
+
     pub fn is_complete(&self) -> bool {
         self.cursor >= self.target.len()
     }
@@ -143,7 +155,12 @@ impl TypingEngine {
     }
 
     /// Finalize the session into a `SessionRecord`.
-    pub fn finish(&self, command_id: &str, difficulty: Difficulty, mode: RecordMode) -> SessionRecord {
+    pub fn finish(
+        &self,
+        command_id: &str,
+        difficulty: Difficulty,
+        mode: RecordMode,
+    ) -> SessionRecord {
         let now_ms = Utc::now().timestamp_millis();
         let elapsed_secs = self.elapsed_secs();
         let correct_chars = self.cursor as f64;
