@@ -1253,7 +1253,7 @@ impl App {
                             } else {
                                 let result = matcher::check(
                                     &self.review_practice.dictation_input,
-                                    &vec![exercise.command.clone()],
+                                    std::slice::from_ref(&exercise.command),
                                 );
                                 let acc = match result {
                                     MatchResult::Exact(_) | MatchResult::Normalized(_) => 1.0,
@@ -1368,10 +1368,10 @@ impl App {
             ..ReviewPracticeState::default()
         };
 
-        if let Some(first) = self.review_practice.exercises.first() {
-            if matches!(first.kind, ReviewExerciseKind::Typing) {
-                self.typing_engine.reset(&first.command);
-            }
+        if let Some(first) = self.review_practice.exercises.first()
+            && matches!(first.kind, ReviewExerciseKind::Typing)
+        {
+            self.typing_engine.reset(&first.command);
         }
     }
 

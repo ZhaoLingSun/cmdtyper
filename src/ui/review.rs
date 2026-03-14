@@ -30,17 +30,22 @@ pub fn render(frame: &mut Frame, app: &App, source: &ReviewSource, phase: &Revie
                 Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
             )))
             .alignment(Alignment::Center)
-            .block(Block::default().borders(Borders::ALL).border_style(Style::default().fg(DIM)));
+            .block(
+                Block::default()
+                    .borders(Borders::ALL)
+                    .border_style(Style::default().fg(DIM)),
+            );
             frame.render_widget(title, chunks[0]);
 
-            let mut lines: Vec<Line> = Vec::new();
-            lines.push(Line::from("按 Enter 开始复习练习。"));
-            lines.push(Line::from(""));
-            lines.push(Line::from(Span::styled(
-                "题型比例：打字题 70% + 默写题 30%",
-                Style::default().fg(DIM),
-            )));
-            lines.push(Line::from(""));
+            let mut lines: Vec<Line> = vec![
+                Line::from("按 Enter 开始复习练习。"),
+                Line::from(""),
+                Line::from(Span::styled(
+                    "题型比例：打字题 70% + 默写题 30%",
+                    Style::default().fg(DIM),
+                )),
+                Line::from(""),
+            ];
 
             if let ReviewSource::CommandCategory(cat) = source {
                 let count = app.commands.iter().filter(|c| c.category == *cat).count();
@@ -62,7 +67,11 @@ pub fn render(frame: &mut Frame, app: &App, source: &ReviewSource, phase: &Revie
                 Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
             )))
             .alignment(Alignment::Center)
-            .block(Block::default().borders(Borders::ALL).border_style(Style::default().fg(DIM)));
+            .block(
+                Block::default()
+                    .borders(Borders::ALL)
+                    .border_style(Style::default().fg(DIM)),
+            );
             frame.render_widget(title, chunks[0]);
 
             let mut lines: Vec<Line> = Vec::new();
@@ -93,8 +102,14 @@ pub fn render(frame: &mut Frame, app: &App, source: &ReviewSource, phase: &Revie
                 lines.push(Line::from(""));
                 lines.push(Line::from(format!("总题数: {}", rp.total_count)));
                 lines.push(Line::from(format!("总体准确率: {:.0}%", accuracy)));
-                lines.push(Line::from(format!("打字题: {}（准确率 {:.0}% / WPM {:.0}）", rp.typing_count, typing_acc, typing_wpm)));
-                lines.push(Line::from(format!("默写题: {}（准确率 {:.0}%）", rp.dictation_count, dict_acc)));
+                lines.push(Line::from(format!(
+                    "打字题: {}（准确率 {:.0}% / WPM {:.0}）",
+                    rp.typing_count, typing_acc, typing_wpm
+                )));
+                lines.push(Line::from(format!(
+                    "默写题: {}（准确率 {:.0}%）",
+                    rp.dictation_count, dict_acc
+                )));
             } else if let Some(ex) = app.current_review_exercise() {
                 lines.push(Line::from(Span::styled(
                     format!("题目 {}/{}", rp.current_index + 1, rp.total_count),
@@ -104,12 +119,18 @@ pub fn render(frame: &mut Frame, app: &App, source: &ReviewSource, phase: &Revie
 
                 match ex.kind {
                     ReviewExerciseKind::Typing => {
-                        lines.push(Line::from(Span::styled("题型: 打字", Style::default().fg(ACCENT))));
+                        lines.push(Line::from(Span::styled(
+                            "题型: 打字",
+                            Style::default().fg(ACCENT),
+                        )));
                         lines.push(Line::from(""));
                         lines.push(render_typing_line("$ ", &app.typing_engine));
                         lines.push(Line::from(""));
                         lines.push(Line::from(Span::styled(
-                            format!("当前准确率: {:.0}%", app.typing_engine.current_accuracy() * 100.0),
+                            format!(
+                                "当前准确率: {:.0}%",
+                                app.typing_engine.current_accuracy() * 100.0
+                            ),
                             Style::default().fg(DIM),
                         )));
                         lines.push(Line::from(Span::styled(
@@ -118,12 +139,21 @@ pub fn render(frame: &mut Frame, app: &App, source: &ReviewSource, phase: &Revie
                         )));
                     }
                     ReviewExerciseKind::Dictation => {
-                        lines.push(Line::from(Span::styled("题型: 默写", Style::default().fg(ACCENT))));
+                        lines.push(Line::from(Span::styled(
+                            "题型: 默写",
+                            Style::default().fg(ACCENT),
+                        )));
                         lines.push(Line::from(""));
-                        lines.push(Line::from(Span::styled("提示（中文描述）:", Style::default().fg(ACCENT))));
+                        lines.push(Line::from(Span::styled(
+                            "提示（中文描述）:",
+                            Style::default().fg(ACCENT),
+                        )));
                         lines.push(Line::from(format!("  {}", ex.description)));
                         lines.push(Line::from(""));
-                        lines.push(Line::from(Span::styled("你的答案:", Style::default().fg(ACCENT))));
+                        lines.push(Line::from(Span::styled(
+                            "你的答案:",
+                            Style::default().fg(ACCENT),
+                        )));
                         let input_display = if rp.dictation_submitted {
                             rp.dictation_input.clone()
                         } else {
@@ -151,8 +181,12 @@ pub fn render(frame: &mut Frame, app: &App, source: &ReviewSource, phase: &Revie
                                     for seg in diff {
                                         let style = match seg.kind {
                                             DiffKind::Same => Style::default().fg(Color::White),
-                                            DiffKind::Added => Style::default().fg(SUCCESS).add_modifier(Modifier::UNDERLINED),
-                                            DiffKind::Removed => Style::default().fg(ERROR).add_modifier(Modifier::CROSSED_OUT),
+                                            DiffKind::Added => Style::default()
+                                                .fg(SUCCESS)
+                                                .add_modifier(Modifier::UNDERLINED),
+                                            DiffKind::Removed => Style::default()
+                                                .fg(ERROR)
+                                                .add_modifier(Modifier::CROSSED_OUT),
                                         };
                                         spans.push(Span::styled(seg.text.clone(), style));
                                     }
@@ -167,7 +201,10 @@ pub fn render(frame: &mut Frame, app: &App, source: &ReviewSource, phase: &Revie
                     }
                 }
             } else {
-                lines.push(Line::from(Span::styled("暂无复习题", Style::default().fg(DIM))));
+                lines.push(Line::from(Span::styled(
+                    "暂无复习题",
+                    Style::default().fg(DIM),
+                )));
             }
 
             let content = Paragraph::new(lines).wrap(Wrap { trim: false });
@@ -205,7 +242,10 @@ pub fn render(frame: &mut Frame, app: &App, source: &ReviewSource, phase: &Revie
 
 fn render_typing_line<'a>(prompt: &str, engine: &crate::core::engine::TypingEngine) -> Line<'a> {
     let mut spans = Vec::new();
-    spans.push(Span::styled(prompt.to_string(), Style::default().fg(PROMPT_COLOR)));
+    spans.push(Span::styled(
+        prompt.to_string(),
+        Style::default().fg(PROMPT_COLOR),
+    ));
 
     let is_flashing = engine.is_error_flashing();
     for (idx, ch) in engine.target.iter().enumerate() {

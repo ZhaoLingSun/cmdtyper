@@ -84,7 +84,12 @@ pub fn render(
             };
 
             let title = Paragraph::new(Line::from(Span::styled(
-                format!(" {} 示例 {}/{} ", symbol.name, idx + 1, symbol.examples.len()),
+                format!(
+                    " {} 示例 {}/{} ",
+                    symbol.name,
+                    idx + 1,
+                    symbol.examples.len()
+                ),
                 Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
             )))
             .alignment(Alignment::Center)
@@ -174,7 +179,10 @@ pub fn render(
                 )));
                 lines.push(Line::from(format!("  {}", ex.prompt)));
                 lines.push(Line::from(""));
-                lines.push(Line::from(Span::styled("你的答案:", Style::default().fg(ACCENT))));
+                lines.push(Line::from(Span::styled(
+                    "你的答案:",
+                    Style::default().fg(ACCENT),
+                )));
 
                 let input_display = if sp.submitted {
                     sp.current_input.clone()
@@ -204,7 +212,10 @@ pub fn render(
                     }
                 }
             } else {
-                lines.push(Line::from(Span::styled("暂无练习题", Style::default().fg(DIM))));
+                lines.push(Line::from(Span::styled(
+                    "暂无练习题",
+                    Style::default().fg(DIM),
+                )));
             }
 
             let content = Paragraph::new(lines).wrap(Wrap { trim: false });

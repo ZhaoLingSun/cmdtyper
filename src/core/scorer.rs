@@ -4,8 +4,8 @@ use std::collections::{BTreeMap, HashMap};
 use chrono::{NaiveDate, TimeZone, Utc};
 
 use crate::data::models::{
-    Category, CharSpeedPoint, CharStat, Command, CommandProgress, DailyStat, Keystroke,
-    RecordMode, SessionRecord, UserStats,
+    Category, CharSpeedPoint, CharStat, Command, CommandProgress, DailyStat, Keystroke, RecordMode,
+    SessionRecord, UserStats,
 };
 
 /// Update global user statistics with a completed session record.
@@ -40,7 +40,14 @@ pub fn update_stats(stats: &mut UserStats, record: &SessionRecord) {
     );
 
     let date = format_session_date(record.finished_at);
-    update_daily_stat(stats, &date, duration_ms, record.wpm, record.accuracy, is_typing_wpm_mode(record.mode));
+    update_daily_stat(
+        stats,
+        &date,
+        duration_ms,
+        record.wpm,
+        record.accuracy,
+        is_typing_wpm_mode(record.mode),
+    );
     recalculate_streaks(stats);
 
     // Group keystrokes by expected character
