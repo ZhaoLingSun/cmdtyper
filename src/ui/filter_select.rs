@@ -127,11 +127,12 @@ fn render_option_lines<'a>(
         }
 
         let end = (cursor + *group_size).min(options.len());
-        for idx in cursor..end {
-            if idx > cursor {
+        for (offset, option) in options[cursor..end].iter().enumerate() {
+            if offset > 0 {
                 spans.push(Span::raw(" "));
             }
 
+            let idx = cursor + offset;
             let is_selected = idx == selected;
             let style = if is_selected {
                 Style::default()
@@ -143,9 +144,9 @@ fn render_option_lines<'a>(
             };
 
             let text = if is_selected {
-                format!("[{}]", options[idx])
+                format!("[{}]", option)
             } else {
-                options[idx].to_string()
+                (*option).to_string()
             };
             spans.push(Span::styled(text, style));
         }

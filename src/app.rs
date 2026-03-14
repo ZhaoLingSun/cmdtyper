@@ -177,6 +177,7 @@ pub struct App {
     pub typing_index: usize,
     pub show_hint: bool,
     pub typing_showing_output: bool,
+    pub terminal_auto_advance: bool,
     pub typing_mode: TypingDisplayMode,
     pub filter_difficulty: Option<Difficulty>,
     pub filter_category: Option<Category>,
@@ -248,6 +249,7 @@ impl App {
             typing_index: 0,
             show_hint: true,
             typing_showing_output: false,
+            terminal_auto_advance: false,
             typing_mode,
             filter_difficulty: None,
             filter_category: None,
@@ -946,8 +948,8 @@ impl App {
     ) -> Vec<Command> {
         self.commands
             .iter()
-            .filter(|cmd| difficulty.map_or(true, |d| cmd.difficulty == d))
-            .filter(|cmd| category.map_or(true, |c| cmd.category == c))
+            .filter(|cmd| difficulty.is_none_or(|d| cmd.difficulty == d))
+            .filter(|cmd| category.is_none_or(|c| cmd.category == c))
             .cloned()
             .collect()
     }
@@ -955,8 +957,8 @@ impl App {
     pub fn current_filter_match_count(&self) -> usize {
         self.commands
             .iter()
-            .filter(|cmd| self.filter_difficulty.map_or(true, |d| cmd.difficulty == d))
-            .filter(|cmd| self.filter_category.map_or(true, |c| cmd.category == c))
+            .filter(|cmd| self.filter_difficulty.is_none_or(|d| cmd.difficulty == d))
+            .filter(|cmd| self.filter_category.is_none_or(|c| cmd.category == c))
             .count()
     }
 

@@ -1,6 +1,6 @@
 [package]
 name = "cmdtyper"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2024"
 description = "Linux 命令行交互式教学系统 — 终端模拟打字 + 体系化学习 + 模拟输出"
 license = "MIT"

@@ -426,22 +426,36 @@ fn map_display_lines(display: &str, target_len: usize) -> Vec<Vec<(char, Option<
     let mut lines: Vec<Vec<(char, Option<usize>)>> = Vec::new();
     let mut current_line: Vec<(char, Option<usize>)> = Vec::new();
     let mut target_idx = 0usize;
+    let mut line_idx = 0usize;
+    let mut at_line_start = true;
 
-    for ch in display.chars() {
+    let mut chars = display.chars().peekable();
+    while let Some(ch) = chars.next() {
         if ch == '\n' {
             lines.push(current_line);
             current_line = Vec::new();
+            line_idx += 1;
+            at_line_start = true;
             continue;
         }
 
-        let mapped = if target_idx < target_len {
+        // display may contain presentation-only chars for wrapped shell commands.
+        // These should be rendered, but must not consume target indices.
+        let is_presentation_only = (line_idx > 0 && at_line_start && ch == ' ')
+            || (ch == '\\' && chars.peek() == Some(&'\n'));
+
+        let mapped = if is_presentation_only {
+            None
+        } else if target_idx < target_len {
             let idx = target_idx;
             target_idx += 1;
             Some(idx)
         } else {
             None
         };
+
         current_line.push((ch, mapped));
+        at_line_start = false;
     }
 
     lines.push(current_line);
@@ -488,7 +502,7 @@ fn render_bottom_bar(
 
     if app.typing_showing_output {
         let text = if mode == TypingDisplayMode::Terminal {
-            "自动继续..."
+            "任意键继续..."
         } else {
             "Enter → 下一条"
         };

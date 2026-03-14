@@ -1,6 +1,3 @@
-use std::thread;
-use std::time::Duration;
-
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 
 use crate::app::{App, AppState};
@@ -36,6 +33,7 @@ pub fn enter_typing_filtered(
     app.typing_index = 0;
     app.typing_round_records.clear();
     app.typing_showing_output = false;
+    app.terminal_auto_advance = false;
     app.typing_mode = app.user_config.typing_mode.clone();
     let cmd = &app.typing_commands[0];
     app.typing_engine.reset(&cmd.command);
@@ -44,13 +42,21 @@ pub fn enter_typing_filtered(
 }
 
 pub fn handle_typing_key(app: &mut App, key: KeyEvent) {
+    if app.typing_showing_output && app.terminal_auto_advance {
+        app.terminal_auto_advance = false;
+        typing_finalize_current_command(app);
+        return;
+    }
+
     match key.code {
         KeyCode::Esc => {
             app.typing_showing_output = false;
+            app.terminal_auto_advance = false;
             app.state = AppState::Home;
         }
         KeyCode::Enter if app.typing_is_finished() => {
             app.typing_showing_output = false;
+            app.terminal_auto_advance = false;
             app.state = AppState::Home;
         }
         KeyCode::Enter => typing_submit_or_advance(app),
@@ -122,12 +128,14 @@ fn typing_submit_or_advance(app: &mut App) {
     if mode == TypingDisplayMode::Terminal {
         if has_output {
             app.typing_showing_output = true;
-            thread::sleep(Duration::from_millis(450));
+            app.terminal_auto_advance = true;
+        } else {
+            typing_finalize_current_command(app);
         }
-        typing_finalize_current_command(app);
         return;
     }
 
+    app.terminal_auto_advance = false;
     if has_output {
         app.typing_showing_output = true;
     } else {
@@ -159,6 +167,7 @@ fn typing_finalize_current_command(app: &mut App) {
 
     // Advance to next command
     app.typing_showing_output = false;
+    app.terminal_auto_advance = false;
     app.typing_index += 1;
     if app.typing_index < app.typing_commands.len() {
         let next_cmd = &app.typing_commands[app.typing_index];
@@ -173,6 +182,7 @@ fn typing_skip(app: &mut App) {
     app.terminal_history.push_completed(&prompt, &display);
 
     app.typing_showing_output = false;
+    app.terminal_auto_advance = false;
     app.typing_index += 1;
     if app.typing_index < app.typing_commands.len() {
         let next_cmd = &app.typing_commands[app.typing_index];
@@ -184,6 +194,7 @@ fn typing_retry(app: &mut App) {
     if !app.typing_commands.is_empty() && app.typing_index < app.typing_commands.len() {
         let cmd = &app.typing_commands[app.typing_index];
         app.typing_showing_output = false;
+        app.terminal_auto_advance = false;
         app.typing_engine.reset(&cmd.command);
     }
 }
