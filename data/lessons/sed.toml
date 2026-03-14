@@ -161,6 +161,77 @@ display = "sed -i.bak \\\n  's/localhost/db.production.internal/g' \\\n  config.
 simulated_output = ""
 
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。 另外，原地编辑配置文件存在风险，建议先 `cp file file.bak` 备份。"
+deep_explanation = """### sed 是什么：流式编辑器，不是交互编辑器
+`sed` 的全名是 stream editor（流编辑器）。它会按“行”读取输入，应用编辑脚本，再输出结果。重点是：
+- 默认不会改原文件，只把处理后的文本打印到标准输出；
+- 只有加 `-i` 才会原地写回文件。
+
+所以最常见学习路径是：先不带 `-i` 预览，确认正确后再原地修改。
+
+### `s/pattern/replacement/g` 语法拆解
+最常用的 sed 命令就是替换：
+
+    s/old/new/g
+
+含义是：
+- `s`：substitute，执行替换。
+- `pattern`：要匹配的模式（可用正则）。
+- `replacement`：替换成什么文本。
+- `g`：global，每行内“全部匹配都替换”；不加 `g` 时只替换每行第一个匹配。
+
+举个直观例子：
+
+    echo "old old old" | sed 's/old/new/'
+
+输出是：`new old old`（只替了第一个）
+
+    echo "old old old" | sed 's/old/new/g'
+
+输出是：`new new new`（这一行全替换）
+
+### `-i` 原地编辑到底做了什么
+你在示例里用的是：
+
+    sed -i.bak 's/localhost/db.production.internal/g' config.yml
+
+它会：
+- 读取 `config.yml`；
+- 将每行中的 `localhost` 替换为 `db.production.internal`；
+- 把结果写回原文件；
+- 同时保留备份 `config.yml.bak`。
+
+这比裸 `-i` 更稳妥，因为你随时能回滚。
+
+### 为什么总强调“先备份再改”
+`sed -i` 是高效率工具，也是高风险工具。常见翻车场景：
+- 模式写太宽，误改大量无关内容；
+- 路径写错，改到了不该改的文件；
+- 正则转义错误，替换结果异常。
+
+推荐流程：
+- 第一步（预览）
+
+    sed 's/old/new/g' file
+
+- 第二步（带备份原地修改）
+
+    sed -i.bak 's/old/new/g' file
+
+- 第三步（校验）
+
+    grep -n 'new' file
+
+确认无误后再删除 `.bak`。
+
+### 实战细节
+- 分隔符不一定非要 `/`。如果字符串里本身有很多 `/`，可改成 `#`：
+
+    sed 's#/var/www#/srv/www#g' file
+
+这样可读性更高、转义更少。
+- 配置文件批量替换后，记得执行语法检查或服务 reload 前检查。
+
+> 提示：真正专业的 sed 使用习惯，不是“会写命令”，而是“先可视化预览，再可回滚地修改”。这能把文本批处理的效率和安全性同时拉起来。"""
 [[examples.token_details]]
 token = "-i.bak"
 explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"

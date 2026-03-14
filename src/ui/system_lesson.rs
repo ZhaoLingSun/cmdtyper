@@ -229,10 +229,12 @@ pub fn render_commands(
     frame.render_widget(content, chunks[1]);
     frame.render_widget(sim, sim_area);
 
-    let hints = hint_line(&[
-        ("Enter/\u{2192}", "\u{4e0b}\u{4e00}\u{4e2a}"),
-        ("Esc", "\u{8fd4}\u{56de}"),
-    ]);
+    let mut hint_items = vec![("Enter/\u{2192}", "\u{4e0b}\u{4e00}\u{4e2a}")];
+    if cmd.deep_explanation.is_some() {
+        hint_items.push(("D", "\u{67e5}\u{770b}\u{8be6}\u{89e3}"));
+    }
+    hint_items.push(("Esc", "\u{8fd4}\u{56de}"));
+    let hints = hint_line(&hint_items);
     frame.render_widget(
         Paragraph::new(hints).alignment(Alignment::Center),
         chunks[2],

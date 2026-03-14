@@ -145,6 +145,41 @@ cp: overwrite '/etc/app/db.conf'? y
 'log.conf' -> '/etc/app/log.conf'"""
 
 output_explanation = "输出反映了复制操作的结果。带 `-v` 时会显示源路径与目标路径；无 `-v` 时通常静默成功，建议用 `ls` 或 `diff` 验证副本是否完整。"
+deep_explanation = """### 真实场景：新应用上线前批量部署配置
+你刚把一个新服务部署到测试机，应用目录已经就绪，但运行依赖的配置文件还在当前目录里：`app.conf`、`db.conf`、`log.conf`。这时你不想一个个复制，也不想在覆盖旧配置时“悄悄出事”，于是会用这一条：
+
+    cp -iv *.conf /etc/app/
+
+它的设计目标很明确：一次复制全部配置、冲突时人工确认、过程可视化可追踪。
+
+### 拆解命令词元（token）
+- `cp`：复制文件/目录的核心命令。
+- `-i`：interactive，若目标文件已存在会先询问你是否覆盖，降低误操作风险。
+- `-v`：verbose，打印每个复制动作，便于你核对到底复制了哪些文件。
+- `*.conf`：通配符模式，表示“当前目录中所有以 `.conf` 结尾的文件”。这是由 shell 先展开，再交给 cp。
+- `/etc/app/`：目标目录。结尾的 `/` 明确告诉你这是目录语义，不是重命名成一个文件。
+
+### 一次典型执行会发生什么
+想象当前目录下有 `app.conf db.conf log.conf`，而 `/etc/app/db.conf` 已经存在：
+
+    'app.conf' -> '/etc/app/app.conf'
+    cp: overwrite '/etc/app/db.conf'? y
+    'db.conf' -> '/etc/app/db.conf'
+    'log.conf' -> '/etc/app/log.conf'
+
+你会看到：
+- `app.conf` 直接复制成功；
+- `db.conf` 因为目标已存在，触发 `-i` 询问；
+- 你输入 `y` 后继续覆盖；
+- `log.conf` 复制完成；
+- `-v` 让每一步都可见，便于排查“到底有没有复制”。
+
+### 常见误区与实践建议
+- 误区 1：以为 `*.conf` 会递归子目录。不会，它只匹配当前目录。
+- 误区 2：省略 `-i` 后还以为会提示。默认 `cp` 直接覆盖，不提醒。
+- 误区 3：把目标写成 `/etc/app`（无斜杠）在某些复杂脚本里可读性差，建议保留 `/` 表意更清晰。
+
+> 提示：`/etc/` 通常需要管理员权限。若出现 `Permission denied`，请在确认命令无误后使用 `sudo cp -iv *.conf /etc/app/`。生产环境建议先 dry-run（例如先 `ls *.conf` 确认匹配范围），再执行复制。"""
 [[examples.token_details]]
 token = "-iv"
 explanation = "命令参数，用于指定要处理的对象或行为细节。"

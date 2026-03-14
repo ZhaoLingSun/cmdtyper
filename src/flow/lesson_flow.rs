@@ -2,7 +2,7 @@ use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 
 use crate::app::{App, AppState};
 use crate::core::scorer;
-use crate::data::models::RecordMode;
+use crate::data::models::{DeepSource, RecordMode};
 
 pub fn handle_command_lesson_overview_key(
     app: &mut App,
@@ -60,6 +60,32 @@ pub fn handle_command_lesson_practice_key(
                 category_index,
                 command_index,
             };
+        }
+        KeyCode::Char('d') | KeyCode::Char('D') => {
+            let has_deep_explanation = {
+                let cats = app.get_lesson_categories();
+                if category_index < cats.len() {
+                    let lessons = app.get_lessons_for_category(cats[category_index]);
+                    lessons
+                        .get(command_index)
+                        .and_then(|lesson| lesson.examples.get(example_index))
+                        .and_then(|example| example.deep_explanation.as_ref())
+                        .is_some()
+                } else {
+                    false
+                }
+            };
+
+            if has_deep_explanation {
+                app.state = AppState::DeepExplanation {
+                    source: DeepSource::LessonExample {
+                        category_idx: category_index,
+                        command_idx: command_index,
+                        example_idx: example_index,
+                    },
+                    scroll: 0,
+                };
+            }
         }
         KeyCode::Char('r') if key.modifiers.contains(KeyModifiers::CONTROL) => {
             let cmd_str =

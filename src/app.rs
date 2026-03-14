@@ -47,6 +47,10 @@ pub enum AppState {
         section_index: usize,
         phase: SystemPhase,
     },
+    DeepExplanation {
+        source: DeepSource,
+        scroll: usize,
+    },
     Review {
         source: ReviewSource,
         phase: ReviewPhase,
@@ -332,6 +336,9 @@ impl App {
                 section_index,
                 phase,
             ),
+            AppState::DeepExplanation { source, scroll } => {
+                self.handle_deep_explanation_key(key, source, scroll)
+            }
             AppState::Review { source, phase } => {
                 crate::flow::review_flow::handle_review_key(self, key, source, phase)
             }
@@ -768,6 +775,139 @@ impl App {
             _ => {}
         }
         let _ = self.progress_store.save_config(&self.user_config);
+    }
+
+    fn handle_deep_explanation_key(&mut self, key: KeyEvent, source: DeepSource, scroll: usize) {
+        match key.code {
+            KeyCode::Esc | KeyCode::Char('d') | KeyCode::Char('D') => {
+                self.state = self.deep_source_to_state(&source);
+            }
+            KeyCode::Right | KeyCode::Char('n') | KeyCode::Char('N') => {
+                if let Some(next_source) = self.next_deep_source(&source) {
+                    self.state = AppState::DeepExplanation {
+                        source: next_source,
+                        scroll: 0,
+                    };
+                }
+            }
+            KeyCode::Up | KeyCode::Char('k') => {
+                self.state = AppState::DeepExplanation {
+                    source,
+                    scroll: scroll.saturating_sub(1),
+                };
+            }
+            KeyCode::Down | KeyCode::Char('j') => {
+                self.state = AppState::DeepExplanation {
+                    source,
+                    scroll: scroll.saturating_add(1),
+                };
+            }
+            KeyCode::PageUp => {
+                self.state = AppState::DeepExplanation {
+                    source,
+                    scroll: scroll.saturating_sub(10),
+                };
+            }
+            KeyCode::PageDown => {
+                self.state = AppState::DeepExplanation {
+                    source,
+                    scroll: scroll.saturating_add(10),
+                };
+            }
+            _ => {}
+        }
+    }
+
+    fn deep_source_to_state(&self, source: &DeepSource) -> AppState {
+        match source {
+            DeepSource::LessonExample {
+                category_idx,
+                command_idx,
+                example_idx,
+            } => AppState::CommandLessonPractice {
+                category_index: *category_idx,
+                command_index: *command_idx,
+                example_index: *example_idx,
+            },
+            DeepSource::SymbolExample {
+                topic_idx,
+                symbol_idx,
+                example_idx,
+            } => AppState::SymbolLesson {
+                topic_index: *topic_idx,
+                symbol_index: *symbol_idx,
+                phase: SymbolPhase::Example(*example_idx),
+            },
+            DeepSource::SystemCommand {
+                topic_idx,
+                section_idx,
+                command_idx,
+            } => AppState::SystemLesson {
+                topic_index: *topic_idx,
+                section_index: *section_idx,
+                phase: SystemPhase::Commands(*command_idx),
+            },
+        }
+    }
+
+    fn next_deep_source(&self, source: &DeepSource) -> Option<DeepSource> {
+        match source {
+            DeepSource::LessonExample {
+                category_idx,
+                command_idx,
+                example_idx,
+            } => {
+                let cat = self.get_lesson_categories().get(*category_idx).copied()?;
+                let lessons = self.get_lessons_for_category(cat);
+                let lesson = lessons.get(*command_idx)?;
+                let next = example_idx + 1;
+                if next < lesson.examples.len() {
+                    Some(DeepSource::LessonExample {
+                        category_idx: *category_idx,
+                        command_idx: *command_idx,
+                        example_idx: next,
+                    })
+                } else {
+                    None
+                }
+            }
+            DeepSource::SymbolExample {
+                topic_idx,
+                symbol_idx,
+                example_idx,
+            } => {
+                let topic = self.symbol_topics.get(*topic_idx)?;
+                let symbol = topic.symbols.get(*symbol_idx)?;
+                let next = example_idx + 1;
+                if next < symbol.examples.len() {
+                    Some(DeepSource::SymbolExample {
+                        topic_idx: *topic_idx,
+                        symbol_idx: *symbol_idx,
+                        example_idx: next,
+                    })
+                } else {
+                    None
+                }
+            }
+            DeepSource::SystemCommand {
+                topic_idx,
+                section_idx,
+                command_idx,
+            } => {
+                let topic = self.system_topics.get(*topic_idx)?;
+                let section = topic.sections.get(*section_idx)?;
+                let next = command_idx + 1;
+                if next < section.commands.len() {
+                    Some(DeepSource::SystemCommand {
+                        topic_idx: *topic_idx,
+                        section_idx: *section_idx,
+                        command_idx: next,
+                    })
+                } else {
+                    None
+                }
+            }
+        }
     }
 
     pub fn enter_typing_with_filter(

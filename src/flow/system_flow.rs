@@ -1,6 +1,7 @@
 use crossterm::event::{KeyCode, KeyEvent};
 
 use crate::app::{App, AppState, SystemPhase};
+use crate::data::models::DeepSource;
 
 pub fn handle_system_topics_key(app: &mut App, key: KeyEvent) {
     let count = app.system_topics.len();
@@ -47,6 +48,27 @@ pub fn handle_system_lesson_key(
 
     match key.code {
         KeyCode::Esc => app.state = AppState::SystemTopics,
+        KeyCode::Char('d') | KeyCode::Char('D') => {
+            if let SystemPhase::Commands(cmd_idx) = &phase {
+                let has_deep_explanation = topic
+                    .sections
+                    .get(section_index)
+                    .and_then(|section| section.commands.get(*cmd_idx))
+                    .and_then(|cmd| cmd.deep_explanation.as_ref())
+                    .is_some();
+
+                if has_deep_explanation {
+                    app.state = AppState::DeepExplanation {
+                        source: DeepSource::SystemCommand {
+                            topic_idx: topic_index,
+                            section_idx: section_index,
+                            command_idx: *cmd_idx,
+                        },
+                        scroll: 0,
+                    };
+                }
+            }
+        }
         KeyCode::Enter | KeyCode::Right | KeyCode::Char('l') => match &phase {
             SystemPhase::Overview => {
                 if !topic.sections.is_empty() {

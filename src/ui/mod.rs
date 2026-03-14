@@ -1,5 +1,6 @@
 pub mod command_lesson;
 pub mod command_topics;
+pub mod deep_explanation;
 pub mod dictation;
 pub mod filter_select;
 pub mod home;
@@ -64,6 +65,9 @@ pub fn render(frame: &mut Frame, app: &App) {
                 system_lesson::render_config_file(frame, app, *topic_index, *section_index, *cf_idx)
             }
         },
+        AppState::DeepExplanation { source, scroll } => {
+            deep_explanation::render(frame, app, source, *scroll)
+        }
         AppState::Review { source, phase } => review::render(frame, app, source, phase),
         AppState::Dictation => dictation::render(frame, app),
         AppState::Stats => stats::render(frame, app),

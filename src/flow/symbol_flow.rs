@@ -4,7 +4,7 @@ use crossterm::event::{KeyCode, KeyEvent};
 use crate::app::{App, AppState, SymbolPhase};
 use crate::core::matcher::{self, MatchResult};
 use crate::core::scorer;
-use crate::data::models::{RecordMode, SessionRecord};
+use crate::data::models::{DeepSource, RecordMode, SessionRecord};
 
 pub fn handle_symbol_topics_key(app: &mut App, key: KeyEvent) {
     let count = app.symbol_topics.len();
@@ -60,6 +60,27 @@ pub fn handle_symbol_lesson_key(
 
     match key.code {
         KeyCode::Esc => app.state = AppState::SymbolTopics,
+        KeyCode::Char('d') | KeyCode::Char('D') => {
+            if let SymbolPhase::Example(example_idx) = &phase {
+                let has_deep_explanation = topic
+                    .symbols
+                    .get(symbol_index)
+                    .and_then(|symbol| symbol.examples.get(*example_idx))
+                    .and_then(|example| example.deep_explanation.as_ref())
+                    .is_some();
+
+                if has_deep_explanation {
+                    app.state = AppState::DeepExplanation {
+                        source: DeepSource::SymbolExample {
+                            topic_idx: topic_index,
+                            symbol_idx: symbol_index,
+                            example_idx: *example_idx,
+                        },
+                        scroll: 0,
+                    };
+                }
+            }
+        }
         KeyCode::Enter | KeyCode::Right | KeyCode::Char('l') => match &phase {
             SymbolPhase::Explain => {
                 let sym = &topic.symbols[symbol_index];

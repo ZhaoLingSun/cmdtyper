@@ -131,7 +131,12 @@ pub fn render(
             let content = Paragraph::new(lines).wrap(Wrap { trim: false });
             frame.render_widget(content, chunks[1]);
 
-            let hints = hint_line(&[("←→", "翻页"), ("Enter", "下一步"), ("Esc", "返回")]);
+            let mut hint_items = vec![("←→", "翻页"), ("Enter", "下一步")];
+            if example.deep_explanation.is_some() {
+                hint_items.push(("D", "查看详解"));
+            }
+            hint_items.push(("Esc", "返回"));
+            let hints = hint_line(&hint_items);
             frame.render_widget(
                 Paragraph::new(hints).alignment(Alignment::Center),
                 chunks[2],

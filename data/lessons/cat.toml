@@ -176,6 +176,56 @@ simulated_output = """    342 /api/login
      12 /api/feedback
       8 /api/logout"""
 output_explanation = "左侧数字表示每个 URL 的 POST 请求次数，结果已经按请求数量从高到低排序。"
+deep_explanation = """### 真实场景：排查接口压力与热点路径
+你接到报警：API 网关 QPS 飙升，怀疑某些 `POST` 接口被频繁调用。最直接的方法就是从访问日志里统计“最热 POST URL Top10”。这条管道命令就是典型的一线排障写法：
+
+    cat access.log | grep "POST" | awk '{print $7}' | sort | uniq -c | sort -rn | head -10
+
+它把“原始日志 -> 过滤 -> 提取字段 -> 聚合计数 -> 排序截断”串成一条线。
+
+### 数据在管道中的流动（最关键）
+可以把每一段理解为一个加工站：
+- `cat access.log`：把整份日志逐行吐出。
+- `grep "POST"`：只保留包含 POST 的行。
+- `awk '{print $7}'`：取第 7 列（通常是 URL 路径）。
+- `sort`：先按字典序排序，把相同 URL 排到一起。
+- `uniq -c`：统计连续重复行，得到“次数 + URL”。
+- `sort -rn`：按数字逆序排序，最高频在最上面。
+- `head -10`：只看前 10 条。
+
+### 可视化理解：每一步输出长什么样
+假设原始日志其中几行是：
+
+    10.0.0.8 - - [14/Mar/2026:16:02:11 +0000] "POST /api/login HTTP/1.1" 200 531
+    10.0.0.9 - - [14/Mar/2026:16:02:13 +0000] "GET /health HTTP/1.1" 200 2
+    10.0.0.7 - - [14/Mar/2026:16:02:14 +0000] "POST /api/orders HTTP/1.1" 201 882
+
+经过 `grep "POST"` 后只剩 POST 行；
+经过 `awk '{print $7}'` 后变成：
+
+    /api/login
+    /api/orders
+    /api/login
+
+经过 `sort | uniq -c` 后会变成：
+
+      2 /api/login
+      1 /api/orders
+
+最后 `sort -rn | head -10` 给你最关心的热点排名。
+
+### 每段命令的角色定位
+- `grep`：业务筛选（方法、状态码、关键词都能筛）。
+- `awk`：结构化提取（按列拿你关心字段）。
+- `sort + uniq -c`：经典计数组合，几乎所有日志统计都会用到。
+- `head`：把结果压缩成可读摘要，适合值班快速决策。
+
+### 进阶建议
+- 若日志特别大，优先 `grep ... access.log`，避免无意义 `cat` 开销。
+- 如果日志格式不是“URL 在第 7 列”，要先用 `awk` 验证列号。
+- 可继续追加 `| cut -d'?' -f1` 去掉查询参数，避免同一路径被参数打散。
+
+> 提示：这个流水线背后是 Unix 哲学——每个工具只做一件事，但组合起来非常强。熟练后，你能在几十秒内从海量日志中提炼出可执行结论。"""
 [[examples.token_details]]
 token = "cat access.log"
 explanation = "读取整个访问日志文件，把每一行日志送入后面的管道。"

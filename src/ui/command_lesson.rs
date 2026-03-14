@@ -306,12 +306,14 @@ pub fn render_practice(
     frame.render_widget(content, content_area);
 
     // Hints
+    let has_deep = example.deep_explanation.is_some();
     let hints = if engine.is_complete() {
-        hint_line(&[
-            ("Enter", "\u{4e0b}\u{4e00}\u{4e2a}"),
-            ("Ctrl+R", "\u{91cd}\u{7ec3}"),
-            ("Esc", "\u{8fd4}\u{56de}"),
-        ])
+        let mut hint_items = vec![("Enter", "\u{4e0b}\u{4e00}\u{4e2a}"), ("Ctrl+R", "\u{91cd}\u{7ec3}")];
+        if has_deep {
+            hint_items.push(("D", "\u{67e5}\u{770b}\u{8be6}\u{89e3}"));
+        }
+        hint_items.push(("Esc", "\u{8fd4}\u{56de}"));
+        hint_line(&hint_items)
     } else {
         hint_line(&[("Ctrl+R", "\u{91cd}\u{7ec3}"), ("Esc", "\u{8fd4}\u{56de}")])
     };
