@@ -12,8 +12,7 @@ fn tokens_concat_equals_command() {
     let mut total_commands = 0;
     let mut errors = Vec::new();
 
-    for entry in fs::read_dir(&dir)
-        .unwrap_or_else(|e| panic!("Cannot read {}: {e}", dir.display()))
+    for entry in fs::read_dir(&dir).unwrap_or_else(|e| panic!("Cannot read {}: {e}", dir.display()))
     {
         let entry = entry.unwrap();
         let path = entry.path();
@@ -24,8 +23,7 @@ fn tokens_concat_equals_command() {
                 .unwrap_or_else(|e| panic!("Parse error in {}: {e}", path.display()));
 
             for cmd in &cf.commands {
-                let concatenated: String =
-                    cmd.tokens.iter().map(|t| t.text.as_str()).collect();
+                let concatenated: String = cmd.tokens.iter().map(|t| t.text.as_str()).collect();
                 if concatenated != cmd.command {
                     errors.push(format!(
                         "  {} (id={}): tokens concat = {:?}, command = {:?}",
@@ -49,7 +47,5 @@ fn tokens_concat_equals_command() {
         );
     }
 
-    println!(
-        "All {total_commands} commands have consistent tokens/command fields"
-    );
+    println!("All {total_commands} commands have consistent tokens/command fields");
 }

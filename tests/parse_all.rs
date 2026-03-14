@@ -14,8 +14,7 @@ fn data_dir() -> &'static Path {
 fn parse_all_command_files() {
     let dir = data_dir().join("commands");
     let mut count = 0;
-    for entry in fs::read_dir(&dir)
-        .unwrap_or_else(|e| panic!("Cannot read {}: {e}", dir.display()))
+    for entry in fs::read_dir(&dir).unwrap_or_else(|e| panic!("Cannot read {}: {e}", dir.display()))
     {
         let entry = entry.unwrap();
         let path = entry.path();
@@ -36,7 +35,11 @@ fn parse_all_command_files() {
                 path.display()
             );
             for cmd in &cf.commands {
-                assert!(!cmd.id.is_empty(), "{}: command has empty id", path.display());
+                assert!(
+                    !cmd.id.is_empty(),
+                    "{}: command has empty id",
+                    path.display()
+                );
                 assert!(
                     !cmd.command.is_empty(),
                     "{}: command '{}' has empty command field",
@@ -65,7 +68,10 @@ fn parse_all_command_files() {
             count += 1;
         }
     }
-    assert!(count >= 19, "Expected at least 19 command files, found {count}");
+    assert!(
+        count >= 19,
+        "Expected at least 19 command files, found {count}"
+    );
     println!("Successfully parsed {count} command files");
 }
 
@@ -73,8 +79,7 @@ fn parse_all_command_files() {
 fn parse_all_lesson_files() {
     let dir = data_dir().join("lessons");
     let mut count = 0;
-    for entry in fs::read_dir(&dir)
-        .unwrap_or_else(|e| panic!("Cannot read {}: {e}", dir.display()))
+    for entry in fs::read_dir(&dir).unwrap_or_else(|e| panic!("Cannot read {}: {e}", dir.display()))
     {
         let entry = entry.unwrap();
         let path = entry.path();
@@ -103,7 +108,10 @@ fn parse_all_lesson_files() {
             count += 1;
         }
     }
-    assert!(count >= 31, "Expected at least 31 lesson files, found {count}");
+    assert!(
+        count >= 31,
+        "Expected at least 31 lesson files, found {count}"
+    );
     println!("Successfully parsed {count} lesson files");
 }
 
@@ -111,8 +119,7 @@ fn parse_all_lesson_files() {
 fn parse_all_symbol_files() {
     let dir = data_dir().join("symbols");
     let mut count = 0;
-    for entry in fs::read_dir(&dir)
-        .unwrap_or_else(|e| panic!("Cannot read {}: {e}", dir.display()))
+    for entry in fs::read_dir(&dir).unwrap_or_else(|e| panic!("Cannot read {}: {e}", dir.display()))
     {
         let entry = entry.unwrap();
         let path = entry.path();
@@ -135,7 +142,10 @@ fn parse_all_symbol_files() {
             count += 1;
         }
     }
-    assert!(count >= 6, "Expected at least 6 symbol files, found {count}");
+    assert!(
+        count >= 6,
+        "Expected at least 6 symbol files, found {count}"
+    );
     println!("Successfully parsed {count} symbol files");
 }
 
@@ -143,8 +153,7 @@ fn parse_all_symbol_files() {
 fn parse_all_system_files() {
     let dir = data_dir().join("system");
     let mut count = 0;
-    for entry in fs::read_dir(&dir)
-        .unwrap_or_else(|e| panic!("Cannot read {}: {e}", dir.display()))
+    for entry in fs::read_dir(&dir).unwrap_or_else(|e| panic!("Cannot read {}: {e}", dir.display()))
     {
         let entry = entry.unwrap();
         let path = entry.path();
@@ -167,6 +176,9 @@ fn parse_all_system_files() {
             count += 1;
         }
     }
-    assert!(count >= 6, "Expected at least 6 system files, found {count}");
+    assert!(
+        count >= 6,
+        "Expected at least 6 system files, found {count}"
+    );
     println!("Successfully parsed {count} system files");
 }

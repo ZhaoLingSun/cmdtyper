@@ -4,7 +4,13 @@ use ratatui::widgets::{Block, Borders, Paragraph, Wrap};
 use crate::app::{App, SymbolPhase};
 use crate::ui::widgets::*;
 
-pub fn render(frame: &mut Frame, app: &App, topic_index: usize, symbol_index: usize, phase: &SymbolPhase) {
+pub fn render(
+    frame: &mut Frame,
+    app: &App,
+    topic_index: usize,
+    symbol_index: usize,
+    phase: &SymbolPhase,
+) {
     let area = frame.area();
     let topic = match app.symbol_topics.get(topic_index) {
         Some(t) => t,
@@ -29,18 +35,27 @@ pub fn render(frame: &mut Frame, app: &App, topic_index: usize, symbol_index: us
 
             // Title
             let title = Paragraph::new(Line::from(Span::styled(
-                format!(" {} \u{300c}{}\u{300d} \u{2014} {} ", symbol.char_repr, symbol.name, topic.meta.topic),
+                format!(
+                    " {} \u{300c}{}\u{300d} \u{2014} {} ",
+                    symbol.char_repr, symbol.name, topic.meta.topic
+                ),
                 Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
             )))
             .alignment(Alignment::Center)
-            .block(Block::default().borders(Borders::ALL).border_style(Style::default().fg(DIM)));
+            .block(
+                Block::default()
+                    .borders(Borders::ALL)
+                    .border_style(Style::default().fg(DIM)),
+            );
             frame.render_widget(title, chunks[0]);
 
             // Content
             let mut lines: Vec<Line> = Vec::new();
             lines.push(Line::from(Span::styled(
                 symbol.summary.clone(),
-                Style::default().fg(Color::White).add_modifier(Modifier::BOLD),
+                Style::default()
+                    .fg(Color::White)
+                    .add_modifier(Modifier::BOLD),
             )));
             lines.push(Line::from(""));
 
@@ -58,7 +73,10 @@ pub fn render(frame: &mut Frame, app: &App, topic_index: usize, symbol_index: us
                 ("\u{2192}/Enter", "\u{67e5}\u{770b}\u{793a}\u{4f8b}"),
                 ("Esc", "\u{8fd4}\u{56de}"),
             ]);
-            frame.render_widget(Paragraph::new(hints).alignment(Alignment::Center), chunks[2]);
+            frame.render_widget(
+                Paragraph::new(hints).alignment(Alignment::Center),
+                chunks[2],
+            );
         }
         SymbolPhase::Example(idx) => {
             let symbol = match topic.symbols.get(symbol_index) {
@@ -80,14 +98,22 @@ pub fn render(frame: &mut Frame, app: &App, topic_index: usize, symbol_index: us
                 Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
             )))
             .alignment(Alignment::Center)
-            .block(Block::default().borders(Borders::ALL).border_style(Style::default().fg(DIM)));
+            .block(
+                Block::default()
+                    .borders(Borders::ALL)
+                    .border_style(Style::default().fg(DIM)),
+            );
             frame.render_widget(title, chunks[0]);
 
             let mut lines: Vec<Line> = Vec::new();
             lines.push(Line::from(vec![
                 Span::styled("$ ", Style::default().fg(SIMULATED_PROMPT)),
                 Span::styled(
-                    example.display.as_deref().unwrap_or(&example.command).to_string(),
+                    example
+                        .display
+                        .as_deref()
+                        .unwrap_or(&example.command)
+                        .to_string(),
                     Style::default().fg(Color::White),
                 ),
             ]));
@@ -115,7 +141,10 @@ pub fn render(frame: &mut Frame, app: &App, topic_index: usize, symbol_index: us
                 ("Enter", "\u{4e0b}\u{4e00}\u{6b65}"),
                 ("Esc", "\u{8fd4}\u{56de}"),
             ]);
-            frame.render_widget(Paragraph::new(hints).alignment(Alignment::Center), chunks[2]);
+            frame.render_widget(
+                Paragraph::new(hints).alignment(Alignment::Center),
+                chunks[2],
+            );
         }
         SymbolPhase::Practice => {
             let title = Paragraph::new(Line::from(Span::styled(
@@ -123,7 +152,11 @@ pub fn render(frame: &mut Frame, app: &App, topic_index: usize, symbol_index: us
                 Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
             )))
             .alignment(Alignment::Center)
-            .block(Block::default().borders(Borders::ALL).border_style(Style::default().fg(DIM)));
+            .block(
+                Block::default()
+                    .borders(Borders::ALL)
+                    .border_style(Style::default().fg(DIM)),
+            );
             frame.render_widget(title, chunks[0]);
 
             let mut lines: Vec<Line> = Vec::new();
@@ -152,11 +185,11 @@ pub fn render(frame: &mut Frame, app: &App, topic_index: usize, symbol_index: us
             let content = Paragraph::new(lines).wrap(Wrap { trim: false });
             frame.render_widget(content, chunks[1]);
 
-            let hints = hint_line(&[
-                ("Enter", "\u{5b8c}\u{6210}"),
-                ("Esc", "\u{8fd4}\u{56de}"),
-            ]);
-            frame.render_widget(Paragraph::new(hints).alignment(Alignment::Center), chunks[2]);
+            let hints = hint_line(&[("Enter", "\u{5b8c}\u{6210}"), ("Esc", "\u{8fd4}\u{56de}")]);
+            frame.render_widget(
+                Paragraph::new(hints).alignment(Alignment::Center),
+                chunks[2],
+            );
         }
     }
 }

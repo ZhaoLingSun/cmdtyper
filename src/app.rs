@@ -1,6 +1,7 @@
-use std::path::Path;
+use std::{env, path::PathBuf};
 
 use anyhow::Result;
+use chrono::Utc;
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 
 use crate::core::engine::TypingEngine;
@@ -28,11 +29,6 @@ pub enum AppState {
         category_index: usize,
         command_index: usize,
     },
-    CommandLessonExample {
-        category_index: usize,
-        command_index: usize,
-        example_index: usize,
-    },
     CommandLessonPractice {
         category_index: usize,
         command_index: usize,
@@ -57,7 +53,6 @@ pub enum AppState {
     Dictation,
     Stats,
     Settings,
-    RoundResult,
     Quitting,
 }
 
@@ -135,9 +130,8 @@ pub struct App {
     pub settings_index: usize,
     pub stats_tab: usize,
 
-    // Round result data (cached from last session)
-    pub last_record: Option<SessionRecord>,
-    pub last_prev_record: Option<SessionRecord>,
+    // Current typing round records (for completion summary)
+    pub typing_round_records: Vec<SessionRecord>,
 
     // Lesson command list indices (per category)
     pub lesson_commands_for_category: Vec<CommandLesson>,
@@ -146,10 +140,10 @@ pub struct App {
 impl App {
     pub fn new() -> Result<Self> {
         let data_dir = Path::new("data");
-        let commands = command_loader::load_commands(data_dir)?;
-        let lessons = lesson_loader::load_lessons(data_dir)?;
-        let symbol_topics = symbol_loader::load_symbol_topics(data_dir)?;
-        let system_topics = system_loader::load_system_topics(data_dir)?;
+        let commands = command_loader::load_commands(&data_dir)?;
+        let lessons = lesson_loader::load_lessons(&data_dir)?;
+        let symbol_topics = symbol_loader::load_symbol_topics(&data_dir)?;
+        let system_topics = system_loader::load_system_topics(&data_dir)?;
 
         let progress_store = ProgressStore::new()?;
         let user_stats = progress_store.load_stats()?;
@@ -185,8 +179,7 @@ impl App {
             system_section_index: 0,
             settings_index: 0,
             stats_tab: 0,
-            last_record: None,
-            last_prev_record: None,
+            typing_round_records: Vec::new(),
             lesson_commands_for_category: Vec::new(),
         })
     }
@@ -198,16 +191,10 @@ impl App {
     pub fn format_prompt(&self) -> String {
         match self.user_config.prompt_style {
             PromptStyle::Full => {
-                let path = if self.user_config.show_path {
-                    "~"
-                } else {
-                    ""
-                };
+                let path = if self.user_config.show_path { "~" } else { "" };
                 format!(
                     "{}@{}:{}$ ",
-                    self.user_config.prompt_username,
-                    self.user_config.prompt_hostname,
-                    path
+                    self.user_config.prompt_username, self.user_config.prompt_hostname, path
                 )
             }
             PromptStyle::Simple => "$ ".to_string(),
@@ -235,16 +222,6 @@ impl App {
                 category_index,
                 command_index,
             } => self.handle_command_lesson_overview_key(key, category_index, command_index),
-            AppState::CommandLessonExample {
-                category_index,
-                command_index,
-                example_index,
-            } => self.handle_command_lesson_example_key(
-                key,
-                category_index,
-                command_index,
-                example_index,
-            ),
             AppState::CommandLessonPractice {
                 category_index,
                 command_index,
@@ -271,7 +248,6 @@ impl App {
             AppState::Dictation => self.handle_dictation_key(key),
             AppState::Stats => self.handle_stats_key(key),
             AppState::Settings => self.handle_settings_key(key),
-            AppState::RoundResult => self.handle_round_result_key(key),
             AppState::Quitting => {}
         }
     }
@@ -292,16 +268,14 @@ impl App {
                     self.home_index += 1;
                 }
             }
-            KeyCode::Enter => {
-                match self.home_index {
-                    0 => self.enter_typing(),
-                    1 => self.state = AppState::LearnHub,
-                    2 => self.enter_dictation(),
-                    3 => self.state = AppState::Stats,
-                    4 => self.state = AppState::Settings,
-                    _ => {}
-                }
-            }
+            KeyCode::Enter => match self.home_index {
+                0 => self.enter_typing(),
+                1 => self.state = AppState::LearnHub,
+                2 => self.enter_dictation(),
+                3 => self.state = AppState::Stats,
+                4 => self.state = AppState::Settings,
+                _ => {}
+            },
             KeyCode::Char('q') => self.state = AppState::Quitting,
             _ => {}
         }
@@ -326,6 +300,7 @@ impl App {
             return;
         }
         self.typing_index = 0;
+        self.typing_round_records.clear();
         let cmd = &self.typing_commands[0];
         self.typing_engine.reset(&cmd.command);
         self.show_hint = self.user_config.show_token_hints;
@@ -337,9 +312,11 @@ impl App {
             KeyCode::Esc => {
                 self.state = AppState::Home;
             }
+            KeyCode::Enter if self.typing_is_finished() => {
+                self.state = AppState::Home;
+            }
             KeyCode::Char('h') | KeyCode::Char('H')
-                if key.modifiers == KeyModifiers::NONE
-                    || key.modifiers == KeyModifiers::SHIFT =>
+                if key.modifiers == KeyModifiers::NONE || key.modifiers == KeyModifiers::SHIFT =>
             {
                 // If engine hasn't started or is complete, toggle hint
                 if self.typing_engine.start_time.is_none() || self.typing_engine.is_complete() {
@@ -377,10 +354,14 @@ impl App {
         self.terminal_history.push_completed(&prompt, &display);
 
         // Record session
-        let record = self.typing_engine.finish(&cmd.id, Mode::Type);
+        let record = self
+            .typing_engine
+            .finish(&cmd.id, cmd.difficulty, RecordMode::Typing);
         scorer::update_stats(&mut self.user_stats, &record);
         let _ = self.progress_store.save_stats(&self.user_stats);
         let _ = self.progress_store.append_record(&record);
+        self.history.push(record.clone());
+        self.typing_round_records.push(record);
 
         // Advance to next command
         self.typing_index += 1;
@@ -400,8 +381,6 @@ impl App {
         if self.typing_index < self.typing_commands.len() {
             let next_cmd = &self.typing_commands[self.typing_index];
             self.typing_engine.reset(&next_cmd.command);
-        } else {
-            self.state = AppState::Home;
         }
     }
 
@@ -539,7 +518,7 @@ impl App {
     }
 
     // ─────────────────────────────────────────────────────────
-    // Command Lesson — Overview / Example / Practice
+    // Command Lesson — Overview / Practice
     // ─────────────────────────────────────────────────────────
 
     fn handle_command_lesson_overview_key(
@@ -551,16 +530,14 @@ impl App {
         match key.code {
             KeyCode::Esc => self.state = AppState::CommandTopics,
             KeyCode::Enter | KeyCode::Right | KeyCode::Char('l') => {
-                let cats = self.get_lesson_categories();
-                if category_index < cats.len() {
-                    let lessons = self.get_lessons_for_category(cats[category_index]);
-                    if command_index < lessons.len() && !lessons[command_index].examples.is_empty() {
-                        self.state = AppState::CommandLessonExample {
-                            category_index,
-                            command_index,
-                            example_index: 0,
-                        };
-                    }
+                let cmd_str = self.get_lesson_example_command(category_index, command_index, 0);
+                if let Some(cmd) = cmd_str {
+                    self.typing_engine.reset(&cmd);
+                    self.state = AppState::CommandLessonPractice {
+                        category_index,
+                        command_index,
+                        example_index: 0,
+                    };
                 }
             }
             KeyCode::Up | KeyCode::Char('k') => {
@@ -587,61 +564,6 @@ impl App {
         }
     }
 
-    fn handle_command_lesson_example_key(
-        &mut self,
-        key: KeyEvent,
-        category_index: usize,
-        command_index: usize,
-        example_index: usize,
-    ) {
-        match key.code {
-            KeyCode::Esc | KeyCode::Left | KeyCode::Char('h') => {
-                self.state = AppState::CommandLessonOverview {
-                    category_index,
-                    command_index,
-                };
-            }
-            KeyCode::Enter | KeyCode::Right | KeyCode::Char('l') => {
-                // Enter practice for this example
-                let cmd_str = self.get_lesson_example_command(category_index, command_index, example_index);
-                if let Some(cmd) = cmd_str {
-                    self.typing_engine.reset(&cmd);
-                    self.state = AppState::CommandLessonPractice {
-                        category_index,
-                        command_index,
-                        example_index,
-                    };
-                }
-            }
-            KeyCode::Down | KeyCode::Char('j') => {
-                let cats = self.get_lesson_categories();
-                if category_index < cats.len() {
-                    let lessons = self.get_lessons_for_category(cats[category_index]);
-                    if command_index < lessons.len() {
-                        let max = lessons[command_index].examples.len().saturating_sub(1);
-                        if example_index < max {
-                            self.state = AppState::CommandLessonExample {
-                                category_index,
-                                command_index,
-                                example_index: example_index + 1,
-                            };
-                        }
-                    }
-                }
-            }
-            KeyCode::Up | KeyCode::Char('k') => {
-                if example_index > 0 {
-                    self.state = AppState::CommandLessonExample {
-                        category_index,
-                        command_index,
-                        example_index: example_index - 1,
-                    };
-                }
-            }
-            _ => {}
-        }
-    }
-
     fn handle_command_lesson_practice_key(
         &mut self,
         key: KeyEvent,
@@ -651,31 +573,51 @@ impl App {
     ) {
         match key.code {
             KeyCode::Esc => {
-                self.state = AppState::CommandLessonExample {
+                self.state = AppState::CommandLessonOverview {
                     category_index,
                     command_index,
-                    example_index,
                 };
             }
             KeyCode::Char('r') if key.modifiers.contains(KeyModifiers::CONTROL) => {
-                let cmd_str = self.get_lesson_example_command(category_index, command_index, example_index);
+                let cmd_str =
+                    self.get_lesson_example_command(category_index, command_index, example_index);
                 if let Some(cmd) = cmd_str {
                     self.typing_engine.reset(&cmd);
                 }
             }
             KeyCode::Enter if self.typing_engine.is_complete() => {
-                // Move to next example or back to overview
+                // Save lesson practice stats using lesson difficulty.
                 let cats = self.get_lesson_categories();
                 if category_index < cats.len() {
                     let lessons = self.get_lessons_for_category(cats[category_index]);
                     if command_index < lessons.len() {
+                        let lesson = lessons[command_index];
+                        let command_id = format!(lesson:{}:{}, lesson.meta.command, example_index);
+                        let record = self.typing_engine.finish(
+                            &command_id,
+                            lesson.meta.difficulty,
+                            RecordMode::LessonPractice,
+                        );
+                        scorer::update_stats(&mut self.user_stats, &record);
+                        let _ = self.progress_store.save_stats(&self.user_stats);
+                        let _ = self.progress_store.append_record(&record);
+                        self.history.push(record);
+
+                        // Move to next example or back to overview
                         let next_example = example_index + 1;
-                        if next_example < lessons[command_index].examples.len() {
-                            self.state = AppState::CommandLessonExample {
+                        if next_example < lesson.examples.len() {
+                            if let Some(cmd) = self.get_lesson_example_command(
                                 category_index,
                                 command_index,
-                                example_index: next_example,
-                            };
+                                next_example,
+                            ) {
+                                self.typing_engine.reset(&cmd);
+                                self.state = AppState::CommandLessonPractice {
+                                    category_index,
+                                    command_index,
+                                    example_index: next_example,
+                                };
+                            }
                         } else {
                             self.state = AppState::CommandLessonOverview {
                                 category_index,
@@ -712,7 +654,9 @@ impl App {
             }
             KeyCode::Enter => {
                 if self.symbol_topics_index < count
-                    && !self.symbol_topics[self.symbol_topics_index].symbols.is_empty()
+                    && !self.symbol_topics[self.symbol_topics_index]
+                        .symbols
+                        .is_empty()
                 {
                     self.state = AppState::SymbolLesson {
                         topic_index: self.symbol_topics_index,
@@ -975,8 +919,7 @@ impl App {
                 }
             }
             KeyCode::Down | KeyCode::Char('j') => {
-                if matches!(phase, SystemPhase::Detail)
-                    && section_index + 1 < topic.sections.len()
+                if matches!(phase, SystemPhase::Detail) && section_index + 1 < topic.sections.len()
                 {
                     self.state = AppState::SystemLesson {
                         topic_index,
@@ -1044,8 +987,31 @@ impl App {
                 } else if !self.dictation_input.is_empty() {
                     // Submit
                     let cmd = &self.dictation_commands[self.dictation_index];
-                    let result =
-                        matcher::check(&self.dictation_input, &cmd.dictation.answers);
+                    let result = matcher::check(&self.dictation_input, &cmd.dictation.answers);
+                    let accuracy = match result {
+                        MatchResult::Exact(_) | MatchResult::Normalized(_) => 1.0,
+                        MatchResult::NoMatch { .. } => 0.0,
+                    };
+
+                    let now_ms = Utc::now().timestamp_millis();
+                    let record = SessionRecord {
+                        id: format!({}, now_ms),
+                        command_id: cmd.id.clone(),
+                        mode: RecordMode::Dictation,
+                        keystrokes: Vec::new(),
+                        started_at: now_ms,
+                        finished_at: now_ms,
+                        wpm: 0.0,
+                        cpm: 0.0,
+                        accuracy,
+                        error_count: if accuracy >= 1.0 { 0 } else { 1 },
+                        difficulty: cmd.difficulty,
+                    };
+                    scorer::update_stats(&mut self.user_stats, &record);
+                    let _ = self.progress_store.save_stats(&self.user_stats);
+                    let _ = self.progress_store.append_record(&record);
+                    self.history.push(record);
+
                     self.dictation_result = Some(result);
                     self.dictation_submitted = true;
                 }
@@ -1086,8 +1052,8 @@ impl App {
     // ─────────────────────────────────────────────────────────
 
     fn handle_settings_key(&mut self, key: KeyEvent) {
-        // 8 configurable items
-        const SETTINGS_COUNT: usize = 8;
+        // 6 editable items + 2 read-only display items
+        const SETTINGS_COUNT: usize = 6;
         match key.code {
             KeyCode::Esc => {
                 let _ = self.progress_store.save_config(&self.user_config);
@@ -1134,12 +1100,6 @@ impl App {
             3 => self.user_config.show_token_hints = !self.user_config.show_token_hints,
             4 => self.user_config.adaptive_recommend = !self.user_config.adaptive_recommend,
             5 => self.user_config.show_path = !self.user_config.show_path,
-            6 => {
-                // username cycle (not editable inline, just reset)
-            }
-            7 => {
-                // hostname cycle (not editable inline, just reset)
-            }
             _ => {}
         }
         let _ = self.progress_store.save_config(&self.user_config);
@@ -1158,7 +1118,8 @@ impl App {
                 self.user_config.target_wpm = (self.user_config.target_wpm - 5.0).max(10.0);
             }
             2 => {
-                self.user_config.error_flash_ms = self.user_config.error_flash_ms.saturating_sub(50).max(50);
+                self.user_config.error_flash_ms =
+                    self.user_config.error_flash_ms.saturating_sub(50).max(50);
             }
             3 => self.user_config.show_token_hints = !self.user_config.show_token_hints,
             4 => self.user_config.adaptive_recommend = !self.user_config.adaptive_recommend,
@@ -1166,17 +1127,6 @@ impl App {
             _ => {}
         }
         let _ = self.progress_store.save_config(&self.user_config);
-    }
-
-    // ─────────────────────────────────────────────────────────
-    // Round Result
-    // ─────────────────────────────────────────────────────────
-
-    fn handle_round_result_key(&mut self, key: KeyEvent) {
-        match key.code {
-            KeyCode::Esc | KeyCode::Enter => self.state = AppState::Home,
-            _ => {}
-        }
     }
 
     // ─────────────────────────────────────────────────────────

@@ -21,6 +21,7 @@ pub struct TypingEngine {
     pub current_attempts: u8,
     pub error_flash: Option<Instant>,
     pub start_time: Option<Instant>,
+    pub completed_at: Option<Instant>,
     pub last_correct_time: Option<Instant>,
     error_flash_duration: Duration,
 }
@@ -34,6 +35,7 @@ impl TypingEngine {
             current_attempts: 0,
             error_flash: None,
             start_time: None,
+            completed_at: None,
             last_correct_time: None,
             error_flash_duration: Duration::from_millis(150),
         }
@@ -49,8 +51,9 @@ impl TypingEngine {
 
         // Start timer on first input
         if self.start_time.is_none() {
-            self.start_time = Some(Instant::now());
-            self.last_correct_time = Some(Instant::now());
+            let now = Instant::now();
+            self.start_time = Some(now);
+            self.last_correct_time = Some(now);
         }
 
         self.current_attempts += 1;
@@ -77,6 +80,9 @@ impl TypingEngine {
             self.current_attempts = 0;
             self.last_correct_time = Some(now);
             self.error_flash = None;
+            if self.cursor >= self.target.len() {
+                self.completed_at = Some(now);
+            }
 
             InputResult::Correct
         } else {
@@ -127,9 +133,13 @@ impl TypingEngine {
     }
 
     pub fn elapsed_secs(&self) -> f64 {
-        self.start_time
-            .map(|t| t.elapsed().as_secs_f64())
-            .unwrap_or(0.0)
+        match (self.start_time, self.completed_at) {
+            (Some(start_time), Some(completed_at)) => {
+                completed_at.duration_since(start_time).as_secs_f64()
+            }
+            (Some(start_time), None) => start_time.elapsed().as_secs_f64(),
+            (None, _) => 0.0,
+        }
     }
 
     /// Finalize the session into a `SessionRecord`.
@@ -182,6 +192,7 @@ impl TypingEngine {
         self.current_attempts = 0;
         self.error_flash = None;
         self.start_time = None;
+        self.completed_at = None;
         self.last_correct_time = None;
     }
 }
@@ -199,6 +210,7 @@ mod tests {
         assert!(!engine.is_complete());
         assert_eq!(engine.current_accuracy(), 1.0);
         assert_eq!(engine.elapsed_secs(), 0.0);
+        assert!(engine.completed_at.is_none());
     }
 
     #[test]
@@ -237,6 +249,18 @@ mod tests {
         assert!(!engine.is_complete());
         engine.input('b');
         assert!(engine.is_complete());
+        assert!(engine.completed_at.is_some());
+    }
+
+    #[test]
+    fn elapsed_time_freezes_after_completion() {
+        let mut engine = TypingEngine::new("a");
+        engine.input('a');
+
+        let elapsed_after_completion = engine.elapsed_secs();
+        std::thread::sleep(Duration::from_millis(20));
+
+        assert_eq!(engine.elapsed_secs(), elapsed_after_completion);
     }
 
     #[test]
@@ -305,6 +329,7 @@ mod tests {
         assert_eq!(engine.current_attempts, 0);
         assert!(engine.error_flash.is_none());
         assert!(engine.start_time.is_none());
+        assert!(engine.completed_at.is_none());
         assert!(engine.last_correct_time.is_none());
     }
 
@@ -366,7 +391,7 @@ mod tests {
         engine.input('b');
 
         assert_eq!(engine.keystrokes.len(), 2);
-        // Second keystroke should have some latency
-        assert!(engine.keystrokes[1].latency_ms >= 0);
+        // Second keystroke should include the inserted delay.
+        assert!(engine.keystrokes[1].latency_ms > 0);
     }
 }

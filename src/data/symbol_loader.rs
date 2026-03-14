@@ -15,12 +15,7 @@ pub fn load_symbol_topics(data_dir: &Path) -> Result<Vec<SymbolTopic>> {
     }
 
     let mut entries: Vec<PathBuf> = fs::read_dir(&symbols_dir)
-        .with_context(|| {
-            format!(
-                "failed to read symbols directory {}",
-                symbols_dir.display()
-            )
-        })?
+        .with_context(|| format!("failed to read symbols directory {}", symbols_dir.display()))?
         .filter_map(|entry| entry.ok())
         .map(|entry| entry.path())
         .filter(|path| path.extension().is_some_and(|ext| ext == "toml"))

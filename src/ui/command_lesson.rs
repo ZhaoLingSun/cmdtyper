@@ -5,12 +5,7 @@ use crate::app::App;
 use crate::ui::widgets::*;
 
 /// Render overview phase: explanation + syntax + options
-pub fn render_overview(
-    frame: &mut Frame,
-    app: &App,
-    category_index: usize,
-    command_index: usize,
-) {
+pub fn render_overview(frame: &mut Frame, app: &App, category_index: usize, command_index: usize) {
     let area = frame.area();
     let categories = app.get_lesson_categories();
     let cat = match categories.get(category_index) {
@@ -34,16 +29,26 @@ pub fn render_overview(
 
     // Title
     let title_text = if let Some(full) = &lesson.meta.full_name {
-        format!(" {} ({}) \u{2014} \u{547d}\u{4ee4}\u{6982}\u{89c8} ", lesson.meta.command, full)
+        format!(
+            " {} ({}) \u{2014} \u{547d}\u{4ee4}\u{6982}\u{89c8} ",
+            lesson.meta.command, full
+        )
     } else {
-        format!(" {} \u{2014} \u{547d}\u{4ee4}\u{6982}\u{89c8} ", lesson.meta.command)
+        format!(
+            " {} \u{2014} \u{547d}\u{4ee4}\u{6982}\u{89c8} ",
+            lesson.meta.command
+        )
     };
     let title = Paragraph::new(Line::from(Span::styled(
         title_text,
         Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
     )))
     .alignment(Alignment::Center)
-    .block(Block::default().borders(Borders::ALL).border_style(Style::default().fg(DIM)));
+    .block(
+        Block::default()
+            .borders(Borders::ALL)
+            .border_style(Style::default().fg(DIM)),
+    );
     frame.render_widget(title, chunks[0]);
 
     // Content
@@ -53,7 +58,9 @@ pub fn render_overview(
     // Summary
     lines.push(Line::from(Span::styled(
         format!("\u{7b80}\u{4ecb}: {}", lesson.overview.summary),
-        Style::default().fg(Color::White).add_modifier(Modifier::BOLD),
+        Style::default()
+            .fg(Color::White)
+            .add_modifier(Modifier::BOLD),
     )));
     lines.push(Line::from(""));
 
@@ -78,7 +85,10 @@ pub fn render_overview(
 
     for part in &lesson.syntax.parts {
         lines.push(Line::from(vec![
-            Span::styled(format!("    {} ", part.name), Style::default().fg(TOKEN_DESC)),
+            Span::styled(
+                format!("    {} ", part.name),
+                Style::default().fg(TOKEN_DESC),
+            ),
             Span::styled(format!("\u{2014} {}", part.desc), Style::default().fg(DIM)),
         ]));
     }
@@ -129,122 +139,16 @@ pub fn render_overview(
     // Hints
     let hints = hint_line(&[
         ("\u{2191}\u{2193}", "\u{4e0a}\u{4e0b}\u{547d}\u{4ee4}"),
-        ("Enter/\u{2192}", "\u{67e5}\u{770b}\u{793a}\u{4f8b}"),
+        ("Enter/\u{2192}", "\u{8fdb}\u{5165}\u{8bad}\u{7ec3}"),
         ("Esc", "\u{8fd4}\u{56de}"),
     ]);
-    frame.render_widget(Paragraph::new(hints).alignment(Alignment::Center), chunks[2]);
+    frame.render_widget(
+        Paragraph::new(hints).alignment(Alignment::Center),
+        chunks[2],
+    );
 }
 
-/// Render example phase: command + tokens + simulated output
-pub fn render_example(
-    frame: &mut Frame,
-    app: &App,
-    category_index: usize,
-    command_index: usize,
-    example_index: usize,
-) {
-    let area = frame.area();
-    let categories = app.get_lesson_categories();
-    let cat = match categories.get(category_index) {
-        Some(c) => *c,
-        None => return,
-    };
-    let lessons = app.get_lessons_for_category(cat);
-    let lesson = match lessons.get(command_index) {
-        Some(l) => l,
-        None => return,
-    };
-    let example = match lesson.examples.get(example_index) {
-        Some(e) => e,
-        None => return,
-    };
-
-    let chunks = Layout::default()
-        .direction(Direction::Vertical)
-        .constraints([
-            Constraint::Length(3),
-            Constraint::Min(0),
-            Constraint::Length(1),
-        ])
-        .split(area);
-
-    // Title
-    let title = Paragraph::new(Line::from(Span::styled(
-        format!(
-            " {} \u{2014} \u{793a}\u{4f8b} {}/{} ",
-            lesson.meta.command,
-            example_index + 1,
-            lesson.examples.len()
-        ),
-        Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
-    )))
-    .alignment(Alignment::Center)
-    .block(Block::default().borders(Borders::ALL).border_style(Style::default().fg(DIM)));
-    frame.render_widget(title, chunks[0]);
-
-    // Content
-    let mut lines: Vec<Line> = Vec::new();
-
-    // Summary
-    lines.push(Line::from(Span::styled(
-        example.summary.clone(),
-        Style::default().fg(Color::White).add_modifier(Modifier::BOLD),
-    )));
-    lines.push(Line::from(""));
-
-    // Command
-    lines.push(Line::from(vec![
-        Span::styled("$ ", Style::default().fg(SIMULATED_PROMPT)),
-        Span::styled(
-            example.display.as_deref().unwrap_or(&example.command).to_string(),
-            Style::default().fg(Color::White),
-        ),
-    ]));
-    lines.push(Line::from(""));
-
-    // Token descriptions from command
-    // Find matching command tokens
-    let matching_cmd = app.commands.iter().find(|c| c.command == example.command);
-    if let Some(cmd) = matching_cmd
-        && !cmd.tokens.is_empty() {
-            lines.push(Line::from(Span::styled(
-                "\u{8bcd}\u{5143}\u{89e3}\u{6790}:",
-                Style::default().fg(HEADER),
-            )));
-            for token in &cmd.tokens {
-                lines.push(Line::from(vec![
-                    Span::styled(format!("  {} ", token.text), Style::default().fg(ACCENT)),
-                    Span::styled(format!("\u{2192} {}", token.desc), Style::default().fg(TOKEN_DESC)),
-                ]));
-            }
-            lines.push(Line::from(""));
-        }
-
-    let content = Paragraph::new(lines).wrap(Wrap { trim: false });
-    frame.render_widget(content, chunks[1]);
-
-    // Simulated output box (if any)
-    if example.simulated_output.is_some() {
-        let sim_area = Rect {
-            x: chunks[1].x,
-            y: chunks[1].y + chunks[1].height.saturating_sub(8),
-            width: chunks[1].width,
-            height: 8.min(chunks[1].height),
-        };
-        let sim = render_simulated_output(&example.command, example.simulated_output.as_deref());
-        frame.render_widget(sim, sim_area);
-    }
-
-    // Hints
-    let hints = hint_line(&[
-        ("\u{2191}\u{2193}", "\u{4e0a}\u{4e0b}\u{793a}\u{4f8b}"),
-        ("Enter/\u{2192}", "\u{8ddf}\u{6253}\u{7ec3}\u{4e60}"),
-        ("Esc/\u{2190}", "\u{8fd4}\u{56de}\u{6982}\u{89c8}"),
-    ]);
-    frame.render_widget(Paragraph::new(hints).alignment(Alignment::Center), chunks[2]);
-}
-
-/// Render practice phase: typing engine + simulated output after completion
+/// Render unified practice phase: typing engine + token details + simulated output
 pub fn render_practice(
     frame: &mut Frame,
     app: &App,
@@ -280,13 +184,19 @@ pub fn render_practice(
     // Title
     let title = Paragraph::new(Line::from(Span::styled(
         format!(
-            " {} \u{2014} \u{8ddf}\u{6253}\u{7ec3}\u{4e60} ",
-            lesson.meta.command
+            " {} - \u{8ddf}\u{6253}\u{7ec3}\u{4e60} ({}/{}) ",
+            lesson.meta.command,
+            example_index + 1,
+            lesson.examples.len()
         ),
         Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
     )))
     .alignment(Alignment::Center)
-    .block(Block::default().borders(Borders::ALL).border_style(Style::default().fg(DIM)));
+    .block(
+        Block::default()
+            .borders(Borders::ALL)
+            .border_style(Style::default().fg(DIM)),
+    );
     frame.render_widget(title, chunks[0]);
 
     // Typing area
@@ -295,10 +205,7 @@ pub fn render_practice(
     let is_flashing = engine.is_error_flashing();
 
     let mut spans = Vec::new();
-    spans.push(Span::styled(
-        "$ ",
-        Style::default().fg(PROMPT_COLOR),
-    ));
+    spans.push(Span::styled("$ ", Style::default().fg(PROMPT_COLOR)));
 
     for (i, ch) in engine.target.iter().enumerate() {
         let style = if i < engine.cursor {
@@ -315,13 +222,47 @@ pub fn render_practice(
         spans.push(Span::styled(ch.to_string(), style));
     }
 
-    let mut lines: Vec<Line> = Vec::new();
-    lines.push(Line::from(Span::styled(
-        example.summary.clone(),
-        Style::default().fg(DIM),
-    )));
-    lines.push(Line::from(""));
-    lines.push(Line::from(spans));
+    let mut lines: Vec<Line> = vec![
+        Line::from(Span::styled(
+            example.summary.clone(),
+            Style::default().fg(DIM),
+        )),
+        Line::from(""),
+        Line::from(spans),
+        Line::from(""),
+    ];
+
+    let mut token_details: Vec<(String, String)> = example
+        .token_details
+        .iter()
+        .map(|detail| (detail.token.clone(), detail.explanation.clone()))
+        .collect();
+    if token_details.is_empty()
+        && let Some(cmd) = app
+            .commands
+            .iter()
+            .find(|command| command.command == example.command)
+    {
+        token_details = cmd
+            .tokens
+            .iter()
+            .map(|token| (token.text.clone(), token.desc.clone()))
+            .collect();
+    }
+
+    if !token_details.is_empty() {
+        lines.push(Line::from(Span::styled(
+            "\u{8bcd}\u{5143}\u{89e3}\u{6790}:",
+            Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
+        )));
+        for (token, desc) in token_details {
+            lines.push(Line::from(vec![
+                Span::styled(format!("  {} ", token), Style::default().fg(ACCENT)),
+                Span::styled("-> ", Style::default().fg(DIM)),
+                Span::styled(desc, Style::default().fg(TOKEN_DESC)),
+            ]));
+        }
+    }
 
     // Show stats if completed
     if engine.is_complete() {
@@ -335,19 +276,29 @@ pub fn render_practice(
             Style::default().fg(SUCCESS),
         )));
 
-        // Show simulated output
-        if let Some(output) = &example.simulated_output {
+        if example.simulated_output.is_some() || example.output_explanation.is_some() {
             lines.push(Line::from(""));
+        }
+
+        if let Some(output) = &example.simulated_output {
             lines.push(Line::from(Span::styled(
                 "\u{6a21}\u{62df}\u{8f93}\u{51fa}:",
-                Style::default().fg(HEADER),
+                Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
             )));
             for ol in output.lines() {
+                let clean = ol.replace('\t', "    ");
                 lines.push(Line::from(Span::styled(
-                    ol.to_string(),
+                    clean,
                     Style::default().fg(Color::White),
                 )));
             }
+        }
+
+        if let Some(explanation) = &example.output_explanation {
+            lines.push(Line::from(Span::styled(
+                format!("\u{1f4a1} {}", explanation),
+                Style::default().fg(Color::Yellow),
+            )));
         }
     }
 
@@ -362,10 +313,10 @@ pub fn render_practice(
             ("Esc", "\u{8fd4}\u{56de}"),
         ])
     } else {
-        hint_line(&[
-            ("Ctrl+R", "\u{91cd}\u{7ec3}"),
-            ("Esc", "\u{8fd4}\u{56de}"),
-        ])
+        hint_line(&[("Ctrl+R", "\u{91cd}\u{7ec3}"), ("Esc", "\u{8fd4}\u{56de}")])
     };
-    frame.render_widget(Paragraph::new(hints).alignment(Alignment::Center), chunks[2]);
+    frame.render_widget(
+        Paragraph::new(hints).alignment(Alignment::Center),
+        chunks[2],
+    );
 }

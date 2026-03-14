@@ -14,8 +14,7 @@ fn all_command_ids_unique() {
     let mut seen: HashMap<String, String> = HashMap::new();
     let mut duplicates = Vec::new();
 
-    for entry in fs::read_dir(&dir)
-        .unwrap_or_else(|e| panic!("Cannot read {}: {e}", dir.display()))
+    for entry in fs::read_dir(&dir).unwrap_or_else(|e| panic!("Cannot read {}: {e}", dir.display()))
     {
         let entry = entry.unwrap();
         let path = entry.path();
@@ -40,14 +39,8 @@ fn all_command_ids_unique() {
     }
 
     if !duplicates.is_empty() {
-        panic!(
-            "Duplicate command IDs found:\n{}",
-            duplicates.join("\n")
-        );
+        panic!("Duplicate command IDs found:\n{}", duplicates.join("\n"));
     }
 
-    println!(
-        "All {} command IDs are globally unique",
-        seen.len()
-    );
+    println!("All {} command IDs are globally unique", seen.len());
 }

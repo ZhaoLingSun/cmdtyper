@@ -45,20 +45,27 @@ pub fn render(frame: &mut Frame, app: &App) {
             let is_selected = i == app.command_topics_index;
             let prefix = if is_selected { " \u{25b6} " } else { "   " };
 
-            let lesson_count = app.lessons.iter().filter(|l| l.meta.category == *cat).count();
+            let lesson_count = app
+                .lessons
+                .iter()
+                .filter(|l| l.meta.category == *cat)
+                .count();
             let practiced = app
                 .user_stats
                 .command_progress
                 .iter()
                 .filter(|p| {
-                    app.lessons.iter().any(|l| {
-                        l.meta.category == *cat && l.meta.command == p.command_id
-                    })
+                    app.lessons
+                        .iter()
+                        .any(|l| l.meta.category == *cat && l.meta.command == p.command_id)
                 })
                 .count();
 
             let style = if is_selected {
-                Style::default().fg(ACCENT).add_modifier(Modifier::BOLD).bg(MENU_SELECTED_BG)
+                Style::default()
+                    .fg(ACCENT)
+                    .add_modifier(Modifier::BOLD)
+                    .bg(MENU_SELECTED_BG)
             } else {
                 Style::default().fg(MENU_NORMAL)
             };
@@ -95,5 +102,8 @@ pub fn render(frame: &mut Frame, app: &App) {
         ("Enter", "\u{8fdb}\u{5165}"),
         ("Esc", "\u{8fd4}\u{56de}"),
     ]);
-    frame.render_widget(Paragraph::new(hints).alignment(Alignment::Center), chunks[2]);
+    frame.render_widget(
+        Paragraph::new(hints).alignment(Alignment::Center),
+        chunks[2],
+    );
 }

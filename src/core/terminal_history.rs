@@ -22,6 +22,10 @@ impl TerminalHistory {
             command_display: display.to_string(),
             status: LineStatus::Completed,
         });
+        let overflow = self.lines.len().saturating_sub(self.max_visible);
+        if overflow > 0 {
+            self.lines.drain(..overflow);
+        }
     }
 
     /// Return the tail of visible lines that fit within `height` rows.

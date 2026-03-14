@@ -15,9 +15,7 @@ pub fn load_system_topics(data_dir: &Path) -> Result<Vec<SystemTopic>> {
     }
 
     let mut entries: Vec<PathBuf> = fs::read_dir(&system_dir)
-        .with_context(|| {
-            format!("failed to read system directory {}", system_dir.display())
-        })?
+        .with_context(|| format!("failed to read system directory {}", system_dir.display()))?
         .filter_map(|entry| entry.ok())
         .map(|entry| entry.path())
         .filter(|path| path.extension().is_some_and(|ext| ext == "toml"))

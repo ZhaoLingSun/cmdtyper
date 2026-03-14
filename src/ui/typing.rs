@@ -149,17 +149,16 @@ fn render_bottom_bar(frame: &mut Frame, app: &App, area: Rect) {
     }
 
     // Toggle hint indicator
-    spans.push(Span::styled(
-        "[H]",
-        Style::default().fg(ACCENT),
-    ));
+    spans.push(Span::styled("[H]", Style::default().fg(ACCENT)));
     spans.push(Span::styled("  ", Style::default()));
 
     // WPM
     let wpm = app.typing_engine.current_wpm();
     spans.push(Span::styled(
         format!("WPM: {:.0}", wpm),
-        Style::default().fg(Color::White).add_modifier(Modifier::BOLD),
+        Style::default()
+            .fg(Color::White)
+            .add_modifier(Modifier::BOLD),
     ));
     spans.push(Span::styled("  ", Style::default()));
 
@@ -177,11 +176,10 @@ fn render_bottom_bar(frame: &mut Frame, app: &App, area: Rect) {
         Style::default().fg(acc_color),
     ));
 
-    let bar = Paragraph::new(Line::from(spans))
-        .block(
-            Block::default()
-                .borders(Borders::TOP)
-                .border_style(Style::default().fg(DIM)),
-        );
+    let bar = Paragraph::new(Line::from(spans)).block(
+        Block::default()
+            .borders(Borders::TOP)
+            .border_style(Style::default().fg(DIM)),
+    );
     frame.render_widget(bar, area);
 }

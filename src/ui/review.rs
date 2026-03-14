@@ -45,7 +45,10 @@ pub fn render(frame: &mut Frame, app: &App, source: &ReviewSource, phase: &Revie
                         )));
                     } else {
                         lines.push(Line::from(Span::styled(
-                            format!("\u{547d}\u{4ee4}\u{6982}\u{89c8} ({} \u{4e2a}):", cmds.len()),
+                            format!(
+                                "\u{547d}\u{4ee4}\u{6982}\u{89c8} ({} \u{4e2a}):",
+                                cmds.len()
+                            ),
                             Style::default().fg(HEADER),
                         )));
                         lines.push(Line::from(""));
@@ -72,10 +75,7 @@ pub fn render(frame: &mut Frame, app: &App, source: &ReviewSource, phase: &Revie
                                     format!("  {:<24}", cmd.command),
                                     Style::default().fg(Color::White),
                                 ),
-                                Span::styled(
-                                    cmd.summary.clone(),
-                                    Style::default().fg(DIM),
-                                ),
+                                Span::styled(cmd.summary.clone(), Style::default().fg(DIM)),
                             ]));
                         }
                     }
@@ -95,7 +95,10 @@ pub fn render(frame: &mut Frame, app: &App, source: &ReviewSource, phase: &Revie
                 ("Enter", "\u{5f00}\u{59cb}\u{7ec3}\u{4e60}"),
                 ("Esc", "\u{8fd4}\u{56de}"),
             ]);
-            frame.render_widget(Paragraph::new(hints).alignment(Alignment::Center), chunks[2]);
+            frame.render_widget(
+                Paragraph::new(hints).alignment(Alignment::Center),
+                chunks[2],
+            );
         }
         ReviewPhase::Practice(idx) => {
             let title = Paragraph::new(Line::from(Span::styled(
@@ -107,16 +110,19 @@ pub fn render(frame: &mut Frame, app: &App, source: &ReviewSource, phase: &Revie
             frame.render_widget(title, chunks[0]);
 
             let content = Paragraph::new(Line::from(Span::styled(
-                format!("\u{7ec3}\u{4e60}\u{9898} #{} \u{2014} \u{6309} Enter \u{5b8c}\u{6210}", idx + 1),
+                format!(
+                    "\u{7ec3}\u{4e60}\u{9898} #{} \u{2014} \u{6309} Enter \u{5b8c}\u{6210}",
+                    idx + 1
+                ),
                 Style::default().fg(Color::White),
             )));
             frame.render_widget(content, chunks[1]);
 
-            let hints = hint_line(&[
-                ("Enter", "\u{5b8c}\u{6210}"),
-                ("Esc", "\u{8fd4}\u{56de}"),
-            ]);
-            frame.render_widget(Paragraph::new(hints).alignment(Alignment::Center), chunks[2]);
+            let hints = hint_line(&[("Enter", "\u{5b8c}\u{6210}"), ("Esc", "\u{8fd4}\u{56de}")]);
+            frame.render_widget(
+                Paragraph::new(hints).alignment(Alignment::Center),
+                chunks[2],
+            );
         }
     }
 }

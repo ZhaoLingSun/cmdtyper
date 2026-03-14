@@ -42,7 +42,11 @@ pub fn render(frame: &mut Frame, app: &App) {
 
     let title = Paragraph::new(Line::from(tab_spans))
         .alignment(Alignment::Center)
-        .block(Block::default().borders(Borders::ALL).border_style(Style::default().fg(DIM)));
+        .block(
+            Block::default()
+                .borders(Borders::ALL)
+                .border_style(Style::default().fg(DIM)),
+        );
     frame.render_widget(title, chunks[0]);
 
     // Content per tab
@@ -59,7 +63,10 @@ pub fn render(frame: &mut Frame, app: &App) {
         ("Tab/\u{2190}\u{2192}", "\u{5207}\u{6362}\u{9762}\u{677f}"),
         ("Esc", "\u{8fd4}\u{56de}"),
     ]);
-    frame.render_widget(Paragraph::new(hints).alignment(Alignment::Center), chunks[2]);
+    frame.render_widget(
+        Paragraph::new(hints).alignment(Alignment::Center),
+        chunks[2],
+    );
 }
 
 fn render_speed_overview(frame: &mut Frame, app: &App, area: Rect) {
@@ -73,21 +80,30 @@ fn render_speed_overview(frame: &mut Frame, app: &App, area: Rect) {
     lines.push(Line::from(""));
 
     lines.push(Line::from(vec![
-        Span::styled("  \u{603b}\u{7ec3}\u{4e60}\u{6b21}\u{6570}: ", Style::default().fg(DIM)),
+        Span::styled(
+            "  \u{603b}\u{7ec3}\u{4e60}\u{6b21}\u{6570}: ",
+            Style::default().fg(DIM),
+        ),
         Span::styled(
             format!("{}", stats.total_sessions),
             Style::default().fg(Color::White),
         ),
     ]));
     lines.push(Line::from(vec![
-        Span::styled("  \u{603b}\u{51fb}\u{952e}\u{6b21}\u{6570}: ", Style::default().fg(DIM)),
+        Span::styled(
+            "  \u{603b}\u{51fb}\u{952e}\u{6b21}\u{6570}: ",
+            Style::default().fg(DIM),
+        ),
         Span::styled(
             format!("{}", stats.total_keystrokes),
             Style::default().fg(Color::White),
         ),
     ]));
     lines.push(Line::from(vec![
-        Span::styled("  \u{603b}\u{7ec3}\u{4e60}\u{65f6}\u{957f}: ", Style::default().fg(DIM)),
+        Span::styled(
+            "  \u{603b}\u{7ec3}\u{4e60}\u{65f6}\u{957f}: ",
+            Style::default().fg(DIM),
+        ),
         Span::styled(
             format_time(stats.total_duration_ms as f64 / 1000.0),
             Style::default().fg(Color::White),
@@ -109,7 +125,10 @@ fn render_speed_overview(frame: &mut Frame, app: &App, area: Rect) {
         ),
     ]));
     lines.push(Line::from(vec![
-        Span::styled("  \u{5e73}\u{5747}\u{51c6}\u{786e}\u{7387}:  ", Style::default().fg(DIM)),
+        Span::styled(
+            "  \u{5e73}\u{5747}\u{51c6}\u{786e}\u{7387}:  ",
+            Style::default().fg(DIM),
+        ),
         Span::styled(
             format!("{:.1}%", stats.overall_avg_accuracy * 100.0),
             Style::default().fg(Color::White),
@@ -117,14 +136,20 @@ fn render_speed_overview(frame: &mut Frame, app: &App, area: Rect) {
     ]));
     lines.push(Line::from(""));
     lines.push(Line::from(vec![
-        Span::styled("  \u{5f53}\u{524d}\u{8fde}\u{7eed}:    ", Style::default().fg(DIM)),
+        Span::styled(
+            "  \u{5f53}\u{524d}\u{8fde}\u{7eed}:    ",
+            Style::default().fg(DIM),
+        ),
         Span::styled(
             format!("{} \u{5929}", stats.current_streak),
             Style::default().fg(SUCCESS),
         ),
     ]));
     lines.push(Line::from(vec![
-        Span::styled("  \u{6700}\u{957f}\u{8fde}\u{7eed}:    ", Style::default().fg(DIM)),
+        Span::styled(
+            "  \u{6700}\u{957f}\u{8fde}\u{7eed}:    ",
+            Style::default().fg(DIM),
+        ),
         Span::styled(
             format!("{} \u{5929}", stats.longest_streak),
             Style::default().fg(Color::White),
@@ -196,10 +221,7 @@ fn render_char_analysis(frame: &mut Frame, app: &App, area: Rect) {
                     format!("{:<10}", format!("{:.0}", cs.avg_cpm)),
                     Style::default().fg(Color::White),
                 ),
-                Span::styled(
-                    format!("{}", cs.total_samples),
-                    Style::default().fg(DIM),
-                ),
+                Span::styled(format!("{}", cs.total_samples), Style::default().fg(DIM)),
             ]));
         }
     }

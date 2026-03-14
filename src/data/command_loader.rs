@@ -16,7 +16,12 @@ pub fn load_commands(data_dir: &Path) -> Result<Vec<Command>> {
     }
 
     let mut entries: Vec<PathBuf> = fs::read_dir(&commands_dir)
-        .with_context(|| format!("failed to read commands directory {}", commands_dir.display()))?
+        .with_context(|| {
+            format!(
+                "failed to read commands directory {}",
+                commands_dir.display()
+            )
+        })?
         .filter_map(|entry| entry.ok())
         .map(|entry| entry.path())
         .filter(|path| path.extension().is_some_and(|ext| ext == "toml"))

@@ -22,7 +22,11 @@ pub fn render(frame: &mut Frame, app: &App) {
         Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
     )))
     .alignment(Alignment::Center)
-    .block(Block::default().borders(Borders::ALL).border_style(Style::default().fg(DIM)));
+    .block(
+        Block::default()
+            .borders(Borders::ALL)
+            .border_style(Style::default().fg(DIM)),
+    );
     frame.render_widget(title, chunks[0]);
 
     if app.symbol_topics.is_empty() {
@@ -41,7 +45,10 @@ pub fn render(frame: &mut Frame, app: &App) {
 
             let icon = topic.meta.icon.as_deref().unwrap_or("\u{2328}\u{fe0f}");
             let style = if is_selected {
-                Style::default().fg(ACCENT).add_modifier(Modifier::BOLD).bg(MENU_SELECTED_BG)
+                Style::default()
+                    .fg(ACCENT)
+                    .add_modifier(Modifier::BOLD)
+                    .bg(MENU_SELECTED_BG)
             } else {
                 Style::default().fg(MENU_NORMAL)
             };
@@ -73,5 +80,8 @@ pub fn render(frame: &mut Frame, app: &App) {
         ("Enter", "\u{8fdb}\u{5165}"),
         ("Esc", "\u{8fd4}\u{56de}"),
     ]);
-    frame.render_widget(Paragraph::new(hints).alignment(Alignment::Center), chunks[2]);
+    frame.render_widget(
+        Paragraph::new(hints).alignment(Alignment::Center),
+        chunks[2],
+    );
 }

@@ -269,13 +269,7 @@ fn get_or_insert_char_stat(stats: &mut UserStats, char_key: char) -> &mut CharSt
         .expect("char stat was just inserted")
 }
 
-fn update_daily_stat(
-    stats: &mut UserStats,
-    date: &str,
-    duration_ms: u64,
-    wpm: f64,
-    accuracy: f64,
-) {
+fn update_daily_stat(stats: &mut UserStats, date: &str, duration_ms: u64, wpm: f64, accuracy: f64) {
     if let Some(day) = stats.daily_stats.iter_mut().find(|day| day.date == date) {
         let previous_sessions = day.sessions_count as f64;
         day.sessions_count += 1;
@@ -617,10 +611,7 @@ mod tests {
             category: Category::FileOps,
             ..Command::default()
         }];
-        approx_eq(
-            category_mastery(&stats, &commands, Category::Network),
-            0.0,
-        );
+        approx_eq(category_mastery(&stats, &commands, Category::Network), 0.0);
     }
 
     #[test]

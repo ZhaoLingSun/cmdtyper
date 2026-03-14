@@ -5,10 +5,22 @@ use crate::app::App;
 use crate::ui::widgets::*;
 
 const ITEMS: [(&str, &str); 4] = [
-    ("\u{1f4bb} \u{547d}\u{4ee4}\u{4e13}\u{9898}", "\u{6309}\u{7c7b}\u{522b}\u{5b66}\u{4e60}\u{547d}\u{4ee4}\u{8be6}\u{89e3}"),
-    ("\u{2328}\u{fe0f}  \u{7b26}\u{53f7}\u{4e13}\u{9898}", "\u{7ba1}\u{9053}\u{3001}\u{91cd}\u{5b9a}\u{5411}\u{3001}\u{901a}\u{914d}\u{7b26}\u{7b49}"),
-    ("\u{1f3d7}\u{fe0f}  \u{7cfb}\u{7edf}\u{67b6}\u{6784}", "\u{76ee}\u{5f55}\u{7ed3}\u{6784}\u{3001}\u{6743}\u{9650}\u{3001}\u{8fdb}\u{7a0b}\u{7b49}"),
-    ("\u{1f504} \u{4e13}\u{9898}\u{590d}\u{4e60}", "\u{77e5}\u{8bc6}\u{68b3}\u{7406}\u{4e0e}\u{96c6}\u{4e2d}\u{7ec3}\u{4e60}"),
+    (
+        "\u{1f4bb} \u{547d}\u{4ee4}\u{4e13}\u{9898}",
+        "\u{6309}\u{7c7b}\u{522b}\u{5b66}\u{4e60}\u{547d}\u{4ee4}\u{8be6}\u{89e3}",
+    ),
+    (
+        "\u{2328}\u{fe0f}  \u{7b26}\u{53f7}\u{4e13}\u{9898}",
+        "\u{7ba1}\u{9053}\u{3001}\u{91cd}\u{5b9a}\u{5411}\u{3001}\u{901a}\u{914d}\u{7b26}\u{7b49}",
+    ),
+    (
+        "\u{1f3d7}\u{fe0f}  \u{7cfb}\u{7edf}\u{67b6}\u{6784}",
+        "\u{76ee}\u{5f55}\u{7ed3}\u{6784}\u{3001}\u{6743}\u{9650}\u{3001}\u{8fdb}\u{7a0b}\u{7b49}",
+    ),
+    (
+        "\u{1f504} \u{4e13}\u{9898}\u{590d}\u{4e60}",
+        "\u{77e5}\u{8bc6}\u{68b3}\u{7406}\u{4e0e}\u{96c6}\u{4e2d}\u{7ec3}\u{4e60}",
+    ),
 ];
 
 pub fn render(frame: &mut Frame, app: &App) {
@@ -54,7 +66,10 @@ pub fn render(frame: &mut Frame, app: &App) {
         let is_selected = i == app.learn_hub_index;
         let prefix = if is_selected { " \u{25b6} " } else { "   " };
         let style = if is_selected {
-            Style::default().fg(ACCENT).add_modifier(Modifier::BOLD).bg(MENU_SELECTED_BG)
+            Style::default()
+                .fg(ACCENT)
+                .add_modifier(Modifier::BOLD)
+                .bg(MENU_SELECTED_BG)
         } else {
             Style::default().fg(MENU_NORMAL)
         };
@@ -82,5 +97,8 @@ pub fn render(frame: &mut Frame, app: &App) {
         ("Enter", "\u{9009}\u{62e9}"),
         ("Esc", "\u{8fd4}\u{56de}"),
     ]);
-    frame.render_widget(Paragraph::new(hints).alignment(Alignment::Center), chunks[2]);
+    frame.render_widget(
+        Paragraph::new(hints).alignment(Alignment::Center),
+        chunks[2],
+    );
 }

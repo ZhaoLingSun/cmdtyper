@@ -42,10 +42,7 @@ pub fn format_time(secs: f64) -> String {
 
 /// Render a simulated terminal output box.
 /// Shows a command with prompt and its output in a bordered box.
-pub fn render_simulated_output<'a>(
-    command: &str,
-    output: Option<&str>,
-) -> Paragraph<'a> {
+pub fn render_simulated_output<'a>(command: &str, output: Option<&str>) -> Paragraph<'a> {
     let mut lines_vec = Vec::new();
 
     // Command line with simulated prompt
@@ -93,10 +90,7 @@ pub fn hint_line(hints: &[(&str, &str)]) -> Line<'static> {
             key.to_string(),
             Style::default().fg(ACCENT).add_modifier(Modifier::BOLD),
         ));
-        spans.push(Span::styled(
-            format!(" {}", desc),
-            Style::default().fg(DIM),
-        ));
+        spans.push(Span::styled(format!(" {}", desc), Style::default().fg(DIM)));
     }
     Line::from(spans)
 }

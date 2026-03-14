@@ -3,8 +3,8 @@ use std::io::ErrorKind;
 use std::path::{Path, PathBuf};
 
 use anyhow::{Context, Result};
-use serde::de::DeserializeOwned;
 use serde::Serialize;
+use serde::de::DeserializeOwned;
 
 use crate::data::models::{SessionRecord, UserConfig, UserStats};
 
@@ -60,10 +60,7 @@ impl ProgressStore {
 
     fn from_base_dir(base_dir: PathBuf) -> Result<Self> {
         fs::create_dir_all(&base_dir).with_context(|| {
-            format!(
-                "failed to create progress directory {}",
-                base_dir.display()
-            )
+            format!("failed to create progress directory {}", base_dir.display())
         })?;
         Ok(Self { base_dir })
     }

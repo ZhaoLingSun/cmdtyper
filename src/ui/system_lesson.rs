@@ -26,7 +26,11 @@ pub fn render_overview(frame: &mut Frame, app: &App, topic_index: usize) {
         Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
     )))
     .alignment(Alignment::Center)
-    .block(Block::default().borders(Borders::ALL).border_style(Style::default().fg(DIM)));
+    .block(
+        Block::default()
+            .borders(Borders::ALL)
+            .border_style(Style::default().fg(DIM)),
+    );
     frame.render_widget(title, chunks[0]);
 
     let mut lines: Vec<Line> = Vec::new();
@@ -64,7 +68,10 @@ pub fn render_overview(frame: &mut Frame, app: &App, topic_index: usize) {
         ("Enter/\u{2192}", "\u{8fdb}\u{5165}\u{7ae0}\u{8282}"),
         ("Esc", "\u{8fd4}\u{56de}"),
     ]);
-    frame.render_widget(Paragraph::new(hints).alignment(Alignment::Center), chunks[2]);
+    frame.render_widget(
+        Paragraph::new(hints).alignment(Alignment::Center),
+        chunks[2],
+    );
 }
 
 /// Detail phase: section description
@@ -99,7 +106,11 @@ pub fn render_detail(frame: &mut Frame, app: &App, topic_index: usize, section_i
         Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
     )))
     .alignment(Alignment::Center)
-    .block(Block::default().borders(Borders::ALL).border_style(Style::default().fg(DIM)));
+    .block(
+        Block::default()
+            .borders(Borders::ALL)
+            .border_style(Style::default().fg(DIM)),
+    );
     frame.render_widget(title, chunks[0]);
 
     let mut lines: Vec<Line> = Vec::new();
@@ -113,13 +124,19 @@ pub fn render_detail(frame: &mut Frame, app: &App, topic_index: usize, section_i
     if !section.commands.is_empty() {
         lines.push(Line::from(""));
         lines.push(Line::from(Span::styled(
-            format!("\u{5e38}\u{7528}\u{547d}\u{4ee4}: {} \u{4e2a}", section.commands.len()),
+            format!(
+                "\u{5e38}\u{7528}\u{547d}\u{4ee4}: {} \u{4e2a}",
+                section.commands.len()
+            ),
             Style::default().fg(DIM),
         )));
     }
     if !section.config_files.is_empty() {
         lines.push(Line::from(Span::styled(
-            format!("\u{914d}\u{7f6e}\u{6587}\u{4ef6}: {} \u{4e2a}", section.config_files.len()),
+            format!(
+                "\u{914d}\u{7f6e}\u{6587}\u{4ef6}: {} \u{4e2a}",
+                section.config_files.len()
+            ),
             Style::default().fg(DIM),
         )));
     }
@@ -132,7 +149,10 @@ pub fn render_detail(frame: &mut Frame, app: &App, topic_index: usize, section_i
         ("Enter/\u{2192}", "\u{67e5}\u{770b}\u{547d}\u{4ee4}"),
         ("Esc", "\u{8fd4}\u{56de}"),
     ]);
-    frame.render_widget(Paragraph::new(hints).alignment(Alignment::Center), chunks[2]);
+    frame.render_widget(
+        Paragraph::new(hints).alignment(Alignment::Center),
+        chunks[2],
+    );
 }
 
 /// Commands phase: command + simulated output
@@ -176,18 +196,28 @@ pub fn render_commands(
         Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
     )))
     .alignment(Alignment::Center)
-    .block(Block::default().borders(Borders::ALL).border_style(Style::default().fg(DIM)));
+    .block(
+        Block::default()
+            .borders(Borders::ALL)
+            .border_style(Style::default().fg(DIM)),
+    );
     frame.render_widget(title, chunks[0]);
 
-    let mut lines: Vec<Line> = Vec::new();
-    lines.push(Line::from(Span::styled(
-        cmd.summary.clone(),
-        Style::default().fg(Color::White).add_modifier(Modifier::BOLD),
-    )));
-    lines.push(Line::from(""));
+    let lines: Vec<Line> = vec![
+        Line::from(Span::styled(
+            cmd.summary.clone(),
+            Style::default()
+                .fg(Color::White)
+                .add_modifier(Modifier::BOLD),
+        )),
+        Line::from(""),
+    ];
 
     let sim = render_simulated_output(&cmd.command, cmd.simulated_output.as_deref());
-    let sim_height = 2 + cmd.simulated_output.as_deref().map_or(1, |o| o.lines().count() + 1);
+    let sim_height = 2 + cmd
+        .simulated_output
+        .as_deref()
+        .map_or(1, |o| o.lines().count() + 1);
     let sim_area = Rect {
         x: chunks[1].x,
         y: chunks[1].y + 3,
@@ -203,7 +233,10 @@ pub fn render_commands(
         ("Enter/\u{2192}", "\u{4e0b}\u{4e00}\u{4e2a}"),
         ("Esc", "\u{8fd4}\u{56de}"),
     ]);
-    frame.render_widget(Paragraph::new(hints).alignment(Alignment::Center), chunks[2]);
+    frame.render_widget(
+        Paragraph::new(hints).alignment(Alignment::Center),
+        chunks[2],
+    );
 }
 
 /// ConfigFile phase: config file sample + lessons
@@ -242,7 +275,11 @@ pub fn render_config_file(
         Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
     )))
     .alignment(Alignment::Center)
-    .block(Block::default().borders(Borders::ALL).border_style(Style::default().fg(DIM)));
+    .block(
+        Block::default()
+            .borders(Borders::ALL)
+            .border_style(Style::default().fg(DIM)),
+    );
     frame.render_widget(title, chunks[0]);
 
     let mut lines: Vec<Line> = Vec::new();
@@ -269,7 +306,9 @@ pub fn render_config_file(
     for lesson in &cf.lessons {
         lines.push(Line::from(Span::styled(
             format!("\u{2022} {}", lesson.title),
-            Style::default().fg(Color::White).add_modifier(Modifier::BOLD),
+            Style::default()
+                .fg(Color::White)
+                .add_modifier(Modifier::BOLD),
         )));
         lines.push(Line::from(vec![
             Span::styled("  \u{524d}: ", Style::default().fg(ERROR)),
@@ -295,5 +334,8 @@ pub fn render_config_file(
         ("Enter/\u{2192}", "\u{4e0b}\u{4e00}\u{4e2a}"),
         ("Esc", "\u{8fd4}\u{56de}"),
     ]);
-    frame.render_widget(Paragraph::new(hints).alignment(Alignment::Center), chunks[2]);
+    frame.render_widget(
+        Paragraph::new(hints).alignment(Alignment::Center),
+        chunks[2],
+    );
 }

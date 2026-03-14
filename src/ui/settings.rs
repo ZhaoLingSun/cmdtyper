@@ -8,6 +8,7 @@ use crate::ui::widgets::*;
 struct SettingItem {
     label: &'static str,
     value: String,
+    selectable: bool,
 }
 
 pub fn render(frame: &mut Frame, app: &App) {
@@ -23,62 +24,74 @@ pub fn render(frame: &mut Frame, app: &App) {
         .split(area);
 
     let title = Paragraph::new(Line::from(Span::styled(
-        " \u{8bbe}\u{7f6e} ",
+        " 设置 ",
         Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
     )))
     .alignment(Alignment::Center)
-    .block(Block::default().borders(Borders::ALL).border_style(Style::default().fg(DIM)));
+    .block(
+        Block::default()
+            .borders(Borders::ALL)
+            .border_style(Style::default().fg(DIM)),
+    );
     frame.render_widget(title, chunks[0]);
 
     let config = &app.user_config;
     let items = [
         SettingItem {
-            label: "\u{63d0}\u{793a}\u{7b26}\u{98ce}\u{683c}",
+            label: "提示符风格",
             value: match config.prompt_style {
-                PromptStyle::Full => "\u{5b8c}\u{6574} (user@host:~$)".to_string(),
-                PromptStyle::Simple => "\u{7b80}\u{5355} ($)".to_string(),
-                PromptStyle::Minimal => "\u{6700}\u{7b80} (>)".to_string(),
+                PromptStyle::Full => "完整 (user@host:~$)".to_string(),
+                PromptStyle::Simple => "简单 ($)".to_string(),
+                PromptStyle::Minimal => "最简 (>)".to_string(),
             },
+            selectable: true,
         },
         SettingItem {
-            label: "\u{76ee}\u{6807} WPM",
+            label: "目标 WPM",
             value: format!("{:.0}", config.target_wpm),
+            selectable: true,
         },
         SettingItem {
-            label: "\u{9519}\u{8bef}\u{95ea}\u{70c1}\u{65f6}\u{95f4} (ms)",
+            label: "错误闪烁时间 (ms)",
             value: format!("{}", config.error_flash_ms),
+            selectable: true,
         },
         SettingItem {
-            label: "\u{663e}\u{793a}\u{8bcd}\u{5143}\u{63d0}\u{793a}",
+            label: "显示词元提示",
             value: if config.show_token_hints {
-                "\u{5f00}\u{542f}".to_string()
+                "开启".to_string()
             } else {
-                "\u{5173}\u{95ed}".to_string()
+                "关闭".to_string()
             },
+            selectable: true,
         },
         SettingItem {
-            label: "\u{81ea}\u{9002}\u{5e94}\u{63a8}\u{8350}",
+            label: "自适应推荐",
             value: if config.adaptive_recommend {
-                "\u{5f00}\u{542f}".to_string()
+                "开启".to_string()
             } else {
-                "\u{5173}\u{95ed}".to_string()
+                "关闭".to_string()
             },
+            selectable: true,
         },
         SettingItem {
-            label: "\u{663e}\u{793a}\u{8def}\u{5f84}",
+            label: "显示路径",
             value: if config.show_path {
-                "\u{5f00}\u{542f}".to_string()
+                "开启".to_string()
             } else {
-                "\u{5173}\u{95ed}".to_string()
+                "关闭".to_string()
             },
+            selectable: true,
         },
         SettingItem {
-            label: "\u{7528}\u{6237}\u{540d}",
+            label: "用户名",
             value: config.prompt_username.clone(),
+            selectable: false,
         },
         SettingItem {
-            label: "\u{4e3b}\u{673a}\u{540d}",
+            label: "主机名",
             value: config.prompt_hostname.clone(),
+            selectable: false,
         },
     ];
 
@@ -86,12 +99,17 @@ pub fn render(frame: &mut Frame, app: &App) {
     lines.push(Line::from(""));
 
     for (i, item) in items.iter().enumerate() {
-        let is_selected = i == app.settings_index;
-        let prefix = if is_selected { " \u{25b6} " } else { "   " };
+        let is_selected = item.selectable && i == app.settings_index;
+        let prefix = if is_selected { " ▶ " } else { "   " };
         let style = if is_selected {
-            Style::default().fg(ACCENT).add_modifier(Modifier::BOLD).bg(MENU_SELECTED_BG)
-        } else {
+            Style::default()
+                .fg(ACCENT)
+                .add_modifier(Modifier::BOLD)
+                .bg(MENU_SELECTED_BG)
+        } else if item.selectable {
             Style::default().fg(MENU_NORMAL)
+        } else {
+            Style::default().fg(DIM)
         };
         let val_style = if is_selected {
             Style::default().fg(Color::White).bg(MENU_SELECTED_BG)
@@ -99,41 +117,47 @@ pub fn render(frame: &mut Frame, app: &App) {
             Style::default().fg(DIM)
         };
 
-        lines.push(Line::from(vec![
-            Span::styled(prefix.to_string(), style),
-            Span::styled(format!("{:<20}", item.label), style),
-            Span::styled(format!("  {}", item.value), val_style),
-        ]));
+        if item.selectable {
+            lines.push(Line::from(vec![
+                Span::styled(prefix.to_string(), style),
+                Span::styled(format!("{:<20}", item.label), style),
+                Span::styled(format!("  {}", item.value), val_style),
+            ]));
+        } else {
+            lines.push(Line::from(vec![
+                Span::styled("   ", Style::default().fg(DIM)),
+                Span::styled(
+                    format!("{}: {} (只读)", item.label, item.value),
+                    Style::default().fg(DIM),
+                ),
+            ]));
+        }
     }
 
     lines.push(Line::from(""));
     lines.push(Line::from(Span::styled(
-        "  \u{4fee}\u{6539}\u{540e}\u{81ea}\u{52a8}\u{4fdd}\u{5b58}",
+        "  修改后自动保存",
         Style::default().fg(DIM),
     )));
 
     // Preview prompt
     lines.push(Line::from(""));
     lines.push(Line::from(Span::styled(
-        "  \u{9884}\u{89c8}:",
+        "  预览:",
         Style::default().fg(HEADER),
     )));
     lines.push(Line::from(vec![
         Span::styled("  ", Style::default()),
         Span::styled(app.format_prompt(), Style::default().fg(PROMPT_COLOR)),
-        Span::styled(
-            "ls -la /var/log",
-            Style::default().fg(Color::White),
-        ),
+        Span::styled("ls -la /var/log", Style::default().fg(Color::White)),
     ]));
 
     let content = Paragraph::new(lines);
     frame.render_widget(content, chunks[1]);
 
-    let hints = hint_line(&[
-        ("\u{2191}\u{2193}", "\u{79fb}\u{52a8}"),
-        ("\u{2190}\u{2192}/Enter", "\u{8c03}\u{6574}"),
-        ("Esc", "\u{4fdd}\u{5b58}\u{8fd4}\u{56de}"),
-    ]);
-    frame.render_widget(Paragraph::new(hints).alignment(Alignment::Center), chunks[2]);
+    let hints = hint_line(&[("↑↓", "移动"), ("←→/Enter", "调整"), ("Esc", "保存返回")]);
+    frame.render_widget(
+        Paragraph::new(hints).alignment(Alignment::Center),
+        chunks[2],
+    );
 }

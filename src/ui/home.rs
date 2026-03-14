@@ -5,11 +5,26 @@ use crate::app::App;
 use crate::ui::widgets::*;
 
 const MENU_ITEMS: [(&str, &str); 5] = [
-    ("\u{2328}\u{fe0f}  \u{5bf9}\u{7740}\u{6253}", "\u{7ec8}\u{7aef}\u{6a21}\u{62df}\u{6253}\u{5b57}\u{7ec3}\u{4e60}"),
-    ("\u{1f4d6} \u{5b66}\u{4e60}\u{4e2d}\u{5fc3}", "\u{547d}\u{4ee4}\u{00b7}\u{7b26}\u{53f7}\u{00b7}\u{7cfb}\u{7edf}\u{67b6}\u{6784}\u{4e13}\u{9898}"),
-    ("\u{1f4dd} \u{9ed8}\u{5199}\u{6a21}\u{5f0f}", "\u{770b}\u{4e2d}\u{6587}\u{5199}\u{547d}\u{4ee4}"),
-    ("\u{1f4ca} \u{7edf}\u{8ba1}\u{9762}\u{677f}", "\u{7ec3}\u{4e60}\u{6570}\u{636e}\u{5206}\u{6790}"),
-    ("\u{2699}\u{fe0f}  \u{8bbe}\u{7f6e}", "\u{81ea}\u{5b9a}\u{4e49}\u{914d}\u{7f6e}"),
+    (
+        "\u{2328}\u{fe0f}  \u{5bf9}\u{7740}\u{6253}",
+        "\u{7ec8}\u{7aef}\u{6a21}\u{62df}\u{6253}\u{5b57}\u{7ec3}\u{4e60}",
+    ),
+    (
+        "\u{1f4d6} \u{5b66}\u{4e60}\u{4e2d}\u{5fc3}",
+        "\u{547d}\u{4ee4}\u{00b7}\u{7b26}\u{53f7}\u{00b7}\u{7cfb}\u{7edf}\u{67b6}\u{6784}\u{4e13}\u{9898}",
+    ),
+    (
+        "\u{1f4dd} \u{9ed8}\u{5199}\u{6a21}\u{5f0f}",
+        "\u{770b}\u{4e2d}\u{6587}\u{5199}\u{547d}\u{4ee4}",
+    ),
+    (
+        "\u{1f4ca} \u{7edf}\u{8ba1}\u{9762}\u{677f}",
+        "\u{7ec3}\u{4e60}\u{6570}\u{636e}\u{5206}\u{6790}",
+    ),
+    (
+        "\u{2699}\u{fe0f}  \u{8bbe}\u{7f6e}",
+        "\u{81ea}\u{5b9a}\u{4e49}\u{914d}\u{7f6e}",
+    ),
 ];
 
 pub fn render(frame: &mut Frame, app: &App) {
@@ -18,7 +33,7 @@ pub fn render(frame: &mut Frame, app: &App) {
     let chunks = Layout::default()
         .direction(Direction::Vertical)
         .constraints([
-            Constraint::Length(3),  // title
+            Constraint::Length(3), // title
             Constraint::Min(0),    // menu
             Constraint::Length(1), // hints
         ])
@@ -97,5 +112,8 @@ pub fn render(frame: &mut Frame, app: &App) {
         ("Enter", "\u{9009}\u{62e9}"),
         ("q", "\u{9000}\u{51fa}"),
     ]);
-    frame.render_widget(Paragraph::new(hints).alignment(Alignment::Center), chunks[2]);
+    frame.render_widget(
+        Paragraph::new(hints).alignment(Alignment::Center),
+        chunks[2],
+    );
 }

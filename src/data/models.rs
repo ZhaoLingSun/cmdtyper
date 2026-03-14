@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 use serde::{Deserialize, Serialize};
 
 // ─────────────────────────────────────────────────────────────
@@ -18,12 +16,7 @@ pub enum Difficulty {
 }
 
 impl Difficulty {
-    pub const ALL: [Self; 4] = [
-        Self::Beginner,
-        Self::Basic,
-        Self::Advanced,
-        Self::Practical,
-    ];
+    pub const ALL: [Self; 4] = [Self::Beginner, Self::Basic, Self::Advanced, Self::Practical];
 
     pub fn label(&self) -> &str {
         match self {
@@ -300,6 +293,13 @@ pub struct OptionInfo {
     pub note: Option<String>,
 }
 
+/// 讲解示例中的词元详解
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ExampleTokenDetail {
+    pub token: String,
+    pub explanation: String,
+}
+
 /// 讲解示例
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct LessonExample {
@@ -312,6 +312,10 @@ pub struct LessonExample {
     pub simulated_output: Option<String>,
     #[serde(default)]
     pub output_annotations: Vec<OutputAnnotation>,
+    #[serde(default)]
+    pub token_details: Vec<ExampleTokenDetail>,
+    #[serde(default)]
+    pub output_explanation: Option<String>,
 }
 
 /// 易错点/陷阱
@@ -489,7 +493,7 @@ pub struct Keystroke {
 pub struct SessionRecord {
     pub id: String,
     pub command_id: String,
-    pub mode: Mode,
+    pub mode: RecordMode,
     pub keystrokes: Vec<Keystroke>,
     pub started_at: i64,
     pub finished_at: i64,

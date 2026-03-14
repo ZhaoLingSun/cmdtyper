@@ -29,17 +29,6 @@ pub fn render(frame: &mut Frame, app: &App) {
             category_index,
             command_index,
         } => command_lesson::render_overview(frame, app, *category_index, *command_index),
-        AppState::CommandLessonExample {
-            category_index,
-            command_index,
-            example_index,
-        } => command_lesson::render_example(
-            frame,
-            app,
-            *category_index,
-            *command_index,
-            *example_index,
-        ),
         AppState::CommandLessonPractice {
             category_index,
             command_index,
@@ -63,9 +52,7 @@ pub fn render(frame: &mut Frame, app: &App) {
             section_index,
             phase,
         } => match phase {
-            SystemPhase::Overview => {
-                system_lesson::render_overview(frame, app, *topic_index)
-            }
+            SystemPhase::Overview => system_lesson::render_overview(frame, app, *topic_index),
             SystemPhase::Detail => {
                 system_lesson::render_detail(frame, app, *topic_index, *section_index)
             }

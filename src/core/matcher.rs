@@ -259,10 +259,11 @@ mod tests {
                 assert_eq!(closest, "ls -la /tmp");
                 assert_eq!(reconstruct_input(&diff), "ls /tmp");
                 assert_eq!(reconstruct_answer(&diff), "ls -la /tmp");
-                assert!(diff
-                    .iter()
-                    .any(|segment| segment.kind == DiffKind::Added
-                        && segment.text.contains("-la")));
+                assert!(
+                    diff.iter()
+                        .any(|segment| segment.kind == DiffKind::Added
+                            && segment.text.contains("-la"))
+                );
             }
             other => panic!("expected NoMatch, got {other:?}"),
         }
@@ -277,9 +278,10 @@ mod tests {
                 assert_eq!(closest, "ls -la /tmp");
                 assert_eq!(reconstruct_input(&diff), "ls -laa /tmp");
                 assert_eq!(reconstruct_answer(&diff), "ls -la /tmp");
-                assert!(diff
-                    .iter()
-                    .any(|segment| segment.kind == DiffKind::Removed && segment.text == "a"));
+                assert!(
+                    diff.iter()
+                        .any(|segment| segment.kind == DiffKind::Removed && segment.text == "a")
+                );
             }
             other => panic!("expected NoMatch, got {other:?}"),
         }

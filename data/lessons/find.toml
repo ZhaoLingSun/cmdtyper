@@ -71,6 +71,18 @@ simulated_output = """/home/alice/Documents/report-2026.pdf
 /home/alice/Downloads/user-manual.pdf
 /home/alice/Downloads/invoice-march.pdf
 /home/alice/Desktop/presentation.pdf"""
+output_explanation = "输出中的每一行都是在 `/home/alice` 目录树里找到的一个 PDF 文件完整路径。"
+[[examples.token_details]]
+token = "/home/alice"
+explanation = "从这个目录开始递归搜索。"
+
+[[examples.token_details]]
+token = "-name"
+explanation = "按文件名模式匹配搜索结果。"
+
+[[examples.token_details]]
+token = "'*.pdf'"
+explanation = "只匹配扩展名为 `.pdf` 的文件名。"
 
 [[examples]]
 level = 2
@@ -81,6 +93,34 @@ simulated_output = """/var/log/syslog
 /var/log/auth.log
 /var/log/nginx/access.log
 /var/log/mysql/error.log"""
+output_explanation = "这些结果都是 `/var/log` 下文件名匹配 `*.log` 且大小超过 10MB 的普通日志文件路径。"
+[[examples.token_details]]
+token = "/var/log"
+explanation = "从系统日志目录开始搜索。"
+
+[[examples.token_details]]
+token = "-type"
+explanation = "限制匹配对象的文件类型。"
+
+[[examples.token_details]]
+token = "f"
+explanation = "只匹配普通文件，不包含目录或链接。"
+
+[[examples.token_details]]
+token = "-name"
+explanation = "继续按文件名模式过滤结果。"
+
+[[examples.token_details]]
+token = "'*.log'"
+explanation = "只保留文件名以 `.log` 结尾的日志文件。"
+
+[[examples.token_details]]
+token = "-size"
+explanation = "按文件大小过滤结果。"
+
+[[examples.token_details]]
+token = "+10M"
+explanation = "只匹配大于 10MB 的文件。"
 
 [[examples]]
 level = 2
@@ -90,7 +130,7 @@ simulated_output = """./project-a/node_modules
 ./project-a/packages/ui/node_modules
 ./project-b/node_modules
 ./old-projects/webapp/node_modules"""
-
+output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
 [[examples]]
 level = 3
 command = "find /tmp -type f -mtime +30 -exec rm -v {} \\;"
@@ -100,7 +140,7 @@ removed '/tmp/tmp.X8kd92Ls'
 removed '/tmp/core.12345'
 removed '/tmp/download.7Rkm3P'
 removed '/tmp/upload_cache_old.dat'"""
-
+output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
 [[examples]]
 level = 3
 command = "find /home -name '*.sh' -type f -perm -u+x"
@@ -110,7 +150,7 @@ simulated_output = """/home/alice/scripts/backup.sh
 /home/alice/bin/cleanup.sh
 /home/bob/scripts/monitor.sh
 /home/bob/cron/daily-report.sh"""
-
+output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
 [[examples]]
 level = 4
 command = "find ./src -name '*.py' -type f -exec grep -l 'import requests' {} +"
@@ -119,7 +159,7 @@ simulated_output = """./src/api/client.py
 ./src/services/webhook.py
 ./src/utils/downloader.py
 ./src/tests/test_api.py"""
-
+output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
 [[examples]]
 level = 4
 command = "find / -type f -perm -4000 -ls 2>/dev/null"
@@ -132,7 +172,7 @@ simulated_output = """   131073     40 -rwsr-xr-x   1 root     root        39144
    131099    164 -rwsr-xr-x   1 root     root       166056 Apr  1  2025 /usr/bin/sudo
    131112     36 -rwsr-xr-x   1 root     root        35192 Mar  7  2025 /usr/bin/umount
    131115     56 -rwsr-xr-x   1 root     root        55528 Mar  7  2025 /usr/bin/mount"""
-
+output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
 [[gotchas]]
 title = "-name 区分大小写，用 -iname 忽略大小写"
 content = """-name 选项在匹配文件名时是区分大小写的。例如：

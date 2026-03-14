@@ -58,7 +58,7 @@ level = 1
 command = "cat /etc/hostname"
 summary = "查看主机名文件"
 simulated_output = """ubuntu-server"""
-
+output_explanation = "输出展示了 cat 读取（或拼接）后的文件内容。cat 本身不做格式化，看到什么就原样输出什么，适合快速核对文件内容。"
 [[examples]]
 level = 1
 command = "cat ~/.bashrc"
@@ -82,7 +82,7 @@ shopt -s histappend
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000"""
-
+output_explanation = "输出展示了 cat 读取（或拼接）后的文件内容。cat 本身不做格式化，看到什么就原样输出什么，适合快速核对文件内容。"
 [[examples]]
 level = 2
 command = "cat -n /etc/passwd | head -5"
@@ -92,12 +92,48 @@ simulated_output = """     1\troot:x:0:0:root:/root:/bin/bash
      3\tbin:x:2:2:bin:/bin:/usr/sbin/nologin
      4\tsys:x:3:3:sys:/dev:/usr/sbin/nologin
      5\tsync:x:4:65534:sync:/bin:/bin/sync"""
+output_explanation = "每行的冒号分隔字段依次表示用户名、密码占位符、UID、GID、注释信息、家目录和登录 Shell。"
+[[examples.token_details]]
+token = "-n"
+explanation = "给 `cat` 输出的每一行加上行号，方便定位具体记录。"
+
+[[examples.token_details]]
+token = "/etc/passwd"
+explanation = "Linux 的用户账户信息文件，每一行都是一个用户条目。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "把前一个命令的输出作为下一个命令的输入。"
+
+[[examples.token_details]]
+token = "head -5"
+explanation = "只保留前 5 行，所以终端里只显示 passwd 文件开头的 5 条记录。"
 
 [[examples]]
 level = 3
 command = "cat file1.txt file2.txt file3.txt > combined.txt"
 summary = "将多个文件合并为一个文件"
 simulated_output = """"""
+output_explanation = "终端没有可见输出，因为内容被重定向写入 `combined.txt`，文件里的顺序与三个输入文件的顺序一致。"
+[[examples.token_details]]
+token = "file1.txt"
+explanation = "第一个输入文件，内容会最先写入目标文件。"
+
+[[examples.token_details]]
+token = "file2.txt"
+explanation = "第二个输入文件，内容会追加在 `file1.txt` 之后。"
+
+[[examples.token_details]]
+token = "file3.txt"
+explanation = "第三个输入文件，内容会继续追加在前两个文件之后。"
+
+[[examples.token_details]]
+token = ">"
+explanation = "把标准输出重定向到文件，而不是直接显示在终端。"
+
+[[examples.token_details]]
+token = "combined.txt"
+explanation = "保存合并结果的目标文件；如果已存在会被覆盖。"
 
 [[examples]]
 level = 3
@@ -111,7 +147,7 @@ name = myapp$
 [server]$
 host = 0.0.0.0$
 port = 8080$"""
-
+output_explanation = "输出展示了 cat 读取（或拼接）后的文件内容。cat 本身不做格式化，看到什么就原样输出什么，适合快速核对文件内容。"
 [[examples]]
 level = 4
 command = "cat access.log | grep \"POST\" | awk '{print $7}' | sort | uniq -c | sort -rn | head -10"
@@ -126,6 +162,34 @@ simulated_output = """    342 /api/login
      23 /api/register
      12 /api/feedback
       8 /api/logout"""
+output_explanation = "左侧数字表示每个 URL 的 POST 请求次数，结果已经按请求数量从高到低排序。"
+[[examples.token_details]]
+token = "cat access.log"
+explanation = "读取整个访问日志文件，把每一行日志送入后面的管道。"
+
+[[examples.token_details]]
+token = "grep \"POST\""
+explanation = "只保留包含 `POST` 的日志行，过滤掉其他请求方法。"
+
+[[examples.token_details]]
+token = "awk '{print $7}'"
+explanation = "从每条日志里取出第 7 列，也就是请求的 URL 路径。"
+
+[[examples.token_details]]
+token = "sort"
+explanation = "先把相同的 URL 排到一起，给后面的计数做准备。"
+
+[[examples.token_details]]
+token = "uniq -c"
+explanation = "统计连续重复的 URL 出现了多少次，并在前面加上计数。"
+
+[[examples.token_details]]
+token = "sort -rn"
+explanation = "按数值倒序重新排序，让请求次数最多的 URL 排在最前面。"
+
+[[examples.token_details]]
+token = "head -10"
+explanation = "只显示前 10 个结果。"
 
 [[gotchas]]
 title = "大文件不要用 cat 查看"
