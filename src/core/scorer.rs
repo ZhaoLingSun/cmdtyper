@@ -241,7 +241,11 @@ pub fn recommend_commands<'a>(
 fn is_typing_wpm_mode(mode: RecordMode) -> bool {
     matches!(
         mode,
-        RecordMode::Typing | RecordMode::LessonPractice | RecordMode::ReviewTyping
+        RecordMode::Typing
+            | RecordMode::LessonPractice
+            | RecordMode::ReviewTyping
+            | RecordMode::SymbolTyping
+            | RecordMode::SystemTyping
     )
 }
 
