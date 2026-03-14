@@ -119,7 +119,7 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "-i"
-explanation = "启用交互确认，覆盖/删除前先询问。"
+explanation = "覆盖已有目标文件前先询问，防止误覆盖重要文件。"
 
 [[examples.token_details]]
 token = "config.yml"
