@@ -1,0 +1,467 @@
+[meta]
+id = "network_basics"
+topic = "网络基础"
+description = "理解 Linux 网络栈：IP 地址、DNS 解析、端口与服务、防火墙、网络诊断工具"
+difficulty = "basic"
+icon = "🌐"
+
+overview = """
+┌─────────────────────────────────────────────────────┐
+│              Linux 网络协议栈概览                      │
+│                                                     │
+│  ┌─────────────────────────────────────────────┐    │
+│  │  应用层 (Application Layer)                  │    │
+│  │  HTTP, FTP, SSH, DNS, SMTP ...              │    │
+│  ├─────────────────────────────────────────────┤    │
+│  │  传输层 (Transport Layer)                    │    │
+│  │  TCP (可靠连接) / UDP (无连接)                │    │
+│  ├─────────────────────────────────────────────┤    │
+│  │  网络层 (Network Layer)                      │    │
+│  │  IP 协议 — 路由、寻址                         │    │
+│  ├─────────────────────────────────────────────┤    │
+│  │  链路层 (Link Layer)                         │    │
+│  │  以太网 / Wi-Fi — MAC 地址                    │    │
+│  └─────────────────────────────────────────────┘    │
+│                                                     │
+│  常见接口名:                                         │
+│    eth0 / ens33  — 有线网卡                          │
+│    wlan0         — 无线网卡                          │
+│    lo            — 本地回环 (127.0.0.1)              │
+│    docker0       — Docker 虚拟网桥                   │
+│                                                     │
+│  关键概念:                                           │
+│    IP 地址  — 网络中设备的唯一标识                     │
+│    子网掩码  — 划分网络与主机部分                      │
+│    网关     — 连接不同网络的出口                      │
+│    DNS      — 域名 → IP 的翻译服务                   │
+│    端口     — 区分同一 IP 上的不同服务                 │
+└─────────────────────────────────────────────────────┘"""
+
+# ============================================================
+# Section 1: IP 地址与网卡
+# ============================================================
+[[sections]]
+id = "ip-address"
+title = "IP 地址与网卡"
+description = """IP 地址是网络中设备的唯一标识符。Linux 使用 iproute2 工具集（ip 命令）来管理网络接口和地址。
+
+IPv4 地址格式：A.B.C.D（如 192.168.1.100）
+IPv6 地址格式：用冒号分隔的十六进制数（如 fe80::1）
+
+每台 Linux 机器至少有一个 lo（回环）接口，地址为 127.0.0.1，用于本机内部通信。
+物理网卡通常命名为 eth0、ens33（有线）或 wlan0（无线）。"""
+
+[[sections.commands]]
+command = "ip addr"
+summary = "显示所有网络接口的 IP 地址信息"
+simulated_output = """1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute
+       valid_lft forever preferred_lft forever
+2: ens33: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:4a:5b:6c brd ff:ff:ff:ff:ff:ff
+    altname enp2s1
+    inet 192.168.1.100/24 brd 192.168.1.255 scope global dynamic noprefixroute ens33
+       valid_lft 85432sec preferred_lft 85432sec
+    inet6 fe80::20c:29ff:fe4a:5b6c/64 scope link
+       valid_lft forever preferred_lft forever
+3: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default
+    link/ether 02:42:a1:b2:c3:d4 brd ff:ff:ff:ff:ff:ff
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever"""
+
+[[sections.commands]]
+command = "ip addr show ens33"
+summary = "仅显示 ens33 网卡的地址信息"
+simulated_output = """2: ens33: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:4a:5b:6c brd ff:ff:ff:ff:ff:ff
+    altname enp2s1
+    inet 192.168.1.100/24 brd 192.168.1.255 scope global dynamic noprefixroute ens33
+       valid_lft 85432sec preferred_lft 85432sec
+    inet6 fe80::20c:29ff:fe4a:5b6c/64 scope link
+       valid_lft forever preferred_lft forever"""
+
+[[sections.commands]]
+command = "ip route"
+summary = "显示路由表"
+simulated_output = """default via 192.168.1.1 dev ens33 proto dhcp src 192.168.1.100 metric 100
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown
+192.168.1.0/24 dev ens33 proto kernel scope link src 192.168.1.100 metric 100"""
+
+[[sections.commands]]
+command = "ip link show"
+summary = "显示所有网络接口的链路层状态"
+simulated_output = """1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: ens33: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000
+    link/ether 00:0c:29:4a:5b:6c brd ff:ff:ff:ff:ff:ff
+    altname enp2s1
+3: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN mode DEFAULT group default
+    link/ether 02:42:a1:b2:c3:d4 brd ff:ff:ff:ff:ff:ff"""
+
+[[sections.commands]]
+command = "hostname -I"
+summary = "快速显示本机所有 IP 地址"
+simulated_output = """192.168.1.100 172.17.0.1"""
+
+# ============================================================
+# Section 2: DNS 解析
+# ============================================================
+[[sections]]
+id = "dns"
+title = "DNS 解析"
+description = """DNS（Domain Name System）将人类可读的域名转换为 IP 地址。
+
+DNS 解析过程：
+  浏览器缓存 → 系统缓存 → /etc/hosts → 本地 DNS 服务器 → 根域名服务器 → 顶级域服务器 → 权威服务器
+
+Linux 中的 DNS 配置：
+  /etc/resolv.conf — 指定 DNS 服务器地址
+  /etc/hosts       — 本地静态域名解析
+  /etc/nsswitch.conf — 名称解析顺序配置
+
+常用 DNS 工具：dig（推荐）、nslookup（传统）、host（简洁）"""
+
+[[sections.commands]]
+command = "dig example.com"
+summary = "查询域名的 DNS 记录（详细输出）"
+simulated_output = """; <<>> DiG 9.18.28-0ubuntu0.24.04.1-Ubuntu <<>> example.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 43521
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 65494
+;; QUESTION SECTION:
+;example.com.			IN	A
+
+;; ANSWER SECTION:
+example.com.		3600	IN	A	93.184.216.34
+
+;; Query time: 23 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53) (UDP)
+;; WHEN: Mon Mar 09 14:23:15 CST 2026
+;; MSG SIZE  rcvd: 56"""
+
+[[sections.commands]]
+command = "dig +short example.com"
+summary = "仅显示 DNS 解析结果的 IP 地址"
+simulated_output = """93.184.216.34"""
+
+[[sections.commands]]
+command = "dig MX gmail.com"
+summary = "查询域名的邮件服务器记录"
+simulated_output = """; <<>> DiG 9.18.28-0ubuntu0.24.04.1-Ubuntu <<>> MX gmail.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 18742
+;; flags: qr rd ra; QUERY: 1, ANSWER: 5, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 65494
+;; QUESTION SECTION:
+;gmail.com.			IN	MX
+
+;; ANSWER SECTION:
+gmail.com.		3600	IN	MX	5 gmail-smtp-in.l.google.com.
+gmail.com.		3600	IN	MX	10 alt1.gmail-smtp-in.l.google.com.
+gmail.com.		3600	IN	MX	20 alt2.gmail-smtp-in.l.google.com.
+gmail.com.		3600	IN	MX	30 alt3.gmail-smtp-in.l.google.com.
+gmail.com.		3600	IN	MX	40 alt4.gmail-smtp-in.l.google.com.
+
+;; Query time: 45 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53) (UDP)
+;; WHEN: Mon Mar 09 14:24:02 CST 2026
+;; MSG SIZE  rcvd: 161"""
+
+[[sections.commands]]
+command = "nslookup example.com"
+summary = "使用 nslookup 查询域名解析"
+simulated_output = """Server:		127.0.0.53
+Address:	127.0.0.53#53
+
+Non-authoritative answer:
+Name:	example.com
+Address: 93.184.216.34
+Name:	example.com
+Address: 2606:2800:21f:cb07:6820:80da:af6b:8b2c"""
+
+[[sections.commands]]
+command = "host example.com"
+summary = "简洁地查询域名解析"
+simulated_output = """example.com has address 93.184.216.34
+example.com has IPv6 address 2606:2800:21f:cb07:6820:80da:af6b:8b2c
+example.com mail is handled by 0 .."""
+
+[[sections.commands]]
+command = "cat /etc/resolv.conf"
+summary = "查看系统 DNS 配置"
+simulated_output = """# This is /run/systemd/resolve/stub-resolv.conf managed by man:systemd-resolved(8).
+# Do not edit.
+#
+# This file might be symlinked as /etc/resolv.conf.
+#
+# Third party programs should typically not access this file directly, but only
+# through the symlink at /etc/resolv.conf.
+
+nameserver 127.0.0.53
+options edns0 trust-ad
+search localdomain"""
+
+# ============================================================
+# Section 3: 端口与服务
+# ============================================================
+[[sections]]
+id = "ports-services"
+title = "端口与服务"
+description = """端口号（0-65535）用来区分同一 IP 地址上运行的不同服务。
+
+端口范围：
+  0-1023     — 知名端口（Well-known），需要 root 权限绑定
+  1024-49151 — 注册端口（Registered），用于常见应用
+  49152-65535 — 动态/临时端口（Ephemeral）
+
+常见服务端口：
+  22   — SSH       443  — HTTPS
+  80   — HTTP      3306 — MySQL
+  25   — SMTP      5432 — PostgreSQL
+  53   — DNS       6379 — Redis
+  110  — POP3      8080 — HTTP 备用
+
+ss 命令（替代 netstat）用于查看当前监听的端口和连接。"""
+
+[[sections.commands]]
+command = "ss -tulnp"
+summary = "显示所有监听中的 TCP/UDP 端口及对应进程"
+simulated_output = """Netid  State   Recv-Q  Send-Q   Local Address:Port    Peer Address:Port  Process
+udp    UNCONN  0       0        127.0.0.53%lo:53           0.0.0.0:*      users:(("systemd-resolve",pid=652,fd=13))
+udp    UNCONN  0       0        0.0.0.0:68                 0.0.0.0:*      users:(("dhclient",pid=831,fd=9))
+tcp    LISTEN  0       4096     127.0.0.53%lo:53           0.0.0.0:*      users:(("systemd-resolve",pid=652,fd=14))
+tcp    LISTEN  0       128      0.0.0.0:22                 0.0.0.0:*      users:(("sshd",pid=924,fd=3))
+tcp    LISTEN  0       511      0.0.0.0:80                 0.0.0.0:*      users:(("nginx",pid=1205,fd=6))
+tcp    LISTEN  0       511      0.0.0.0:443                0.0.0.0:*      users:(("nginx",pid=1205,fd=7))
+tcp    LISTEN  0       128      127.0.0.1:3306             0.0.0.0:*      users:(("mysqld",pid=1342,fd=24))
+tcp    LISTEN  0       128      [::]:22                    [::]:*         users:(("sshd",pid=924,fd=4))"""
+
+[[sections.commands]]
+command = "ss -tulnp | grep :80"
+summary = "查看占用 80 端口的进程"
+simulated_output = """tcp    LISTEN  0       511      0.0.0.0:80                 0.0.0.0:*      users:(("nginx",pid=1205,fd=6))"""
+
+[[sections.commands]]
+command = "ss -s"
+summary = "显示网络连接的统计摘要"
+simulated_output = """Total: 187
+TCP:   15 (estab 3, closed 2, orphaned 0, timewait 1)
+
+Transport Total     IP        IPv6
+RAW	  0         0         0
+UDP	  2         2         0
+TCP	  13        10        3
+INET	  15        12        3
+FRAG	  0         0         0"""
+
+[[sections.commands]]
+command = "netstat -tulnp"
+summary = "使用 netstat 显示监听端口（传统方式）"
+simulated_output = """Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      924/sshd
+tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN      1342/mysqld
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      1205/nginx
+tcp        0      0 0.0.0.0:443             0.0.0.0:*               LISTEN      1205/nginx
+tcp6       0      0 :::22                   :::*                    LISTEN      924/sshd
+udp        0      0 127.0.0.53:53           0.0.0.0:*                           652/systemd-resolve
+udp        0      0 0.0.0.0:68              0.0.0.0:*                           831/dhclient"""
+
+[[sections.commands]]
+command = "curl -I https://example.com"
+summary = "查看 HTTP 响应头（测试 Web 服务连通性）"
+simulated_output = """HTTP/2 200
+accept-ranges: bytes
+age: 526834
+cache-control: max-age=604800
+content-type: text/html; charset=UTF-8
+date: Mon, 09 Mar 2026 06:23:15 GMT
+etag: \"3147526947+gzip\"
+expires: Mon, 16 Mar 2026 06:23:15 GMT
+last-modified: Thu, 17 Oct 2019 07:18:26 GMT
+server: ECAcc (sac/254D)
+x-cache: HIT
+content-length: 1256"""
+
+# ============================================================
+# Section 4: 防火墙 (ufw)
+# ============================================================
+[[sections]]
+id = "firewall-ufw"
+title = "防火墙 (ufw)"
+description = """UFW（Uncomplicated Firewall）是 Ubuntu/Debian 系统默认的防火墙管理工具，
+它是 iptables 的简化前端，使防火墙配置更加直观。
+
+防火墙核心概念：
+  - 默认策略：允许所有出站（outgoing），拒绝所有入站（incoming）
+  - 规则按顺序匹配，第一条匹配的规则生效
+  - 常见操作：允许/拒绝 特定端口或服务
+
+注意：修改防火墙规则前，务必确保 SSH（22端口）已允许，
+否则远程连接将被中断！"""
+
+[[sections.commands]]
+command = "sudo ufw status verbose"
+summary = "查看防火墙状态和规则（详细模式）"
+simulated_output = """Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), disabled (routed)
+New profiles: skip
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW IN    Anywhere
+80/tcp                     ALLOW IN    Anywhere
+443/tcp                    ALLOW IN    Anywhere
+22/tcp (v6)                ALLOW IN    Anywhere (v6)
+80/tcp (v6)                ALLOW IN    Anywhere (v6)
+443/tcp (v6)               ALLOW IN    Anywhere (v6)"""
+
+[[sections.commands]]
+command = "sudo ufw allow 22/tcp"
+summary = "允许 SSH 端口的 TCP 入站连接"
+simulated_output = """Rule added
+Rule added (v6)"""
+
+[[sections.commands]]
+command = "sudo ufw allow from 192.168.1.0/24 to any port 3306"
+summary = "仅允许局域网访问 MySQL 端口"
+simulated_output = """Rule added"""
+
+[[sections.commands]]
+command = "sudo ufw deny 23"
+summary = "拒绝 Telnet 端口的入站连接"
+simulated_output = """Rule added
+Rule added (v6)"""
+
+[[sections.commands]]
+command = "sudo ufw status numbered"
+summary = "显示带编号的防火墙规则（用于删除规则）"
+simulated_output = """Status: active
+
+     To                         Action      From
+     --                         ------      ----
+[ 1] 22/tcp                     ALLOW IN    Anywhere
+[ 2] 80/tcp                     ALLOW IN    Anywhere
+[ 3] 443/tcp                    ALLOW IN    Anywhere
+[ 4] 3306                       ALLOW IN    192.168.1.0/24
+[ 5] 23                         DENY IN     Anywhere
+[ 6] 22/tcp (v6)                ALLOW IN    Anywhere (v6)
+[ 7] 80/tcp (v6)                ALLOW IN    Anywhere (v6)
+[ 8] 443/tcp (v6)               ALLOW IN    Anywhere (v6)
+[ 9] 23 (v6)                    DENY IN     Anywhere (v6)"""
+
+[[sections.commands]]
+command = "sudo ufw enable"
+summary = "启用防火墙"
+simulated_output = """Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
+Firewall is active and enabled on system startup"""
+
+[[sections.commands]]
+command = "sudo ufw delete 5"
+summary = "删除第 5 条防火墙规则"
+simulated_output = """Deleting:
+ deny 23
+Proceed with operation (y|n)? y
+Rule deleted"""
+
+# ============================================================
+# Section 5: 网络诊断 (ping/traceroute/ss/netstat)
+# ============================================================
+[[sections]]
+id = "network-diagnostics"
+title = "网络诊断"
+description = """网络出问题时，需要系统性地排查。常用诊断思路：
+
+1. 本机网络是否正常？     → ip addr, ping 127.0.0.1
+2. 能否到达网关？         → ping 192.168.1.1
+3. 能否到达外网？         → ping 8.8.8.8
+4. DNS 是否正常？         → ping google.com, dig google.com
+5. 路径上哪一跳出问题？    → traceroute
+6. 特定端口是否可达？      → curl, telnet, nc
+
+这套排查流程从底层到应用层逐步验证，能快速定位问题所在。"""
+
+[[sections.commands]]
+command = "ping -c 4 8.8.8.8"
+summary = "向 Google DNS 发送 4 个 ICMP 包测试连通性"
+simulated_output = """PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=12.3 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=117 time=11.8 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=117 time=12.1 ms
+64 bytes from 8.8.8.8: icmp_seq=4 ttl=117 time=11.9 ms
+
+--- 8.8.8.8 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3005ms
+rtt min/avg/max/mdev = 11.802/12.025/12.301/0.185 ms"""
+
+[[sections.commands]]
+command = "ping -c 4 google.com"
+summary = "测试域名解析和网络连通性"
+simulated_output = """PING google.com (142.250.185.14) 56(84) bytes of data.
+64 bytes from tsa01s11-in-f14.1e100.net (142.250.185.14): icmp_seq=1 ttl=118 time=8.42 ms
+64 bytes from tsa01s11-in-f14.1e100.net (142.250.185.14): icmp_seq=2 ttl=118 time=8.15 ms
+64 bytes from tsa01s11-in-f14.1e100.net (142.250.185.14): icmp_seq=3 ttl=118 time=8.28 ms
+64 bytes from tsa01s11-in-f14.1e100.net (142.250.185.14): icmp_seq=4 ttl=118 time=8.33 ms
+
+--- google.com ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3004ms
+rtt min/avg/max/mdev = 8.150/8.295/8.420/0.096 ms"""
+
+[[sections.commands]]
+command = "traceroute google.com"
+summary = "追踪数据包到目标的路由路径"
+simulated_output = """traceroute to google.com (142.250.185.14), 30 hops max, 60 byte packets
+ 1  _gateway (192.168.1.1)  0.523 ms  0.481 ms  0.614 ms
+ 2  10.10.0.1 (10.10.0.1)  3.214 ms  3.185 ms  3.162 ms
+ 3  172.16.32.1 (172.16.32.1)  5.426 ms  5.398 ms  5.501 ms
+ 4  202.97.94.93 (202.97.94.93)  8.124 ms  8.097 ms  8.215 ms
+ 5  202.97.12.34 (202.97.12.34)  9.832 ms  9.801 ms  9.912 ms
+ 6  72.14.236.205 (72.14.236.205)  10.214 ms  10.185 ms  10.301 ms
+ 7  142.250.46.243 (142.250.46.243)  9.524 ms  9.498 ms  9.612 ms
+ 8  tsa01s11-in-f14.1e100.net (142.250.185.14)  8.425 ms  8.401 ms  8.518 ms"""
+
+[[sections.commands]]
+command = "mtr -r -c 10 google.com"
+summary = "综合 ping + traceroute 的网络诊断工具"
+simulated_output = """Start: 2026-03-09T14:30:25+0800
+HOST: myserver                    Loss%   Snt   Last   Avg  Best  Wrst StDev
+  1.|-- _gateway                   0.0%    10    0.5   0.6   0.4   0.9   0.1
+  2.|-- 10.10.0.1                  0.0%    10    3.2   3.4   3.0   4.1   0.3
+  3.|-- 172.16.32.1                0.0%    10    5.4   5.6   5.2   6.3   0.3
+  4.|-- 202.97.94.93               0.0%    10    8.1   8.3   7.9   9.0   0.3
+  5.|-- 202.97.12.34              10.0%    10    9.8  10.1   9.5  11.2   0.5
+  6.|-- 72.14.236.205              0.0%    10   10.2  10.4   9.8  11.5   0.5
+  7.|-- 142.250.46.243             0.0%    10    9.5   9.7   9.2  10.4   0.3
+  8.|-- tsa01s11-in-f14.1e100.net  0.0%    10    8.4   8.6   8.1   9.3   0.3"""
+
+[[sections.commands]]
+command = "curl -v telnet://192.168.1.100:22"
+summary = "测试特定主机的端口是否开放"
+simulated_output = """*   Trying 192.168.1.100:22...
+* Connected to 192.168.1.100 (192.168.1.100) port 22
+> GET / HTTP/1.1
+> Host: 192.168.1.100:22
+> User-Agent: curl/8.5.0
+> Accept: */*
+>
+SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu13.5
+^C"""
+
+[[sections.commands]]
+command = "ip neigh"
+summary = "查看 ARP 邻居表（局域网内的设备）"
+simulated_output = """192.168.1.1 dev ens33 lladdr e4:f0:42:a1:b2:c3 REACHABLE
+192.168.1.105 dev ens33 lladdr 08:00:27:d4:e5:f6 STALE
+192.168.1.110 dev ens33 lladdr 5c:e0:c5:12:34:56 REACHABLE
+192.168.1.254 dev ens33 lladdr 00:1a:2b:3c:4d:5e DELAY"""

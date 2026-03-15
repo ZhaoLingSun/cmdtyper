@@ -1,0 +1,210 @@
+[meta]
+command = "wget"
+full_name = "World Wide Web Get"
+category = "network"
+difficulty = "basic"
+importance = "common"
+
+[overview]
+summary = "从网络下载文件"
+explanation = """wget 是 Linux 中最常用的命令行下载工具，支持 HTTP、HTTPS 和 FTP 协议。\
+它的特点是稳定可靠，支持断点续传、递归下载、后台下载等功能。\
+即使网络不稳定或下载中断，wget 也能从断点处继续下载。\
+wget 的使用非常简单，最基本的用法只需 wget URL 即可开始下载。\
+在服务器环境中没有图形界面时，wget 是下载文件的首选工具。\
+与 curl 相比，wget 更擅长下载文件，curl 更擅长 API 交互。"""
+
+[syntax]
+basic = "wget [选项] URL..."
+[[syntax.parts]]
+name = "URL"
+desc = "要下载的文件地址，支持 HTTP/HTTPS/FTP"
+
+[[options]]
+flag = "-O"
+name = "指定输出文件名"
+example = "wget -O latest.tar.gz https://example.com/file.tar.gz"
+note = "将下载内容保存为指定的文件名（大写 O）"
+
+[[options]]
+flag = "-c"
+name = "断点续传"
+example = "wget -c https://example.com/large-file.iso"
+note = "从上次中断的位置继续下载"
+
+[[options]]
+flag = "-q"
+name = "静默模式"
+example = "wget -q https://example.com/file.txt"
+note = "不显示下载进度信息"
+
+[[options]]
+flag = "-b"
+name = "后台下载"
+example = "wget -b https://example.com/large-file.iso"
+note = "在后台下载，进度写入 wget-log 文件"
+
+[[options]]
+flag = "-r"
+name = "递归下载"
+example = "wget -r -l 2 https://example.com/"
+note = "递归下载网站页面，-l 指定递归深度"
+
+[[options]]
+flag = "--limit-rate"
+name = "限速下载"
+example = "wget --limit-rate=1m https://example.com/file.iso"
+note = "限制下载速度，支持 k（KB/s）和 m（MB/s）"
+
+[[examples]]
+level = 1
+command = "wget https://example.com/file.tar.gz"
+summary = "下载文件到当前目录"
+simulated_output = """--2026-03-09 14:30:25--  https://example.com/file.tar.gz
+Resolving example.com (example.com)... 93.184.216.34
+Connecting to example.com (example.com)|93.184.216.34|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 15728640 (15M) [application/gzip]
+Saving to: 'file.tar.gz'
+
+file.tar.gz         100%[===================>]  15.00M  8.42MB/s    in 1.8s
+
+2026-03-09 14:30:27 (8.42 MB/s) - 'file.tar.gz' saved [15728640/15728640]"""
+
+output_explanation = "输出展示下载进度、速度、保存文件名及完成状态。关注 HTTP 状态、断点续传信息和最终文件大小。"
+[[examples.token_details]]
+token = "https://example.com/file.tar.gz"
+explanation = "目标 URL，命令会对这个网络地址发起请求。"
+
+[[examples]]
+level = 2
+command = "wget -O go1.22.tar.gz https://go.dev/dl/go1.22.linux-amd64.tar.gz"
+summary = "下载文件并指定保存文件名"
+display = "wget -O go1.22.tar.gz \\\n  https://go.dev/dl/go1.22.linux-amd64.tar.gz"
+simulated_output = """--2026-03-09 14:31:05--  https://go.dev/dl/go1.22.linux-amd64.tar.gz
+Resolving go.dev (go.dev)... 216.239.38.21
+Connecting to go.dev (go.dev)|216.239.38.21|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 68182016 (65M) [application/octet-stream]
+Saving to: 'go1.22.tar.gz'
+
+go1.22.tar.gz       100%[===================>]  65.03M  12.5MB/s    in 5.2s
+
+2026-03-09 14:31:10 (12.5 MB/s) - 'go1.22.tar.gz' saved [68182016/68182016]"""
+
+output_explanation = "输出展示下载进度、速度、保存文件名及完成状态。关注 HTTP 状态、断点续传信息和最终文件大小。"
+[[examples.token_details]]
+token = "-O"
+explanation = "指定下载后的输出文件名。"
+
+[[examples.token_details]]
+token = "go1.22.tar.gz"
+explanation = "指定下载后保存的文件名。"
+
+[[examples.token_details]]
+token = "https://go.dev/dl/go1.22.linux-amd64.tar.gz"
+explanation = "目标 URL，命令会对这个网络地址发起请求。"
+
+[[examples]]
+level = 2
+command = "wget -c https://releases.ubuntu.com/24.04/ubuntu-24.04-live-server-amd64.iso"
+summary = "断点续传下载大文件（Ubuntu ISO）"
+display = "wget -c \\\n  https://releases.ubuntu.com/24.04/ubuntu-24.04-live-server-amd64.iso"
+simulated_output = """--2026-03-09 14:32:00--  https://releases.ubuntu.com/24.04/ubuntu-24.04-live-server-amd64.iso
+Resolving releases.ubuntu.com (releases.ubuntu.com)... 91.189.91.124
+Connecting to releases.ubuntu.com|91.189.91.124|:443... connected.
+HTTP request sent, awaiting response... 206 Partial Content
+Length: 2695168000 (2.5G), 1347584000 (1.3G) remaining [application/x-iso9660-image]
+Saving to: 'ubuntu-24.04-live-server-amd64.iso'
+
+ubuntu-24.04-live-  75%[+++++++++======>    ]   1.88G  5.24MB/s    eta 2m 15s"""
+
+output_explanation = "输出展示下载进度、速度、保存文件名及完成状态。关注 HTTP 状态、断点续传信息和最终文件大小。"
+[[examples.token_details]]
+token = "-c"
+explanation = "指定次数或统计计数（具体含义取决于命令）。"
+
+[[examples.token_details]]
+token = "https://releases.ubuntu.com/24.04/ubuntu-24.04-live-server-amd64.iso"
+explanation = "目标 URL，命令会对这个网络地址发起请求。"
+
+[[examples]]
+level = 3
+command = "wget -q -O - https://api.github.com/zen"
+summary = "将下载内容输出到标准输出（类似 curl）"
+simulated_output = """Responsive is better than fast."""
+
+output_explanation = "输出展示下载进度、速度、保存文件名及完成状态。关注 HTTP 状态、断点续传信息和最终文件大小。"
+[[examples.token_details]]
+token = "-q"
+explanation = "静默模式，尽量减少输出。"
+
+[[examples.token_details]]
+token = "-O"
+explanation = "指定下载后的输出文件名。"
+
+[[examples.token_details]]
+token = "-"
+explanation = "在不同命令中可表示上一个位置或标准输入/输出。"
+
+[[examples.token_details]]
+token = "https://api.github.com/zen"
+explanation = "目标 URL，命令会对这个网络地址发起请求。"
+
+[[examples]]
+level = 4
+command = "wget --mirror --convert-links --adjust-extension --page-requisites --no-parent https://docs.example.com/"
+summary = "镜像下载整个文档网站供离线浏览"
+display = "wget --mirror --convert-links \\\n  --adjust-extension \\\n  --page-requisites \\\n  --no-parent \\\n  https://docs.example.com/"
+simulated_output = """--2026-03-09 14:35:00--  https://docs.example.com/
+Resolving docs.example.com... 93.184.216.34
+Connecting to docs.example.com|93.184.216.34|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 12456 (12K) [text/html]
+Saving to: 'docs.example.com/index.html'
+
+FINISHED --2026-03-09 14:35:45--
+Total wall clock time: 45s
+Downloaded: 87 files, 4.2M in 12s (358 KB/s)"""
+
+output_explanation = "输出展示下载进度、速度、保存文件名及完成状态。关注 HTTP 状态、断点续传信息和最终文件大小。"
+[[examples.token_details]]
+token = "--mirror"
+explanation = "镜像下载站点内容（递归并保留结构）。"
+
+[[examples.token_details]]
+token = "--convert-links"
+explanation = "下载网页后把链接改写为本地可访问路径。"
+
+[[examples.token_details]]
+token = "--adjust-extension"
+explanation = "按内容类型自动补全文件扩展名。"
+
+[[examples.token_details]]
+token = "--page-requisites"
+explanation = "连同页面依赖资源（CSS/JS/图片）一起下载。"
+
+[[examples.token_details]]
+token = "--no-parent"
+explanation = "递归下载时不回溯到父级目录。"
+
+[[examples.token_details]]
+token = "https://docs.example.com/"
+explanation = "目标 URL，命令会对这个网络地址发起请求。"
+
+[[gotchas]]
+title = "wget 与 curl 的选择"
+content = """wget 和 curl 都能下载文件，但侧重点不同：
+  wget 擅长：
+    - 下载文件（默认保存到本地文件）
+    - 断点续传（-c）
+    - 递归下载和网站镜像
+    - 后台下载（-b）
+
+  curl 擅长：
+    - API 交互（支持更多协议和 HTTP 方法）
+    - 发送 POST/PUT 请求和 JSON 数据
+    - 自定义 HTTP 头部
+    - 默认输出到终端（适合管道）
+
+简单记忆：下载文件用 wget，调接口用 curl。"""

@@ -1,0 +1,150 @@
+[meta]
+command = "cd"
+full_name = "change directory"
+category = "file_ops"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "切换当前工作目录"
+explanation = """cd 是 Linux 终端中最基本的导航命令，用于改变当前工作目录。\
+它是一个 shell 内建命令（built-in），而不是一个独立的程序。\
+掌握 cd 以及各种路径快捷方式（~、..、-、/）是在终端中高效工作的基础。\
+几乎所有终端操作都依赖于你所处的当前目录，因此熟练使用 cd 至关重要。\
+不带任何参数执行 cd 相当于 cd ~，会直接回到你的主目录。"""
+
+[syntax]
+basic = "cd [目录]"
+[[syntax.parts]]
+name = "目录"
+desc = "要切换到的目标目录路径，可以是绝对路径或相对路径"
+
+[[options]]
+flag = "~"
+name = "主目录"
+example = "cd ~"
+note = "切换到当前用户的主目录（home directory），等同于 cd $HOME"
+
+[[options]]
+flag = "-"
+name = "上一个目录"
+example = "cd -"
+note = "切换到上次所在的目录，并打印该目录路径，可用于两个目录之间快速来回切换"
+
+[[options]]
+flag = ".."
+name = "上级目录"
+example = "cd .."
+note = "切换到当前目录的上一级（父）目录"
+
+[[options]]
+flag = "/"
+name = "根目录"
+example = "cd /"
+note = "切换到文件系统的根目录"
+
+[[options]]
+flag = "."
+name = "当前目录"
+example = "cd ."
+note = "表示当前目录，cd . 不会有任何变化，但在路径拼接中很有用"
+
+[[options]]
+flag = "~username"
+name = "指定用户的主目录"
+example = "cd ~bob"
+note = "切换到指定用户 bob 的主目录"
+
+[[examples]]
+level = 1
+command = "cd ~"
+summary = "回到主目录"
+simulated_output = """"""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "~"
+explanation = "当前用户的家目录（home）。"
+
+[[examples]]
+level = 1
+command = "cd .."
+summary = "切换到上一级目录"
+simulated_output = """"""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = ".."
+explanation = "上一级目录。"
+
+[[examples]]
+level = 2
+command = "cd -"
+summary = "切换到上次访问的目录"
+simulated_output = """/home/alice/Documents"""
+
+output_explanation = "该命令主要用于切换目录，成功时通常不会打印可见输出；如果没有报错并返回提示符，说明目录切换已生效。可用 `pwd` 立即确认当前路径。"
+[[examples.token_details]]
+token = "-"
+explanation = "在不同命令中可表示上一个位置或标准输入/输出。"
+
+[[examples]]
+level = 2
+command = "cd /var/log"
+summary = "使用绝对路径切换到系统日志目录"
+simulated_output = """"""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "/var/log"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples]]
+level = 3
+command = "cd ../../etc"
+summary = "使用相对路径向上两级再进入 etc 目录"
+simulated_output = """"""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "../../etc"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples]]
+level = 4
+command = "cd \"$(find /home -name projects -type d | head -1)\""
+summary = "结合命令替换，切换到找到的第一个 projects 目录"
+simulated_output = """"""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "$(find /home -name projects -type d | head -1)"
+explanation = "命令替换：先执行括号内命令，再把结果作为当前参数。"
+
+[[gotchas]]
+title = "不能 cd 到一个文件"
+content = """cd 只能用于切换到目录，不能切换到文件。如果你尝试 cd 到一个文件，\
+你会看到错误信息：
+  bash: cd: config.txt: Not a directory
+如果你想要进入某个文件所在的目录，可以使用 cd 加上该文件的目录路径，\
+例如：cd /etc 然后再操作 /etc/hostname 文件。"""
+
+[[gotchas]]
+title = "路径中有空格时必须加引号"
+content = """如果目录名中包含空格，必须用引号将路径包起来，否则 shell 会把空格当作参数分隔符。
+错误写法：
+  cd /home/alice/My Documents
+  （shell 会把 My 和 Documents 当作两个参数）
+正确写法：
+  cd "/home/alice/My Documents"
+  cd '/home/alice/My Documents'
+  cd /home/alice/My\\ Documents
+这三种方式都可以正确处理带空格的路径。"""
+
+[[gotchas]]
+title = "cd 是 shell 内建命令"
+content = """cd 不是一个独立的可执行程序（在 /usr/bin/ 下找不到它），\
+它是 shell 的内建命令。这意味着你无法用 which cd 找到它的路径，\
+也无法对它使用 man cd（但可以用 help cd 查看帮助）。\
+这是因为只有 shell 进程本身才能改变自己的工作目录，\
+外部程序无法改变调用者的工作目录。"""

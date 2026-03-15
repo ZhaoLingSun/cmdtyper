@@ -1,0 +1,180 @@
+[meta]
+command = "kill"
+full_name = "kill"
+category = "process"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "向进程发送信号（终止、停止等）"
+explanation = """kill 命令用于向进程发送信号（signal）。虽然名字叫"kill"，但它不只是"杀死"进程，\
+而是可以发送各种信号来控制进程的行为。最常用的信号是 SIGTERM（15，优雅终止）\
+和 SIGKILL（9，强制终止）。当程序不响应时，kill -9 是最后手段。\
+kill 需要指定进程的 PID（进程ID），可以通过 ps、top、pgrep 等命令查找。\
+除了 kill 命令外，还有 killall（按进程名终止）和 pkill（按模式匹配终止）等便捷工具。"""
+
+[syntax]
+basic = "kill [选项] PID..."
+[[syntax.parts]]
+name = "PID"
+desc = "要发送信号的进程 ID，可以指定多个"
+
+[[options]]
+flag = "-9"
+name = "强制终止 (SIGKILL)"
+example = "kill -9 12345"
+note = "立即强制终止进程，进程无法捕获或忽略此信号"
+
+[[options]]
+flag = "-15"
+name = "优雅终止 (SIGTERM)"
+example = "kill -15 12345"
+note = "请求进程正常退出，这是默认信号，进程可以进行清理工作"
+
+[[options]]
+flag = "-STOP"
+name = "暂停进程 (SIGSTOP)"
+example = "kill -STOP 12345"
+note = "暂停进程的运行（可用 kill -CONT 恢复）"
+
+[[options]]
+flag = "-CONT"
+name = "恢复进程 (SIGCONT)"
+example = "kill -CONT 12345"
+note = "恢复被暂停的进程继续运行"
+
+[[options]]
+flag = "-HUP"
+name = "挂起信号 (SIGHUP)"
+example = "kill -HUP 1205"
+note = "让进程重新加载配置文件，常用于 Nginx、Apache 等服务"
+
+[[options]]
+flag = "-l"
+name = "列出所有信号"
+example = "kill -l"
+note = "显示系统支持的所有信号名称和编号"
+
+[[examples]]
+level = 1
+command = "kill 12345"
+summary = "向进程 12345 发送默认的 SIGTERM 信号"
+simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "12345"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples]]
+level = 1
+command = "kill -9 12345"
+summary = "强制终止不响应的进程"
+simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "-9"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "12345"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples]]
+level = 2
+command = "kill -l"
+summary = "列出所有可用的信号"
+simulated_output = """ 1) SIGHUP\t 2) SIGINT\t 3) SIGQUIT\t 4) SIGILL\t 5) SIGTRAP
+ 6) SIGABRT\t 7) SIGBUS\t 8) SIGFPE\t 9) SIGKILL\t10) SIGUSR1
+11) SIGSEGV\t12) SIGUSR2\t13) SIGPIPE\t14) SIGALRM\t15) SIGTERM
+16) SIGSTKFLT\t17) SIGCHLD\t18) SIGCONT\t19) SIGSTOP\t20) SIGTSTP
+21) SIGTTIN\t22) SIGTTOU\t23) SIGURG\t24) SIGXCPU\t25) SIGXFSZ
+26) SIGVTALRM\t27) SIGPROF\t28) SIGWINCH\t29) SIGIO\t30) SIGPWR
+31) SIGSYS"""
+
+output_explanation = "该命令用于向进程发送信号。成功时通常无输出，若使用 `-l` 会列出信号编号与名称；建议先确认 PID，避免误杀关键进程。"
+[[examples.token_details]]
+token = "-l"
+explanation = "列表模式或逐行统计（取决于命令）。"
+
+[[examples]]
+level = 2
+command = "kill -HUP $(cat /var/run/nginx.pid)"
+summary = "让 Nginx 重新加载配置文件而不停止服务"
+display = "kill -HUP \\\n  $(cat /var/run/nginx.pid)"
+simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "-HUP"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "$(cat"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "/var/run/nginx.pid)"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples]]
+level = 3
+command = "killall -v python3"
+summary = "终止所有名为 python3 的进程并显示详情"
+simulated_output = """Killed python3(12345): uid 1000 pid 12345 sig 15
+Killed python3(12890): uid 1000 pid 12890 sig 15"""
+
+output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
+[[examples.token_details]]
+token = "-v"
+explanation = "显示详细执行过程，便于观察发生了什么。"
+
+[[examples.token_details]]
+token = "python3"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples]]
+level = 4
+command = "pkill -f 'gunicorn.*myapp'"
+summary = "终止所有匹配完整命令行模式的 gunicorn 进程"
+simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "-f"
+explanation = "持续跟随输出变化，或指定文件脚本（取决于命令）。"
+
+[[examples.token_details]]
+token = "gunicorn.*myapp"
+explanation = "通配符模式，会匹配一组符合条件的文件名。"
+
+[[gotchas]]
+title = "SIGTERM 与 SIGKILL 的区别"
+content = """kill 默认发送 SIGTERM（15），SIGTERM 是一个"请求"：
+  - 进程可以捕获 SIGTERM，执行清理（关闭文件、断开连接等）后再退出
+  - 进程也可以选择忽略 SIGTERM（这就是为什么有时 kill 不起作用）
+
+SIGKILL（9）是一个"命令"：
+  - 由内核直接处理，进程无法捕获或忽略
+  - 进程被立即终止，没有机会做任何清理
+  - 可能导致数据丢失（如未保存的文件、未完成的数据库事务）
+
+正确做法：先 kill PID，等几秒，如果进程没退出再 kill -9 PID。"""
+
+[[gotchas]]
+title = "kill 需要正确的 PID"
+content = """kill 发送信号需要正确的进程 PID。查找 PID 的常用方法：
+  ps aux | grep 进程名      — 传统方法
+  pgrep -a 进程名           — 更简洁
+  pidof 进程名              — 只返回 PID
+
+如果使用 ps | grep 方法，注意排除 grep 自身：
+  ps aux | grep nginx | grep -v grep
+或者使用：
+  ps aux | grep [n]ginx     — 利用正则表达式的技巧排除自身
+
+更方便的替代命令：
+  killall nginx    — 按名称终止所有匹配的进程
+  pkill nginx      — 按名称模式终止进程
+  pkill -f 'python app.py' — 按完整命令行匹配"""

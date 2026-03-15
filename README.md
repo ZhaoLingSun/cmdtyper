@@ -1,117 +1,109 @@
 # cmdtyper
 
-> 🐧 Terminal-based Linux command typing practice — learn, type, dictate, and track your progress.
+> 🐧 Linux 命令行交互式教学系统 — 终端模拟打字 · 体系化学习 · 分级训练 · 深度解析
 
-**cmdtyper** is a TUI (Terminal User Interface) application built with Rust for practicing Linux commands through typing. It features multiple practice modes, a rich command database with Chinese annotations, and detailed performance tracking — all running directly in your terminal.
+**cmdtyper** 是一个基于 Rust 的终端 TUI 应用，面向 Linux 初学者到中级用户，提供沉浸式命令行学习体验。它在终端中模拟真实输入流程，支持多种练习模式、分级筛选、深度讲解与统计追踪，且**不执行任何真实命令**。
 
-## ✨ Features
+## ✨ v0.3 特性总览
 
-- **4 Practice Modes** — Learn, Type, Dictation, and Stats
-- **273 Commands** across 19 topic files, from beginner `ls` to advanced `awk` pipelines
-- **Character-by-character matching** with real-time error highlighting
-- **Dictation mode** with multi-answer matching and intelligent diff
-- **Performance tracking** — WPM, accuracy, character-level analysis, streaks
-- **Persistent progress** saved locally as JSON
-- **No command execution** — all commands are text-only practice material (safe by design)
-- **Docker support** for containerized usage
+- **🖥️ 三档打字模式**：Terminal / Standard / Detailed，训练时按 `M` 一键切换
+- **🎯 分级训练**：支持按难度（Beginner/Basic/Advanced/Practical）与类别（Category）过滤命令
+- **📺 模拟输出反馈**：输入完成后展示预置终端输出，建立“输入→结果”映射
+- **🧠 深度解析框架**：命令示例支持滚动阅读的深度解释，按 `D` 打开/关闭
+- **🔣 符号打字训练**：符号专题支持 **Typing + Dictation** 双模式练习
+- **💻 系统命令打字**：系统架构专题包含命令跟打与配置理解
+- **📊 统计面板**：WPM、准确率、字符分析、类别掌握度、连续练习天数
+- **🔒 绝对安全**：纯数据驱动，所有输出均来自 TOML 预置内容
 
-## 📦 Modes
+## 📦 内容库（v0.3）
 
-### 🎓 Learn
+| 类别 | 数量 | 内容 |
+|------|------|------|
+| 命令题库 | **273 条** | 分布于 `data/commands/*.toml`，覆盖入门到实战 |
+| 命令讲解 | **31 个专题** | 含语法、选项、示例、易错点 |
+| 符号专题 | **6 个专题** | 管道重定向、通配符、引号转义、变量、特殊字符、正则 |
+| 符号练习 | **90 题** | Typing + Dictation 双轨训练 |
+| 系统架构专题 | **6 个专题** | 目录结构、权限模型、进程/systemd、网络、包管理、配置文件 |
+| 深度解析样例 | **5 个旗舰案例** | 支持滚动查看的详解内容 |
 
-Displays each command with token-by-token annotations explaining every flag and argument. You follow along by typing, building muscle memory with understanding.
+## 🎮 训练与学习模式
+
+### ⌨️ 三档打字模式
+
+在对着打/练习界面可用 `M` 轮换：
+
+1. **Terminal**：更贴近真实终端，节奏更快
+2. **Standard**：默认模式，平衡可读性与速度
+3. **Detailed**：展示更多解释信息，便于理解命令结构
+
+模式循环顺序：`Standard → Detailed → Terminal → Standard`。
+
+### 🎯 分级训练
+
+支持两个维度筛选：
+
+- **Difficulty**：Beginner / Basic / Advanced / Practical
+- **Category**：FileOps / Permission / TextProcess / Search / Process / Network / Archive / System / Pipeline / Scripting
+
+可单独使用任一筛选，也可组合筛选（Difficulty + Category）快速进入精准练习集。
+
+**推荐起步路径**：
+
+1. Beginner + FileOps（先熟悉目录与文件操作）
+2. Basic + TextProcess / Search（建立文本与检索能力）
+3. Advanced + Pipeline（组合命令）
+4. Practical（实战场景巩固）
+
+### 🧠 深度解析
+
+在支持深度讲解的示例中，可按 `D` 打开详细解释面板：
+
+- 展示分步推导与上下文说明
+- 支持滚动阅读，适合学习“为什么这样写”
+- 适用于命令专题、符号专题与系统命令部分内容
+
+### 🔣 符号打字训练
+
+符号专题新增双模式训练：
+
+- **Typing**：给定命令文本，逐字符跟打
+- **Dictation**：给定语义提示，独立回忆并输入命令
+
+训练重点覆盖：`|`, `>`, `>>`, `*`, `?`, `$`, `'"`, `&&`, `||`, 正则等关键符号用法。
+
+### 💻 系统命令打字
+
+系统架构专题不再只讲概念，还可直接进行命令练习：
+
+- 常见运维命令的跟打与理解
+- 模拟输出辅助理解命令效果
+- 与配置文件讲解联动，形成“命令 + 配置 + 场景”闭环
+
+### 📝 默写模式
+
+只给中文描述，你凭记忆写命令：
+
+- 多答案匹配（如 `ls -la` / `ls -al`）
+- 智能标准化（忽略多余空格）
+- 错误时展示最接近答案 + diff
+
+### 📖 学习中心
 
 ```
-Command: ls -la /var/log
-
-  ls      ─ 列出目录内容的命令
-  -la     ─ -l 详细列表格式 + -a 显示隐藏文件
-  /var/log ─ 目标目录：常见的系统日志目录
+📖 学习中心
+├── 命令专题
+├── 符号专题
+├── 系统架构
+└── 专题复习
 ```
 
-### ⌨️ Type
+每个命令学习通常包含：
+1. **Overview**：语法、选项、例子、注意点
+2. **Practice**：逐字符跟打并即时反馈
 
-Classic typing practice: the command is shown, and you type it character by character. Correct characters advance the cursor; errors flash red without advancing — just like a real typing trainer.
+## 🚀 快速开始
 
-- Real-time WPM / accuracy / elapsed time
-- Token annotations visible as hints
-
-### 📝 Dictation
-
-Only a Chinese description is shown (e.g., *"显示 /var/log 目录下所有文件的详细信息"*). You write the command from memory.
-
-- Multiple accepted answers per question
-- Normalized matching (extra spaces, quote style)
-- On wrong answers: shows the closest correct answer with diff highlighting
-
-### 📊 Stats
-
-A keybr-style analytics dashboard:
-
-- **Speed overview** — average/best WPM, accuracy, session count
-- **Character analysis** — per-character speed and error rate
-- **Category mastery** — progress bars per topic
-- **Practice calendar** — daily activity heatmap and streaks
-
-## 🗂️ Command Database
-
-Commands are stored as TOML files under `data/commands/`:
-
-| File | Topic | Difficulty |
-|------|-------|------------|
-| `01_beginner.toml` | File & directory basics | ★☆☆☆ |
-| `02_basic.toml` | Permissions, search, system | ★★☆☆ |
-| `03_advanced.toml` | Text processing, pipelines | ★★★☆ |
-| `04_practical.toml` | Real-world DevOps combos | ★★★★ |
-| `05`–`19` | Extended topics (git, curl, firewall, networking, etc.) | Mixed |
-
-**Total: 273 commands** across 4 difficulty levels and 10+ categories.
-
-<details>
-<summary>TOML format example</summary>
-
-```toml
-[meta]
-category = "file_ops"
-difficulty = "beginner"
-description = "基础文件和目录操作命令"
-
-[[commands]]
-id = "ls-all-long"
-command = "ls -la /var/log"
-summary = "显示 /var/log 目录的详细列表（包含隐藏文件）"
-
-[[commands.tokens]]
-text = "ls"
-desc = "列出目录内容的命令"
-
-[[commands.tokens]]
-text = "-la"
-desc = "-l 详细列表格式 + -a 显示隐藏文件"
-
-[[commands.tokens]]
-text = "/var/log"
-desc = "目标目录：常见的系统日志目录"
-
-[commands.dictation]
-prompt = "显示 /var/log 目录下所有文件（包含隐藏文件）的详细信息"
-answers = [
-    "ls -la /var/log",
-    "ls -al /var/log",
-    "ls --all -l /var/log",
-]
-```
-
-</details>
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- **Rust** 1.82+ (edition 2024)
-- A terminal with 256-color support
-
-### Build from source
+### 从源码构建
 
 ```bash
 git clone https://github.com/ZhaoLingSun/cmdtyper.git
@@ -120,75 +112,76 @@ cargo build --release
 ./target/release/cmdtyper
 ```
 
-### Run with Docker
+### Docker 运行
 
 ```bash
 docker compose build
 docker compose run --rm cmdtyper
 ```
 
-Progress data is persisted in a Docker volume (`cmdtyper_data`).
+### 依赖
 
-### Install via Cargo (once published)
+- Rust 1.82+（edition 2024）
+- 支持 256 色的终端
 
-```bash
-cargo install cmdtyper
+## ⌨️ 快捷键（按界面）
+
+| 按键 | 操作 |
+|------|------|
+| `↑` `↓` / `j` `k` | 菜单上下移动（主页/学习中心/专题列表/设置等） |
+| `Enter` | 确认进入 / 提交答案 / 继续下一项 |
+| `→` / `l` | 在支持页面进入下一步（如学习概览进入练习、统计切标签） |
+| `←` / `h` | 在支持页面返回或反向切换 |
+| `Tab` | 对着打跳过当前命令；统计页切换标签 |
+| `Shift+Tab` | 统计页切换到上一个标签 |
+| `M` | 对着打模式切换显示档位（Terminal/Standard/Detailed） |
+| `D` | 打开/关闭深度解析面板（在支持页面） |
+| `H` | 对着打模式切换词元提示（开始前或完成后） |
+| `Ctrl+R` | 重练当前命令（对着打 / 命令学习练习） |
+| `Backspace` | 默写模式删除一个字符 |
+| `Esc` | 返回上一级/主页 |
+| `q` | 仅主页退出 |
+| `Ctrl+C` | 全局退出 |
+
+## 📁 项目结构
+
+```
+src/
+├── main.rs
+├── app.rs
+├── event.rs
+├── core/
+│   ├── engine.rs
+│   ├── matcher.rs
+│   ├── scorer.rs
+│   ├── timer.rs
+│   └── terminal_history.rs
+├── data/
+│   ├── models.rs
+│   ├── *_loader.rs
+│   └── progress.rs
+├── flow/
+└── ui/
+
+data/
+├── commands/
+├── lessons/
+├── symbols/
+└── system/
 ```
 
-## ⌨️ Keybindings
+## 🛠️ 技术栈
 
-| Key | Action |
-|-----|--------|
-| `↑` `↓` | Navigate menu / select items |
-| `←` `→` | Switch difficulty / navigate |
-| `Enter` | Confirm selection / submit answer / next command |
-| `Tab` | Skip current command |
-| `Ctrl+R` | Retry current command |
-| `Esc` | Back to main menu |
-| `q` | Quit |
+| 组件 | 技术 |
+|------|------|
+| 语言 | Rust (edition 2024) |
+| TUI | ratatui 0.29 + crossterm 0.28 |
+| 数据 | TOML (课程) + JSON (进度) |
+| 容器 | Docker (multi-stage build) |
 
-## 📁 Data Storage
+## 🔒 安全
 
-User progress is saved locally:
-
-```
-~/.local/share/cmdtyper/
-├── history.json    # All practice session records
-├── stats.json      # Aggregated statistics
-└── config.json     # User preferences
-```
-
-## 🔒 Safety
-
-**cmdtyper does not execute any commands.** All Linux commands in the database are treated purely as text for typing practice. There is no shell invocation, no `Command::new()`, no `system()` call — by design.
-
-## 🛠️ Tech Stack
-
-| Component | Technology |
-|-----------|------------|
-| Language | Rust (edition 2024) |
-| TUI framework | [ratatui](https://github.com/ratatui/ratatui) 0.29 + [crossterm](https://github.com/crossterm-rs/crossterm) 0.28 |
-| Data format | TOML (questions) + JSON (progress) |
-| Serialization | serde + serde_json + toml |
-| Unicode handling | unicode-width |
-| Containerization | Docker (multi-stage build) |
-
-## 🤝 Contributing
-
-### Adding commands
-
-1. Create or edit a TOML file under `data/commands/`
-2. Follow the format in existing files
-3. Ensure every `tokens[].text` concatenated with spaces equals the `command` field
-4. Provide at least one `dictation.answers` entry
-
-### Development
-
-```bash
-cargo test          # Run tests
-cargo clippy        # Lint
-cargo run           # Run in dev mode
-```
+**cmdtyper 不执行任何真实命令。** 所有输出来自预置内容，没有 shell 执行路径。
 
 ## 📄 License
 

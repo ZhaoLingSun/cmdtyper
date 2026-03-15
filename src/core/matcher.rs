@@ -34,6 +34,7 @@ pub fn check(input: &str, answers: &[String]) -> MatchResult {
 }
 
 impl Matcher {
+    /// Normalize input: trim whitespace, collapse multiple spaces, lowercase.
     pub fn normalize(input: &str) -> String {
         input
             .split_whitespace()
@@ -42,13 +43,16 @@ impl Matcher {
             .to_lowercase()
     }
 
+    /// Check user input against a list of accepted answers.
+    /// Tries exact match first, then normalized match, then finds closest via LCS.
     pub fn check(input: &str, answers: &[String]) -> MatchResult {
+        // Try exact match
         if let Some(index) = answers.iter().position(|answer| answer == input) {
             return MatchResult::Exact(index);
         }
 
+        // Try normalized match
         let normalized_input = Self::normalize(input);
-
         if let Some(index) = answers
             .iter()
             .position(|answer| Self::normalize(answer) == normalized_input)
@@ -56,6 +60,7 @@ impl Matcher {
             return MatchResult::Normalized(index);
         }
 
+        // Find closest answer via LCS
         let fallback = answers
             .iter()
             .enumerate()
@@ -116,6 +121,22 @@ fn lcs_len(left: &str, right: &str) -> usize {
     table[left_chars.len()][right_chars.len()]
 }
 
+fn lcs_table(left: &[char], right: &[char]) -> Vec<Vec<usize>> {
+    let mut table = vec![vec![0; right.len() + 1]; left.len() + 1];
+
+    for (i, left_char) in left.iter().enumerate() {
+        for (j, right_char) in right.iter().enumerate() {
+            table[i + 1][j + 1] = if left_char == right_char {
+                table[i][j] + 1
+            } else {
+                table[i + 1][j].max(table[i][j + 1])
+            };
+        }
+    }
+
+    table
+}
+
 fn diff_strings(input: &str, answer: &str) -> Vec<DiffSegment> {
     let input_chars: Vec<char> = input.chars().collect();
     let answer_chars: Vec<char> = answer.chars().collect();
@@ -173,25 +194,9 @@ fn group_ops(ops: Vec<DiffOp>) -> Vec<DiffSegment> {
     grouped
 }
 
-fn lcs_table(left: &[char], right: &[char]) -> Vec<Vec<usize>> {
-    let mut table = vec![vec![0; right.len() + 1]; left.len() + 1];
-
-    for (i, left_char) in left.iter().enumerate() {
-        for (j, right_char) in right.iter().enumerate() {
-            table[i + 1][j + 1] = if left_char == right_char {
-                table[i][j] + 1
-            } else {
-                table[i + 1][j].max(table[i][j + 1])
-            };
-        }
-    }
-
-    table
-}
-
 #[cfg(test)]
 mod tests {
-    use super::{check, normalize, DiffKind, DiffSegment, MatchResult, Matcher};
+    use super::*;
 
     fn reconstruct_input(diff: &[DiffSegment]) -> String {
         diff.iter()
@@ -214,16 +219,31 @@ mod tests {
     }
 
     #[test]
+    fn normalize_empty_string() {
+        assert_eq!(normalize(""), "");
+        assert_eq!(normalize("   "), "");
+    }
+
+    #[test]
+    fn normalize_single_word() {
+        assert_eq!(normalize("  PWD  "), "pwd");
+    }
+
+    #[test]
     fn check_prefers_exact_match() {
         let answers = vec!["ls -la /tmp".to_string(), "pwd".to_string()];
-
         assert_eq!(check("ls -la /tmp", &answers), MatchResult::Exact(0));
+    }
+
+    #[test]
+    fn check_exact_match_second_answer() {
+        let answers = vec!["ls -la /tmp".to_string(), "pwd".to_string()];
+        assert_eq!(check("pwd", &answers), MatchResult::Exact(1));
     }
 
     #[test]
     fn check_falls_back_to_normalized_match() {
         let answers = vec!["ls -la /var/log".to_string(), "pwd".to_string()];
-
         assert_eq!(
             check("  LS   -LA   /VAR/LOG  ", &answers),
             MatchResult::Normalized(0)
@@ -258,14 +278,9 @@ mod tests {
                 assert_eq!(closest, "ls -la /tmp");
                 assert_eq!(reconstruct_input(&diff), "ls -laa /tmp");
                 assert_eq!(reconstruct_answer(&diff), "ls -la /tmp");
-                assert!(diff
-                    .iter()
-                    .any(|segment| { segment.kind == DiffKind::Removed && segment.text == "a" }));
                 assert!(
                     diff.iter()
-                        .filter(|segment| segment.kind == DiffKind::Removed)
-                        .count()
-                        >= 1
+                        .any(|segment| segment.kind == DiffKind::Removed && segment.text == "a")
                 );
             }
             other => panic!("expected NoMatch, got {other:?}"),
@@ -294,6 +309,39 @@ mod tests {
                         kind: DiffKind::Removed,
                     }]
                 );
+            }
+            other => panic!("expected NoMatch, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn empty_input_against_answers() {
+        let answers = vec!["ls".to_string()];
+        match check("", &answers) {
+            MatchResult::NoMatch { closest, diff } => {
+                assert_eq!(closest, "ls");
+                assert_eq!(reconstruct_answer(&diff), "ls");
+                assert!(diff.iter().all(|s| s.kind == DiffKind::Added));
+            }
+            other => panic!("expected NoMatch, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn identical_to_answer_is_exact() {
+        let answers = vec!["grep -r 'foo' .".to_string()];
+        assert_eq!(check("grep -r 'foo' .", &answers), MatchResult::Exact(0));
+    }
+
+    #[test]
+    fn diff_segments_reconstruct_correctly() {
+        let answers = vec!["cat /etc/passwd".to_string()];
+        match check("cat /etc/paswd", &answers) {
+            MatchResult::NoMatch { diff, .. } => {
+                let input_reconstructed = reconstruct_input(&diff);
+                let answer_reconstructed = reconstruct_answer(&diff);
+                assert_eq!(normalize(&input_reconstructed), "cat /etc/paswd");
+                assert_eq!(normalize(&answer_reconstructed), "cat /etc/passwd");
             }
             other => panic!("expected NoMatch, got {other:?}"),
         }

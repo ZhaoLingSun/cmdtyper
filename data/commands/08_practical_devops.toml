@@ -7,17 +7,22 @@ description = "实战补充：开发、运维、Git、tmux、Docker 与远程协
 id = "git-status-short"
 command = "git status -sb"
 summary = "用简洁分支格式查看当前 Git 工作区状态"
+simulated_output = """
+## main...origin/main
+ M src/main.rs
+ M data/commands/05_beginner_extra.toml
+"""
 
 [[commands.tokens]]
 text = "git"
 desc = "分布式版本控制系统命令"
 
 [[commands.tokens]]
-text = "status"
+text = " status"
 desc = "查看工作区和暂存区状态"
 
 [[commands.tokens]]
-text = "-sb"
+text = " -sb"
 desc = "简洁输出并显示分支信息"
 
 [commands.dictation]
@@ -30,29 +35,34 @@ answers = [
 id = "git-log-oneline-graph"
 command = "git log --oneline --graph --decorate -10"
 summary = "以单行图形化方式查看最近 10 条提交"
+simulated_output = """
+* 9f1a3d2 (HEAD -> main, origin/main) feat: add practical command set
+* 4c8b771 fix: normalize dictation prompts
+* a1e7c90 docs: update README examples
+"""
 
 [[commands.tokens]]
 text = "git"
 desc = "分布式版本控制系统命令"
 
 [[commands.tokens]]
-text = "log"
+text = " log"
 desc = "查看提交历史"
 
 [[commands.tokens]]
-text = "--oneline"
+text = " --oneline"
 desc = "每个提交只显示一行摘要"
 
 [[commands.tokens]]
-text = "--graph"
+text = " --graph"
 desc = "用 ASCII 图显示分支合并关系"
 
 [[commands.tokens]]
-text = "--decorate"
+text = " --decorate"
 desc = "显示分支和标签引用名"
 
 [[commands.tokens]]
-text = "-10"
+text = " -10"
 desc = "只显示最近 10 条提交"
 
 [commands.dictation]
@@ -65,17 +75,25 @@ answers = [
 id = "git-diff-staged"
 command = "git diff --staged"
 summary = "查看已经暂存但尚未提交的改动"
+simulated_output = """
+diff --git a/src/main.rs b/src/main.rs
+index 1c2e3d4..8a9b0c1 100644
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -10,6 +10,7 @@
++    println!("ready");
+"""
 
 [[commands.tokens]]
 text = "git"
 desc = "分布式版本控制系统命令"
 
 [[commands.tokens]]
-text = "diff"
+text = " diff"
 desc = "比较改动差异"
 
 [[commands.tokens]]
-text = "--staged"
+text = " --staged"
 desc = "只查看暂存区相对于 HEAD 的改动"
 
 [commands.dictation]
@@ -89,21 +107,25 @@ answers = [
 id = "git-grep-todo"
 command = "git grep -n TODO"
 summary = "在 Git 跟踪文件中搜索 TODO，并显示行号"
+simulated_output = """
+src/main.rs:14:// TODO: improve error message
+src/ui/mod.rs:88:// TODO: add key hint
+"""
 
 [[commands.tokens]]
 text = "git"
 desc = "分布式版本控制系统命令"
 
 [[commands.tokens]]
-text = "grep"
+text = " grep"
 desc = "在 Git 跟踪文件里搜索文本"
 
 [[commands.tokens]]
-text = "-n"
+text = " -n"
 desc = "显示匹配结果的行号"
 
 [[commands.tokens]]
-text = "TODO"
+text = " TODO"
 desc = "要搜索的关键字"
 
 [commands.dictation]
@@ -116,21 +138,22 @@ answers = [
 id = "tmux-new-session"
 command = "tmux new -s dev"
 summary = "创建一个名为 dev 的 tmux 新会话"
+simulated_output = "[detached (from session dev)]"
 
 [[commands.tokens]]
 text = "tmux"
 desc = "终端复用器，可保持长期会话（通常需要额外安装）"
 
 [[commands.tokens]]
-text = "new"
+text = " new"
 desc = "创建新会话"
 
 [[commands.tokens]]
-text = "-s"
+text = " -s"
 desc = "指定会话名称"
 
 [[commands.tokens]]
-text = "dev"
+text = " dev"
 desc = "新建的会话名"
 
 [commands.dictation]
@@ -144,21 +167,22 @@ answers = [
 id = "tmux-attach-session"
 command = "tmux attach -t dev"
 summary = "重新连接到名为 dev 的 tmux 会话"
+simulated_output = "[attached to session dev]"
 
 [[commands.tokens]]
 text = "tmux"
 desc = "终端复用器"
 
 [[commands.tokens]]
-text = "attach"
+text = " attach"
 desc = "连接到已有会话"
 
 [[commands.tokens]]
-text = "-t"
+text = " -t"
 desc = "指定目标会话"
 
 [[commands.tokens]]
-text = "dev"
+text = " dev"
 desc = "要连接的会话名"
 
 [commands.dictation]
@@ -172,21 +196,26 @@ answers = [
 id = "docker-ps-format"
 command = "docker ps --format {{.Names}} {{.Status}}"
 summary = "只显示容器名称和状态"
+simulated_output = """
+web Up 3 hours
+db Up 3 hours (healthy)
+redis Up 3 hours
+"""
 
 [[commands.tokens]]
 text = "docker"
 desc = "容器管理命令"
 
 [[commands.tokens]]
-text = "ps"
+text = " ps"
 desc = "列出正在运行的容器"
 
 [[commands.tokens]]
-text = "--format"
+text = " --format"
 desc = "自定义输出格式"
 
 [[commands.tokens]]
-text = "{{.Names}} {{.Status}}"
+text = " {{.Names}} {{.Status}}"
 desc = "只输出容器名称和状态字段"
 
 [commands.dictation]
@@ -200,29 +229,34 @@ answers = [
 id = "docker-logs-tail-follow"
 command = "docker logs -f --tail 100 web"
 summary = "持续跟踪 web 容器最近 100 行日志"
+simulated_output = """
+[2026-03-14T08:41:02Z] INFO server started on :8080
+[2026-03-14T08:41:05Z] INFO GET /health 200 1.1ms
+[2026-03-14T08:41:09Z] INFO GET /api/users 200 12.3ms
+"""
 
 [[commands.tokens]]
 text = "docker"
 desc = "容器管理命令"
 
 [[commands.tokens]]
-text = "logs"
+text = " logs"
 desc = "查看容器日志"
 
 [[commands.tokens]]
-text = "-f"
+text = " -f"
 desc = "持续跟踪新增日志"
 
 [[commands.tokens]]
-text = "--tail"
+text = " --tail"
 desc = "只显示末尾指定行数的日志"
 
 [[commands.tokens]]
-text = "100"
+text = " 100"
 desc = "先显示最近 100 行"
 
 [[commands.tokens]]
-text = "web"
+text = " web"
 desc = "目标容器名"
 
 [commands.dictation]
@@ -235,25 +269,26 @@ answers = [
 id = "docker-exec-shell"
 command = "docker exec -it web sh"
 summary = "进入 web 容器的交互式 shell"
+simulated_output = "/ # "
 
 [[commands.tokens]]
 text = "docker"
 desc = "容器管理命令"
 
 [[commands.tokens]]
-text = "exec"
+text = " exec"
 desc = "在运行中的容器里执行命令"
 
 [[commands.tokens]]
-text = "-it"
+text = " -it"
 desc = "分配交互终端"
 
 [[commands.tokens]]
-text = "web"
+text = " web"
 desc = "目标容器名"
 
 [[commands.tokens]]
-text = "sh"
+text = " sh"
 desc = "在容器里启动 shell"
 
 [commands.dictation]
@@ -266,21 +301,26 @@ answers = [
 id = "ssh-port-host"
 command = "ssh -p 2222 admin@example.com"
 summary = "通过 2222 端口 SSH 登录远程主机"
+simulated_output = """
+The authenticity of host '[example.com]:2222' can't be established.
+ED25519 key fingerprint is SHA256:AbCdEf1234567890.
+admin@example.com's password:
+"""
 
 [[commands.tokens]]
 text = "ssh"
 desc = "远程登录主机的命令"
 
 [[commands.tokens]]
-text = "-p"
+text = " -p"
 desc = "指定 SSH 端口号"
 
 [[commands.tokens]]
-text = "2222"
+text = " 2222"
 desc = "目标 SSH 端口"
 
 [[commands.tokens]]
-text = "admin@example.com"
+text = " admin@example.com"
 desc = "登录用户和主机"
 
 [commands.dictation]
@@ -293,21 +333,26 @@ answers = [
 id = "scp-recursive-upload"
 command = "scp -r dist/ admin@example.com:/srv/www/"
 summary = "把 dist 目录递归上传到远程站点目录"
+simulated_output = """
+index.html 100% 12KB 72.4KB/s 00:00
+assets/app.js 100% 356KB 1.8MB/s 00:00
+assets/style.css 100% 42KB 234.9KB/s 00:00
+"""
 
 [[commands.tokens]]
 text = "scp"
 desc = "通过 SSH 安全复制文件的命令"
 
 [[commands.tokens]]
-text = "-r"
+text = " -r"
 desc = "递归复制目录"
 
 [[commands.tokens]]
-text = "dist/"
+text = " dist/"
 desc = "本地源目录"
 
 [[commands.tokens]]
-text = "admin@example.com:/srv/www/"
+text = " admin@example.com:/srv/www/"
 desc = "远程目标路径"
 
 [commands.dictation]
@@ -320,29 +365,38 @@ answers = [
 id = "rsync-ssh-progress"
 command = "rsync -avzP -e ssh dist/ admin@example.com:/srv/www/"
 summary = "通过 SSH 压缩同步 dist 目录，并显示进度"
+simulated_output = """
+sending incremental file list
+./
+index.html
+assets/app.js
+assets/style.css
+
+sent 421,012 bytes  received 94 bytes  842,212.00 bytes/sec
+"""
 
 [[commands.tokens]]
 text = "rsync"
 desc = "高效同步文件和目录的命令"
 
 [[commands.tokens]]
-text = "-avzP"
+text = " -avzP"
 desc = "归档 + 详细输出 + 压缩传输 + 显示进度"
 
 [[commands.tokens]]
-text = "-e"
+text = " -e"
 desc = "指定远程 shell 命令"
 
 [[commands.tokens]]
-text = "ssh"
+text = " ssh"
 desc = "使用 ssh 作为远程传输通道"
 
 [[commands.tokens]]
-text = "dist/"
+text = " dist/"
 desc = "本地源目录"
 
 [[commands.tokens]]
-text = "admin@example.com:/srv/www/"
+text = " admin@example.com:/srv/www/"
 desc = "远程目标路径"
 
 [commands.dictation]
@@ -355,17 +409,21 @@ answers = [
 id = "journalctl-follow-unit"
 command = "journalctl -fu docker"
 summary = "实时跟踪 docker 服务日志"
+simulated_output = """
+Mar 14 08:43:01 intranet dockerd[1187]: Daemon has completed initialization
+Mar 14 08:43:05 intranet dockerd[1187]: API listen on /run/docker.sock
+"""
 
 [[commands.tokens]]
 text = "journalctl"
 desc = "查看 systemd 日志的命令"
 
 [[commands.tokens]]
-text = "-fu"
+text = " -fu"
 desc = "-f 持续跟踪 + -u 按 unit 过滤"
 
 [[commands.tokens]]
-text = "docker"
+text = " docker"
 desc = "要查看日志的服务名称"
 
 [commands.dictation]
@@ -379,29 +437,34 @@ answers = [
 id = "find-large-files"
 command = "find /var/log -type f -size +100M"
 summary = "查找 /var/log 下大于 100MB 的文件"
+simulated_output = """
+/var/log/journal/9d.../system.journal
+/var/log/syslog.1
+/var/log/kern.log.1
+"""
 
 [[commands.tokens]]
 text = "find"
 desc = "在目录树中查找文件的命令"
 
 [[commands.tokens]]
-text = "/var/log"
+text = " /var/log"
 desc = "查找起点目录"
 
 [[commands.tokens]]
-text = "-type"
+text = " -type"
 desc = "按文件类型筛选"
 
 [[commands.tokens]]
-text = "f"
+text = " f"
 desc = "只匹配普通文件"
 
 [[commands.tokens]]
-text = "-size"
+text = " -size"
 desc = "按文件大小筛选"
 
 [[commands.tokens]]
-text = "+100M"
+text = " +100M"
 desc = "只匹配大于 100MB 的文件"
 
 [commands.dictation]
@@ -414,13 +477,19 @@ answers = [
 id = "ncdu-root-filesystem"
 command = "ncdu /"
 summary = "交互式分析根文件系统空间占用"
+simulated_output = """
+--- / ---
+45.2 GiB [##########] /var
+18.1 GiB [###       ] /home
+9.7 GiB [#         ] /usr
+"""
 
 [[commands.tokens]]
 text = "ncdu"
 desc = "交互式磁盘占用分析工具（通常需要额外安装）"
 
 [[commands.tokens]]
-text = "/"
+text = " /"
 desc = "要分析的目录"
 
 [commands.dictation]
@@ -433,6 +502,11 @@ answers = [
 id = "btop-basic"
 command = "btop"
 summary = "启动 btop 交互式系统监控界面"
+simulated_output = """
+btop 1.3.2
+CPU 12%  MEM 112G/1.5T  SWAP 0B/32G
+Tasks: 842, 12 running
+"""
 
 [[commands.tokens]]
 text = "btop"

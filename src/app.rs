@@ -1,853 +1,1024 @@
-#![allow(dead_code)]
+use std::{env, path::PathBuf};
 
-use std::collections::BTreeMap;
-use std::path::Path;
-use std::time::Instant;
-
+use anyhow::Result;
 use chrono::Utc;
+use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 
 use crate::core::engine::TypingEngine;
-use crate::core::matcher::{DiffKind, MatchResult, Matcher};
-use crate::data::loader;
-use crate::data::models::{
-    Category, Command, DictationData, Difficulty, Mode, SessionRecord, Token, UserConfig, UserStats,
-};
+use crate::core::matcher::{self, MatchResult};
+use crate::core::scorer;
+use crate::core::terminal_history::TerminalHistory;
+use crate::data::command_loader;
+use crate::data::lesson_loader;
+use crate::data::models::*;
+use crate::data::progress::ProgressStore;
+use crate::data::symbol_loader;
+use crate::data::system_loader;
 
-/// Application state machine
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+// ─────────────────────────────────────────────────────────────
+// AppState + sub-enums
+// ─────────────────────────────────────────────────────────────
+
+#[derive(Debug, Clone, PartialEq)]
 pub enum AppState {
     Home,
-    Learn,
     Typing,
+    TypingFilter,
+    LearnHub,
+    CommandTopics,
+    CommandLessonOverview {
+        category_index: usize,
+        command_index: usize,
+    },
+    CommandLessonPractice {
+        category_index: usize,
+        command_index: usize,
+        example_index: usize,
+    },
+    SymbolTopics,
+    SymbolLesson {
+        topic_index: usize,
+        symbol_index: usize,
+        phase: SymbolPhase,
+    },
+    SystemTopics,
+    SystemLesson {
+        topic_index: usize,
+        section_index: usize,
+        phase: SystemPhase,
+    },
+    DeepExplanation {
+        source: DeepSource,
+        scroll: usize,
+    },
+    Review {
+        source: ReviewSource,
+        phase: ReviewPhase,
+    },
     Dictation,
     Stats,
-    RoundResult,
+    Settings,
     Quitting,
 }
 
-/// Home screen menu selection
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum MenuItem {
-    Learn,
-    Type,
-    Dictation,
-    Stats,
-}
-
-impl MenuItem {
-    pub const ALL: [MenuItem; 4] = [
-        MenuItem::Learn,
-        MenuItem::Type,
-        MenuItem::Dictation,
-        MenuItem::Stats,
-    ];
-
-    pub fn label(&self) -> &str {
-        match self {
-            Self::Learn => "学习模式 (Learn)",
-            Self::Type => "对着打 (Type)",
-            Self::Dictation => "默写模式 (Dictation)",
-            Self::Stats => "统计面板 (Stats)",
-        }
-    }
-
-    pub fn desc(&self) -> &str {
-        match self {
-            Self::Learn => "逐命令讲解语法，跟打学习",
-            Self::Type => "逐字符匹配，实时统计 WPM",
-            Self::Dictation => "看中文写命令，多答案匹配",
-            Self::Stats => "速度、准确率、字符分析",
-        }
-    }
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum StatsTab {
-    SpeedOverview,
-    CharacterAnalysis,
-    CategoryMastery,
-    PracticeCalendar,
-}
-
-impl StatsTab {
-    pub const ALL: [StatsTab; 4] = [
-        StatsTab::SpeedOverview,
-        StatsTab::CharacterAnalysis,
-        StatsTab::CategoryMastery,
-        StatsTab::PracticeCalendar,
-    ];
-
-    pub fn label(self) -> &'static str {
-        match self {
-            Self::SpeedOverview => "速度总览",
-            Self::CharacterAnalysis => "字符分析",
-            Self::CategoryMastery => "分类掌握",
-            Self::PracticeCalendar => "练习日历",
-        }
-    }
-
-    pub fn next(self) -> Self {
-        match self {
-            Self::SpeedOverview => Self::CharacterAnalysis,
-            Self::CharacterAnalysis => Self::CategoryMastery,
-            Self::CategoryMastery => Self::PracticeCalendar,
-            Self::PracticeCalendar => Self::SpeedOverview,
-        }
-    }
-
-    pub fn prev(self) -> Self {
-        match self {
-            Self::SpeedOverview => Self::PracticeCalendar,
-            Self::CharacterAnalysis => Self::SpeedOverview,
-            Self::CategoryMastery => Self::CharacterAnalysis,
-            Self::PracticeCalendar => Self::CategoryMastery,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub struct DictationResult {
-    pub submitted: String,
-    pub evaluation: MatchResult,
+#[derive(Debug, Clone, PartialEq)]
+pub enum SymbolPhase {
+    Explain,
+    Example(usize),
+    TypingPractice { exercise_idx: usize },
+    Practice,
 }
 
 #[derive(Debug, Clone, PartialEq)]
-pub struct RoundResultData {
-    pub mode: Mode,
+pub enum SystemPhase {
+    Overview,
+    Detail,
+    TypingPractice { command_idx: usize },
+    ConfigFile(usize),
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum ReviewSource {
+    CommandCategory(Category),
+    SymbolTopic(String),
+    SystemTopic(String),
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum ReviewPhase {
+    Summary,
+    Practice(usize),
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct SymbolPracticeState {
+    pub current_index: usize,
+    pub current_input: String,
+    pub error_count: u8,
+    pub show_answer: bool,
+    pub submitted: bool,
+    pub last_correct: Option<bool>,
+
+    pub typing_indices: Vec<usize>,
+    pub dictation_indices: Vec<usize>,
+    pub total_count: usize,
+
+    pub typing_showing_output: bool,
+    pub typing_wpm_sum: f64,
+    pub typing_accuracy_sum: f64,
+    pub typing_count: usize,
+
+    pub dictation_correct_count: usize,
+    pub dictation_accuracy_sum: f64,
+    pub dictation_count: usize,
+
+    pub completed: bool,
+    pub stats_recorded: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum ReviewExerciseKind {
+    Typing,
+    Dictation,
+}
+
+#[derive(Debug, Clone)]
+pub struct ReviewExercise {
+    pub kind: ReviewExerciseKind,
     pub command_id: String,
-    pub command_text: String,
-    pub summary: String,
-    pub wpm: f64,
-    pub cpm: f64,
-    pub accuracy: f64,
-    pub elapsed_ms: u64,
-    pub error_count: u32,
-    pub error_chars: Vec<(char, u32)>,
+    pub command: String,
+    pub description: String,
+    pub difficulty: Difficulty,
 }
 
-impl RoundResultData {
-    fn from_record(mode: Mode, command: &Command, record: &SessionRecord) -> Self {
-        let mut error_counts = BTreeMap::new();
-        for keystroke in &record.keystrokes {
-            let errors = keystroke.attempts.saturating_sub(1) as u32;
-            if errors > 0 {
-                *error_counts.entry(keystroke.expected).or_insert(0) += errors;
-            }
-        }
-
-        let mut error_chars = error_counts.into_iter().collect::<Vec<_>>();
-        error_chars.sort_by(|left, right| right.1.cmp(&left.1).then_with(|| left.0.cmp(&right.0)));
-        error_chars.truncate(5);
-
-        Self {
-            mode,
-            command_id: command.id.clone(),
-            command_text: command.command.clone(),
-            summary: command.summary.clone(),
-            wpm: record.wpm,
-            cpm: record.cpm,
-            accuracy: record.accuracy,
-            elapsed_ms: record.finished_at.saturating_sub(record.started_at) as u64,
-            error_count: record.error_count,
-            error_chars,
-        }
-    }
+#[derive(Debug, Clone, Default)]
+pub struct ReviewPracticeState {
+    pub exercises: Vec<ReviewExercise>,
+    pub current_index: usize,
+    pub dictation_input: String,
+    pub dictation_result: Option<MatchResult>,
+    pub dictation_submitted: bool,
+    pub accuracy_sum: f64,
+    pub total_count: usize,
+    pub typing_wpm_sum: f64,
+    pub typing_accuracy_sum: f64,
+    pub typing_count: usize,
+    pub dictation_accuracy_sum: f64,
+    pub dictation_count: usize,
+    pub completed: bool,
+    pub stats_recorded: bool,
 }
 
-/// Main application struct
+// ─────────────────────────────────────────────────────────────
+// App struct
+// ─────────────────────────────────────────────────────────────
+
 pub struct App {
     pub state: AppState,
-    pub all_commands: Vec<Command>,
+
+    // Data
     pub commands: Vec<Command>,
+    pub lessons: Vec<CommandLesson>,
+    pub symbol_topics: Vec<SymbolTopic>,
+    pub system_topics: Vec<SystemTopic>,
+
+    // User data
     pub user_stats: UserStats,
     pub user_config: UserConfig,
-    pub selected_difficulty: Difficulty,
-    pub selected_category: Option<Category>,
+    pub progress_store: ProgressStore,
+    pub history: Vec<SessionRecord>,
 
-    // Home screen state
-    pub menu_index: usize,
+    // Core engines
+    pub typing_engine: TypingEngine,
+    pub terminal_history: TerminalHistory,
 
     // Typing mode state
-    pub typing_engine: Option<TypingEngine>,
-    pub current_command_index: usize,
-
-    // Learn mode state
-    pub learn_command_index: usize,
-    pub learn_engine: Option<TypingEngine>,
+    pub typing_commands: Vec<Command>,
+    pub typing_index: usize,
+    pub show_hint: bool,
+    pub typing_showing_output: bool,
+    pub terminal_auto_advance: bool,
+    pub typing_mode: TypingDisplayMode,
+    pub filter_difficulty: Option<Difficulty>,
+    pub filter_category: Option<Category>,
+    pub typing_filter_row: usize,
 
     // Dictation mode state
-    pub dictation_command_index: usize,
+    pub dictation_commands: Vec<Command>,
+    pub dictation_index: usize,
     pub dictation_input: String,
-    pub dictation_cursor: usize,
-    pub dictation_result: Option<DictationResult>,
-    pub dictation_started_at: Option<Instant>,
+    pub dictation_result: Option<MatchResult>,
+    pub dictation_submitted: bool,
 
-    // Stats + results
-    pub stats_tab: StatsTab,
-    pub round_result: Option<RoundResultData>,
-    pending_record: Option<SessionRecord>,
+    // Symbol practice state
+    pub symbol_practice: SymbolPracticeState,
+
+    // System lesson typing phase state
+    pub system_typing_showing_output: bool,
+
+    // Review practice state
+    pub review_practice: ReviewPracticeState,
+
+    // Menu navigation indices
+    pub home_index: usize,
+    pub learn_hub_index: usize,
+    pub command_topics_index: usize,
+    pub command_list_index: usize,
+    pub symbol_topics_index: usize,
+    pub system_topics_index: usize,
+    pub system_section_index: usize,
+    pub settings_index: usize,
+    pub stats_tab: usize,
+
+    // Current typing round records (for completion summary)
+    pub typing_round_records: Vec<SessionRecord>,
+
+    // Lesson command list indices (per category)
+    pub lesson_commands_for_category: Vec<CommandLesson>,
 }
 
 impl App {
-    pub fn new() -> Self {
-        let all_commands = load_command_catalog();
-        Self {
+    pub fn new() -> Result<Self> {
+        let data_dir = env::var("CMDTYPER_DATA_DIR")
+            .map(PathBuf::from)
+            .unwrap_or_else(|_| PathBuf::from("./data"));
+        let commands = command_loader::load_commands(&data_dir)?;
+        let lessons = lesson_loader::load_lessons(&data_dir)?;
+        let symbol_topics = symbol_loader::load_symbol_topics(&data_dir)?;
+        let system_topics = system_loader::load_system_topics(&data_dir)?;
+
+        let progress_store = ProgressStore::new()?;
+        let user_stats = progress_store.load_stats()?;
+        let user_config = progress_store.load_config()?;
+        let typing_mode = user_config.typing_mode.clone();
+        let history = progress_store.load_history()?;
+
+        Ok(Self {
             state: AppState::Home,
-            all_commands,
-            commands: Vec::new(),
-            user_stats: UserStats::default(),
-            user_config: UserConfig::default(),
-            selected_difficulty: Difficulty::Beginner,
-            selected_category: None,
-            menu_index: 0,
-            typing_engine: None,
-            current_command_index: 0,
-            learn_command_index: 0,
-            learn_engine: None,
-            dictation_command_index: 0,
+            commands,
+            lessons,
+            symbol_topics,
+            system_topics,
+            user_stats,
+            user_config,
+            progress_store,
+            history,
+            typing_engine: TypingEngine::new(""),
+            terminal_history: TerminalHistory::new(),
+            typing_commands: Vec::new(),
+            typing_index: 0,
+            show_hint: true,
+            typing_showing_output: false,
+            terminal_auto_advance: false,
+            typing_mode,
+            filter_difficulty: None,
+            filter_category: None,
+            typing_filter_row: 0,
+            dictation_commands: Vec::new(),
+            dictation_index: 0,
             dictation_input: String::new(),
-            dictation_cursor: 0,
             dictation_result: None,
-            dictation_started_at: None,
-            stats_tab: StatsTab::SpeedOverview,
-            round_result: None,
-            pending_record: None,
+            dictation_submitted: false,
+            symbol_practice: SymbolPracticeState::default(),
+            system_typing_showing_output: false,
+            review_practice: ReviewPracticeState::default(),
+            home_index: 0,
+            learn_hub_index: 0,
+            command_topics_index: 0,
+            command_list_index: 0,
+            symbol_topics_index: 0,
+            system_topics_index: 0,
+            system_section_index: 0,
+            settings_index: 0,
+            stats_tab: 0,
+            typing_round_records: Vec::new(),
+            lesson_commands_for_category: Vec::new(),
+        })
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // Prompt generation
+    // ─────────────────────────────────────────────────────────
+
+    pub fn format_prompt(&self) -> String {
+        match self.user_config.prompt_style {
+            PromptStyle::Full => {
+                let path = if self.user_config.show_path { "~" } else { "" };
+                format!(
+                    "{}@{}:{}$ ",
+                    self.user_config.prompt_username, self.user_config.prompt_hostname, path
+                )
+            }
+            PromptStyle::Simple => "$ ".to_string(),
+            PromptStyle::Minimal => "> ".to_string(),
         }
     }
 
-    pub fn apply_config(&mut self, config: UserConfig) {
-        self.selected_difficulty = config.last_difficulty;
-        self.selected_category = config.last_category;
-        self.user_config = config;
-    }
+    // ─────────────────────────────────────────────────────────
+    // Key dispatch
+    // ─────────────────────────────────────────────────────────
 
-    pub fn sync_user_config(&mut self) -> bool {
-        let mut changed = false;
-        if self.user_config.last_difficulty != self.selected_difficulty {
-            self.user_config.last_difficulty = self.selected_difficulty;
-            changed = true;
-        }
-        if self.user_config.last_category != self.selected_category {
-            self.user_config.last_category = self.selected_category;
-            changed = true;
-        }
-        changed
-    }
-
-    pub fn current_menu_item(&self) -> MenuItem {
-        MenuItem::ALL[self.menu_index]
-    }
-
-    pub fn enter_typing_mode(&mut self) -> Option<AppState> {
-        self.commands = self.filtered_commands();
-        if self.commands.is_empty() {
-            return None;
+    pub fn handle_key(&mut self, key: KeyEvent) {
+        // Global: Ctrl+C → Quitting
+        if key.modifiers.contains(KeyModifiers::CONTROL) && key.code == KeyCode::Char('c') {
+            self.state = AppState::Quitting;
+            return;
         }
 
-        self.current_command_index = 0;
-        let cmd = &self.commands[self.current_command_index];
-        self.typing_engine = Some(TypingEngine::new(&cmd.command));
-        self.round_result = None;
-        self.state = AppState::Typing;
-        Some(AppState::Typing)
+        match self.state.clone() {
+            AppState::Home => self.handle_home_key(key),
+            AppState::Typing => crate::flow::typing_flow::handle_typing_key(self, key),
+            AppState::TypingFilter => self.handle_typing_filter_key(key),
+            AppState::LearnHub => self.handle_learn_hub_key(key),
+            AppState::CommandTopics => self.handle_command_topics_key(key),
+            AppState::CommandLessonOverview {
+                category_index,
+                command_index,
+            } => crate::flow::lesson_flow::handle_command_lesson_overview_key(
+                self,
+                key,
+                category_index,
+                command_index,
+            ),
+            AppState::CommandLessonPractice {
+                category_index,
+                command_index,
+                example_index,
+            } => crate::flow::lesson_flow::handle_command_lesson_practice_key(
+                self,
+                key,
+                category_index,
+                command_index,
+                example_index,
+            ),
+            AppState::SymbolTopics => crate::flow::symbol_flow::handle_symbol_topics_key(self, key),
+            AppState::SymbolLesson {
+                topic_index,
+                symbol_index,
+                phase,
+            } => crate::flow::symbol_flow::handle_symbol_lesson_key(
+                self,
+                key,
+                topic_index,
+                symbol_index,
+                phase,
+            ),
+            AppState::SystemTopics => crate::flow::system_flow::handle_system_topics_key(self, key),
+            AppState::SystemLesson {
+                topic_index,
+                section_index,
+                phase,
+            } => crate::flow::system_flow::handle_system_lesson_key(
+                self,
+                key,
+                topic_index,
+                section_index,
+                phase,
+            ),
+            AppState::DeepExplanation { source, scroll } => {
+                self.handle_deep_explanation_key(key, source, scroll)
+            }
+            AppState::Review { source, phase } => {
+                crate::flow::review_flow::handle_review_key(self, key, source, phase)
+            }
+            AppState::Dictation => self.handle_dictation_key(key),
+            AppState::Stats => self.handle_stats_key(key),
+            AppState::Settings => self.handle_settings_key(key),
+            AppState::Quitting => {}
+        }
     }
 
-    pub fn enter_learn_mode(&mut self) -> Option<AppState> {
-        self.commands = self.filtered_commands();
-        if self.commands.is_empty() {
-            return None;
-        }
+    // ─────────────────────────────────────────────────────────
+    // Home
+    // ─────────────────────────────────────────────────────────
 
-        self.learn_command_index = 0;
-        let cmd = &self.commands[self.learn_command_index];
-        self.learn_engine = Some(TypingEngine::new(&cmd.command));
-        self.round_result = None;
-        self.state = AppState::Learn;
-        Some(AppState::Learn)
+    fn handle_home_key(&mut self, key: KeyEvent) {
+        match key.code {
+            KeyCode::Up | KeyCode::Char('k') => {
+                if self.home_index > 0 {
+                    self.home_index -= 1;
+                }
+            }
+            KeyCode::Down | KeyCode::Char('j') => {
+                if self.home_index < 4 {
+                    self.home_index += 1;
+                }
+            }
+            KeyCode::Enter => match self.home_index {
+                0 => {
+                    self.typing_filter_row = 0;
+                    self.state = AppState::TypingFilter;
+                }
+                1 => self.state = AppState::LearnHub,
+                2 => self.enter_dictation(),
+                3 => self.state = AppState::Stats,
+                4 => self.state = AppState::Settings,
+                _ => {}
+            },
+            KeyCode::Char('q') => self.state = AppState::Quitting,
+            _ => {}
+        }
     }
 
-    pub fn enter_dictation_mode(&mut self) -> Option<AppState> {
-        self.commands = self.filtered_commands();
-        if self.commands.is_empty() {
-            return None;
+    // ─────────────────────────────────────────────────────────
+    // Typing filter
+    // ─────────────────────────────────────────────────────────
+
+    fn handle_typing_filter_key(&mut self, key: KeyEvent) {
+        match key.code {
+            KeyCode::Esc => self.state = AppState::Home,
+            KeyCode::Up | KeyCode::Char('k') | KeyCode::Down | KeyCode::Char('j') => {
+                self.typing_filter_row = 1 - self.typing_filter_row;
+            }
+            KeyCode::Left | KeyCode::Char('h') => {
+                if self.typing_filter_row == 0 {
+                    self.cycle_filter_difficulty(false);
+                } else {
+                    self.cycle_filter_category(false);
+                }
+            }
+            KeyCode::Right | KeyCode::Char('l') => {
+                if self.typing_filter_row == 0 {
+                    self.cycle_filter_difficulty(true);
+                } else {
+                    self.cycle_filter_category(true);
+                }
+            }
+            KeyCode::Enter => crate::flow::typing_flow::enter_typing_filtered(
+                self,
+                self.filter_difficulty,
+                self.filter_category,
+            ),
+            _ => {}
+        }
+    }
+
+    fn cycle_filter_difficulty(&mut self, forward: bool) {
+        let options: [Option<Difficulty>; 5] = [
+            None,
+            Some(Difficulty::Beginner),
+            Some(Difficulty::Basic),
+            Some(Difficulty::Advanced),
+            Some(Difficulty::Practical),
+        ];
+        let current = options
+            .iter()
+            .position(|opt| *opt == self.filter_difficulty)
+            .unwrap_or(0);
+        let next = if forward {
+            (current + 1) % options.len()
+        } else {
+            (current + options.len() - 1) % options.len()
+        };
+        self.filter_difficulty = options[next];
+    }
+
+    fn cycle_filter_category(&mut self, forward: bool) {
+        let mut options: Vec<Option<Category>> = vec![None];
+        options.extend(Category::ALL.into_iter().map(Some));
+        let current = options
+            .iter()
+            .position(|opt| *opt == self.filter_category)
+            .unwrap_or(0);
+        let next = if forward {
+            (current + 1) % options.len()
+        } else {
+            (current + options.len() - 1) % options.len()
+        };
+        self.filter_category = options[next];
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // Learn Hub
+    // ─────────────────────────────────────────────────────────
+
+    fn handle_learn_hub_key(&mut self, key: KeyEvent) {
+        const LEARN_HUB_LAST_INDEX: usize = 7;
+
+        match key.code {
+            KeyCode::Esc => self.state = AppState::Home,
+            KeyCode::Up | KeyCode::Char('k') => {
+                if self.learn_hub_index > 0 {
+                    self.learn_hub_index -= 1;
+                }
+            }
+            KeyCode::Down | KeyCode::Char('j') => {
+                if self.learn_hub_index < LEARN_HUB_LAST_INDEX {
+                    self.learn_hub_index += 1;
+                }
+            }
+            KeyCode::Enter => match self.learn_hub_index {
+                0 => self.enter_typing_with_filter(Some(Difficulty::Beginner), None),
+                1 => self.enter_typing_with_filter(Some(Difficulty::Basic), None),
+                2 => self.enter_typing_with_filter(Some(Difficulty::Advanced), None),
+                3 => self.enter_typing_with_filter(Some(Difficulty::Practical), None),
+                4 => {
+                    self.command_topics_index = 0;
+                    self.state = AppState::CommandTopics;
+                }
+                5 => {
+                    self.symbol_topics_index = 0;
+                    self.state = AppState::SymbolTopics;
+                }
+                6 => {
+                    self.system_topics_index = 0;
+                    self.state = AppState::SystemTopics;
+                }
+                7 => {
+                    if let Some(cat) = Category::ALL.first() {
+                        self.state = AppState::Review {
+                            source: ReviewSource::CommandCategory(*cat),
+                            phase: ReviewPhase::Summary,
+                        };
+                    }
+                }
+                _ => {}
+            },
+            _ => {}
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // Command Topics
+    // ─────────────────────────────────────────────────────────
+
+    fn handle_command_topics_key(&mut self, key: KeyEvent) {
+        // Build list of categories that have lessons
+        let categories = self.get_lesson_categories();
+        let count = categories.len();
+        if count == 0 {
+            if key.code == KeyCode::Esc {
+                self.state = AppState::LearnHub;
+            }
+            return;
         }
 
-        self.dictation_command_index = 0;
-        self.reset_dictation_prompt_state();
+        match key.code {
+            KeyCode::Esc => self.state = AppState::LearnHub,
+            KeyCode::Up | KeyCode::Char('k') => {
+                if self.command_topics_index > 0 {
+                    self.command_topics_index -= 1;
+                }
+            }
+            KeyCode::Down | KeyCode::Char('j') => {
+                if self.command_topics_index < count.saturating_sub(1) {
+                    self.command_topics_index += 1;
+                }
+            }
+            KeyCode::Enter => {
+                if self.command_topics_index < count {
+                    let cat = categories[self.command_topics_index];
+                    self.lesson_commands_for_category = self
+                        .lessons
+                        .iter()
+                        .filter(|l| l.meta.category == cat)
+                        .cloned()
+                        .collect();
+                    self.command_list_index = 0;
+                    if !self.lesson_commands_for_category.is_empty() {
+                        self.state = AppState::CommandLessonOverview {
+                            category_index: self.command_topics_index,
+                            command_index: 0,
+                        };
+                    }
+                }
+            }
+            _ => {}
+        }
+    }
+
+    pub fn get_lesson_categories(&self) -> Vec<Category> {
+        let mut cats: Vec<Category> = Vec::new();
+        for cat in Category::ALL {
+            if self.lessons.iter().any(|l| l.meta.category == cat) {
+                cats.push(cat);
+            }
+        }
+        cats
+    }
+
+    pub fn get_lessons_for_category(&self, category: Category) -> Vec<&CommandLesson> {
+        self.lessons
+            .iter()
+            .filter(|l| l.meta.category == category)
+            .collect()
+    }
+
+    // Command lesson flow moved to src/flow/lesson_flow.rs
+    // ─────────────────────────────────────────────────────────
+    // Command Lesson — Overview / Practice
+    // ─────────────────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────
+    // Symbol Topics
+    // ─────────────────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────
+    // Symbol Lesson
+    // ─────────────────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────
+    // System Topics
+    // ─────────────────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────
+    // System Lesson
+    // ─────────────────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────
+    // Review
+    // ─────────────────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────
+    // Dictation
+    // ─────────────────────────────────────────────────────────
+
+    fn enter_dictation(&mut self) {
+        self.dictation_commands = self.commands.clone();
+        if self.dictation_commands.is_empty() {
+            return;
+        }
+        self.dictation_index = 0;
+        self.dictation_input.clear();
+        self.dictation_result = None;
+        self.dictation_submitted = false;
         self.state = AppState::Dictation;
-        Some(AppState::Dictation)
     }
 
-    pub fn enter_stats_mode(&mut self) -> AppState {
-        self.stats_tab = StatsTab::SpeedOverview;
-        self.state = AppState::Stats;
-        AppState::Stats
+    fn handle_dictation_key(&mut self, key: KeyEvent) {
+        match key.code {
+            KeyCode::Esc => self.state = AppState::Home,
+            KeyCode::Enter => {
+                if self.dictation_submitted {
+                    // Go to next question or finish
+                    self.dictation_index += 1;
+                    if self.dictation_index < self.dictation_commands.len() {
+                        self.dictation_input.clear();
+                        self.dictation_result = None;
+                        self.dictation_submitted = false;
+                    } else {
+                        self.state = AppState::Home;
+                    }
+                } else if !self.dictation_input.is_empty() {
+                    // Submit
+                    let cmd = &self.dictation_commands[self.dictation_index];
+                    let result = matcher::check(&self.dictation_input, &cmd.dictation.answers);
+                    let accuracy = match result {
+                        MatchResult::Exact(_) | MatchResult::Normalized(_) => 1.0,
+                        MatchResult::NoMatch { .. } => 0.0,
+                    };
+
+                    let now_ms = Utc::now().timestamp_millis();
+                    let record = SessionRecord {
+                        id: format!("{}", now_ms),
+                        command_id: cmd.id.clone(),
+                        mode: RecordMode::Dictation,
+                        keystrokes: Vec::new(),
+                        started_at: now_ms,
+                        finished_at: now_ms,
+                        wpm: 0.0,
+                        cpm: 0.0,
+                        accuracy,
+                        error_count: if accuracy >= 1.0 { 0 } else { 1 },
+                        difficulty: cmd.difficulty,
+                    };
+                    scorer::update_stats(&mut self.user_stats, &record);
+                    let _ = self.progress_store.save_stats(&self.user_stats);
+                    let _ = self.progress_store.append_record(&record);
+                    self.history.push(record);
+
+                    self.dictation_result = Some(result);
+                    self.dictation_submitted = true;
+                }
+            }
+            KeyCode::Backspace if !self.dictation_submitted => {
+                self.dictation_input.pop();
+            }
+            KeyCode::Char(c) if !self.dictation_submitted => {
+                self.dictation_input.push(c);
+            }
+            _ => {}
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // Stats
+    // ─────────────────────────────────────────────────────────
+
+    fn handle_stats_key(&mut self, key: KeyEvent) {
+        match key.code {
+            KeyCode::Esc => self.state = AppState::Home,
+            KeyCode::Tab | KeyCode::Right | KeyCode::Char('l') => {
+                self.stats_tab = (self.stats_tab + 1) % 4;
+            }
+            KeyCode::BackTab | KeyCode::Left | KeyCode::Char('h') => {
+                self.stats_tab = if self.stats_tab == 0 {
+                    3
+                } else {
+                    self.stats_tab - 1
+                };
+            }
+            _ => {}
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // Settings
+    // ─────────────────────────────────────────────────────────
+
+    fn handle_settings_key(&mut self, key: KeyEvent) {
+        // 7 editable items + 2 read-only display items
+        const SETTINGS_COUNT: usize = 7;
+        match key.code {
+            KeyCode::Esc => {
+                let _ = self.progress_store.save_config(&self.user_config);
+                self.state = AppState::Home;
+            }
+            KeyCode::Up | KeyCode::Char('k') => {
+                if self.settings_index > 0 {
+                    self.settings_index -= 1;
+                }
+            }
+            KeyCode::Down | KeyCode::Char('j') => {
+                if self.settings_index < SETTINGS_COUNT - 1 {
+                    self.settings_index += 1;
+                }
+            }
+            KeyCode::Enter | KeyCode::Right | KeyCode::Char('l') => {
+                self.toggle_setting();
+            }
+            KeyCode::Left | KeyCode::Char('h') => {
+                self.toggle_setting_reverse();
+            }
+            _ => {}
+        }
+    }
+
+    fn toggle_setting(&mut self) {
+        match self.settings_index {
+            0 => {
+                // Prompt style: Full → Simple → Minimal → Full
+                self.user_config.prompt_style = match self.user_config.prompt_style {
+                    PromptStyle::Full => PromptStyle::Simple,
+                    PromptStyle::Simple => PromptStyle::Minimal,
+                    PromptStyle::Minimal => PromptStyle::Full,
+                };
+            }
+            1 => {
+                // Typing mode: Terminal → Standard → Detailed → Terminal
+                self.typing_mode = match self.typing_mode {
+                    TypingDisplayMode::Terminal => TypingDisplayMode::Standard,
+                    TypingDisplayMode::Standard => TypingDisplayMode::Detailed,
+                    TypingDisplayMode::Detailed => TypingDisplayMode::Terminal,
+                };
+                self.user_config.typing_mode = self.typing_mode.clone();
+            }
+            2 => {
+                // Target WPM +5
+                self.user_config.target_wpm = (self.user_config.target_wpm + 5.0).min(200.0);
+            }
+            3 => {
+                // Error flash +50ms
+                self.user_config.error_flash_ms = (self.user_config.error_flash_ms + 50).min(500);
+            }
+            4 => self.user_config.show_token_hints = !self.user_config.show_token_hints,
+            5 => self.user_config.adaptive_recommend = !self.user_config.adaptive_recommend,
+            6 => self.user_config.show_path = !self.user_config.show_path,
+            _ => {}
+        }
+        let _ = self.progress_store.save_config(&self.user_config);
+    }
+
+    fn toggle_setting_reverse(&mut self) {
+        match self.settings_index {
+            0 => {
+                self.user_config.prompt_style = match self.user_config.prompt_style {
+                    PromptStyle::Full => PromptStyle::Minimal,
+                    PromptStyle::Simple => PromptStyle::Full,
+                    PromptStyle::Minimal => PromptStyle::Simple,
+                };
+            }
+            1 => {
+                // Reverse cycle: Terminal ← Standard ← Detailed ← Terminal
+                self.typing_mode = match self.typing_mode {
+                    TypingDisplayMode::Terminal => TypingDisplayMode::Detailed,
+                    TypingDisplayMode::Standard => TypingDisplayMode::Terminal,
+                    TypingDisplayMode::Detailed => TypingDisplayMode::Standard,
+                };
+                self.user_config.typing_mode = self.typing_mode.clone();
+            }
+            2 => {
+                self.user_config.target_wpm = (self.user_config.target_wpm - 5.0).max(10.0);
+            }
+            3 => {
+                self.user_config.error_flash_ms =
+                    self.user_config.error_flash_ms.saturating_sub(50).max(50);
+            }
+            4 => self.user_config.show_token_hints = !self.user_config.show_token_hints,
+            5 => self.user_config.adaptive_recommend = !self.user_config.adaptive_recommend,
+            6 => self.user_config.show_path = !self.user_config.show_path,
+            _ => {}
+        }
+        let _ = self.progress_store.save_config(&self.user_config);
+    }
+
+    fn handle_deep_explanation_key(&mut self, key: KeyEvent, source: DeepSource, scroll: usize) {
+        match key.code {
+            KeyCode::Esc | KeyCode::Char('d') | KeyCode::Char('D') => {
+                self.state = self.deep_source_to_state(&source);
+            }
+            KeyCode::Right | KeyCode::Char('n') | KeyCode::Char('N') => {
+                if let Some(next_source) = self.next_deep_source(&source) {
+                    self.state = AppState::DeepExplanation {
+                        source: next_source,
+                        scroll: 0,
+                    };
+                }
+            }
+            KeyCode::Up | KeyCode::Char('k') => {
+                self.state = AppState::DeepExplanation {
+                    source,
+                    scroll: scroll.saturating_sub(1),
+                };
+            }
+            KeyCode::Down | KeyCode::Char('j') => {
+                self.state = AppState::DeepExplanation {
+                    source,
+                    scroll: scroll.saturating_add(1),
+                };
+            }
+            KeyCode::PageUp => {
+                self.state = AppState::DeepExplanation {
+                    source,
+                    scroll: scroll.saturating_sub(10),
+                };
+            }
+            KeyCode::PageDown => {
+                self.state = AppState::DeepExplanation {
+                    source,
+                    scroll: scroll.saturating_add(10),
+                };
+            }
+            _ => {}
+        }
+    }
+
+    fn deep_source_to_state(&self, source: &DeepSource) -> AppState {
+        match source {
+            DeepSource::LessonExample {
+                category_idx,
+                command_idx,
+                example_idx,
+            } => AppState::CommandLessonPractice {
+                category_index: *category_idx,
+                command_index: *command_idx,
+                example_index: *example_idx,
+            },
+            DeepSource::SymbolExample {
+                topic_idx,
+                symbol_idx,
+                example_idx,
+            } => AppState::SymbolLesson {
+                topic_index: *topic_idx,
+                symbol_index: *symbol_idx,
+                phase: SymbolPhase::Example(*example_idx),
+            },
+            DeepSource::SystemCommand {
+                topic_idx,
+                section_idx,
+                command_idx,
+            } => AppState::SystemLesson {
+                topic_index: *topic_idx,
+                section_index: *section_idx,
+                phase: SystemPhase::TypingPractice {
+                    command_idx: *command_idx,
+                },
+            },
+        }
+    }
+
+    fn next_deep_source(&self, source: &DeepSource) -> Option<DeepSource> {
+        match source {
+            DeepSource::LessonExample {
+                category_idx,
+                command_idx,
+                example_idx,
+            } => {
+                let cat = self.get_lesson_categories().get(*category_idx).copied()?;
+                let lessons = self.get_lessons_for_category(cat);
+                let lesson = lessons.get(*command_idx)?;
+                let next = example_idx + 1;
+                if next < lesson.examples.len() {
+                    Some(DeepSource::LessonExample {
+                        category_idx: *category_idx,
+                        command_idx: *command_idx,
+                        example_idx: next,
+                    })
+                } else {
+                    None
+                }
+            }
+            DeepSource::SymbolExample {
+                topic_idx,
+                symbol_idx,
+                example_idx,
+            } => {
+                let topic = self.symbol_topics.get(*topic_idx)?;
+                let symbol = topic.symbols.get(*symbol_idx)?;
+                let next = example_idx + 1;
+                if next < symbol.examples.len() {
+                    Some(DeepSource::SymbolExample {
+                        topic_idx: *topic_idx,
+                        symbol_idx: *symbol_idx,
+                        example_idx: next,
+                    })
+                } else {
+                    None
+                }
+            }
+            DeepSource::SystemCommand {
+                topic_idx,
+                section_idx,
+                command_idx,
+            } => {
+                let topic = self.system_topics.get(*topic_idx)?;
+                let section = topic.sections.get(*section_idx)?;
+                let next = command_idx + 1;
+                if next < section.commands.len() {
+                    Some(DeepSource::SystemCommand {
+                        topic_idx: *topic_idx,
+                        section_idx: *section_idx,
+                        command_idx: next,
+                    })
+                } else {
+                    None
+                }
+            }
+        }
+    }
+
+    pub fn enter_typing_with_filter(
+        &mut self,
+        difficulty: Option<Difficulty>,
+        category: Option<Category>,
+    ) {
+        self.filter_difficulty = difficulty;
+        self.filter_category = category;
+        crate::flow::typing_flow::enter_typing_filtered(self, difficulty, category);
+    }
+
+    pub fn filtered_commands(
+        &self,
+        difficulty: Option<Difficulty>,
+        category: Option<Category>,
+    ) -> Vec<Command> {
+        self.commands
+            .iter()
+            .filter(|cmd| difficulty.is_none_or(|d| cmd.difficulty == d))
+            .filter(|cmd| category.is_none_or(|c| cmd.category == c))
+            .cloned()
+            .collect()
+    }
+
+    pub fn current_filter_match_count(&self) -> usize {
+        self.commands
+            .iter()
+            .filter(|cmd| self.filter_difficulty.is_none_or(|d| cmd.difficulty == d))
+            .filter(|cmd| self.filter_category.is_none_or(|c| cmd.category == c))
+            .count()
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // Helpers
+    // ─────────────────────────────────────────────────────────
+
+    pub fn current_typing_command(&self) -> Option<&Command> {
+        self.typing_commands.get(self.typing_index)
     }
 
     pub fn current_dictation_command(&self) -> Option<&Command> {
-        self.commands.get(self.dictation_command_index)
+        self.dictation_commands.get(self.dictation_index)
     }
 
-    pub fn next_typing_command(&mut self) {
-        if self.commands.is_empty() {
-            return;
-        }
+    pub fn current_symbol_practice_exercise(&self, topic_index: usize) -> Option<&Exercise> {
+        let idx = self
+            .symbol_practice
+            .dictation_indices
+            .get(self.symbol_practice.current_index)
+            .copied()
+            .unwrap_or(self.symbol_practice.current_index);
 
-        self.current_command_index = (self.current_command_index + 1) % self.commands.len();
-        let cmd = &self.commands[self.current_command_index];
-        self.typing_engine = Some(TypingEngine::new(&cmd.command));
+        self.symbol_topics
+            .get(topic_index)
+            .and_then(|topic| topic.exercises.get(idx))
     }
 
-    pub fn retry_typing_command(&mut self) {
-        if let Some(engine) = &mut self.typing_engine {
-            engine.reset();
-        } else if let Some(cmd) = self.commands.get(self.current_command_index) {
-            self.typing_engine = Some(TypingEngine::new(&cmd.command));
-        }
+    pub fn current_symbol_typing_exercise(
+        &self,
+        topic_index: usize,
+        exercise_idx: usize,
+    ) -> Option<&Exercise> {
+        let idx = self
+            .symbol_practice
+            .typing_indices
+            .get(exercise_idx)
+            .copied()
+            .unwrap_or(exercise_idx);
+
+        self.symbol_topics
+            .get(topic_index)
+            .and_then(|topic| topic.exercises.get(idx))
     }
 
-    pub fn complete_typing_round(&mut self) -> Option<AppState> {
-        let record = {
-            let engine = self.typing_engine.as_ref()?;
-            let command = self.commands.get(self.current_command_index)?;
-            engine.finish(&command.id, Mode::Type, command.difficulty)
-        };
-        let result = {
-            let command = self.commands.get(self.current_command_index)?;
-            RoundResultData::from_record(Mode::Type, command, &record)
-        };
-
-        self.pending_record = Some(record);
-        self.round_result = Some(result);
-        self.state = AppState::RoundResult;
-        Some(AppState::RoundResult)
+    pub fn current_review_exercise(&self) -> Option<&ReviewExercise> {
+        self.review_practice
+            .exercises
+            .get(self.review_practice.current_index)
     }
 
-    pub fn next_learn_command(&mut self) {
-        if self.commands.is_empty() {
-            return;
-        }
-
-        self.learn_command_index = (self.learn_command_index + 1) % self.commands.len();
-        let cmd = &self.commands[self.learn_command_index];
-        self.learn_engine = Some(TypingEngine::new(&cmd.command));
-    }
-
-    pub fn prev_learn_command(&mut self) {
-        if self.commands.is_empty() {
-            return;
-        }
-
-        if self.learn_command_index == 0 {
-            self.learn_command_index = self.commands.len() - 1;
-        } else {
-            self.learn_command_index -= 1;
-        }
-        let cmd = &self.commands[self.learn_command_index];
-        self.learn_engine = Some(TypingEngine::new(&cmd.command));
-    }
-
-    pub fn retry_learn_command(&mut self) {
-        if let Some(engine) = &mut self.learn_engine {
-            engine.reset();
-        } else if let Some(cmd) = self.commands.get(self.learn_command_index) {
-            self.learn_engine = Some(TypingEngine::new(&cmd.command));
-        }
-    }
-
-    pub fn complete_learn_round(&mut self) -> Option<AppState> {
-        let record = {
-            let engine = self.learn_engine.as_ref()?;
-            let command = self.commands.get(self.learn_command_index)?;
-            engine.finish(&command.id, Mode::Learn, command.difficulty)
-        };
-        let result = {
-            let command = self.commands.get(self.learn_command_index)?;
-            RoundResultData::from_record(Mode::Learn, command, &record)
-        };
-
-        self.pending_record = Some(record);
-        self.round_result = Some(result);
-        self.state = AppState::RoundResult;
-        Some(AppState::RoundResult)
-    }
-
-    pub fn next_dictation_command(&mut self) {
-        if self.commands.is_empty() {
-            return;
-        }
-
-        self.dictation_command_index = (self.dictation_command_index + 1) % self.commands.len();
-        self.reset_dictation_prompt_state();
-    }
-
-    pub fn insert_dictation_char(&mut self, ch: char) {
-        self.mark_dictation_started();
-        let byte_index = byte_index_for_char(&self.dictation_input, self.dictation_cursor);
-        self.dictation_input.insert(byte_index, ch);
-        self.dictation_cursor += 1;
-    }
-
-    pub fn move_dictation_cursor_left(&mut self) {
-        self.dictation_cursor = self.dictation_cursor.saturating_sub(1);
-    }
-
-    pub fn move_dictation_cursor_right(&mut self) {
-        self.dictation_cursor =
-            (self.dictation_cursor + 1).min(self.dictation_input.chars().count());
-    }
-
-    pub fn move_dictation_cursor_home(&mut self) {
-        self.dictation_cursor = 0;
-    }
-
-    pub fn move_dictation_cursor_end(&mut self) {
-        self.dictation_cursor = self.dictation_input.chars().count();
-    }
-
-    pub fn backspace_dictation(&mut self) {
-        if self.dictation_cursor == 0 {
-            return;
-        }
-
-        self.mark_dictation_started();
-        let start = byte_index_for_char(&self.dictation_input, self.dictation_cursor - 1);
-        let end = byte_index_for_char(&self.dictation_input, self.dictation_cursor);
-        self.dictation_input.replace_range(start..end, "");
-        self.dictation_cursor -= 1;
-    }
-
-    pub fn delete_dictation(&mut self) {
-        let char_len = self.dictation_input.chars().count();
-        if self.dictation_cursor >= char_len {
-            return;
-        }
-
-        self.mark_dictation_started();
-        let start = byte_index_for_char(&self.dictation_input, self.dictation_cursor);
-        let end = byte_index_for_char(&self.dictation_input, self.dictation_cursor + 1);
-        self.dictation_input.replace_range(start..end, "");
-    }
-
-    pub fn submit_dictation(&mut self) {
-        let Some(command) = self.current_dictation_command().cloned() else {
-            return;
-        };
-
-        let submitted = self.dictation_input.clone();
-        let evaluation = Matcher::check(&submitted, &command.dictation.answers);
-        let record = self.build_dictation_record(&command, &evaluation);
-
-        self.dictation_result = Some(DictationResult {
-            submitted,
-            evaluation,
-        });
-        self.pending_record = Some(record);
-    }
-
-    pub fn take_pending_record(&mut self) -> Option<SessionRecord> {
-        self.pending_record.take()
-    }
-
-    pub fn advance_round_result(&mut self) -> Option<AppState> {
-        let mode = self.round_result.as_ref()?.mode;
-        self.round_result = None;
-
-        match mode {
-            Mode::Type => {
-                self.next_typing_command();
-                self.state = AppState::Typing;
-                Some(AppState::Typing)
-            }
-            Mode::Learn => {
-                self.next_learn_command();
-                self.state = AppState::Learn;
-                Some(AppState::Learn)
-            }
-            Mode::Dictation => None,
-        }
-    }
-
-    pub fn retry_round_result(&mut self) -> Option<AppState> {
-        let mode = self.round_result.as_ref()?.mode;
-        self.round_result = None;
-
-        match mode {
-            Mode::Type => {
-                self.retry_typing_command();
-                self.state = AppState::Typing;
-                Some(AppState::Typing)
-            }
-            Mode::Learn => {
-                self.retry_learn_command();
-                self.state = AppState::Learn;
-                Some(AppState::Learn)
-            }
-            Mode::Dictation => None,
-        }
-    }
-
-    pub fn return_home(&mut self) -> AppState {
-        self.typing_engine = None;
-        self.learn_engine = None;
-        self.dictation_result = None;
-        self.dictation_input.clear();
-        self.dictation_cursor = 0;
-        self.dictation_started_at = None;
-        self.round_result = None;
-        self.state = AppState::Home;
-        AppState::Home
-    }
-
-    fn filtered_commands(&self) -> Vec<Command> {
-        let mut commands = loader::load_by_difficulty(&self.all_commands, self.selected_difficulty);
-        if let Some(category) = self.selected_category {
-            commands.retain(|command| command.category == category);
-        }
-        commands
-    }
-
-    fn reset_dictation_prompt_state(&mut self) {
-        self.dictation_input.clear();
-        self.dictation_cursor = 0;
-        self.dictation_result = None;
-        self.dictation_started_at = None;
-    }
-
-    fn mark_dictation_started(&mut self) {
-        if self.dictation_started_at.is_none() {
-            self.dictation_started_at = Some(Instant::now());
-        }
-    }
-
-    fn build_dictation_record(&self, command: &Command, evaluation: &MatchResult) -> SessionRecord {
-        let now_ms = Utc::now().timestamp_millis();
-        let elapsed_secs = self
-            .dictation_started_at
-            .map(|started_at| started_at.elapsed().as_secs_f64())
-            .unwrap_or(0.0);
-        let elapsed_ms = (elapsed_secs * 1000.0) as i64;
-        let reference_answer = match evaluation {
-            MatchResult::Exact(index) | MatchResult::Normalized(index) => command
-                .dictation
-                .answers
-                .get(*index)
-                .map(String::as_str)
-                .unwrap_or(command.command.as_str()),
-            MatchResult::NoMatch { closest, .. } if !closest.is_empty() => closest.as_str(),
-            MatchResult::NoMatch { .. } => command.command.as_str(),
-        };
-        let char_count = reference_answer.chars().count() as f64;
-        let elapsed_minutes = elapsed_secs / 60.0;
-        let wpm = if elapsed_minutes > 0.0 {
-            (char_count / 5.0) / elapsed_minutes
-        } else {
+    pub fn review_accuracy(&self) -> f64 {
+        if self.review_practice.total_count == 0 {
             0.0
-        };
-        let cpm = if elapsed_minutes > 0.0 {
-            char_count / elapsed_minutes
         } else {
-            0.0
-        };
-        let (accuracy, error_count) = dictation_metrics(evaluation);
-
-        SessionRecord {
-            id: format!("{now_ms}"),
-            command_id: command.id.clone(),
-            mode: Mode::Dictation,
-            keystrokes: Vec::new(),
-            started_at: now_ms - elapsed_ms,
-            finished_at: now_ms,
-            wpm,
-            cpm,
-            accuracy,
-            error_count,
-            difficulty: command.difficulty,
+            self.review_practice.accuracy_sum / self.review_practice.total_count as f64
         }
     }
-}
 
-fn dictation_metrics(result: &MatchResult) -> (f64, u32) {
-    match result {
-        MatchResult::Exact(_) | MatchResult::Normalized(_) => (1.0, 0),
-        MatchResult::NoMatch { diff, .. } => {
-            let same = diff
-                .iter()
-                .filter(|segment| segment.kind == DiffKind::Same)
-                .map(|segment| segment.text.chars().count() as u32)
-                .sum::<u32>();
-            let changes = diff
-                .iter()
-                .filter(|segment| segment.kind != DiffKind::Same)
-                .map(|segment| segment.text.chars().count() as u32)
-                .sum::<u32>();
-            let total = same + changes;
-            if total == 0 {
-                (0.0, 0)
-            } else {
-                (same as f64 / total as f64, changes)
-            }
-        }
+    pub fn typing_is_finished(&self) -> bool {
+        self.typing_index >= self.typing_commands.len()
     }
-}
-
-fn byte_index_for_char(text: &str, char_index: usize) -> usize {
-    text.char_indices()
-        .nth(char_index)
-        .map(|(byte_index, _)| byte_index)
-        .unwrap_or(text.len())
-}
-
-fn load_command_catalog() -> Vec<Command> {
-    let data_dir = Path::new("data/commands");
-    match loader::load_commands(data_dir) {
-        Ok(commands) if !commands.is_empty() => commands,
-        Ok(_) => hardcoded_commands(),
-        Err(err) => {
-            eprintln!(
-                "warning: failed to load TOML commands from {}: {}; using fallback set",
-                data_dir.display(),
-                err
-            );
-            hardcoded_commands()
-        }
-    }
-}
-
-/// Hardcoded test commands for when no TOML files exist
-fn hardcoded_commands() -> Vec<Command> {
-    vec![
-        Command {
-            id: "ls-basic".to_string(),
-            command: "ls -la /var/log".to_string(),
-            summary: "显示 /var/log 目录的详细列表（含隐藏文件）".to_string(),
-            category: Category::FileOps,
-            difficulty: Difficulty::Beginner,
-            tokens: vec![
-                Token {
-                    text: "ls".to_string(),
-                    desc: "列出目录内容".to_string(),
-                },
-                Token {
-                    text: "-la".to_string(),
-                    desc: "-l 详细列表 + -a 显示隐藏文件".to_string(),
-                },
-                Token {
-                    text: "/var/log".to_string(),
-                    desc: "系统日志目录".to_string(),
-                },
-            ],
-            dictation: DictationData {
-                prompt: "显示 /var/log 目录下所有文件的详细信息".to_string(),
-                answers: vec!["ls -la /var/log".to_string(), "ls -al /var/log".to_string()],
-            },
-        },
-        Command {
-            id: "cd-home".to_string(),
-            command: "cd ~".to_string(),
-            summary: "切换到当前用户的主目录".to_string(),
-            category: Category::FileOps,
-            difficulty: Difficulty::Beginner,
-            tokens: vec![
-                Token {
-                    text: "cd".to_string(),
-                    desc: "切换工作目录".to_string(),
-                },
-                Token {
-                    text: "~".to_string(),
-                    desc: "主目录的简写符号".to_string(),
-                },
-            ],
-            dictation: DictationData {
-                prompt: "切换到主目录".to_string(),
-                answers: vec!["cd ~".to_string(), "cd $HOME".to_string()],
-            },
-        },
-        Command {
-            id: "mkdir-p".to_string(),
-            command: "mkdir -p src/core/utils".to_string(),
-            summary: "递归创建多层目录结构".to_string(),
-            category: Category::FileOps,
-            difficulty: Difficulty::Basic,
-            tokens: vec![
-                Token {
-                    text: "mkdir".to_string(),
-                    desc: "创建新目录".to_string(),
-                },
-                Token {
-                    text: "-p".to_string(),
-                    desc: "自动创建不存在的父目录".to_string(),
-                },
-                Token {
-                    text: "src/core/utils".to_string(),
-                    desc: "目标路径（多层嵌套）".to_string(),
-                },
-            ],
-            dictation: DictationData {
-                prompt: "递归创建 src/core/utils 目录".to_string(),
-                answers: vec![
-                    "mkdir -p src/core/utils".to_string(),
-                    "mkdir --parents src/core/utils".to_string(),
-                ],
-            },
-        },
-        Command {
-            id: "grep-rn".to_string(),
-            command: "grep -rn \"TODO\" src/".to_string(),
-            summary: "在 src 目录下递归搜索包含 TODO 的行".to_string(),
-            category: Category::Search,
-            difficulty: Difficulty::Basic,
-            tokens: vec![
-                Token {
-                    text: "grep".to_string(),
-                    desc: "文本搜索工具".to_string(),
-                },
-                Token {
-                    text: "-rn".to_string(),
-                    desc: "-r 递归搜索 + -n 显示行号".to_string(),
-                },
-                Token {
-                    text: "\"TODO\"".to_string(),
-                    desc: "要搜索的模式字符串".to_string(),
-                },
-                Token {
-                    text: "src/".to_string(),
-                    desc: "搜索的目标目录".to_string(),
-                },
-            ],
-            dictation: DictationData {
-                prompt: "在 src 目录递归搜索 TODO 并显示行号".to_string(),
-                answers: vec![
-                    "grep -rn \"TODO\" src/".to_string(),
-                    "grep -rn 'TODO' src/".to_string(),
-                    "grep -nr \"TODO\" src/".to_string(),
-                ],
-            },
-        },
-        Command {
-            id: "chmod-755".to_string(),
-            command: "chmod 755 deploy.sh".to_string(),
-            summary: "设置脚本文件为可执行权限".to_string(),
-            category: Category::Permission,
-            difficulty: Difficulty::Basic,
-            tokens: vec![
-                Token {
-                    text: "chmod".to_string(),
-                    desc: "修改文件权限".to_string(),
-                },
-                Token {
-                    text: "755".to_string(),
-                    desc: "rwxr-xr-x 所有者可读写执行，其他人可读执行".to_string(),
-                },
-                Token {
-                    text: "deploy.sh".to_string(),
-                    desc: "目标脚本文件".to_string(),
-                },
-            ],
-            dictation: DictationData {
-                prompt: "给 deploy.sh 设置 755 权限".to_string(),
-                answers: vec!["chmod 755 deploy.sh".to_string()],
-            },
-        },
-        Command {
-            id: "cat-pipe-grep".to_string(),
-            command: "cat /etc/passwd | grep root".to_string(),
-            summary: "查看密码文件中包含 root 的行".to_string(),
-            category: Category::Pipeline,
-            difficulty: Difficulty::Advanced,
-            tokens: vec![
-                Token {
-                    text: "cat".to_string(),
-                    desc: "输出文件内容".to_string(),
-                },
-                Token {
-                    text: "/etc/passwd".to_string(),
-                    desc: "系统用户账户文件".to_string(),
-                },
-                Token {
-                    text: "|".to_string(),
-                    desc: "管道符，将前一命令输出传给后一命令".to_string(),
-                },
-                Token {
-                    text: "grep".to_string(),
-                    desc: "文本搜索过滤".to_string(),
-                },
-                Token {
-                    text: "root".to_string(),
-                    desc: "要搜索的关键词".to_string(),
-                },
-            ],
-            dictation: DictationData {
-                prompt: "从 /etc/passwd 中搜索包含 root 的行".to_string(),
-                answers: vec![
-                    "cat /etc/passwd | grep root".to_string(),
-                    "grep root /etc/passwd".to_string(),
-                ],
-            },
-        },
-        Command {
-            id: "tar-czf".to_string(),
-            command: "tar -czf backup.tar.gz /home/user".to_string(),
-            summary: "将 /home/user 目录压缩为 tar.gz 归档".to_string(),
-            category: Category::Archive,
-            difficulty: Difficulty::Advanced,
-            tokens: vec![
-                Token {
-                    text: "tar".to_string(),
-                    desc: "归档工具".to_string(),
-                },
-                Token {
-                    text: "-czf".to_string(),
-                    desc: "-c 创建 + -z gzip 压缩 + -f 指定文件名".to_string(),
-                },
-                Token {
-                    text: "backup.tar.gz".to_string(),
-                    desc: "输出的归档文件名".to_string(),
-                },
-                Token {
-                    text: "/home/user".to_string(),
-                    desc: "要归档的目标目录".to_string(),
-                },
-            ],
-            dictation: DictationData {
-                prompt: "将 /home/user 目录压缩为 backup.tar.gz".to_string(),
-                answers: vec![
-                    "tar -czf backup.tar.gz /home/user".to_string(),
-                    "tar czf backup.tar.gz /home/user".to_string(),
-                ],
-            },
-        },
-        Command {
-            id: "find-name".to_string(),
-            command: "find / -name \"*.log\" -type f".to_string(),
-            summary: "在根目录下查找所有 .log 文件".to_string(),
-            category: Category::Search,
-            difficulty: Difficulty::Practical,
-            tokens: vec![
-                Token {
-                    text: "find".to_string(),
-                    desc: "文件查找工具".to_string(),
-                },
-                Token {
-                    text: "/".to_string(),
-                    desc: "从根目录开始搜索".to_string(),
-                },
-                Token {
-                    text: "-name \"*.log\"".to_string(),
-                    desc: "按文件名模式匹配 .log 后缀".to_string(),
-                },
-                Token {
-                    text: "-type f".to_string(),
-                    desc: "只查找普通文件（不含目录）".to_string(),
-                },
-            ],
-            dictation: DictationData {
-                prompt: "在整个系统中查找所有 .log 文件".to_string(),
-                answers: vec![
-                    "find / -name \"*.log\" -type f".to_string(),
-                    "find / -type f -name \"*.log\"".to_string(),
-                ],
-            },
-        },
-    ]
 }

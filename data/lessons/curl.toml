@@ -1,0 +1,264 @@
+[meta]
+command = "curl"
+full_name = "Client URL"
+category = "network"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "命令行 HTTP 工具，用于发送请求和下载数据"
+explanation = """curl 是功能极其强大的命令行数据传输工具，支持 HTTP、HTTPS、FTP 等多种协议。\
+它是 API 开发和调试中最常用的工具，可以发送各种 HTTP 请求（GET、POST、PUT、DELETE），\
+自定义请求头、发送 JSON 数据、处理 Cookie、跟踪重定向等。\
+几乎所有的 API 文档都会提供 curl 示例命令。\
+curl 默认将响应输出到终端（stdout），适合在管道中使用。\
+如果需要下载文件保存到本地，使用 -o 或 -O 选项。\
+掌握 curl 是 Web 开发和运维的必备技能。"""
+
+[syntax]
+basic = "curl [选项] URL"
+[[syntax.parts]]
+name = "URL"
+desc = "请求的目标地址"
+
+[[options]]
+flag = "-o"
+name = "保存到文件"
+example = "curl -o file.html https://example.com"
+note = "将输出保存到指定文件名（小写 o）"
+
+[[options]]
+flag = "-O"
+name = "保存为原文件名"
+example = "curl -O https://example.com/file.tar.gz"
+note = "使用 URL 中的文件名保存（大写 O）"
+
+[[options]]
+flag = "-X"
+name = "指定请求方法"
+example = "curl -X POST https://api.example.com/users"
+note = "设置 HTTP 方法：GET、POST、PUT、DELETE、PATCH 等"
+
+[[options]]
+flag = "-H"
+name = "自定义请求头"
+example = "curl -H 'Content-Type: application/json' URL"
+note = "添加或覆盖 HTTP 请求头，可以多次使用"
+
+[[options]]
+flag = "-d"
+name = "发送数据"
+example = "curl -d '{\"name\":\"alice\"}' URL"
+note = "发送 POST 数据，自动设置方法为 POST"
+
+[[options]]
+flag = "-v"
+name = "详细输出"
+example = "curl -v https://example.com"
+note = "显示完整的请求和响应头信息，用于调试"
+
+[[options]]
+flag = "-s"
+name = "静默模式"
+example = "curl -s https://api.example.com/data | jq"
+note = "不显示进度条和错误信息，适合脚本和管道"
+
+[[options]]
+flag = "-I"
+name = "仅获取响应头"
+example = "curl -I https://example.com"
+note = "发送 HEAD 请求，只返回 HTTP 响应头"
+
+[[examples]]
+level = 1
+command = "curl https://api.github.com/zen"
+summary = "发送简单的 GET 请求"
+simulated_output = """Responsive is better than fast."""
+
+output_explanation = "这是 curl 请求返回的示例内容，可能是响应体、响应头或状态统计信息。排障时重点看 HTTP 状态码、关键头部和返回正文是否与接口文档一致。"
+[[examples.token_details]]
+token = "https://api.github.com/zen"
+explanation = "GitHub Zen API 地址，返回一条简短文本。"
+
+[[examples]]
+level = 2
+command = "curl -I https://example.com"
+summary = "查看网站的 HTTP 响应头"
+simulated_output = """HTTP/2 200
+accept-ranges: bytes
+age: 526834
+cache-control: max-age=604800
+content-type: text/html; charset=UTF-8
+date: Mon, 09 Mar 2026 06:23:15 GMT
+etag: "3147526947+gzip"
+expires: Mon, 16 Mar 2026 06:23:15 GMT
+last-modified: Thu, 17 Oct 2019 07:18:26 GMT
+server: ECAcc (sac/254D)
+x-cache: HIT
+content-length: 1256"""
+
+output_explanation = "这是 curl 请求返回的示例内容，可能是响应体、响应头或状态统计信息。排障时重点看 HTTP 状态码、关键头部和返回正文是否与接口文档一致。"
+[[examples.token_details]]
+token = "-I"
+explanation = "发送 HEAD 请求，只返回响应头而不下载响应体。"
+
+[[examples.token_details]]
+token = "https://example.com"
+explanation = "要检查响应头的网站地址（示例目标站点）。"
+
+[[examples]]
+level = 2
+command = "curl -s https://api.github.com/users/torvalds | jq '.name, .bio'"
+summary = "获取 GitHub 用户信息并用 jq 提取字段"
+display = "curl -s https://api.github.com/users/torvalds \\\n  | jq '.name, .bio'"
+simulated_output = """"Linus Torvalds"
+null"""
+
+output_explanation = "这是 curl 请求返回的示例内容，可能是响应体、响应头或状态统计信息。排障时重点看 HTTP 状态码、关键头部和返回正文是否与接口文档一致。"
+[[examples.token_details]]
+token = "-s"
+explanation = "静默模式：不显示进度条和错误提示，便于管道输出纯响应内容。"
+
+[[examples.token_details]]
+token = "https://api.github.com/users/torvalds"
+explanation = "GitHub Users API 端点，返回 torvalds 用户的 JSON 信息。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = ".name, .bio"
+explanation = "jq 过滤表达式，只提取 JSON 里的 `name` 和 `bio` 字段。"
+
+[[examples]]
+level = 3
+command = "curl -X POST -H 'Content-Type: application/json' -d '{\"username\":\"alice\",\"email\":\"alice@example.com\"}' https://api.example.com/users"
+summary = "发送 JSON 格式的 POST 请求创建用户"
+display = "curl -X POST \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"username\":\"alice\",\"email\":\"alice@example.com\"}' \\\n  https://api.example.com/users"
+simulated_output = """{"id":42,"username":"alice","email":"alice@example.com","created_at":"2026-03-09T14:30:00Z"}"""
+
+output_explanation = "这是 curl 请求返回的示例内容，可能是响应体、响应头或状态统计信息。排障时重点看 HTTP 状态码、关键头部和返回正文是否与接口文档一致。"
+[[examples.token_details]]
+token = "-X"
+explanation = "显式指定 HTTP 方法（如 GET/POST）。"
+
+[[examples.token_details]]
+token = "POST"
+explanation = "明确指定 HTTP 请求方法。"
+
+[[examples.token_details]]
+token = "-H"
+explanation = "添加请求头信息。"
+
+[[examples.token_details]]
+token = "Content-Type: application/json"
+explanation = "这里是 HTTP 请求头，告诉服务端请求体/认证等信息。"
+
+[[examples.token_details]]
+token = "-d"
+explanation = "发送 POST 请求的数据体（data），会自动将请求方法设为 POST。"
+
+[[examples.token_details]]
+token = "{\"username\":\"alice\",\"email\":\"alice@example.com\"}"
+explanation = "JSON 请求体，包含要创建用户的字段。"
+
+[[examples.token_details]]
+token = "https://api.example.com/users"
+explanation = "创建用户的 API 端点，请求会发往该 URL。"
+
+[[examples]]
+level = 3
+command = "curl -v -u admin:secret https://api.example.com/admin/stats"
+summary = "使用 Basic Auth 认证访问受保护的 API"
+display = "curl -v -u admin:secret \\\n  https://api.example.com/admin/stats"
+simulated_output = """*   Trying 93.184.216.34:443...
+* Connected to api.example.com port 443
+> GET /admin/stats HTTP/2
+> Host: api.example.com
+> Authorization: Basic YWRtaW46c2VjcmV0
+> User-Agent: curl/8.5.0
+> Accept: */*
+>
+< HTTP/2 200
+< content-type: application/json
+< date: Mon, 09 Mar 2026 14:30:00 GMT
+<
+{"users":1234,"active_today":567,"requests_per_minute":89}"""
+
+output_explanation = "这是 curl 请求返回的示例内容，可能是响应体、响应头或状态统计信息。排障时重点看 HTTP 状态码、关键头部和返回正文是否与接口文档一致。"
+[[examples.token_details]]
+token = "-v"
+explanation = "显示详细执行过程，便于观察发生了什么。"
+
+[[examples.token_details]]
+token = "-u"
+explanation = "启用 HTTP Basic Auth，并在后面提供 `用户名:密码`。"
+
+[[examples.token_details]]
+token = "admin:secret"
+explanation = "Basic Auth 凭据（用户名:密码），curl 会自动编码后放入 Authorization 头。"
+
+[[examples.token_details]]
+token = "https://api.example.com/admin/stats"
+explanation = "受保护的统计接口地址，需通过认证后访问。"
+
+[[examples]]
+level = 4
+command = "curl -s -w '\\nHTTP_CODE: %{http_code}\\nTIME_TOTAL: %{time_total}s\\nSIZE: %{size_download} bytes\\n' -o /dev/null https://example.com"
+summary = "测量网站的响应时间和状态码"
+display = "curl -s -w '\\nHTTP_CODE: %{http_code}\\n\\\n  TIME_TOTAL: %{time_total}s\\n\\\n  SIZE: %{size_download} bytes\\n' \\\n  -o /dev/null https://example.com"
+simulated_output = """
+HTTP_CODE: 200
+TIME_TOTAL: 0.234s
+SIZE: 1256 bytes"""
+
+output_explanation = "这是 curl 请求返回的示例内容，可能是响应体、响应头或状态统计信息。排障时重点看 HTTP 状态码、关键头部和返回正文是否与接口文档一致。"
+[[examples.token_details]]
+token = "-s"
+explanation = "静默模式：不显示进度条，常与 `-w` 搭配用于输出干净的统计结果。"
+
+[[examples.token_details]]
+token = "-w"
+explanation = "按自定义模板输出传输统计信息（如状态码、耗时、下载大小）。"
+
+[[examples.token_details]]
+token = "\\nHTTP_CODE: %{http_code}\\nTIME_TOTAL: %{time_total}s\\nSIZE: %{size_download} bytes\\n"
+explanation = "`-w` 的输出模板，分别打印 HTTP 状态码、总耗时和下载字节数。"
+
+[[examples.token_details]]
+token = "-o"
+explanation = "把响应体写入指定文件，而不是打印到终端。"
+
+[[examples.token_details]]
+token = "/dev/null"
+explanation = "空设备，写入会被丢弃，常用于忽略输出。"
+
+[[examples.token_details]]
+token = "https://example.com"
+explanation = "被测目标站点，curl 会请求该地址并统计响应指标。"
+
+[[gotchas]]
+title = "curl 的引号和特殊字符"
+content = """在 curl 命令中传递 JSON 数据时，需要注意 Shell 引号嵌套：
+  curl -d '{"name":"alice"}'     — 外层单引号，内层双引号 ✓
+  curl -d "{\"name\":\"alice\"}"  — 外层双引号，内层转义 ✓
+  curl -d "{"name":"alice"}"     — 错误！双引号嵌套未转义 ✗
+
+对于复杂的 JSON 数据，可以从文件读取：
+  curl -d @data.json -H 'Content-Type: application/json' URL
+  @ 前缀告诉 curl 从文件中读取数据。"""
+
+[[gotchas]]
+title = "-d 与 -F 的区别"
+content = """curl 发送 POST 数据有两种主要方式：
+  -d / --data：发送 URL 编码或原始数据
+    Content-Type 默认为 application/x-www-form-urlencoded
+    发送 JSON 时需要手动设置 Content-Type: application/json
+
+  -F / --form：发送 multipart/form-data 格式
+    主要用于文件上传
+    curl -F 'file=@photo.jpg' -F 'name=avatar' URL
+
+常见错误是上传文件时用 -d 而不是 -F，
+-d 会把文件名当作字符串发送，-F 才会正确上传文件内容。"""

@@ -7,17 +7,18 @@ description = "基础权限、查找与系统管理命令"
 id = "chmod-644"
 command = "chmod 644 notes.txt"
 summary = "把 notes.txt 设置为所有者可读写、其他用户只读"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "chmod"
 desc = "修改文件或目录权限的命令"
 
 [[commands.tokens]]
-text = "644"
+text = " 644"
 desc = "权限模式：所有者读写，组和其他用户只读"
 
 [[commands.tokens]]
-text = "notes.txt"
+text = " notes.txt"
 desc = "要修改权限的文件"
 
 [commands.dictation]
@@ -31,17 +32,18 @@ answers = [
 id = "chmod-exec"
 command = "chmod +x deploy.sh"
 summary = "为 deploy.sh 增加可执行权限"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "chmod"
 desc = "修改文件或目录权限的命令"
 
 [[commands.tokens]]
-text = "+x"
+text = " +x"
 desc = "为匹配的用户增加执行权限"
 
 [[commands.tokens]]
-text = "deploy.sh"
+text = " deploy.sh"
 desc = "要添加执行权限的脚本文件"
 
 [commands.dictation]
@@ -56,21 +58,22 @@ answers = [
 id = "chmod-recursive"
 command = "chmod -R 755 scripts"
 summary = "递归把 scripts 目录及其内容设置为 755 权限"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "chmod"
 desc = "修改文件或目录权限的命令"
 
 [[commands.tokens]]
-text = "-R"
+text = " -R"
 desc = "递归处理目录中的所有文件和子目录"
 
 [[commands.tokens]]
-text = "755"
+text = " 755"
 desc = "权限模式：所有者可读写执行，组和其他用户可读执行"
 
 [[commands.tokens]]
-text = "scripts"
+text = " scripts"
 desc = "要递归修改权限的目录"
 
 [commands.dictation]
@@ -85,17 +88,18 @@ answers = [
 id = "chown-user-group"
 command = "chown alice:alice app.log"
 summary = "把 app.log 的所有者和所属组改为 alice"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "chown"
 desc = "修改文件所有者和所属组的命令"
 
 [[commands.tokens]]
-text = "alice:alice"
+text = " alice:alice"
 desc = "新的所有者和所属组"
 
 [[commands.tokens]]
-text = "app.log"
+text = " app.log"
 desc = "要修改归属的文件"
 
 [commands.dictation]
@@ -109,17 +113,21 @@ answers = [
 id = "grep-basic"
 command = "grep 'ERROR' app.log"
 summary = "在 app.log 中查找包含 ERROR 的行"
+simulated_output = """
+2025-03-09 08:03:01 [ERROR] Connection timeout: upstream server
+2025-03-09 08:15:44 [ERROR] Failed to parse JSON: unexpected token
+2025-03-09 08:32:19 [ERROR] Out of memory: cannot allocate 512MB"""
 
 [[commands.tokens]]
 text = "grep"
 desc = "按模式搜索文本行的命令"
 
 [[commands.tokens]]
-text = "'ERROR'"
+text = " 'ERROR'"
 desc = "要匹配的关键字"
 
 [[commands.tokens]]
-text = "app.log"
+text = " app.log"
 desc = "要搜索的日志文件"
 
 [commands.dictation]
@@ -134,21 +142,25 @@ answers = [
 id = "grep-recursive"
 command = "grep -R 'TODO' src"
 summary = "递归查找 src 目录中包含 TODO 的文本"
+simulated_output = """
+src/main.rs:// TODO: add error handling
+src/utils/config.rs:// TODO: support YAML format
+src/utils/helpers.rs:// TODO: refactor this function"""
 
 [[commands.tokens]]
 text = "grep"
 desc = "按模式搜索文本行的命令"
 
 [[commands.tokens]]
-text = "-R"
+text = " -R"
 desc = "递归搜索目录中的所有文件"
 
 [[commands.tokens]]
-text = "'TODO'"
+text = " 'TODO'"
 desc = "要匹配的关键字"
 
 [[commands.tokens]]
-text = "src"
+text = " src"
 desc = "要递归搜索的目录"
 
 [commands.dictation]
@@ -163,21 +175,26 @@ answers = [
 id = "grep-line-number"
 command = "grep -n 'main' src/main.rs"
 summary = "查找 src/main.rs 中包含 main 的行并显示行号"
+simulated_output = """
+1:fn main() {
+5:    let config = load_main_config();
+12:    // main loop
+13:    main_loop(&config);"""
 
 [[commands.tokens]]
 text = "grep"
 desc = "按模式搜索文本行的命令"
 
 [[commands.tokens]]
-text = "-n"
+text = " -n"
 desc = "在输出结果前显示匹配行的行号"
 
 [[commands.tokens]]
-text = "'main'"
+text = " 'main'"
 desc = "要匹配的关键字"
 
 [[commands.tokens]]
-text = "src/main.rs"
+text = " src/main.rs"
 desc = "要搜索的源代码文件"
 
 [commands.dictation]
@@ -192,21 +209,26 @@ answers = [
 id = "find-name"
 command = "find . -name '*.log'"
 summary = "在当前目录及子目录中查找所有 .log 文件"
+simulated_output = """
+./app.log
+./logs/access.log
+./logs/error.log
+./tmp/debug.log"""
 
 [[commands.tokens]]
 text = "find"
 desc = "在目录树中查找文件的命令"
 
 [[commands.tokens]]
-text = "."
+text = " ."
 desc = "从当前目录开始查找"
 
 [[commands.tokens]]
-text = "-name"
+text = " -name"
 desc = "按文件名模式匹配"
 
 [[commands.tokens]]
-text = "'*.log'"
+text = " '*.log'"
 desc = "匹配所有以 .log 结尾的文件名"
 
 [commands.dictation]
@@ -221,21 +243,29 @@ answers = [
 id = "find-type-file"
 command = "find /var/log -type f"
 summary = "在 /var/log 目录下查找所有普通文件"
+simulated_output = """
+/var/log/syslog
+/var/log/auth.log
+/var/log/kern.log
+/var/log/alternatives.log
+/var/log/bootstrap.log
+/var/log/nginx/access.log
+/var/log/nginx/error.log"""
 
 [[commands.tokens]]
 text = "find"
 desc = "在目录树中查找文件的命令"
 
 [[commands.tokens]]
-text = "/var/log"
+text = " /var/log"
 desc = "查找起点目录"
 
 [[commands.tokens]]
-text = "-type"
+text = " -type"
 desc = "按文件类型筛选"
 
 [[commands.tokens]]
-text = "f"
+text = " f"
 desc = "只匹配普通文件"
 
 [commands.dictation]
@@ -249,21 +279,22 @@ answers = [
 id = "tar-create-gzip"
 command = "tar -czf backup.tar.gz project"
 summary = "把 project 目录打包并压缩为 backup.tar.gz"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "tar"
 desc = "打包和解包归档文件的命令"
 
 [[commands.tokens]]
-text = "-czf"
+text = " -czf"
 desc = "-c 创建归档 + -z 使用 gzip 压缩 + -f 指定输出文件"
 
 [[commands.tokens]]
-text = "backup.tar.gz"
+text = " backup.tar.gz"
 desc = "输出的压缩归档文件名"
 
 [[commands.tokens]]
-text = "project"
+text = " project"
 desc = "要打包的目录"
 
 [commands.dictation]
@@ -278,17 +309,18 @@ answers = [
 id = "tar-extract-gzip"
 command = "tar -xzf backup.tar.gz"
 summary = "解压 backup.tar.gz 压缩归档文件"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "tar"
 desc = "打包和解包归档文件的命令"
 
 [[commands.tokens]]
-text = "-xzf"
+text = " -xzf"
 desc = "-x 解包归档 + -z 使用 gzip 解压 + -f 指定归档文件"
 
 [[commands.tokens]]
-text = "backup.tar.gz"
+text = " backup.tar.gz"
 desc = "要解压的压缩归档文件"
 
 [commands.dictation]
@@ -303,13 +335,21 @@ answers = [
 id = "ps-aux"
 command = "ps aux"
 summary = "以详细格式显示当前系统中的所有进程"
+simulated_output = """
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.1 169356 13280 ?        Ss   Mar08   0:03 /sbin/init
+root         2  0.0  0.0      0     0 ?        S    Mar08   0:00 [kthreadd]
+root       412  0.0  0.2  72312 20148 ?        Ss   Mar08   0:01 /usr/sbin/sshd -D
+www-data  1024  0.2  0.5 145892 42360 ?        S    Mar08   2:15 nginx: worker process
+ace       1587  0.0  0.1  10864  5440 pts/0    Ss   10:00   0:00 -bash
+ace       2103  0.0  0.0   7060  1584 pts/0    R+   10:22   0:00 ps aux"""
 
 [[commands.tokens]]
 text = "ps"
 desc = "查看进程状态的命令"
 
 [[commands.tokens]]
-text = "aux"
+text = " aux"
 desc = "显示所有用户的进程，并包含详细信息"
 
 [commands.dictation]
@@ -324,17 +364,18 @@ answers = [
 id = "kill-force"
 command = "kill -9 1234"
 summary = "强制终止 PID 为 1234 的进程"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "kill"
 desc = "向进程发送信号的命令"
 
 [[commands.tokens]]
-text = "-9"
+text = " -9"
 desc = "发送 SIGKILL 信号，强制结束进程"
 
 [[commands.tokens]]
-text = "1234"
+text = " 1234"
 desc = "目标进程的 PID"
 
 [commands.dictation]
@@ -349,6 +390,16 @@ answers = [
 id = "top-basic"
 command = "top"
 summary = "实时查看系统进程和资源占用"
+simulated_output = """
+top - 10:22:35 up 1 day,  2:30,  1 user,  load average: 0.15, 0.10, 0.09
+Tasks: 128 total,   1 running, 127 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  2.3 us,  0.8 sy,  0.0 ni, 96.7 id,  0.1 wa,  0.0 hi,  0.1 si
+MiB Mem :   7948.4 total,   3124.6 free,   2108.3 used,   2715.5 buff/cache
+MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   5438.2 avail Mem
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+ 1024 www-data  20   0  145892  42360  12480 S   0.7   0.5   2:15.34 nginx
+  412 root      20   0   72312  20148   8320 S   0.0   0.2   0:01.52 sshd"""
 
 [[commands.tokens]]
 text = "top"
@@ -365,21 +416,33 @@ answers = [
 id = "sudo-status"
 command = "sudo systemctl status nginx"
 summary = "以管理员权限查看 nginx 服务状态"
+simulated_output = """
+● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; preset: enabled)
+     Active: active (running) since Sat 2025-03-08 07:52:10 CST; 1 day ago
+       Docs: man:nginx(8)
+   Main PID: 1020 (nginx)
+      Tasks: 3 (limit: 9447)
+     Memory: 8.5M
+        CPU: 320ms
+     CGroup: /system.slice/nginx.service
+             ├─1020 "nginx: master process /usr/sbin/nginx"
+             └─1024 "nginx: worker process" """
 
 [[commands.tokens]]
 text = "sudo"
 desc = "以其他用户身份执行命令，默认使用管理员权限"
 
 [[commands.tokens]]
-text = "systemctl"
+text = " systemctl"
 desc = "管理 systemd 服务的命令"
 
 [[commands.tokens]]
-text = "status"
+text = " status"
 desc = "查看服务当前状态"
 
 [[commands.tokens]]
-text = "nginx"
+text = " nginx"
 desc = "要查看状态的服务名称"
 
 [commands.dictation]
@@ -393,13 +456,19 @@ answers = [
 id = "df-human"
 command = "df -h"
 summary = "以易读单位显示磁盘分区使用情况"
+simulated_output = """
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        50G   18G   30G  38% /
+tmpfs           3.9G     0  3.9G   0% /dev/shm
+/dev/sda2       200G   95G   95G  50% /home
+tmpfs           798M  1.2M  797M   1% /run"""
 
 [[commands.tokens]]
 text = "df"
 desc = "显示文件系统磁盘空间使用情况的命令"
 
 [[commands.tokens]]
-text = "-h"
+text = " -h"
 desc = "以 KB、MB、GB 等易读单位显示大小"
 
 [commands.dictation]
@@ -413,17 +482,18 @@ answers = [
 id = "du-summary"
 command = "du -sh /var/log"
 summary = "汇总显示 /var/log 目录占用空间"
+simulated_output = "248M\t/var/log"
 
 [[commands.tokens]]
 text = "du"
 desc = "统计文件和目录磁盘占用的命令"
 
 [[commands.tokens]]
-text = "-sh"
+text = " -sh"
 desc = "-s 只显示总计 + -h 以易读单位显示"
 
 [[commands.tokens]]
-text = "/var/log"
+text = " /var/log"
 desc = "要统计占用空间的目录"
 
 [commands.dictation]
@@ -438,13 +508,17 @@ answers = [
 id = "free-human"
 command = "free -h"
 summary = "以易读单位显示内存使用情况"
+simulated_output = """
+               total        used        free      shared  buff/cache   available
+Mem:           7.8Gi       2.1Gi       3.1Gi       128Mi       2.7Gi       5.3Gi
+Swap:          2.0Gi          0B       2.0Gi"""
 
 [[commands.tokens]]
 text = "free"
 desc = "显示内存和交换分区使用情况的命令"
 
 [[commands.tokens]]
-text = "-h"
+text = " -h"
 desc = "以 KB、MB、GB 等易读单位显示大小"
 
 [commands.dictation]

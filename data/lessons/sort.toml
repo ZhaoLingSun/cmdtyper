@@ -1,0 +1,232 @@
+[meta]
+command = "sort"
+full_name = "sort"
+category = "text_process"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "对文本行进行排序"
+explanation = """sort 命令对文本行进行排序输出。默认按字典序（ASCII 码顺序）升序排列，\
+可以通过选项实现数值排序、反向排序、按指定字段排序等功能。\
+sort 是管道操作中最常用的工具之一，常与 uniq（去重）、head/tail（截取）配合使用。\
+例如经典的词频统计管道：sort | uniq -c | sort -rn。\
+sort 可以处理非常大的文件，它使用临时文件进行外部排序，\
+因此不受内存限制。支持多种排序键和分隔符，能满足复杂的排序需求。"""
+
+[syntax]
+basic = "sort [选项] [文件]..."
+[[syntax.parts]]
+name = "选项"
+desc = "控制排序方式、字段分隔符等"
+[[syntax.parts]]
+name = "文件"
+desc = "要排序的文件，省略时从标准输入读取"
+
+[[options]]
+flag = "-n"
+name = "数值排序"
+example = "sort -n numbers.txt"
+note = "按数值大小而非字典序排序，如 2 < 10（字典序 10 < 2）"
+
+[[options]]
+flag = "-r"
+name = "反向排序"
+example = "sort -r names.txt"
+note = "降序排列（从大到小/从 Z 到 A）"
+
+[[options]]
+flag = "-k"
+name = "指定排序字段"
+example = "sort -k2 data.txt"
+note = "按第 N 个字段排序，可以指定范围如 -k2,2 表示仅第二字段"
+
+[[options]]
+flag = "-t"
+name = "指定分隔符"
+example = "sort -t: -k3 -n /etc/passwd"
+note = "设置字段分隔符，默认是空白字符"
+
+[[options]]
+flag = "-u"
+name = "去重排序"
+example = "sort -u names.txt"
+note = "排序的同时去除重复行，等同于 sort | uniq"
+
+[[options]]
+flag = "-h"
+name = "人类可读数值排序"
+example = "du -sh * | sort -h"
+note = "理解 K/M/G 等后缀的大小关系（2K < 1M < 3G）"
+
+[[examples]]
+level = 1
+command = "sort names.txt"
+summary = "按字母顺序排列文件中的名字"
+simulated_output = """Alice
+Bob
+Charlie
+Diana
+Eve
+Frank"""
+
+output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
+[[examples.token_details]]
+token = "names.txt"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples]]
+level = 2
+command = "sort -rn scores.txt"
+summary = "按数值从大到小排列分数"
+simulated_output = """98
+95
+87
+82
+76
+65"""
+
+output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
+[[examples.token_details]]
+token = "-rn"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "scores.txt"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples]]
+level = 2
+command = "sort -t: -k3 -n /etc/passwd | head -5"
+summary = "按 UID（第3字段）数值排序 /etc/passwd 并显示前 5 行"
+simulated_output = """root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync"""
+
+output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
+[[examples.token_details]]
+token = "-t:"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-k3"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-n"
+explanation = "指定行数/次数，或仅显示数字信息。"
+
+[[examples.token_details]]
+token = "/etc/passwd"
+explanation = "指定数量（如行数、分组大小、请求次数）。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-5"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples]]
+level = 3
+command = "du -sh /var/log/* | sort -rh | head -10"
+summary = "按大小降序显示 /var/log 下最大的 10 个目录/文件"
+display = "du -sh /var/log/* \\\n  | sort -rh | head -10"
+simulated_output = """1.2G	/var/log/journal
+256M	/var/log/syslog.1
+128M	/var/log/kern.log.1
+64M	/var/log/auth.log.1
+32M	/var/log/syslog
+16M	/var/log/dpkg.log
+8.4M	/var/log/nginx
+4.2M	/var/log/mysql
+2.1M	/var/log/apt
+1.4M	/var/log/kern.log"""
+
+output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
+[[examples.token_details]]
+token = "-sh"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "/var/log/*"
+explanation = "通配符模式，会匹配一组符合条件的文件名。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-rh"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-10"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples]]
+level = 4
+command = "cat access.log | awk '{print $1}' | sort | uniq -c | sort -rn | head -10"
+summary = "统计访问日志中出现次数最多的 10 个 IP 地址"
+display = "cat access.log | awk '{print $1}' \\\n  | sort | uniq -c | sort -rn | head -10"
+simulated_output = """   1523 192.168.1.50
+    987 10.0.0.5
+    654 192.168.1.105
+    432 172.16.0.20
+    321 192.168.1.200
+    234 10.0.0.12
+    187 203.0.113.42
+    145 192.168.1.30
+     98 10.0.0.100
+     76 172.16.0.55"""
+
+output_explanation = "输出展示了 cat 读取（或拼接）后的文件内容。cat 本身不做格式化，看到什么就原样输出什么，适合快速核对文件内容。"
+[[examples.token_details]]
+token = "access.log"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "{print $1}"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-c"
+explanation = "指定次数或统计计数（具体含义取决于命令）。"
+
+[[examples.token_details]]
+token = "-rn"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-10"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[gotchas]]
+title = "字典序与数值排序的区别"
+content = """sort 默认使用字典序（按 ASCII 码逐字符比较），这与数值排序的结果不同：
+  字典序：1, 10, 11, 2, 20, 3, 9（按字符逐位比较）
+  数值序：1, 2, 3, 9, 10, 11, 20（按数字大小比较）
+
+处理数字时一定要加 -n 选项！常见场景：
+  sort -n              — 纯数字排序
+  sort -t: -k3 -n      — 按第三字段数值排序
+  sort -h              — 支持 K/M/G 后缀的数值排序
+  sort -V              — 版本号排序（1.2 < 1.10 < 2.0）"""
+
+[[gotchas]]
+title = "sort 的稳定性和 locale"
+content = """sort 默认受系统 locale 影响，不同 locale 下排序结果可能不同。
+如果需要确定的排序结果，可以设置：
+  LC_ALL=C sort file.txt
+C locale 按纯 ASCII 码排序，速度更快且结果可预测。
+
+另外，sort 默认是稳定排序，即相等的行保持原始顺序。
+如果要去重建议用 sort -u 而不是 sort | uniq，
+因为 sort -u 更高效（在排序过程中直接去重）。"""

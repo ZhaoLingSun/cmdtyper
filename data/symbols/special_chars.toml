@@ -1,0 +1,466 @@
+[meta]
+id = "special_chars"
+topic = "特殊字符"
+description = "学习 Shell 中常见的特殊字符：命令分隔、逻辑运算、后台执行、注释等"
+difficulty = "basic"
+icon = "⚡"
+
+# ─────────────────────────────────────────────
+# 1. ; 命令分隔符
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "semicolon"
+char_repr = ";"
+name = "分号（命令分隔符）"
+summary = "按顺序依次执行多条命令，无论前一条是否成功"
+explanation = """分号 ; 是最简单的命令连接符，用于将多条命令写在同一行上依次执行。
+Shell 会按从左到右的顺序逐条运行，无论前一条命令是成功还是失败，
+后面的命令都会继续执行。
+
+语法：命令A ; 命令B ; 命令C
+
+与换行的关系：
+  分号的作用和换行符完全一样——在脚本中，每条命令各占一行时不需要分号，
+  但如果要把多条命令写在同一行，就必须用分号分隔。
+
+与 && 和 || 的区别：
+  ; 不检查前一条命令的退出码（exit code），总是继续执行。
+  && 只在前一条成功（exit code 0）时才执行下一条。
+  || 只在前一条失败（exit code 非 0）时才执行下一条。"""
+
+[[symbols.examples]]
+command = "echo \"hello\"; echo \"world\""
+explanation = "依次输出两个字符串，无论第一条是否成功，第二条都会执行"
+simulated_output = """hello
+world"""
+
+[[symbols.examples]]
+command = "mkdir test; cd test; pwd"
+explanation = "创建目录、进入目录、打印当前路径——三条命令顺序执行"
+simulated_output = "/home/ace/test"
+
+[[symbols.examples]]
+command = "ls /nonexistent; echo \"依然会执行\""
+explanation = "即使 ls 访问不存在的路径报错，分号后的 echo 仍然会执行"
+simulated_output = """ls: cannot access '/nonexistent': No such file or directory
+依然会执行"""
+
+# ─────────────────────────────────────────────
+# 2. && 逻辑与
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "logical_and"
+char_repr = "&&"
+name = "逻辑与（AND）"
+summary = "仅当前一条命令成功时，才执行下一条命令"
+explanation = """&& 是 Shell 中的逻辑与运算符，用于条件性地连接两条命令。
+只有当左侧命令的退出码为 0（表示成功）时，右侧命令才会执行。
+如果左侧命令失败（退出码非 0），右侧命令会被跳过。
+
+语法：命令A && 命令B
+
+这种行为被称为"短路求值"（short-circuit evaluation），来源于布尔逻辑：
+  A AND B —— 如果 A 已经为假，整个表达式必定为假，无需再计算 B。
+
+典型使用场景：
+  - 先编译再运行：gcc main.c -o main && ./main
+  - 先进入目录再操作：cd /project && make
+  - 安全的多步操作：apt update && apt upgrade
+
+&& 可以链接多条命令，每一步都必须成功才会继续：
+  命令A && 命令B && 命令C && 命令D"""
+
+[[symbols.examples]]
+command = "mkdir newdir && cd newdir && pwd"
+explanation = "创建目录成功后才进入该目录，进入成功后才打印路径。任何一步失败就会停止"
+simulated_output = "/home/ace/newdir"
+
+[[symbols.examples]]
+command = "sudo apt update && sudo apt upgrade -y"
+explanation = "先更新软件包索引，只有更新成功才执行升级操作"
+simulated_output = """Hit:1 http://archive.ubuntu.com/ubuntu jammy InRelease
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+All packages are up to date.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded."""
+
+[[symbols.examples]]
+command = "ping -c 1 google.com && echo \"网络正常\""
+explanation = "发送一个 ping 包测试网络，成功后打印提示信息"
+simulated_output = """PING google.com (142.250.80.46) 56(84) bytes of data.
+64 bytes from 142.250.80.46: icmp_seq=1 ttl=116 time=12.3 ms
+
+--- google.com ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 12.300/12.300/12.300/0.000 ms
+网络正常"""
+
+# ─────────────────────────────────────────────
+# 3. || 逻辑或
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "logical_or"
+char_repr = "||"
+name = "逻辑或（OR）"
+summary = "仅当前一条命令失败时，才执行下一条命令"
+explanation = """|| 是 Shell 中的逻辑或运算符，与 && 相反。
+只有当左侧命令的退出码为非 0（表示失败）时，右侧命令才会执行。
+如果左侧命令成功（退出码为 0），右侧命令会被跳过。
+
+语法：命令A || 命令B
+
+同样是"短路求值"：
+  A OR B —— 如果 A 已经为真，整个表达式必定为真，无需再计算 B。
+
+典型使用场景：
+  - 错误处理：cd /important || echo "目录不存在"
+  - 提供备选方案：command -v vim || command -v nano
+  - 默认值模式：grep pattern file || echo "未找到匹配项"
+
+常见组合技巧（&& 和 || 搭配使用，模拟 if-else）：
+  命令 && echo "成功" || echo "失败"
+  注意：这不是严格的 if-else，如果 echo "成功" 自身失败，"失败" 也会执行。"""
+
+[[symbols.examples]]
+command = "cd /nonexistent || echo \"目录不存在\""
+explanation = "尝试进入一个不存在的目录，失败后执行 echo 输出提示信息"
+simulated_output = """bash: cd: /nonexistent: No such file or directory
+目录不存在"""
+
+[[symbols.examples]]
+command = "command -v git || sudo apt install git -y"
+explanation = "检查 git 是否已安装，如果未安装（命令不存在导致失败）则自动安装"
+simulated_output = "/usr/bin/git"
+
+[[symbols.examples]]
+command = "test -f config.yml || cp config.yml.example config.yml"
+explanation = "检查配置文件是否存在，不存在时从示例文件复制一份"
+simulated_output = ""
+
+# ─────────────────────────────────────────────
+# 4. & 后台执行
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "background"
+char_repr = "&"
+name = "后台执行符"
+summary = "将命令放到后台执行，立即返回终端控制权"
+explanation = """在命令末尾加上 & 符号，Shell 会将该命令放到后台执行，
+并立即返回命令提示符，让你可以继续输入其他命令。
+
+语法：命令 &
+
+后台执行后，Shell 会输出两个信息：
+  [作业号] 进程ID
+  例如：[1] 12345
+
+常用操作：
+  jobs        查看所有后台作业
+  fg %1       将作业 1 切换到前台
+  bg %1       让暂停的作业 1 在后台继续运行
+  kill %1     终止后台作业 1
+
+注意事项：
+  - 后台命令的输出仍然会显示在终端中，可能干扰你的输入
+  - 如果要完全静默后台执行：命令 > /dev/null 2>&1 &
+  - 关闭终端时后台进程会收到 SIGHUP 信号并退出，
+    使用 nohup 命令可以避免这个问题：nohup 命令 &"""
+
+[[symbols.examples]]
+command = "sleep 100 &"
+explanation = "将 sleep 命令放到后台执行，终端立即可用"
+simulated_output = "[1] 28456"
+
+[[symbols.examples]]
+command = "./long_task.sh > output.log 2>&1 &"
+explanation = "在后台运行耗时脚本，同时将标准输出和错误输出都重定向到日志文件"
+simulated_output = "[1] 31024"
+
+[[symbols.examples]]
+command = "nohup python3 train_model.py &"
+explanation = "使用 nohup 确保即使关闭终端，训练任务也不会被中断"
+simulated_output = """[1] 40231
+nohup: ignoring input and appending output to 'nohup.out'"""
+
+# ─────────────────────────────────────────────
+# 5. ! 感叹号
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "exclamation"
+char_repr = "!"
+name = "感叹号（历史展开与逻辑非）"
+summary = "用于历史命令展开和逻辑非操作"
+explanation = """感叹号 ! 在 Shell 中有两个主要用途：
+
+1. 历史命令展开（History Expansion）：
+   !!        重复执行上一条命令（最常见的用法：sudo !!）
+   !-2       执行倒数第二条命令
+   !字符串   执行最近一条以该字符串开头的命令（如 !vim）
+   !?模式    执行最近一条包含该模式的命令
+   !$        上一条命令的最后一个参数
+   !^        上一条命令的第一个参数
+
+2. 逻辑非操作（在条件表达式中）：
+   ! command    反转命令的退出码（成功变失败，失败变成功）
+   if ! grep -q pattern file; then ... fi
+
+常见用法：
+  sudo !!    —— 用 sudo 重新执行上一条命令（忘记加 sudo 时非常实用）
+
+注意：在双引号内，! 可能会触发历史展开。
+可以用单引号或反斜杠转义来避免：echo '!' 或 echo \\!"""
+
+[[symbols.examples]]
+command = "!!"
+explanation = "重新执行上一条命令。最经典的用法是 sudo !! —— 用 root 权限重新运行刚才的命令"
+simulated_output = """apt update
+E: Could not open lock file - open (13: Permission denied)"""
+
+[[symbols.examples]]
+command = "!-2"
+explanation = "执行倒数第二条历史命令"
+simulated_output = "ls -la /home/ace/Documents"
+
+[[symbols.examples]]
+command = "! false && echo \"逻辑非：false 取反为 true\""
+explanation = "使用 ! 对 false 命令取反——false 的退出码为 1，取反后为 0（成功），因此 && 后的 echo 会执行"
+simulated_output = "逻辑非：false 取反为 true"
+
+# ─────────────────────────────────────────────
+# 6. # 注释
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "comment"
+char_repr = "#"
+name = "井号（注释符）"
+summary = "标记注释内容，Shell 会忽略 # 之后的所有文字"
+explanation = """井号 # 用于在 Shell 脚本和命令行中添加注释。
+# 之后到行末的所有内容都会被 Shell 忽略，不会被执行。
+
+用法：
+  # 这是整行注释
+  echo hello   # 这是行尾注释
+
+在脚本中的特殊用法：
+  #!/bin/bash  —— Shebang（释伴），位于脚本第一行，
+  告诉系统用哪个解释器来执行这个脚本。
+  常见的 Shebang：
+    #!/bin/bash
+    #!/usr/bin/env python3
+    #!/bin/sh
+
+注意事项：
+  - # 只有在行首或者空格之后才被识别为注释符
+  - 在引号内的 # 不会被当作注释：echo "价格是 #1"
+  - 在参数展开中 ${#var} 表示获取变量长度，此时 # 不是注释"""
+
+[[symbols.examples]]
+command = "echo hello # 这是一条注释"
+explanation = "Shell 只执行 echo hello，# 后面的文字被当作注释忽略"
+simulated_output = "hello"
+
+[[symbols.examples]]
+command = "# 这是一条完整的注释行，不会执行任何操作"
+explanation = "整行都是注释，Shell 会完全跳过，不产生任何输出"
+simulated_output = ""
+
+[[symbols.examples]]
+command = "#!/bin/bash"
+explanation = "Shebang 行——放在脚本第一行，告诉系统使用 /bin/bash 来执行该脚本"
+simulated_output = ""
+
+# ─────────────────────────────────────────────
+# 7. ~ 波浪号
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "tilde"
+char_repr = "~"
+name = "波浪号（主目录快捷方式）"
+summary = "表示当前用户的主目录路径，也可以指定其他用户的主目录"
+explanation = """波浪号 ~ 是 Shell 中主目录（Home Directory）的快捷表示。
+Shell 在执行命令前会将 ~ 展开为实际的目录路径。
+
+展开规则：
+  ~         当前用户的主目录（等价于 $HOME，如 /home/ace）
+  ~/路径    当前用户主目录下的子路径
+  ~用户名   指定用户的主目录（如 ~root 展开为 /root）
+  ~+        当前工作目录（等价于 $PWD）
+  ~-        前一个工作目录（等价于 $OLDPWD）
+
+常见用法：
+  cd ~            回到主目录
+  ls ~/Documents  列出主目录下 Documents 文件夹
+  cp file ~       将文件复制到主目录
+
+注意：
+  - ~ 只有在路径开头时才会被展开
+  - 在引号内不展开："~" 保持原样为字符 ~
+  - 不加引号时才会展开：cd ~"""
+
+[[symbols.examples]]
+command = "cd ~"
+explanation = "快速返回当前用户的主目录，等价于 cd $HOME 或 cd /home/ace"
+simulated_output = ""
+
+[[symbols.examples]]
+command = "ls ~/Documents"
+explanation = "列出主目录下 Documents 文件夹的内容"
+simulated_output = """notes.txt  report.pdf  projects"""
+
+[[symbols.examples]]
+command = "cd ~alice"
+explanation = "切换到用户 alice 的主目录（通常为 /home/alice）"
+simulated_output = ""
+
+# ─────────────────────────────────────────────
+# 8. . 点命令
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "dot_command"
+char_repr = "."
+name = "点号（source 命令 / 当前目录）"
+summary = "在当前 Shell 环境中执行脚本文件，或表示当前目录"
+explanation = """点号 . 在 Shell 中有两个重要含义：
+
+1. 点命令（source）—— 在当前 Shell 中加载执行脚本：
+   . 脚本文件    等价于 source 脚本文件
+
+   普通执行脚本（bash script.sh 或 ./script.sh）会启动一个子 Shell，
+   脚本中设置的变量和环境更改在脚本结束后就消失了。
+   而 . 或 source 命令在当前 Shell 环境中执行脚本，
+   脚本中所做的更改（如变量赋值、函数定义、cd 目录）会保留在当前 Shell 中。
+
+   最常见的用法：
+     . ~/.bashrc    —— 重新加载 Bash 配置文件
+     . .env         —— 加载环境变量文件
+
+2. 表示当前目录：
+   .              当前目录
+   ..             上级目录
+   ./script.sh    执行当前目录下的脚本"""
+
+[[symbols.examples]]
+command = ". ~/.bashrc"
+explanation = "在当前 Shell 中重新加载 .bashrc 配置文件，使修改立即生效"
+simulated_output = ""
+
+[[symbols.examples]]
+command = "source ~/.bashrc"
+explanation = "与 . ~/.bashrc 完全等价，source 是点命令的可读性更好的写法"
+simulated_output = ""
+
+[[symbols.examples]]
+command = ". .env && echo $DATABASE_URL"
+explanation = "加载当前目录下的 .env 环境变量文件，然后验证变量是否已生效"
+simulated_output = "postgres://localhost:5432/myapp"
+
+# ─────────────────────────────────────────────
+# 练习题
+# ─────────────────────────────────────────────
+[[exercises]]
+prompt = "在同一行中依次执行 echo \"开始\" 和 echo \"结束\"，无论第一条是否成功"
+answers = [
+    "echo \"开始\"; echo \"结束\"",
+    "echo '开始'; echo '结束'",
+    "echo 开始; echo 结束",
+]
+
+[[exercises]]
+prompt = "创建目录 myproject 并在创建成功后进入该目录（使用逻辑与）"
+answers = [
+    "mkdir myproject && cd myproject",
+    "mkdir -p myproject && cd myproject",
+]
+
+[[exercises]]
+prompt = "尝试进入 /opt/data 目录，如果失败则输出提示\"目录不存在\"（使用逻辑或）"
+answers = [
+    "cd /opt/data || echo \"目录不存在\"",
+    "cd /opt/data || echo '目录不存在'",
+]
+
+[[exercises]]
+prompt = "将一个耗时脚本 backup.sh 放到后台执行"
+answers = [
+    "./backup.sh &",
+    "bash backup.sh &",
+    "sh backup.sh &",
+]
+
+[[exercises]]
+prompt = "重新加载当前用户的 .bashrc 配置文件（使用点命令）"
+answers = [
+    ". ~/.bashrc",
+    "source ~/.bashrc",
+]
+
+[[exercises]]
+prompt = "回到当前用户的主目录（使用波浪号）"
+answers = [
+    "cd ~",
+    "cd",
+]
+
+# Wave E 扩展练习（10）
+[[exercises]]
+kind = "typing"
+prompt = "先更新索引再安装 nginx（仅前者成功时执行后者）"
+answers = ["sudo apt update && sudo apt install -y nginx"]
+command = "sudo apt update && sudo apt install -y nginx"
+simulated_output = "Reading package lists... Done\nnginx is already the newest version"
+
+[[exercises]]
+kind = "typing"
+prompt = "若 main.py 失败则打印 fallback"
+answers = ["python3 main.py || echo fallback"]
+command = "python3 main.py || echo fallback"
+simulated_output = "fallback"
+
+[[exercises]]
+kind = "typing"
+prompt = "顺序执行三条命令并总是继续"
+answers = ["echo start; sleep 1; echo done"]
+command = "echo start; sleep 1; echo done"
+simulated_output = "start\ndone"
+
+[[exercises]]
+kind = "typing"
+prompt = "后台启动服务并立即打印 PID"
+answers = ["./service.sh & echo $!"]
+command = "./service.sh & echo $!"
+simulated_output = "41872"
+
+[[exercises]]
+kind = "typing"
+prompt = "切到 app 目录并仅在成功时启动 npm"
+answers = ["cd app && npm start"]
+command = "cd app && npm start"
+simulated_output = "> app@1.0.0 start\n> node server.js"
+
+[[exercises]]
+kind = "typing"
+prompt = "source env.sh 后再打印 MODE"
+answers = ["source env.sh && echo $MODE", ". env.sh && echo $MODE"]
+command = "source env.sh && echo $MODE"
+simulated_output = "production"
+
+[[exercises]]
+kind = "dictation"
+prompt = "执行备份脚本，若失败则输出 backup failed"
+answers = ["bash backup.sh || echo backup failed", "./backup.sh || echo backup failed"]
+
+[[exercises]]
+kind = "dictation"
+prompt = "先输出 A，再输出 B（使用分号）"
+answers = ["echo A; echo B"]
+
+[[exercises]]
+kind = "dictation"
+prompt = "将 rsync 放到后台执行"
+answers = ["rsync -av ./src ./dst &"]
+
+[[exercises]]
+kind = "dictation"
+prompt = "重新加载当前 shell 的 profile"
+answers = ["source ~/.profile", ". ~/.profile"]

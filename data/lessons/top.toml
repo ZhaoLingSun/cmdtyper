@@ -1,0 +1,245 @@
+[meta]
+command = "top"
+full_name = "table of processes"
+category = "process"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "实时显示系统进程和资源使用情况"
+explanation = """top 是 Linux 中最重要的系统监控工具之一，可以实时显示 CPU、内存使用情况\
+以及各个进程的资源占用。它提供了一个动态更新的进程列表，默认每 3 秒刷新一次。\
+top 界面分为两部分：上方的系统摘要区域显示整体的 CPU、内存、负载信息，\
+下方的进程列表按 CPU 使用率排序显示各进程的详细信息。\
+在排查系统性能问题时，top 通常是第一个使用的工具。\
+现代 Linux 系统中还有 htop（更美观的交互界面）可以替代 top。"""
+
+[syntax]
+basic = "top [选项]"
+[[syntax.parts]]
+name = "选项"
+desc = "控制显示内容和更新频率"
+
+[[options]]
+flag = "-d"
+name = "刷新间隔"
+example = "top -d 1"
+note = "设置刷新间隔秒数（默认 3 秒）"
+
+[[options]]
+flag = "-p"
+name = "指定进程"
+example = "top -p 1234,5678"
+note = "只监控指定 PID 的进程"
+
+[[options]]
+flag = "-u"
+name = "指定用户"
+example = "top -u ace"
+note = "只显示指定用户的进程"
+
+[[options]]
+flag = "-n"
+name = "刷新次数"
+example = "top -bn1"
+note = "刷新 N 次后退出，配合 -b 用于脚本"
+
+[[options]]
+flag = "-b"
+name = "批处理模式"
+example = "top -bn1 > top_snapshot.txt"
+note = "非交互式输出，可重定向到文件"
+
+[[options]]
+flag = "-H"
+name = "显示线程"
+example = "top -H -p 1234"
+note = "显示每个线程而不是每个进程"
+
+[[examples]]
+level = 1
+command = "top"
+summary = "启动 top 实时监控系统状态"
+simulated_output = """top - 14:30:25 up 12 days,  3:42,  2 users,  load average: 0.52, 0.38, 0.31
+Tasks: 234 total,   1 running, 232 sleeping,   0 stopped,   1 zombie
+%Cpu(s):  5.2 us,  1.8 sy,  0.0 ni, 92.3 id,  0.5 wa,  0.0 hi,  0.2 si,  0.0 st
+MiB Mem :   7953.4 total,   2156.8 free,   3245.6 used,   2551.0 buff/cache
+MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   4380.2 avail Mem
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+   1342 mysql     20   0 1824560 524288  36864 S   3.3   6.4  25:12.45 mysqld
+   1205 www-data  20   0   65896   6144   3072 S   1.7   0.1   8:34.21 nginx
+  15234 ace       20   0  987654 234560  45678 S   1.3   2.9   0:45.32 node
+  12345 ace       20   0  234560  48320  12800 S   0.7   0.6   0:15.67 python3
+    652 systemd+  20   0   25344   8192   5120 S   0.3   0.1   2:45.89 systemd-resolve
+      1 root      20   0  168960  11264   7680 S   0.0   0.1  10:23.45 systemd"""
+
+output_explanation = "这是系统实时资源视图，包含 CPU、内存和进程排行。可据此快速定位占用异常的进程。"
+[[examples.token_details]]
+token = "top"
+explanation = "启动交互式实时监控界面，默认按 CPU 占用展示进程。"
+
+[[examples]]
+level = 2
+command = "top -u ace"
+summary = "只查看用户 ace 的进程"
+simulated_output = """top - 14:31:05 up 12 days,  3:43,  2 users,  load average: 0.48, 0.37, 0.31
+Tasks: 234 total,   1 running, 232 sleeping,   0 stopped,   1 zombie
+%Cpu(s):  4.8 us,  1.5 sy,  0.0 ni, 93.0 id,  0.5 wa,  0.0 hi,  0.2 si,  0.0 st
+MiB Mem :   7953.4 total,   2156.8 free,   3245.6 used,   2551.0 buff/cache
+MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   4380.2 avail Mem
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+  15234 ace       20   0  987654 234560  45678 S   1.3   2.9   0:45.32 node
+  12345 ace       20   0  234560  48320  12800 S   0.7   0.6   0:15.67 python3
+  12890 ace       20   0  187240  32100  15360 S   0.3   0.4   0:03.21 python3
+  15456 ace       20   0   12340   4096   3072 S   0.0   0.1   0:00.05 bash"""
+
+output_explanation = "这是系统实时资源视图，包含 CPU、内存和进程排行。可据此快速定位占用异常的进程。"
+[[examples.token_details]]
+token = "-u"
+explanation = "指定用户或认证用户。"
+
+[[examples.token_details]]
+token = "ace"
+explanation = "指定用户名/认证信息。"
+
+[[examples]]
+level = 3
+command = "top -bn1 | head -20"
+summary = "以批处理模式获取 top 快照（适合脚本使用）"
+simulated_output = """top - 14:32:00 up 12 days,  3:44,  2 users,  load average: 0.45, 0.36, 0.30
+Tasks: 234 total,   1 running, 232 sleeping,   0 stopped,   1 zombie
+%Cpu(s):  4.5 us,  1.4 sy,  0.0 ni, 93.4 id,  0.5 wa,  0.0 hi,  0.2 si,  0.0 st
+MiB Mem :   7953.4 total,   2156.8 free,   3245.6 used,   2551.0 buff/cache
+MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   4380.2 avail Mem
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+   1342 mysql     20   0 1824560 524288  36864 S   3.3   6.4  25:12.45 mysqld
+   1205 www-data  20   0   65896   6144   3072 S   1.7   0.1   8:34.21 nginx
+  15234 ace       20   0  987654 234560  45678 S   1.3   2.9   0:45.32 node"""
+
+output_explanation = "这是系统实时资源视图，包含 CPU、内存和进程排行。可据此快速定位占用异常的进程。"
+[[examples.token_details]]
+token = "-bn1"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-20"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples]]
+level = 3
+command = "top -d 1 -p $(pgrep -d, nginx)"
+summary = "每秒刷新一次，只监控所有 nginx 进程"
+display = "top -d 1 \\\n  -p $(pgrep -d, nginx)"
+simulated_output = """top - 14:33:10 up 12 days,  3:45,  2 users,  load average: 0.42, 0.35, 0.30
+Tasks:   3 total,   0 running,   3 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  2.1 us,  0.8 sy,  0.0 ni, 96.8 id,  0.2 wa,  0.0 hi,  0.1 si,  0.0 st
+MiB Mem :   7953.4 total,   2156.8 free,   3245.6 used,   2551.0 buff/cache
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+   1205 root      20   0   65432   2048   1536 S   0.0   0.0   0:01.23 nginx
+   1206 www-data  20   0   65896   6144   3072 S   1.0   0.1   4:17.45 nginx
+   1207 www-data  20   0   65896   6080   3008 S   0.7   0.1   4:16.89 nginx"""
+
+output_explanation = "这是系统实时资源视图，包含 CPU、内存和进程排行。可据此快速定位占用异常的进程。"
+[[examples.token_details]]
+token = "-d"
+explanation = "通常用于后台运行、延迟间隔或指定目录（看命令上下文）。"
+
+[[examples.token_details]]
+token = "1"
+explanation = "这里提供请求体、延迟值或其他数据参数。"
+
+[[examples.token_details]]
+token = "-p"
+explanation = "指定端口、PID 或创建父目录（取决于命令）。"
+
+[[examples.token_details]]
+token = "$(pgrep"
+explanation = "指定端口号、PID，或要求创建父目录。"
+
+[[examples.token_details]]
+token = "-d,"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "nginx)"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples]]
+level = 4
+command = "top -bn1 -o %MEM | head -17 | tail -10"
+summary = "按内存使用排序获取前 10 个进程"
+display = "top -bn1 -o %MEM \\\n  | head -17 | tail -10"
+simulated_output = """    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+   1342 mysql     20   0 1824560 524288  36864 S   3.3   6.4  25:12.45 mysqld
+  15234 ace       20   0  987654 234560  45678 S   1.3   2.9   0:45.32 node
+   2567 postgres  20   0  456789 189012  23456 S   0.3   2.3  12:34.56 postgres
+  12345 ace       20   0  234560  48320  12800 S   0.7   0.6   0:15.67 python3
+  12890 ace       20   0  187240  32100  15360 S   0.3   0.4   0:03.21 python3
+   3456 redis     20   0   89012  28672   4096 S   0.0   0.4   5:43.21 redis-server
+    924 root      20   0   15432  12288   8192 S   0.0   0.2   0:12.34 sshd
+   1205 www-data  20   0   65896   6144   3072 S   1.7   0.1   8:34.21 nginx
+      1 root      20   0  168960  11264   7680 S   0.0   0.1  10:23.45 systemd"""
+
+output_explanation = "这是系统实时资源视图，包含 CPU、内存和进程排行。可据此快速定位占用异常的进程。"
+[[examples.token_details]]
+token = "-bn1"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-o"
+explanation = "指定输出列或输出文件（按命令定义）。"
+
+[[examples.token_details]]
+token = "%MEM"
+explanation = "指定输出内容格式或输出目标。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-17"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-10"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[gotchas]]
+title = "top 中的交互快捷键"
+content = """在 top 运行中可以使用以下快捷键：
+  M — 按内存使用排序
+  P — 按 CPU 使用排序（默认）
+  T — 按运行时间排序
+  k — 输入 PID 杀死进程
+  r — 输入 PID 调整 nice 值
+  u — 过滤只显示指定用户
+  1 — 显示每个 CPU 核心的使用情况
+  c — 切换显示完整命令行
+  q — 退出 top
+
+建议安装 htop（sudo apt install htop）作为 top 的替代品，
+htop 提供更友好的彩色界面、鼠标支持和更直观的进程树视图。"""
+
+[[gotchas]]
+title = "Load Average 的含义"
+content = """top 顶部显示的 load average 是系统负载平均值（1分钟、5分钟、15分钟）：
+  load average: 0.52, 0.38, 0.31
+
+解读方法：
+  - 单核 CPU：load = 1.0 表示 CPU 刚好 100% 满载
+  - 4 核 CPU：load = 4.0 表示所有核心都满载
+  - 一般来说 load 不应长期超过 CPU 核心数
+
+如果 load average 持续高于核心数，说明系统过载：
+  - %us (user) 高 → CPU 密集型应用消耗
+  - %wa (wait) 高 → 磁盘 I/O 瓶颈
+  - %sy (system) 高 → 内核/系统调用开销大"""

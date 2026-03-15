@@ -1,0 +1,687 @@
+[meta]
+id = "config_files"
+topic = "常见配置文件"
+description = "了解 Linux 系统中最常见的配置文件：bashrc、sshd_config、nginx.conf、fstab、crontab"
+difficulty = "advanced"
+icon = "📝"
+
+overview = """
+┌─────────────────────────────────────────────────────────┐
+│            Linux 常见配置文件总览                          │
+│                                                         │
+│  配置文件是 Linux 系统的灵魂 —— 几乎所有行为都可以         │
+│  通过修改纯文本配置文件来定制。                             │
+│                                                         │
+│  ┌────────────────┬──────────────────────────────────┐  │
+│  │ 配置文件        │ 用途                             │  │
+│  ├────────────────┼──────────────────────────────────┤  │
+│  │ ~/.bashrc       │ Shell 环境：别名、提示符、PATH    │  │
+│  │ sshd_config     │ SSH 服务安全配置                 │  │
+│  │ nginx.conf      │ Web 服务器 / 反向代理             │  │
+│  │ /etc/fstab      │ 磁盘自动挂载表                   │  │
+│  │ crontab         │ 定时任务调度                     │  │
+│  └────────────────┴──────────────────────────────────┘  │
+│                                                         │
+│  黄金法则：                                               │
+│    1. 修改前先备份  cp file file.bak                      │
+│    2. 使用 diff 查看差异                                  │
+│    3. 修改后测试验证（如 nginx -t、source ~/.bashrc）      │
+│    4. 保持注释，方便回溯                                   │
+└─────────────────────────────────────────────────────────┘"""
+
+# ============================================================
+# Section 1: Shell 配置文件 (~/.bashrc)
+# ============================================================
+[[sections]]
+id = "bashrc"
+title = "Shell 配置文件"
+description = """~/.bashrc 是 Bash Shell 最重要的个人配置文件，每次打开新的交互式终端时自动执行。
+
+常见用途：
+  - 定义命令别名（alias）简化日常操作
+  - 自定义命令提示符（PS1）
+  - 添加自定义目录到 PATH 搜索路径
+  - 设置环境变量（如 EDITOR、LANG）
+  - 加载其他配置脚本
+
+相关文件：
+  ~/.bash_profile — 登录 Shell 时执行（通常会 source ~/.bashrc）
+  ~/.bash_logout  — 退出登录 Shell 时执行
+  /etc/bash.bashrc — 全局 bashrc（所有用户生效）"""
+
+[[sections.commands]]
+command = "cat ~/.bashrc | head -20"
+summary = "查看 ~/.bashrc 前 20 行内容"
+simulated_output = """# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# don't put duplicate lines or lines starting with space in the history.
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000"""
+
+[[sections.commands]]
+command = "source ~/.bashrc"
+summary = "重新加载 ~/.bashrc 使修改立即生效"
+simulated_output = ""
+
+[[sections.commands]]
+command = "echo $PS1"
+summary = "显示当前命令提示符格式字符串"
+simulated_output = '''\\u@\\h:\\w\\$'''
+
+[[sections.config_files]]
+id = "bashrc-file"
+path = "~/.bashrc"
+name = "Bash Shell 配置文件"
+description = "用户级 Shell 配置，每次打开新终端自动加载，定义别名、环境变量和提示符等"
+sample_content = """# ~/.bashrc: executed by bash(1) for non-login shells.
+
+# 如果不是交互式 Shell，直接返回
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# ─── 历史记录设置 ───
+HISTCONTROL=ignoreboth
+shopt -s histappend
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# ─── 窗口大小自动更新 ───
+shopt -s checkwinsize
+
+# ─── 命令提示符 ───
+PS1='\\u@\\h:\\w\\$ '
+
+# ─── 颜色支持 ───
+if [ -x /usr/bin/dircolors ]; then
+    eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias grep='grep --color=auto'
+fi
+
+# ─── 常用别名 ───
+alias la='ls -A'
+alias l='ls -CF'
+
+# ─── PATH ───
+export PATH="$HOME/.local/bin:$PATH"
+
+# ─── 环境变量 ───
+export EDITOR=vim
+export LANG=zh_CN.UTF-8"""
+
+[[sections.config_files.lessons]]
+title = "添加自定义别名"
+before = """# ─── 常用别名 ───
+alias la='ls -A'
+alias l='ls -CF'"""
+after = """# ─── 常用别名 ───
+alias la='ls -A'
+alias l='ls -CF'
+alias ll='ls -alh'"""
+explanation = """alias 命令可以为常用操作创建快捷方式。
+ll='ls -alh' 将 ll 映射为 ls -alh，即以长格式列出所有文件并以人类可读单位显示大小。
+添加后执行 source ~/.bashrc 即可生效。
+也可以在当前终端直接输入 alias ll='ls -alh' 临时生效（仅当前会话）。"""
+practice_command = "echo \"alias ll='ls -alh'\" >> ~/.bashrc && source ~/.bashrc"
+
+[[sections.config_files.lessons]]
+title = "自定义命令提示符 PS1"
+before = "PS1='\\u@\\h:\\w\\$ '"
+after = "PS1='\\[\\033[01;32m\\]\\u@\\h\\[\\033[00m\\]:\\[\\033[01;34m\\]\\w\\[\\033[00m\\]\\$ '"
+explanation = """PS1 变量控制命令提示符的外观。
+  \\u — 当前用户名
+  \\h — 主机名
+  \\w — 当前工作目录
+  \\$ — 普通用户显示 $，root 显示 #
+  \\[\\033[01;32m\\] — 设置粗体绿色
+  \\[\\033[01;34m\\] — 设置粗体蓝色
+  \\[\\033[00m\\] — 重置颜色
+修改后用户名@主机名 显示为绿色，路径显示为蓝色，更加醒目。"""
+practice_command = "source ~/.bashrc"
+
+[[sections.config_files.lessons]]
+title = "添加自定义目录到 PATH"
+before = """export PATH="$HOME/.local/bin:$PATH" """
+after = """export PATH="$HOME/.local/bin:$HOME/scripts:$PATH" """
+explanation = """PATH 环境变量决定 Shell 在哪些目录中搜索可执行程序。
+添加 $HOME/scripts 后，你可以将自己编写的脚本放在 ~/scripts/ 目录，
+无需输入完整路径即可直接运行。
+注意：新路径加在前面表示优先搜索，加在后面则后搜索。
+建议将个人脚本目录放在系统目录之前，方便覆盖同名命令。"""
+practice_command = "mkdir -p ~/scripts && source ~/.bashrc && echo $PATH"
+
+# ============================================================
+# Section 2: SSH 服务配置 (/etc/ssh/sshd_config)
+# ============================================================
+[[sections]]
+id = "sshd"
+title = "SSH 服务配置"
+description = """sshd_config 是 OpenSSH 服务端的配置文件，控制远程登录行为和安全策略。
+
+SSH 是服务器管理的生命线 —— 配置不当可能导致：
+  - 安全漏洞（如允许 root 密码登录被暴力破解）
+  - 自己被锁在外面（改错端口或认证方式）
+
+重要提醒：
+  修改 sshd_config 后必须重启 SSH 服务才能生效。
+  修改前务必保留一个已连接的 SSH 会话作为后路！"""
+
+[[sections.commands]]
+command = "cat /etc/ssh/sshd_config | grep -v '^#' | grep -v '^$'"
+summary = "查看 sshd 配置文件中所有生效的（非注释、非空行）配置项"
+simulated_output = """Include /etc/ssh/sshd_config.d/*.conf
+Port 22
+AddressFamily any
+ListenAddress 0.0.0.0
+PermitRootLogin yes
+MaxAuthTries 6
+PubkeyAuthentication yes
+PasswordAuthentication yes
+ChallengeResponseAuthentication no
+UsePAM yes
+X11Forwarding yes
+PrintMotd no
+AcceptEnv LANG LC_*
+Subsystem sftp /usr/lib/openssh/sftp-server"""
+
+[[sections.commands]]
+command = "sudo systemctl status sshd"
+summary = "查看 SSH 服务的运行状态"
+simulated_output = """● ssh.service - OpenBSD Secure Shell server
+     Loaded: loaded (/usr/lib/systemd/system/ssh.service; enabled; preset: enabled)
+     Active: active (running) since Mon 2026-03-09 08:15:32 CST; 6h ago
+       Docs: man:sshd(8)
+             man:sshd_config(5)
+   Main PID: 924 (sshd)
+      Tasks: 1 (limit: 4614)
+     Memory: 3.2M (peak: 4.8M)
+        CPU: 125ms
+     CGroup: /system.slice/ssh.service
+             └─924 "sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups" """
+
+[[sections.config_files]]
+id = "sshd-config"
+path = "/etc/ssh/sshd_config"
+name = "SSH 服务配置文件"
+description = "OpenSSH 服务端配置，控制远程登录端口、认证方式和安全策略"
+sample_content = """# OpenSSH 服务配置文件
+# 详见 man sshd_config(5)
+
+Include /etc/ssh/sshd_config.d/*.conf
+
+# ─── 网络设置 ───
+Port 22
+AddressFamily any
+ListenAddress 0.0.0.0
+
+# ─── 认证设置 ───
+PermitRootLogin yes
+MaxAuthTries 6
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys
+
+PasswordAuthentication yes
+PermitEmptyPasswords no
+ChallengeResponseAuthentication no
+
+# ─── 安全设置 ───
+UsePAM yes
+X11Forwarding yes
+PrintMotd no
+AcceptEnv LANG LC_*
+
+# ─── SFTP ───
+Subsystem sftp /usr/lib/openssh/sftp-server"""
+
+[[sections.config_files.lessons]]
+title = "禁用 root 远程登录"
+before = "PermitRootLogin yes"
+after = "PermitRootLogin no"
+explanation = """root 是系统最高权限账户，允许 root 直接远程登录存在极大安全风险：
+  - 攻击者只需猜对密码即可获得完全控制权
+  - 无法追踪是哪个管理员执行了操作
+
+设为 no 后，管理员需要先用普通用户登录，再通过 sudo 提权。
+这样既增加了一层安全屏障，也便于审计操作日志。
+修改后执行 sudo systemctl restart sshd 生效。"""
+practice_command = "sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak && sudo sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config && sudo sshd -t && sudo systemctl restart sshd"
+
+[[sections.config_files.lessons]]
+title = "修改 SSH 端口"
+before = "Port 22"
+after = "Port 2222"
+explanation = """默认的 22 端口是自动化扫描工具的首要目标。
+修改为非标准端口（如 2222）可以大幅减少暴力破解尝试。
+
+注意事项：
+  1. 新端口必须在 1024-65535 范围内
+  2. 确保防火墙放行新端口：sudo ufw allow 2222/tcp
+  3. 修改后连接时需指定端口：ssh -p 2222 user@host
+  4. 建议先开放新端口、测试连通后再关闭旧端口
+
+这不是真正的安全措施，但能有效减少日志噪音。"""
+practice_command = "sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak && sudo sed -i 's/Port 22/Port 2222/' /etc/ssh/sshd_config && sudo sshd -t && sudo ufw allow 2222/tcp && sudo systemctl restart sshd"
+
+[[sections.config_files.lessons]]
+title = "禁用密码认证，仅允许密钥登录"
+before = "PasswordAuthentication yes"
+after = "PasswordAuthentication no"
+explanation = """密码认证面临暴力破解风险，且密码可能泄露或被社工。
+SSH 密钥认证使用非对称加密，安全性远高于密码：
+  - 私钥保存在本地，不在网络上传输
+  - 即使服务器被攻破，攻击者也无法反向获取私钥
+
+操作步骤：
+  1. 先在本地生成密钥对：ssh-keygen -t ed25519
+  2. 将公钥复制到服务器：ssh-copy-id user@host
+  3. 测试密钥登录成功后再禁用密码认证
+  4. 重启服务：sudo systemctl restart sshd
+
+切记：禁用前必须确认密钥登录可用，否则会被锁在外面！"""
+practice_command = "sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak && sudo sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config && sudo sshd -t && sudo systemctl restart sshd"
+
+# ============================================================
+# Section 3: Nginx Web 服务器配置
+# ============================================================
+[[sections]]
+id = "nginx"
+title = "Nginx Web 服务器配置"
+description = """Nginx 是最流行的 Web 服务器和反向代理服务器之一。
+
+核心概念：
+  - server 块：定义一个虚拟主机
+  - location 块：定义 URL 路径的处理方式
+  - upstream 块：定义后端服务器组（负载均衡）
+
+配置文件结构：
+  /etc/nginx/nginx.conf          — 主配置文件
+  /etc/nginx/sites-available/    — 可用站点配置
+  /etc/nginx/sites-enabled/      — 已启用站点（软链接）
+  /etc/nginx/conf.d/             — 额外配置片段
+
+修改配置后务必先用 nginx -t 检测语法，再 reload 生效。"""
+
+[[sections.commands]]
+command = "nginx -t"
+summary = "检测 Nginx 配置文件语法是否正确"
+simulated_output = """nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful"""
+
+[[sections.commands]]
+command = "cat /etc/nginx/sites-available/default | head -30"
+summary = "查看默认站点配置前 30 行"
+simulated_output = """##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# https://www.nginx.com/resources/wiki/start/
+##
+
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}"""
+
+[[sections.config_files]]
+id = "nginx-default"
+path = "/etc/nginx/sites-available/default"
+name = "Nginx 默认站点配置"
+description = "Nginx 默认虚拟主机配置，定义监听端口、网站根目录和请求处理方式"
+sample_content = """server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+
+    index index.html index.htm;
+
+    server_name _;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # 静态文件缓存
+    location ~* \\.(jpg|jpeg|png|gif|ico|css|js)$ {
+        expires 30d;
+        add_header Cache-Control "public, no-transform";
+    }
+
+    # 禁止访问隐藏文件
+    location ~ /\\. {
+        deny all;
+    }
+}"""
+
+[[sections.config_files.lessons]]
+title = "修改监听端口"
+before = """    listen 80 default_server;
+    listen [::]:80 default_server;"""
+after = """    listen 8080 default_server;
+    listen [::]:8080 default_server;"""
+explanation = """listen 指令设置 Nginx 监听的端口号。
+默认 80 端口是 HTTP 标准端口，浏览器访问时无需指定端口号。
+修改为 8080 后，访问时需要加端口：http://example.com:8080
+
+常见场景：
+  - 80 端口已被其他服务占用
+  - 非 root 用户运行（1024 以下端口需要 root）
+  - 开发测试环境使用非标准端口
+
+修改后执行 sudo nginx -t && sudo systemctl reload nginx 生效。"""
+practice_command = "sudo nginx -t && sudo systemctl reload nginx"
+
+[[sections.config_files.lessons]]
+title = "配置反向代理"
+before = """    location / {
+        try_files $uri $uri/ =404;
+    }"""
+after = """    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }"""
+explanation = """反向代理是 Nginx 最强大的功能之一。
+proxy_pass 将请求转发到后端应用服务器（如 Node.js、Python 等）。
+
+各 header 的作用：
+  Host            — 传递原始请求的域名
+  X-Real-IP       — 传递客户端真实 IP
+  X-Forwarded-For — 传递经过的代理链
+  X-Forwarded-Proto — 传递原始协议（http/https）
+
+这样后端应用可以获取到真实的客户端信息，而不是 Nginx 本机地址。
+Nginx 作为前端代理还能提供缓存、限流、SSL 终止等附加功能。"""
+practice_command = "sudo nginx -t && sudo systemctl reload nginx"
+
+[[sections.config_files.lessons]]
+title = "设置 server_name 域名"
+before = "    server_name _;"
+after = "    server_name example.com www.example.com;"
+explanation = """server_name 指定该 server 块响应哪些域名的请求。
+_ 是一个通配符，表示匹配所有未被其他 server 块匹配的请求。
+
+配置为具体域名后，Nginx 可以在同一 IP 上托管多个站点：
+  - server_name example.com    — 精确匹配
+  - server_name *.example.com  — 通配符匹配
+  - server_name ~^www\\.(.+)$  — 正则匹配
+
+多个域名用空格分隔，Nginx 会根据请求中的 Host 头选择对应的 server 块。
+这就是"虚拟主机"功能，一台服务器可服务多个网站。"""
+practice_command = "sudo nginx -t && sudo systemctl reload nginx"
+
+# ============================================================
+# Section 4: 文件系统挂载表 (/etc/fstab)
+# ============================================================
+[[sections]]
+id = "fstab"
+title = "文件系统挂载表"
+description = """fstab（File System Table）定义了系统启动时自动挂载的文件系统。
+
+每行包含 6 个字段：
+  <设备>  <挂载点>  <文件系统类型>  <挂载选项>  <dump>  <fsck顺序>
+
+字段说明：
+  设备        — UUID=xxx 或 /dev/sdXN
+  挂载点      — 挂载到哪个目录
+  文件系统类型 — ext4、xfs、nfs、swap 等
+  挂载选项    — defaults、noatime、ro 等
+  dump        — 0=不备份，1=备份
+  fsck顺序    — 0=不检查，1=根分区优先，2=其他分区
+
+错误的 fstab 条目可能导致系统无法正常启动！
+修改前务必备份，测试时先用 mount -a 验证。"""
+
+[[sections.commands]]
+command = "cat /etc/fstab"
+summary = "查看当前文件系统挂载配置表"
+simulated_output = """# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system>                            <mount point>  <type>  <options>        <dump>  <pass>
+UUID=a1b2c3d4-e5f6-7890-abcd-ef1234567890 /              ext4    errors=remount-ro 0       1
+UUID=b2c3d4e5-f6a7-8901-bcde-f12345678901 /boot          ext4    defaults          0       2
+UUID=c3d4e5f6-a7b8-9012-cdef-123456789012 none           swap    sw                0       0
+tmpfs                                      /tmp           tmpfs   defaults,noatime  0       0"""
+
+[[sections.commands]]
+command = "mount | head -10"
+summary = "查看当前已挂载的文件系统（前 10 行）"
+simulated_output = """sysfs on /sys type sysfs (rw,nosuid,nodev,noexec,relatime)
+proc on /proc type proc (rw,nosuid,nodev,noexec,relatime)
+udev on /dev type devtmpfs (rw,nosuid,relatime,size=1985400k,nr_inodes=496350,mode=755)
+devpts on /dev/pts type devpts (rw,nosuid,noexec,relatime,gid=5,mode=620,ptmxmode=000)
+tmpfs on /run type tmpfs (rw,nosuid,nodev,noexec,relatime,size=401260k,mode=755)
+/dev/sda2 on / type ext4 (rw,relatime,errors=remount-ro)
+/dev/sda1 on /boot type ext4 (rw,relatime)
+tmpfs on /tmp type tmpfs (rw,noatime)
+tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev)
+tmpfs on /run/lock type tmpfs (rw,nosuid,nodev,noexec,relatime,size=5120k)"""
+
+[[sections.commands]]
+command = "lsblk"
+summary = "以树状结构显示所有块设备及其挂载点"
+simulated_output = """NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+sda      8:0    0    40G  0 disk
+├─sda1   8:1    0   512M  0 part /boot
+├─sda2   8:2    0    35G  0 part /
+└─sda3   8:3    0   4.5G  0 part [SWAP]
+sdb      8:16   0   100G  0 disk
+└─sdb1   8:17   0   100G  0 part
+sr0     11:0    1  1024M  0 rom"""
+
+[[sections.config_files]]
+id = "fstab-file"
+path = "/etc/fstab"
+name = "文件系统挂载表"
+description = "定义系统启动时自动挂载的磁盘分区、交换空间和网络文件系统"
+sample_content = """# /etc/fstab: static file system information.
+#
+# <file system>                            <mount point>  <type>  <options>         <dump>  <pass>
+UUID=a1b2c3d4-e5f6-7890-abcd-ef1234567890 /              ext4    errors=remount-ro  0       1
+UUID=b2c3d4e5-f6a7-8901-bcde-f12345678901 /boot          ext4    defaults           0       2
+UUID=c3d4e5f6-a7b8-9012-cdef-123456789012 none           swap    sw                 0       0
+tmpfs                                      /tmp           tmpfs   defaults,noatime   0       0"""
+
+[[sections.config_files.lessons]]
+title = "添加新磁盘挂载"
+before = """tmpfs                                      /tmp           tmpfs   defaults,noatime   0       0"""
+after = """tmpfs                                      /tmp           tmpfs   defaults,noatime   0       0
+UUID=d4e5f6a7-b8c9-0123-defa-234567890123 /data          ext4    defaults,noatime   0       2"""
+explanation = """添加新磁盘到系统的步骤：
+  1. 使用 lsblk 或 fdisk -l 确认新磁盘设备名（如 /dev/sdb1）
+  2. 使用 blkid /dev/sdb1 获取 UUID
+  3. 创建挂载点目录：sudo mkdir -p /data
+  4. 在 fstab 中添加条目
+  5. 执行 sudo mount -a 测试挂载
+
+各字段含义：
+  UUID=...    — 使用 UUID 比设备名更可靠（磁盘顺序可能变化）
+  /data       — 挂载到 /data 目录
+  ext4        — 文件系统类型
+  defaults    — 默认选项（rw,suid,dev,exec,auto,nouser,async）
+  noatime     — 不更新访问时间戳（提高性能）
+  0           — 不使用 dump 备份
+  2           — fsck 检查顺序为 2（非根分区）"""
+practice_command = "sudo blkid /dev/sdb1 && sudo mkdir -p /data && sudo mount -a"
+
+[[sections.config_files.lessons]]
+title = "添加 NFS 网络挂载"
+before = """tmpfs                                      /tmp           tmpfs   defaults,noatime   0       0"""
+after = """tmpfs                                      /tmp           tmpfs   defaults,noatime   0       0
+192.168.1.10:/shared                       /mnt/nfs       nfs     defaults,_netdev   0       0"""
+explanation = """NFS（Network File System）允许通过网络挂载远程目录。
+
+各字段含义：
+  192.168.1.10:/shared — NFS 服务器 IP 和共享目录
+  /mnt/nfs             — 本地挂载点
+  nfs                  — 文件系统类型
+  defaults             — 默认挂载选项
+  _netdev              — 标记为网络设备，系统等网络就绪后再挂载
+  0 0                  — 不备份、不做 fsck 检查
+
+使用前需要安装 NFS 客户端：
+  sudo apt install nfs-common
+
+常用 NFS 挂载选项：
+  rsize=8192,wsize=8192 — 设置读写缓冲区大小
+  timeo=14              — 超时时间
+  soft                  — 超时后返回错误（hard 则一直重试）"""
+practice_command = "sudo apt install nfs-common && sudo mkdir -p /mnt/nfs && sudo mount -a"
+
+# ============================================================
+# Section 5: 定时任务配置 (crontab)
+# ============================================================
+[[sections]]
+id = "crontab"
+title = "定时任务配置"
+description = """crontab（cron table）是 Linux 定时任务调度系统。
+
+时间格式（5 个字段）：
+  ┌───────────── 分钟 (0-59)
+  │ ┌───────────── 小时 (0-23)
+  │ │ ┌───────────── 日 (1-31)
+  │ │ │ ┌───────────── 月 (1-12)
+  │ │ │ │ ┌───────────── 星期 (0-7，0和7都是周日)
+  │ │ │ │ │
+  * * * * * 要执行的命令
+
+特殊符号：
+  *     — 每个时间单位
+  */N   — 每隔 N 个单位
+  N-M   — 从 N 到 M 的范围
+  N,M   — 第 N 和第 M
+
+每个用户有自己的 crontab，root 的 crontab 有系统级权限。
+系统级定时任务放在 /etc/crontab 和 /etc/cron.d/ 目录。"""
+
+[[sections.commands]]
+command = "crontab -l"
+summary = "列出当前用户的定时任务"
+simulated_output = """# 每天凌晨 2 点备份数据库
+0 2 * * * /usr/local/bin/backup-db.sh >> /var/log/backup.log 2>&1
+
+# 每小时清理临时文件
+0 * * * * find /tmp -type f -mtime +7 -delete
+
+# 每周一早上 6 点发送周报
+0 6 * * 1 /usr/local/bin/send-weekly-report.sh"""
+
+[[sections.commands]]
+command = "crontab -e"
+summary = "编辑当前用户的定时任务表（打开默认编辑器）"
+simulated_output = """# 该命令会打开编辑器，保存退出后自动安装新的 crontab
+# 首次使用会提示选择编辑器：
+Select an editor.  To change later, run 'select-editor'.
+  1. /bin/nano        <---- easiest
+  2. /usr/bin/vim.basic
+  3. /usr/bin/vim.tiny
+
+Choose 1-3 [1]:"""
+
+[[sections.config_files]]
+id = "crontab-file"
+path = "crontab"
+name = "用户定时任务表"
+description = "当前用户的 cron 定时任务配置，通过 crontab -e 编辑"
+sample_content = """# 定时任务格式：
+# 分 时 日 月 周  命令
+#
+# 示例：
+# ┌───── 分钟 (0-59)
+# │ ┌───── 小时 (0-23)
+# │ │ ┌───── 日 (1-31)
+# │ │ │ ┌───── 月 (1-12)
+# │ │ │ │ ┌───── 星期 (0-7)
+# │ │ │ │ │
+# * * * * * command
+
+# 环境变量
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+MAILTO=admin@example.com
+
+# 每天凌晨 2 点备份数据库
+0 2 * * * /usr/local/bin/backup-db.sh >> /var/log/backup.log 2>&1
+
+# 每小时清理 7 天前的临时文件
+0 * * * * find /tmp -type f -mtime +7 -delete
+
+# 每周一早上 6 点发送周报
+0 6 * * 1 /usr/local/bin/send-weekly-report.sh
+
+# 每 5 分钟检查服务状态
+*/5 * * * * /usr/local/bin/health-check.sh
+
+# 每月 1 号凌晨 3 点清理日志
+0 3 1 * * /usr/local/bin/rotate-logs.sh"""
+
+[[sections.config_files.lessons]]
+title = "添加每日备份任务"
+before = "# 每月 1 号凌晨 3 点清理日志\n0 3 1 * * /usr/local/bin/rotate-logs.sh"
+after = "# 每月 1 号凌晨 3 点清理日志\n0 3 1 * * /usr/local/bin/rotate-logs.sh\n\n# 每天凌晨 3:30 增量备份 /home 目录\n30 3 * * * tar czf /backup/home-$(date +\\%Y\\%m\\%d).tar.gz /home 2>/dev/null"
+explanation = """30 3 * * * 表示每天凌晨 3 点 30 分执行。
+
+命令解析：
+  tar czf — 创建 gzip 压缩归档
+  $(date +\\%Y\\%m\\%d) — 在文件名中插入日期（如 20260309）
+  注意：crontab 中 % 有特殊含义（换行），必须用 \\ 转义
+  2>/dev/null — 丢弃错误输出，避免产生大量邮件通知
+
+备份最佳实践：
+  1. 选择系统低负载时段
+  2. 将备份写入独立磁盘或远程存储
+  3. 添加日志记录（>> /var/log/backup.log 2>&1）
+  4. 定期检查备份是否成功、文件是否可恢复"""
+practice_command = "crontab -l"
+
+[[sections.config_files.lessons]]
+title = "添加每周日志轮转任务"
+before = "# 每月 1 号凌晨 3 点清理日志\n0 3 1 * * /usr/local/bin/rotate-logs.sh"
+after = "# 每月 1 号凌晨 3 点清理日志\n0 3 1 * * /usr/local/bin/rotate-logs.sh\n\n# 每周日凌晨 4 点压缩并轮转应用日志\n0 4 * * 0 cd /var/log/myapp && gzip -9 app.log && mv app.log.gz app-$(date +\\%Y\\%m\\%d).log.gz && touch app.log"
+explanation = """0 4 * * 0 表示每周日凌晨 4 点执行。
+星期字段中 0 和 7 都代表周日。
+
+命令流程：
+  1. cd /var/log/myapp — 进入日志目录
+  2. gzip -9 app.log — 最高压缩率压缩当前日志
+  3. mv 重命名为带日期的归档文件
+  4. touch app.log — 创建新的空日志文件
+
+为什么需要日志轮转：
+  - 防止日志文件无限增长占满磁盘
+  - 便于按时间段查找历史日志
+  - 压缩后节省大量磁盘空间
+
+注意：生产环境推荐使用 logrotate 工具，它提供更完善的轮转策略。"""
+practice_command = "crontab -l"

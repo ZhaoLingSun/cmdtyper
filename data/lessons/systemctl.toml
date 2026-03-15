@@ -1,0 +1,190 @@
+[meta]
+command = "systemctl"
+full_name = "System Control"
+category = "system"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "管理 systemd 系统服务的核心工具"
+explanation = """systemctl 是 systemd 系统的主要控制命令，用于管理系统服务（启动、停止、重启、查看状态）。systemd 是现代 Linux 发行版（Ubuntu 16+、CentOS 7+、Debian 8+）的标准 init 系统。每个系统服务对应一个 .service 文件，systemctl 可以控制这些服务的生命周期。enable/disable 控制服务是否开机自启；start/stop 控制当前运行状态。journalctl 是配合 systemctl 使用的日志查看工具，用于查看服务的运行日志。掌握 systemctl 是 Linux 服务器运维的基础技能。"""
+
+[syntax]
+basic = "systemctl <动作> [服务名]"
+[[syntax.parts]]
+name = "动作"
+desc = "start/stop/restart/status/enable/disable/list-units 等"
+[[syntax.parts]]
+name = "服务名"
+desc = "服务的名称，如 nginx、sshd、docker，通常省略 .service 后缀"
+
+[[options]]
+flag = "start"
+name = "启动服务"
+example = "systemctl start nginx"
+note = "立即启动指定服务，不影响开机自启设置"
+
+[[options]]
+flag = "stop"
+name = "停止服务"
+example = "systemctl stop nginx"
+note = "立即停止指定服务"
+
+[[options]]
+flag = "restart"
+name = "重启服务"
+example = "systemctl restart nginx"
+note = "停止后立即重新启动，用于应用配置变更"
+
+[[options]]
+flag = "reload"
+name = "重载配置"
+example = "systemctl reload nginx"
+note = "通知服务重新加载配置，不重启进程（如 nginx reload）"
+
+[[options]]
+flag = "status"
+name = "查看服务状态"
+example = "systemctl status nginx"
+note = "显示服务的当前状态、运行时间、最近日志等"
+
+[[options]]
+flag = "enable"
+name = "设为开机自启"
+example = "systemctl enable nginx"
+note = "创建符号链接，使服务在系统启动时自动运行"
+
+[[options]]
+flag = "disable"
+name = "取消开机自启"
+example = "systemctl disable nginx"
+note = "移除自启符号链接，不影响当前运行状态"
+
+[[options]]
+flag = "is-active"
+name = "检查是否运行"
+example = "systemctl is-active nginx"
+note = "返回 active 或 inactive，适合脚本中判断服务状态"
+
+[[examples]]
+level = 1
+command = "systemctl status nginx"
+summary = "查看 Nginx 服务的当前运行状态"
+simulated_output = """● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sat 2024-03-09 08:00:15 UTC; 2h 30min ago
+       Docs: man:nginx(8)
+    Process: 1234 ExecStartPre=/usr/sbin/nginx -t (code=exited, status=0/SUCCESS)
+   Main PID: 1235 (nginx)
+      Tasks: 3 (limit: 4915)
+     Memory: 8.2M
+        CPU: 234ms
+     CGroup: /system.slice/nginx.service
+             ├─1235 "nginx: master process /usr/sbin/nginx -g daemon on; master_process on;"
+             └─1236 "nginx: worker process"
+
+Mar 09 08:00:15 myhost nginx[1234]: nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+Mar 09 08:00:15 myhost nginx[1235]: nginx: configuration file /etc/nginx/nginx.conf test is successful"""
+
+output_explanation = "该输出用于显示 systemd 服务状态或控制结果。重点关注 Active、Loaded、Main PID 以及近期日志中的报错。"
+[[examples.token_details]]
+token = "status"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "nginx"
+explanation = "服务名/容器名，用来指定要查看或操作的目标。"
+
+[[examples]]
+level = 1
+command = "systemctl start sshd"
+summary = "启动 SSH 服务"
+simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "start"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "sshd"
+explanation = "服务名/容器名，用来指定要查看或操作的目标。"
+
+[[examples]]
+level = 2
+command = "systemctl enable --now docker"
+summary = "设置 Docker 开机自启并立即启动"
+simulated_output = """Created symlink /etc/systemd/system/multi-user.target.wants/docker.service → /lib/systemd/system/docker.service."""
+
+output_explanation = "该输出用于显示 systemd 服务状态或控制结果。重点关注 Active、Loaded、Main PID 以及近期日志中的报错。"
+[[examples.token_details]]
+token = "enable"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "--now"
+explanation = "与 enable/start 一起使用，表示立刻生效。"
+
+[[examples.token_details]]
+token = "docker"
+explanation = "服务名/容器名，用来指定要查看或操作的目标。"
+
+[[examples]]
+level = 2
+command = "systemctl list-units --type=service --state=running"
+summary = "列出所有正在运行的系统服务"
+simulated_output = """  UNIT                        LOAD   ACTIVE SUB     DESCRIPTION
+  cron.service                loaded active running Regular background program processing daemon
+  docker.service              loaded active running Docker Application Container Engine
+  nginx.service               loaded active running A high performance web server
+  ssh.service                 loaded active running OpenBSD Secure Shell server
+  systemd-journald.service    loaded active running Journal Service"""
+
+output_explanation = "该输出用于显示 systemd 服务状态或控制结果。重点关注 Active、Loaded、Main PID 以及近期日志中的报错。"
+[[examples.token_details]]
+token = "list-units"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "--type=service"
+explanation = "只筛选 service 类型单元。"
+
+[[examples.token_details]]
+token = "--state=running"
+explanation = "仅显示运行中的单元。"
+
+[[examples]]
+level = 3
+command = "journalctl -u nginx -f --since '10 minutes ago'"
+summary = "实时查看 Nginx 服务近10分钟的日志"
+simulated_output = """Mar 09 10:28:01 myhost nginx[1235]: 203.0.113.42 - - [09/Mar/2024:10:28:01 +0000] "GET / HTTP/1.1" 200 615
+Mar 09 10:29:15 myhost nginx[1235]: 10.0.0.5 - - [09/Mar/2024:10:29:15 +0000] "POST /api/data HTTP/1.1" 201 89"""
+
+output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
+[[examples.token_details]]
+token = "-u"
+explanation = "指定用户或认证用户。"
+
+[[examples.token_details]]
+token = "nginx"
+explanation = "指定用户名/认证信息。"
+
+[[examples.token_details]]
+token = "-f"
+explanation = "持续跟随输出变化，或指定文件脚本（取决于命令）。"
+
+[[examples.token_details]]
+token = "--since"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "10 minutes ago"
+explanation = "日志起始时间，只显示该时间之后的记录。"
+
+[[gotchas]]
+title = "start 和 enable 是独立的操作"
+content = """systemctl start 只影响当前运行状态，重启系统后不会自动启动。systemctl enable 只设置开机自启，不会立即启动服务。如果想同时启动并设为自启，使用 systemctl enable --now 服务名。同样，disable --now 可以同时停止并取消自启。"""
+
+[[gotchas]]
+title = "修改配置后需要 reload 或 restart"
+content = """修改服务的配置文件后，服务不会自动应用新配置。对于支持 reload 的服务（如 nginx），用 systemctl reload 比 restart 更平滑，因为 reload 不会中断现有连接。修改了 .service 文件本身后，还需要运行 systemctl daemon-reload 重新加载 unit 文件。"""

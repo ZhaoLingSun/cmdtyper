@@ -1,266 +1,599 @@
-use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
-use ratatui::layout::{Alignment, Constraint, Layout, Rect};
-use ratatui::style::{Modifier, Style};
-use ratatui::text::{Line, Span};
-use ratatui::widgets::Paragraph;
-use ratatui::Frame;
+use ratatui::prelude::*;
+use ratatui::widgets::{Block, Borders, Paragraph, Wrap};
 
-use crate::app::{App, AppState};
-use crate::ui::widgets::{colors, format_time};
+use crate::app::App;
+use crate::core::engine::TypingEngine;
+use crate::data::models::{Command, LineStatus, TypingDisplayMode};
+use crate::ui::widgets::*;
 
-pub fn render(f: &mut Frame, app: &App) {
-    let area = f.area();
+const DETAILED_MIN_WIDTH: u16 = 100;
+const DETAILED_WIDTH_HINT: &str = "终端太窄，详解模式需要 100+ 列";
 
-    let chunks = Layout::vertical([
-        Constraint::Length(3), // top bar
-        Constraint::Fill(1),   // main area
-        Constraint::Length(2), // bottom bar
-    ])
-    .split(area);
+pub fn render(frame: &mut Frame, app: &App) {
+    let area = frame.area();
+    let (mode, detailed_width_fallback) = effective_typing_mode(app, area.width);
 
-    render_top_bar(f, chunks[0], app);
-    render_main_area(f, chunks[1], app);
-    render_bottom_bar(f, chunks[2], app);
+    let chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Length(1), // top bar
+            Constraint::Min(0),    // terminal area
+            Constraint::Length(1), // bottom bar
+        ])
+        .split(area);
+
+    render_top_bar(frame, mode.clone(), chunks[0]);
+    render_terminal_area(frame, app, chunks[1], mode.clone());
+    render_bottom_bar(frame, app, chunks[2], mode, detailed_width_fallback);
 }
 
-fn render_top_bar(f: &mut Frame, area: Rect, app: &App) {
-    let progress = if app.commands.is_empty() {
-        "0/0".to_string()
-    } else {
-        format!("{}/{}", app.current_command_index + 1, app.commands.len())
+fn effective_typing_mode(app: &App, terminal_width: u16) -> (TypingDisplayMode, bool) {
+    if app.typing_mode == TypingDisplayMode::Detailed && terminal_width < DETAILED_MIN_WIDTH {
+        return (TypingDisplayMode::Standard, true);
+    }
+    (app.typing_mode.clone(), false)
+}
+
+fn render_top_bar(frame: &mut Frame, mode: TypingDisplayMode, area: Rect) {
+    let indicator = match mode {
+        TypingDisplayMode::Terminal => "[终端]",
+        TypingDisplayMode::Standard => "[标准]",
+        TypingDisplayMode::Detailed => "[详解]",
     };
 
-    let line = Line::from(vec![
+    let bar = Paragraph::new(Line::from(Span::styled(
+        indicator,
+        Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
+    )))
+    .alignment(Alignment::Center)
+    .block(
+        Block::default()
+            .borders(Borders::BOTTOM)
+            .border_style(Style::default().fg(DIM)),
+    );
+    frame.render_widget(bar, area);
+}
+
+fn render_terminal_area(frame: &mut Frame, app: &App, area: Rect, mode: TypingDisplayMode) {
+    if app.typing_is_finished() {
+        render_round_summary(frame, app, area, mode);
+        return;
+    }
+
+    if app.typing_showing_output
+        && app.typing_engine.is_complete()
+        && let Some(cmd) = app.current_typing_command()
+        && cmd
+            .simulated_output
+            .as_deref()
+            .map(|text| !text.trim().is_empty())
+            .unwrap_or(false)
+    {
+        render_output_display(frame, app, area, cmd, mode);
+        return;
+    }
+
+    if mode == TypingDisplayMode::Detailed {
+        let chunks = Layout::default()
+            .direction(Direction::Horizontal)
+            .constraints([Constraint::Percentage(70), Constraint::Percentage(30)])
+            .split(area);
+        render_active_typing(frame, app, chunks[0]);
+        render_token_panel(frame, app, chunks[1]);
+        return;
+    }
+
+    render_active_typing(frame, app, area);
+}
+
+fn render_active_typing(frame: &mut Frame, app: &App, area: Rect) {
+    let mut lines: Vec<Line> = history_lines(app, area.height);
+
+    if let Some(cmd) = app.current_typing_command() {
+        let prompt = app.format_prompt();
+        lines.extend(render_current_command_lines(
+            &prompt,
+            cmd.display_text(),
+            &app.typing_engine,
+        ));
+    }
+
+    fit_lines_to_height(&mut lines, area.height as usize);
+    let para = Paragraph::new(lines).wrap(Wrap { trim: false });
+    frame.render_widget(para, area);
+}
+
+fn render_token_panel(frame: &mut Frame, app: &App, area: Rect) {
+    let Some(cmd) = app.current_typing_command() else {
+        return;
+    };
+
+    let token_details = current_token_details(app, cmd);
+    let active_idx = active_token_index(
+        cmd.command.as_str(),
+        &token_details,
+        app.typing_engine.cursor,
+    );
+
+    let mut lines: Vec<Line> = Vec::new();
+    if token_details.is_empty() {
+        lines.push(Line::from(Span::styled(
+            "暂无词元说明",
+            Style::default().fg(DIM),
+        )));
+    } else {
+        for (idx, (token, desc)) in token_details.iter().enumerate() {
+            let selected = active_idx == Some(idx);
+            let token_style = if selected {
+                Style::default()
+                    .fg(ACCENT)
+                    .add_modifier(Modifier::BOLD)
+                    .bg(MENU_SELECTED_BG)
+            } else {
+                Style::default().fg(ACCENT)
+            };
+            let desc_style = if selected {
+                Style::default().fg(Color::White).bg(MENU_SELECTED_BG)
+            } else {
+                Style::default().fg(TOKEN_DESC)
+            };
+
+            lines.push(Line::from(vec![
+                Span::styled(format!("{} ", token), token_style),
+                Span::styled("→ ", Style::default().fg(DIM)),
+                Span::styled(desc.clone(), desc_style),
+            ]));
+        }
+    }
+
+    let panel = Paragraph::new(lines)
+        .block(
+            Block::default()
+                .title(" 词元详解 ")
+                .borders(Borders::LEFT)
+                .border_style(Style::default().fg(DIM)),
+        )
+        .wrap(Wrap { trim: false });
+    frame.render_widget(panel, area);
+}
+
+fn current_token_details(app: &App, cmd: &Command) -> Vec<(String, String)> {
+    for lesson in &app.lessons {
+        for example in &lesson.examples {
+            if example.command == cmd.command && !example.token_details.is_empty() {
+                return example
+                    .token_details
+                    .iter()
+                    .map(|detail| (detail.token.clone(), detail.explanation.clone()))
+                    .collect();
+            }
+        }
+    }
+
+    cmd.tokens
+        .iter()
+        .map(|token| (token.text.clone(), token.desc.clone()))
+        .collect()
+}
+
+fn active_token_index(
+    command: &str,
+    token_details: &[(String, String)],
+    cursor: usize,
+) -> Option<usize> {
+    if token_details.is_empty() {
+        return None;
+    }
+
+    let ranges = token_ranges(command, token_details);
+    if ranges.is_empty() {
+        return Some(0);
+    }
+
+    for (idx, (start, end)) in ranges.iter().enumerate() {
+        if cursor <= *end {
+            if cursor < *start {
+                return Some(idx.saturating_sub(1));
+            }
+            return Some(idx);
+        }
+    }
+
+    Some(ranges.len().saturating_sub(1))
+}
+
+fn token_ranges(command: &str, token_details: &[(String, String)]) -> Vec<(usize, usize)> {
+    let mut ranges = Vec::new();
+    let mut search_from_byte = 0usize;
+
+    for (token, _) in token_details {
+        if token.is_empty() {
+            continue;
+        }
+
+        if let Some(relative_start) = command[search_from_byte..].find(token) {
+            let start_byte = search_from_byte + relative_start;
+            let end_byte = start_byte + token.len();
+            let start_char = command[..start_byte].chars().count();
+            let end_char = command[..end_byte].chars().count();
+            ranges.push((start_char, end_char));
+            search_from_byte = end_byte;
+        }
+    }
+
+    ranges
+}
+
+fn render_output_display(
+    frame: &mut Frame,
+    app: &App,
+    area: Rect,
+    cmd: &Command,
+    mode: TypingDisplayMode,
+) {
+    let output_text = cmd.simulated_output.as_deref();
+    let output_body_lines = output_text
+        .map(|text| text.lines().count())
+        .unwrap_or(0)
+        .max(1) as u16;
+    let output_height = (output_body_lines + 2).max(3);
+
+    if mode == TypingDisplayMode::Terminal {
+        let chunks = Layout::default()
+            .direction(Direction::Vertical)
+            .constraints([Constraint::Min(0), Constraint::Length(output_height)])
+            .split(area);
+
+        let mut top_lines: Vec<Line> = history_lines(app, chunks[0].height);
+        let prompt = app.format_prompt();
+        top_lines.extend(render_completed_command_lines(&prompt, cmd.display_text()));
+        fit_lines_to_height(&mut top_lines, chunks[0].height as usize);
+        frame.render_widget(
+            Paragraph::new(top_lines).wrap(Wrap { trim: false }),
+            chunks[0],
+        );
+
+        frame.render_widget(
+            render_simulated_output(&cmd.command, output_text),
+            chunks[1],
+        );
+        return;
+    }
+
+    let chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Min(0),
+            Constraint::Length(output_height),
+            Constraint::Length(1),
+            Constraint::Length(1),
+        ])
+        .split(area);
+
+    let mut top_lines: Vec<Line> = history_lines(app, chunks[0].height);
+    let prompt = app.format_prompt();
+    top_lines.extend(render_completed_command_lines(&prompt, cmd.display_text()));
+    fit_lines_to_height(&mut top_lines, chunks[0].height as usize);
+    frame.render_widget(
+        Paragraph::new(top_lines).wrap(Wrap { trim: false }),
+        chunks[0],
+    );
+
+    frame.render_widget(
+        render_simulated_output(&cmd.command, output_text),
+        chunks[1],
+    );
+
+    let stats = Line::from(vec![
         Span::styled(
-            " 对着打 ",
+            format!("WPM: {:.0}", app.typing_engine.current_wpm()),
             Style::default()
-                .fg(colors::CURSOR)
-                .bg(colors::ACCENT)
+                .fg(Color::White)
                 .add_modifier(Modifier::BOLD),
         ),
         Span::styled("  ", Style::default()),
         Span::styled(
-            format!("难度: {}", app.selected_difficulty.label()),
-            Style::default().fg(colors::HEADER),
-        ),
-        Span::styled("  │  ", Style::default().fg(colors::PENDING)),
-        Span::styled(
-            format!("进度: {}", progress),
-            Style::default().fg(colors::HEADER),
+            format!("准确: {:.0}%", app.typing_engine.current_accuracy() * 100.0),
+            Style::default().fg(SUCCESS),
         ),
     ]);
+    frame.render_widget(Paragraph::new(stats), chunks[2]);
 
-    let bar = Paragraph::new(vec![Line::from(""), line]).alignment(Alignment::Left);
-    f.render_widget(bar, area);
+    let hint = Line::from(Span::styled("Enter → 下一条", Style::default().fg(ACCENT)));
+    frame.render_widget(Paragraph::new(hint), chunks[3]);
 }
 
-fn render_main_area(f: &mut Frame, area: Rect, app: &App) {
-    if app.commands.is_empty() {
-        let empty = Paragraph::new("  当前难度下没有可练习的命令。按 Esc 返回菜单。");
-        f.render_widget(empty, area);
+fn render_round_summary(frame: &mut Frame, app: &App, area: Rect, mode: TypingDisplayMode) {
+    if mode == TypingDisplayMode::Terminal {
+        let para = Paragraph::new(Line::from(Span::styled(
+            "🎉 完成！",
+            Style::default().fg(SUCCESS).add_modifier(Modifier::BOLD),
+        )))
+        .alignment(Alignment::Center)
+        .wrap(Wrap { trim: false });
+        frame.render_widget(para, area);
         return;
     }
 
-    let cmd = &app.commands[app.current_command_index];
-    let engine = match &app.typing_engine {
-        Some(e) => e,
-        None => return,
+    let completed = app.typing_round_records.len() as f64;
+    let avg_wpm = if completed > 0.0 {
+        app.typing_round_records.iter().map(|r| r.wpm).sum::<f64>() / completed
+    } else {
+        0.0
+    };
+    let avg_acc = if completed > 0.0 {
+        app.typing_round_records
+            .iter()
+            .map(|r| r.accuracy)
+            .sum::<f64>()
+            / completed
+    } else {
+        0.0
     };
 
-    let mut lines: Vec<Line> = Vec::new();
-    lines.push(Line::from(""));
+    let summary = format!(
+        "🎉 本轮完成！{} 条 | 平均 WPM {:.0} | 平均准确率 {:.1}% | Enter/Esc 返回主页",
+        app.typing_round_records.len(),
+        avg_wpm,
+        avg_acc * 100.0
+    );
 
-    // Command text display
-    lines.push(Line::from(Span::styled(
-        format!("  {}", cmd.command),
-        Style::default()
-            .fg(colors::HEADER)
-            .add_modifier(Modifier::BOLD),
-    )));
-    lines.push(Line::from(""));
+    let para = Paragraph::new(Line::from(Span::styled(
+        summary,
+        Style::default().fg(SUCCESS),
+    )))
+    .wrap(Wrap { trim: false });
+    frame.render_widget(para, area);
+}
 
-    // Token tree annotations
-    let token_count = cmd.tokens.len();
-    for (i, token) in cmd.tokens.iter().enumerate() {
-        let connector = if i < token_count - 1 {
-            "├─"
-        } else {
-            "└─"
-        };
-        let tree_line = Line::from(vec![
-            Span::styled(
-                format!("  {} ", connector),
-                Style::default().fg(colors::TREE_LINE),
-            ),
-            Span::styled(
-                format!("{:<12}", token.text),
-                Style::default()
-                    .fg(ratatui::style::Color::White)
-                    .add_modifier(Modifier::BOLD),
-            ),
-            Span::styled(&token.desc, Style::default().fg(colors::TOKEN_DESC)),
-        ]);
-        lines.push(tree_line);
+fn history_lines(app: &App, visible_height: u16) -> Vec<Line<'static>> {
+    let mut lines = Vec::new();
+    for tl in app.terminal_history.visible_lines(visible_height) {
+        if tl.status == LineStatus::Completed {
+            lines.push(render_completed_line(&tl.prompt, &tl.command_display));
+        }
     }
+    lines
+}
 
-    lines.push(Line::from(""));
-    lines.push(Line::from(""));
+fn render_completed_line(prompt: &str, command: &str) -> Line<'static> {
+    Line::from(vec![
+        Span::styled(prompt.to_string(), Style::default().fg(PROMPT_COLOR)),
+        Span::styled(command.to_string(), Style::default().fg(COMPLETED)),
+    ])
+}
 
-    // Typing input line with 3-state coloring
-    let mut input_spans: Vec<Span> = Vec::new();
-    input_spans.push(Span::styled("  ", Style::default()));
+fn render_completed_command_lines(prompt: &str, display: &str) -> Vec<Line<'static>> {
+    let mapped = map_display_lines(display, 0);
+    mapped
+        .iter()
+        .enumerate()
+        .map(|(idx, chars)| {
+            let line_prompt = if idx == 0 { prompt } else { "> " };
+            let mut spans = vec![Span::styled(
+                line_prompt.to_string(),
+                Style::default().fg(PROMPT_COLOR),
+            )];
+            for (ch, _) in chars {
+                spans.push(Span::styled(ch.to_string(), Style::default().fg(COMPLETED)));
+            }
+            Line::from(spans)
+        })
+        .collect()
+}
 
+fn render_current_command_lines(
+    prompt: &str,
+    display: &str,
+    engine: &TypingEngine,
+) -> Vec<Line<'static>> {
+    let mapped_lines = map_display_lines(display, engine.target.len());
     let is_flashing = engine.is_error_flashing();
 
-    for (i, &ch) in engine.target.iter().enumerate() {
-        let ch_str = ch.to_string();
-        if i < engine.cursor {
-            // Already typed correctly: white text
-            input_spans.push(Span::styled(
-                ch_str,
-                Style::default().fg(colors::TYPED_CORRECT),
+    mapped_lines
+        .iter()
+        .enumerate()
+        .map(|(line_idx, chars)| {
+            let line_prompt = if line_idx == 0 { prompt } else { "> " };
+            let mut spans = Vec::new();
+            spans.push(Span::styled(
+                line_prompt.to_string(),
+                Style::default().fg(PROMPT_COLOR),
             ));
-        } else if i == engine.cursor {
-            // Current cursor position
-            if is_flashing {
-                // Error flash: red background
-                input_spans.push(Span::styled(
-                    ch_str,
-                    Style::default()
-                        .fg(colors::ERROR_FLASH)
-                        .bg(colors::ERROR_FLASH_BG),
-                ));
-            } else {
-                // Normal cursor: white bg, black text
-                input_spans.push(Span::styled(
-                    ch_str,
-                    Style::default().fg(colors::CURSOR).bg(colors::CURSOR_BG),
-                ));
+
+            for (ch, target_idx) in chars {
+                let style = match target_idx {
+                    Some(i) if *i < engine.cursor => Style::default().fg(TYPED_CORRECT),
+                    Some(i) if *i == engine.cursor && !engine.is_complete() => {
+                        if is_flashing {
+                            Style::default().fg(ERROR_FLASH).bg(ERROR_FLASH_BG)
+                        } else {
+                            Style::default().fg(CURSOR).bg(CURSOR_BG)
+                        }
+                    }
+                    Some(_) => Style::default().fg(PENDING).bg(PENDING_BG),
+                    None => Style::default().fg(PENDING),
+                };
+                spans.push(Span::styled(ch.to_string(), style));
             }
+
+            Line::from(spans)
+        })
+        .collect()
+}
+
+fn map_display_lines(display: &str, target_len: usize) -> Vec<Vec<(char, Option<usize>)>> {
+    let mut lines: Vec<Vec<(char, Option<usize>)>> = Vec::new();
+    let mut current_line: Vec<(char, Option<usize>)> = Vec::new();
+    let mut target_idx = 0usize;
+    let mut line_idx = 0usize;
+    let mut at_line_start = true;
+
+    let mut chars = display.chars().peekable();
+    while let Some(ch) = chars.next() {
+        if ch == '\n' {
+            lines.push(current_line);
+            current_line = Vec::new();
+            line_idx += 1;
+            at_line_start = true;
+            continue;
+        }
+
+        // display may contain presentation-only chars for wrapped shell commands.
+        // These should be rendered, but must not consume target indices.
+        let is_presentation_only = (line_idx > 0 && at_line_start && ch == ' ')
+            || (ch == '\\' && chars.peek() == Some(&'\n'));
+
+        let mapped = if is_presentation_only {
+            None
+        } else if target_idx < target_len {
+            let idx = target_idx;
+            target_idx += 1;
+            Some(idx)
         } else {
-            // Pending: gray text
-            input_spans.push(Span::styled(
-                ch_str,
-                Style::default().fg(colors::PENDING).bg(colors::PENDING_BG),
-            ));
-        }
+            None
+        };
+
+        current_line.push((ch, mapped));
+        at_line_start = false;
     }
 
-    // If complete, show all white
-    if engine.is_complete() {
-        input_spans.clear();
-        input_spans.push(Span::styled("  ", Style::default()));
-        for &ch in &engine.target {
-            input_spans.push(Span::styled(
-                ch.to_string(),
-                Style::default()
-                    .fg(colors::ACCENT)
-                    .add_modifier(Modifier::BOLD),
-            ));
-        }
-        input_spans.push(Span::styled(
-            "  ✓",
-            Style::default()
-                .fg(colors::ACCENT)
-                .add_modifier(Modifier::BOLD),
-        ));
+    lines.push(current_line);
+    if lines.is_empty() {
+        lines.push(Vec::new());
     }
+    lines
+}
 
-    lines.push(Line::from(input_spans));
-
-    // Completion message
-    if engine.is_complete() {
+fn fit_lines_to_height(lines: &mut Vec<Line<'static>>, height: usize) {
+    while lines.len() < height {
         lines.push(Line::from(""));
-        lines.push(Line::from(Span::styled(
-            "  完成！按 Tab 下一题 / Ctrl+R 重练 / Esc 返回",
-            Style::default().fg(colors::ACCENT),
-        )));
     }
 
-    let content = Paragraph::new(lines);
-    f.render_widget(content, area);
+    if lines.len() > height {
+        let start = lines.len() - height;
+        *lines = lines[start..].to_vec();
+    }
 }
 
-fn render_bottom_bar(f: &mut Frame, area: Rect, app: &App) {
-    let engine = match &app.typing_engine {
-        Some(e) => e,
-        None => return,
+fn render_bottom_bar(
+    frame: &mut Frame,
+    app: &App,
+    area: Rect,
+    mode: TypingDisplayMode,
+    detailed_width_fallback: bool,
+) {
+    if app.typing_is_finished() {
+        let text = if mode == TypingDisplayMode::Terminal {
+            "🎉 完成！Enter/Esc 返回主页"
+        } else {
+            "Enter/Esc 返回主页"
+        };
+        let bar = Paragraph::new(Line::from(Span::styled(text, Style::default().fg(ACCENT))))
+            .block(
+                Block::default()
+                    .borders(Borders::TOP)
+                    .border_style(Style::default().fg(DIM)),
+            )
+            .alignment(Alignment::Center);
+        frame.render_widget(bar, area);
+        return;
+    }
+
+    if app.typing_showing_output {
+        let text = if mode == TypingDisplayMode::Terminal {
+            "任意键继续..."
+        } else {
+            "Enter → 下一条"
+        };
+        let bar = Paragraph::new(Line::from(Span::styled(
+            text,
+            Style::default().fg(ACCENT).add_modifier(Modifier::BOLD),
+        )))
+        .block(
+            Block::default()
+                .borders(Borders::TOP)
+                .border_style(Style::default().fg(DIM)),
+        )
+        .alignment(Alignment::Center);
+        frame.render_widget(bar, area);
+        return;
+    }
+
+    if detailed_width_fallback {
+        let bar = Paragraph::new(Line::from(vec![
+            Span::styled(DETAILED_WIDTH_HINT, Style::default().fg(WARNING)),
+            Span::styled("  ", Style::default()),
+            Span::styled("M 切换模式", Style::default().fg(ACCENT)),
+        ]))
+        .block(
+            Block::default()
+                .borders(Borders::TOP)
+                .border_style(Style::default().fg(DIM)),
+        );
+        frame.render_widget(bar, area);
+        return;
+    }
+
+    if mode == TypingDisplayMode::Terminal {
+        let bar = Paragraph::new(Line::from(vec![
+            Span::styled("M 切换模式", Style::default().fg(ACCENT)),
+            Span::styled("  ", Style::default()),
+            Span::styled("Esc 返回", Style::default().fg(DIM)),
+        ]))
+        .block(
+            Block::default()
+                .borders(Borders::TOP)
+                .border_style(Style::default().fg(DIM)),
+        );
+        frame.render_widget(bar, area);
+        return;
+    }
+
+    let mut spans = Vec::new();
+
+    // Summary hint
+    if let Some(cmd) = app.current_typing_command() {
+        if app.show_hint {
+            spans.push(Span::styled(
+                cmd.short_summary().to_string(),
+                Style::default().fg(DIM),
+            ));
+        }
+        spans.push(Span::styled("  ", Style::default()));
+    }
+
+    spans.push(Span::styled("[H]", Style::default().fg(ACCENT)));
+    spans.push(Span::styled("  ", Style::default()));
+    spans.push(Span::styled("M 切换模式", Style::default().fg(ACCENT)));
+    spans.push(Span::styled("  ", Style::default()));
+
+    let wpm = app.typing_engine.current_wpm();
+    spans.push(Span::styled(
+        format!("WPM: {:.0}", wpm),
+        Style::default()
+            .fg(Color::White)
+            .add_modifier(Modifier::BOLD),
+    ));
+    spans.push(Span::styled("  ", Style::default()));
+
+    let acc = app.typing_engine.current_accuracy() * 100.0;
+    let acc_color = if acc >= 95.0 {
+        SUCCESS
+    } else if acc >= 80.0 {
+        WARNING
+    } else {
+        ERROR
     };
+    spans.push(Span::styled(
+        format!("准确: {:.0}%", acc),
+        Style::default().fg(acc_color),
+    ));
 
-    let wpm = engine.current_wpm();
-    let accuracy = engine.current_accuracy() * 100.0;
-    let elapsed = format_time(engine.elapsed_secs());
-
-    let stats_line = Line::from(vec![
-        Span::styled(
-            format!(" WPM: {:.0}", wpm),
-            Style::default()
-                .fg(colors::ACCENT)
-                .add_modifier(Modifier::BOLD),
-        ),
-        Span::styled("  │  ", Style::default().fg(colors::PENDING)),
-        Span::styled(
-            format!("准确率: {:.1}%", accuracy),
-            Style::default().fg(colors::HEADER),
-        ),
-        Span::styled("  │  ", Style::default().fg(colors::PENDING)),
-        Span::styled(
-            format!("时间: {}", elapsed),
-            Style::default().fg(ratatui::style::Color::White),
-        ),
-        Span::styled("  │  ", Style::default().fg(colors::PENDING)),
-        Span::styled(
-            "Esc",
-            Style::default()
-                .fg(ratatui::style::Color::White)
-                .add_modifier(Modifier::BOLD),
-        ),
-        Span::styled(" 菜单 ", Style::default().fg(colors::PENDING)),
-        Span::styled(
-            "Tab",
-            Style::default()
-                .fg(ratatui::style::Color::White)
-                .add_modifier(Modifier::BOLD),
-        ),
-        Span::styled(" 跳过 ", Style::default().fg(colors::PENDING)),
-        Span::styled(
-            "^R",
-            Style::default()
-                .fg(ratatui::style::Color::White)
-                .add_modifier(Modifier::BOLD),
-        ),
-        Span::styled(" 重练", Style::default().fg(colors::PENDING)),
-    ]);
-
-    let bar = Paragraph::new(vec![Line::from(""), stats_line]).alignment(Alignment::Left);
-    f.render_widget(bar, area);
-}
-
-pub fn handle_key(key: KeyEvent, app: &mut App) -> Option<AppState> {
-    match key.code {
-        KeyCode::Esc => Some(app.return_home()),
-        KeyCode::Char('c') if key.modifiers.contains(KeyModifiers::CONTROL) => {
-            Some(AppState::Quitting)
-        }
-        KeyCode::Char('r') if key.modifiers.contains(KeyModifiers::CONTROL) => {
-            app.retry_typing_command();
-            None
-        }
-        KeyCode::Tab => {
-            app.next_typing_command();
-            None
-        }
-        KeyCode::Char(ch) => {
-            let mut completed = false;
-            if let Some(engine) = &mut app.typing_engine {
-                engine.input(ch);
-                completed = engine.is_complete();
-            }
-            if completed {
-                return app.complete_typing_round();
-            }
-            None
-        }
-        _ => None,
-    }
+    let bar = Paragraph::new(Line::from(spans)).block(
+        Block::default()
+            .borders(Borders::TOP)
+            .border_style(Style::default().fg(DIM)),
+    );
+    frame.render_widget(bar, area);
 }

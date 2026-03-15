@@ -1,189 +1,119 @@
-use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
-use ratatui::layout::{Alignment, Constraint, Layout};
-use ratatui::style::{Color, Modifier, Style};
-use ratatui::text::{Line, Span};
-use ratatui::widgets::Paragraph;
-use ratatui::Frame;
+use ratatui::prelude::*;
+use ratatui::widgets::{Block, Borders, Paragraph};
 
-use crate::app::{App, AppState, MenuItem};
-use crate::ui::widgets::colors;
+use crate::app::App;
+use crate::ui::widgets::*;
 
-const TITLE_ART: &str = r#"
-                     _ _
-  ___ _ __ ___   __| | |_ _   _ _ __   ___ _ __
- / __| '_ ` _ \ / _` | __| | | | '_ \ / _ \ '__|
-| (__| | | | | | (_| | |_| |_| | |_) |  __/ |
- \___|_| |_| |_|\__,_|\__|\__, | .__/ \___|_|
-                           |___/|_|
-"#;
+const MENU_ITEMS: [(&str, &str); 5] = [
+    (
+        "\u{2328}\u{fe0f}  \u{5bf9}\u{7740}\u{6253}",
+        "\u{7ec8}\u{7aef}\u{6a21}\u{62df}\u{6253}\u{5b57}\u{7ec3}\u{4e60}",
+    ),
+    (
+        "\u{1f4d6} \u{5b66}\u{4e60}\u{4e2d}\u{5fc3}",
+        "\u{547d}\u{4ee4}\u{00b7}\u{7b26}\u{53f7}\u{00b7}\u{7cfb}\u{7edf}\u{67b6}\u{6784}\u{4e13}\u{9898}",
+    ),
+    (
+        "\u{1f4dd} \u{9ed8}\u{5199}\u{6a21}\u{5f0f}",
+        "\u{770b}\u{4e2d}\u{6587}\u{5199}\u{547d}\u{4ee4}",
+    ),
+    (
+        "\u{1f4ca} \u{7edf}\u{8ba1}\u{9762}\u{677f}",
+        "\u{7ec3}\u{4e60}\u{6570}\u{636e}\u{5206}\u{6790}",
+    ),
+    (
+        "\u{2699}\u{fe0f}  \u{8bbe}\u{7f6e}",
+        "\u{81ea}\u{5b9a}\u{4e49}\u{914d}\u{7f6e}",
+    ),
+];
 
-pub fn render(f: &mut Frame, app: &App) {
-    let area = f.area();
+pub fn render(frame: &mut Frame, app: &App) {
+    let area = frame.area();
 
-    // Build content lines
-    let mut lines: Vec<Line> = Vec::new();
+    let chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Length(3), // title
+            Constraint::Min(0),    // menu
+            Constraint::Length(1), // hints
+        ])
+        .split(area);
 
-    // ASCII art title
-    for l in TITLE_ART.lines() {
-        lines.push(Line::from(Span::styled(
-            l.to_string(),
-            Style::default().fg(colors::ACCENT),
-        )));
-    }
-
-    lines.push(Line::from(Span::styled(
-        "  Linux 命令行打字练习  v0.1.0",
-        Style::default()
-            .fg(colors::HEADER)
-            .add_modifier(Modifier::BOLD),
-    )));
-    lines.push(Line::from(""));
-    lines.push(Line::from(""));
+    // Title
+    let title = Paragraph::new(Line::from(vec![
+        Span::styled(
+            " cmdtyper v0.2 ",
+            Style::default()
+                .fg(HEADER)
+                .add_modifier(Modifier::BOLD),
+        ),
+        Span::styled(
+            " \u{2014} Linux \u{547d}\u{4ee4}\u{884c}\u{4ea4}\u{4e92}\u{5f0f}\u{6559}\u{5b66}\u{7cfb}\u{7edf}",
+            Style::default().fg(DIM),
+        ),
+    ]))
+    .alignment(Alignment::Center)
+    .block(
+        Block::default()
+            .borders(Borders::ALL)
+            .border_style(Style::default().fg(DIM)),
+    );
+    frame.render_widget(title, chunks[0]);
 
     // Menu items
-    for (i, item) in MenuItem::ALL.iter().enumerate() {
-        let is_selected = i == app.menu_index;
+    let menu_area = chunks[1];
+    let menu_height = MENU_ITEMS.len() as u16 * 2 + 2;
+    let v_pad = menu_area.height.saturating_sub(menu_height) / 2;
 
-        let prefix = if is_selected { " ▸ " } else { "   " };
+    let inner = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Length(v_pad),
+            Constraint::Min(0),
+            Constraint::Length(v_pad),
+        ])
+        .split(menu_area);
+
+    let mut lines: Vec<Line> = Vec::new();
+    for (i, (label, desc)) in MENU_ITEMS.iter().enumerate() {
+        let is_selected = i == app.home_index;
+        let prefix = if is_selected { " \u{25b6} " } else { "   " };
+
         let style = if is_selected {
             Style::default()
-                .fg(Color::Black)
-                .bg(colors::ACCENT)
+                .fg(ACCENT)
                 .add_modifier(Modifier::BOLD)
+                .bg(MENU_SELECTED_BG)
         } else {
-            Style::default().fg(Color::White)
+            Style::default().fg(MENU_NORMAL)
         };
-
-        let label = format!("{}{}", prefix, item.label());
-        let padded = format!("{:<36}", label);
-        lines.push(Line::from(Span::styled(padded, style)));
-
-        // Description under each item
         let desc_style = if is_selected {
-            Style::default().fg(Color::DarkGray)
+            Style::default().fg(Color::White).bg(MENU_SELECTED_BG)
         } else {
-            Style::default().fg(Color::DarkGray)
+            Style::default().fg(DIM)
         };
-        lines.push(Line::from(Span::styled(
-            format!("     {}", item.desc()),
-            desc_style,
-        )));
-        lines.push(Line::from(""));
+
+        lines.push(Line::from(vec![
+            Span::styled(prefix.to_string(), style),
+            Span::styled(label.to_string(), style),
+        ]));
+        lines.push(Line::from(vec![
+            Span::raw("      "),
+            Span::styled(desc.to_string(), desc_style),
+        ]));
     }
 
-    // Difficulty selector
-    lines.push(Line::from(""));
-    let diff = app.selected_difficulty;
-    let diff_line = Line::from(vec![
-        Span::styled("  难度: ", Style::default().fg(Color::DarkGray)),
-        Span::styled("◀ ", Style::default().fg(Color::DarkGray)),
-        Span::styled(
-            format!("{} {}", diff.label(), diff.stars()),
-            Style::default()
-                .fg(colors::HEADER)
-                .add_modifier(Modifier::BOLD),
-        ),
-        Span::styled(" ▶", Style::default().fg(Color::DarkGray)),
+    let menu = Paragraph::new(lines).alignment(Alignment::Left);
+    frame.render_widget(menu, inner[1]);
+
+    // Hints
+    let hints = hint_line(&[
+        ("\u{2191}\u{2193}", "\u{79fb}\u{52a8}"),
+        ("Enter", "\u{9009}\u{62e9}"),
+        ("q", "\u{9000}\u{51fa}"),
     ]);
-    lines.push(diff_line);
-
-    // Stats summary
-    lines.push(Line::from(""));
-    lines.push(Line::from(Span::styled(
-        format!(
-            "  累计练习: {} 次  |  最佳 WPM: {:.0}",
-            app.user_stats.total_sessions, app.user_stats.best_wpm
-        ),
-        Style::default().fg(Color::DarkGray),
-    )));
-
-    let content = Paragraph::new(lines).alignment(Alignment::Left);
-
-    // Center the content block
-    let v_chunks = Layout::vertical([
-        Constraint::Fill(1),
-        Constraint::Length(30),
-        Constraint::Fill(1),
-    ])
-    .split(area);
-
-    let h_chunks = Layout::horizontal([
-        Constraint::Fill(1),
-        Constraint::Length(50),
-        Constraint::Fill(1),
-    ])
-    .split(v_chunks[1]);
-
-    f.render_widget(content, h_chunks[1]);
-
-    // Bottom help bar
-    let help = Line::from(vec![
-        Span::styled(
-            " ↑↓",
-            Style::default()
-                .fg(Color::White)
-                .add_modifier(Modifier::BOLD),
-        ),
-        Span::styled(" 选择  ", Style::default().fg(Color::DarkGray)),
-        Span::styled(
-            "◀▶",
-            Style::default()
-                .fg(Color::White)
-                .add_modifier(Modifier::BOLD),
-        ),
-        Span::styled(" 难度  ", Style::default().fg(Color::DarkGray)),
-        Span::styled(
-            "Enter",
-            Style::default()
-                .fg(Color::White)
-                .add_modifier(Modifier::BOLD),
-        ),
-        Span::styled(" 确认  ", Style::default().fg(Color::DarkGray)),
-        Span::styled(
-            "q/Esc",
-            Style::default()
-                .fg(Color::White)
-                .add_modifier(Modifier::BOLD),
-        ),
-        Span::styled(" 退出", Style::default().fg(Color::DarkGray)),
-    ]);
-    let help_bar = Paragraph::new(help).alignment(Alignment::Center);
-    let bottom = Layout::vertical([Constraint::Fill(1), Constraint::Length(1)]).split(area);
-    f.render_widget(help_bar, bottom[1]);
-}
-
-pub fn handle_key(key: KeyEvent, app: &mut App) -> Option<AppState> {
-    match key.code {
-        KeyCode::Char('q') | KeyCode::Esc => Some(AppState::Quitting),
-        KeyCode::Char('c') if key.modifiers.contains(KeyModifiers::CONTROL) => {
-            Some(AppState::Quitting)
-        }
-        KeyCode::Up | KeyCode::Char('k') => {
-            if app.menu_index > 0 {
-                app.menu_index -= 1;
-            } else {
-                app.menu_index = MenuItem::ALL.len() - 1;
-            }
-            None
-        }
-        KeyCode::Down | KeyCode::Char('j') => {
-            app.menu_index = (app.menu_index + 1) % MenuItem::ALL.len();
-            None
-        }
-        KeyCode::Left | KeyCode::Char('h') => {
-            app.selected_difficulty = app.selected_difficulty.prev();
-            None
-        }
-        KeyCode::Right | KeyCode::Char('l') => {
-            app.selected_difficulty = app.selected_difficulty.next();
-            None
-        }
-        KeyCode::Enter => match app.current_menu_item() {
-            MenuItem::Learn => app.enter_learn_mode(),
-            MenuItem::Type => app.enter_typing_mode(),
-            MenuItem::Dictation => app.enter_dictation_mode(),
-            MenuItem::Stats => Some(app.enter_stats_mode()),
-        },
-        _ => None,
-    }
+    frame.render_widget(
+        Paragraph::new(hints).alignment(Alignment::Center),
+        chunks[2],
+    );
 }

@@ -1,14 +1,17 @@
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, HashMap};
 
-use crate::data::models::{
-    Category, CharSpeedPoint, CharStat, Command, CommandProgress, DailyStat, Keystroke,
-    SessionRecord, UserStats,
-};
 use chrono::{NaiveDate, TimeZone, Utc};
 
+use crate::data::models::{
+    Category, CharSpeedPoint, CharStat, Command, CommandProgress, DailyStat, Keystroke, RecordMode,
+    SessionRecord, UserStats,
+};
+
+/// Update global user statistics with a completed session record.
 pub fn update_stats(stats: &mut UserStats, record: &SessionRecord) {
     let previous_sessions = stats.total_sessions as f64;
+    let previous_wpm_sessions = stats.total_wpm_sessions as f64;
 
     stats.total_sessions += 1;
     stats.total_keystrokes += record
@@ -19,20 +22,35 @@ pub fn update_stats(stats: &mut UserStats, record: &SessionRecord) {
 
     let duration_ms = record_duration_ms(record);
     stats.total_duration_ms += duration_ms;
-    stats.overall_avg_wpm =
-        weighted_average(stats.overall_avg_wpm, previous_sessions, record.wpm, 1.0);
+    if is_typing_wpm_mode(record.mode) {
+        stats.overall_avg_wpm = weighted_average(
+            stats.overall_avg_wpm,
+            previous_wpm_sessions,
+            record.wpm,
+            1.0,
+        );
+        stats.best_wpm = stats.best_wpm.max(record.wpm);
+        stats.total_wpm_sessions += 1;
+    }
     stats.overall_avg_accuracy = weighted_average(
         stats.overall_avg_accuracy,
         previous_sessions,
         record.accuracy,
         1.0,
     );
-    stats.best_wpm = stats.best_wpm.max(record.wpm);
 
     let date = format_session_date(record.finished_at);
-    update_daily_stat(stats, &date, duration_ms, record.wpm, record.accuracy);
+    update_daily_stat(
+        stats,
+        &date,
+        duration_ms,
+        record.wpm,
+        record.accuracy,
+        is_typing_wpm_mode(record.mode),
+    );
     recalculate_streaks(stats);
 
+    // Group keystrokes by expected character
     let mut grouped: BTreeMap<char, Vec<Keystroke>> = BTreeMap::new();
     for keystroke in &record.keystrokes {
         grouped
@@ -49,6 +67,7 @@ pub fn update_stats(stats: &mut UserStats, record: &SessionRecord) {
     update_command_progress(stats, record);
 }
 
+/// Update a single character's statistics from a batch of keystrokes.
 pub fn update_char_stat(stat: &mut CharStat, keystrokes: &[Keystroke]) {
     if keystrokes.is_empty() {
         return;
@@ -102,6 +121,7 @@ pub fn update_char_stat(stat: &mut CharStat, keystrokes: &[Keystroke]) {
     });
 }
 
+/// Compute mastery score: accuracy * min(times/target, 1.0).
 pub fn compute_mastery(accuracy: f64, times: u32, target: u32) -> f64 {
     if target == 0 {
         return accuracy.clamp(0.0, 1.0);
@@ -111,6 +131,7 @@ pub fn compute_mastery(accuracy: f64, times: u32, target: u32) -> f64 {
     accuracy.clamp(0.0, 1.0) * practice_factor
 }
 
+/// Return the `n` weakest characters sorted by lowest accuracy first.
 pub fn weak_chars(stats: &UserStats, n: usize) -> Vec<&CharStat> {
     let mut chars = stats
         .char_stats
@@ -127,6 +148,7 @@ pub fn weak_chars(stats: &UserStats, n: usize) -> Vec<&CharStat> {
     chars
 }
 
+/// Compute average mastery for all commands in a given category.
 pub fn category_mastery(stats: &UserStats, commands: &[Command], category: Category) -> f64 {
     let category_commands = commands
         .iter()
@@ -156,6 +178,8 @@ pub fn category_mastery(stats: &UserStats, commands: &[Command], category: Categ
     total_mastery / category_commands.len() as f64
 }
 
+/// Recommend `n` commands that best target the user's weak characters
+/// and lowest mastery commands.
 pub fn recommend_commands<'a>(
     stats: &UserStats,
     commands: &'a [Command],
@@ -214,6 +238,17 @@ pub fn recommend_commands<'a>(
         .collect()
 }
 
+fn is_typing_wpm_mode(mode: RecordMode) -> bool {
+    matches!(
+        mode,
+        RecordMode::Typing
+            | RecordMode::LessonPractice
+            | RecordMode::ReviewTyping
+            | RecordMode::SymbolTyping
+            | RecordMode::SystemTyping
+    )
+}
+
 fn update_command_progress(stats: &mut UserStats, record: &SessionRecord) {
     let index = if let Some(index) = stats
         .command_progress
@@ -260,20 +295,32 @@ fn get_or_insert_char_stat(stats: &mut UserStats, char_key: char) -> &mut CharSt
         .expect("char stat was just inserted")
 }
 
-fn update_daily_stat(stats: &mut UserStats, date: &str, duration_ms: u64, wpm: f64, accuracy: f64) {
+fn update_daily_stat(
+    stats: &mut UserStats,
+    date: &str,
+    duration_ms: u64,
+    wpm: f64,
+    accuracy: f64,
+    include_wpm: bool,
+) {
     if let Some(day) = stats.daily_stats.iter_mut().find(|day| day.date == date) {
         let previous_sessions = day.sessions_count as f64;
         day.sessions_count += 1;
         day.total_duration_ms += duration_ms;
-        day.avg_wpm = weighted_average(day.avg_wpm, previous_sessions, wpm, 1.0);
+        if include_wpm {
+            let previous_wpm_sessions = day.wpm_sessions_count as f64;
+            day.avg_wpm = weighted_average(day.avg_wpm, previous_wpm_sessions, wpm, 1.0);
+            day.wpm_sessions_count += 1;
+        }
         day.avg_accuracy = weighted_average(day.avg_accuracy, previous_sessions, accuracy, 1.0);
     } else {
         stats.daily_stats.push(DailyStat {
             date: date.to_string(),
             sessions_count: 1,
             total_duration_ms: duration_ms,
-            avg_wpm: wpm,
+            avg_wpm: if include_wpm { wpm } else { 0.0 },
             avg_accuracy: accuracy,
+            wpm_sessions_count: if include_wpm { 1 } else { 0 },
         });
         stats
             .daily_stats
@@ -352,13 +399,10 @@ fn float_cmp(left: f64, right: f64) -> Ordering {
 
 #[cfg(test)]
 mod tests {
-    use super::{
-        category_mastery, compute_mastery, recommend_commands, update_char_stat, update_stats,
-        weak_chars,
-    };
+    use super::*;
     use crate::data::models::{
-        Category, CharStat, Command, CommandProgress, Difficulty, Keystroke, Mode, SessionRecord,
-        UserStats,
+        Category, CharStat, Command, CommandProgress, Difficulty, Keystroke, RecordMode,
+        SessionRecord, UserStats,
     };
 
     fn approx_eq(left: f64, right: f64) {
@@ -387,7 +431,7 @@ mod tests {
         SessionRecord {
             id: id.to_string(),
             command_id: command_id.to_string(),
-            mode: Mode::Type,
+            mode: RecordMode::Typing,
             keystrokes: vec![
                 keystroke('g', false, 2, 120),
                 keystroke('r', true, 1, 100),
@@ -408,6 +452,16 @@ mod tests {
         approx_eq(compute_mastery(0.9, 2, 4), 0.45);
         approx_eq(compute_mastery(0.9, 10, 4), 0.9);
         approx_eq(compute_mastery(1.2, 3, 0), 1.0);
+    }
+
+    #[test]
+    fn compute_mastery_zero_accuracy() {
+        approx_eq(compute_mastery(0.0, 5, 5), 0.0);
+    }
+
+    #[test]
+    fn compute_mastery_negative_accuracy_clamped() {
+        approx_eq(compute_mastery(-0.5, 5, 5), 0.0);
     }
 
     #[test]
@@ -432,6 +486,17 @@ mod tests {
     }
 
     #[test]
+    fn update_char_stat_empty_keystrokes_is_noop() {
+        let mut stat = CharStat {
+            char_key: 'x',
+            total_samples: 5,
+            ..CharStat::default()
+        };
+        update_char_stat(&mut stat, &[]);
+        assert_eq!(stat.total_samples, 5);
+    }
+
+    #[test]
     fn update_stats_updates_global_totals_daily_stats_and_progress() {
         let mut stats = UserStats::default();
 
@@ -445,7 +510,7 @@ mod tests {
         );
 
         assert_eq!(stats.total_sessions, 2);
-        assert_eq!(stats.total_keystrokes, 8);
+        assert_eq!(stats.total_keystrokes, 8); // (2+1+1) * 2
         assert_eq!(stats.total_duration_ms, 60_000);
         approx_eq(stats.overall_avg_wpm, 48.0);
         approx_eq(stats.overall_avg_accuracy, 0.8);
@@ -517,6 +582,31 @@ mod tests {
     }
 
     #[test]
+    fn weak_chars_skips_zero_sample_chars() {
+        let stats = UserStats {
+            char_stats: vec![
+                CharStat {
+                    char_key: 'a',
+                    total_samples: 0,
+                    accuracy: 0.0,
+                    ..CharStat::default()
+                },
+                CharStat {
+                    char_key: 'b',
+                    total_samples: 5,
+                    accuracy: 0.8,
+                    ..CharStat::default()
+                },
+            ],
+            ..UserStats::default()
+        };
+
+        let weak = weak_chars(&stats, 5);
+        assert_eq!(weak.len(), 1);
+        assert_eq!(weak[0].char_key, 'b');
+    }
+
+    #[test]
     fn category_mastery_averages_matching_commands_and_missing_progress_as_zero() {
         let stats = UserStats {
             command_progress: vec![CommandProgress {
@@ -549,6 +639,17 @@ mod tests {
 
         approx_eq(category_mastery(&stats, &commands, Category::FileOps), 0.4);
         approx_eq(category_mastery(&stats, &commands, Category::Search), 0.0);
+    }
+
+    #[test]
+    fn category_mastery_empty_category_returns_zero() {
+        let stats = UserStats::default();
+        let commands = vec![Command {
+            id: "ls".to_string(),
+            category: Category::FileOps,
+            ..Command::default()
+        }];
+        approx_eq(category_mastery(&stats, &commands, Category::Network), 0.0);
     }
 
     #[test]
@@ -601,5 +702,45 @@ mod tests {
         assert_eq!(recommended.len(), 2);
         assert_eq!(recommended[0].id, "git-grep");
         assert_eq!(recommended[1].id, "grep");
+    }
+
+    #[test]
+    fn recommend_commands_empty_stats_returns_first_n() {
+        let stats = UserStats::default();
+        let commands = vec![
+            Command {
+                id: "a".to_string(),
+                ..Command::default()
+            },
+            Command {
+                id: "b".to_string(),
+                ..Command::default()
+            },
+            Command {
+                id: "c".to_string(),
+                ..Command::default()
+            },
+        ];
+
+        let recommended = recommend_commands(&stats, &commands, 2);
+        assert_eq!(recommended.len(), 2);
+        assert_eq!(recommended[0].id, "a");
+        assert_eq!(recommended[1].id, "b");
+    }
+
+    #[test]
+    fn recommend_commands_zero_n_returns_empty() {
+        let stats = UserStats::default();
+        let commands = vec![Command {
+            id: "a".to_string(),
+            ..Command::default()
+        }];
+        assert!(recommend_commands(&stats, &commands, 0).is_empty());
+    }
+
+    #[test]
+    fn recommend_commands_empty_commands_returns_empty() {
+        let stats = UserStats::default();
+        assert!(recommend_commands(&stats, &[], 5).is_empty());
     }
 }

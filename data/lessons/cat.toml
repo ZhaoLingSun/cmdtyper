@@ -1,0 +1,275 @@
+[meta]
+command = "cat"
+full_name = "concatenate"
+category = "file_ops"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "连接并显示文件内容"
+explanation = """cat 是 Linux 中最常用的文件查看命令，名称来源于 concatenate（连接）。\
+它的主要功能是将一个或多个文件的内容输出到标准输出（通常是终端屏幕）。\
+除了查看文件内容，cat 还可以用来连接多个文件、创建新文件、追加内容到文件等。\
+对于小文件，cat 非常方便；但对于大文件，建议使用 less 或 more 命令，\
+因为 cat 会一次性输出所有内容，大量文本会瞬间刷过屏幕。\
+cat 也是管道操作中常用的数据源命令。"""
+
+[syntax]
+basic = "cat [选项]... [文件]..."
+[[syntax.parts]]
+name = "选项"
+desc = "控制输出格式的标志，如 -n（显示行号）、-b（非空行编号）等"
+[[syntax.parts]]
+name = "文件"
+desc = "要查看的一个或多个文件路径，省略时从标准输入读取"
+
+[[options]]
+flag = "-n"
+name = "显示行号"
+example = "cat -n script.sh"
+note = "为所有输出行添加行号，包括空行"
+
+[[options]]
+flag = "-b"
+name = "非空行编号"
+example = "cat -b script.sh"
+note = "只为非空行编号，空行不编号（会覆盖 -n 选项）"
+
+[[options]]
+flag = "-s"
+name = "压缩空行"
+example = "cat -s document.txt"
+note = "将连续的多个空行压缩为一个空行"
+
+[[options]]
+flag = "-E"
+name = "显示行尾标记"
+example = "cat -E config.ini"
+note = "在每行末尾显示 $ 符号，用于检查是否有行尾多余空格"
+
+[[options]]
+flag = "-A"
+name = "显示所有不可见字符"
+example = "cat -A config.ini"
+note = "等价于 -vET，显示制表符（^I）、行尾（$）及其他不可见字符，调试文件格式问题时很有用"
+
+[[examples]]
+level = 1
+command = "cat /etc/hostname"
+summary = "查看主机名文件"
+simulated_output = """ubuntu-server"""
+output_explanation = "输出展示了 cat 读取（或拼接）后的文件内容。cat 本身不做格式化，看到什么就原样输出什么，适合快速核对文件内容。"
+[[examples.token_details]]
+token = "/etc/hostname"
+explanation = "系统主机名配置文件，通常只包含一行主机名文本。"
+[[examples]]
+level = 1
+command = "cat ~/.bashrc"
+summary = "查看用户的 bash 配置文件"
+simulated_output = """# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# don't put duplicate lines or lines starting with space in the history.
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000"""
+output_explanation = "输出展示了 cat 读取（或拼接）后的文件内容。cat 本身不做格式化，看到什么就原样输出什么，适合快速核对文件内容。"
+[[examples.token_details]]
+token = "~/.bashrc"
+explanation = "当前用户的 Bash 配置文件，常用来设置别名、环境变量和提示符。"
+[[examples]]
+level = 2
+command = "cat -n /etc/passwd | head -5"
+summary = "显示 /etc/passwd 前 5 行并带行号"
+simulated_output = """     1\troot:x:0:0:root:/root:/bin/bash
+     2\tdaemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+     3\tbin:x:2:2:bin:/bin:/usr/sbin/nologin
+     4\tsys:x:3:3:sys:/dev:/usr/sbin/nologin
+     5\tsync:x:4:65534:sync:/bin:/bin/sync"""
+output_explanation = "每行的冒号分隔字段依次表示用户名、密码占位符、UID、GID、注释信息、家目录和登录 Shell。"
+[[examples.token_details]]
+token = "-n"
+explanation = "给 `cat` 输出的每一行加上行号，方便定位具体记录。"
+
+[[examples.token_details]]
+token = "/etc/passwd"
+explanation = "Linux 的用户账户信息文件，每一行都是一个用户条目。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "把前一个命令的输出作为下一个命令的输入。"
+
+[[examples.token_details]]
+token = "head -5"
+explanation = "只保留前 5 行，所以终端里只显示 passwd 文件开头的 5 条记录。"
+
+[[examples]]
+level = 3
+command = "cat file1.txt file2.txt file3.txt > combined.txt"
+summary = "将多个文件合并为一个文件"
+simulated_output = """"""
+output_explanation = "终端没有可见输出，因为内容被重定向写入 `combined.txt`，文件里的顺序与三个输入文件的顺序一致。"
+[[examples.token_details]]
+token = "file1.txt"
+explanation = "第一个输入文件，内容会最先写入目标文件。"
+
+[[examples.token_details]]
+token = "file2.txt"
+explanation = "第二个输入文件，内容会追加在 `file1.txt` 之后。"
+
+[[examples.token_details]]
+token = "file3.txt"
+explanation = "第三个输入文件，内容会继续追加在前两个文件之后。"
+
+[[examples.token_details]]
+token = ">"
+explanation = "把标准输出重定向到文件，而不是直接显示在终端。"
+
+[[examples.token_details]]
+token = "combined.txt"
+explanation = "保存合并结果的目标文件；如果已存在会被覆盖。"
+
+[[examples]]
+level = 3
+command = "cat -A config.ini"
+summary = "显示不可见字符，调试文件格式"
+simulated_output = """[database]$
+host = 127.0.0.1$
+port = 5432  $
+name = myapp$
+^I$
+[server]$
+host = 0.0.0.0$
+port = 8080$"""
+output_explanation = "输出展示了 cat 读取（或拼接）后的文件内容。cat 本身不做格式化，看到什么就原样输出什么，适合快速核对文件内容。"
+[[examples.token_details]]
+token = "-A"
+explanation = "显示所有不可见字符（等价于 -vET），便于排查制表符、行尾空格等格式问题。"
+
+[[examples.token_details]]
+token = "config.ini"
+explanation = "要检查格式的配置文件。"
+[[examples]]
+level = 4
+command = "cat access.log | grep \"POST\" | awk '{print $7}' | sort | uniq -c | sort -rn | head -10"
+summary = "分析日志中 POST 请求最多的 URL"
+simulated_output = """    342 /api/login
+    218 /api/users
+    156 /api/orders
+     89 /api/upload
+     67 /api/comments
+     45 /api/search
+     34 /api/checkout
+     23 /api/register
+     12 /api/feedback
+      8 /api/logout"""
+output_explanation = "左侧数字表示每个 URL 的 POST 请求次数，结果已经按请求数量从高到低排序。"
+deep_explanation = """### 真实场景：排查接口压力与热点路径
+你接到报警：API 网关 QPS 飙升，怀疑某些 `POST` 接口被频繁调用。最直接的方法就是从访问日志里统计“最热 POST URL Top10”。这条管道命令就是典型的一线排障写法：
+
+    cat access.log | grep "POST" | awk '{print $7}' | sort | uniq -c | sort -rn | head -10
+
+它把“原始日志 -> 过滤 -> 提取字段 -> 聚合计数 -> 排序截断”串成一条线。
+
+### 数据在管道中的流动（最关键）
+可以把每一段理解为一个加工站：
+- `cat access.log`：把整份日志逐行吐出。
+- `grep "POST"`：只保留包含 POST 的行。
+- `awk '{print $7}'`：取第 7 列（通常是 URL 路径）。
+- `sort`：先按字典序排序，把相同 URL 排到一起。
+- `uniq -c`：统计连续重复行，得到“次数 + URL”。
+- `sort -rn`：按数字逆序排序，最高频在最上面。
+- `head -10`：只看前 10 条。
+
+### 可视化理解：每一步输出长什么样
+假设原始日志其中几行是：
+
+    10.0.0.8 - - [14/Mar/2026:16:02:11 +0000] "POST /api/login HTTP/1.1" 200 531
+    10.0.0.9 - - [14/Mar/2026:16:02:13 +0000] "GET /health HTTP/1.1" 200 2
+    10.0.0.7 - - [14/Mar/2026:16:02:14 +0000] "POST /api/orders HTTP/1.1" 201 882
+
+经过 `grep "POST"` 后只剩 POST 行；
+经过 `awk '{print $7}'` 后变成：
+
+    /api/login
+    /api/orders
+    /api/login
+
+经过 `sort | uniq -c` 后会变成：
+
+      2 /api/login
+      1 /api/orders
+
+最后 `sort -rn | head -10` 给你最关心的热点排名。
+
+### 每段命令的角色定位
+- `grep`：业务筛选（方法、状态码、关键词都能筛）。
+- `awk`：结构化提取（按列拿你关心字段）。
+- `sort + uniq -c`：经典计数组合，几乎所有日志统计都会用到。
+- `head`：把结果压缩成可读摘要，适合值班快速决策。
+
+### 进阶建议
+- 若日志特别大，优先 `grep ... access.log`，避免无意义 `cat` 开销。
+- 如果日志格式不是“URL 在第 7 列”，要先用 `awk` 验证列号。
+- 可继续追加 `| cut -d'?' -f1` 去掉查询参数，避免同一路径被参数打散。
+
+> 提示：这个流水线背后是 Unix 哲学——每个工具只做一件事，但组合起来非常强。熟练后，你能在几十秒内从海量日志中提炼出可执行结论。"""
+[[examples.token_details]]
+token = "cat access.log"
+explanation = "读取整个访问日志文件，把每一行日志送入后面的管道。"
+
+[[examples.token_details]]
+token = "grep \"POST\""
+explanation = "只保留包含 `POST` 的日志行，过滤掉其他请求方法。"
+
+[[examples.token_details]]
+token = "awk '{print $7}'"
+explanation = "从每条日志里取出第 7 列，也就是请求的 URL 路径。"
+
+[[examples.token_details]]
+token = "sort"
+explanation = "先把相同的 URL 排到一起，给后面的计数做准备。"
+
+[[examples.token_details]]
+token = "uniq -c"
+explanation = "统计连续重复的 URL 出现了多少次，并在前面加上计数。"
+
+[[examples.token_details]]
+token = "sort -rn"
+explanation = "按数值倒序重新排序，让请求次数最多的 URL 排在最前面。"
+
+[[examples.token_details]]
+token = "head -10"
+explanation = "只显示前 10 个结果。"
+
+[[gotchas]]
+title = "大文件不要用 cat 查看"
+content = """cat 会一次性把文件的全部内容输出到终端。如果文件有几千行甚至几百万行，\
+终端会被大量文本刷屏，你几乎无法阅读。
+对于大文件，请使用：
+  less filename   - 可以前后翻页查看
+  head -20 filename - 只看前 20 行
+  tail -20 filename - 只看后 20 行
+cat 最适合用于查看短小的配置文件或者在管道中传递数据。"""
+
+[[gotchas]]
+title = "二进制文件不要用 cat 查看"
+content = """如果你不小心 cat 了一个二进制文件（如图片、可执行文件等），\
+终端会显示大量乱码，甚至可能导致终端显示异常。\
+如果遇到这种情况，可以输入 reset 命令来恢复终端。\
+查看二进制文件应该使用 hexdump -C 或 xxd 等专用工具。\
+使用 file 命令可以先判断文件类型：
+  file somefile
+  somefile: ELF 64-bit LSB executable, x86-64"""

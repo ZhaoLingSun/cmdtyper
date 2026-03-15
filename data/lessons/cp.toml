@@ -1,0 +1,232 @@
+[meta]
+command = "cp"
+full_name = "copy"
+category = "file_ops"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "复制文件和目录"
+explanation = """cp 是 Linux 中最基本的文件操作命令之一，用于复制文件或目录。\
+它可以将一个或多个源文件复制到指定的目标位置。\
+默认情况下，cp 只复制普通文件，不复制目录（需要加 -r 选项）。\
+复制时如果目标文件已存在，默认会直接覆盖而不提示，\
+因此在操作重要文件时建议使用 -i 选项开启交互确认。\
+cp 还支持保留文件属性（权限、时间戳等），这在备份和部署场景中非常重要。"""
+
+[syntax]
+basic = "cp [选项] 源文件... 目标"
+[[syntax.parts]]
+name = "源文件"
+desc = "要复制的文件或目录，可以指定多个"
+[[syntax.parts]]
+name = "目标"
+desc = "目标路径。如果是目录则将源文件复制到该目录中；如果是文件名则复制为该文件"
+
+[[options]]
+flag = "-r"
+name = "递归复制"
+example = "cp -r src/ backup/"
+note = "复制整个目录及其所有内容，-R 效果相同"
+
+[[options]]
+flag = "-i"
+name = "交互确认"
+example = "cp -i file.txt /tmp/"
+note = "覆盖已有文件前询问用户确认"
+
+[[options]]
+flag = "-v"
+name = "显示详情"
+example = "cp -v *.log /backup/"
+note = "显示每个被复制的文件名"
+
+[[options]]
+flag = "-p"
+name = "保留属性"
+example = "cp -p config.yml config.yml.bak"
+note = "保留文件的权限、所有者和时间戳"
+
+[[options]]
+flag = "-a"
+name = "归档模式"
+example = "cp -a /var/www /backup/www"
+note = "等同于 -dR --preserve=all，完整保留所有属性，适合备份"
+
+[[options]]
+flag = "-u"
+name = "仅更新"
+example = "cp -u *.txt /backup/"
+note = "仅当源文件比目标文件新或目标不存在时才复制"
+
+[[examples]]
+level = 1
+command = "cp file.txt backup.txt"
+summary = "将 file.txt 复制为 backup.txt"
+simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "file.txt"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "backup.txt"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples]]
+level = 1
+command = "cp -v report.pdf ~/Documents/"
+summary = "复制文件到 Documents 目录并显示详情"
+simulated_output = """'report.pdf' -> '/home/ace/Documents/report.pdf'"""
+
+output_explanation = "输出反映了复制操作的结果。带 `-v` 时会显示源路径与目标路径；无 `-v` 时通常静默成功，建议用 `ls` 或 `diff` 验证副本是否完整。"
+[[examples.token_details]]
+token = "-v"
+explanation = "显示详细执行过程，便于观察发生了什么。"
+
+[[examples.token_details]]
+token = "report.pdf"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "~/Documents/"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples]]
+level = 2
+command = "cp -r project/ project-backup/"
+summary = "递归复制整个项目目录作为备份"
+simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "-r"
+explanation = "递归或逆序处理（按命令定义）。"
+
+[[examples.token_details]]
+token = "project/"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples.token_details]]
+token = "project-backup/"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples]]
+level = 3
+command = "cp -a /etc/nginx /backup/nginx-$(date +%Y%m%d)"
+summary = "归档模式备份 nginx 配置目录，目标目录名包含日期"
+simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "-a"
+explanation = "显示/保留更多元数据（通常表示 all，尽量完整输出）。"
+
+[[examples.token_details]]
+token = "/etc/nginx"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples.token_details]]
+token = "/backup/nginx-$(date"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples.token_details]]
+token = "+%Y%m%d)"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples]]
+level = 3
+command = "cp -iv *.conf /etc/app/"
+summary = "复制所有配置文件到目标目录，有冲突时交互确认"
+simulated_output = """'app.conf' -> '/etc/app/app.conf'
+cp: overwrite '/etc/app/db.conf'? y
+'db.conf' -> '/etc/app/db.conf'
+'log.conf' -> '/etc/app/log.conf'"""
+
+output_explanation = "输出反映了复制操作的结果。带 `-v` 时会显示源路径与目标路径；无 `-v` 时通常静默成功，建议用 `ls` 或 `diff` 验证副本是否完整。"
+deep_explanation = """### 真实场景：新应用上线前批量部署配置
+你刚把一个新服务部署到测试机，应用目录已经就绪，但运行依赖的配置文件还在当前目录里：`app.conf`、`db.conf`、`log.conf`。这时你不想一个个复制，也不想在覆盖旧配置时“悄悄出事”，于是会用这一条：
+
+    cp -iv *.conf /etc/app/
+
+它的设计目标很明确：一次复制全部配置、冲突时人工确认、过程可视化可追踪。
+
+### 拆解命令词元（token）
+- `cp`：复制文件/目录的核心命令。
+- `-i`：interactive，若目标文件已存在会先询问你是否覆盖，降低误操作风险。
+- `-v`：verbose，打印每个复制动作，便于你核对到底复制了哪些文件。
+- `*.conf`：通配符模式，表示“当前目录中所有以 `.conf` 结尾的文件”。这是由 shell 先展开，再交给 cp。
+- `/etc/app/`：目标目录。结尾的 `/` 明确告诉你这是目录语义，不是重命名成一个文件。
+
+### 一次典型执行会发生什么
+想象当前目录下有 `app.conf db.conf log.conf`，而 `/etc/app/db.conf` 已经存在：
+
+    'app.conf' -> '/etc/app/app.conf'
+    cp: overwrite '/etc/app/db.conf'? y
+    'db.conf' -> '/etc/app/db.conf'
+    'log.conf' -> '/etc/app/log.conf'
+
+你会看到：
+- `app.conf` 直接复制成功；
+- `db.conf` 因为目标已存在，触发 `-i` 询问；
+- 你输入 `y` 后继续覆盖；
+- `log.conf` 复制完成；
+- `-v` 让每一步都可见，便于排查“到底有没有复制”。
+
+### 常见误区与实践建议
+- 误区 1：以为 `*.conf` 会递归子目录。不会，它只匹配当前目录。
+- 误区 2：省略 `-i` 后还以为会提示。默认 `cp` 直接覆盖，不提醒。
+- 误区 3：把目标写成 `/etc/app`（无斜杠）在某些复杂脚本里可读性差，建议保留 `/` 表意更清晰。
+
+> 提示：`/etc/` 通常需要管理员权限。若出现 `Permission denied`，请在确认命令无误后使用 `sudo cp -iv *.conf /etc/app/`。生产环境建议先 dry-run（例如先 `ls *.conf` 确认匹配范围），再执行复制。"""
+[[examples.token_details]]
+token = "-iv"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "*.conf"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "/etc/app/"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples]]
+level = 4
+command = "cp -au /home/ace/projects/ /mnt/backup/projects/"
+summary = "增量备份：仅复制有更新的文件，保留所有属性"
+simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "-au"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "/home/ace/projects/"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples.token_details]]
+token = "/mnt/backup/projects/"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[gotchas]]
+title = "cp 默认覆盖不提示"
+content = """cp 默认不会在覆盖已有文件时提示确认，这可能导致重要文件被意外覆盖。
+建议：
+  - 重要操作使用 cp -i（交互确认）
+  - 可以在 ~/.bashrc 中设置 alias cp='cp -i' 使其默认提示
+  - 注意：即使设置了 alias，在脚本中 cp 仍然不会提示
+
+另一个常见问题是忘记 -r 选项复制目录：
+  cp mydir /tmp/          — 错误！会提示 "omitting directory"
+  cp -r mydir /tmp/       — 正确"""
+
+[[gotchas]]
+title = "复制符号链接的行为"
+content = """默认情况下，cp 会跟随符号链接复制链接指向的实际文件内容。
+如果你想保留符号链接本身（不跟随），需要使用 -d 或 -a 选项：
+  cp link.txt /tmp/       — 复制的是链接指向的文件内容
+  cp -d link.txt /tmp/    — 复制的是符号链接本身
+  cp -a src/ dst/         — 归档模式，保留所有符号链接"""

@@ -1,0 +1,273 @@
+[meta]
+command = "ps"
+full_name = "process status"
+category = "process"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "显示当前系统中运行的进程信息"
+explanation = """ps 是 Linux 中最常用的进程查看命令之一。它可以显示当前系统中正在运行的进程的\
+快照信息，包括进程 ID（PID）、CPU 和内存使用率、运行时间、命令名称等。
+
+ps 有两套风格的选项语法：
+- BSD 风格：不带短横线，如 ps aux
+- POSIX/Unix 风格：带短横线，如 ps -ef
+
+两种风格的输出格式略有不同，但都能查看系统中的进程。在实际工作中，ps 经常和 grep 配合使用，\
+用于查找特定进程。如果需要实时监控进程，应使用 top 或 htop 命令。"""
+
+[syntax]
+basic = "ps [选项]"
+[[syntax.parts]]
+name = "选项"
+desc = "控制输出格式和显示范围的参数，支持 BSD 和 POSIX 两种风格"
+
+[[options]]
+flag = "aux"
+name = "显示所有用户的所有进程（BSD 风格）"
+example = "ps aux"
+note = "a=所有用户, u=用户格式, x=包含无终端进程。注意不带短横线"
+
+[[options]]
+flag = "-ef"
+name = "显示所有进程的完整信息（POSIX 风格）"
+example = "ps -ef"
+note = "e=所有进程, f=完整格式。带短横线的 POSIX 风格"
+
+[[options]]
+flag = "-p"
+name = "按 PID 查看指定进程"
+example = "ps -p 1234"
+note = "可以指定多个 PID，用逗号分隔：ps -p 1,2,3"
+
+[[options]]
+flag = "--sort"
+name = "按指定字段排序"
+example = "ps aux --sort=-%mem"
+note = "- 表示降序，+ 或不加表示升序。常用字段：%cpu, %mem, pid, time"
+
+[[options]]
+flag = "-o"
+name = "自定义输出列"
+example = "ps -eo pid,user,%cpu,%mem,comm"
+note = "常用列名：pid, ppid, user, %cpu, %mem, vsz, rss, tty, stat, time, comm, args"
+
+[[options]]
+flag = "--forest"
+name = "以树形结构显示进程层级关系"
+example = "ps -ef --forest"
+note = "用 ASCII 字符画出父子进程关系，便于理解进程层次结构"
+
+[[examples]]
+level = 1
+command = "ps aux"
+summary = "查看所有用户的所有进程（BSD 风格）"
+simulated_output = """USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.1 169436 13260 ?        Ss   Mar01   0:08 /sbin/init
+root           2  0.0  0.0      0     0 ?        S    Mar01   0:00 [kthreadd]
+root         873  0.0  0.2 274452 18924 ?        Ssl  Mar01   0:03 /usr/lib/accountsservice/accounts-daemon
+syslog       921  0.0  0.0 224344  5312 ?        Ssl  Mar01   0:01 /usr/sbin/rsyslogd -n
+root         934  0.0  0.1  15420  9440 ?        Ss   Mar01   0:00 /usr/sbin/sshd -D
+www-data    1205  0.1  0.5 456780 42360 ?        S    Mar02   1:24 nginx: worker process
+mysql       1342  0.3  2.1 1843200 172032 ?      Ssl  Mar01   5:47 /usr/sbin/mysqld
+ace         2156  0.0  0.1  10692  5888 pts/0    Ss   09:12   0:00 -bash
+ace         3847  0.0  0.0  10072  3456 pts/0    R+   10:35   0:00 ps aux"""
+
+output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
+[[examples.token_details]]
+token = "aux"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples]]
+level = 1
+command = "ps -ef"
+summary = "查看所有进程的完整信息（POSIX 风格）"
+simulated_output = """UID          PID    PPID  C STIME TTY          TIME CMD
+root           1       0  0 Mar01 ?        00:00:08 /sbin/init
+root           2       0  0 Mar01 ?        00:00:00 [kthreadd]
+root         873       1  0 Mar01 ?        00:00:03 /usr/lib/accountsservice/accounts-daemon
+syslog       921       1  0 Mar01 ?        00:00:01 /usr/sbin/rsyslogd -n
+root         934       1  0 Mar01 ?        00:00:00 /usr/sbin/sshd -D
+www-data    1205     1180  0 Mar02 ?        00:01:24 nginx: worker process
+mysql       1342       1  0 Mar01 ?        00:05:47 /usr/sbin/mysqld
+ace         2156     2150  0 09:12 pts/0    00:00:00 -bash
+ace         3901     2156  0 10:36 pts/0    00:00:00 ps -ef"""
+
+output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
+[[examples.token_details]]
+token = "-ef"
+explanation = "使用完整格式显示进程信息（常见于 ps）。"
+
+[[examples]]
+level = 2
+command = "ps aux | grep nginx"
+summary = "查找所有与 nginx 相关的进程"
+simulated_output = """root        1180  0.0  0.1  55276  8432 ?        Ss   Mar02   0:00 nginx: master process /usr/sbin/nginx
+www-data    1205  0.1  0.5 456780 42360 ?        S    Mar02   1:24 nginx: worker process
+www-data    1206  0.1  0.4 456780 38920 ?        S    Mar02   1:18 nginx: worker process
+www-data    1207  0.0  0.4 456780 37480 ?        S    Mar02   1:15 nginx: worker process
+www-data    1208  0.1  0.5 456780 41280 ?        S    Mar02   1:22 nginx: worker process
+ace         3955  0.0  0.0   6480  2176 pts/0    S+   10:38   0:00 grep --color=auto nginx"""
+
+output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
+[[examples.token_details]]
+token = "aux"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "nginx"
+explanation = "服务名/容器名，用来指定要查看或操作的目标。"
+
+[[examples]]
+level = 2
+command = "ps aux --sort=-%mem"
+summary = "按内存使用率降序排列所有进程"
+simulated_output = """USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+mysql       1342  0.3  2.1 1843200 172032 ?      Ssl  Mar01   5:47 /usr/sbin/mysqld
+www-data    1205  0.1  0.5 456780 42360 ?        S    Mar02   1:24 nginx: worker process
+www-data    1206  0.1  0.4 456780 38920 ?        S    Mar02   1:18 nginx: worker process
+root         873  0.0  0.2 274452 18924 ?        Ssl  Mar01   0:03 /usr/lib/accountsservice/accounts-daemon
+root           1  0.0  0.1 169436 13260 ?        Ss   Mar01   0:08 /sbin/init
+root         934  0.0  0.1  15420  9440 ?        Ss   Mar01   0:00 /usr/sbin/sshd -D
+ace         2156  0.0  0.1  10692  5888 pts/0    Ss   09:12   0:00 -bash
+ace         4012  0.0  0.0  10072  3456 pts/0    R+   10:39   0:00 ps aux --sort=-%mem"""
+
+output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
+[[examples.token_details]]
+token = "aux"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "--sort=-%mem"
+explanation = "按内存使用率从高到低排序。"
+
+[[examples]]
+level = 3
+command = "ps -eo pid,user,%cpu,%mem,comm --sort=-%cpu | head -10"
+summary = "自定义列并按 CPU 使用率排序，显示前 10 条"
+simulated_output = """    PID USER     %CPU %MEM COMMAND
+   1342 mysql     0.3  2.1 mysqld
+   1205 www-data  0.1  0.5 nginx
+   1206 www-data  0.1  0.4 nginx
+   1208 www-data  0.1  0.5 nginx
+    873 root      0.0  0.2 accounts-daemon
+    921 syslog    0.0  0.0 rsyslogd
+    934 root      0.0  0.1 sshd
+      1 root      0.0  0.1 init
+   2156 ace       0.0  0.1 bash"""
+
+output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
+[[examples.token_details]]
+token = "-eo"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "pid,user,%cpu,%mem,comm"
+explanation = "指定 ps 要输出的列。"
+
+[[examples.token_details]]
+token = "--sort=-%cpu"
+explanation = "按 CPU 使用率从高到低排序。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-10"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples]]
+level = 3
+command = "ps -ef --forest"
+summary = "以树形结构查看进程父子关系"
+simulated_output = """UID          PID    PPID  C STIME TTY          TIME CMD
+root           1       0  0 Mar01 ?        00:00:08 /sbin/init
+root         873       1  0 Mar01 ?        00:00:03  \\_ accounts-daemon
+syslog       921       1  0 Mar01 ?        00:00:01  \\_ rsyslogd
+root         934       1  0 Mar01 ?        00:00:00  \\_ sshd
+root        2150     934  0 09:12 ?        00:00:00      \\_ sshd: ace [priv]
+ace         2155    2150  0 09:12 ?        00:00:00          \\_ sshd: ace@pts/0
+ace         2156    2155  0 09:12 pts/0    00:00:00              \\_ -bash
+ace         4100    2156  0 10:41 pts/0    00:00:00                  \\_ ps -ef --forest
+root        1180       1  0 Mar02 ?        00:00:00  \\_ nginx: master process
+www-data    1205    1180  0 Mar02 ?        00:01:24      \\_ nginx: worker process
+www-data    1206    1180  0 Mar02 ?        00:01:18      \\_ nginx: worker process
+mysql       1342       1  0 Mar01 ?        00:05:47  \\_ mysqld"""
+
+output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
+[[examples.token_details]]
+token = "-ef"
+explanation = "使用完整格式显示进程信息（常见于 ps）。"
+
+[[examples.token_details]]
+token = "--forest"
+explanation = "以树形结构展示进程父子关系。"
+
+[[examples]]
+level = 4
+command = "ps -p 1342 -o pid,user,%cpu,%mem,etime,args"
+summary = "查看指定 PID 进程的详细资源使用情况"
+simulated_output = """    PID USER     %CPU %MEM     ELAPSED COMMAND
+   1342 mysql     0.3  2.1  1-23:47:12 /usr/sbin/mysqld --defaults-file=/etc/mysql/mysql.conf.d/mysqld.cnf"""
+
+output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
+[[examples.token_details]]
+token = "-p"
+explanation = "指定端口、PID 或创建父目录（取决于命令）。"
+
+[[examples.token_details]]
+token = "1342"
+explanation = "指定端口号、PID，或要求创建父目录。"
+
+[[examples.token_details]]
+token = "-o"
+explanation = "指定输出列或输出文件（按命令定义）。"
+
+[[examples.token_details]]
+token = "pid,user,%cpu,%mem,etime,args"
+explanation = "指定输出内容格式或输出目标。"
+
+[[examples]]
+level = 4
+command = "ps aux --sort=-%mem | awk 'NR==1 || $4>1.0'"
+summary = "找出内存占用超过 1% 的进程"
+simulated_output = """USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+mysql       1342  0.3  2.1 1843200 172032 ?      Ssl  Mar01   5:47 /usr/sbin/mysqld"""
+
+output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
+[[examples.token_details]]
+token = "aux"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "--sort=-%mem"
+explanation = "按内存使用率从高到低排序。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "NR==1 || $4>1.0"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[gotchas]]
+title = "ps 只显示瞬时快照"
+content = """ps 显示的是命令执行那一刻的进程状态快照，不会实时更新。如果需要实时监控进程，\
+应该使用 top 或 htop 命令。top 会每隔几秒自动刷新显示。"""
+
+[[gotchas]]
+title = "BSD 风格和 POSIX 风格不要混用"
+content = """ps 支持两种截然不同的选项风格：
+- BSD 风格（不带 -）：ps aux
+- POSIX 风格（带 -）：ps -ef
+
+两种风格的输出列名和格式都不同。例如 BSD 用 COMMAND，POSIX 用 CMD。\
+不要混用两种风格，比如 ps -aux 虽然可能不报错，但含义和 ps aux 不同。\
+-aux 在 POSIX 中意味着"显示用户名为 x 的进程"。"""

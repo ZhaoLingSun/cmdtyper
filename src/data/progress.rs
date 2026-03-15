@@ -1,22 +1,35 @@
+use std::env;
 use std::fs;
 use std::io::ErrorKind;
 use std::path::{Path, PathBuf};
 
 use anyhow::{Context, Result};
-use serde::de::DeserializeOwned;
 use serde::Serialize;
+use serde::de::DeserializeOwned;
 
 use crate::data::models::{SessionRecord, UserConfig, UserStats};
 
+/// Persistent storage for user stats, session history, and config.
+///
+/// All writes are atomic (write .tmp → rename) and corrupted files
+/// gracefully fall back to `Default` values.
 pub struct ProgressStore {
     base_dir: PathBuf,
 }
 
 impl ProgressStore {
+    /// Create a new store using the platform-standard data directory
+    /// (`~/.local/share/cmdtyper/` on Linux).
     pub fn new() -> Result<Self> {
-        let base_dir = dirs::data_local_dir()
-            .unwrap_or_else(|| PathBuf::from("."))
-            .join("cmdtyper");
+        let base_dir = env::var("CMDTYPER_USER_DIR")
+            .map(PathBuf::from)
+            .unwrap_or_else(|_| {
+                dirs::home_dir()
+                    .unwrap_or_else(|| PathBuf::from("."))
+                    .join(".local")
+                    .join("share")
+                    .join("cmdtyper")
+            });
         Self::from_base_dir(base_dir)
     }
 
@@ -49,6 +62,8 @@ impl ProgressStore {
     pub fn base_dir(&self) -> &Path {
         &self.base_dir
     }
+
+    // ── internal ──
 
     fn from_base_dir(base_dir: PathBuf) -> Result<Self> {
         fs::create_dir_all(&base_dir).with_context(|| {
@@ -122,7 +137,7 @@ impl ProgressStore {
 #[cfg(test)]
 mod tests {
     use super::ProgressStore;
-    use crate::data::models::{Difficulty, SessionRecord, UserConfig, UserStats};
+    use crate::data::models::{Difficulty, PromptStyle, SessionRecord, UserConfig, UserStats};
     use chrono::Utc;
     use std::fs;
     use std::path::PathBuf;
@@ -168,11 +183,11 @@ mod tests {
             UserConfig::default()
         );
 
-        fs::remove_dir_all(dir).expect("temp dir should be removable");
+        fs::remove_dir_all(dir).expect("cleanup");
     }
 
     #[test]
-    fn stats_and_config_round_trip_via_atomic_write() {
+    fn stats_and_config_round_trip() {
         let (store, dir) = temp_store();
         let stats = UserStats {
             total_sessions: 7,
@@ -188,12 +203,12 @@ mod tests {
         store.save_stats(&stats).expect("stats should save");
         store.save_config(&config).expect("config should save");
 
-        assert_eq!(store.load_stats().expect("stats should reload"), stats);
-        assert_eq!(store.load_config().expect("config should reload"), config);
+        assert_eq!(store.load_stats().expect("stats reload"), stats);
+        assert_eq!(store.load_config().expect("config reload"), config);
         assert!(!store.base_dir().join("stats.json.tmp").exists());
         assert!(!store.base_dir().join("config.json.tmp").exists());
 
-        fs::remove_dir_all(dir).expect("temp dir should be removable");
+        fs::remove_dir_all(dir).expect("cleanup");
     }
 
     #[test]
@@ -202,44 +217,87 @@ mod tests {
 
         store
             .append_record(&sample_record("1"))
-            .expect("first record should append");
+            .expect("first append");
         store
             .append_record(&sample_record("2"))
-            .expect("second record should append");
+            .expect("second append");
 
-        let history = store.load_history().expect("history should reload");
+        let history = store.load_history().expect("history reload");
         assert_eq!(history.len(), 2);
         assert_eq!(history[0].id, "1");
         assert_eq!(history[1].id, "2");
-        assert!(!store.base_dir().join("history.json.tmp").exists());
 
-        fs::remove_dir_all(dir).expect("temp dir should be removable");
+        fs::remove_dir_all(dir).expect("cleanup");
     }
 
     #[test]
     fn corrupted_json_returns_defaults() {
         let (store, dir) = temp_store();
 
-        fs::write(store.base_dir().join("stats.json"), "{not valid json")
-            .expect("stats fixture should write");
-        fs::write(store.base_dir().join("history.json"), "{not valid json")
-            .expect("history fixture should write");
-        fs::write(store.base_dir().join("config.json"), "{not valid json")
-            .expect("config fixture should write");
+        fs::write(store.base_dir().join("stats.json"), "{not valid json").expect("write");
+        fs::write(store.base_dir().join("history.json"), "{not valid json").expect("write");
+        fs::write(store.base_dir().join("config.json"), "{not valid json").expect("write");
 
         assert_eq!(
-            store.load_stats().expect("stats should fallback"),
+            store.load_stats().expect("stats fallback"),
             UserStats::default()
         );
         assert_eq!(
-            store.load_history().expect("history should fallback"),
+            store.load_history().expect("history fallback"),
             Vec::<SessionRecord>::new()
         );
         assert_eq!(
-            store.load_config().expect("config should fallback"),
+            store.load_config().expect("config fallback"),
             UserConfig::default()
         );
 
-        fs::remove_dir_all(dir).expect("temp dir should be removable");
+        fs::remove_dir_all(dir).expect("cleanup");
+    }
+
+    #[test]
+    fn v02_config_fields_round_trip() {
+        let (store, dir) = temp_store();
+        let config = UserConfig {
+            prompt_style: PromptStyle::Minimal,
+            prompt_username: "alice".to_string(),
+            prompt_hostname: "devbox".to_string(),
+            show_path: false,
+            ..UserConfig::default()
+        };
+
+        store.save_config(&config).expect("save");
+        let loaded = store.load_config().expect("load");
+        assert_eq!(loaded.prompt_style, PromptStyle::Minimal);
+        assert_eq!(loaded.prompt_username, "alice");
+        assert_eq!(loaded.prompt_hostname, "devbox");
+        assert!(!loaded.show_path);
+
+        fs::remove_dir_all(dir).expect("cleanup");
+    }
+
+    #[test]
+    fn v01_config_json_backward_compat() {
+        let (store, dir) = temp_store();
+
+        // Simulate a v0.1 config.json that lacks the new prompt_* fields
+        let v01_json = r#"{
+            "target_wpm": 45.0,
+            "error_flash_ms": 150,
+            "show_token_hints": true,
+            "adaptive_recommend": true,
+            "last_difficulty": "basic",
+            "last_category": null
+        }"#;
+        fs::write(store.base_dir().join("config.json"), v01_json).expect("write");
+
+        let config = store.load_config().expect("load v01 config");
+        assert_eq!(config.target_wpm, 45.0);
+        // New fields should use defaults
+        assert_eq!(config.prompt_style, PromptStyle::Full);
+        assert_eq!(config.prompt_username, "user");
+        assert_eq!(config.prompt_hostname, "cmdtyper");
+        assert!(config.show_path);
+
+        fs::remove_dir_all(dir).expect("cleanup");
     }
 }

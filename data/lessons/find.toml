@@ -1,0 +1,343 @@
+[meta]
+command = "find"
+full_name = "find"
+category = "search"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "在目录树中搜索文件和目录"
+explanation = """find 是 Linux 中功能最强大的文件搜索命令。与 ls 只能列出当前目录不同，\
+find 可以递归搜索整个目录树，并根据文件名、类型、大小、修改时间、权限等\
+多种条件来查找文件。find 还可以对找到的文件执行操作（如删除、移动、修改权限等），\
+这使它成为系统管理和自动化脚本中不可或缺的工具。\
+find 的搜索条件可以灵活组合，支持逻辑与（-a）、逻辑或（-o）、逻辑非（!）。\
+虽然 find 的语法相比其他命令稍显复杂，但一旦掌握，它将极大提升你管理文件系统的能力。"""
+
+[syntax]
+basic = "find [搜索路径] [搜索条件] [执行动作]"
+[[syntax.parts]]
+name = "搜索路径"
+desc = "从哪个目录开始搜索，省略时默认为当前目录"
+[[syntax.parts]]
+name = "搜索条件"
+desc = "过滤条件，如 -name、-type、-size、-mtime 等"
+[[syntax.parts]]
+name = "执行动作"
+desc = "对找到的文件执行的操作，如 -exec、-delete、-print 等"
+
+[[options]]
+flag = "-name"
+name = "按文件名搜索"
+example = "find /home -name '*.txt'"
+note = "支持通配符 * 和 ?，模式必须用引号包裹以避免 shell 展开"
+
+[[options]]
+flag = "-type"
+name = "按文件类型搜索"
+example = "find /var -type d"
+note = "f=普通文件, d=目录, l=符号链接, s=套接字, p=管道"
+
+[[options]]
+flag = "-size"
+name = "按文件大小搜索"
+example = "find /tmp -size +100M"
+note = "+100M 表示大于 100MB，-1k 表示小于 1KB，单位：c(字节) k(KB) M(MB) G(GB)"
+
+[[options]]
+flag = "-mtime"
+name = "按修改时间搜索"
+example = "find /var/log -mtime -7"
+note = "-7 表示 7 天内修改的，+30 表示 30 天前修改的，0 表示今天修改的"
+
+[[options]]
+flag = "-exec"
+name = "对结果执行命令"
+example = "find /tmp -name '*.tmp' -exec rm {} \\;"
+note = "{} 代表找到的每个文件，\\; 标记命令结束；用 + 代替 \\; 可批量传参提高效率"
+
+[[options]]
+flag = "-perm"
+name = "按权限搜索"
+example = "find / -perm -4000 -type f"
+note = "-4000 表示搜索设置了 SUID 位的文件，常用于安全审计"
+
+[[examples]]
+level = 1
+command = "find /home/alice -name '*.pdf'"
+summary = "在主目录下搜索所有 PDF 文件"
+simulated_output = """/home/alice/Documents/report-2026.pdf
+/home/alice/Documents/meeting-notes.pdf
+/home/alice/Downloads/user-manual.pdf
+/home/alice/Downloads/invoice-march.pdf
+/home/alice/Desktop/presentation.pdf"""
+output_explanation = "输出中的每一行都是在 `/home/alice` 目录树里找到的一个 PDF 文件完整路径。"
+[[examples.token_details]]
+token = "/home/alice"
+explanation = "从这个目录开始递归搜索。"
+
+[[examples.token_details]]
+token = "-name"
+explanation = "按文件名模式匹配搜索结果。"
+
+[[examples.token_details]]
+token = "'*.pdf'"
+explanation = "只匹配扩展名为 `.pdf` 的文件名。"
+
+[[examples]]
+level = 2
+command = "find /var/log -type f -name '*.log' -size +10M"
+summary = "查找大于 10MB 的日志文件"
+simulated_output = """/var/log/syslog
+/var/log/kern.log
+/var/log/auth.log
+/var/log/nginx/access.log
+/var/log/mysql/error.log"""
+output_explanation = "这些结果都是 `/var/log` 下文件名匹配 `*.log` 且大小超过 10MB 的普通日志文件路径。"
+[[examples.token_details]]
+token = "/var/log"
+explanation = "从系统日志目录开始搜索。"
+
+[[examples.token_details]]
+token = "-type"
+explanation = "限制匹配对象的文件类型。"
+
+[[examples.token_details]]
+token = "f"
+explanation = "只匹配普通文件，不包含目录或链接。"
+
+[[examples.token_details]]
+token = "-name"
+explanation = "继续按文件名模式过滤结果。"
+
+[[examples.token_details]]
+token = "'*.log'"
+explanation = "只保留文件名以 `.log` 结尾的日志文件。"
+
+[[examples.token_details]]
+token = "-size"
+explanation = "按文件大小过滤结果。"
+
+[[examples.token_details]]
+token = "+10M"
+explanation = "只匹配大于 10MB 的文件。"
+
+[[examples]]
+level = 2
+command = "find . -type d -name 'node_modules'"
+summary = "查找当前目录下所有 node_modules 目录"
+simulated_output = """./project-a/node_modules
+./project-a/packages/ui/node_modules
+./project-b/node_modules
+./old-projects/webapp/node_modules"""
+output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
+[[examples.token_details]]
+token = "."
+explanation = "从当前目录开始递归搜索。"
+
+[[examples.token_details]]
+token = "-type d"
+explanation = "只匹配目录（directory）。"
+
+[[examples.token_details]]
+token = "-name 'node_modules'"
+explanation = "只查找名称正好为 `node_modules` 的目录。"
+
+[[examples]]
+level = 3
+command = "find /tmp -type f -mtime +30 -exec rm -v {} \\;"
+summary = "删除 /tmp 中超过 30 天的旧文件"
+simulated_output = """removed '/tmp/sess_a8f3k2m1n4p5'
+removed '/tmp/tmp.X8kd92Ls'
+removed '/tmp/core.12345'
+removed '/tmp/download.7Rkm3P'
+removed '/tmp/upload_cache_old.dat'"""
+output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
+deep_explanation = """### 真实场景：定期清理历史日志/临时垃圾
+服务器运行久了，日志和临时文件会不断堆积。典型清理命令会写成：
+
+    find / -name "*.log" -mtime +30 -exec rm {} \\;
+
+本课示例是它的同类安全变体：
+
+    find /tmp -type f -mtime +30 -exec rm -v {} \\;
+
+逻辑完全一致：先“找到目标”，再“对每个目标执行删除”。
+
+### find 在做什么
+`find` 会从指定路径开始递归遍历目录树，并把每个文件/目录拿来测试你写的条件。
+- 条件都满足：进入结果集。
+- 任一条件不满足：跳过。
+
+在清理命令里，最常见条件是：
+- `-name "*.log"`：文件名匹配日志模式。
+- `-mtime +30`：最后修改时间超过 30 天。
+- `-type f`：只处理普通文件，避免误删目录。
+
+### 为什么 `-exec rm {} \\;` 要这样写
+这是很多人第一次会卡住的语法：
+- `{}`：占位符，表示“当前这一个匹配到的路径”。
+- `-exec rm {} \\;`：对每个匹配结果执行一次 `rm`。
+- `\\;`：结束 `-exec` 子命令。分号要转义，否则会被 shell 当成命令分隔符先吃掉。
+
+可把它理解成伪代码：
+
+    for each matched_file:
+      rm matched_file
+
+如果你看到的是 `-exec ... {} +`，那是批量传参模式，通常更高效（一次调用处理多个文件）。
+
+### 高风险操作的安全流程（务必遵守）
+删除前不要直接上 `rm`，建议三步走：
+- 第一步：先打印确认范围
+
+    find / -name "*.log" -mtime +30 -print
+
+- 第二步：确认路径无误后再删
+
+    find / -name "*.log" -mtime +30 -exec rm {} \\;
+
+- 第三步：对大批量清理可考虑
+
+    find /var/log -name "*.log" -mtime +30 -delete
+
+`-delete` 更简洁，但同样危险，必须先 `-print` 验证。
+
+### 实战建议
+- 在系统根目录 `/` 扫描时常见权限报错，可配合 `2>/dev/null` 降噪。
+- 生产机优先缩小范围（如 `/var/log`、`/tmp`），避免全盘误伤。
+- 对关键目录先备份或快照，再做批量删除。
+
+> 提示：`find + 删除` 是运维高危组合。你真正要掌握的不只是语法，而是“先观察、再执行”的操作纪律。"""
+[[examples.token_details]]
+token = "/tmp"
+explanation = "在临时目录中搜索待清理文件。"
+
+[[examples.token_details]]
+token = "-type f"
+explanation = "只匹配普通文件，避免误删目录。"
+
+[[examples.token_details]]
+token = "-mtime +30"
+explanation = "只匹配 30 天前修改过的旧文件。"
+
+[[examples.token_details]]
+token = "-exec rm -v {} \\;"
+explanation = "对每个匹配文件执行 `rm -v` 删除并打印删除记录。"
+
+[[examples]]
+level = 3
+command = "find /home -name '*.sh' -type f -perm -u+x"
+summary = "查找所有可执行的 shell 脚本"
+simulated_output = """/home/alice/scripts/backup.sh
+/home/alice/scripts/deploy.sh
+/home/alice/bin/cleanup.sh
+/home/bob/scripts/monitor.sh
+/home/bob/cron/daily-report.sh"""
+output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
+[[examples.token_details]]
+token = "/home"
+explanation = "从所有用户主目录开始搜索。"
+
+[[examples.token_details]]
+token = "-name '*.sh'"
+explanation = "筛选文件名以 `.sh` 结尾的脚本文件。"
+
+[[examples.token_details]]
+token = "-type f"
+explanation = "仅保留普通文件。"
+
+[[examples.token_details]]
+token = "-perm -u+x"
+explanation = "要求文件对属主具有可执行权限（u+x）。"
+
+[[examples]]
+level = 4
+command = "find ./src -name '*.py' -type f -exec grep -l 'import requests' {} +"
+summary = "查找所有导入了 requests 库的 Python 文件"
+simulated_output = """./src/api/client.py
+./src/services/webhook.py
+./src/utils/downloader.py
+./src/tests/test_api.py"""
+output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
+[[examples.token_details]]
+token = "./src"
+explanation = "在项目源码目录中递归搜索。"
+
+[[examples.token_details]]
+token = "-name '*.py'"
+explanation = "只检查 Python 源码文件。"
+
+[[examples.token_details]]
+token = "-exec grep -l 'import requests' {} +"
+explanation = "对匹配到的文件批量执行 grep，输出包含 `import requests` 的文件名。"
+
+[[examples]]
+level = 4
+command = "find / -type f -perm -4000 -ls 2>/dev/null"
+summary = "安全审计：查找系统中所有 SUID 文件"
+simulated_output = """   131073     40 -rwsr-xr-x   1 root     root        39144 Mar  7  2025 /usr/bin/newgrp
+   131089     84 -rwsr-xr-x   1 root     root        85064 Mar  7  2025 /usr/bin/chfn
+   131091     52 -rwsr-xr-x   1 root     root        53040 Mar  7  2025 /usr/bin/chsh
+   131095     68 -rwsr-xr-x   1 root     root        68208 Mar  7  2025 /usr/bin/passwd
+   131097     44 -rwsr-xr-x   1 root     root        44784 Mar  7  2025 /usr/bin/su
+   131099    164 -rwsr-xr-x   1 root     root       166056 Apr  1  2025 /usr/bin/sudo
+   131112     36 -rwsr-xr-x   1 root     root        35192 Mar  7  2025 /usr/bin/umount
+   131115     56 -rwsr-xr-x   1 root     root        55528 Mar  7  2025 /usr/bin/mount"""
+output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
+[[examples.token_details]]
+token = "/"
+explanation = "从系统根目录开始全盘扫描。"
+
+[[examples.token_details]]
+token = "-type f"
+explanation = "只检查普通文件。"
+
+[[examples.token_details]]
+token = "-perm -4000"
+explanation = "匹配设置了 SUID 位（4000）的文件，常用于安全审计。"
+
+[[examples.token_details]]
+token = "-ls"
+explanation = "以类似 `ls -dils` 的详细格式输出匹配结果。"
+
+[[examples.token_details]]
+token = "2>/dev/null"
+explanation = "把权限不足等错误信息丢弃，避免输出被报错刷屏。"
+
+[[gotchas]]
+title = "-name 区分大小写，用 -iname 忽略大小写"
+content = """-name 选项在匹配文件名时是区分大小写的。例如：
+  find . -name '*.txt'
+不会找到 README.TXT 或 Notes.Txt 这样的文件。
+如果你想忽略大小写匹配，请使用 -iname：
+  find . -iname '*.txt'
+这样 .txt、.TXT、.Txt 都会被匹配到。\
+在跨平台项目中（比如从 Windows 拷贝过来的文件），这个区别尤其重要。"""
+
+[[gotchas]]
+title = "-exec 的语法容易出错"
+content = """-exec 选项的语法比较特殊，容易写错。正确格式是：
+  find . -name '*.log' -exec command {} \\;
+注意以下几点：
+  1. {} 代表找到的文件名，会被逐个替换
+  2. \\; 表示 -exec 命令的结束，反斜杠是为了防止 shell 把分号解释掉
+  3. {} 和 \\; 之间必须有空格
+常见错误：
+  find . -exec rm {}\\;     # 错误：{} 和 \\; 之间没有空格
+  find . -exec rm {} ;      # 错误：; 没有转义（在某些 shell 中会出问题）
+性能提示：将 \\; 换成 + 可以批量传参，减少命令调用次数：
+  find . -name '*.tmp' -exec rm {} +
+这相当于 rm file1.tmp file2.tmp file3.tmp ...，比逐个调用 rm 快很多。"""
+
+[[gotchas]]
+title = "通配符模式必须加引号"
+content = """使用 -name 时，通配符模式（如 *.txt）必须用引号包裹。
+错误写法：
+  find . -name *.txt
+如果当前目录下恰好有 .txt 文件，shell 会先展开通配符，\
+导致 find 收到的不是模式字符串 *.txt，而是展开后的文件名列表，从而报错。
+正确写法：
+  find . -name '*.txt'
+  find . -name \"*.txt\"
+用引号包裹可以防止 shell 展开通配符，让 find 自己去处理模式匹配。"""

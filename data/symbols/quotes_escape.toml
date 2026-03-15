@@ -1,0 +1,305 @@
+[meta]
+id = "quotes_escape"
+topic = "引号与转义"
+description = "学习 Shell 中单引号、双引号、反斜杠转义、反引号和命令替换的用法，掌握字符串引用与特殊字符处理"
+difficulty = "basic"
+icon = "💬"
+
+# ─────────────────────────────────────────────
+# 1. ' 单引号
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "single_quote"
+char_repr = "'"
+name = "单引号"
+summary = "强引用：阻止所有变量展开和命令替换，内容原样保留"
+explanation = """单引号 ' 是 Shell 中最强的引用方式，被称为"强引用"（strong quoting）。
+在单引号内部，所有特殊字符都失去其特殊含义，被当作普通字符处理：
+  - $ 不会触发变量展开
+  - ` 不会触发命令替换
+  - \\ 不会被当作转义符
+  - 甚至换行符也被原样保留
+
+唯一的限制：单引号内部不能包含单引号本身。
+如果需要在单引号字符串中嵌入单引号，常用技巧是：
+  'It'\\''s done'
+这实际上是三段拼接：'It' + \\' + 's done'
+
+适用场景：
+  - 需要原样输出包含 $ 等特殊字符的字符串时
+  - 在 grep、awk 等命令中传递正则表达式时
+  - 避免意外的变量展开导致安全问题时"""
+
+[[symbols.examples]]
+command = "echo '$HOME'"
+explanation = "单引号阻止变量展开，$HOME 被原样输出而非展开为家目录路径"
+simulated_output = "$HOME"
+
+[[symbols.examples]]
+command = "echo 'hello world'"
+explanation = "使用单引号保护包含空格的字符串，防止 Shell 进行单词分割"
+simulated_output = "hello world"
+
+[[symbols.examples]]
+command = "echo 'price is $100'"
+explanation = "单引号内 $100 不会被当作变量展开，原样输出美元符号和数字"
+simulated_output = "price is $100"
+
+# ─────────────────────────────────────────────
+# 2. " 双引号
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "double_quote"
+char_repr = '"'
+name = "双引号"
+summary = "弱引用：允许变量展开和命令替换，但阻止单词分割和通配符展开"
+explanation = """双引号 " 是 Shell 中的"弱引用"（weak quoting）。
+在双引号内部，大部分特殊字符失去含义，但以下三种仍然有效：
+  - $ 仍然触发变量展开（$VAR）和命令替换（$(cmd)）
+  - ` 仍然触发命令替换（旧语法）
+  - \\ 仍然可以转义 $、`、"、\\ 和换行符
+
+双引号的核心作用：
+  1. 防止单词分割（word splitting）：含空格的变量值不会被拆成多个参数
+  2. 防止通配符展开（globbing）：* 和 ? 被当作普通字符
+  3. 允许变量插值：可以在字符串中嵌入变量值
+
+最佳实践：在引用变量时，几乎总是应该加双引号：
+  "$variable" 而不是 $variable
+这是 Shell 脚本中最常见的安全建议。"""
+
+[[symbols.examples]]
+command = 'echo "$HOME"'
+explanation = "双引号内 $HOME 会被展开为用户家目录的实际路径"
+simulated_output = "/home/ace"
+
+[[symbols.examples]]
+command = 'echo "hello $USER"'
+explanation = "双引号允许变量插值，$USER 被替换为当前登录的用户名"
+simulated_output = "hello ace"
+
+[[symbols.examples]]
+command = 'echo "files: $(ls)"'
+explanation = "双引号内的 $() 命令替换仍然有效，ls 的输出被嵌入到字符串中"
+simulated_output = "files: Desktop Documents Downloads Music Pictures"
+
+# ─────────────────────────────────────────────
+# 3. \ 反斜杠
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "backslash"
+char_repr = "\\"
+name = "反斜杠（转义符）"
+summary = "转义单个字符，使其失去特殊含义或产生特殊效果"
+explanation = """反斜杠 \\ 是 Shell 中的转义字符（escape character）。
+它可以移除紧跟其后的单个字符的特殊含义。
+
+常见用法：
+  \\$ — 输出字面量的美元符号，阻止变量展开
+  \\" — 在双引号内输出字面量的双引号
+  \\\\ — 输出字面量的反斜杠本身
+  \\  — 转义空格，使其不触发单词分割（常用于文件名包含空格的情况）
+
+在双引号内部，\\ 只能转义以下字符：$、`、"、\\ 和换行符。
+对于其他字符（如 \\n），反斜杠会被原样保留。
+
+在命令行末尾，\\ 加换行符表示"续行"：
+  ls \\
+    -la \\
+    /home
+等价于 ls -la /home，常用于将长命令分成多行书写。"""
+
+[[symbols.examples]]
+command = 'echo "price is \$100"'
+explanation = "在双引号内用 \\$ 阻止变量展开，输出字面量的美元符号"
+simulated_output = "price is $100"
+
+[[symbols.examples]]
+command = "ls file\\ with\\ spaces"
+explanation = "用反斜杠转义空格，使 Shell 将其视为单个文件名而非三个参数"
+simulated_output = "file with spaces"
+
+[[symbols.examples]]
+command = 'echo "she said \\"hello\\""'
+explanation = "在双引号内用 \\\" 输出字面量的双引号字符"
+simulated_output = 'she said "hello"'
+
+# ─────────────────────────────────────────────
+# 4. ` 反引号
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "backtick"
+char_repr = "`"
+name = "反引号（旧式命令替换）"
+summary = "执行反引号内的命令并用其输出替换该位置（已被 $() 取代）"
+explanation = """反引号 ` 是早期 Shell 中进行命令替换的语法。
+将命令写在一对反引号之间，Shell 会先执行该命令，
+然后将整个反引号表达式替换为命令的标准输出。
+
+语法：`命令`
+
+反引号的问题：
+  1. 难以嵌套：`cmd1 \\`cmd2\\`` 可读性极差
+  2. 反斜杠行为不一致：在反引号内 \\ 的处理规则复杂且容易出错
+  3. 视觉上容易与单引号 ' 混淆
+
+因此，现代 Shell 脚本推荐使用 $() 代替反引号。
+$() 语法清晰、支持嵌套、反斜杠行为可预测。
+
+但在阅读旧脚本或兼容 POSIX sh 的场景中，仍会遇到反引号。"""
+
+[[symbols.examples]]
+command = "echo `date`"
+explanation = "反引号内的 date 命令被执行，其输出替换了反引号表达式"
+simulated_output = "Sun Mar  8 15:30:42 CST 2026"
+
+[[symbols.examples]]
+command = 'echo "today is `date +%Y-%m-%d`"'
+explanation = "在双引号内使用反引号进行命令替换，获取格式化的当前日期"
+simulated_output = "today is 2026-03-08"
+
+[[symbols.examples]]
+command = "echo `whoami`@`hostname`"
+explanation = "组合两个反引号命令替换，显示 用户名@主机名 的格式"
+simulated_output = "ace@cmdtyper"
+
+# ─────────────────────────────────────────────
+# 5. $() 命令替换
+# ─────────────────────────────────────────────
+[[symbols]]
+id = "command_substitution"
+char_repr = "$()"
+name = "命令替换"
+summary = "执行括号内的命令并用其标准输出替换该位置（推荐用法）"
+explanation = """$() 是现代 Shell 中推荐的命令替换语法。
+它执行括号内的命令，将命令的标准输出（去掉末尾换行）替换到当前位置。
+
+语法：$(命令)
+
+相比反引号 ` 的优势：
+  1. 支持清晰的嵌套：$(cmd1 $(cmd2))
+  2. 反斜杠行为一致且可预测
+  3. 不会与单引号混淆，可读性更好
+  4. 所有现代 Shell（bash、zsh、dash 等）都支持
+
+常见使用模式：
+  变量赋值：result=$(some_command)
+  字符串插值："当前目录：$(pwd)"
+  条件判断：if [ $(id -u) -eq 0 ]; then ...
+  命令参数：tar czf backup-$(date +%F).tar.gz /data
+
+嵌套示例：
+  echo "lines: $(cat $(find . -name '*.log') | wc -l)"
+  先查找所有 .log 文件，再统计总行数。"""
+
+[[symbols.examples]]
+command = "echo $(whoami)"
+explanation = "$(whoami) 执行 whoami 命令，输出被替换为当前用户名"
+simulated_output = "ace"
+
+[[symbols.examples]]
+command = "file_count=$(ls | wc -l) && echo $file_count"
+explanation = "将 ls | wc -l 的输出赋值给变量 file_count，然后显示文件数量"
+simulated_output = "12"
+
+[[symbols.examples]]
+command = 'echo "kernel: $(uname -r)"'
+explanation = "在双引号字符串中使用命令替换，嵌入内核版本信息"
+simulated_output = "kernel: 6.8.0-101-generic"
+
+# ─────────────────────────────────────────────
+# 练习题
+# ─────────────────────────────────────────────
+[[exercises]]
+prompt = "使用 echo 原样输出字符串 $HOME（不展开变量）"
+answers = [
+    "echo '$HOME'",
+    "echo \\$HOME",
+    "echo \"\\$HOME\"",
+]
+
+[[exercises]]
+prompt = "使用 echo 和双引号输出当前用户名，格式为：user: 用户名"
+answers = [
+    "echo \"user: $USER\"",
+    "echo \"user: $(whoami)\"",
+]
+
+[[exercises]]
+prompt = "使用 $() 命令替换获取当前日期并用 echo 输出"
+answers = [
+    "echo $(date)",
+    "echo \"$(date)\"",
+]
+
+[[exercises]]
+prompt = "将 uname -r 的输出赋值给变量 kernel 并用 echo 显示"
+answers = [
+    "kernel=$(uname -r) && echo $kernel",
+    "kernel=$(uname -r) && echo \"$kernel\"",
+    "kernel=`uname -r` && echo $kernel",
+    "kernel=`uname -r` && echo \"$kernel\"",
+]
+
+# Wave E 扩展练习（10）
+[[exercises]]
+kind = "typing"
+prompt = "输出带空格的字符串并包含变量 USER"
+answers = ["echo \"login user: $USER\""]
+command = "echo \"login user: $USER\""
+simulated_output = "login user: ace"
+
+[[exercises]]
+kind = "typing"
+prompt = "使用单引号输出字面量 $(date)"
+answers = ["echo '$(date)'"]
+command = "echo '$(date)'"
+simulated_output = "$(date)"
+
+[[exercises]]
+kind = "typing"
+prompt = "在双引号中转义美元符号输出 Price: $99"
+answers = ["echo \"Price: \\$99\""]
+command = "echo \"Price: \\$99\""
+simulated_output = "Price: $99"
+
+[[exercises]]
+kind = "typing"
+prompt = "使用命令替换输出当前目录"
+answers = ["echo \"cwd=$(pwd)\""]
+command = "echo \"cwd=$(pwd)\""
+simulated_output = "cwd=/home/ace/workspaces/cmdtyper-v2"
+
+[[exercises]]
+kind = "typing"
+prompt = "在双引号里输出 she said \"ok\""
+answers = ["echo \"she said \\\"ok\\\"\""]
+command = "echo \"she said \\\"ok\\\"\""
+simulated_output = "she said \"ok\""
+
+[[exercises]]
+kind = "typing"
+prompt = "使用旧式反引号拼接用户和主机"
+answers = ["echo `whoami`@`hostname`"]
+command = "echo `whoami`@`hostname`"
+simulated_output = "ace@cmdtyper"
+
+[[exercises]]
+kind = "dictation"
+prompt = "原样输出字符串 $PATH（不展开）"
+answers = ["echo '$PATH'", "echo \"\\$PATH\""]
+
+[[exercises]]
+kind = "dictation"
+prompt = "使用 $() 输出今天日期（格式 YYYY-MM-DD）"
+answers = ["echo $(date +%F)", "echo \"$(date +%F)\""]
+
+[[exercises]]
+kind = "dictation"
+prompt = "打印文件名 file name.txt（包含空格，使用转义）"
+answers = ["echo file\\ name.txt"]
+
+[[exercises]]
+kind = "dictation"
+prompt = "将 whoami 的结果赋值给变量 u 并输出"
+answers = ["u=$(whoami) && echo $u", "u=$(whoami) && echo \"$u\""]

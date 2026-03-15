@@ -7,17 +7,23 @@ description = "基础补充：包管理、压缩归档与解压命令"
 id = "apt-update"
 command = "sudo apt update"
 summary = "更新 APT 软件包索引"
+simulated_output = """
+Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu noble-updates InRelease
+Reading package lists... Done
+All packages are up to date.
+"""
 
 [[commands.tokens]]
 text = "sudo"
 desc = "以管理员权限执行后续命令"
 
 [[commands.tokens]]
-text = "apt"
+text = " apt"
 desc = "Debian/Ubuntu 的包管理命令"
 
 [[commands.tokens]]
-text = "update"
+text = " update"
 desc = "更新可用软件包列表"
 
 [commands.dictation]
@@ -30,25 +36,31 @@ answers = [
 id = "apt-install-vim"
 command = "sudo apt install -y vim"
 summary = "自动确认安装 vim 编辑器"
+simulated_output = """
+Reading package lists... Done
+The following NEW packages will be installed:
+  vim vim-runtime
+0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.
+"""
 
 [[commands.tokens]]
 text = "sudo"
 desc = "以管理员权限执行后续命令"
 
 [[commands.tokens]]
-text = "apt"
+text = " apt"
 desc = "Debian/Ubuntu 的包管理命令"
 
 [[commands.tokens]]
-text = "install"
+text = " install"
 desc = "安装软件包"
 
 [[commands.tokens]]
-text = "-y"
+text = " -y"
 desc = "自动回答 yes，跳过确认提示"
 
 [[commands.tokens]]
-text = "vim"
+text = " vim"
 desc = "要安装的文本编辑器软件包"
 
 [commands.dictation]
@@ -62,21 +74,27 @@ answers = [
 id = "apt-remove-nginx"
 command = "sudo apt remove nginx"
 summary = "卸载 nginx 软件包（保留配置文件）"
+simulated_output = """
+Reading package lists... Done
+The following packages will be REMOVED:
+  nginx nginx-common
+After this operation, 1,842 kB disk space will be freed.
+"""
 
 [[commands.tokens]]
 text = "sudo"
 desc = "以管理员权限执行后续命令"
 
 [[commands.tokens]]
-text = "apt"
+text = " apt"
 desc = "Debian/Ubuntu 的包管理命令"
 
 [[commands.tokens]]
-text = "remove"
+text = " remove"
 desc = "卸载软件包但保留配置文件"
 
 [[commands.tokens]]
-text = "nginx"
+text = " nginx"
 desc = "要卸载的软件包"
 
 [commands.dictation]
@@ -90,17 +108,23 @@ answers = [
 id = "apt-search-docker"
 command = "apt search docker"
 summary = "搜索名称或描述中包含 docker 的软件包"
+simulated_output = """
+Sorting... Done
+Full Text Search... Done
+docker.io/noble 26.1.3-0ubuntu1 amd64
+  Linux container runtime
+"""
 
 [[commands.tokens]]
 text = "apt"
 desc = "Debian/Ubuntu 的包管理命令"
 
 [[commands.tokens]]
-text = "search"
+text = " search"
 desc = "按关键字搜索可用软件包"
 
 [[commands.tokens]]
-text = "docker"
+text = " docker"
 desc = "要搜索的关键字"
 
 [commands.dictation]
@@ -114,25 +138,29 @@ answers = [
 id = "dpkg-list-installed"
 command = "dpkg -l | grep nginx"
 summary = "查看 nginx 相关的已安装 deb 包"
+simulated_output = """
+ii  nginx        1.24.0-2ubuntu7  amd64  small, powerful, scalable web/proxy server
+ii  nginx-common 1.24.0-2ubuntu7  all    small, powerful, scalable web/proxy server - common files
+"""
 
 [[commands.tokens]]
 text = "dpkg"
 desc = "底层 Debian 包管理工具"
 
 [[commands.tokens]]
-text = "-l"
+text = " -l"
 desc = "列出所有已安装的软件包"
 
 [[commands.tokens]]
-text = "|"
+text = " |"
 desc = "把列表传给 grep 过滤"
 
 [[commands.tokens]]
-text = "grep"
+text = " grep"
 desc = "按模式过滤文本行的命令"
 
 [[commands.tokens]]
-text = "nginx"
+text = " nginx"
 desc = "要匹配的包名关键字"
 
 [commands.dictation]
@@ -145,17 +173,23 @@ answers = [
 id = "tar-list-contents"
 command = "tar tf backup.tar.gz"
 summary = "列出 backup.tar.gz 归档中的文件清单"
+simulated_output = """
+backup/
+backup/config.yml
+backup/data.db
+backup/logs/app.log
+"""
 
 [[commands.tokens]]
 text = "tar"
 desc = "打包和解包归档文件的命令"
 
 [[commands.tokens]]
-text = "tf"
+text = " tf"
 desc = "t 列出归档内容 + f 指定归档文件名"
 
 [[commands.tokens]]
-text = "backup.tar.gz"
+text = " backup.tar.gz"
 desc = "要查看内容的归档压缩包"
 
 [commands.dictation]
@@ -166,28 +200,29 @@ answers = [
 ]
 
 [[commands]]
-id = "tar-extract-gzip"
+id = "tar-extract-gzip-archive"
 command = "tar xzf backup.tar.gz -C /tmp"
 summary = "把 backup.tar.gz 解压到 /tmp 目录"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "tar"
 desc = "打包和解包归档文件的命令"
 
 [[commands.tokens]]
-text = "xzf"
+text = " xzf"
 desc = "x 解包 + z 解压 gzip + f 指定归档文件名"
 
 [[commands.tokens]]
-text = "backup.tar.gz"
+text = " backup.tar.gz"
 desc = "要解压的归档压缩包"
 
 [[commands.tokens]]
-text = "-C"
+text = " -C"
 desc = "指定解压目标目录"
 
 [[commands.tokens]]
-text = "/tmp"
+text = " /tmp"
 desc = "解压到 /tmp 目录"
 
 [commands.dictation]
@@ -201,13 +236,14 @@ answers = [
 id = "gzip-file"
 command = "gzip access.log"
 summary = "压缩 access.log 为 access.log.gz（原文件被替换）"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "gzip"
 desc = "使用 gzip 算法压缩文件的命令"
 
 [[commands.tokens]]
-text = "access.log"
+text = " access.log"
 desc = "要压缩的文件"
 
 [commands.dictation]
@@ -220,13 +256,14 @@ answers = [
 id = "gunzip-file"
 command = "gunzip access.log.gz"
 summary = "解压 access.log.gz 还原为 access.log"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "gunzip"
 desc = "解压 gzip 文件的命令"
 
 [[commands.tokens]]
-text = "access.log.gz"
+text = " access.log.gz"
 desc = "要解压的 gzip 文件"
 
 [commands.dictation]
@@ -240,21 +277,26 @@ answers = [
 id = "zip-recursive"
 command = "zip -r project.zip project"
 summary = "递归压缩 project 目录为 project.zip"
+simulated_output = """
+  adding: project/ (stored 0%)
+  adding: project/README.md (deflated 42%)
+  adding: project/src/main.rs (deflated 61%)
+"""
 
 [[commands.tokens]]
 text = "zip"
 desc = "创建 zip 压缩包的命令"
 
 [[commands.tokens]]
-text = "-r"
+text = " -r"
 desc = "递归包含目录中的文件"
 
 [[commands.tokens]]
-text = "project.zip"
+text = " project.zip"
 desc = "输出的 zip 压缩包名"
 
 [[commands.tokens]]
-text = "project"
+text = " project"
 desc = "要压缩的源目录"
 
 [commands.dictation]
@@ -267,21 +309,27 @@ answers = [
 id = "unzip-to-dir"
 command = "unzip project.zip -d /tmp"
 summary = "把 project.zip 解压到 /tmp 目录"
+simulated_output = """
+Archive:  project.zip
+   creating: /tmp/project/
+  inflating: /tmp/project/README.md
+  inflating: /tmp/project/src/main.rs
+"""
 
 [[commands.tokens]]
 text = "unzip"
 desc = "解压 zip 文件的命令"
 
 [[commands.tokens]]
-text = "project.zip"
+text = " project.zip"
 desc = "要解压的 zip 文件"
 
 [[commands.tokens]]
-text = "-d"
+text = " -d"
 desc = "指定解压目标目录"
 
 [[commands.tokens]]
-text = "/tmp"
+text = " /tmp"
 desc = "解压到 /tmp 目录"
 
 [commands.dictation]
@@ -294,17 +342,18 @@ answers = [
 id = "xz-decompress"
 command = "xz -d kernel.tar.xz"
 summary = "解压 xz 压缩的归档文件"
+simulated_output = ""
 
 [[commands.tokens]]
 text = "xz"
 desc = "xz 压缩/解压命令"
 
 [[commands.tokens]]
-text = "-d"
+text = " -d"
 desc = "解压模式"
 
 [[commands.tokens]]
-text = "kernel.tar.xz"
+text = " kernel.tar.xz"
 desc = "要解压的 xz 文件"
 
 [commands.dictation]
@@ -318,17 +367,18 @@ answers = [
 id = "zstd-compress"
 command = "zstd -T0 database.sql"
 summary = "使用所有 CPU 核心以 zstd 压缩 database.sql"
+simulated_output = "database.sql : 23.41% (512 MiB => 120 MiB, database.sql.zst)"
 
 [[commands.tokens]]
 text = "zstd"
 desc = "高性能压缩工具 zstandard（通常需要额外安装）"
 
 [[commands.tokens]]
-text = "-T0"
+text = " -T0"
 desc = "使用系统所有可用 CPU 核心进行压缩"
 
 [[commands.tokens]]
-text = "database.sql"
+text = " database.sql"
 desc = "要压缩的文件"
 
 [commands.dictation]

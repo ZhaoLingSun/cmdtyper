@@ -1,0 +1,368 @@
+[meta]
+command = "xargs"
+full_name = "extended arguments"
+category = "pipeline"
+difficulty = "advanced"
+importance = "common"
+
+[overview]
+summary = "从标准输入构建并执行命令"
+explanation = """xargs 从标准输入读取数据，将其转换为指定命令的参数并执行。\
+它是管道操作中的重要桥梁，解决了很多命令不能直接从 stdin 读取参数的问题。\
+例如 rm 不接受管道输入文件名，但通过 xargs 可以实现：\
+find . -name '*.tmp' | xargs rm。\
+xargs 会将输入按空白字符分割成参数，默认传递给 echo 命令。\
+在处理大量文件时，xargs 比 find -exec 更高效，\
+因为它会将多个参数合并成一次命令调用，减少进程创建开销。"""
+
+[syntax]
+basic = "... | xargs [选项] [命令]"
+[[syntax.parts]]
+name = "命令"
+desc = "要执行的命令，默认为 echo"
+
+[[options]]
+flag = "-I"
+name = "替换字符串"
+example = "ls *.txt | xargs -I {} cp {} /backup/"
+note = "将 {} 替换为每一行输入，每次执行一行"
+
+[[options]]
+flag = "-n"
+name = "每次传递参数数量"
+example = "echo 1 2 3 4 | xargs -n 2 echo"
+note = "每次向命令传递 N 个参数"
+
+[[options]]
+flag = "-d"
+name = "指定分隔符"
+example = "echo 'a:b:c' | xargs -d: echo"
+note = "使用指定字符作为输入分隔符（默认为空白）"
+
+[[options]]
+flag = "-0"
+name = "空字符分隔"
+example = "find . -name '*.txt' -print0 | xargs -0 rm"
+note = "使用 NULL 字符作为分隔符，处理文件名中有空格的情况"
+
+[[options]]
+flag = "-p"
+name = "交互确认"
+example = "find . -name '*.bak' | xargs -p rm"
+note = "执行每条命令前询问确认"
+
+[[options]]
+flag = "-t"
+name = "显示命令"
+example = "ls *.log | xargs -t rm"
+note = "执行前先打印将要执行的命令"
+
+[[examples]]
+level = 1
+command = "find . -name '*.tmp' | xargs rm"
+summary = "删除当前目录下所有 .tmp 文件"
+simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "."
+explanation = "当前目录。"
+
+[[examples.token_details]]
+token = "-name"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "*.tmp"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "rm"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples]]
+level = 2
+command = "find . -name '*.log' -print0 | xargs -0 wc -l"
+summary = "安全统计所有日志文件的行数（处理特殊文件名）"
+display = "find . -name '*.log' -print0 \\\n  | xargs -0 wc -l"
+simulated_output = """   234 ./app.log
+  1523 ./error.log
+    45 ./debug.log
+  1802 total"""
+
+output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
+[[examples.token_details]]
+token = "."
+explanation = "当前目录。"
+
+[[examples.token_details]]
+token = "-name"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "*.log"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "-print0"
+explanation = "用 NUL 分隔输出，避免文件名含空格时被误拆分。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-0"
+explanation = "按 NUL 分隔读取输入，和 find -print0 搭配最安全。"
+
+[[examples.token_details]]
+token = "wc"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-l"
+explanation = "列表模式或逐行统计（取决于命令）。"
+
+[[examples]]
+level = 2
+command = "echo 1 2 3 4 5 6 | xargs -n 2 echo"
+summary = "每次传递 2 个参数"
+simulated_output = """1 2
+3 4
+5 6"""
+
+output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
+[[examples.token_details]]
+token = "1"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples.token_details]]
+token = "2"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples.token_details]]
+token = "3"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples.token_details]]
+token = "4"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples.token_details]]
+token = "5"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples.token_details]]
+token = "6"
+explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-n"
+explanation = "指定行数/次数，或仅显示数字信息。"
+
+[[examples.token_details]]
+token = "echo"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples]]
+level = 3
+command = "ls *.jpg | xargs -I {} convert {} -resize 50% thumb_{}"
+summary = "批量将 jpg 图片缩小 50% 并加前缀 thumb_"
+display = "ls *.jpg | xargs -I {} \\\n  convert {} -resize 50% thumb_{}"
+simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "*.jpg"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-I"
+explanation = "定义占位符（如 {}），把每条输入替换到命令模板中的指定位置。"
+
+[[examples.token_details]]
+token = "{}"
+explanation = "占位符，代表 find/xargs 传入的当前文件。"
+
+[[examples.token_details]]
+token = "convert"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-resize"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "50%"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "thumb_{}"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples]]
+level = 3
+command = "cat urls.txt | xargs -n 1 -P 4 wget -q"
+summary = "并行下载 URL 列表中的文件（4 个并发）"
+display = "cat urls.txt \\\n  | xargs -n 1 -P 4 wget -q"
+simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+deep_explanation = """### xargs 的核心价值：把 stdin 变成命令参数
+很多命令不擅长“从标准输入读参数列表”，却擅长“从命令行参数接收对象”。`xargs` 就是这个转换器：
+- 前一个命令输出一串文本；
+- `xargs` 读取这些文本；
+- 把它们拼成目标命令的参数并执行。
+
+本例：
+
+    cat urls.txt | xargs -n 1 -P 4 wget -q
+
+表示每次取 1 个 URL，最多并发 4 个 `wget` 进程下载。
+
+### 参数拆解
+- `-n 1`：每次只喂给 `wget` 一个参数（一个 URL）。
+- `-P 4`：并行度为 4，同时跑最多 4 个子进程。
+- `wget -q`：下载并静默输出，减少终端噪音。
+
+它大致等价于“一个小型并发任务队列”：输入是 URL 列表，worker 数量是 4。
+
+### 真实场景：并行 ping 网段（含 -I{}）
+排查网络故障时，你常要快速扫一段地址，比如 `10.0.0.1~10.0.0.254`。`xargs` 的经典写法：
+
+    seq 1 254 | xargs -I{} -P 32 ping -c 1 -W 1 10.0.0.{}
+
+这里 `-I{}` 的作用是“占位符替换”：
+- 输入每一行（1,2,3...）替换到 `{}`；
+- 生成实际命令 `ping ... 10.0.0.1`、`ping ... 10.0.0.2` ...；
+- 配合 `-P 32` 并发执行，扫描速度远高于串行。
+
+### -P 并行的收益与边界
+并行不是越大越好：
+- 并行过小：速度慢。
+- 并行过大：本机 CPU/网络被打满，甚至触发目标侧限流。
+
+实战建议：
+- 内网扫描先用 16/32 测试，再调高。
+- 下载任务看带宽瓶颈，常见 4~16 已够。
+- 对远端服务保持礼貌，避免过高并发造成压测式冲击。
+
+### -I{} 与默认拼参模式的区别
+- 默认模式（无 `-I`）：`xargs` 把输入追加到命令末尾，效率高。
+- `-I{}` 模式：可把输入放到命令中任意位置，表达力强，但通常稍慢。
+
+当你需要“输入嵌在中间”（如 IP 模板、输出文件名模板）时，用 `-I{}` 非常自然。
+
+### 稳妥用法补充
+- 文件名/参数中有空格时，优先 `-0`（配合生产端 `-print0`）。
+- 高风险命令先加 `echo` 演练：
+
+    cat urls.txt | xargs -n 1 -P 4 echo wget -q
+
+确认展开结果正确，再去掉 `echo` 真执行。
+
+> 提示：理解了 `stdin -> xargs -> 参数化并发命令` 这条链路，你就能把很多“手工重复操作”变成可控、可扩展的批处理流程。"""
+[[examples.token_details]]
+token = "urls.txt"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-n"
+explanation = "指定行数/次数，或仅显示数字信息。"
+
+[[examples.token_details]]
+token = "1"
+explanation = "指定数量（如行数、分组大小、请求次数）。"
+
+[[examples.token_details]]
+token = "-P"
+explanation = "并行度（同时运行的任务数）。"
+
+[[examples.token_details]]
+token = "4"
+explanation = "并行任务数，值越大并发越高。"
+
+[[examples.token_details]]
+token = "wget"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-q"
+explanation = "静默模式，尽量减少输出。"
+
+[[examples]]
+level = 4
+command = "grep -rl 'old_api' ./src | xargs sed -i 's/old_api/new_api/g'"
+summary = "查找包含 old_api 的文件并批量替换为 new_api"
+display = "grep -rl 'old_api' ./src \\\n  | xargs sed -i 's/old_api/new_api/g'"
+simulated_output = ""
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。 另外，原地编辑配置文件存在风险，建议先 `cp file file.bak` 备份。"
+[[examples.token_details]]
+token = "-rl"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "old_api"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "./src"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "sed"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-i"
+explanation = "sed 的原地编辑选项：直接修改匹配到的文件内容。"
+
+[[examples.token_details]]
+token = "s/old_api/new_api/g"
+explanation = "sed 全局替换表达式：把每行中的 old_api 全部替换为 new_api。"
+
+[[gotchas]]
+title = "文件名包含空格或特殊字符"
+content = """xargs 默认用空白字符分割输入，如果文件名包含空格会导致问题：
+  文件 "my file.txt" 会被 xargs 解析为 "my" 和 "file.txt" 两个参数
+
+解决方案是使用 NULL 字符分隔：
+  find . -name '*.txt' -print0 | xargs -0 rm
+  -print0 使 find 用 NULL 字符分隔结果
+  -0 使 xargs 用 NULL 字符分割输入
+
+这是处理任意文件名时的最佳实践，应该养成习惯使用。"""
+
+[[gotchas]]
+title = "xargs 与 find -exec 的对比"
+content = """xargs 和 find -exec 都可以对搜索结果执行命令，各有优劣：
+  find -exec cmd {} \\;   — 每个文件执行一次命令（慢）
+  find -exec cmd {} +    — 批量传参（快，推荐）
+  find | xargs cmd       — 管道传参（快，但空格问题）
+  find -print0 | xargs -0 cmd — 管道传参（快且安全）
+
+xargs 的独特优势：
+  - 可以与任何产生文件列表的命令配合（不限于 find）
+  - -P 选项支持并行执行
+  - -I 支持灵活的参数位置替换"""

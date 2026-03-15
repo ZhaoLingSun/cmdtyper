@@ -22,7 +22,8 @@ COPY --from=builder /build/target/release/cmdtyper /usr/local/bin/cmdtyper
 COPY data/ /usr/local/share/cmdtyper/data/
 
 # User data volume
-VOLUME /data
-ENV CMDTYPER_DATA_DIR=/data
+VOLUME /userdata
+ENV CMDTYPER_DATA_DIR=/usr/local/share/cmdtyper/data
+ENV CMDTYPER_USER_DIR=/userdata
 
 ENTRYPOINT ["cmdtyper"]

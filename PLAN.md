@@ -1,866 +1,922 @@
-# cmdtyper 技术规划文档
+# PLAN.md — cmdtyper v0.2 完整技术规划
 
-## 1. 项目概述
-
-**cmdtyper** 是一个基于 Rust + ratatui 的终端 TUI 程序，专注于 Linux 命令行打字练习。
-
-### 1.1 核心功能
-
-| 模式 | 功能 | 核心体验 |
-|------|------|----------|
-| 学习模式 (Learn) | 逐命令讲解语法 + 跟打 | 每个 token 带中文注释，用户跟着输入 |
-| 对着打模式 (Type) | 逐字符匹配打字 | 灰底待输入 → 打对变黑 → 打错闪红不前进 |
-| 默写模式 (Dictation) | 看中文描述写命令 | 一题多解，多答案匹配 |
-| 统计面板 (Stats) | keybr 风格数据分析 | 速度/准确率/字符分析/类别掌握度/日历 |
-
-### 1.2 技术栈
-
-- **语言**: Rust (edition 2024)
-- **TUI 框架**: ratatui 0.29 + crossterm 0.28
-- **题库格式**: TOML
-- **持久化**: JSON (serde_json)
-- **容器化**: Docker (multi-stage build)
+> 从"打字练习工具"进化为"Linux 命令行交互式教学系统"
+> 本文档是唯一权威技术规范。所有模块开发必须严格遵守此处定义的接口、类型和行为。
 
 ---
 
-## 2. 数据接口与类型定义
+## 目录
 
-### 2.1 题库数据结构 (TOML → Rust)
+1. [项目概述](#1-项目概述)
+2. [模块总览与状态机](#2-模块总览与状态机)
+3. [数据类型定义（完整）](#3-数据类型定义完整)
+4. [数据文件格式规范（TOML）](#4-数据文件格式规范toml)
+5. [模块详细设计](#5-模块详细设计)
+6. [事件循环与渲染架构](#6-事件循环与渲染架构)
+7. [持久化与文件布局](#7-持久化与文件布局)
+8. [源码目录结构](#8-源码目录结构)
+9. [调试与测试策略](#9-调试与测试策略)
+10. [开发分期与依赖关系](#10-开发分期与依赖关系)
+11. [已知风险与缓解](#11-已知风险与缓解)
 
-#### TOML 格式规范
+---
 
-```toml
-# data/commands/01_beginner.toml
+## 1. 项目概述
 
-[meta]
-category = "文件操作"           # 类别名称
-difficulty = "beginner"         # beginner | basic | advanced | practical
-description = "基础文件和目录操作命令"
+### 1.1 定位
 
-[[commands]]
-id = "ls-basic"                 # 唯一标识符，格式: {命令名}-{变体}
-command = "ls -la /var/log"     # 完整命令字符串
-summary = "显示 /var/log 目录的详细列表（含隐藏文件）"  # 学习模式概述
+cmdtyper v0.2 是一个终端 TUI 应用，面向 Linux 初学者到中级用户，提供：
 
-[[commands.tokens]]
-text = "ls"
-desc = "列出目录内容的命令"
+- **对着打模式**：模拟真实终端环境的命令打字练习
+- **学习中心**：体系化的命令、符号、系统架构教学，含模拟输出
+- **默写模式**：看中文描述写命令
+- **统计面板**：练习数据分析
 
-[[commands.tokens]]
-text = "-la"
-desc = "-l 详细列表格式 + -a 显示隐藏文件（以 . 开头的文件）"
+### 1.2 技术栈
 
-[[commands.tokens]]
-text = "/var/log"
-desc = "目标目录：系统日志文件存放位置"
+| 组件 | 技术 | 版本 |
+|------|------|------|
+| 语言 | Rust | edition 2024 (rustc 1.94+) |
+| TUI | ratatui + crossterm | 0.29 / 0.28 |
+| 数据格式 | TOML (题库/课程) + JSON (持久化) | toml 0.8 / serde_json 1 |
+| 序列化 | serde | 1 |
+| 随机 | rand | 0.8 |
+| Unicode | unicode-width | 0.2 |
+| 错误处理 | anyhow | 1 |
+| 时间 | chrono | 0.4 |
+| 路径 | dirs | 6 |
+| 容器化 | Docker (multi-stage) | — |
 
-# 默写模式
-[commands.dictation]
-prompt = "显示 /var/log 目录下所有文件（包含隐藏文件）的详细信息"
-answers = [
-    "ls -la /var/log",
-    "ls -al /var/log",
-    "ls --all -l /var/log",
-    "ls -l -a /var/log",
-]
+### 1.3 安全原则
+
+**cmdtyper 永远不执行任何真实命令。** 所有命令输出均为 TOML 预置模拟数据。无 `std::process::Command`、无 shell 调用、无 `system()`。
+
+---
+
+## 2. 模块总览与状态机
+
+### 2.1 功能模块
+
+```
+主菜单 (Home)
+├── ⌨️  对着打 (Typing)
+├── 📖 学习中心 (LearnHub)
+│   ├── 命令专题 (CommandTopics)
+│   │   └── 单命令学习 (CommandLesson) → 概览/演示/跟打 三阶段
+│   ├── 符号专题 (SymbolTopics)
+│   │   └── 单符号学习 (SymbolLesson)
+│   ├── 系统架构 (SystemTopics)
+│   │   └── 单主题学习 (SystemLesson)
+│   └── 专题复习 (Review)
+├── 📝 默写模式 (Dictation)
+├── 📊 统计面板 (Stats)
+└── ⚙️  设置 (Settings)
 ```
 
-#### Rust 数据结构
+### 2.2 AppState 枚举（完整定义）
 
 ```rust
-// src/data/models.rs
+/// 应用全局状态
+#[derive(Debug, Clone, PartialEq)]
+pub enum AppState {
+    Home,
 
-use serde::{Deserialize, Serialize};
+    // ── 对着打 ──
+    Typing,
 
-/// 难度等级
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+    // ── 学习中心 ──
+    LearnHub,                               // 二级菜单
+    CommandTopics,                          // 命令专题 → 类别列表
+    CommandLessonOverview {                  // 阶段1: 命令概览
+        category_index: usize,
+        command_index: usize,
+    },
+    CommandLessonExample {                  // 阶段2: 实例演示
+        category_index: usize,
+        command_index: usize,
+        example_index: usize,
+    },
+    CommandLessonPractice {                 // 阶段3: 跟打练习
+        category_index: usize,
+        command_index: usize,
+        example_index: usize,
+    },
+    SymbolTopics,                           // 符号专题 → 主题列表
+    SymbolLesson {
+        topic_index: usize,
+        symbol_index: usize,
+        phase: SymbolPhase,
+    },
+    SystemTopics,                           // 系统架构 → 主题列表
+    SystemLesson {
+        topic_index: usize,
+        section_index: usize,
+        phase: SystemPhase,
+    },
+    Review {                                // 专题复习
+        source: ReviewSource,
+        phase: ReviewPhase,
+    },
+
+    // ── 其他 ──
+    Dictation,
+    Stats,
+    Settings,
+    RoundResult,
+    Quitting,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum SymbolPhase {
+    Explain,                // 符号讲解
+    Example(usize),         // 示例演示
+    Practice,               // 练习题
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum SystemPhase {
+    Overview,               // 总览（ASCII art 等）
+    Detail,                 // 详细讲解
+    Commands(usize),        // 常用命令 + 模拟输出
+    ConfigFile(usize),      // 配置文件讲解
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum ReviewSource {
+    CommandCategory(Category),
+    SymbolTopic(String),
+    SystemTopic(String),
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum ReviewPhase {
+    Summary,                // 知识梳理
+    Practice(usize),        // 集中练习
+}
+```
+
+### 2.3 状态转换图
+
+```
+Home ─┬─→ Typing ──→ (Esc) ──→ Home
+      ├─→ LearnHub ─┬─→ CommandTopics ──→ CommandLessonOverview
+      │              │     ──→ CommandLessonExample ──→ CommandLessonPractice
+      │              │     ──→ Review (或下一命令)
+      │              ├─→ SymbolTopics ──→ SymbolLesson ──→ Review
+      │              ├─→ SystemTopics ──→ SystemLesson ──→ Review
+      │              └─→ Review（直接进入）
+      ├─→ Dictation ──→ RoundResult ──→ Home
+      ├─→ Stats ──→ Home
+      └─→ Settings ──→ Home
+
+任何状态 + Ctrl+C → Quitting
+任何子状态 + Esc → 父状态
+```
+
+---
+
+## 3. 数据类型定义（完整）
+
+> 以下所有类型均在 `src/data/models.rs` 中定义。
+> `#[serde(skip)]` = 不从 TOML 反序列化，由 loader 运行时填充。
+> `#[serde(default)]` = TOML 中可省略，使用 Default 值。
+
+### 3.1 基础枚举
+
+```rust
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum Difficulty {
-    Beginner,
-    Basic,
-    Advanced,
-    Practical,
+    #[default]
+    Beginner,   // 入门 ★☆☆☆
+    Basic,      // 基础 ★★☆☆
+    Advanced,   // 进阶 ★★★☆
+    Practical,  // 实战 ★★★★
 }
 
 impl Difficulty {
-    pub fn label(&self) -> &str {
-        match self {
-            Self::Beginner  => "入门",
-            Self::Basic     => "基础",
-            Self::Advanced  => "进阶",
-            Self::Practical => "实战",
-        }
-    }
-
-    pub fn stars(&self) -> &str {
-        match self {
-            Self::Beginner  => "★☆☆☆",
-            Self::Basic     => "★★☆☆",
-            Self::Advanced  => "★★★☆",
-            Self::Practical => "★★★★",
-        }
-    }
-
-    /// 掌握度计算所需的目标练习次数
-    pub fn target_attempts(&self) -> u32 {
-        match self {
-            Self::Beginner  => 3,
-            Self::Basic     => 5,
-            Self::Advanced  => 8,
-            Self::Practical => 10,
-        }
-    }
+    pub const ALL: [Self; 4] = [Self::Beginner, Self::Basic, Self::Advanced, Self::Practical];
+    pub fn label(&self) -> &str;        // "入门"/"基础"/"进阶"/"实战"
+    pub fn stars(&self) -> &str;        // "★☆☆☆" ...
+    pub fn target_attempts(&self) -> u32; // 3/5/8/10
+    pub fn next(&self) -> Self;
+    pub fn prev(&self) -> Self;
 }
 
-/// 命令类别
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize, Default)]
 #[serde(rename_all = "snake_case")]
 pub enum Category {
-    FileOps,      // 文件操作
-    Permission,   // 权限管理
-    TextProcess,  // 文本处理
-    Search,       // 搜索查找
-    Process,      // 进程管理
-    Network,      // 网络
-    Archive,      // 压缩归档
-    System,       // 系统信息
-    Pipeline,     // 管道与重定向
-    Scripting,    // 脚本片段
+    #[default]
+    FileOps,        // 文件操作  📁
+    Permission,     // 权限管理  🔒
+    TextProcess,    // 文本处理  📋
+    Search,         // 搜索查找  🔍
+    Process,        // 进程管理  ⚙️
+    Network,        // 网络      🌐
+    Archive,        // 压缩归档  📦
+    System,         // 系统信息  💻
+    Pipeline,       // 管道重定向 🔀
+    Scripting,      // 脚本片段  📜
 }
 
 impl Category {
-    pub fn label(&self) -> &str {
-        match self {
-            Self::FileOps     => "文件操作",
-            Self::Permission  => "权限管理",
-            Self::TextProcess => "文本处理",
-            Self::Search      => "搜索查找",
-            Self::Process     => "进程管理",
-            Self::Network     => "网络",
-            Self::Archive     => "压缩归档",
-            Self::System      => "系统信息",
-            Self::Pipeline    => "管道与重定向",
-            Self::Scripting   => "脚本片段",
-        }
-    }
+    pub const ALL: [Self; 10] = [...];
+    pub fn label(&self) -> &str;
+    pub fn icon(&self) -> &str;
 }
 
-/// 单个 token（命令中的一个词元）
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Token {
-    pub text: String,   // 原始文本，如 "chmod"
-    pub desc: String,   // 中文解释，如 "修改文件权限的命令"
-}
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "lowercase")]
+pub enum Mode { Learn, #[default] Type, Dictation }
 
-/// 默写模式数据
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct DictationData {
-    pub prompt: String,             // 中文题目
-    pub answers: Vec<String>,       // 所有正确答案
-}
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "lowercase")]
+pub enum Importance { #[default] Core, Common, Advanced, Niche }
 
-/// 单条命令（题库的原子单位）
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Command {
-    pub id: String,                 // 唯一 ID
-    pub command: String,            // 完整命令字符串
-    pub summary: String,            // 学习模式概述
-    pub tokens: Vec<Token>,         // token 级拆分
-    pub dictation: DictationData,   // 默写数据
-}
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "lowercase")]
+pub enum PromptStyle { #[default] Full, Simple, Minimal }
+```
 
-/// 题库文件（一个 TOML 文件的顶层结构）
+### 3.2 命令题库（对着打 + 默写 共用）
+
+```rust
+/// 对应 data/commands/*.toml
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CommandFile {
-    pub meta: FileMeta,
+    pub meta: CommandFileMeta,
     pub commands: Vec<Command>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct FileMeta {
+pub struct CommandFileMeta {
     pub category: Category,
     pub difficulty: Difficulty,
     pub description: String,
 }
-```
 
-### 2.2 击键记录数据结构
-
-```rust
-// src/data/models.rs (续)
-
-/// 单次击键记录
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Keystroke {
-    pub expected: char,     // 目标字符
-    pub actual: char,       // 实际输入字符（正确时 == expected）
-    pub correct: bool,      // 是否一次打对
-    pub attempts: u8,       // 该位置总尝试次数（>=1）
-    pub latency_ms: u64,    // 距上一个正确击键的时间间隔 (ms)
-    pub timestamp_ms: i64,  // Unix 毫秒时间戳
-}
-
-/// 练习模式
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "lowercase")]
-pub enum Mode {
-    Learn,
-    Type,
-    Dictation,
-}
-
-/// 单次练习会话记录
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SessionRecord {
-    pub id: String,                 // UUID
-    pub command_id: String,         // 练习的命令 ID
-    pub mode: Mode,                 // 练习模式
-    pub keystrokes: Vec<Keystroke>, // 所有击键
-    pub started_at: i64,            // 开始时间 (Unix ms)
-    pub finished_at: i64,           // 结束时间 (Unix ms)
-    pub wpm: f64,                   // 本次 WPM
-    pub cpm: f64,                   // 本次 CPM
-    pub accuracy: f64,              // 本次准确率 (0.0 ~ 1.0)
-    pub error_count: u32,           // 总错误次数
-}
-```
-
-### 2.3 统计聚合数据结构
-
-```rust
-// src/data/models.rs (续)
-
-/// 单个字符的聚合统计
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct CharStat {
-    pub char_key: char,         // 统计的字符
-    pub total_correct: u64,     // 累计正确次数
-    pub total_errors: u64,      // 累计错误次数
-    pub total_samples: u64,     // 累计样本数 (= correct + errors on first attempt)
-    pub avg_latency_ms: f64,    // 平均击键间隔
-    pub avg_cpm: f64,           // 该字符平均 CPM
-    pub accuracy: f64,          // 准确率 (0.0 ~ 1.0)
-    pub history: Vec<CharSpeedPoint>, // 速度变化历史
+pub struct Command {
+    pub id: String,
+    pub command: String,
+    pub summary: String,
+    pub tokens: Vec<Token>,
+    pub dictation: DictationData,
+    #[serde(default)] pub display: Option<String>,
+    #[serde(default)] pub summary_short: Option<String>,
+    #[serde(default)] pub simulated_output: Option<String>,
+    #[serde(default)] pub output_annotations: Vec<OutputAnnotation>,
+    #[serde(skip)] pub category: Category,
+    #[serde(skip)] pub difficulty: Difficulty,
+}
+
+impl Command {
+    /// 返回终端显示文本（display 优先，否则 command）
+    pub fn display_text(&self) -> &str;
+    /// 返回底栏短提示（summary_short 优先，否则 summary）
+    pub fn short_summary(&self) -> &str;
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CharSpeedPoint {
-    pub session_index: u32,     // 第几次练习
-    pub cpm: f64,               // 当次该字符的 CPM
-    pub accuracy: f64,          // 当次该字符准确率
-}
+pub struct Token { pub text: String, pub desc: String }
 
-/// 命令进度
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct CommandProgress {
-    pub command_id: String,
-    pub times_practiced: u32,       // 练习次数
-    pub best_wpm: f64,              // 最佳 WPM
-    pub best_accuracy: f64,         // 最佳准确率
-    pub last_practiced: Option<i64>, // 上次练习时间
-    pub mastery: f64,               // 掌握度 (0.0 ~ 1.0)
-}
-
-/// 每日统计
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct DailyStat {
-    pub date: String,               // "2026-03-08"
-    pub sessions_count: u32,        // 练习次数
-    pub total_duration_ms: u64,     // 总练习时长
-    pub avg_wpm: f64,               // 平均 WPM
-    pub avg_accuracy: f64,          // 平均准确率
-}
-
-/// 全局用户统计（持久化的顶层结构）
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct UserStats {
-    pub total_sessions: u64,
-    pub total_keystrokes: u64,
-    pub total_duration_ms: u64,
-    pub overall_avg_wpm: f64,
-    pub overall_avg_accuracy: f64,
-    pub best_wpm: f64,
-    pub current_streak: u32,        // 当前连续天数
-    pub longest_streak: u32,        // 最长连续天数
-    pub char_stats: Vec<CharStat>,  // 按字符统计
-    pub command_progress: Vec<CommandProgress>,
-    pub daily_stats: Vec<DailyStat>,
-}
-```
-
-### 2.4 持久化文件布局
-
-```
-~/.local/share/cmdtyper/
-├── history.json          # Vec<SessionRecord> - 所有练习记录
-├── stats.json            # UserStats - 聚合统计
-└── config.json           # UserConfig - 用户设置
-```
-
-#### 用户配置
-
-```rust
-// src/data/models.rs (续)
+pub struct DictationData { pub prompt: String, pub answers: Vec<String> }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct UserConfig {
-    pub target_wpm: f64,            // 目标 WPM，默认 40.0
-    pub error_flash_ms: u64,        // 错误闪红持续时间，默认 150
-    pub show_token_hints: bool,     // 对着打时是否显示 token 注释，默认 true
-    pub adaptive_recommend: bool,   // 是否开启智能推荐，默认 true
-    pub last_difficulty: Difficulty, // 上次选择的难度
-    pub last_category: Option<Category>, // 上次选择的类别
-}
-
-impl Default for UserConfig {
-    fn default() -> Self {
-        Self {
-            target_wpm: 40.0,
-            error_flash_ms: 150,
-            show_token_hints: true,
-            adaptive_recommend: true,
-            last_difficulty: Difficulty::Beginner,
-            last_category: None,
-        }
-    }
-}
+pub struct OutputAnnotation { pub pattern: String, pub note: String }
 ```
 
----
-
-## 3. 核心模块设计
-
-### 3.1 App 状态机 (`src/app.rs`)
-
-```
-App 状态转换图：
-
-                    ┌──────────────────────────────┐
-                    │         Home (主菜单)          │
-                    │  选择模式 / 难度 / 类别        │
-                    └──────┬───┬───┬───┬────────────┘
-                           │   │   │   │
-              ┌────────────┘   │   │   └────────────┐
-              ▼                ▼   ▼                ▼
-         ┌─────────┐   ┌──────────┐  ┌───────────┐  ┌────────┐
-         │  Learn   │   │   Type   │  │ Dictation │  │ Stats  │
-         │ 学习模式 │   │ 对着打   │  │ 默写模式  │  │ 统计   │
-         └────┬────┘   └────┬─────┘  └─────┬─────┘  └────────┘
-              │             │              │
-              └─────────────┴──────────────┘
-                            │
-                            ▼
-                    ┌──────────────┐
-                    │ RoundResult  │
-                    │ 本轮结果展示 │
-                    └──────────────┘
-
-Esc 键：任何模式 → 返回 Home
-Tab 键：Learn/Type 模式中跳过当前命令
-Ctrl+R：重练当前命令
-```
+### 3.3 命令讲解（学习中心 · 命令专题）
 
 ```rust
-// src/app.rs
-
-pub enum AppState {
-    Home,
-    Learn(LearnState),
-    Typing(TypingState),
-    Dictation(DictationState),
-    Stats(StatsTab),
-    RoundResult(RoundResultState),
-    Quitting,
+/// 对应 data/lessons/*.toml
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CommandLesson {
+    pub meta: LessonMeta,
+    pub overview: LessonOverview,
+    pub syntax: SyntaxInfo,
+    #[serde(default)] pub options: Vec<OptionInfo>,
+    pub examples: Vec<LessonExample>,
+    #[serde(default)] pub gotchas: Vec<Gotcha>,
 }
 
-pub struct App {
-    pub state: AppState,
-    pub commands: Vec<Command>,         // 已加载的题库
-    pub user_stats: UserStats,          // 用户统计
-    pub user_config: UserConfig,        // 用户配置
-    pub selected_difficulty: Difficulty, // 当前选择的难度
-    pub selected_category: Option<Category>, // 当前选择的类别
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct LessonMeta {
+    pub command: String,
+    #[serde(default)] pub full_name: Option<String>,
+    pub category: Category,
+    pub difficulty: Difficulty,
+    #[serde(default)] pub importance: Importance,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct LessonOverview { pub summary: String, pub explanation: String }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SyntaxInfo {
+    pub basic: String,
+    #[serde(default)] pub parts: Vec<SyntaxPart>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SyntaxPart { pub name: String, pub desc: String }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct OptionInfo {
+    pub flag: String,
+    pub name: String,
+    #[serde(default)] pub example: Option<String>,
+    #[serde(default)] pub note: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct LessonExample {
+    pub level: u8,
+    pub command: String,
+    pub summary: String,
+    #[serde(default)] pub display: Option<String>,
+    #[serde(default)] pub simulated_output: Option<String>,
+    #[serde(default)] pub output_annotations: Vec<OutputAnnotation>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Gotcha { pub title: String, pub content: String }
+```
+
+### 3.4 符号专题
+
+```rust
+/// 对应 data/symbols/*.toml
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SymbolTopic {
+    pub meta: SymbolTopicMeta,
+    pub symbols: Vec<SymbolEntry>,
+    #[serde(default)] pub exercises: Vec<Exercise>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SymbolTopicMeta {
+    pub id: String, pub topic: String, pub description: String,
+    pub difficulty: Difficulty,
+    #[serde(default)] pub icon: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SymbolEntry {
+    pub id: String, pub char_repr: String, pub name: String,
+    pub summary: String, pub explanation: String,
+    pub examples: Vec<SymbolExample>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SymbolExample {
+    pub command: String, pub explanation: String,
+    #[serde(default)] pub display: Option<String>,
+    #[serde(default)] pub simulated_output: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Exercise { pub prompt: String, pub answers: Vec<String> }
+```
+
+### 3.5 系统架构专题
+
+```rust
+/// 对应 data/system/*.toml
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SystemTopic {
+    pub meta: SystemTopicMeta,
+    #[serde(default)] pub overview: Option<String>,
+    pub sections: Vec<SystemSection>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SystemTopicMeta {
+    pub id: String, pub topic: String, pub description: String,
+    pub difficulty: Difficulty,
+    #[serde(default)] pub icon: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SystemSection {
+    pub id: String, pub title: String, pub description: String,
+    #[serde(default)] pub commands: Vec<SystemCommand>,
+    #[serde(default)] pub config_files: Vec<ConfigFile>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SystemCommand {
+    pub command: String, pub summary: String,
+    #[serde(default)] pub simulated_output: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ConfigFile {
+    pub id: String, pub path: String, pub name: String,
+    pub description: String, pub sample_content: String,
+    #[serde(default)] pub lessons: Vec<ConfigLesson>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ConfigLesson {
+    pub title: String, pub before: String, pub after: String,
+    pub explanation: String,
+    #[serde(default)] pub practice_command: Option<String>,
 }
 ```
 
-### 3.2 打字引擎 (`src/core/engine.rs`)
+### 3.6 复习模块
 
-核心逻辑：逐字符匹配，记录每次击键。
+```rust
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ReviewData {
+    pub topic_id: String, pub topic_name: String,
+    pub summary_groups: Vec<ReviewGroup>,
+    pub practice_ids: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ReviewGroup { pub name: String, pub items: Vec<ReviewItem> }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ReviewItem { pub command: String, pub brief: String }
+```
+
+### 3.7 打字引擎
 
 ```rust
 // src/core/engine.rs
-
 pub struct TypingEngine {
-    pub target: Vec<char>,          // 目标字符序列
-    pub cursor: usize,              // 当前光标位置
-    pub keystrokes: Vec<Keystroke>, // 已记录的击键
-    pub current_attempts: u8,       // 当前字符的尝试次数
-    pub error_flash: Option<Instant>, // 闪红动画开始时间 (None = 无错误)
-    pub start_time: Option<Instant>,  // 开始打字的时间
-    pub last_correct_time: Option<Instant>, // 上一个正确击键的时间
-}
-
-impl TypingEngine {
-    /// 创建新引擎实例
-    pub fn new(target_str: &str) -> Self;
-
-    /// 处理一次按键输入，返回是否正确
-    pub fn input(&mut self, ch: char) -> InputResult;
-
-    /// 是否已完成
-    pub fn is_complete(&self) -> bool;
-
-    /// 计算当前实时 WPM
-    pub fn current_wpm(&self) -> f64;
-
-    /// 计算当前实时准确率
-    pub fn current_accuracy(&self) -> f64;
-
-    /// 生成 SessionRecord
-    pub fn finish(&self, command_id: &str, mode: Mode) -> SessionRecord;
+    pub target: Vec<char>,
+    pub cursor: usize,
+    pub keystrokes: Vec<Keystroke>,
+    pub current_attempts: u8,
+    pub error_flash: Option<Instant>,
+    pub start_time: Option<Instant>,
+    pub last_correct_time: Option<Instant>,
+    error_flash_duration: Duration,     // 默认 150ms
 }
 
 pub enum InputResult {
-    Correct,            // 打对了，光标前进
-    Error(char),        // 打错了，返回期望的字符
-    AlreadyComplete,    // 已经打完了
-}
-```
-
-**WPM 计算公式**（与 keybr 一致）：
-```
-WPM = (正确字符数 / 5.0) / (已用时间秒数 / 60.0)
-CPM = 正确字符数 / (已用时间秒数 / 60.0)
-准确率 = 一次打对的次数 / 总字符数
-```
-
-### 3.3 默写匹配器 (`src/core/matcher.rs`)
-
-```rust
-// src/core/matcher.rs
-
-pub struct Matcher;
-
-impl Matcher {
-    /// 标准化命令字符串（去多余空格、统一引号）
-    pub fn normalize(input: &str) -> String;
-
-    /// 匹配用户输入是否与任一答案等价
-    pub fn check(input: &str, answers: &[String]) -> MatchResult;
+    Correct,
+    Error { expected: char },
+    AlreadyComplete,
 }
 
-pub enum MatchResult {
-    Exact(usize),           // 完全匹配，返回匹配的答案索引
-    Normalized(usize),      // 标准化后匹配
-    NoMatch {
-        closest: String,    // 最接近的正确答案
-        diff: Vec<DiffSegment>, // 差异片段（用于高亮显示）
-    },
-}
-
-pub struct DiffSegment {
-    pub text: String,
-    pub kind: DiffKind,     // Same / Added / Removed
-}
-
-pub enum DiffKind {
-    Same,
-    Added,
-    Removed,
-}
-```
-
-### 3.4 评分器 (`src/core/scorer.rs`)
-
-```rust
-// src/core/scorer.rs
-
-pub struct Scorer;
-
-impl Scorer {
-    /// 从 SessionRecord 更新 UserStats
-    pub fn update_stats(stats: &mut UserStats, record: &SessionRecord);
-
-    /// 更新单个字符的统计
-    fn update_char_stat(stat: &mut CharStat, keystrokes: &[Keystroke]);
-
-    /// 更新命令进度
-    fn update_command_progress(
-        progress: &mut CommandProgress,
-        record: &SessionRecord,
-        difficulty: Difficulty,
-    );
-
-    /// 计算掌握度
-    /// mastery = accuracy × min(1.0, times_practiced / target_attempts)
-    fn compute_mastery(accuracy: f64, times: u32, target: u32) -> f64;
-
-    /// 获取薄弱字符 Top N
-    pub fn weak_chars(stats: &UserStats, n: usize) -> Vec<&CharStat>;
-
-    /// 获取类别掌握度
-    pub fn category_mastery(
-        stats: &UserStats,
-        commands: &[Command],
-        category: Category,
-    ) -> f64;
-
-    /// 智能推荐：基于薄弱字符推荐命令
-    pub fn recommend_commands(
-        stats: &UserStats,
-        commands: &[Command],
-        n: usize,
-    ) -> Vec<&Command>;
-}
-```
-
-### 3.5 计时器 (`src/core/timer.rs`)
-
-```rust
-// src/core/timer.rs
-
-pub struct Timer {
-    start: Option<Instant>,
-    elapsed: Duration,
-    paused: bool,
-}
-
-impl Timer {
-    pub fn new() -> Self;
-    pub fn start(&mut self);
-    pub fn pause(&mut self);
-    pub fn resume(&mut self);
-    pub fn elapsed(&self) -> Duration;
+impl TypingEngine {
+    pub fn new(target_str: &str) -> Self;
+    pub fn input(&mut self, ch: char) -> InputResult;
+    pub fn is_complete(&self) -> bool;
+    pub fn is_error_flashing(&self) -> bool;
+    pub fn current_wpm(&self) -> f64;       // (正确字符/5) / (秒/60)
+    pub fn current_cpm(&self) -> f64;       // 正确字符 / (秒/60)
+    pub fn current_accuracy(&self) -> f64;  // 一次正确数 / 总字符数
     pub fn elapsed_secs(&self) -> f64;
-    pub fn format_mmss(&self) -> String;  // "01:34"
+    pub fn finish(&self, command_id: &str, mode: Mode) -> SessionRecord;
+    pub fn reset(&mut self, target_str: &str);
 }
 ```
 
-### 3.6 数据加载 (`src/data/loader.rs`)
+### 3.8 终端历史（对着打专用）
 
 ```rust
-// src/data/loader.rs
-
-pub struct DataLoader {
-    data_dir: PathBuf,  // 题库目录 (data/commands/)
+// src/core/terminal_history.rs
+pub struct TerminalLine {
+    pub prompt: String,
+    pub command_display: String,
+    pub status: LineStatus,
 }
 
-impl DataLoader {
-    pub fn new(data_dir: PathBuf) -> Self;
+pub enum LineStatus { Completed, Current, Pending }
 
-    /// 加载所有题库文件
-    pub fn load_all(&self) -> anyhow::Result<Vec<Command>>;
+pub struct TerminalHistory {
+    lines: Vec<TerminalLine>,
+    max_visible: usize,
+}
 
-    /// 按难度筛选
-    pub fn load_by_difficulty(
-        &self, difficulty: Difficulty
-    ) -> anyhow::Result<Vec<Command>>;
-
-    /// 按类别筛选
-    pub fn load_by_category(
-        &self, category: Category
-    ) -> anyhow::Result<Vec<Command>>;
+impl TerminalHistory {
+    pub fn new() -> Self;
+    pub fn push_completed(&mut self, prompt: &str, display: &str);
+    pub fn visible_lines(&self, height: u16) -> &[TerminalLine];
+    pub fn clear(&mut self);
 }
 ```
 
-### 3.7 进度持久化 (`src/data/progress.rs`)
+### 3.9 其他核心模块接口
 
 ```rust
-// src/data/progress.rs
-
-pub struct ProgressStore {
-    base_dir: PathBuf,  // ~/.local/share/cmdtyper/
-}
-
-impl ProgressStore {
-    pub fn new() -> anyhow::Result<Self>;
-
-    /// 加载用户统计
-    pub fn load_stats(&self) -> anyhow::Result<UserStats>;
-
-    /// 保存用户统计
-    pub fn save_stats(&self, stats: &UserStats) -> anyhow::Result<()>;
-
-    /// 追加练习记录
-    pub fn append_record(&self, record: &SessionRecord) -> anyhow::Result<()>;
-
-    /// 加载所有历史记录
-    pub fn load_history(&self) -> anyhow::Result<Vec<SessionRecord>>;
-
-    /// 加载用户配置
-    pub fn load_config(&self) -> anyhow::Result<UserConfig>;
-
-    /// 保存用户配置
-    pub fn save_config(&self, config: &UserConfig) -> anyhow::Result<()>;
-}
+// Matcher (src/core/matcher.rs) — 与 v0.1 相同
+// Scorer (src/core/scorer.rs) — 与 v0.1 相同
+// Timer (src/core/timer.rs) — 与 v0.1 相同
+// ProgressStore (src/data/progress.rs) — 与 v0.1 相同，UserConfig 扩展新字段
+// Keystroke, SessionRecord, CharStat, UserStats 等 — 与 v0.1 相同
 ```
+
+（完整接口定义见 v0.1 PLAN.md §2-3，此处不重复。仅 UserConfig 新增 prompt_* 和 PromptStyle 字段。）
 
 ---
 
-## 4. UI 模块设计
+## 4. 数据文件格式规范（TOML）
 
-### 4.1 UI 渲染架构
+### 4.1 命令题库 `data/commands/*.toml`
 
-每个页面实现统一的 trait：
+```toml
+[meta]
+category = "file_ops"       # Category snake_case
+difficulty = "beginner"     # Difficulty lowercase
+description = "描述"
 
-```rust
-// src/ui/mod.rs
+[[commands]]
+id = "ls-la-varlog"         # 必填，全局唯一
+command = "ls -la /var/log"  # 必填
+summary = "一句话简介"       # 必填
+display = "多行显示"         # 可选（默认=command）
+summary_short = "短提示"     # 可选（默认=summary）
+simulated_output = """...""" # 可选
 
-pub trait Screen {
-    /// 渲染到 Frame
-    fn render(&self, frame: &mut Frame, area: Rect, app: &App);
+[[commands.tokens]]          # 至少1个; text拼接==command
+text = "ls"
+desc = "列出目录内容"
 
-    /// 处理键盘事件，返回可能的状态转换
-    fn handle_key(&mut self, key: KeyEvent, app: &mut App) -> Option<AppState>;
-}
+[[commands.output_annotations]]  # 可选
+pattern = "drwx"
+note = "目录权限标记"
+
+[commands.dictation]         # 必填
+prompt = "中文题目"
+answers = ["ls -la /var/log"]  # 至少1个
 ```
 
-### 4.2 颜色方案
+### 4.2 命令讲解 `data/lessons/*.toml`
 
-```rust
-// src/ui/widgets.rs
+```toml
+[meta]
+command = "grep"            # 必填
+full_name = "..."           # 可选
+category = "text_process"   # 必填
+difficulty = "basic"        # 必填
+importance = "core"         # 可选（默认core）
 
-pub mod colors {
-    use ratatui::style::Color;
+[overview]
+summary = "一句话"           # 必填
+explanation = """多行"""     # 必填
 
-    pub const TYPED_CORRECT: Color = Color::White;      // 已正确输入
-    pub const TYPED_CORRECT_BG: Color = Color::Reset;   // 黑底白字
-    pub const PENDING: Color = Color::DarkGray;          // 待输入（灰色）
-    pub const PENDING_BG: Color = Color::Rgb(40,40,40);  // 灰底
-    pub const CURSOR: Color = Color::Black;              // 光标字符
-    pub const CURSOR_BG: Color = Color::White;           // 光标背景（白底黑字）
-    pub const ERROR_FLASH: Color = Color::White;         // 错误闪红
-    pub const ERROR_FLASH_BG: Color = Color::Red;        // 红底
-    pub const TOKEN_DESC: Color = Color::Cyan;           // token 注释颜色
-    pub const TREE_LINE: Color = Color::DarkGray;        // token 树状线颜色
-    pub const HEADER: Color = Color::Yellow;             // 标题颜色
-    pub const ACCENT: Color = Color::Green;              // 强调色
-    pub const WEAK_CHAR: Color = Color::Red;             // 薄弱字符
-    pub const STRONG_CHAR: Color = Color::Green;         // 熟练字符
-    pub const MEDIUM_CHAR: Color = Color::Yellow;        // 练习中字符
-}
+[syntax]
+basic = "grep [选项] 模式 [文件...]"  # 必填
+[[syntax.parts]]             # 可选
+name = "模式"
+desc = "搜索的字符串"
+
+[[options]]                  # 可选
+flag = "-i"
+name = "忽略大小写"
+example = "grep -i 'err' log"  # 可选
+note = "..."                   # 可选
+
+[[examples]]                 # 至少1个
+level = 1                    # 必填 1-4
+command = "grep 'error' syslog"
+summary = "搜索 error"
+display = "..."              # 可选
+simulated_output = """...""" # 可选
+
+[[gotchas]]                  # 可选
+title = "标题"
+content = """..."""
 ```
 
-### 4.3 各页面布局规格
+### 4.3 符号专题 `data/symbols/*.toml`
 
-#### 主菜单 (Home)
-```
-布局: 居中 Block
-- 上部: 标题 ASCII art + 版本号
-- 中部: 4 个菜单项（上下键选择，高亮当前项）
-- 下部: 难度选择器（左右键切换）+ 累计练习统计
-- 底栏: 快捷键提示
+```toml
+[meta]
+id = "pipe_redirect"        # 必填
+topic = "管道与重定向"
+description = "..."
+difficulty = "basic"
+icon = "🔀"                 # 可选
+
+[[symbols]]
+id = "pipe"                  # 必填
+char_repr = "|"              # 必填
+name = "管道"
+summary = "一句话"
+explanation = """多行"""
+
+[[symbols.examples]]
+command = "cat file | grep x"
+explanation = "..."
+display = "..."              # 可选
+simulated_output = "..."     # 可选
+
+[[exercises]]                # 可选
+prompt = "题目"
+answers = ["答案1", "答案2"]
 ```
 
-#### 对着打 (Type)
-```
-布局: 垂直三段
-┌─── 顶栏 (3行) ──────────────────────┐
-│ 模式标签 | 类别 | 难度 | 进度 n/N   │
-├─── 主区 (动态高度) ─────────────────┤
-│ 命令文本 + token 注释树             │
-│ 输入行（逐字符着色）               │
-├─── 底栏 (3行) ──────────────────────┤
-│ WPM | 准确率 | 耗时 | 快捷键       │
-└─────────────────────────────────────┘
+### 4.4 系统架构 `data/system/*.toml`
+
+```toml
+[meta]
+id = "directory_structure"
+topic = "Linux 目录结构"
+description = "..."
+difficulty = "beginner"
+icon = "🏗️"
+
+overview = """ASCII art..."""  # 可选
+
+[[sections]]
+id = "etc"
+title = "/etc — 系统配置目录"
+description = """多行..."""
+
+[[sections.commands]]
+command = "ls /etc/"
+summary = "查看配置目录"
+simulated_output = """..."""
+
+[[sections.config_files]]    # 可选
+id = "sshd-config"
+path = "/etc/ssh/sshd_config"
+name = "SSH 配置"
+description = "..."
+sample_content = """..."""
+
+[[sections.config_files.lessons]]
+title = "禁用密码登录"
+before = "PasswordAuthentication yes"
+after = "PasswordAuthentication no"
+explanation = """..."""
+practice_command = "sudo sed -i '...'"  # 可选
 ```
 
-#### 统计面板 (Stats)
-```
-布局: Tab 页 (4个)
-[速度总览] [字符分析] [类别掌握] [练习日历]
-Tab 键切换子页面
-每个子页面有独立的渲染函数
-```
+### 4.5 跨文件约束
+
+| 约束 | 校验方式 |
+|------|----------|
+| `command.id` 全局唯一 | 集成测试 `id_uniqueness.rs` |
+| `lesson.meta.command` 唯一 | loader 启动时检查 |
+| `topic.meta.id` 唯一 | loader 启动时检查 |
+| tokens 拼接 == command | 集成测试 `tokens_consistency.rs` |
+| TOML 字符串转义正确 | 集成测试 `parse_all.rs` |
 
 ---
 
-## 5. 事件循环架构
+## 5. 模块详细设计
+
+### 5.1 对着打模式
+
+**UI 布局：**
+
+```
+┌─────────────────────────────────────────────────────┐
+│ user@cmdtyper:~$ ls -la /var/log                   │ 已完成（绿）
+│ user@cmdtyper:~$ grep -r "err█r" /var/log          │ 当前（三态着色）
+│                                                     │
+│                     （空白区域）                      │
+├─────────────────────────────────────────────────────┤
+│ 搜索日志中的 error        [H]  WPM: 42  准确: 96%  │ 底栏
+└─────────────────────────────────────────────────────┘
+```
+
+**交互规则：**
+
+| 输入 | 行为 |
+|------|------|
+| 正确字符 | 变白，光标右移 |
+| 错误字符 | 闪红 150ms，不动 |
+| 最后字符正确 | 自动完成当前行 |
+| `H` | 切换含义提示 |
+| `Tab` | 跳过 |
+| `Ctrl+R` | 重练 |
+| `Esc` | 返回主菜单 |
+
+**Prompt 生成：**
+
+```rust
+fn format_prompt(config: &UserConfig, path: &str) -> String {
+    match config.prompt_style {
+        Full    => format!("{}@{}:{}$ ", config.prompt_username, config.prompt_hostname, path),
+        Simple  => "$ ".to_string(),
+        Minimal => "> ".to_string(),
+    }
+}
+// path 默认 "~"
+```
+
+**多行命令**：`display` 含 `\` 时渲染续行 `> `。
+
+### 5.2 学习中心 — 命令专题
+
+**三阶段学习流程：**
+
+1. **Overview（概览）** — 显示 `overview.explanation` + `syntax` + `options`
+2. **Example（演示）** — 显示 `examples[i]` 的命令 + token 注释 + 模拟输出框
+3. **Practice（跟打）** — 用 `TypingEngine` 逐字符打，完成后显示 `simulated_output`
+
+**模拟输出框渲染：**
+
+```
+┌──────────────────────────────────────────┐
+│ $ grep -rn 'TODO' src/                   │  ← 绿色 prompt + 白色命令
+│ src/main.rs:42:    // TODO: add error    │  ← 白色输出文本
+│ src/app.rs:156:    // TODO: implement    │
+└──────────────────────────────────────────┘
+```
+
+边框用 `SIMULATED_BORDER` 颜色，内部 prompt 用 `SIMULATED_PROMPT`。
+
+### 5.3 学习中心 — 符号专题
+
+流程：讲解 → 多个示例（←→翻页）→ 练习题（用 Matcher）
+
+### 5.4 学习中心 — 系统架构专题
+
+流程：总览 → 选章节 → 详细讲解 → 常用命令+模拟输出 → 配置文件（如有）
+
+### 5.5 专题复习
+
+两阶段：**知识梳理**（表格展示）→ **集中练习**（随机抽题，打字+默写混合）
+
+### 5.6 设置页面
+
+可配置项：PromptStyle、username、hostname、show_path、target_wpm、error_flash_ms、show_token_hints、adaptive_recommend。自动保存。
+
+---
+
+## 6. 事件循环与渲染架构
 
 ```rust
 // src/event.rs
+pub enum AppEvent { Key(KeyEvent), Tick, Resize(u16, u16) }
 
-pub enum AppEvent {
-    Key(KeyEvent),
-    Tick,           // 每 50ms 触发一次（用于动画、计时器更新）
-    Resize(u16, u16),
-}
+// 主循环: 50ms tick → 渲染 → 处理事件 → 状态转换
+// src/ui/mod.rs: render() 根据 app.state 分发到对应 UI 模块
+```
 
-// main loop 伪代码:
-loop {
-    // 1. 渲染
-    terminal.draw(|frame| ui::render(frame, &app))?;
+**颜色常量**（`src/ui/widgets.rs`）：
 
-    // 2. 等待事件 (50ms timeout for tick)
-    match event::poll(Duration::from_millis(50)) {
-        Key(key) => {
-            match app.state {
-                Home => home.handle_key(key, &mut app),
-                Typing(ref mut s) => typing.handle_key(key, &mut app),
-                // ...
-            }
-        }
-        Tick => {
-            // 更新闪红动画状态
-            // 更新实时 WPM 显示
-        }
-        Resize(w, h) => { /* 重绘 */ }
-    }
+| 常量 | 颜色 | 用途 |
+|------|------|------|
+| TYPED_CORRECT | White | 已正确输入 |
+| PENDING / PENDING_BG | DarkGray / Rgb(40,40,40) | 待输入 |
+| CURSOR / CURSOR_BG | Black / White | 当前光标 |
+| ERROR_FLASH / ERROR_FLASH_BG | White / Red | 错误闪红 |
+| COMPLETED | Green | 已完成行 |
+| PROMPT | Cyan | prompt 文本 |
+| SIMULATED_BORDER | DarkGray | 模拟输出框 |
+| SIMULATED_PROMPT | Green | 模拟输出内的 $ |
+| HEADER | Yellow | 标题 |
+| TOKEN_DESC | Cyan | token 注释 |
 
-    if app.state == Quitting { break; }
-}
+---
+
+## 7. 持久化与文件布局
+
+```
+~/.local/share/cmdtyper/
+├── history.json    # Vec<SessionRecord>
+├── stats.json      # UserStats
+└── config.json     # UserConfig
+```
+
+- 原子写入：写 .tmp → fsync → rename
+- 损坏恢复：解析失败返回 Default，不 panic
+
+---
+
+## 8. 源码目录结构
+
+```
+src/
+├── main.rs
+├── app.rs
+├── event.rs
+├── core/
+│   ├── mod.rs
+│   ├── engine.rs
+│   ├── matcher.rs
+│   ├── scorer.rs
+│   ├── timer.rs
+│   └── terminal_history.rs
+├── data/
+│   ├── mod.rs
+│   ├── models.rs
+│   ├── command_loader.rs
+│   ├── lesson_loader.rs
+│   ├── symbol_loader.rs
+│   ├── system_loader.rs
+│   └── progress.rs
+└── ui/
+    ├── mod.rs
+    ├── widgets.rs
+    ├── home.rs
+    ├── typing.rs
+    ├── learn_hub.rs
+    ├── command_topics.rs
+    ├── command_lesson.rs
+    ├── symbol_topics.rs
+    ├── symbol_lesson.rs
+    ├── system_topics.rs
+    ├── system_lesson.rs
+    ├── review.rs
+    ├── dictation.rs
+    ├── round_result.rs
+    ├── stats.rs
+    └── settings.rs
+
+data/
+├── commands/       # 命令题库 (现有 19 个 + 增强)
+├── lessons/        # 命令讲解 (~15 个)
+├── symbols/        # 符号专题 (~6 个)
+├── system/         # 系统架构 (~6 个)
+└── reviews/        # 复习数据 (可选，可自动生成)
+
+tests/
+├── parse_all.rs
+├── tokens_consistency.rs
+├── id_uniqueness.rs
+├── engine_test.rs
+├── matcher_test.rs
+└── scorer_test.rs
 ```
 
 ---
 
-## 6. 开发阶段规划
+## 9. 调试与测试策略
 
-### Phase 0: 项目骨架 (P0)
-- [x] 项目目录结构
-- [x] Cargo.toml 依赖配置
-- [x] Git 仓库初始化
-- [x] Dockerfile + docker-compose.yml
-- [ ] `src/main.rs`: 终端初始化 + 事件循环骨架
-- [ ] `src/app.rs`: App 状态机 + 状态枚举
-- [ ] `src/event.rs`: 事件处理
-- [ ] `src/ui/home.rs`: 主菜单渲染 + 导航
-- [ ] 编译通过，显示主菜单
-
-### Phase 1: 打字引擎 (P1)
-- [ ] `src/core/engine.rs`: TypingEngine 实现
-  - [ ] 逐字符匹配逻辑
-  - [ ] 正确击键记录 + 光标前进
-  - [ ] 错误击键记录 + 闪红触发 + 不前进
-  - [ ] 完成检测
-- [ ] `src/core/timer.rs`: Timer 实现
-- [ ] `src/ui/typing.rs`: 对着打 UI
-  - [ ] 灰底/黑色/闪红三态字符渲染
-  - [ ] 实时 WPM + 准确率底栏
-  - [ ] 光标动画（闪烁）
-- [ ] 单元测试: engine 正确性
-
-### Phase 2: 题库系统 (P2)
-- [ ] `src/data/models.rs`: 所有数据结构
-- [ ] `src/data/loader.rs`: TOML 解析 + 加载
-- [ ] `data/commands/01_beginner.toml`: 入门题库 (~15 条)
-- [ ] 按难度/类别筛选
-- [ ] 单元测试: loader + 题库格式验证
-
-### Phase 3: 学习模式 (P3)
-- [ ] `src/ui/learn.rs`: 学习模式 UI
-  - [ ] token 树状注释渲染
-  - [ ] 概述文本显示
-  - [ ] 跟打输入（复用 TypingEngine）
-- [ ] Tab 跳过 + Ctrl+R 重练
-
-### Phase 4: 默写模式 (P4)
-- [ ] `src/core/matcher.rs`: 多答案匹配器
-  - [ ] 字符串标准化
-  - [ ] 精确匹配 + 标准化匹配
-  - [ ] 差异计算（简单 diff）
-- [ ] `src/ui/dictation.rs`: 默写 UI
-  - [ ] 中文提示展示
-  - [ ] 自由输入框
-  - [ ] 结果判定 + 正确答案展示
-- [ ] 单元测试: matcher
-
-### Phase 5: 统计系统 (P5)
-- [ ] `src/core/scorer.rs`: 评分器实现
-  - [ ] 字符级统计聚合
-  - [ ] 掌握度计算
-  - [ ] 薄弱字符分析
-  - [ ] 类别掌握度
-  - [ ] 智能推荐
-- [ ] `src/data/progress.rs`: JSON 持久化
-- [ ] `src/ui/stats.rs`: 统计面板
-  - [ ] Tab 1: 速度总览（WPM 趋势 sparkline + 分布直方图）
-  - [ ] Tab 2: 字符分析（表格 + 单字符速度曲线）
-  - [ ] Tab 3: 类别掌握度（进度条）
-  - [ ] Tab 4: 练习日历（热力图）
-
-### Phase 6: 本轮结果 (P6)
-- [ ] `RoundResult` 页面
-  - [ ] 本轮 WPM / CPM / 准确率 / 耗时
-  - [ ] 错误字符 Top 5
-  - [ ] 与历史平均对比（箭头趋势）
-  - [ ] [Enter] 下一题 / [R] 重练 / [Esc] 返回
-
-### Phase 7: 题库扩充 + 打磨 (P7)
-- [ ] 扩充题库到 ~50 条命令 (~120 条变体)
-  - [ ] `02_basic.toml`
-  - [ ] `03_advanced.toml`
-  - [ ] `04_practical.toml`
-- [ ] 语法体系讲解数据 (`data/syntax/`)
-- [ ] UI 细节打磨
-  - [ ] ASCII art 标题
-  - [ ] 过渡动画
-  - [ ] 颜色主题
-
-### Phase 8: 集成调试 (P8)
-- [ ] 全模式流程走通测试
-- [ ] 极端输入测试（空命令、超长命令、Unicode）
-- [ ] 终端兼容性（xterm-256color, tmux, 不同尺寸）
-- [ ] 中文宽字符对齐验证
-- [ ] 持久化读写可靠性（文件损坏恢复）
-- [ ] Docker 构建 + 运行测试
-- [ ] 性能测试（大题库加载、长历史记录）
-- [ ] README.md 编写
-- [ ] 发布 v0.1.0 tag
-
----
-
-## 7. 测试策略
-
-### 7.1 单元测试
+### 9.1 单元测试矩阵
 
 | 模块 | 测试内容 |
 |------|----------|
-| `engine` | 正确输入前进、错误不前进、完成检测、WPM 计算 |
-| `matcher` | 精确匹配、标准化匹配、无匹配+diff、边界情况 |
-| `scorer` | 字符统计更新、掌握度计算、推荐算法 |
-| `loader` | TOML 解析、格式错误处理、筛选逻辑 |
-| `progress` | 文件读写、损坏恢复、并发安全 |
+| TypingEngine | 正确前进、错误不动、完成检测、WPM/CPM、reset |
+| TerminalHistory | push/visible/滚动/clear |
+| Matcher | 精确/标准化/NoMatch+diff/空输入 |
+| Scorer | 字符统计、掌握度、弱字符、推荐 |
+| Timer | start/pause/resume/format |
+| CommandLoader | TOML 解析、metadata 传播、缺失目录、v0.2 新增字段 |
+| LessonLoader | TOML 解析、可选字段默认值 |
+| SymbolLoader | TOML 解析、exercises |
+| SystemLoader | TOML 解析、config_files 嵌套 |
+| ProgressStore | 读写、原子写入、损坏恢复 |
 
-### 7.2 集成测试
+### 9.2 集成测试
 
-```rust
-// tests/engine_test.rs
-#[test]
-fn test_typing_full_command() {
-    let mut engine = TypingEngine::new("ls -la");
-    assert_eq!(engine.input('l'), InputResult::Correct);
-    assert_eq!(engine.input('s'), InputResult::Correct);
-    assert_eq!(engine.input(' '), InputResult::Correct);
-    assert_eq!(engine.input('x'), InputResult::Error('-')); // 打错
-    assert_eq!(engine.input('-'), InputResult::Correct);
-    // ...
-}
+| 文件 | 内容 |
+|------|------|
+| `parse_all.rs` | 所有 TOML 零错误反序列化 |
+| `tokens_consistency.rs` | tokens 拼接 == command |
+| `id_uniqueness.rs` | 全局 ID 唯一 |
 
-#[test]
-fn test_matcher_multiple_answers() {
-    let answers = vec![
-        "ls -la".to_string(),
-        "ls -al".to_string(),
-    ];
-    assert!(matches!(
-        Matcher::check("ls -la", &answers),
-        MatchResult::Exact(0)
-    ));
-    assert!(matches!(
-        Matcher::check("ls  -al", &answers),  // 多空格
-        MatchResult::Normalized(1)
-    ));
-}
-```
+### 9.3 每阶段调试检查清单
+
+见 TODO.md 各 Phase 末尾的「调试检查」节。
 
 ---
 
-## 8. 已知技术风险
+## 10. 开发分期与依赖关系
 
-| 风险 | 影响 | 缓解措施 |
-|------|------|----------|
-| 中文字符宽度 | 终端对齐错误 | 使用 `unicode-width` crate 计算实际显示宽度 |
-| ratatui 中文渲染 | 部分终端中文显示异常 | 测试 xterm / gnome-terminal / tmux / kitty |
-| 闪红动画帧率 | 闪红太快看不到 | 50ms tick + 150ms flash 持续时间 |
-| TOML 大文件解析 | 启动慢 | 题库分文件，按需加载 |
-| JSON 持久化损坏 | 用户数据丢失 | 写入时先写 .tmp 再 rename（原子写入） |
+```
+Phase 0: 项目骨架
+  ↓
+Phase A: 对着打改造（终端模拟）  ←── 依赖 Phase 0
+  ↓
+Phase B: 学习中心骨架 + 命令专题  ←── 依赖 Phase 0
+  ↓
+Phase C: 符号专题  ←── 依赖 Phase B（复用 UI 组件）
+  ↓
+Phase D: 系统架构专题  ←── 依赖 Phase B
+  ↓
+Phase E: 专题复习  ←── 依赖 Phase B/C/D
+  ↓
+Phase F: 设置 + 打磨 + 最终集成  ←── 依赖全部
+```
+
+**Phase A 和 Phase B 可以并行开发**（无代码依赖）。
+
+### 工作量预估
+
+| Phase | 新增/改动行数 | 内容文件 | 复杂度 |
+|-------|-------------|----------|--------|
+| 0: 骨架 | ~500 | 0 | ★☆☆ |
+| A: 对着打 | ~400 | 少量字段 | ★★☆ |
+| B: 命令专题 | ~1800 | ~15 lessons | ★★★ |
+| C: 符号专题 | ~800 | ~6 symbols | ★★☆ |
+| D: 系统架构 | ~1200 | ~6 system | ★★★ |
+| E: 复习 | ~600 | 自动生成 | ★★☆ |
+| F: 设置+打磨 | ~500 | 0 | ★★☆ |
+| **总计** | **~5800** | **~27** | |
+
+---
+
+## 11. 已知风险与缓解
+
+| 风险 | 影响 | 缓解 |
+|------|------|------|
+| 中文宽字符对齐 | UI 错位 | unicode-width + 测试 CJK 渲染 |
+| TOML 字符串转义 | 解析失败 | 集成测试 parse_all + 文档规范 |
+| 模拟输出过长 | 超出终端 | 限制显示行数 + 滚动 |
+| 状态机复杂度 | 导航 bug | 严格测试每个 Esc 返回路径 |
+| 内容编写量大 | 进度慢 | Codex subagent 并行 + 模板化 |
+| JSON 持久化损坏 | 数据丢失 | 原子写入 + 损坏降级 |

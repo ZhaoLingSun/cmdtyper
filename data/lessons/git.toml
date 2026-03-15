@@ -1,0 +1,232 @@
+[meta]
+command = "git"
+full_name = "Git Version Control"
+category = "scripting"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "分布式版本控制系统，用于跟踪代码变更和团队协作"
+explanation = """git 是当今最流行的分布式版本控制系统，由 Linux 内核创始人 Linus Torvalds 于 2005 年创建。版本控制让你可以记录文件的变更历史，随时回退到之前的状态，并与他人协作开发。git 的核心概念：仓库（repository）、提交（commit）、分支（branch）、合并（merge）。典型工作流：git add 暂存修改 → git commit 提交记录 → git push 推送到远程仓库。git 几乎是所有软件开发项目的基础工具，掌握它是现代开发者的必备技能。"""
+
+[syntax]
+basic = "git <子命令> [选项] [参数]"
+[[syntax.parts]]
+name = "子命令"
+desc = "具体操作：add、commit、push、pull、branch、merge、log、diff 等"
+[[syntax.parts]]
+name = "参数"
+desc = "根据子命令不同，可以是文件路径、分支名、提交 ID 等"
+
+[[options]]
+flag = "add"
+name = "暂存修改"
+example = "git add ."
+note = "将工作区的修改添加到暂存区（staging area）"
+
+[[options]]
+flag = "commit"
+name = "提交记录"
+example = "git commit -m '修复登录bug'"
+note = "将暂存区的修改提交到本地仓库，-m 指定提交信息"
+
+[[options]]
+flag = "push"
+name = "推送到远程"
+example = "git push origin main"
+note = "将本地提交推送到远程仓库"
+
+[[options]]
+flag = "pull"
+name = "拉取并合并"
+example = "git pull origin main"
+note = "从远程仓库拉取最新修改并合并到当前分支"
+
+[[options]]
+flag = "branch"
+name = "管理分支"
+example = "git branch feature/login"
+note = "列出、创建或删除分支"
+
+[[options]]
+flag = "merge"
+name = "合并分支"
+example = "git merge feature/login"
+note = "将指定分支的修改合并到当前分支"
+
+[[options]]
+flag = "log"
+name = "查看提交历史"
+example = "git log --oneline"
+note = "显示提交历史记录，--oneline 以简洁一行格式显示"
+
+[[options]]
+flag = "diff"
+name = "查看差异"
+example = "git diff HEAD~1"
+note = "显示工作区与暂存区，或两次提交之间的差异"
+
+[[options]]
+flag = "stash"
+name = "临时储藏"
+example = "git stash"
+note = "临时保存未提交的修改，以便切换分支"
+
+[[examples]]
+level = 1
+command = "git status"
+summary = "查看当前仓库的工作区和暂存区状态"
+simulated_output = """On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+        modified:   src/main.rs
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        notes.txt"""
+
+output_explanation = "输出体现了 Git 仓库当前状态或历史操作结果。可根据分支名、提交哈希、变更文件列表判断是否处于预期的开发流程。"
+[[examples.token_details]]
+token = "status"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples]]
+level = 1
+command = "git log --oneline -5"
+summary = "查看最近5条提交历史（简洁格式）"
+simulated_output = """a3f8c12 修复用户登录验证失败的问题
+b1d7e89 添加密码重置功能
+c4a2f01 优化数据库查询性能
+d8e3b56 更新依赖库版本
+e5f9c23 初始化项目结构"""
+
+output_explanation = "输出体现了 Git 仓库当前状态或历史操作结果。可根据分支名、提交哈希、变更文件列表判断是否处于预期的开发流程。"
+[[examples.token_details]]
+token = "log"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "--oneline"
+explanation = "把每次提交压缩为一行显示。"
+
+[[examples.token_details]]
+token = "-5"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples]]
+level = 2
+command = "git checkout -b feature/user-auth"
+summary = "创建并切换到新的功能分支"
+simulated_output = "Switched to a new branch 'feature/user-auth'"
+
+output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+[[examples.token_details]]
+token = "checkout"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-b"
+explanation = "使用批处理模式运行，适合脚本中非交互执行。"
+
+[[examples.token_details]]
+token = "feature/user-auth"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples]]
+level = 2
+command = "git add src/ && git commit -m '实现用户认证模块'"
+summary = "暂存 src 目录并提交（工作流示例）"
+simulated_output = """[feature/user-auth 7c3d891] 实现用户认证模块
+ 4 files changed, 128 insertions(+), 12 deletions(-)
+ create mode 100644 src/auth/mod.rs"""
+
+output_explanation = "输出体现了 Git 仓库当前状态或历史操作结果。可根据分支名、提交哈希、变更文件列表判断是否处于预期的开发流程。"
+[[examples.token_details]]
+token = "add"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "src/"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples.token_details]]
+token = "&&"
+explanation = "前一个命令成功后才继续执行后一个命令。"
+
+[[examples.token_details]]
+token = "commit"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-m"
+explanation = "设置权限掩码/模式，或提交说明（取决于命令）。"
+
+[[examples.token_details]]
+token = "实现用户认证模块"
+explanation = "设置新建对象的权限模式。"
+
+[[examples]]
+level = 3
+command = "git stash && git checkout main && git pull"
+summary = "储藏当前修改、切换主分支并更新"
+simulated_output = """Saved working directory and index state WIP on feature/user-auth: 7c3d891
+Switched to branch 'main'
+Already up to date."""
+
+output_explanation = "输出体现了 Git 仓库当前状态或历史操作结果。可根据分支名、提交哈希、变更文件列表判断是否处于预期的开发流程。"
+[[examples.token_details]]
+token = "stash"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "&&"
+explanation = "前一个命令成功后才继续执行后一个命令。"
+
+[[examples.token_details]]
+token = "checkout"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "main"
+explanation = "状态或类型筛选值，用来限制命令输出范围。"
+
+[[examples.token_details]]
+token = "pull"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples]]
+level = 3
+command = "git log --oneline --graph --all"
+summary = "用图形化方式查看所有分支的提交历史"
+simulated_output = """* a3f8c12 (HEAD -> main, origin/main) 修复用户登录验证失败的问题
+| * 2b4d789 (feature/user-auth) 实现用户认证模块
+|/
+* b1d7e89 添加密码重置功能
+* c4a2f01 优化数据库查询性能"""
+
+output_explanation = "输出体现了 Git 仓库当前状态或历史操作结果。可根据分支名、提交哈希、变更文件列表判断是否处于预期的开发流程。"
+[[examples.token_details]]
+token = "log"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "--oneline"
+explanation = "把每次提交压缩为一行显示。"
+
+[[examples.token_details]]
+token = "--graph"
+explanation = "以分支图形方式显示提交历史。"
+
+[[examples.token_details]]
+token = "--all"
+explanation = "处理所有对象。"
+
+[[gotchas]]
+title = "git add . 会暂存所有修改包括不需要的文件"
+content = """git add . 会暂存当前目录（含子目录）中所有修改过的文件。在提交前务必用 git status 确认暂存了正确的文件。应该使用 .gitignore 文件排除不需要跟踪的文件，如 node_modules/、target/、*.pyc、.env 等。"""
+
+[[gotchas]]
+title = "push 前先 pull，避免冲突"
+content = """在团队协作中，push 前应先 pull 获取最新改动，再推送自己的提交。如果直接 push 遇到 "rejected" 错误，说明远程有新提交需要先合并。可以用 git pull --rebase 代替 git pull，历史记录更加整洁。强制推送（git push -f）会覆盖他人的提交，在共享分支上应避免使用！"""

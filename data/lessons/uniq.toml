@@ -1,0 +1,220 @@
+[meta]
+command = "uniq"
+full_name = "unique"
+category = "text_process"
+difficulty = "basic"
+importance = "common"
+
+[overview]
+summary = "去除或统计文件中的重复行"
+explanation = """uniq 命令用于检测和处理文件中相邻的重复行。\
+它可以去除重复行、统计重复次数、只显示重复行或只显示唯一行。\
+关键点：uniq 只处理相邻的重复行，因此通常需要先用 sort 排序。\
+经典用法是 sort file | uniq -c | sort -rn，用于统计词频或日志中的重复条目。\
+uniq 虽然简单，但在数据处理管道中是不可或缺的环节。"""
+
+[syntax]
+basic = "uniq [选项] [输入文件 [输出文件]]"
+[[syntax.parts]]
+name = "输入文件"
+desc = "要处理的文件，省略时从标准输入读取"
+[[syntax.parts]]
+name = "输出文件"
+desc = "输出到指定文件，省略时输出到标准输出"
+
+[[options]]
+flag = "-c"
+name = "计数"
+example = "sort data.txt | uniq -c"
+note = "在每行前显示该行出现的次数"
+
+[[options]]
+flag = "-d"
+name = "仅显示重复行"
+example = "sort list.txt | uniq -d"
+note = "只输出有重复的行（每组重复只输出一次）"
+
+[[options]]
+flag = "-u"
+name = "仅显示唯一行"
+example = "sort list.txt | uniq -u"
+note = "只输出没有重复的行"
+
+[[options]]
+flag = "-i"
+name = "忽略大小写"
+example = "sort data.txt | uniq -ic"
+note = "比较时忽略大小写差异"
+
+[[options]]
+flag = "-f"
+name = "跳过字段"
+example = "uniq -f 1 data.txt"
+note = "比较时跳过前 N 个字段（空格分隔）"
+
+[[options]]
+flag = "-w"
+name = "限制比较字符数"
+example = "uniq -w 10 data.txt"
+note = "只比较每行前 N 个字符"
+
+[[examples]]
+level = 1
+command = "sort names.txt | uniq"
+summary = "排序后去除重复的名字"
+simulated_output = """Alice
+Bob
+Charlie
+Diana
+Eve"""
+
+output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
+[[examples.token_details]]
+token = "names.txt"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples]]
+level = 2
+command = "sort names.txt | uniq -c"
+summary = "统计每个名字出现的次数"
+simulated_output = """      3 Alice
+      1 Bob
+      2 Charlie
+      1 Diana
+      4 Eve"""
+
+output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
+[[examples.token_details]]
+token = "names.txt"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-c"
+explanation = "指定次数或统计计数（具体含义取决于命令）。"
+
+[[examples]]
+level = 2
+command = "sort names.txt | uniq -d"
+summary = "只显示有重复的名字"
+simulated_output = """Alice
+Charlie
+Eve"""
+
+output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
+[[examples.token_details]]
+token = "names.txt"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-d"
+explanation = "通常用于后台运行、延迟间隔或指定目录（看命令上下文）。"
+
+[[examples]]
+level = 3
+command = "sort access.log | uniq -c | sort -rn | head -5"
+summary = "统计日志中出现次数最多的 5 条记录"
+display = "sort access.log | uniq -c \\\n  | sort -rn | head -5"
+simulated_output = """    523 192.168.1.50 - GET /index.html
+    312 10.0.0.5 - GET /api/health
+    187 192.168.1.105 - POST /api/login
+    145 172.16.0.20 - GET /static/main.js
+     98 192.168.1.200 - GET /favicon.ico"""
+
+output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
+[[examples.token_details]]
+token = "access.log"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-c"
+explanation = "指定次数或统计计数（具体含义取决于命令）。"
+
+[[examples.token_details]]
+token = "-rn"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-5"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples]]
+level = 4
+command = "awk '{print $1}' access.log | sort | uniq -c | sort -rn | head -10"
+summary = "统计访问最多的 IP 地址（经典管道组合）"
+display = "awk '{print $1}' access.log \\\n  | sort | uniq -c | sort -rn | head -10"
+simulated_output = """   1523 192.168.1.50
+    987 10.0.0.5
+    654 192.168.1.105
+    432 172.16.0.20
+    321 192.168.1.200
+    234 10.0.0.12
+    187 203.0.113.42
+    145 192.168.1.30
+     98 10.0.0.100
+     76 172.16.0.55"""
+
+output_explanation = "这是 awk 的筛选/字段处理结果：它按给定规则对输入文本逐行处理，只输出匹配或计算后的内容。可重点关注字段分隔符、条件表达式和 END 统计是否符合预期。"
+[[examples.token_details]]
+token = "{print $1}"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "access.log"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-c"
+explanation = "指定次数或统计计数（具体含义取决于命令）。"
+
+[[examples.token_details]]
+token = "-rn"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "-10"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[gotchas]]
+title = "uniq 只去除相邻的重复行"
+content = """这是 uniq 最常见的陷阱。uniq 只比较相邻行是否相同：
+  文件内容：          uniq 结果：
+  apple               apple
+  banana              banana
+  apple               apple      ← apple 不相邻，不被去重！
+  banana              banana
+
+正确做法是先排序再去重：
+  sort file.txt | uniq     — 先排序使相同行相邻，再去重
+  sort -u file.txt         — 更简洁的写法，排序同时去重"""
+
+[[gotchas]]
+title = "uniq -c 的输出格式"
+content = """uniq -c 在每行前面加上计数，但输出格式有固定的前导空格：
+      3 Alice
+      1 Bob
+
+后续处理时需要注意前导空格。用 sort -rn 排序时会自动忽略前导空格。
+如果需要去掉前导空格，可以用：
+  sort file | uniq -c | sort -rn | sed 's/^[ ]*//'
+或者：
+  sort file | uniq -c | sort -rn | awk '{print $1, $2}'"""

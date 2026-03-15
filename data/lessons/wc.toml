@@ -1,0 +1,198 @@
+[meta]
+command = "wc"
+full_name = "word count"
+category = "text_process"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "统计文件的行数、单词数和字节数"
+explanation = """wc（word count）命令用于统计文件中的行数、单词数和字节数。\
+它是最简单但最实用的文本处理工具之一。\
+wc 经常通过管道与其他命令配合使用，例如统计搜索结果的数量、\
+统计代码行数、检查文件记录数等。\
+不带任何选项时，wc 会同时输出行数、单词数和字节数。"""
+
+[syntax]
+basic = "wc [选项] [文件]..."
+[[syntax.parts]]
+name = "选项"
+desc = "指定统计哪种计数"
+[[syntax.parts]]
+name = "文件"
+desc = "要统计的文件，省略时从标准输入读取"
+
+[[options]]
+flag = "-l"
+name = "统计行数"
+example = "wc -l file.txt"
+note = "只输出行数，这是最常用的选项"
+
+[[options]]
+flag = "-w"
+name = "统计单词数"
+example = "wc -w essay.txt"
+note = "按空白字符分隔统计单词数量"
+
+[[options]]
+flag = "-c"
+name = "统计字节数"
+example = "wc -c file.bin"
+note = "输出文件的字节大小"
+
+[[options]]
+flag = "-m"
+name = "统计字符数"
+example = "wc -m chinese.txt"
+note = "统计字符数（中文等多字节字符算 1 个），与 -c 不同"
+
+[[options]]
+flag = "-L"
+name = "最长行长度"
+example = "wc -L code.py"
+note = "输出文件中最长行的字符数"
+
+[[examples]]
+level = 1
+command = "wc /etc/passwd"
+summary = "统计 /etc/passwd 的行数、单词数和字节数"
+simulated_output = """  42  68 2456 /etc/passwd"""
+
+output_explanation = "输出分别表示行数、单词数、字节数（或仅某一项），常用于快速统计文本规模或结果数量。"
+[[examples.token_details]]
+token = "/etc/passwd"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples]]
+level = 1
+command = "wc -l /etc/passwd"
+summary = "统计系统中有多少个用户账户"
+simulated_output = """42 /etc/passwd"""
+
+output_explanation = "输出分别表示行数、单词数、字节数（或仅某一项），常用于快速统计文本规模或结果数量。"
+[[examples.token_details]]
+token = "-l"
+explanation = "列表模式或逐行统计（取决于命令）。"
+
+[[examples.token_details]]
+token = "/etc/passwd"
+explanation = "文件或目录路径，指定命令要操作的位置。"
+
+[[examples]]
+level = 2
+command = "find . -name '*.rs' | wc -l"
+summary = "统计当前项目中有多少个 Rust 源文件"
+simulated_output = """18"""
+
+output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
+[[examples.token_details]]
+token = "."
+explanation = "当前目录。"
+
+[[examples.token_details]]
+token = "-name"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "*.rs"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-l"
+explanation = "列表模式或逐行统计（取决于命令）。"
+
+[[examples]]
+level = 2
+command = "wc -l src/*.rs"
+summary = "分别统计每个 Rust 源文件的行数"
+simulated_output = """   45 src/main.rs
+  128 src/app.rs
+   89 src/event.rs
+  234 src/lib.rs
+  496 total"""
+
+output_explanation = "输出分别表示行数、单词数、字节数（或仅某一项），常用于快速统计文本规模或结果数量。"
+[[examples.token_details]]
+token = "-l"
+explanation = "列表模式或逐行统计（取决于命令）。"
+
+[[examples.token_details]]
+token = "src/*.rs"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples]]
+level = 3
+command = "cat access.log | grep '404' | wc -l"
+summary = "统计访问日志中 404 错误的数量"
+simulated_output = """237"""
+
+output_explanation = "输出展示了 cat 读取（或拼接）后的文件内容。cat 本身不做格式化，看到什么就原样输出什么，适合快速核对文件内容。"
+[[examples.token_details]]
+token = "access.log"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "404"
+explanation = "八进制权限位（如 755/644），分别控制所有者、组、其他用户权限。"
+
+[[examples.token_details]]
+token = "-l"
+explanation = "列表模式或逐行统计（取决于命令）。"
+
+[[examples]]
+level = 4
+command = "find . -name '*.rs' -exec cat {} + | wc -l"
+summary = "统计项目中所有 Rust 源文件的总行数"
+display = "find . -name '*.rs' \\\n  -exec cat {} + | wc -l"
+simulated_output = """3847"""
+
+output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
+[[examples.token_details]]
+token = "."
+explanation = "当前目录。"
+
+[[examples.token_details]]
+token = "-name"
+explanation = "命令参数，用于指定要处理的对象或行为细节。"
+
+[[examples.token_details]]
+token = "*.rs"
+explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+
+[[examples.token_details]]
+token = "-exec"
+explanation = "对匹配到的每个结果执行后续命令。"
+
+[[examples.token_details]]
+token = "{}"
+explanation = "占位符，代表 find/xargs 传入的当前文件。"
+
+[[examples.token_details]]
+token = "+"
+explanation = "与 -exec 连用，表示尽量批量传参以减少进程启动次数。"
+
+[[examples.token_details]]
+token = "|"
+explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+
+[[examples.token_details]]
+token = "-l"
+explanation = "列表模式或逐行统计（取决于命令）。"
+
+[[gotchas]]
+title = "wc -l 统计的是换行符数量"
+content = """wc -l 实际上是统计换行符（\\n）的数量，而不是"行数"。
+如果文件最后一行没有换行符，该行不会被计入：
+  echo -n "hello" | wc -l    → 0（没有换行符）
+  echo "hello" | wc -l       → 1（有一个换行符）
+
+大多数正常的文本文件最后都有换行符，所以通常不会出问题。
+但处理某些工具生成的文件时需要注意这一点。"""
