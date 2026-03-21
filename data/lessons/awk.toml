@@ -92,24 +92,28 @@ sync 4"""
 
 output_explanation = "这是 awk 的筛选/字段处理结果：它按给定规则对输入文本逐行处理，只输出匹配或计算后的内容。可重点关注字段分隔符、条件表达式和 END 统计是否符合预期。"
 [[examples.token_details]]
+token = "awk"
+explanation = "按字段处理文本的命令。"
+
+[[examples.token_details]]
 token = "-F:"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "把字段分隔符设置为冒号 :，适合处理 /etc/passwd 这类冒号分隔文件。"
 
 [[examples.token_details]]
 token = "{print $1, $3}"
-explanation = "这是文本处理表达式，用来定义匹配规则和输出/替换动作。"
+explanation = "awk 程序：打印第 1 列（用户名）和第 3 列（UID）。"
 
 [[examples.token_details]]
 token = "/etc/passwd"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "输入文件：系统用户账户信息。"
 
 [[examples.token_details]]
 token = "|"
-explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+explanation = "把 awk 的输出继续传给 head。"
 
 [[examples.token_details]]
 token = "-5"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "head 的旧式写法，表示只显示前 5 行。"
 
 [[examples]]
 level = 2
@@ -120,12 +124,16 @@ ace:x:1000:1000:ace:/home/ace:/bin/bash"""
 
 output_explanation = "这是 awk 的筛选/字段处理结果：它按给定规则对输入文本逐行处理，只输出匹配或计算后的内容。可重点关注字段分隔符、条件表达式和 END 统计是否符合预期。"
 [[examples.token_details]]
+token = "awk"
+explanation = "按字段处理文本的命令。"
+
+[[examples.token_details]]
 token = "$3 > 1000"
-explanation = "这是文本处理表达式，用来定义匹配规则和输出/替换动作。"
+explanation = "awk 条件：只保留第 3 个字段（UID）大于 1000 的行。"
 
 [[examples.token_details]]
 token = "/etc/passwd"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "输入文件：系统用户账户信息。"
 
 [[examples]]
 level = 3
@@ -153,16 +161,24 @@ simulated_output = """/var 85%
 
 output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
 [[examples.token_details]]
+token = "df"
+explanation = "查看磁盘空间使用情况的命令。"
+
+[[examples.token_details]]
 token = "-h"
-explanation = "人类可读格式（如 KB/MB/GB）或显示帮助。"
+explanation = "以人类可读格式显示容量（如 KB/MB/GB）。"
 
 [[examples.token_details]]
 token = "|"
-explanation = "管道符，把前一个命令的输出交给后一个命令继续处理。"
+explanation = "把 df 输出交给 awk 做条件筛选。"
+
+[[examples.token_details]]
+token = "awk"
+explanation = "负责按条件过滤并格式化输出。"
 
 [[examples.token_details]]
 token = "NR>1 && $5+0 > 80 {print $6, $5}"
-explanation = "这是文本处理表达式，用来定义匹配规则和输出/替换动作。"
+explanation = "跳过表头（NR>1），把第 5 列使用率转成数值后筛出 >80 的分区，再打印挂载点和使用率。"
 
 [[examples]]
 level = 4

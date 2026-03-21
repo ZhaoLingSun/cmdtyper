@@ -133,15 +133,15 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "-R"
-explanation = "递归处理目录，或建立反向端口转发。"
+explanation = "递归修改：把权限应用到目录及其所有子文件和子目录。"
 
 [[examples.token_details]]
 token = "755"
-explanation = "反向转发规则：远端端口:本地主机:本地端口。"
+explanation = "目录常用权限：所有者完全控制，组和其他用户可读取并进入目录。"
 
 [[examples.token_details]]
 token = "/var/www/html"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "网站根目录：这里会递归调整其中所有内容的权限。"
 
 [[examples]]
 level = 3
@@ -152,11 +152,11 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "a+r,u+w,go-w"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "组合符号模式：所有人可读，属主可写，组和其他用户不可写。多个规则用逗号串联。"
 
 [[examples.token_details]]
 token = "report.pdf"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "目标 PDF 文件。"
 
 [[examples]]
 level = 4
@@ -167,32 +167,40 @@ simulated_output = ""
 
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
+token = "find"
+explanation = "先递归找出要处理的文件。"
+
+[[examples.token_details]]
 token = "/var/www"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "搜索起点：网站目录。"
 
 [[examples.token_details]]
 token = "-type"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "按文件类型筛选。"
 
 [[examples.token_details]]
 token = "f"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "只匹配普通文件，不处理目录。"
 
 [[examples.token_details]]
 token = "-exec"
-explanation = "对匹配到的每个结果执行后续命令。"
+explanation = "对每个匹配结果执行后续命令。"
+
+[[examples.token_details]]
+token = "chmod"
+explanation = "对匹配到的文件批量修改权限。"
 
 [[examples.token_details]]
 token = "644"
-explanation = "八进制权限位（如 755/644），分别控制所有者、组、其他用户权限。"
+explanation = "目标权限：文件对所有者可读写，对组和其他用户只读。"
 
 [[examples.token_details]]
 token = "{}"
-explanation = "占位符，代表 find/xargs 传入的当前文件。"
+explanation = "占位符：在执行 chmod 时替换为当前匹配文件。"
 
 [[examples.token_details]]
 token = "+"
-explanation = "与 -exec 连用，表示尽量批量传参以减少进程启动次数。"
+explanation = "批量传参：尽量一次传多个文件给 chmod，减少进程启动次数。"
 
 [[gotchas]]
 title = "目录的执行权限（x）含义特殊"

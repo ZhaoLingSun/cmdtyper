@@ -94,14 +94,14 @@ impl TokenKind {
     pub fn infer(text: &str) -> Self {
         let t = text.trim_matches(|c| c == '\'' || c == '"');
         // 操作符
-        if matches!(text, "|" | "||" | "&&" | ";" | "&") {
+        if text == "|" {
+            return Self::Pipe;
+        }
+        if matches!(text, "||" | "&&" | ";" | "&") {
             return Self::Operator;
         }
         if matches!(text, ">" | ">>" | "<" | "<<" | "2>" | "2>&1") {
             return Self::Redirection;
-        }
-        if text == "|" {
-            return Self::Pipe;
         }
         if text == "{}" {
             return Self::Placeholder;
