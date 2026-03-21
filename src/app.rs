@@ -218,10 +218,23 @@ pub struct App {
 }
 
 impl App {
+    fn detect_data_dir() -> PathBuf {
+        let candidates = [
+            env::var("CMDTYPER_DATA_DIR").ok().map(PathBuf::from),
+            Some(PathBuf::from("/home/ace/workspaces/cmdtyper/data")),
+            Some(PathBuf::from("/usr/local/share/cmdtyper/data")),
+            Some(PathBuf::from("./data")),
+        ];
+        for path in candidates.into_iter().flatten() {
+            if path.join("commands").is_dir() && path.join("lessons").is_dir() {
+                return path;
+            }
+        }
+        PathBuf::from("./data")
+    }
+
     pub fn new() -> Result<Self> {
-        let data_dir = env::var("CMDTYPER_DATA_DIR")
-            .map(PathBuf::from)
-            .unwrap_or_else(|_| PathBuf::from("./data"));
+        let data_dir = Self::detect_data_dir();
         let commands = command_loader::load_commands(&data_dir)?;
         let lessons = lesson_loader::load_lessons(&data_dir)?;
         let symbol_topics = symbol_loader::load_symbol_topics(&data_dir)?;
@@ -233,7 +246,7 @@ impl App {
         let typing_mode = user_config.typing_mode.clone();
         let history = progress_store.load_history()?;
 
-        Ok(Self {
+        let mut app = Self {
             state: AppState::Home,
             commands,
             lessons,
@@ -273,7 +286,69 @@ impl App {
             stats_tab: 0,
             typing_round_records: Vec::new(),
             lesson_commands_for_category: Vec::new(),
-        })
+        };
+        let resume = app.progress_store.load_resume_state().unwrap_or_default();
+        app.apply_resume_state(resume);
+        Ok(app)
+    }
+
+
+    pub fn save_resume_state(&self) {
+        let _ = self.progress_store.save_resume_state(&self.current_resume_state());
+    }
+
+    fn current_resume_state(&self) -> ResumeState {
+        match &self.state {
+            AppState::Home => ResumeState { screen: ResumeScreen::Home, ..ResumeState::default() },
+            AppState::LearnHub => ResumeState { screen: ResumeScreen::LearnHub, ..ResumeState::default() },
+            AppState::CommandTopics => ResumeState { screen: ResumeScreen::CommandTopics, category_index: self.command_topics_index, ..ResumeState::default() },
+            AppState::CommandLessonOverview { category_index, command_index } => ResumeState { screen: ResumeScreen::CommandLessonOverview, category_index: *category_index, command_index: *command_index, ..ResumeState::default() },
+            AppState::CommandLessonPractice { category_index, command_index, example_index } => ResumeState { screen: ResumeScreen::CommandLessonPractice, category_index: *category_index, command_index: *command_index, example_index: *example_index, ..ResumeState::default() },
+            AppState::SymbolTopics => ResumeState { screen: ResumeScreen::SymbolTopics, topic_index: self.symbol_topics_index, ..ResumeState::default() },
+            AppState::SymbolLesson { topic_index, symbol_index, phase } => ResumeState { screen: if matches!(phase, SymbolPhase::Example(_)) { ResumeScreen::SymbolExample } else { ResumeScreen::SymbolExplain }, topic_index: *topic_index, symbol_index: *symbol_index, example_index: if let SymbolPhase::Example(i)=phase {*i} else {0}, ..ResumeState::default() },
+            AppState::SystemTopics => ResumeState { screen: ResumeScreen::SystemTopics, topic_index: self.system_topics_index, ..ResumeState::default() },
+            AppState::SystemLesson { topic_index, section_index, phase } => ResumeState { screen: match phase { SystemPhase::Overview => ResumeScreen::SystemOverview, _ => ResumeScreen::SystemDetail }, topic_index: *topic_index, section_index: *section_index, ..ResumeState::default() },
+            AppState::Dictation => ResumeState { screen: ResumeScreen::Dictation, ..ResumeState::default() },
+            AppState::Stats => ResumeState { screen: ResumeScreen::Stats, ..ResumeState::default() },
+            AppState::Settings => ResumeState { screen: ResumeScreen::Settings, ..ResumeState::default() },
+            _ => ResumeState::default(),
+        }
+    }
+
+    fn apply_resume_state(&mut self, resume: ResumeState) {
+        match resume.screen {
+            ResumeScreen::Home => self.state = AppState::Home,
+            ResumeScreen::LearnHub => self.state = AppState::LearnHub,
+            ResumeScreen::CommandTopics => { self.command_topics_index = resume.category_index; self.state = AppState::CommandTopics; }
+            ResumeScreen::CommandLessonOverview => { self.state = AppState::CommandLessonOverview { category_index: resume.category_index, command_index: resume.command_index }; }
+            ResumeScreen::CommandLessonPractice => {
+                let cmd = {
+                    let cats = self.get_lesson_categories();
+                    if let Some(cat) = cats.get(resume.category_index) {
+                        let lessons = self.get_lessons_for_category(*cat);
+                        lessons
+                            .get(resume.command_index)
+                            .and_then(|lesson| lesson.examples.get(resume.example_index))
+                            .map(|example| example.command.clone())
+                    } else {
+                        None
+                    }
+                };
+                if let Some(cmd) = cmd {
+                    self.typing_engine.reset(&cmd);
+                }
+                self.state = AppState::CommandLessonPractice { category_index: resume.category_index, command_index: resume.command_index, example_index: resume.example_index };
+            }
+            ResumeScreen::SymbolTopics => { self.symbol_topics_index = resume.topic_index; self.state = AppState::SymbolTopics; }
+            ResumeScreen::SymbolExplain => { self.state = AppState::SymbolLesson { topic_index: resume.topic_index, symbol_index: resume.symbol_index, phase: SymbolPhase::Explain }; }
+            ResumeScreen::SymbolExample => { self.state = AppState::SymbolLesson { topic_index: resume.topic_index, symbol_index: resume.symbol_index, phase: SymbolPhase::Example(resume.example_index) }; }
+            ResumeScreen::SystemTopics => { self.system_topics_index = resume.topic_index; self.state = AppState::SystemTopics; }
+            ResumeScreen::SystemOverview => { self.state = AppState::SystemLesson { topic_index: resume.topic_index, section_index: 0, phase: SystemPhase::Overview }; }
+            ResumeScreen::SystemDetail => { self.state = AppState::SystemLesson { topic_index: resume.topic_index, section_index: resume.section_index, phase: SystemPhase::Detail }; }
+            ResumeScreen::Dictation => self.state = AppState::Dictation,
+            ResumeScreen::Stats => self.state = AppState::Stats,
+            ResumeScreen::Settings => self.state = AppState::Settings,
+        }
     }
 
     // ─────────────────────────────────────────────────────────

@@ -703,6 +703,38 @@ fn default_true() -> bool {
     true
 }
 
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
+pub struct ResumeState {
+    pub screen: ResumeScreen,
+    pub category_index: usize,
+    pub command_index: usize,
+    pub example_index: usize,
+    pub topic_index: usize,
+    pub symbol_index: usize,
+    pub section_index: usize,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "snake_case")]
+pub enum ResumeScreen {
+    #[default]
+    Home,
+    LearnHub,
+    CommandTopics,
+    CommandLessonOverview,
+    CommandLessonPractice,
+    SymbolTopics,
+    SymbolExplain,
+    SymbolExample,
+    SystemTopics,
+    SystemOverview,
+    SystemDetail,
+    Dictation,
+    Stats,
+    Settings,
+}
+
 impl Default for UserConfig {
     fn default() -> Self {
         Self {

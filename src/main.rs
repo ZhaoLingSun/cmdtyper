@@ -52,6 +52,7 @@ fn run(terminal: &mut Terminal<CrosstermBackend<io::Stdout>>) -> Result<()> {
                 // Only handle key press events (not release/repeat on some platforms)
                 if key.kind == KeyEventKind::Press {
                     app.handle_key(key);
+                    app.save_resume_state();
                 }
             }
             AppEvent::Tick => {

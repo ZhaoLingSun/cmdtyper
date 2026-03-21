@@ -7,7 +7,7 @@ use anyhow::{Context, Result};
 use serde::Serialize;
 use serde::de::DeserializeOwned;
 
-use crate::data::models::{SessionRecord, UserConfig, UserStats};
+use crate::data::models::{ResumeState, SessionRecord, UserConfig, UserStats};
 
 /// Persistent storage for user stats, session history, and config.
 ///
@@ -57,6 +57,14 @@ impl ProgressStore {
 
     pub fn save_config(&self, config: &UserConfig) -> Result<()> {
         self.write_json_atomic(&self.config_path(), config)
+    }
+
+    pub fn load_resume_state(&self) -> Result<ResumeState> {
+        self.load_json_or_default(&self.resume_state_path())
+    }
+
+    pub fn save_resume_state(&self, state: &ResumeState) -> Result<()> {
+        self.write_json_atomic(&self.resume_state_path(), state)
     }
 
     pub fn base_dir(&self) -> &Path {
@@ -131,6 +139,10 @@ impl ProgressStore {
 
     fn config_path(&self) -> PathBuf {
         self.base_dir.join("config.json")
+    }
+
+    fn resume_state_path(&self) -> PathBuf {
+        self.base_dir.join("resume_state.json")
     }
 }
 

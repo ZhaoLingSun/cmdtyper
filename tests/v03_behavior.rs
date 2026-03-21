@@ -396,3 +396,18 @@ fn system_typing_allows_typing_d_before_completion() {
         }
     );
 }
+
+
+#[test]
+fn detect_data_dir_falls_back_to_repo_path_when_env_missing() {
+    let _guard = test_lock().lock().expect("lock poisoned");
+    let user_dir = unique_temp_dir("cmdtyper-detect-data");
+    fs::create_dir_all(&user_dir).expect("create user dir");
+    unsafe {
+        env::remove_var("CMDTYPER_DATA_DIR");
+        env::set_var("CMDTYPER_USER_DIR", &user_dir);
+    }
+    let app = App::new().expect("app should initialize without CMDTYPER_DATA_DIR");
+    assert!(!app.commands.is_empty());
+    let _ = fs::remove_dir_all(&user_dir);
+}

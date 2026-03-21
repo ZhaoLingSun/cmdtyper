@@ -162,7 +162,7 @@ fn matcher_normalize_and_check_behave_correctly() {
 }
 
 #[test]
-fn data_path_reads_cmdtyper_data_dir_env_var() {
+fn data_path_falls_back_when_env_points_to_empty_dir() {
     let _guard = test_lock().lock().expect("lock poisoned");
 
     let empty_data_dir = unique_temp_dir("cmdtyper-wave5-empty-data");
@@ -170,17 +170,16 @@ fn data_path_reads_cmdtyper_data_dir_env_var() {
     fs::create_dir_all(&empty_data_dir).expect("create empty data dir");
     fs::create_dir_all(&user_dir).expect("create user dir");
 
-    // SAFETY: tests serialize env var mutation with a global mutex.
     unsafe {
         env::set_var("CMDTYPER_DATA_DIR", &empty_data_dir);
         env::set_var("CMDTYPER_USER_DIR", &user_dir);
     }
 
-    let app = App::new().expect("app should initialize with empty data dir from env");
-    assert!(app.commands.is_empty());
-    assert!(app.lessons.is_empty());
-    assert!(app.symbol_topics.is_empty());
-    assert!(app.system_topics.is_empty());
+    let app = App::new().expect("app should initialize with fallback data dir");
+    assert!(!app.commands.is_empty());
+    assert!(!app.lessons.is_empty());
+    assert!(!app.symbol_topics.is_empty());
+    assert!(!app.system_topics.is_empty());
 
     let _ = fs::remove_dir_all(&empty_data_dir);
     let _ = fs::remove_dir_all(&user_dir);
