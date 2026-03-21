@@ -1,4 +1,4 @@
-# Socrates Re-Audit — cmdtyper-v2 (2026-03-14)
+# Socrates Re-Audit — cmdtyper (2026-03-14)
 
 ## 1. Fix Verification Matrix
 

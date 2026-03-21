@@ -268,7 +268,7 @@ kind = "typing"
 prompt = "使用命令替换输出当前目录"
 answers = ["echo \"cwd=$(pwd)\""]
 command = "echo \"cwd=$(pwd)\""
-simulated_output = "cwd=/home/ace/workspaces/cmdtyper-v2"
+simulated_output = "cwd=/home/ace/workspaces/cmdtyper"
 
 [[exercises]]
 kind = "typing"

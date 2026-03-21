@@ -1,4 +1,4 @@
-# Socrates Plan Review — cmdtyper-v2 Repair Plan v2 (2026-03-14)
+# Socrates Plan Review — cmdtyper Repair Plan v2 (2026-03-14)
 
 ## 1. Required Changes Checklist
 

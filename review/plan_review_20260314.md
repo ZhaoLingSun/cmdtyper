@@ -1,4 +1,4 @@
-# Socrates Plan Review — cmdtyper-v2 Repair Plan (2026-03-14)
+# Socrates Plan Review — cmdtyper Repair Plan (2026-03-14)
 
 ## 1. Coverage Matrix
 

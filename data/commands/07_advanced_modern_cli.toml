@@ -108,7 +108,7 @@ id = "bat-numbered-readme"
 command = "bat -n README.md"
 summary = "带行号高亮查看 README.md"
 simulated_output = """
-   1 # cmdtyper-v2
+   1 # cmdtyper
    2
    3 交互式 Linux 命令练习工具
 """
@@ -225,7 +225,7 @@ answers = [
 id = "jq-extract-name"
 command = "jq -r .name package.json"
 summary = "从 package.json 中提取 name 字段的原始字符串值"
-simulated_output = "cmdtyper-v2"
+simulated_output = "cmdtyper"
 
 [[commands.tokens]]
 text = "jq"

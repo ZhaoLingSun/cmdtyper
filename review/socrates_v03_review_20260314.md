@@ -1,4 +1,4 @@
-# cmdtyper-v2 v0.3 Socrates Engineering Review (2026-03-14)
+# cmdtyper v0.3 Socrates Engineering Review (2026-03-14)
 
 ## 1. Feature Verification Matrix
 

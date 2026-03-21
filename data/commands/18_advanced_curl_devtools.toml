@@ -227,7 +227,7 @@ id = "cargo-build-release"
 command = "cargo build --release"
 summary = "以 release 模式编译 Rust 项目"
 simulated_output = """
-Compiling cmdtyper-v2 v0.1.0 (/home/ace/workspaces/cmdtyper-v2)
+Compiling cmdtyper v0.1.0 (/home/ace/workspaces/cmdtyper)
 Finished release [optimized] target(s) in 6.42s
 """
 [[commands.tokens]]

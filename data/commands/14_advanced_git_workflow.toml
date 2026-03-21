@@ -203,8 +203,8 @@ id = "git-remote-verbose"
 command = "git remote -v"
 summary = "显示所有远程仓库的 URL"
 simulated_output = """
-origin	git@github.com:user/cmdtyper-v2.git (fetch)
-origin	git@github.com:user/cmdtyper-v2.git (push)
+origin	git@github.com:user/cmdtyper.git (fetch)
+origin	git@github.com:user/cmdtyper.git (push)
 """
 [[commands.tokens]]
 text = "git"

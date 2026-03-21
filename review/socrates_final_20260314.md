@@ -45,7 +45,7 @@ Verified in `data/system/config_files.toml`:
 ### ✅ Build / Test verification
 Executed:
 ```bash
-ssh intranet "bash -lc 'cd /home/ace/workspaces/cmdtyper-v2 && cargo build --release 2>&1 && echo BUILD_OK && cargo test 2>&1 && echo TEST_OK'"
+ssh intranet "bash -lc 'cd /home/ace/workspaces/cmdtyper && cargo build --release 2>&1 && echo BUILD_OK && cargo test 2>&1 && echo TEST_OK'"
 ```
 Result:
 - `BUILD_OK`
