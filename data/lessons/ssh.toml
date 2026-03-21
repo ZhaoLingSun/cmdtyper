@@ -149,11 +149,11 @@ admin@firewall:~$"""
 output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
 [[examples.token_details]]
 token = "-p"
-explanation = "指定端口、PID 或创建父目录（取决于命令）。"
+explanation = "指定 SSH 连接的远程端口号（默认为 22）。"
 
 [[examples.token_details]]
 token = "2222"
-explanation = "指定端口号、PID，或要求创建父目录。"
+explanation = "远程 SSH 服务的非标准端口号。"
 
 [[examples.token_details]]
 token = "admin@192.168.1.200"
@@ -172,7 +172,7 @@ explanation = "远程登录目标，格式为 用户名@主机。"
 
 [[examples.token_details]]
 token = "uptime"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "在远端服务器上执行的命令；SSH 执行后自动断开，不进入交互 shell。"
 
 [[examples]]
 level = 3
@@ -281,19 +281,19 @@ The key's randomart image is:
 output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
 [[examples.token_details]]
 token = "-t"
-explanation = "指定类型、压缩格式或算法类型。"
+explanation = "指定要生成的密钥算法类型（type）。"
 
 [[examples.token_details]]
 token = "ed25519"
-explanation = "指定类型、压缩算法或密钥算法。"
+explanation = "密钥算法名称；Ed25519 是目前推荐的椭圆曲线签名算法，安全且高效。"
 
 [[examples.token_details]]
 token = "-C"
-explanation = "添加注释或指定目录/上下文（具体取决于命令）。"
+explanation = "为生成的密钥添加注释（comment），通常填 user@host 便于识别密钥归属。"
 
 [[examples.token_details]]
 token = "user@workstation"
-explanation = "这里通常是注释文本或目标目录参数。"
+explanation = "密钥注释内容，嵌入公钥文件末尾，用于标识这把密钥属于哪台机器的哪个用户。"
 
 [[examples]]
 level = 4
@@ -337,11 +337,11 @@ user@public-server:~$
 output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
 [[examples.token_details]]
 token = "-R"
-explanation = "递归处理目录，或建立反向端口转发。"
+explanation = "建立远程端口转发（Remote forwarding）：将远端服务器的端口映射到本地服务，实现内网穿透。"
 
 [[examples.token_details]]
 token = "8080:localhost:3000"
-explanation = "反向转发规则：远端端口:本地主机:本地端口。"
+explanation = "远程转发规则：远端服务器监听 8080 端口，流量转到本地 localhost:3000。"
 
 [[examples.token_details]]
 token = "user@public-server"

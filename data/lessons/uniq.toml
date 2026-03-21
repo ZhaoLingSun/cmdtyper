@@ -119,7 +119,7 @@ explanation = "管道符，把前一个命令的输出交给后一个命令继�
 
 [[examples.token_details]]
 token = "-d"
-explanation = "通常用于后台运行、延迟间隔或指定目录（看命令上下文）。"
+explanation = "只输出有重复的行（duplicate），每组重复行只显示一次。"
 
 [[examples]]
 level = 3
@@ -151,7 +151,7 @@ explanation = "组合选项：-r 降序 + -n 数值排序。"
 
 [[examples.token_details]]
 token = "-5"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "传给 head 的行数参数，只输出前 5 行结果。"
 
 [[examples]]
 level = 4
@@ -172,7 +172,7 @@ simulated_output = """   1523 192.168.1.50
 output_explanation = "这是 awk 的筛选/字段处理结果：它按给定规则对输入文本逐行处理，只输出匹配或计算后的内容。可重点关注字段分隔符、条件表达式和 END 统计是否符合预期。"
 [[examples.token_details]]
 token = "{print $1}"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "awk 程序：打印每行第 1 列（即 IP 地址），作为后续 sort+uniq 统计的输入。"
 
 [[examples.token_details]]
 token = "access.log"
@@ -188,11 +188,11 @@ explanation = "指定次数或统计计数（具体含义取决于命令）。"
 
 [[examples.token_details]]
 token = "-rn"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "sort 的组合选项：-r 降序、-n 按数值大小排序，使访问次数最多的 IP 排在最前面。"
 
 [[examples.token_details]]
 token = "-10"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "传给 head 的行数参数，只输出前 10 行，即访问量最多的 10 个 IP。"
 
 [[gotchas]]
 title = "uniq 只去除相邻的重复行"

@@ -118,11 +118,11 @@ explanation = "显示详细执行过程，便于观察发生了什么。"
 
 [[examples.token_details]]
 token = "*.tmp"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "通配符模式，匹配当前目录下所有 .tmp 扩展名的临时文件。"
 
 [[examples.token_details]]
 token = "*.bak"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "通配符模式，匹配当前目录下所有 .bak 扩展名的备份文件。"
 
 [[examples]]
 level = 3
@@ -133,7 +133,7 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "/tmp"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "/tmp 目录，存放系统临时文件，这里作为 find 的搜索起点。"
 
 [[examples.token_details]]
 token = "-type"
@@ -183,7 +183,7 @@ explanation = "-type 的值：只匹配普通文件（不含目录和符号链�
 
 [[examples.token_details]]
 token = "f"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "find 的 -type 参数值，表示只匹配普通文件（f=file），排除目录和符号链接。"
 
 [[examples.token_details]]
 token = "-exec"

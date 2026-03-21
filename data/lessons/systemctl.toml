@@ -127,7 +127,7 @@ explanation = "与 enable/start 一起使用，表示立刻生效。"
 
 [[examples.token_details]]
 token = "docker"
-explanation = "服务名/容器名，用来指定要查看或操作的目标。"
+explanation = "目标服务：Docker 守护进程，systemctl 将对其同时设置开机自启并立即启动。"
 
 [[examples]]
 level = 2
@@ -143,7 +143,7 @@ simulated_output = """  UNIT                        LOAD   ACTIVE SUB     DESCRI
 output_explanation = "该输出用于显示 systemd 服务状态或控制结果。重点关注 Active、Loaded、Main PID 以及近期日志中的报错。"
 [[examples.token_details]]
 token = "list-units"
-explanation = "只显示指定时间之后的日志。"
+explanation = "列出当前加载的所有 systemd 单元（services、sockets、targets 等）。"
 
 [[examples.token_details]]
 token = "--type=service"
@@ -163,11 +163,11 @@ Mar 09 10:29:15 myhost nginx[1235]: 10.0.0.5 - - [09/Mar/2024:10:29:15 +0000] "P
 output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
 [[examples.token_details]]
 token = "-u"
-explanation = "指定用户或认证用户。"
+explanation = "指定要查看的 systemd 服务单元名称（unit），只显示该服务的日志。"
 
 [[examples.token_details]]
 token = "nginx"
-explanation = "指定用户名/认证信息。"
+explanation = "目标服务单元：Nginx Web 服务器，journalctl 将只显示其日志。"
 
 [[examples.token_details]]
 token = "-f"
@@ -175,7 +175,7 @@ explanation = "实时跟踪新增的日志（类似 tail -f）。"
 
 [[examples.token_details]]
 token = "--since"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "只显示该时间点之后的日志条目，支持 '10 minutes ago'、'2024-03-09 10:00' 等格式。"
 
 [[examples.token_details]]
 token = "10 minutes ago"

@@ -145,7 +145,7 @@ simulated_output = """Total errors: 42"""
 output_explanation = "这是 awk 的筛选/字段处理结果：它按给定规则对输入文本逐行处理，只输出匹配或计算后的内容。可重点关注字段分隔符、条件表达式和 END 统计是否符合预期。"
 [[examples.token_details]]
 token = "/ERROR/ {count++} END {print \"Total errors:\", count}"
-explanation = "这是文本处理表达式，用来定义匹配规则和输出/替换动作。"
+explanation = "awk 程序：对每一行，若匹配 /ERROR/ 则计数器加一；处理完所有行后（END）打印总计数。"
 
 [[examples.token_details]]
 token = "app.log"
@@ -198,7 +198,7 @@ explanation = "将字段分隔符设为冒号 :，适合处理 /etc/passwd 这�
 
 [[examples.token_details]]
 token = "BEGIN {print \"User\\tUID\\tShell\"} $3>=1000 && $3<65534 {print $1\"\\t\"$3\"\\t\"$7}"
-explanation = "这是文本处理表达式，用来定义匹配规则和输出/替换动作。"
+explanation = "awk 程序：BEGIN 打印表头；条件筛出 UID 在 1000–65533 之间的普通用户；主体打印用户名、UID、shell，以 Tab 分隔。"
 
 [[examples.token_details]]
 token = "/etc/passwd"
@@ -214,7 +214,7 @@ simulated_output = """Average: 78.35"""
 output_explanation = "这是 awk 的筛选/字段处理结果：它按给定规则对输入文本逐行处理，只输出匹配或计算后的内容。可重点关注字段分隔符、条件表达式和 END 统计是否符合预期。"
 [[examples.token_details]]
 token = "{sum+=$1; count++} END {printf \"Average: %.2f\\n\", sum/count}"
-explanation = "这是文本处理表达式，用来定义匹配规则和输出/替换动作。"
+explanation = "awk 程序：对每行累加第 1 列（数值）并统计行数；END 块用 printf 格式化打印平均值，保留 2 位小数。"
 
 [[examples.token_details]]
 token = "numbers.txt"

@@ -158,7 +158,7 @@ explanation = "跟踪模式：持续监视文件末尾新增的内容（实时�
 
 [[examples.token_details]]
 token = "/var/log/syslog"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "系统日志文件，tail -f 实时跟踪其末尾新追加的内容并通过管道传给 grep。"
 
 [[examples.token_details]]
 token = "|"
@@ -170,7 +170,7 @@ explanation = "按行刷新输出，适合实时管道查看。"
 
 [[examples.token_details]]
 token = "ERROR"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "grep 的搜索模式：只输出包含字符串 'ERROR' 的日志行，过滤掉无关信息。"
 
 [[examples]]
 level = 4

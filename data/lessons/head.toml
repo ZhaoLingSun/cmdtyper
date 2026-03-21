@@ -115,7 +115,7 @@ explanation = "指定数量（如行数、分组大小、请求次数）。"
 
 [[examples.token_details]]
 token = "*.csv"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "通配符：匹配当前目录下所有 .csv 文件，head 会依次显示每个文件的第 1 行（表头行）。"
 
 [[examples]]
 level = 3
@@ -131,7 +131,7 @@ drwxr-xr-x 3 ace ace  4096 Mar  9 14:20 src
 output_explanation = "这是目录列表输出。长格式下可读到权限、属主、大小、时间等元数据，便于判断文件是否存在及访问权限是否正确。"
 [[examples.token_details]]
 token = "-lt"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "`ls` 的组合选项：`-l` 输出详细格式，`-t` 按最后修改时间降序排列（最新文件排最前）。"
 
 [[examples.token_details]]
 token = "|"
@@ -139,7 +139,7 @@ explanation = "管道符，把前一个命令的输出交给后一个命令继�
 
 [[examples.token_details]]
 token = "-6"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "截取前 6 行（第 1 行是 total 统计行，因此实际展示 5 个最近修改的条目）。"
 
 [[examples]]
 level = 3

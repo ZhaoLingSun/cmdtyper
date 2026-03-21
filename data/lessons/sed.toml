@@ -73,7 +73,7 @@ simulated_output = """[2026-03-09 14:30:12] INFO: Server started
 output_explanation = "这是 sed 文本替换/筛选后的结果。未加 `-i` 时只输出到终端，不改原文件；加 `-i` 时会直接改文件。"
 [[examples.token_details]]
 token = "s/error/ERROR/g"
-explanation = "目标路径：/^#/d; /^$/d"
+explanation = "sed 替换表达式：将每行中所有的 error（g=全局）替换为大写的 ERROR。"
 
 [[examples.token_details]]
 token = "app.log"
@@ -127,7 +127,7 @@ Subsystem sftp /usr/lib/openssh/sftp-server"""
 output_explanation = "这是 sed 文本替换/筛选后的结果。未加 `-i` 时只输出到终端，不改原文件；加 `-i` 时会直接改文件。"
 [[examples.token_details]]
 token = "/^#/d; /^$/d"
-explanation = "这是文本处理表达式，用来定义匹配规则和输出/替换动作。"
+explanation = "两条 sed 命令：/^#/d 删除以 # 开头的注释行；/^$/d 删除空行；分号分隔两条命令。"
 
 [[examples.token_details]]
 token = "/etc/ssh/sshd_config"
@@ -238,7 +238,7 @@ explanation = "原地编辑并保留备份：修改原文件，同时生成 .bak
 
 [[examples.token_details]]
 token = "s/localhost/db.production.internal/g"
-explanation = "这是文本处理表达式，用来定义匹配规则和输出/替换动作。"
+explanation = "sed 替换表达式：把文件中每一行的所有 localhost 替换为 db.production.internal（g=全局）。"
 
 [[examples.token_details]]
 token = "config.yml"
@@ -260,7 +260,7 @@ explanation = "启用扩展正则表达式。"
 
 [[examples.token_details]]
 token = "s/([0-9]{4})-([0-9]{2})-([0-9]{2})/\\3\\/\\2\\/\\1/g"
-explanation = "这是文本处理表达式，用来定义匹配规则和输出/替换动作。"
+explanation = "sed 替换表达式：用 3 个捕获组分别匹配年/月/日，然后重排为 日/月/年 格式（\\3=日, \\2=月, \\1=年）。"
 
 [[examples.token_details]]
 token = "dates.txt"

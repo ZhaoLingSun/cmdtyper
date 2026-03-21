@@ -147,15 +147,15 @@ explanation = "逻辑与：只有前一个命令成功（退出码 0）时，才
 
 [[examples.token_details]]
 token = "-t"
-explanation = "指定类型、压缩格式或算法类型。"
+explanation = "测试 nginx 配置文件语法是否正确（不重启服务），确认配置无误后再 reload。"
 
 [[examples.token_details]]
 token = "reload"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "通知 Nginx 重新加载配置文件，不中断正在处理的连接。"
 
 [[examples.token_details]]
 token = "nginx"
-explanation = "服务名/容器名，用来指定要查看或操作的目标。"
+explanation = "目标服务：Nginx Web 服务器，systemctl 将对其执行 reload 操作。"
 
 [[examples]]
 level = 3

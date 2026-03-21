@@ -95,7 +95,7 @@ explanation = "按文件名模式匹配（支持 * ? [] 通配符）。"
 
 [[examples.token_details]]
 token = "*.rs"
-explanation = "HTTP 访问日志文件。"
+explanation = "Rust 源文件通配符，匹配所有以 `.rs` 结尾的文件名。"
 
 [[examples.token_details]]
 token = "|"
@@ -122,7 +122,7 @@ explanation = "列表模式或逐行统计（取决于命令）。"
 
 [[examples.token_details]]
 token = "src/*.rs"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "`src/` 目录下所有 Rust 源文件，wc 会逐个统计行数并在末尾汇总 total。"
 
 [[examples]]
 level = 3
@@ -133,7 +133,7 @@ simulated_output = """237"""
 output_explanation = "输出展示了 cat 读取（或拼接）后的文件内容。cat 本身不做格式化，看到什么就原样输出什么，适合快速核对文件内容。"
 [[examples.token_details]]
 token = "access.log"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "HTTP 访问日志文件，cat 读取其内容并通过管道传给 grep 过滤。"
 
 [[examples.token_details]]
 token = "|"
@@ -141,7 +141,7 @@ explanation = "管道符，把前一个命令的输出交给后一个命令继�
 
 [[examples.token_details]]
 token = "404"
-explanation = "八进制权限位（如 755/644），分别控制所有者、组、其他用户权限。"
+explanation = "HTTP 状态码，grep 用它过滤出所有 404 Not Found 错误请求行。"
 
 [[examples.token_details]]
 token = "-l"
