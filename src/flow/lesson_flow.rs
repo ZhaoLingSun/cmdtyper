@@ -61,7 +61,7 @@ pub fn handle_command_lesson_practice_key(
                 command_index,
             };
         }
-        KeyCode::Char('d') | KeyCode::Char('D') => {
+        KeyCode::Char('d') | KeyCode::Char('D') if app.typing_engine.is_complete() => {
             let has_deep_explanation = {
                 let cats = app.get_lesson_categories();
                 if category_index < cats.len() {

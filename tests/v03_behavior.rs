@@ -4,7 +4,7 @@ use std::path::PathBuf;
 use std::sync::{Mutex, OnceLock};
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use cmdtyper::app::{App, AppState};
+use cmdtyper::app::{App, AppState, SystemPhase};
 use cmdtyper::core::scorer;
 use cmdtyper::data::models::{
     Category, CommandLesson, Difficulty, Exercise, ExerciseKind, RecordMode, SessionRecord,
@@ -291,4 +291,108 @@ fn system_typing_mode_is_wpm_bearing_in_scorer() {
     assert_eq!(stats.total_sessions, 1);
     assert_eq!(stats.total_wpm_sessions, 1);
     assert!(approx_eq(stats.overall_avg_wpm, 76.0, 1e-12));
+}
+
+
+#[test]
+fn lesson_practice_allows_typing_d_before_completion() {
+    let mut app = fresh_app("lesson-practice-d-input");
+    let cat_idx = app
+        .get_lesson_categories()
+        .iter()
+        .position(|c| *c == Category::FileOps)
+        .expect("file ops category exists");
+
+    let lessons = app.get_lessons_for_category(Category::FileOps);
+    let command_index = lessons
+        .iter()
+        .position(|lesson| {
+            lesson
+                .examples
+                .iter()
+                .any(|example| example.command.contains('d'))
+        })
+        .expect("need a lesson example containing d");
+
+    let example_index = lessons[command_index]
+        .examples
+        .iter()
+        .position(|example| example.command.contains('d'))
+        .expect("example containing d");
+
+    let example_command = lessons[command_index]
+        .examples[example_index]
+        .command
+        .clone();
+    let d_pos = example_command
+        .chars()
+        .position(|c| c == 'd')
+        .expect("d position should exist");
+
+    app.state = AppState::CommandLessonPractice {
+        category_index: cat_idx,
+        command_index,
+        example_index,
+    };
+    app.typing_engine.reset(&example_command);
+
+    for ch in example_command.chars().take(d_pos + 1) {
+        app.handle_key(key(KeyCode::Char(ch)));
+    }
+
+    assert_eq!(app.typing_engine.cursor, d_pos + 1);
+    assert_eq!(
+        app.state,
+        AppState::CommandLessonPractice {
+            category_index: cat_idx,
+            command_index,
+            example_index,
+        }
+    );
+}
+
+
+#[test]
+fn system_typing_allows_typing_d_before_completion() {
+    let mut app = fresh_app("system-typing-d-input");
+
+    let mut found = None;
+    'outer: for (topic_index, topic) in app.system_topics.iter().enumerate() {
+        for (section_index, section) in topic.sections.iter().enumerate() {
+            for (command_idx, command) in section.commands.iter().enumerate() {
+                if command.command.contains('d') {
+                    found = Some((topic_index, section_index, command_idx, command.command.clone()));
+                    break 'outer;
+                }
+            }
+        }
+    }
+
+    let (topic_index, section_index, command_idx, command_str) =
+        found.expect("need a system command containing d");
+    let d_pos = command_str
+        .chars()
+        .position(|c| c == 'd')
+        .expect("d position should exist");
+
+    app.state = AppState::SystemLesson {
+        topic_index,
+        section_index,
+        phase: SystemPhase::TypingPractice { command_idx },
+    };
+    app.typing_engine.reset(&command_str);
+
+    for ch in command_str.chars().take(d_pos + 1) {
+        app.handle_key(key(KeyCode::Char(ch)));
+    }
+
+    assert_eq!(app.typing_engine.cursor, d_pos + 1);
+    assert_eq!(
+        app.state,
+        AppState::SystemLesson {
+            topic_index,
+            section_index,
+            phase: SystemPhase::TypingPractice { command_idx },
+        }
+    );
 }

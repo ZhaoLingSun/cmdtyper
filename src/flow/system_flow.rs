@@ -196,7 +196,7 @@ fn handle_system_typing_key(
 
     match key.code {
         KeyCode::Esc => app.state = AppState::SystemTopics,
-        KeyCode::Char('d') | KeyCode::Char('D') => {
+        KeyCode::Char('d') | KeyCode::Char('D') if app.typing_engine.is_complete() => {
             if command.deep_explanation.is_some() {
                 app.state = AppState::DeepExplanation {
                     source: DeepSource::SystemCommand {
