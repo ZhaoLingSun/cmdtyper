@@ -104,7 +104,7 @@ explanation = "显示详细执行过程，便于观察发生了什么。"
 
 [[examples.token_details]]
 token = "*.log"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "通配符模式：匹配当前目录下所有 .log 日志文件。"
 
 [[examples.token_details]]
 token = "/var/log/archive/"
@@ -127,7 +127,7 @@ explanation = "源文件路径，表示要移动或重命名的原始文件。"
 
 [[examples.token_details]]
 token = "config.yml.bak"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "目标文件名：将 config.yml 重命名为 .bak 备份。"
 
 [[examples]]
 level = 3
@@ -142,7 +142,7 @@ explanation = "目标路径：/tmp/archive/"
 
 [[examples.token_details]]
 token = "project-v2/"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "新目录名：将 project-v1 重命名为 project-v2。"
 
 [[examples]]
 level = 4
@@ -154,7 +154,7 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "/tmp"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "搜索起点：从临时目录开始查找。"
 
 [[examples.token_details]]
 token = "-name"
@@ -162,7 +162,7 @@ explanation = "按文件名模式匹配（支持 * ? [] 通配符）。"
 
 [[examples.token_details]]
 token = "*.tmp"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "文件名模式：匹配所有 .tmp 临时文件。"
 
 [[examples.token_details]]
 token = "-mtime"
@@ -182,7 +182,7 @@ explanation = "占位符，代表 find/xargs 传入的当前文件。"
 
 [[examples.token_details]]
 token = "/tmp/archive/"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "目标目录：将找到的临时文件移动到归档目录。"
 
 [[examples.token_details]]
 token = ";"

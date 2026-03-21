@@ -45,7 +45,7 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "projects"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "要创建的目录名称：在当前目录下新建名为 projects 的目录。"
 
 [[examples]]
 level = 1
@@ -56,11 +56,11 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "-p"
-explanation = "指定端口、PID 或创建父目录（取决于命令）。"
+explanation = "自动创建路径中所有不存在的父目录，且目标已存在时不报错（适合脚本中使用）。"
 
 [[examples.token_details]]
 token = "~/code/python/scripts"
-explanation = "指定端口号、PID，或要求创建父目录。"
+explanation = "要创建的多级目录路径；`-p` 会依次创建 ~/code、~/code/python 和最终的 scripts 目录。"
 
 [[examples]]
 level = 2
@@ -74,7 +74,7 @@ mkdir: created directory '/opt/myapp/data'"""
 output_explanation = "mkdir 成功时一般不输出内容（除 `-v`）。如果目录已创建，可用 `ls -ld 目录名` 检查权限和属主。"
 [[examples.token_details]]
 token = "-pv"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "组合选项：`-p` 自动创建不存在的父目录且已存在不报错，`-v` 显示每个被创建的目录路径。"
 
 [[examples.token_details]]
 token = "/opt/myapp/logs"
@@ -97,11 +97,11 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "-m"
-explanation = "设置权限掩码/模式，或提交说明（取决于命令）。"
+explanation = "创建目录时直接设置权限模式，等效于先 mkdir 再 chmod，避免出现短暂的默认权限窗口。"
 
 [[examples.token_details]]
 token = "755"
-explanation = "设置新建对象的权限模式。"
+explanation = "目录权限 755（rwxr-xr-x）：所有者完全控制，组和其他用户可读取并进入该目录。"
 
 [[examples.token_details]]
 token = "/var/www/newsite"
@@ -120,7 +120,7 @@ explanation = "指定端口、PID 或创建父目录（取决于命令）。"
 
 [[examples.token_details]]
 token = "backups/2024-03-09"
-explanation = "指定端口号、PID，或要求创建父目录。"
+explanation = "要创建的日期目录路径，如果 backups/ 不存在，`-p` 会自动先创建它。"
 
 [[gotchas]]
 title = "-p 是脚本中的标准写法"

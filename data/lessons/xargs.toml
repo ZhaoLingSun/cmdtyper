@@ -121,7 +121,7 @@ explanation = "按 NUL 分隔读取输入，和 find -print0 搭配最安全。"
 
 [[examples.token_details]]
 token = "wc"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "xargs 要执行的命令：wc（统计行数/单词数/字节数）。"
 
 [[examples.token_details]]
 token = "-l"
@@ -138,27 +138,27 @@ simulated_output = """1 2
 output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
 [[examples.token_details]]
 token = "1"
-explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+explanation = "echo 输出的数字之一；整串 1 2 3 4 5 6 会通过管道传给 xargs 分批处理。"
 
 [[examples.token_details]]
 token = "2"
-explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+explanation = "echo 输出的数字之一；整串 1 2 3 4 5 6 会通过管道传给 xargs 分批处理。"
 
 [[examples.token_details]]
 token = "3"
-explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+explanation = "echo 输出的数字之一；整串 1 2 3 4 5 6 会通过管道传给 xargs 分批处理。"
 
 [[examples.token_details]]
 token = "4"
-explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+explanation = "echo 输出的数字之一；整串 1 2 3 4 5 6 会通过管道传给 xargs 分批处理。"
 
 [[examples.token_details]]
 token = "5"
-explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+explanation = "echo 输出的数字之一；整串 1 2 3 4 5 6 会通过管道传给 xargs 分批处理。"
 
 [[examples.token_details]]
 token = "6"
-explanation = "数字参数，表示数量、行数、PID 或其他数值设置。"
+explanation = "echo 输出的数字之一；整串 1 2 3 4 5 6 会通过管道传给 xargs 分批处理。"
 
 [[examples.token_details]]
 token = "|"
@@ -170,7 +170,7 @@ explanation = "指定行数/次数，或仅显示数字信息。"
 
 [[examples.token_details]]
 token = "echo"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "xargs 要执行的目标命令：echo 会把接收到的参数打印出来。"
 
 [[examples]]
 level = 3
@@ -182,7 +182,7 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "*.jpg"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "通配符模式：匹配当前目录下所有 .jpg 图片文件。"
 
 [[examples.token_details]]
 token = "|"
@@ -198,19 +198,19 @@ explanation = "占位符，代表 find/xargs 传入的当前文件。"
 
 [[examples.token_details]]
 token = "convert"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "ImageMagick 的图片处理命令：对每张图片执行转换操作。"
 
 [[examples.token_details]]
 token = "-resize"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "ImageMagick 选项：调整图片尺寸。"
 
 [[examples.token_details]]
 token = "50%"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "缩放比例：将图片缩小到原来的 50%。"
 
 [[examples.token_details]]
 token = "thumb_{}"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "输出文件名模板：thumb_ 前缀 + {} 占位符（被替换为原文件名）。"
 
 [[examples]]
 level = 3
@@ -300,7 +300,7 @@ explanation = "并行任务数，值越大并发越高。"
 
 [[examples.token_details]]
 token = "wget"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "xargs 要执行的命令：wget 下载 URL 对应的文件。"
 
 [[examples.token_details]]
 token = "-q"
@@ -316,11 +316,11 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。 另外，原地编辑配置文件存在风险，建议先 `cp file file.bak` 备份。"
 [[examples.token_details]]
 token = "-rl"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "grep 组合选项：-r 递归搜索目录 + -l 只输出包含匹配的文件名。"
 
 [[examples.token_details]]
 token = "old_api"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "grep 的搜索模式：要查找包含 old_api 的文件。"
 
 [[examples.token_details]]
 token = "./src"
@@ -332,7 +332,7 @@ explanation = "管道符，把前一个命令的输出交给后一个命令继�
 
 [[examples.token_details]]
 token = "sed"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "xargs 传给的命令：sed 流编辑器，对每个匹配文件执行替换。"
 
 [[examples.token_details]]
 token = "-i"

@@ -169,11 +169,11 @@ explanation = "目标文件：--exclude=*.log"
 
 [[examples.token_details]]
 token = "--exclude=node_modules"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "排除 node_modules 目录（通常体积巨大且可通过 npm install 还原），不将其纳入归档。"
 
 [[examples.token_details]]
 token = "project/"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "要打包的项目根目录，tar 会递归归档其中所有未被 --exclude 排除的文件。"
 
 [[examples]]
 level = 3

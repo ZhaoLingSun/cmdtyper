@@ -133,7 +133,7 @@ explanation = "目标路径：/mnt/backup/projects/"
 
 [[examples.token_details]]
 token = "+%Y%m%d)"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "date 的格式字符串：生成 YYYYMMDD 格式的日期（如 20260321），用于备份目录命名。"
 
 [[examples]]
 level = 3
@@ -182,15 +182,15 @@ deep_explanation = """### 真实场景：新应用上线前批量部署配置
 > 提示：`/etc/` 通常需要管理员权限。若出现 `Permission denied`，请在确认命令无误后使用 `sudo cp -iv *.conf /etc/app/`。生产环境建议先 dry-run（例如先 `ls *.conf` 确认匹配范围），再执行复制。"""
 [[examples.token_details]]
 token = "-iv"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "组合选项：-i 覆盖前询问确认 + -v 显示每个被复制的文件名。"
 
 [[examples.token_details]]
 token = "*.conf"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "通配符模式：匹配当前目录下所有 .conf 配置文件。"
 
 [[examples.token_details]]
 token = "/etc/app/"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "目标目录：将选中的配置文件复制到此处。"
 
 [[examples]]
 level = 4
@@ -201,15 +201,15 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "-au"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "组合选项：-a 归档模式（保留权限/时间/链接）+ -u 只复制更新过的文件。"
 
 [[examples.token_details]]
 token = "/home/ace/projects/"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "源目录：要备份的项目文件夹（末尾 / 表示复制目录内容）。"
 
 [[examples.token_details]]
 token = "/mnt/backup/projects/"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "目标备份目录。"
 
 [[gotchas]]
 title = "cp 默认覆盖不提示"

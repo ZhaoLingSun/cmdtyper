@@ -112,7 +112,7 @@ explanation = "组合选项：-s 只显示总计 + -h 人类可读格式。"
 
 [[examples.token_details]]
 token = "-k3"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "-k 选项：按第 3 个字段排序（k=key field）。"
 
 [[examples.token_details]]
 token = "-n"
@@ -128,7 +128,7 @@ explanation = "管道符，把前一个命令的输出交给后一个命令继�
 
 [[examples.token_details]]
 token = "-5"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "head 参数：只显示前 5 行结果。"
 
 [[examples]]
 level = 3
@@ -149,7 +149,7 @@ simulated_output = """1.2G	/var/log/journal
 output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
 [[examples.token_details]]
 token = "-sh"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "du 组合选项：-s 只显示每项总计 + -h 人类可读格式。"
 
 [[examples.token_details]]
 token = "/var/log/*"
@@ -161,11 +161,11 @@ explanation = "管道符，把前一个命令的输出交给后一个命令继�
 
 [[examples.token_details]]
 token = "-rh"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "sort 组合选项：-r 降序 + -h 按人类可读大小排序。"
 
 [[examples.token_details]]
 token = "-10"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "head 参数：只显示前 10 行。"
 
 [[examples]]
 level = 4
@@ -194,7 +194,7 @@ explanation = "管道符，把前一个命令的输出交给后一个命令继�
 
 [[examples.token_details]]
 token = "{print $1}"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "awk 程序：打印每行第 1 列（通常是 IP 地址）。"
 
 [[examples.token_details]]
 token = "-c"
@@ -202,11 +202,11 @@ explanation = "指定次数或统计计数（具体含义取决于命令）。"
 
 [[examples.token_details]]
 token = "-rn"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "sort 组合选项：-r 降序 + -n 按数值排序。"
 
 [[examples.token_details]]
 token = "-10"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "head 参数：只显示前 10 行（出现频率最高的 IP）。"
 
 [[gotchas]]
 title = "字典序与数值排序的区别"

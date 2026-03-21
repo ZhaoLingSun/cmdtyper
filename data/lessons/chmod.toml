@@ -103,7 +103,7 @@ explanation = "权限 rw-r--r--：所有者读写，组和其他用户只读。"
 
 [[examples.token_details]]
 token = "index.html"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "目标网页文件，chmod 644 确保 Web 服务器能读取它但任何人都无法意外执行它。"
 
 [[examples]]
 level = 2
@@ -122,7 +122,7 @@ explanation = "符号权限写法，按用户类别增减读写执行权限。"
 
 [[examples.token_details]]
 token = "secret.key"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "敏感密钥文件，chmod -v go-rwx 将组和其他用户的所有权限清空以保护私密内容。"
 
 [[examples]]
 level = 3

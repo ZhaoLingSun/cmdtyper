@@ -122,7 +122,7 @@ MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   4380.2 avail Mem
 output_explanation = "这是系统实时资源视图，包含 CPU、内存和进程排行。可据此快速定位占用异常的进程。"
 [[examples.token_details]]
 token = "-bn1"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "组合选项：-b 批处理模式（输出到管道）+ -n1 只刷新 1 次后退出。"
 
 [[examples.token_details]]
 token = "|"
@@ -130,7 +130,7 @@ explanation = "管道符，把前一个命令的输出交给后一个命令继�
 
 [[examples.token_details]]
 token = "-20"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "head 参数：只显示前 20 行。"
 
 [[examples]]
 level = 3
@@ -166,11 +166,11 @@ explanation = "指定端口号、PID，或要求创建父目录。"
 
 [[examples.token_details]]
 token = "-d,"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "pgrep 选项：-d, 指定用逗号分隔多个 PID 的输出。"
 
 [[examples.token_details]]
 token = "nginx)"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "pgrep 的目标进程名：查找所有 nginx 进程的 PID。"
 
 [[examples]]
 level = 4
@@ -191,7 +191,7 @@ simulated_output = """    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %M
 output_explanation = "这是系统实时资源视图，包含 CPU、内存和进程排行。可据此快速定位占用异常的进程。"
 [[examples.token_details]]
 token = "-bn1"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "组合选项：-b 批处理模式（输出到管道）+ -n1 只刷新 1 次后退出。"
 
 [[examples.token_details]]
 token = "-o"
@@ -207,11 +207,11 @@ explanation = "管道符，把前一个命令的输出交给后一个命令继�
 
 [[examples.token_details]]
 token = "-17"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "head 参数：保留前 17 行（含表头 + 前 10 条进程）。"
 
 [[examples.token_details]]
 token = "-10"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "tail 参数：只保留最后 10 行（去掉表头，只留进程）。"
 
 [[gotchas]]
 title = "top 中的交互快捷键"

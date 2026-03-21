@@ -115,7 +115,7 @@ explanation = "指定端口号、PID，或要求创建父目录。"
 
 [[examples.token_details]]
 token = "nginx"
-explanation = "服务名/容器名，用来指定要查看或操作的目标。"
+explanation = "Docker 镜像名：使用官方 Nginx 镜像创建容器。"
 
 [[examples]]
 level = 2
@@ -138,7 +138,7 @@ explanation = "查看容器的日志输出。"
 
 [[examples.token_details]]
 token = "bash"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "要在容器内执行的命令：启动 Bash Shell 以便交互操作。"
 
 [[examples]]
 level = 3
@@ -156,11 +156,11 @@ simulated_output = """[+] Building 12.4s (8/8) FINISHED
 output_explanation = "输出显示了 Docker 容器/镜像/构建或日志相关信息。重点关注容器状态（Up/Exited）、镜像标签、端口映射及错误日志。"
 [[examples.token_details]]
 token = "build"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "Docker 子命令：根据 Dockerfile 构建镜像。"
 
 [[examples.token_details]]
 token = "-t"
-explanation = "指定类型、压缩格式或算法类型。"
+explanation = "为构建的镜像指定名称和标签（name:tag 格式）。"
 
 [[examples.token_details]]
 token = "myapp:v1.0"
@@ -181,11 +181,11 @@ simulated_output = """203.0.113.42 - - [09/Mar/2024:10:30:01 +0000] "GET / HTTP/
 output_explanation = "输出显示了 Docker 容器/镜像/构建或日志相关信息。重点关注容器状态（Up/Exited）、镜像标签、端口映射及错误日志。"
 [[examples.token_details]]
 token = "logs"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "Docker 子命令：查看容器的标准输出日志。"
 
 [[examples.token_details]]
 token = "-f"
-explanation = "持续跟随输出变化，或指定文件脚本（取决于命令）。"
+explanation = "跟踪模式：持续输出新增的日志（类似 tail -f）。"
 
 [[examples.token_details]]
 token = "--tail"
@@ -197,7 +197,7 @@ explanation = "限制日志尾部显示的行数。"
 
 [[examples.token_details]]
 token = "webserver"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "目标容器名称：查看名为 webserver 的容器日志。"
 
 [[gotchas]]
 title = "容器停止后数据默认丢失"
