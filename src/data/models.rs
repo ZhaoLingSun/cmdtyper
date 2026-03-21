@@ -1,6 +1,166 @@
 use serde::{Deserialize, Serialize};
 
 // ─────────────────────────────────────────────────────────────
+// Token 分类枚举（v2 新增，兼容旧格式）
+// ─────────────────────────────────────────────────────────────
+
+/// Token 类型分类
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize, Default)]
+#[serde(rename_all = "snake_case")]
+pub enum TokenKind {
+    /// 命令本身，如 find、ls、grep
+    Command,
+    /// 子命令，如 git 的 commit、push
+    Subcommand,
+    /// 单字母选项，如 -l、-r
+    ShortOption,
+    /// 组合选项束，如 -czf、-lhS
+    ShortOptionBundle,
+    /// 长选项，如 --oneline、--delete
+    LongOption,
+    /// 选项的值，如 -F: 中的 :，-n 5 中的 5
+    OptionValue,
+    /// 路径（通用），如 /var/log、./src
+    Path,
+    /// 文件名，如 notes.txt、backup.tar.gz
+    Filename,
+    /// 目录名
+    Directory,
+    /// 通配符模式或 glob，如 '*.log'
+    Pattern,
+    /// 正则表达式
+    Regex,
+    /// 字面量字符串
+    Literal,
+    /// 引号字符串，如 's/a/b/'
+    QuotedExpr,
+    /// 变量引用，如 $HOME、$1
+    Variable,
+    /// 命令替换，如 $(date +%Y)
+    Substitution,
+    /// Shell 操作符，如 |、&&、;
+    Operator,
+    /// 管道符 |
+    Pipe,
+    /// 重定向，如 >、>>、2>
+    Redirection,
+    /// 占位符，如 find 的 {}
+    Placeholder,
+    /// 权限数字模式，如 644、755
+    PermissionMode,
+    /// 纯数字，如 -n 5 中的 5
+    Number,
+    /// 服务名，如 nginx、sshd
+    ServiceName,
+    /// URL 地址
+    Url,
+    /// 未知/其他
+    #[default]
+    Other,
+}
+
+impl TokenKind {
+    /// 返回在 UI 中的短标签
+    pub fn label(&self) -> &str {
+        match self {
+            Self::Command => "cmd",
+            Self::Subcommand => "sub",
+            Self::ShortOption => "opt",
+            Self::ShortOptionBundle => "opts",
+            Self::LongOption => "opt",
+            Self::OptionValue => "val",
+            Self::Path => "path",
+            Self::Filename => "file",
+            Self::Directory => "dir",
+            Self::Pattern => "glob",
+            Self::Regex => "regex",
+            Self::Literal => "str",
+            Self::QuotedExpr => "expr",
+            Self::Variable => "var",
+            Self::Substitution => "subst",
+            Self::Operator => "op",
+            Self::Pipe => "pipe",
+            Self::Redirection => "redir",
+            Self::Placeholder => "phld",
+            Self::PermissionMode => "perm",
+            Self::Number => "num",
+            Self::ServiceName => "svc",
+            Self::Url => "url",
+            Self::Other => "...",
+        }
+    }
+
+    /// 推断 token 文本的类型（启发式）
+    pub fn infer(text: &str) -> Self {
+        let t = text.trim_matches(|c| c == '\'' || c == '"');
+        // 操作符
+        if matches!(text, "|" | "||" | "&&" | ";" | "&") {
+            return Self::Operator;
+        }
+        if matches!(text, ">" | ">>" | "<" | "<<" | "2>" | "2>&1") {
+            return Self::Redirection;
+        }
+        if text == "|" {
+            return Self::Pipe;
+        }
+        if text == "{}" {
+            return Self::Placeholder;
+        }
+        // 变量/替换
+        if text.starts_with("$(") || text.contains("$(") {
+            return Self::Substitution;
+        }
+        if text.starts_with('$') {
+            return Self::Variable;
+        }
+        // 长选项
+        if text.starts_with("--") {
+            return Self::LongOption;
+        }
+        // 短选项束/单选项
+        if let Some(rest) = text.strip_prefix('-') {
+            if rest.len() > 1 && rest.chars().all(|c| c.is_ascii_alphabetic()) {
+                return Self::ShortOptionBundle;
+            }
+            if rest.len() == 1 {
+                return Self::ShortOption;
+            }
+        }
+        // 权限模式
+        if text.len() == 3 && text.chars().all(|c| c.is_ascii_digit()) {
+            let v: u32 = text.parse().unwrap_or(0);
+            if v <= 777 {
+                return Self::PermissionMode;
+            }
+        }
+        // 路径
+        if text.starts_with('/') || text.starts_with("./") || text.starts_with("../")
+            || text == "." || text == ".." || text == "~"
+        {
+            if text.ends_with('/') {
+                return Self::Directory;
+            }
+            if t.contains('.') {
+                return Self::Filename;
+            }
+            return Self::Path;
+        }
+        // URL
+        if text.starts_with("http://") || text.starts_with("https://") {
+            return Self::Url;
+        }
+        // 引号表达式
+        if (text.starts_with('\'') && text.ends_with('\''))
+            || (text.starts_with('"') && text.ends_with('"'))
+        {
+            return Self::QuotedExpr;
+        }
+        Self::Other
+    }
+}
+
+
+// ─────────────────────────────────────────────────────────────
 // 3.1 基础枚举
 // ─────────────────────────────────────────────────────────────
 
@@ -252,6 +412,16 @@ impl Command {
 pub struct Token {
     pub text: String,
     pub desc: String,
+    /// 可选 token 类型，v2 新增，旧数据无此字段时默认 Other
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub kind: Option<TokenKind>,
+}
+
+impl Token {
+    /// 返回有效的 kind：优先使用字段值，否则启发式推断
+    pub fn effective_kind(&self) -> TokenKind {
+        self.kind.unwrap_or_else(|| TokenKind::infer(&self.text))
+    }
 }
 
 /// 默写模式数据
@@ -335,6 +505,16 @@ pub struct OptionInfo {
 pub struct ExampleTokenDetail {
     pub token: String,
     pub explanation: String,
+    /// 可选 token 类型，v2 新增
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub kind: Option<TokenKind>,
+}
+
+impl ExampleTokenDetail {
+    /// 返回有效的 kind
+    pub fn effective_kind(&self) -> TokenKind {
+        self.kind.unwrap_or_else(|| TokenKind::infer(&self.token))
+    }
 }
 
 /// 讲解示例
