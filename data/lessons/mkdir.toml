@@ -78,15 +78,15 @@ explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[examples.token_details]]
 token = "/opt/myapp/logs"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "目标路径：/opt/myapp/logs"
 
 [[examples.token_details]]
 token = "/opt/myapp/config"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "目标路径：/opt/myapp/config"
 
 [[examples.token_details]]
 token = "/opt/myapp/data"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "目标路径：/opt/myapp/data"
 
 [[examples]]
 level = 2
@@ -105,7 +105,7 @@ explanation = "设置新建对象的权限模式。"
 
 [[examples.token_details]]
 token = "/var/www/newsite"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "目标路径：/var/www/newsite"
 
 [[examples]]
 level = 3

@@ -61,7 +61,7 @@ simulated_output = """  42  68 2456 /etc/passwd"""
 output_explanation = "输出分别表示行数、单词数、字节数（或仅某一项），常用于快速统计文本规模或结果数量。"
 [[examples.token_details]]
 token = "/etc/passwd"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "系统用户账户信息文件。"
 
 [[examples]]
 level = 1
@@ -76,7 +76,7 @@ explanation = "列表模式或逐行统计（取决于命令）。"
 
 [[examples.token_details]]
 token = "/etc/passwd"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "系统用户账户信息文件。"
 
 [[examples]]
 level = 2
@@ -91,11 +91,11 @@ explanation = "当前目录。"
 
 [[examples.token_details]]
 token = "-name"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "按文件名模式匹配（支持 * ? [] 通配符）。"
 
 [[examples.token_details]]
 token = "*.rs"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "HTTP 访问日志文件。"
 
 [[examples.token_details]]
 token = "|"
@@ -161,7 +161,7 @@ explanation = "当前目录。"
 
 [[examples.token_details]]
 token = "-name"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "按文件名模式匹配（支持 * ? [] 通配符）。"
 
 [[examples.token_details]]
 token = "*.rs"

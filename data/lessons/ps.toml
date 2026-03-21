@@ -77,7 +77,7 @@ ace         3847  0.0  0.0  10072  3456 pts/0    R+   10:35   0:00 ps aux"""
 output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
 [[examples.token_details]]
 token = "aux"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "显示所有用户的所有进程及完整命令行。"
 
 [[examples]]
 level = 1
@@ -113,7 +113,7 @@ ace         3955  0.0  0.0   6480  2176 pts/0    S+   10:38   0:00 grep --color=
 output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
 [[examples.token_details]]
 token = "aux"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "显示所有用户的所有进程及完整命令行。"
 
 [[examples.token_details]]
 token = "|"
@@ -140,7 +140,7 @@ ace         4012  0.0  0.0  10072  3456 pts/0    R+   10:39   0:00 ps aux --sort
 output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
 [[examples.token_details]]
 token = "aux"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "显示所有用户的所有进程及完整命令行。"
 
 [[examples.token_details]]
 token = "--sort=-%mem"
@@ -164,7 +164,7 @@ simulated_output = """    PID USER     %CPU %MEM COMMAND
 output_explanation = "输出列出了进程信息。常见字段包括 PID、CPU、MEM、启动时间和命令，用于定位高负载或异常进程。"
 [[examples.token_details]]
 token = "-eo"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "显示所有用户的所有进程及完整命令行。"
 
 [[examples.token_details]]
 token = "pid,user,%cpu,%mem,comm"

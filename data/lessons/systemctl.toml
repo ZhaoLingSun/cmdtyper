@@ -89,11 +89,11 @@ Mar 09 08:00:15 myhost nginx[1235]: nginx: configuration file /etc/nginx/nginx.c
 output_explanation = "该输出用于显示 systemd 服务状态或控制结果。重点关注 Active、Loaded、Main PID 以及近期日志中的报错。"
 [[examples.token_details]]
 token = "status"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "查看指定服务的运行状态。"
 
 [[examples.token_details]]
 token = "nginx"
-explanation = "服务名/容器名，用来指定要查看或操作的目标。"
+explanation = "目标服务：Nginx Web 服务器。"
 
 [[examples]]
 level = 1
@@ -104,11 +104,11 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "start"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "启动指定的 systemd 服务。"
 
 [[examples.token_details]]
 token = "sshd"
-explanation = "服务名/容器名，用来指定要查看或操作的目标。"
+explanation = "目标服务：SSH 守护进程。"
 
 [[examples]]
 level = 2
@@ -119,7 +119,7 @@ simulated_output = """Created symlink /etc/systemd/system/multi-user.target.want
 output_explanation = "该输出用于显示 systemd 服务状态或控制结果。重点关注 Active、Loaded、Main PID 以及近期日志中的报错。"
 [[examples.token_details]]
 token = "enable"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "设置服务开机自动启动。"
 
 [[examples.token_details]]
 token = "--now"
@@ -143,7 +143,7 @@ simulated_output = """  UNIT                        LOAD   ACTIVE SUB     DESCRI
 output_explanation = "该输出用于显示 systemd 服务状态或控制结果。重点关注 Active、Loaded、Main PID 以及近期日志中的报错。"
 [[examples.token_details]]
 token = "list-units"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "只显示指定时间之后的日志。"
 
 [[examples.token_details]]
 token = "--type=service"
@@ -171,7 +171,7 @@ explanation = "指定用户名/认证信息。"
 
 [[examples.token_details]]
 token = "-f"
-explanation = "持续跟随输出变化，或指定文件脚本（取决于命令）。"
+explanation = "实时跟踪新增的日志（类似 tail -f）。"
 
 [[examples.token_details]]
 token = "--since"

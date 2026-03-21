@@ -66,7 +66,7 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "temp.log"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "目标文件：temp.log"
 
 [[examples]]
 level = 1
@@ -97,11 +97,11 @@ removed directory 'old_project/'"""
 output_explanation = "该结果表示文件删除操作已执行。带 `-v` 会显示被删除对象；批量删除前务必确认匹配范围，避免误删。"
 [[examples.token_details]]
 token = "-rv"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "按文件系统条目类型筛选匹配结果。"
 
 [[examples.token_details]]
 token = "old_project/"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "临时文件目录。"
 
 [[examples]]
 level = 2
@@ -137,15 +137,15 @@ explanation = "文件或目录路径，指定命令要操作的位置。"
 
 [[examples.token_details]]
 token = "-type"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "-type 的值：只匹配普通文件（不含目录和符号链接）。"
 
 [[examples.token_details]]
 token = "f"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "按最后修改时间筛选文件。"
 
 [[examples.token_details]]
 token = "-mtime"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "按文件名模式匹配（支持 * ? [] 通配符）。"
 
 [[examples.token_details]]
 token = "+30"
@@ -171,7 +171,7 @@ explanation = "当前目录。"
 
 [[examples.token_details]]
 token = "-name"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "按文件系统条目类型筛选匹配结果。"
 
 [[examples.token_details]]
 token = "*.pyc"
@@ -179,7 +179,7 @@ explanation = "通配符模式，会匹配一组符合条件的文件名。"
 
 [[examples.token_details]]
 token = "-type"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "-type 的值：只匹配普通文件（不含目录和符号链接）。"
 
 [[examples.token_details]]
 token = "f"

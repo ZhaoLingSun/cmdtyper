@@ -77,7 +77,7 @@ Mar  9 14:35:01 ubuntu CRON[12478]: (root) CMD (test -x /usr/sbin/anacron)"""
 output_explanation = "tail 显示文件末尾内容，`-f` 会持续跟随新日志。适合实时观察服务运行状态和错误信息。"
 [[examples.token_details]]
 token = "/var/log/syslog"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "系统日志文件。"
 
 [[examples]]
 level = 1
@@ -100,7 +100,7 @@ explanation = "指定数量（如行数、分组大小、请求次数）。"
 
 [[examples.token_details]]
 token = "~/.bash_history"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "系统日志文件。"
 
 [[examples]]
 level = 2
@@ -115,11 +115,11 @@ simulated_output = """192.168.1.50 - - [09/Mar/2026:14:35:22 +0800] "GET /api/us
 output_explanation = "tail 显示文件末尾内容，`-f` 会持续跟随新日志。适合实时观察服务运行状态和错误信息。"
 [[examples.token_details]]
 token = "-f"
-explanation = "持续跟随输出变化，或指定文件脚本（取决于命令）。"
+explanation = "跟踪模式：持续监视文件末尾新增的内容（实时日志查看）。"
 
 [[examples.token_details]]
 token = "/var/log/nginx/access.log"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "Nginx HTTP 访问日志。"
 
 [[examples]]
 level = 3
@@ -141,7 +141,7 @@ explanation = "指定数量（如行数、分组大小、请求次数）。"
 
 [[examples.token_details]]
 token = "data.csv"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "CSV 格式数据文件。"
 
 [[examples]]
 level = 3
@@ -154,7 +154,7 @@ Mar  9 14:42:55 ubuntu app[5678]: [ERROR] Failed to process request #12345"""
 output_explanation = "tail 显示文件末尾内容，`-f` 会持续跟随新日志。适合实时观察服务运行状态和错误信息。"
 [[examples.token_details]]
 token = "-f"
-explanation = "持续跟随输出变化，或指定文件脚本（取决于命令）。"
+explanation = "跟踪模式：持续监视文件末尾新增的内容（实时日志查看）。"
 
 [[examples.token_details]]
 token = "/var/log/syslog"
@@ -188,15 +188,15 @@ simulated_output = """==> access.log <==
 output_explanation = "tail 显示文件末尾内容，`-f` 会持续跟随新日志。适合实时观察服务运行状态和错误信息。"
 [[examples.token_details]]
 token = "-f"
-explanation = "持续跟随输出变化，或指定文件脚本（取决于命令）。"
+explanation = "跟踪模式：持续监视文件末尾新增的内容（实时日志查看）。"
 
 [[examples.token_details]]
 token = "access.log"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "HTTP 访问日志文件。"
 
 [[examples.token_details]]
 token = "error.log"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "目标文件：error.log"
 
 [[gotchas]]
 title = "tail -f 与日志轮转"

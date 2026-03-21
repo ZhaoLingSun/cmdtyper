@@ -73,11 +73,11 @@ simulated_output = """[2026-03-09 14:30:12] INFO: Server started
 output_explanation = "这是 sed 文本替换/筛选后的结果。未加 `-i` 时只输出到终端，不改原文件；加 `-i` 时会直接改文件。"
 [[examples.token_details]]
 token = "s/error/ERROR/g"
-explanation = "这是文本处理表达式，用来定义匹配规则和输出/替换动作。"
+explanation = "目标路径：/^#/d; /^$/d"
 
 [[examples.token_details]]
 token = "app.log"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "应用程序日志文件。"
 
 [[examples]]
 level = 2
@@ -106,7 +106,7 @@ explanation = "地址范围 + 打印命令：选择第 10 到 20 行并输出。
 
 [[examples.token_details]]
 token = "config.yml"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "配置文件（YAML 格式）。"
 
 [[examples]]
 level = 2
@@ -131,7 +131,7 @@ explanation = "这是文本处理表达式，用来定义匹配规则和输出/�
 
 [[examples.token_details]]
 token = "/etc/ssh/sshd_config"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "SSH 服务端配置文件。"
 
 [[examples]]
 level = 3
@@ -151,7 +151,7 @@ explanation = "sed 替换表达式：将每行中的 PasswordAuthentication yes 
 
 [[examples.token_details]]
 token = "/etc/ssh/sshd_config"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "SSH 服务端配置文件。"
 
 [[examples]]
 level = 3
@@ -242,7 +242,7 @@ explanation = "这是文本处理表达式，用来定义匹配规则和输出/�
 
 [[examples.token_details]]
 token = "config.yml"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "配置文件（YAML 格式）。"
 
 [[examples]]
 level = 4
@@ -264,7 +264,7 @@ explanation = "这是文本处理表达式，用来定义匹配规则和输出/�
 
 [[examples.token_details]]
 token = "dates.txt"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "日期文本文件。"
 
 [[gotchas]]
 title = "sed -i 的平台差异"

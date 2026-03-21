@@ -97,7 +97,7 @@ simulated_output = """"""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "/var/log"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "系统日志目录。"
 
 [[examples]]
 level = 3
@@ -108,7 +108,7 @@ simulated_output = """"""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "../../etc"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "目标路径：../../etc"
 
 [[examples]]
 level = 4

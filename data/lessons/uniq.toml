@@ -71,7 +71,7 @@ Eve"""
 output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
 [[examples.token_details]]
 token = "names.txt"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "名称列表文件。"
 
 [[examples.token_details]]
 token = "|"
@@ -90,7 +90,7 @@ simulated_output = """      3 Alice
 output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
 [[examples.token_details]]
 token = "names.txt"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "名称列表文件。"
 
 [[examples.token_details]]
 token = "|"
@@ -111,7 +111,7 @@ Eve"""
 output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
 [[examples.token_details]]
 token = "names.txt"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "名称列表文件。"
 
 [[examples.token_details]]
 token = "|"
@@ -135,7 +135,7 @@ simulated_output = """    523 192.168.1.50 - GET /index.html
 output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
 [[examples.token_details]]
 token = "access.log"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "HTTP 访问日志文件。"
 
 [[examples.token_details]]
 token = "|"
@@ -147,7 +147,7 @@ explanation = "指定次数或统计计数（具体含义取决于命令）。"
 
 [[examples.token_details]]
 token = "-rn"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "组合选项：-r 降序 + -n 数值排序。"
 
 [[examples.token_details]]
 token = "-5"
@@ -176,7 +176,7 @@ explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[examples.token_details]]
 token = "access.log"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "HTTP 访问日志文件。"
 
 [[examples.token_details]]
 token = "|"

@@ -65,7 +65,7 @@ news:x:9:9:news:/var/spool/news:/usr/sbin/nologin"""
 output_explanation = "输出是目标内容的前几行（或前几个字节），用于快速预览文件开头结构，避免一次性打开大文件。"
 [[examples.token_details]]
 token = "/etc/passwd"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "系统用户账户信息文件。"
 
 [[examples]]
 level = 1
@@ -89,7 +89,7 @@ explanation = "指定数量（如行数、分组大小、请求次数）。"
 
 [[examples.token_details]]
 token = "README.md"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "项目说明文档。"
 
 [[examples]]
 level = 2
@@ -158,7 +158,7 @@ explanation = "数字参数，表示数量、行数、PID 或其他数值设置�
 
 [[examples.token_details]]
 token = "/dev/urandom"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "目标路径：/dev/urandom"
 
 [[examples.token_details]]
 token = "|"

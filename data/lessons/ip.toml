@@ -79,11 +79,11 @@ simulated_output = """1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue stat
 output_explanation = "输出展示了网络接口、IP 地址、路由或邻居表信息。排障时重点看网卡状态、地址前缀和默认路由是否正确。"
 [[examples.token_details]]
 token = "addr"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "显示或管理 IP 地址。"
 
 [[examples.token_details]]
 token = "show"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "显示或管理 IP 地址。"
 
 [[examples]]
 level = 1
@@ -96,11 +96,11 @@ docker0          DOWN           172.17.0.1/16"""
 output_explanation = "输出展示了网络接口、IP 地址、路由或邻居表信息。排障时重点看网卡状态、地址前缀和默认路由是否正确。"
 [[examples.token_details]]
 token = "-br"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "显示或管理路由表。"
 
 [[examples.token_details]]
 token = "addr"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "显示或管理网络接口。"
 
 [[examples.token_details]]
 token = "show"

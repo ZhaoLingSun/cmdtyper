@@ -70,11 +70,11 @@ explanation = "当前目录。"
 
 [[examples.token_details]]
 token = "-name"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "按文件名模式匹配（支持 * ? [] 通配符）。"
 
 [[examples.token_details]]
 token = "*.tmp"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "目标文件：*.log"
 
 [[examples.token_details]]
 token = "|"
@@ -82,7 +82,7 @@ explanation = "管道符，把前一个命令的输出交给后一个命令继�
 
 [[examples.token_details]]
 token = "rm"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "按文件名模式匹配（支持 * ? [] 通配符）。"
 
 [[examples]]
 level = 2
@@ -101,11 +101,11 @@ explanation = "当前目录。"
 
 [[examples.token_details]]
 token = "-name"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "将文本输出到标准输出。"
 
 [[examples.token_details]]
 token = "*.log"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "目标文件：urls.txt"
 
 [[examples.token_details]]
 token = "-print0"
@@ -324,7 +324,7 @@ explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[examples.token_details]]
 token = "./src"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "目标路径：./src"
 
 [[examples.token_details]]
 token = "|"

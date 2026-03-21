@@ -157,15 +157,15 @@ project/README.md"""
 output_explanation = "输出展示了打包/解包/列出归档内容的结果。`-v` 会逐项打印文件名，便于确认归档范围是否正确。"
 [[examples.token_details]]
 token = "-czvf"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "组合选项：-c 创建，-z gzip 压缩，-v 显示过程，-f 指定文件名。"
 
 [[examples.token_details]]
 token = "backup.tar.gz"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "gzip 压缩的 tar 归档备份。"
 
 [[examples.token_details]]
 token = "--exclude=*.log"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "目标文件：--exclude=*.log"
 
 [[examples.token_details]]
 token = "--exclude=node_modules"

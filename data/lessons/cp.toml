@@ -68,11 +68,11 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "file.txt"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "目标文件：file.txt"
 
 [[examples.token_details]]
 token = "backup.txt"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "目标文件：backup.txt"
 
 [[examples]]
 level = 1
@@ -87,11 +87,11 @@ explanation = "显示详细执行过程，便于观察发生了什么。"
 
 [[examples.token_details]]
 token = "report.pdf"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "配置文件：*.conf"
 
 [[examples.token_details]]
 token = "~/Documents/"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "目标路径：/etc/nginx"
 
 [[examples]]
 level = 2
@@ -106,11 +106,11 @@ explanation = "递归或逆序处理（按命令定义）。"
 
 [[examples.token_details]]
 token = "project/"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "目标路径：/backup/nginx-$(date"
 
 [[examples.token_details]]
 token = "project-backup/"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "目标路径：/etc/app/"
 
 [[examples]]
 level = 3
@@ -125,11 +125,11 @@ explanation = "显示/保留更多元数据（通常表示 all，尽量完整输
 
 [[examples.token_details]]
 token = "/etc/nginx"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "目标路径：/home/ace/projects/"
 
 [[examples.token_details]]
 token = "/backup/nginx-$(date"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "目标路径：/mnt/backup/projects/"
 
 [[examples.token_details]]
 token = "+%Y%m%d)"

@@ -68,11 +68,11 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "old.txt"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "目标文件：old.txt"
 
 [[examples.token_details]]
 token = "new.txt"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "目标文件：new.txt"
 
 [[examples]]
 level = 1
@@ -83,11 +83,11 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "report.pdf"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "目标文件：*.log"
 
 [[examples.token_details]]
 token = "~/Documents/"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "目标路径：/var/log/archive/"
 
 [[examples]]
 level = 2
@@ -108,7 +108,7 @@ explanation = "输入或输出文件名，命令会对这个文件进行读取/�
 
 [[examples.token_details]]
 token = "/var/log/archive/"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "临时文件目录。"
 
 [[examples]]
 level = 2
@@ -138,7 +138,7 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "project-v1/"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "目标路径：/tmp/archive/"
 
 [[examples.token_details]]
 token = "project-v2/"
@@ -158,7 +158,7 @@ explanation = "文件或目录路径，指定命令要操作的位置。"
 
 [[examples.token_details]]
 token = "-name"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "按文件名模式匹配（支持 * ? [] 通配符）。"
 
 [[examples.token_details]]
 token = "*.tmp"
@@ -166,7 +166,7 @@ explanation = "输入或输出文件名，命令会对这个文件进行读取/�
 
 [[examples.token_details]]
 token = "-mtime"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "按最后修改时间筛选文件。"
 
 [[examples.token_details]]
 token = "+7"

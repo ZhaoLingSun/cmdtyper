@@ -90,7 +90,7 @@ Untracked files:
 output_explanation = "输出体现了 Git 仓库当前状态或历史操作结果。可根据分支名、提交哈希、变更文件列表判断是否处于预期的开发流程。"
 [[examples.token_details]]
 token = "status"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "显示工作区和暂存区的文件变更状态。"
 
 [[examples]]
 level = 1
@@ -105,7 +105,7 @@ e5f9c23 初始化项目结构"""
 output_explanation = "输出体现了 Git 仓库当前状态或历史操作结果。可根据分支名、提交哈希、变更文件列表判断是否处于预期的开发流程。"
 [[examples.token_details]]
 token = "log"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "查看提交历史记录。"
 
 [[examples.token_details]]
 token = "--oneline"
@@ -113,7 +113,7 @@ explanation = "把每次提交压缩为一行显示。"
 
 [[examples.token_details]]
 token = "-5"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "将文件更改添加到暂存区，准备下次提交。"
 
 [[examples]]
 level = 2
@@ -124,7 +124,7 @@ simulated_output = "Switched to a new branch 'feature/user-auth'"
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "checkout"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "将暂存区的更改保存为一个新提交。"
 
 [[examples.token_details]]
 token = "-b"
@@ -145,7 +145,7 @@ simulated_output = """[feature/user-auth 7c3d891] 实现用户认证模块
 output_explanation = "输出体现了 Git 仓库当前状态或历史操作结果。可根据分支名、提交哈希、变更文件列表判断是否处于预期的开发流程。"
 [[examples.token_details]]
 token = "add"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "将未提交的修改临时保存起来，恢复干净工作区。"
 
 [[examples.token_details]]
 token = "src/"
@@ -153,11 +153,11 @@ explanation = "文件或目录路径，指定命令要操作的位置。"
 
 [[examples.token_details]]
 token = "&&"
-explanation = "前一个命令成功后才继续执行后一个命令。"
+explanation = "逻辑与：只有前一个命令成功（退出码 0）时，才执行后一个命令。"
 
 [[examples.token_details]]
 token = "commit"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "从远程仓库获取更新并自动合并。"
 
 [[examples.token_details]]
 token = "-m"
@@ -178,11 +178,11 @@ Already up to date."""
 output_explanation = "输出体现了 Git 仓库当前状态或历史操作结果。可根据分支名、提交哈希、变更文件列表判断是否处于预期的开发流程。"
 [[examples.token_details]]
 token = "stash"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "查看提交历史记录。"
 
 [[examples.token_details]]
 token = "&&"
-explanation = "前一个命令成功后才继续执行后一个命令。"
+explanation = "逻辑与：只有前一个命令成功（退出码 0）时，才执行后一个命令。"
 
 [[examples.token_details]]
 token = "checkout"

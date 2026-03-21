@@ -75,7 +75,7 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "-9"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "发送 SIGKILL 信号：强制终止进程（不可被捕获或忽略）。"
 
 [[examples.token_details]]
 token = "12345"
@@ -116,7 +116,7 @@ explanation = "命令参数，用于指定要处理的对象或行为细节。"
 
 [[examples.token_details]]
 token = "/var/run/nginx.pid)"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "目标路径：/var/run/nginx.pid)"
 
 [[examples]]
 level = 3

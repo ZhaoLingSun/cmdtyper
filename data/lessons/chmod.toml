@@ -69,11 +69,11 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "755"
-explanation = "八进制权限位（如 755/644），分别控制所有者、组、其他用户权限。"
+explanation = "权限 rwxr-xr-x：所有者读写执行，组和其他用户读执行。"
 
 [[examples.token_details]]
 token = "deploy.sh"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "部署脚本文件。"
 
 [[examples]]
 level = 1
@@ -84,11 +84,11 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "u+x"
-explanation = "符号权限写法，按用户类别增减读写执行权限。"
+explanation = "给属主（u）添加执行权限（+x），不影响组和其他用户。"
 
 [[examples.token_details]]
 token = "script.sh"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "Shell 脚本文件。"
 
 [[examples]]
 level = 2
@@ -99,7 +99,7 @@ simulated_output = ""
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "644"
-explanation = "八进制权限位（如 755/644），分别控制所有者、组、其他用户权限。"
+explanation = "权限 rw-r--r--：所有者读写，组和其他用户只读。"
 
 [[examples.token_details]]
 token = "index.html"

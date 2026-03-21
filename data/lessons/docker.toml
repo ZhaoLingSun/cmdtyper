@@ -65,7 +65,7 @@ b7c8d9e0f1a2   postgres:15    "docker-entrypoint.s…"   3 hours ago   Up 3 hour
 output_explanation = "输出显示了 Docker 容器/镜像/构建或日志相关信息。重点关注容器状态（Up/Exited）、镜像标签、端口映射及错误日志。"
 [[examples.token_details]]
 token = "ps"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "列出正在运行的容器。"
 
 [[examples]]
 level = 1
@@ -80,7 +80,7 @@ ubuntu       22.04     3b418d7b466a   4 weeks ago    77.8MB"""
 output_explanation = "输出显示了 Docker 容器/镜像/构建或日志相关信息。重点关注容器状态（Up/Exited）、镜像标签、端口映射及错误日志。"
 [[examples.token_details]]
 token = "images"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "列出本地的 Docker 镜像。"
 
 [[examples]]
 level = 2
@@ -91,7 +91,7 @@ simulated_output = "f3e2d1c0b9a847563412fedcba987654321012345678901234567890abcd
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "run"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "创建并启动一个新容器。"
 
 [[examples.token_details]]
 token = "-d"
@@ -103,7 +103,7 @@ explanation = "这里提供请求体、延迟值或其他数据参数。"
 
 [[examples.token_details]]
 token = "webserver"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "在运行中的容器内执行命令。"
 
 [[examples.token_details]]
 token = "-p"
@@ -126,15 +126,15 @@ simulated_output = "root@f3e2d1c0b9a8:/# "
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
 [[examples.token_details]]
 token = "exec"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "组合选项：-i 交互模式（保持标准输入打开）+ -t 分配伪终端。"
 
 [[examples.token_details]]
 token = "-it"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "根据 Dockerfile 构建镜像。"
 
 [[examples.token_details]]
 token = "webserver"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "查看容器的日志输出。"
 
 [[examples.token_details]]
 token = "bash"

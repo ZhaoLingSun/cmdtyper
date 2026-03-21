@@ -74,11 +74,11 @@ simulated_output = """192.168.1.50
 output_explanation = "这是 awk 的筛选/字段处理结果：它按给定规则对输入文本逐行处理，只输出匹配或计算后的内容。可重点关注字段分隔符、条件表达式和 END 统计是否符合预期。"
 [[examples.token_details]]
 token = "{print $1}"
-explanation = "这是文本处理表达式，用来定义匹配规则和输出/替换动作。"
+explanation = "目标路径：/ERROR/ {count++} END {print "Total errors:", count}"
 
 [[examples.token_details]]
 token = "access.log"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "HTTP 访问日志文件。"
 
 [[examples]]
 level = 2
@@ -149,7 +149,7 @@ explanation = "这是文本处理表达式，用来定义匹配规则和输出/�
 
 [[examples.token_details]]
 token = "app.log"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "应用程序日志文件。"
 
 [[examples]]
 level = 3
@@ -194,7 +194,7 @@ deploy	1003	/bin/bash"""
 output_explanation = "这是 awk 的筛选/字段处理结果：它按给定规则对输入文本逐行处理，只输出匹配或计算后的内容。可重点关注字段分隔符、条件表达式和 END 统计是否符合预期。"
 [[examples.token_details]]
 token = "-F:"
-explanation = "命令参数，用于指定要处理的对象或行为细节。"
+explanation = "将字段分隔符设为冒号 :，适合处理 /etc/passwd 这类冒号分隔文件。"
 
 [[examples.token_details]]
 token = "BEGIN {print \"User\\tUID\\tShell\"} $3>=1000 && $3<65534 {print $1\"\\t\"$3\"\\t\"$7}"
@@ -202,7 +202,7 @@ explanation = "这是文本处理表达式，用来定义匹配规则和输出/�
 
 [[examples.token_details]]
 token = "/etc/passwd"
-explanation = "文件或目录路径，指定命令要操作的位置。"
+explanation = "系统用户账户信息文件。"
 
 [[examples]]
 level = 4
@@ -218,7 +218,7 @@ explanation = "这是文本处理表达式，用来定义匹配规则和输出/�
 
 [[examples.token_details]]
 token = "numbers.txt"
-explanation = "输入或输出文件名，命令会对这个文件进行读取/写入/处理。"
+explanation = "数字数据文件。"
 
 [[gotchas]]
 title = "awk 中 $0 与 $1 的区别"
