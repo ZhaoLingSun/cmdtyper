@@ -74,7 +74,7 @@ simulated_output = """192.168.1.50
 output_explanation = "这是 awk 的筛选/字段处理结果：它按给定规则对输入文本逐行处理，只输出匹配或计算后的内容。可重点关注字段分隔符、条件表达式和 END 统计是否符合预期。"
 [[examples.token_details]]
 token = "{print $1}"
-explanation = "目标路径：/ERROR/ {count++} END {print "Total errors:", count}"
+explanation = "awk 程序：打印每一行的第 1 列。对于 access.log，这一列通常是客户端 IP 地址。"
 
 [[examples.token_details]]
 token = "access.log"
