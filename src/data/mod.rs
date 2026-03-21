@@ -1,5 +1,6 @@
 pub mod command_loader;
 pub mod lesson_loader;
+pub mod lexicon;
 pub mod models;
 pub mod progress;
 pub mod symbol_loader;

@@ -2,6 +2,8 @@ use ratatui::prelude::*;
 use ratatui::widgets::{Block, Borders, Paragraph, Wrap};
 
 use crate::app::App;
+use crate::data::lexicon;
+use crate::data::models::TokenKind;
 use crate::ui::widgets::*;
 
 /// Render overview phase: explanation + syntax + options
@@ -232,34 +234,60 @@ pub fn render_practice(
         Line::from(""),
     ];
 
-    let mut token_details: Vec<(String, String)> = example
-        .token_details
+        // 三级 fallback: lesson token_details > lexicon > command tokens
+    let cmd_name = example.command.split_whitespace().next().unwrap_or("");
+    let mut token_entries: Vec<(String, String, TokenKind)> = Vec::new();
+
+    if !example.token_details.is_empty() {
+        for detail in &example.token_details {
+            let kind = detail.effective_kind();
+            token_entries.push((detail.token.clone(), detail.explanation.clone(), kind));
+        }
+    } else if let Some(cmd) = app
+        .commands
         .iter()
-        .map(|detail| (detail.token.clone(), detail.explanation.clone()))
-        .collect();
-    if token_details.is_empty()
-        && let Some(cmd) = app
-            .commands
-            .iter()
-            .find(|command| command.command == example.command)
+        .find(|command| command.command == example.command)
     {
-        token_details = cmd
-            .tokens
-            .iter()
-            .map(|token| (token.text.clone(), token.desc.clone()))
-            .collect();
+        for token in &cmd.tokens {
+            let kind = token.effective_kind();
+            let desc = lexicon::lookup(&token.text, Some(cmd_name))
+                .map(|s| s.to_string())
+                .unwrap_or_else(|| token.desc.clone());
+            token_entries.push((token.text.clone(), desc, kind));
+        }
     }
 
-    if !token_details.is_empty() {
+    if !token_entries.is_empty() {
         lines.push(Line::from(Span::styled(
-            "\u{8bcd}\u{5143}\u{89e3}\u{6790}:",
+            "词元解析:",
             Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
         )));
-        for (token, desc) in token_details {
+        for (token_text, desc, kind) in &token_entries {
+            let kind_color = match kind {
+                TokenKind::Command | TokenKind::Subcommand => Color::Cyan,
+                TokenKind::ShortOption | TokenKind::ShortOptionBundle
+                    | TokenKind::LongOption => Color::Yellow,
+                TokenKind::Pipe | TokenKind::Operator
+                    | TokenKind::Redirection => Color::Magenta,
+                TokenKind::Path | TokenKind::Directory
+                    | TokenKind::Filename => Color::Blue,
+                TokenKind::PermissionMode | TokenKind::Number => Color::Red,
+                TokenKind::Pattern | TokenKind::Regex
+                    | TokenKind::QuotedExpr => Color::Green,
+                TokenKind::Variable | TokenKind::Substitution => Color::LightCyan,
+                TokenKind::Placeholder => Color::LightMagenta,
+                TokenKind::ServiceName => Color::LightBlue,
+                TokenKind::Url => Color::LightGreen,
+                _ => Color::White,
+            };
             lines.push(Line::from(vec![
-                Span::styled(format!("  {} ", token), Style::default().fg(ACCENT)),
-                Span::styled("-> ", Style::default().fg(DIM)),
-                Span::styled(desc, Style::default().fg(TOKEN_DESC)),
+                Span::styled(
+                    format!(" [{}] ", kind.label()),
+                    Style::default().fg(kind_color).add_modifier(Modifier::DIM),
+                ),
+                Span::styled(format!("{} ", token_text), Style::default().fg(ACCENT)),
+                Span::styled("\u{2192} ", Style::default().fg(DIM)),
+                Span::styled(desc.clone(), Style::default().fg(TOKEN_DESC)),
             ]));
         }
     }
