@@ -15,7 +15,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "tail"
-desc = "查看文件末尾内容，并可持续跟踪追加内容"
+desc = "显示文件的末尾若干行（默认 10 行）"
 
 [[commands.tokens]]
 text = " -f"
@@ -57,7 +57,7 @@ Mar 09 08:03:01 server nginx[1020]: 172.16.0.22 "GET /static/app.js HTTP/1.1" 30
 
 [[commands.tokens]]
 text = "journalctl"
-desc = "查看 systemd 日志的命令"
+desc = "查看 systemd 管理的系统日志"
 
 [[commands.tokens]]
 text = " -u"
@@ -94,7 +94,7 @@ Mar 09 10:05:00 server nginx[1020]: [ERROR] SSL_do_handshake() failed (SSL: cert
 
 [[commands.tokens]]
 text = "journalctl"
-desc = "查看 systemd 日志的命令"
+desc = "查看 systemd 管理的系统日志"
 
 [[commands.tokens]]
 text = " -u"
@@ -144,7 +144,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "find"
-desc = "在目录树中按条件查找文件的命令"
+desc = "在目录树中递归查找文件和目录"
 
 [[commands.tokens]]
 text = " /var/log"
@@ -201,7 +201,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "tar"
-desc = "创建、解包和查看归档文件的命令"
+desc = "归档工具：将多个文件打包或从归档中提取"
 
 [[commands.tokens]]
 text = " czf"
@@ -240,7 +240,7 @@ total size is 1,240,560  speedup is 1.00"""
 
 [[commands.tokens]]
 text = "rsync"
-desc = "高效同步文件和目录的命令"
+desc = "高效的远程/本地文件同步和备份工具"
 
 [[commands.tokens]]
 text = " -av"
@@ -252,11 +252,11 @@ desc = "删除目标目录中源目录已不存在的文件"
 
 [[commands.tokens]]
 text = " /srv/www/"
-desc = "源网站目录"
+desc = "文件路径： /srv/www/"
 
 [[commands.tokens]]
 text = " /backup/www/"
-desc = "目标备份目录"
+desc = "文件路径： /backup/www/"
 
 [commands.dictation]
 prompt = "把 /srv/www/ 同步到 /backup/www/，并删除目标端多余文件"
@@ -277,7 +277,7 @@ www-data  1025  0.1  0.4 145892 38240 ?        S    Mar08   1:58 nginx: worker p
 
 [[commands.tokens]]
 text = "ps"
-desc = "查看进程状态的命令"
+desc = "显示当前运行的进程信息"
 
 [[commands.tokens]]
 text = " aux"
@@ -319,7 +319,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "du"
-desc = "统计文件和目录占用空间的命令"
+desc = "统计文件或目录的磁盘占用空间"
 
 [[commands.tokens]]
 text = " -sh"
@@ -363,7 +363,7 @@ last-modified: Thu, 17 Oct 2019 07:18:26 GMT"""
 
 [[commands.tokens]]
 text = "curl"
-desc = "发起 HTTP 等网络请求的命令"
+desc = "命令行 HTTP 客户端：发送请求并获取响应"
 
 [[commands.tokens]]
 text = " -I"
@@ -388,7 +388,7 @@ simulated_output = """{"status":"ok","uptime":86432,"version":"2.1.0"}"""
 
 [[commands.tokens]]
 text = "curl"
-desc = "发起 HTTP 等网络请求的命令"
+desc = "命令行 HTTP 客户端：发送请求并获取响应"
 
 [[commands.tokens]]
 text = " -fsSL"
@@ -424,7 +424,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "systemctl"
-desc = "管理 systemd 服务和单元的命令"
+desc = "systemd 服务管理器"
 
 [[commands.tokens]]
 text = " status"
@@ -449,7 +449,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "systemctl"
-desc = "管理 systemd 服务和单元的命令"
+desc = "systemd 服务管理器"
 
 [[commands.tokens]]
 text = " restart"
@@ -479,7 +479,7 @@ Mar 09 10:01:05 server sshd[3310]: Accepted publickey for ace from 192.168.1.10 
 
 [[commands.tokens]]
 text = "journalctl"
-desc = "查看 systemd 日志的命令"
+desc = "查看 systemd 管理的系统日志"
 
 [[commands.tokens]]
 text = " -xeu"

@@ -61,7 +61,7 @@ simulated_output = """
 """
 [[commands.tokens]]
 text = "du"
-desc = "查看磁盘占用大小的命令"
+desc = "统计文件或目录的磁盘占用空间"
 [[commands.tokens]]
 text = " -h"
 desc = "以易读单位显示"
@@ -70,7 +70,7 @@ text = " --max-depth=1"
 desc = "只统计一级子目录"
 [[commands.tokens]]
 text = " /"
-desc = "从根目录开始"
+desc = "文件路径： /"
 [[commands.tokens]]
 text = " 2>/dev/null"
 desc = "丢弃权限不足等错误输出"
@@ -103,7 +103,7 @@ summary = "查找并删除当前目录下所有空目录"
 simulated_output = ""
 [[commands.tokens]]
 text = "find"
-desc = "按条件查找文件的命令"
+desc = "在目录树中递归查找文件和目录"
 [[commands.tokens]]
 text = " ."
 desc = "从当前目录开始"
@@ -134,13 +134,13 @@ simulated_output = """
 """
 [[commands.tokens]]
 text = "grep"
-desc = "按模式搜索文本行"
+desc = "在文件或输入中搜索匹配指定模式的行"
 [[commands.tokens]]
 text = " 'ERROR'"
 desc = "要匹配的关键字"
 [[commands.tokens]]
 text = " app.log"
-desc = "日志文件"
+desc = "目标文件： app.log"
 [[commands.tokens]]
 text = " |"
 desc = "管道"
@@ -228,7 +228,7 @@ dave 180
 """
 [[commands.tokens]]
 text = "awk"
-desc = "按字段处理文本的脚本式命令"
+desc = "文本处理语言：按字段分割和处理结构化文本"
 [[commands.tokens]]
 text = " -F,"
 desc = "把字段分隔符设为逗号"
@@ -249,16 +249,16 @@ summary = "原地删除 notes.txt 中的所有空行"
 simulated_output = ""
 [[commands.tokens]]
 text = "sed"
-desc = "按规则流式编辑文本的命令"
+desc = "流编辑器：按规则逐行处理文本"
 [[commands.tokens]]
 text = " -i"
 desc = "直接修改原文件"
 [[commands.tokens]]
 text = " '/^$/d'"
-desc = "匹配空行并删除"
+desc = "文件路径： '/^$/d'"
 [[commands.tokens]]
 text = " notes.txt"
-desc = "要处理的文件"
+desc = "目标文件： notes.txt"
 [commands.dictation]
 prompt = "原地删除 notes.txt 中的所有空行"
 answers = ["sed -i '/^$/d' notes.txt"]
@@ -326,7 +326,7 @@ summary = "只打包 /srv/data 中最近 1 天修改过的文件作为增量备�
 simulated_output = ""
 [[commands.tokens]]
 text = "tar"
-desc = "打包归档命令"
+desc = "归档工具：将多个文件打包或从归档中提取"
 [[commands.tokens]]
 text = " czf"
 desc = "创建 gzip 压缩归档"

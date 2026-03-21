@@ -18,7 +18,7 @@ To                         Action      From
 """
 [[commands.tokens]]
 text = "sudo"
-desc = "以管理员权限执行"
+desc = "以超级用户（root）权限执行后续命令"
 [[commands.tokens]]
 text = " ufw"
 desc = "简易防火墙管理工具"
@@ -42,7 +42,7 @@ Rule added (v6)
 """
 [[commands.tokens]]
 text = "sudo"
-desc = "以管理员权限执行"
+desc = "以超级用户（root）权限执行后续命令"
 [[commands.tokens]]
 text = " ufw"
 desc = "简易防火墙管理工具"
@@ -66,7 +66,7 @@ Rule added (v6)
 """
 [[commands.tokens]]
 text = "sudo"
-desc = "以管理员权限执行"
+desc = "以超级用户（root）权限执行后续命令"
 [[commands.tokens]]
 text = " ufw"
 desc = "简易防火墙管理工具"
@@ -90,7 +90,7 @@ Firewall is active and enabled on system startup
 """
 [[commands.tokens]]
 text = "sudo"
-desc = "以管理员权限执行"
+desc = "以超级用户（root）权限执行后续命令"
 [[commands.tokens]]
 text = " ufw"
 desc = "简易防火墙管理工具"
@@ -108,7 +108,7 @@ summary = "创建 deploy 用户，自动创建家目录并设置 bash 为登录 
 simulated_output = ""
 [[commands.tokens]]
 text = "sudo"
-desc = "以管理员权限执行"
+desc = "以超级用户（root）权限执行后续命令"
 [[commands.tokens]]
 text = " useradd"
 desc = "创建新用户的命令"
@@ -139,7 +139,7 @@ passwd: password updated successfully
 """
 [[commands.tokens]]
 text = "sudo"
-desc = "以管理员权限执行"
+desc = "以超级用户（root）权限执行后续命令"
 [[commands.tokens]]
 text = " passwd"
 desc = "修改用户密码的命令"
@@ -157,7 +157,7 @@ summary = "把 deploy 用户添加到 docker 组"
 simulated_output = ""
 [[commands.tokens]]
 text = "sudo"
-desc = "以管理员权限执行"
+desc = "以超级用户（root）权限执行后续命令"
 [[commands.tokens]]
 text = " usermod"
 desc = "修改用户信息的命令"
@@ -181,7 +181,7 @@ summary = "删除 olduser 用户并移除其家目录"
 simulated_output = "userdel: olduser mail spool (/var/mail/olduser) not found"
 [[commands.tokens]]
 text = "sudo"
-desc = "以管理员权限执行"
+desc = "以超级用户（root）权限执行后续命令"
 [[commands.tokens]]
 text = " userdel"
 desc = "删除用户的命令"
@@ -226,7 +226,7 @@ simulated_output = """
 """
 [[commands.tokens]]
 text = "sudo"
-desc = "以管理员权限执行"
+desc = "以超级用户（root）权限执行后续命令"
 [[commands.tokens]]
 text = " !!"
 desc = "引用上一条执行的命令"
@@ -244,7 +244,7 @@ visudo: /etc/sudoers.d/README: parsed OK
 """
 [[commands.tokens]]
 text = "sudo"
-desc = "以管理员权限执行"
+desc = "以超级用户（root）权限执行后续命令"
 [[commands.tokens]]
 text = " visudo"
 desc = "编辑 sudoers 配置的安全命令（会做语法检查）"

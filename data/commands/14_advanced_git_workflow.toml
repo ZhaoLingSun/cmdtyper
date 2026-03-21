@@ -13,7 +13,7 @@ Your branch is up to date with 'origin/dev'.
 """
 [[commands.tokens]]
 text = "git"
-desc = "分布式版本控制系统命令"
+desc = "分布式版本控制系统"
 [[commands.tokens]]
 text = " switch"
 desc = "切换分支（比 checkout 更安全明确）"
@@ -31,7 +31,7 @@ summary = "创建并切换到 feature/auth 新分支"
 simulated_output = "Switched to a new branch 'feature/auth'"
 [[commands.tokens]]
 text = "git"
-desc = "分布式版本控制系统命令"
+desc = "分布式版本控制系统"
 [[commands.tokens]]
 text = " switch"
 desc = "切换分支"
@@ -40,7 +40,7 @@ text = " -c"
 desc = "创建新分支"
 [[commands.tokens]]
 text = " feature/auth"
-desc = "新分支名"
+desc = "文件路径： feature/auth"
 [commands.dictation]
 prompt = "创建并切换到 feature/auth 分支"
 answers = ["git switch -c feature/auth"]
@@ -52,13 +52,13 @@ summary = "撤销工作区中 src/main.rs 的修改"
 simulated_output = ""
 [[commands.tokens]]
 text = "git"
-desc = "分布式版本控制系统命令"
+desc = "分布式版本控制系统"
 [[commands.tokens]]
 text = " restore"
 desc = "恢复文件到已知状态"
 [[commands.tokens]]
 text = " src/main.rs"
-desc = "要恢复的文件"
+desc = "源码文件： src/main.rs"
 [commands.dictation]
 prompt = "撤销工作区中 src/main.rs 的修改"
 answers = ["git restore src/main.rs"]
@@ -70,7 +70,7 @@ summary = "把 config.toml 从暂存区移回工作区"
 simulated_output = ""
 [[commands.tokens]]
 text = "git"
-desc = "分布式版本控制系统命令"
+desc = "分布式版本控制系统"
 [[commands.tokens]]
 text = " restore"
 desc = "恢复文件到已知状态"
@@ -95,7 +95,7 @@ From github.com:user/repo
 """
 [[commands.tokens]]
 text = "git"
-desc = "分布式版本控制系统命令"
+desc = "分布式版本控制系统"
 [[commands.tokens]]
 text = " fetch"
 desc = "从远程仓库拉取更新但不合并"
@@ -116,7 +116,7 @@ summary = "把当前改动（含未跟踪文件）暂存到 stash 并附带说�
 simulated_output = "Saved working directory and index state On main: wip: refactor auth"
 [[commands.tokens]]
 text = "git"
-desc = "分布式版本控制系统命令"
+desc = "分布式版本控制系统"
 [[commands.tokens]]
 text = " stash"
 desc = "暂存当前工作区改动"
@@ -148,7 +148,7 @@ Dropped refs/stash@{0} (1a2b3c4d5e6f)
 """
 [[commands.tokens]]
 text = "git"
-desc = "分布式版本控制系统命令"
+desc = "分布式版本控制系统"
 [[commands.tokens]]
 text = " stash"
 desc = "管理暂存的工作区改动"
@@ -166,7 +166,7 @@ summary = "把当前分支的提交变基到 main 分支最新位置"
 simulated_output = "Successfully rebased and updated refs/heads/feature/auth."
 [[commands.tokens]]
 text = "git"
-desc = "分布式版本控制系统命令"
+desc = "分布式版本控制系统"
 [[commands.tokens]]
 text = " rebase"
 desc = "把当前分支的提交重新应用到另一个基底上"
@@ -187,7 +187,7 @@ simulated_output = """
 """
 [[commands.tokens]]
 text = "git"
-desc = "分布式版本控制系统命令"
+desc = "分布式版本控制系统"
 [[commands.tokens]]
 text = " cherry-pick"
 desc = "把其他分支的某个提交应用到当前分支"
@@ -208,7 +208,7 @@ origin	git@github.com:user/cmdtyper.git (push)
 """
 [[commands.tokens]]
 text = "git"
-desc = "分布式版本控制系统命令"
+desc = "分布式版本控制系统"
 [[commands.tokens]]
 text = " remote"
 desc = "管理远程仓库"
@@ -230,7 +230,7 @@ diff --git a/src/main.rs b/src/main.rs
 """
 [[commands.tokens]]
 text = "git"
-desc = "分布式版本控制系统命令"
+desc = "分布式版本控制系统"
 [[commands.tokens]]
 text = " add"
 desc = "把修改添加到暂存区"
@@ -251,7 +251,7 @@ simulated_output = """
 """
 [[commands.tokens]]
 text = "git"
-desc = "分布式版本控制系统命令"
+desc = "分布式版本控制系统"
 [[commands.tokens]]
 text = " commit"
 desc = "创建一次版本提交"
@@ -276,7 +276,7 @@ ab12cd34 (Alice 2026-03-14 08:52:01 +0000  3)     println!("Hello");
 """
 [[commands.tokens]]
 text = "git"
-desc = "分布式版本控制系统命令"
+desc = "分布式版本控制系统"
 [[commands.tokens]]
 text = " blame"
 desc = "逐行标注文件的最后修改者和提交"

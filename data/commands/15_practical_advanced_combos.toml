@@ -10,13 +10,13 @@ summary = "用 awk 计算 data.csv 第三列的合计值"
 simulated_output = "12874"
 [[commands.tokens]]
 text = "awk"
-desc = "按字段处理文本的脚本式命令"
+desc = "文本处理语言：按字段分割和处理结构化文本"
 [[commands.tokens]]
 text = " '{sum += $3} END {print sum}'"
 desc = "累加第三列的值，最后输出合计"
 [[commands.tokens]]
 text = " data.csv"
-desc = "输入文件"
+desc = "数据文件： data.csv"
 [commands.dictation]
 prompt = "用 awk 计算 data.csv 中第三列的合计值"
 answers = ["awk '{sum += $3} END {print sum}' data.csv"]
@@ -28,7 +28,7 @@ summary = "在 config.yml 中把所有 http: 替换为 https:"
 simulated_output = ""
 [[commands.tokens]]
 text = "sed"
-desc = "按规则流式编辑文本的命令"
+desc = "流编辑器：按规则逐行处理文本"
 [[commands.tokens]]
 text = " -i"
 desc = "直接修改原文件"
@@ -49,7 +49,7 @@ summary = "把文本全部转为小写"
 simulated_output = "hello world"
 [[commands.tokens]]
 text = "echo"
-desc = "输出文本到标准输出"
+desc = "将文本输出到标准输出"
 [[commands.tokens]]
 text = " 'Hello World'"
 desc = "要转换的文本"
@@ -83,10 +83,10 @@ text = "paste"
 desc = "按行并列合并多个文件的命令"
 [[commands.tokens]]
 text = " names.txt"
-desc = "第一个文件"
+desc = "目标文件： names.txt"
 [[commands.tokens]]
 text = " scores.txt"
-desc = "第二个文件"
+desc = "目标文件： scores.txt"
 [commands.dictation]
 prompt = "把 names.txt 和 scores.txt 按行并排合并"
 answers = ["paste names.txt scores.txt"]
@@ -109,10 +109,10 @@ text = " --color"
 desc = "用颜色高亮差异"
 [[commands.tokens]]
 text = " old.conf"
-desc = "旧版本文件"
+desc = "配置文件： old.conf"
 [[commands.tokens]]
 text = " new.conf"
-desc = "新版本文件"
+desc = "配置文件： new.conf"
 [commands.dictation]
 prompt = "用颜色高亮比较 old.conf 和 new.conf 的差异"
 answers = ["diff --color old.conf new.conf"]
@@ -124,10 +124,10 @@ summary = "删除 /var/log 下超过 30 天的 .log 文件"
 simulated_output = ""
 [[commands.tokens]]
 text = "find"
-desc = "按条件查找文件的命令"
+desc = "在目录树中递归查找文件和目录"
 [[commands.tokens]]
 text = " /var/log"
-desc = "查找起点目录"
+desc = "文件路径： /var/log"
 [[commands.tokens]]
 text = " -name"
 desc = "按文件名模式匹配"
@@ -158,7 +158,7 @@ simulated_output = """
 """
 [[commands.tokens]]
 text = "jq"
-desc = "处理 JSON 数据的命令行工具"
+desc = "命令行 JSON 处理工具：解析、过滤和格式化 JSON"
 [[commands.tokens]]
 text = " '.[].name'"
 desc = "jq 过滤器：遍历数组并取出每个对象的 name"
@@ -185,7 +185,7 @@ simulated_output = """
 """
 [[commands.tokens]]
 text = "jq"
-desc = "处理 JSON 数据的命令行工具"
+desc = "命令行 JSON 处理工具：解析、过滤和格式化 JSON"
 [[commands.tokens]]
 text = " '.[] | select(.age > 18)'"
 desc = "jq 过滤器：遍历数组，只保留 age 大于 18 的"
@@ -209,7 +209,7 @@ Total reclaimed space: 1.42GB
 """
 [[commands.tokens]]
 text = "docker"
-desc = "容器管理命令"
+desc = "容器管理工具"
 [[commands.tokens]]
 text = " system"
 desc = "系统级操作子命令"
@@ -236,7 +236,7 @@ simulated_output = """
 """
 [[commands.tokens]]
 text = "docker"
-desc = "容器管理命令"
+desc = "容器管理工具"
 [[commands.tokens]]
 text = " compose"
 desc = "多容器编排子命令"
@@ -289,13 +289,13 @@ summary = "打包 project 目录但排除 .git 和 node_modules"
 simulated_output = ""
 [[commands.tokens]]
 text = "tar"
-desc = "打包和解包归档文件的命令"
+desc = "归档工具：将多个文件打包或从归档中提取"
 [[commands.tokens]]
 text = " czf"
 desc = "创建 gzip 压缩归档"
 [[commands.tokens]]
 text = " release.tar.gz"
-desc = "输出归档文件名"
+desc = "归档文件： release.tar.gz"
 [[commands.tokens]]
 text = " --exclude=.git"
 desc = "排除 .git 目录"

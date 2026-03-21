@@ -165,7 +165,7 @@ simulated_output = "200"
 
 [[commands.tokens]]
 text = "curl"
-desc = "发送 HTTP 请求的命令行工具"
+desc = "命令行 HTTP 客户端：发送请求并获取响应"
 
 [[commands.tokens]]
 text = " -s"
@@ -177,7 +177,7 @@ desc = "把响应体输出到指定文件"
 
 [[commands.tokens]]
 text = " /dev/null"
-desc = "丢弃响应体内容"
+desc = "文件路径： /dev/null"
 
 [[commands.tokens]]
 text = " -w"
@@ -189,7 +189,7 @@ desc = "只输出 HTTP 状态码和换行"
 
 [[commands.tokens]]
 text = "https://example.com"
-desc = "目标 URL"
+desc = "示例目标 URL"
 
 [commands.dictation]
 prompt = "只输出 https://example.com 的 HTTP 状态码"
@@ -206,7 +206,7 @@ simulated_output = "{\"id\":101,\"name\":\"alice\",\"created\":true}"
 
 [[commands.tokens]]
 text = "curl"
-desc = "发送 HTTP 请求的命令行工具"
+desc = "命令行 HTTP 客户端：发送请求并获取响应"
 
 [[commands.tokens]]
 text = " -X"
@@ -257,7 +257,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "curl"
-desc = "发送 HTTP 请求的命令行工具"
+desc = "命令行 HTTP 客户端：发送请求并获取响应"
 
 [[commands.tokens]]
 text = " -L"
@@ -265,7 +265,7 @@ desc = "自动跟随 3xx 重定向"
 
 [[commands.tokens]]
 text = " https://example.com"
-desc = "目标 URL"
+desc = "文件路径： https://example.com"
 
 [commands.dictation]
 prompt = "请求 https://example.com 并自动跟随重定向"
@@ -313,7 +313,7 @@ simulated_output = "Last login: Sat Mar 14 08:48:53 2026 from 10.0.0.5"
 
 [[commands.tokens]]
 text = "ssh"
-desc = "远程登录主机的命令"
+desc = "通过加密连接远程登录另一台主机"
 
 [[commands.tokens]]
 text = " -L"
@@ -341,7 +341,7 @@ simulated_output = "Last login: Sat Mar 14 08:49:10 2026 from 10.0.0.5"
 
 [[commands.tokens]]
 text = "ssh"
-desc = "远程登录主机的命令"
+desc = "通过加密连接远程登录另一台主机"
 
 [[commands.tokens]]
 text = " -R"
@@ -372,7 +372,7 @@ notAfter=Mar 31 23:59:59 2026 GMT
 
 [[commands.tokens]]
 text = "echo"
-desc = "向 openssl 提供一个空输入"
+desc = "将文本输出到标准输出"
 
 [[commands.tokens]]
 text = " |"

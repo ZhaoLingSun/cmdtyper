@@ -10,7 +10,7 @@ summary = "通过表单方式上传 photo.jpg 到接口"
 simulated_output = "{\"url\":\"https://cdn.example.com/uploads/photo.jpg\",\"size\":245120}"
 [[commands.tokens]]
 text = "curl"
-desc = "发送 HTTP 请求的命令行工具"
+desc = "命令行 HTTP 客户端：发送请求并获取响应"
 [[commands.tokens]]
 text = " -F"
 desc = "以 multipart/form-data 格式提交表单数据"
@@ -31,7 +31,7 @@ summary = "使用 Basic Auth 认证请求接口"
 simulated_output = "{\"status\":\"ok\",\"service\":\"api\",\"uptime\":\"72h\"}"
 [[commands.tokens]]
 text = "curl"
-desc = "发送 HTTP 请求的命令行工具"
+desc = "命令行 HTTP 客户端：发送请求并获取响应"
 [[commands.tokens]]
 text = " -u"
 desc = "提供用户名和密码进行认证"
@@ -55,7 +55,7 @@ simulated_output = """
 """
 [[commands.tokens]]
 text = "curl"
-desc = "发送 HTTP 请求的命令行工具"
+desc = "命令行 HTTP 客户端：发送请求并获取响应"
 [[commands.tokens]]
 text = " -c"
 desc = "把收到的 cookie 写入指定文件"
@@ -79,7 +79,7 @@ simulated_output = """
 """
 [[commands.tokens]]
 text = "curl"
-desc = "发送 HTTP 请求的命令行工具"
+desc = "命令行 HTTP 客户端：发送请求并获取响应"
 [[commands.tokens]]
 text = " -b"
 desc = "从指定文件读取 cookie 并发送"
@@ -100,7 +100,7 @@ summary = "静默下载 release 包并保存为 app.tar.gz，失败时报错"
 simulated_output = ""
 [[commands.tokens]]
 text = "curl"
-desc = "发送 HTTP 请求的命令行工具"
+desc = "命令行 HTTP 客户端：发送请求并获取响应"
 [[commands.tokens]]
 text = " -sSfL"
 desc = "静默+不显示错误+失败报错+跟随重定向"
@@ -109,10 +109,10 @@ text = " -o"
 desc = "指定输出文件名"
 [[commands.tokens]]
 text = " app.tar.gz"
-desc = "保存后的文件名"
+desc = "归档文件： app.tar.gz"
 [[commands.tokens]]
 text = " https://github.com/user/repo/releases/download/v1.0/app.tar.gz"
-desc = "下载地址"
+desc = "归档文件： https://github.com/user/repo/releases/download/v1.0/app.tar.gz"
 [commands.dictation]
 prompt = "静默下载 GitHub release 包并保存为 app.tar.gz"
 answers = ["curl -sSfL -o app.tar.gz https://github.com/user/repo/releases/download/v1.0/app.tar.gz"]

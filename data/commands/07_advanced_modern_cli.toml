@@ -123,7 +123,7 @@ desc = "显示行号"
 
 [[commands.tokens]]
 text = " README.md"
-desc = "要查看的文件"
+desc = "目标文件： README.md"
 
 [commands.dictation]
 prompt = "使用 bat 带行号查看 README.md"
@@ -204,7 +204,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "jq"
-desc = "处理 JSON 数据的命令行工具（通常需要额外安装）"
+desc = "命令行 JSON 处理工具：解析、过滤和格式化 JSON"
 
 [[commands.tokens]]
 text = " ."
@@ -229,7 +229,7 @@ simulated_output = "cmdtyper"
 
 [[commands.tokens]]
 text = "jq"
-desc = "处理 JSON 数据的命令行工具"
+desc = "命令行 JSON 处理工具：解析、过滤和格式化 JSON"
 
 [[commands.tokens]]
 text = " -r"
@@ -291,7 +291,7 @@ file3
 
 [[commands.tokens]]
 text = "find"
-desc = "按条件查找文件"
+desc = "在目录树中递归查找文件和目录"
 
 [[commands.tokens]]
 text = " ."
@@ -344,7 +344,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "grep"
-desc = "按模式搜索文本行的命令"
+desc = "在文件或输入中搜索匹配指定模式的行"
 
 [[commands.tokens]]
 text = " -C"
@@ -384,7 +384,7 @@ ace
 
 [[commands.tokens]]
 text = "cut"
-desc = "按分隔符提取字段的命令"
+desc = "按分隔符或字符位置提取文本的指定列"
 
 [[commands.tokens]]
 text = " -d:"
@@ -396,7 +396,7 @@ desc = "只取第 1 个字段"
 
 [[commands.tokens]]
 text = " /etc/passwd"
-desc = "输入文件"
+desc = "文件路径： /etc/passwd"
 
 [commands.dictation]
 prompt = "从 /etc/passwd 中按冒号分隔取出第一列"
@@ -417,7 +417,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "cut"
-desc = "按分隔符提取字段的命令"
+desc = "按分隔符或字符位置提取文本的指定列"
 
 [[commands.tokens]]
 text = " -d "

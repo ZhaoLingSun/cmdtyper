@@ -123,7 +123,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "find"
-desc = "在目录树中查找文件的命令"
+desc = "在目录树中递归查找文件和目录"
 
 [[commands.tokens]]
 text = " ."
@@ -200,7 +200,7 @@ tmpfs            126G  2.0M  126G   1% /run
 
 [[commands.tokens]]
 text = "df"
-desc = "查看文件系统磁盘空间使用情况的命令"
+desc = "显示文件系统的磁盘空间使用情况"
 
 [[commands.tokens]]
 text = " -h"
@@ -221,7 +221,7 @@ simulated_output = "2.1G	/var/log"
 
 [[commands.tokens]]
 text = "du"
-desc = "查看文件或目录磁盘占用大小的命令"
+desc = "统计文件或目录的磁盘占用空间"
 
 [[commands.tokens]]
 text = " -sh"
@@ -250,7 +250,7 @@ Swap:           32Gi          0B        32Gi
 
 [[commands.tokens]]
 text = "free"
-desc = "查看内存使用情况的命令"
+desc = "显示系统内存（RAM + Swap）使用情况"
 
 [[commands.tokens]]
 text = " -h"
@@ -385,7 +385,7 @@ content-length: 1256
 
 [[commands.tokens]]
 text = "curl"
-desc = "发送 HTTP 请求的命令行工具"
+desc = "命令行 HTTP 客户端：发送请求并获取响应"
 
 [[commands.tokens]]
 text = " -I"
@@ -393,7 +393,7 @@ desc = "只请求并显示响应头"
 
 [[commands.tokens]]
 text = " https://example.com"
-desc = "目标 URL"
+desc = "文件路径： https://example.com"
 
 [commands.dictation]
 prompt = "只获取 https://example.com 的响应头"

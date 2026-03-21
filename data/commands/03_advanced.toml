@@ -17,7 +17,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "awk"
-desc = "按字段处理文本的脚本式命令"
+desc = "文本处理语言：按字段分割和处理结构化文本"
 
 [[commands.tokens]]
 text = " '{print $1}'"
@@ -51,7 +51,7 @@ sshd"""
 
 [[commands.tokens]]
 text = "awk"
-desc = "按字段处理文本的脚本式命令"
+desc = "文本处理语言：按字段分割和处理结构化文本"
 
 [[commands.tokens]]
 text = " -F:"
@@ -80,7 +80,7 @@ simulated_output = "id,name,email,department,salary"
 
 [[commands.tokens]]
 text = "awk"
-desc = "按字段处理文本的脚本式命令"
+desc = "文本处理语言：按字段分割和处理结构化文本"
 
 [[commands.tokens]]
 text = " 'NR==1 {print $0}'"
@@ -110,7 +110,7 @@ log_file = /var/log/bar.log"""
 
 [[commands.tokens]]
 text = "sed"
-desc = "按规则流式编辑文本的命令"
+desc = "流编辑器：按规则逐行处理文本"
 
 [[commands.tokens]]
 text = " 's/foo/bar/'"
@@ -135,7 +135,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "sed"
-desc = "按规则流式编辑文本的命令"
+desc = "流编辑器：按规则逐行处理文本"
 
 [[commands.tokens]]
 text = " -i"
@@ -169,7 +169,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "sed"
-desc = "按规则流式编辑文本的命令"
+desc = "流编辑器：按规则逐行处理文本"
 
 [[commands.tokens]]
 text = " -n"
@@ -204,7 +204,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "cat"
-desc = "输出文件内容到标准输出"
+desc = "连接并显示一个或多个文件的内容"
 
 [[commands.tokens]]
 text = " ids.txt"
@@ -251,7 +251,7 @@ eve"""
 
 [[commands.tokens]]
 text = "sort"
-desc = "按字典序对文本行排序"
+desc = "对文本行进行排序（默认字典序）"
 
 [[commands.tokens]]
 text = " users.txt"
@@ -286,7 +286,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "sort"
-desc = "按字典序对文本行排序"
+desc = "对文本行进行排序（默认字典序）"
 
 [[commands.tokens]]
 text = " access.log"
@@ -325,7 +325,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "grep"
-desc = "按模式搜索文本行的命令"
+desc = "在文件或输入中搜索匹配指定模式的行"
 
 [[commands.tokens]]
 text = " ERROR"
@@ -382,7 +382,7 @@ simulated_output = "4832 access.log"
 
 [[commands.tokens]]
 text = "wc"
-desc = "统计行数、单词数和字节数的命令"
+desc = "统计文件的行数、单词数和字节数"
 
 [[commands.tokens]]
 text = " -l"
@@ -390,7 +390,7 @@ desc = "只统计行数"
 
 [[commands.tokens]]
 text = " access.log"
-desc = "要统计的文件"
+desc = "目标文件： access.log"
 
 [commands.dictation]
 prompt = "统计 access.log 的总行数"
@@ -416,7 +416,7 @@ sshd"""
 
 [[commands.tokens]]
 text = "cut"
-desc = "按字段位置截取文本的命令"
+desc = "按分隔符或字符位置提取文本的指定列"
 
 [[commands.tokens]]
 text = " -d:"
@@ -451,7 +451,7 @@ EVE"""
 
 [[commands.tokens]]
 text = "cat"
-desc = "输出文件内容到标准输出"
+desc = "连接并显示一个或多个文件的内容"
 
 [[commands.tokens]]
 text = " names.txt"
@@ -494,7 +494,7 @@ Sports"""
 
 [[commands.tokens]]
 text = "cut"
-desc = "按字段位置截取文本的命令"
+desc = "按分隔符或字符位置提取文本的指定列"
 
 [[commands.tokens]]
 text = " -d,"

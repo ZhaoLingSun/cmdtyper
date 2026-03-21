@@ -11,11 +11,11 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "cp"
-desc = "复制文件或目录的命令"
+desc = "复制文件或目录"
 
 [[commands.tokens]]
 text = " notes.txt"
-desc = "源文件"
+desc = "目标文件： notes.txt"
 
 [[commands.tokens]]
 text = " notes.bak"
@@ -36,7 +36,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "cp"
-desc = "复制文件或目录的命令"
+desc = "复制文件或目录"
 
 [[commands.tokens]]
 text = " -r"
@@ -65,15 +65,15 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "mv"
-desc = "移动或重命名文件的命令"
+desc = "移动或重命名文件和目录"
 
 [[commands.tokens]]
 text = " draft.txt"
-desc = "原文件名"
+desc = "目标文件： draft.txt"
 
 [[commands.tokens]]
 text = " final.txt"
-desc = "新文件名"
+desc = "目标文件： final.txt"
 
 [commands.dictation]
 prompt = "把 draft.txt 重命名为 final.txt"
@@ -90,15 +90,15 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "mv"
-desc = "移动或重命名文件的命令"
+desc = "移动或重命名文件和目录"
 
 [[commands.tokens]]
 text = " report.txt"
-desc = "要移动的文件"
+desc = "目标文件： report.txt"
 
 [[commands.tokens]]
 text = " archive/"
-desc = "目标目录"
+desc = "文件路径： archive/"
 
 [commands.dictation]
 prompt = "把 report.txt 移动到 archive 目录"
@@ -115,11 +115,11 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "rm"
-desc = "删除文件或目录的命令"
+desc = "删除文件或目录（不可恢复！）"
 
 [[commands.tokens]]
 text = " temp.txt"
-desc = "要删除的文件"
+desc = "目标文件： temp.txt"
 
 [commands.dictation]
 prompt = "删除 temp.txt 文件"
@@ -136,7 +136,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "rm"
-desc = "删除文件或目录的命令"
+desc = "删除文件或目录（不可恢复！）"
 
 [[commands.tokens]]
 text = " -r"
@@ -161,7 +161,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "rmdir"
-desc = "删除空目录的命令"
+desc = "删除空目录（目录必须为空）"
 
 [[commands.tokens]]
 text = " old-cache"
@@ -262,7 +262,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "head"
-desc = "查看文件开头内容的命令"
+desc = "显示文件的前若干行（默认 10 行）"
 
 [[commands.tokens]]
 text = " -n"
@@ -297,7 +297,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "tail"
-desc = "查看文件结尾内容的命令"
+desc = "显示文件的末尾若干行（默认 10 行）"
 
 [[commands.tokens]]
 text = " -n"
@@ -327,7 +327,7 @@ simulated_output = "4821 access.log"
 
 [[commands.tokens]]
 text = "wc"
-desc = "统计字符、单词和行数的命令"
+desc = "统计文件的行数、单词数和字节数"
 
 [[commands.tokens]]
 text = " -l"
@@ -335,7 +335,7 @@ desc = "只统计行数"
 
 [[commands.tokens]]
 text = " access.log"
-desc = "要统计的文件"
+desc = "目标文件： access.log"
 
 [commands.dictation]
 prompt = "统计 access.log 一共有多少行"

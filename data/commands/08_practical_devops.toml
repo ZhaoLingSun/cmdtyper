@@ -15,7 +15,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "git"
-desc = "分布式版本控制系统命令"
+desc = "分布式版本控制系统"
 
 [[commands.tokens]]
 text = " status"
@@ -43,7 +43,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "git"
-desc = "分布式版本控制系统命令"
+desc = "分布式版本控制系统"
 
 [[commands.tokens]]
 text = " log"
@@ -86,7 +86,7 @@ index 1c2e3d4..8a9b0c1 100644
 
 [[commands.tokens]]
 text = "git"
-desc = "分布式版本控制系统命令"
+desc = "分布式版本控制系统"
 
 [[commands.tokens]]
 text = " diff"
@@ -114,7 +114,7 @@ src/ui/mod.rs:88:// TODO: add key hint
 
 [[commands.tokens]]
 text = "git"
-desc = "分布式版本控制系统命令"
+desc = "分布式版本控制系统"
 
 [[commands.tokens]]
 text = " grep"
@@ -204,7 +204,7 @@ redis Up 3 hours
 
 [[commands.tokens]]
 text = "docker"
-desc = "容器管理命令"
+desc = "容器管理工具"
 
 [[commands.tokens]]
 text = " ps"
@@ -237,7 +237,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "docker"
-desc = "容器管理命令"
+desc = "容器管理工具"
 
 [[commands.tokens]]
 text = " logs"
@@ -273,7 +273,7 @@ simulated_output = "/ # "
 
 [[commands.tokens]]
 text = "docker"
-desc = "容器管理命令"
+desc = "容器管理工具"
 
 [[commands.tokens]]
 text = " exec"
@@ -309,7 +309,7 @@ admin@example.com's password:
 
 [[commands.tokens]]
 text = "ssh"
-desc = "远程登录主机的命令"
+desc = "通过加密连接远程登录另一台主机"
 
 [[commands.tokens]]
 text = " -p"
@@ -349,11 +349,11 @@ desc = "递归复制目录"
 
 [[commands.tokens]]
 text = " dist/"
-desc = "本地源目录"
+desc = "文件路径： dist/"
 
 [[commands.tokens]]
 text = " admin@example.com:/srv/www/"
-desc = "远程目标路径"
+desc = "文件路径： admin@example.com:/srv/www/"
 
 [commands.dictation]
 prompt = "把本地 dist 目录递归上传到 admin@example.com 的 /srv/www/"
@@ -377,7 +377,7 @@ sent 421,012 bytes  received 94 bytes  842,212.00 bytes/sec
 
 [[commands.tokens]]
 text = "rsync"
-desc = "高效同步文件和目录的命令"
+desc = "高效的远程/本地文件同步和备份工具"
 
 [[commands.tokens]]
 text = " -avzP"
@@ -393,11 +393,11 @@ desc = "使用 ssh 作为远程传输通道"
 
 [[commands.tokens]]
 text = " dist/"
-desc = "本地源目录"
+desc = "文件路径： dist/"
 
 [[commands.tokens]]
 text = " admin@example.com:/srv/www/"
-desc = "远程目标路径"
+desc = "文件路径： admin@example.com:/srv/www/"
 
 [commands.dictation]
 prompt = "通过 SSH 压缩同步 dist 目录到远程站点，并显示进度"
@@ -416,7 +416,7 @@ Mar 14 08:43:05 intranet dockerd[1187]: API listen on /run/docker.sock
 
 [[commands.tokens]]
 text = "journalctl"
-desc = "查看 systemd 日志的命令"
+desc = "查看 systemd 管理的系统日志"
 
 [[commands.tokens]]
 text = " -fu"
@@ -445,11 +445,11 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "find"
-desc = "在目录树中查找文件的命令"
+desc = "在目录树中递归查找文件和目录"
 
 [[commands.tokens]]
 text = " /var/log"
-desc = "查找起点目录"
+desc = "文件路径： /var/log"
 
 [[commands.tokens]]
 text = " -type"
@@ -490,7 +490,7 @@ desc = "交互式磁盘占用分析工具（通常需要额外安装）"
 
 [[commands.tokens]]
 text = " /"
-desc = "要分析的目录"
+desc = "文件路径： /"
 
 [commands.dictation]
 prompt = "使用 ncdu 交互式分析根目录的磁盘占用情况"

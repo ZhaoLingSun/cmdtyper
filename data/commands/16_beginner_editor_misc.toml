@@ -51,13 +51,13 @@ simulated_output = """
 """
 [[commands.tokens]]
 text = "cat"
-desc = "输出文件内容的命令"
+desc = "连接并显示一个或多个文件的内容"
 [[commands.tokens]]
 text = " -n"
 desc = "在每一行前显示行号"
 [[commands.tokens]]
 text = " main.py"
-desc = "要查看的文件"
+desc = "源码文件： main.py"
 [commands.dictation]
 prompt = "显示 main.py 的内容并带上行号"
 answers = ["cat -n main.py", "cat --number main.py"]
@@ -69,7 +69,7 @@ summary = "输出当前用户的家目录路径"
 simulated_output = "/home/ace"
 [[commands.tokens]]
 text = "echo"
-desc = "输出文本到标准输出的命令"
+desc = "将文本输出到标准输出"
 [[commands.tokens]]
 text = " $HOME"
 desc = "保存家目录路径的环境变量"
@@ -84,7 +84,7 @@ summary = "显示当前使用的 shell 路径"
 simulated_output = "/bin/bash"
 [[commands.tokens]]
 text = "echo"
-desc = "输出文本到标准输出的命令"
+desc = "将文本输出到标准输出"
 [[commands.tokens]]
 text = " $SHELL"
 desc = "保存当前 shell 路径的环境变量"
@@ -150,7 +150,7 @@ summary = "把内容同时输出到终端和追加到 log.txt"
 simulated_output = "new entry"
 [[commands.tokens]]
 text = "echo"
-desc = "输出文本的命令"
+desc = "将文本输出到标准输出"
 [[commands.tokens]]
 text = " 'new entry'"
 desc = "要输出的文本"
@@ -183,13 +183,13 @@ simulated_output = """
 """
 [[commands.tokens]]
 text = "sort"
-desc = "对文本行排序的命令"
+desc = "对文本行进行排序（默认字典序）"
 [[commands.tokens]]
 text = " -rn"
 desc = "-r 逆序 + -n 按数值排序"
 [[commands.tokens]]
 text = " scores.txt"
-desc = "要排序的文件"
+desc = "目标文件： scores.txt"
 [commands.dictation]
 prompt = "按数值从大到小排序 scores.txt"
 answers = ["sort -rn scores.txt", "sort -n -r scores.txt"]
@@ -205,7 +205,7 @@ simulated_output = """
 """
 [[commands.tokens]]
 text = "uniq"
-desc = "去除或统计相邻重复行的命令"
+desc = "去除相邻重复行（通常配合 sort 使用）"
 [[commands.tokens]]
 text = " -c"
 desc = "在每行前显示重复次数"
@@ -228,7 +228,7 @@ simulated_output = """
 """
 [[commands.tokens]]
 text = "du"
-desc = "查看磁盘占用大小的命令"
+desc = "统计文件或目录的磁盘占用空间"
 [[commands.tokens]]
 text = " -sh"
 desc = "-s 汇总 + -h 易读单位"

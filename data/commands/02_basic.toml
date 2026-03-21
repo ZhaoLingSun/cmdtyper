@@ -11,7 +11,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "chmod"
-desc = "修改文件或目录权限的命令"
+desc = "修改文件或目录的访问权限"
 
 [[commands.tokens]]
 text = " 644"
@@ -36,7 +36,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "chmod"
-desc = "修改文件或目录权限的命令"
+desc = "修改文件或目录的访问权限"
 
 [[commands.tokens]]
 text = " +x"
@@ -62,7 +62,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "chmod"
-desc = "修改文件或目录权限的命令"
+desc = "修改文件或目录的访问权限"
 
 [[commands.tokens]]
 text = " -R"
@@ -92,7 +92,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "chown"
-desc = "修改文件所有者和所属组的命令"
+desc = "修改文件或目录的所有者和所属组"
 
 [[commands.tokens]]
 text = " alice:alice"
@@ -120,7 +120,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "grep"
-desc = "按模式搜索文本行的命令"
+desc = "在文件或输入中搜索匹配指定模式的行"
 
 [[commands.tokens]]
 text = " 'ERROR'"
@@ -149,7 +149,7 @@ src/utils/helpers.rs:// TODO: refactor this function"""
 
 [[commands.tokens]]
 text = "grep"
-desc = "按模式搜索文本行的命令"
+desc = "在文件或输入中搜索匹配指定模式的行"
 
 [[commands.tokens]]
 text = " -R"
@@ -183,7 +183,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "grep"
-desc = "按模式搜索文本行的命令"
+desc = "在文件或输入中搜索匹配指定模式的行"
 
 [[commands.tokens]]
 text = " -n"
@@ -217,7 +217,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "find"
-desc = "在目录树中查找文件的命令"
+desc = "在目录树中递归查找文件和目录"
 
 [[commands.tokens]]
 text = " ."
@@ -254,11 +254,11 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "find"
-desc = "在目录树中查找文件的命令"
+desc = "在目录树中递归查找文件和目录"
 
 [[commands.tokens]]
 text = " /var/log"
-desc = "查找起点目录"
+desc = "文件路径： /var/log"
 
 [[commands.tokens]]
 text = " -type"
@@ -283,7 +283,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "tar"
-desc = "打包和解包归档文件的命令"
+desc = "归档工具：将多个文件打包或从归档中提取"
 
 [[commands.tokens]]
 text = " -czf"
@@ -313,7 +313,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "tar"
-desc = "打包和解包归档文件的命令"
+desc = "归档工具：将多个文件打包或从归档中提取"
 
 [[commands.tokens]]
 text = " -xzf"
@@ -346,7 +346,7 @@ ace       2103  0.0  0.0   7060  1584 pts/0    R+   10:22   0:00 ps aux"""
 
 [[commands.tokens]]
 text = "ps"
-desc = "查看进程状态的命令"
+desc = "显示当前运行的进程信息"
 
 [[commands.tokens]]
 text = " aux"
@@ -368,7 +368,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "kill"
-desc = "向进程发送信号的命令"
+desc = "向进程发送信号（默认 SIGTERM）"
 
 [[commands.tokens]]
 text = " -9"
@@ -431,7 +431,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "sudo"
-desc = "以其他用户身份执行命令，默认使用管理员权限"
+desc = "以超级用户（root）权限执行后续命令"
 
 [[commands.tokens]]
 text = " systemctl"
@@ -465,7 +465,7 @@ tmpfs           798M  1.2M  797M   1% /run"""
 
 [[commands.tokens]]
 text = "df"
-desc = "显示文件系统磁盘空间使用情况的命令"
+desc = "显示文件系统的磁盘空间使用情况"
 
 [[commands.tokens]]
 text = " -h"
@@ -486,7 +486,7 @@ simulated_output = "248M\t/var/log"
 
 [[commands.tokens]]
 text = "du"
-desc = "统计文件和目录磁盘占用的命令"
+desc = "统计文件或目录的磁盘占用空间"
 
 [[commands.tokens]]
 text = " -sh"
@@ -515,7 +515,7 @@ Swap:          2.0Gi          0B       2.0Gi"""
 
 [[commands.tokens]]
 text = "free"
-desc = "显示内存和交换分区使用情况的命令"
+desc = "显示系统内存（RAM + Swap）使用情况"
 
 [[commands.tokens]]
 text = " -h"

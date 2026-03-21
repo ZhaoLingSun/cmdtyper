@@ -59,7 +59,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "chmod"
-desc = "修改文件权限的命令"
+desc = "修改文件或目录的访问权限"
 
 [[commands.tokens]]
 text = " u+x"
@@ -177,7 +177,7 @@ ace         2561    1482  0 08:44 pts/1    00:00:00 bash
 
 [[commands.tokens]]
 text = "ps"
-desc = "查看进程状态的命令"
+desc = "显示当前运行的进程信息"
 
 [[commands.tokens]]
 text = " -ef"
@@ -240,7 +240,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "kill"
-desc = "向进程发送信号的命令"
+desc = "向进程发送信号（默认 SIGTERM）"
 
 [[commands.tokens]]
 text = " -9"

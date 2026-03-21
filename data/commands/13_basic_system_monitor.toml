@@ -109,7 +109,7 @@ simulated_output = "Created symlink /etc/systemd/system/multi-user.target.wants/
 
 [[commands.tokens]]
 text = "sudo"
-desc = "以管理员权限执行后续命令"
+desc = "以超级用户（root）权限执行后续命令"
 
 [[commands.tokens]]
 text = " systemctl"
@@ -135,7 +135,7 @@ simulated_output = "Removed \"/etc/systemd/system/bluetooth.target.wants/bluetoo
 
 [[commands.tokens]]
 text = "sudo"
-desc = "以管理员权限执行后续命令"
+desc = "以超级用户（root）权限执行后续命令"
 
 [[commands.tokens]]
 text = " systemctl"
@@ -161,7 +161,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "sudo"
-desc = "以管理员权限执行后续命令"
+desc = "以超级用户（root）权限执行后续命令"
 
 [[commands.tokens]]
 text = " systemctl"
@@ -186,7 +186,7 @@ Mar 14 02:11:07 intranet systemd[1]: Failed to start snapd.apparmor.service
 
 [[commands.tokens]]
 text = "journalctl"
-desc = "查看 systemd 日志的命令"
+desc = "查看 systemd 管理的系统日志"
 
 [[commands.tokens]]
 text = " -p"
@@ -216,7 +216,7 @@ Mar 14 08:43:05 intranet dockerd[1187]: API listen on /run/docker.sock
 
 [[commands.tokens]]
 text = "journalctl"
-desc = "查看 systemd 日志的命令"
+desc = "查看 systemd 管理的系统日志"
 
 [[commands.tokens]]
 text = " --since"

@@ -16,7 +16,7 @@ All packages are up to date.
 
 [[commands.tokens]]
 text = "sudo"
-desc = "以管理员权限执行后续命令"
+desc = "以超级用户（root）权限执行后续命令"
 
 [[commands.tokens]]
 text = " apt"
@@ -45,7 +45,7 @@ The following NEW packages will be installed:
 
 [[commands.tokens]]
 text = "sudo"
-desc = "以管理员权限执行后续命令"
+desc = "以超级用户（root）权限执行后续命令"
 
 [[commands.tokens]]
 text = " apt"
@@ -83,7 +83,7 @@ After this operation, 1,842 kB disk space will be freed.
 
 [[commands.tokens]]
 text = "sudo"
-desc = "以管理员权限执行后续命令"
+desc = "以超级用户（root）权限执行后续命令"
 
 [[commands.tokens]]
 text = " apt"
@@ -117,7 +117,7 @@ docker.io/noble 26.1.3-0ubuntu1 amd64
 
 [[commands.tokens]]
 text = "apt"
-desc = "Debian/Ubuntu 的包管理命令"
+desc = "Debian/Ubuntu 的高级包管理工具"
 
 [[commands.tokens]]
 text = " search"
@@ -182,7 +182,7 @@ backup/logs/app.log
 
 [[commands.tokens]]
 text = "tar"
-desc = "打包和解包归档文件的命令"
+desc = "归档工具：将多个文件打包或从归档中提取"
 
 [[commands.tokens]]
 text = " tf"
@@ -207,7 +207,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "tar"
-desc = "打包和解包归档文件的命令"
+desc = "归档工具：将多个文件打包或从归档中提取"
 
 [[commands.tokens]]
 text = " xzf"
@@ -244,7 +244,7 @@ desc = "使用 gzip 算法压缩文件的命令"
 
 [[commands.tokens]]
 text = " access.log"
-desc = "要压缩的文件"
+desc = "目标文件： access.log"
 
 [commands.dictation]
 prompt = "把 access.log 压缩为 gzip 格式"

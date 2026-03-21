@@ -11,7 +11,7 @@ simulated_output = "Desktop  Documents  Downloads  Music  Pictures  projects  RE
 
 [[commands.tokens]]
 text = "ls"
-desc = "列出目录内容的命令"
+desc = "列出目录中的文件和子目录"
 
 [commands.dictation]
 prompt = "列出当前目录中的文件和目录"
@@ -40,7 +40,7 @@ drwxr-xr-x   2 root root    4096 Mar  9 00:00 cups
 
 [[commands.tokens]]
 text = "ls"
-desc = "列出目录内容的命令"
+desc = "列出目录中的文件和子目录"
 
 [[commands.tokens]]
 text = " -la"
@@ -74,7 +74,7 @@ total 1.2G
 
 [[commands.tokens]]
 text = "ls"
-desc = "列出目录内容的命令"
+desc = "列出目录中的文件和子目录"
 
 [[commands.tokens]]
 text = " -lhS"
@@ -105,7 +105,7 @@ config.rs  helpers.rs  mod.rs"""
 
 [[commands.tokens]]
 text = "ls"
-desc = "列出目录内容的命令"
+desc = "列出目录中的文件和子目录"
 
 [[commands.tokens]]
 text = " -R"
@@ -231,7 +231,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "mkdir"
-desc = "创建目录的命令"
+desc = "创建新目录"
 
 [[commands.tokens]]
 text = " -p"
@@ -257,11 +257,11 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "touch"
-desc = "创建空文件或更新时间戳的命令"
+desc = "创建空文件，或更新已有文件的时间戳"
 
 [[commands.tokens]]
 text = " notes.txt"
-desc = "目标文件名"
+desc = "目标文件： notes.txt"
 
 [commands.dictation]
 prompt = "创建一个名为 notes.txt 的空文件"
@@ -287,7 +287,7 @@ MIT"""
 
 [[commands.tokens]]
 text = "cat"
-desc = "读取并输出文件内容的命令"
+desc = "连接并显示一个或多个文件的内容"
 
 [[commands.tokens]]
 text = " README.md"
@@ -308,7 +308,7 @@ simulated_output = "hello world"
 
 [[commands.tokens]]
 text = "echo"
-desc = "输出文本到终端的命令"
+desc = "将文本输出到标准输出"
 
 [[commands.tokens]]
 text = " 'hello world'"
@@ -329,15 +329,15 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "cp"
-desc = "复制文件或目录的命令"
+desc = "复制文件或目录"
 
 [[commands.tokens]]
 text = " file.txt"
-desc = "源文件路径"
+desc = "目标文件： file.txt"
 
 [[commands.tokens]]
 text = " backup/file.txt"
-desc = "目标文件路径"
+desc = "目标文件： backup/file.txt"
 
 [commands.dictation]
 prompt = "把 file.txt 复制到 backup/file.txt"
@@ -354,15 +354,15 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "mv"
-desc = "移动文件或重命名文件的命令"
+desc = "移动或重命名文件和目录"
 
 [[commands.tokens]]
 text = " old.txt"
-desc = "原文件名"
+desc = "目标文件： old.txt"
 
 [[commands.tokens]]
 text = " new.txt"
-desc = "新的文件名"
+desc = "目标文件： new.txt"
 
 [commands.dictation]
 prompt = "把 old.txt 重命名为 new.txt"
@@ -379,11 +379,11 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "rm"
-desc = "删除文件或目录的命令"
+desc = "删除文件或目录（不可恢复！）"
 
 [[commands.tokens]]
 text = " temp.log"
-desc = "要删除的文件"
+desc = "目标文件： temp.log"
 
 [commands.dictation]
 prompt = "删除名为 temp.log 的文件"
@@ -420,7 +420,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "head"
-desc = "查看文件开头内容的命令"
+desc = "显示文件的前若干行（默认 10 行）"
 
 [[commands.tokens]]
 text = " -n"
@@ -455,7 +455,7 @@ simulated_output = """
 
 [[commands.tokens]]
 text = "tail"
-desc = "查看文件末尾内容的命令"
+desc = "显示文件的末尾若干行（默认 10 行）"
 
 [[commands.tokens]]
 text = " -f"
@@ -481,7 +481,7 @@ simulated_output = ""
 
 [[commands.tokens]]
 text = "ln"
-desc = "创建链接文件的命令"
+desc = "创建链接"
 
 [[commands.tokens]]
 text = " -s"
