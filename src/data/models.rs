@@ -893,6 +893,8 @@ pub struct ResumeState {
     pub topic_index: usize,
     pub symbol_index: usize,
     pub section_index: usize,
+    #[serde(default)]
+    pub overview_scroll: usize,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]

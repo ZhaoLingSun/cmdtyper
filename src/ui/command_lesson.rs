@@ -7,7 +7,7 @@ use crate::data::models::TokenKind;
 use crate::ui::widgets::*;
 
 /// Render overview phase: explanation + syntax + options
-pub fn render_overview(frame: &mut Frame, app: &App, category_index: usize, command_index: usize) {
+pub fn render_overview(frame: &mut Frame, app: &App, category_index: usize, command_index: usize, scroll: usize) {
     let area = frame.area();
     let categories = app.get_lesson_categories();
     let cat = match categories.get(category_index) {
@@ -55,6 +55,8 @@ pub fn render_overview(frame: &mut Frame, app: &App, category_index: usize, comm
 
     // Content
     let content_area = chunks[1];
+    let visible_height = content_area.height as usize;
+
     let mut lines: Vec<Line> = Vec::new();
 
     // Summary
@@ -135,12 +137,17 @@ pub fn render_overview(frame: &mut Frame, app: &App, category_index: usize, comm
         }
     }
 
-    let content = Paragraph::new(lines).wrap(Wrap { trim: false });
+    let total_lines = lines.len();
+    let clamped_scroll = clamp_scroll(scroll, total_lines, visible_height);
+    let content = Paragraph::new(lines)
+        .wrap(Wrap { trim: false })
+        .scroll((clamped_scroll as u16, 0));
     frame.render_widget(content, content_area);
 
     // Hints
     let hints = hint_line(&[
         ("\u{2191}\u{2193}", "\u{4e0a}\u{4e0b}\u{547d}\u{4ee4}"),
+        ("PgUp/PgDn", "\u{6eda}\u{52a8}"),
         ("Enter/\u{2192}", "\u{8fdb}\u{5165}\u{8bad}\u{7ec3}"),
         ("Esc", "\u{8fd4}\u{56de}"),
     ]);
@@ -349,4 +356,13 @@ pub fn render_practice(
         Paragraph::new(hints).alignment(Alignment::Center),
         chunks[2],
     );
+}
+
+
+fn clamp_scroll(scroll: usize, total_lines: usize, visible_height: usize) -> usize {
+    if total_lines <= visible_height {
+        return 0;
+    }
+    let max_scroll = total_lines.saturating_sub(visible_height);
+    scroll.min(max_scroll)
 }

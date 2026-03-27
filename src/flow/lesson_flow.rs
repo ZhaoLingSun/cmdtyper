@@ -9,9 +9,24 @@ pub fn handle_command_lesson_overview_key(
     key: KeyEvent,
     category_index: usize,
     command_index: usize,
+    scroll: usize,
 ) {
     match key.code {
         KeyCode::Esc => app.state = AppState::CommandTopics,
+        KeyCode::PageUp => {
+            app.state = AppState::CommandLessonOverview {
+                category_index,
+                command_index,
+                scroll: scroll.saturating_sub(5),
+            };
+        }
+        KeyCode::PageDown => {
+            app.state = AppState::CommandLessonOverview {
+                category_index,
+                command_index,
+                scroll: scroll.saturating_add(5),
+            };
+        }
         KeyCode::Enter | KeyCode::Right | KeyCode::Char('l') => {
             let cmd_str = get_lesson_example_command(app, category_index, command_index, 0);
             if let Some(cmd) = cmd_str {
@@ -28,6 +43,7 @@ pub fn handle_command_lesson_overview_key(
                 app.state = AppState::CommandLessonOverview {
                     category_index,
                     command_index: command_index - 1,
+                    scroll: 0,
                 };
             }
         }
@@ -39,6 +55,7 @@ pub fn handle_command_lesson_overview_key(
                     app.state = AppState::CommandLessonOverview {
                         category_index,
                         command_index: command_index + 1,
+                        scroll: 0,
                     };
                 }
             }
@@ -59,6 +76,7 @@ pub fn handle_command_lesson_practice_key(
             app.state = AppState::CommandLessonOverview {
                 category_index,
                 command_index,
+                scroll: 0,
             };
         }
         KeyCode::Char('d') | KeyCode::Char('D') if app.typing_engine.is_complete() => {
@@ -102,7 +120,7 @@ pub fn handle_command_lesson_practice_key(
                     let lessons = app.get_lessons_for_category(cats[category_index]);
                     lessons.get(command_index).map(|lesson| {
                         (
-                            format!("lesson:{}:{}", lesson.meta.command, example_index),
+                            lesson.meta.command.clone(),
                             lesson.meta.difficulty,
                             lesson.examples.len(),
                         )
@@ -138,6 +156,7 @@ pub fn handle_command_lesson_practice_key(
                     app.state = AppState::CommandLessonOverview {
                         category_index,
                         command_index,
+                        scroll: 0,
                     };
                 }
             }

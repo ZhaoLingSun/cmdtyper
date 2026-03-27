@@ -30,7 +30,8 @@ pub fn render(frame: &mut Frame, app: &App) {
         AppState::CommandLessonOverview {
             category_index,
             command_index,
-        } => command_lesson::render_overview(frame, app, *category_index, *command_index),
+            scroll,
+        } => command_lesson::render_overview(frame, app, *category_index, *command_index, *scroll),
         AppState::CommandLessonPractice {
             category_index,
             command_index,

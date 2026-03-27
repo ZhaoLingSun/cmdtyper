@@ -29,6 +29,7 @@ pub enum AppState {
     CommandLessonOverview {
         category_index: usize,
         command_index: usize,
+        scroll: usize,
     },
     CommandLessonPractice {
         category_index: usize,
@@ -302,7 +303,7 @@ impl App {
             AppState::Home => ResumeState { screen: ResumeScreen::Home, ..ResumeState::default() },
             AppState::LearnHub => ResumeState { screen: ResumeScreen::LearnHub, ..ResumeState::default() },
             AppState::CommandTopics => ResumeState { screen: ResumeScreen::CommandTopics, category_index: self.command_topics_index, ..ResumeState::default() },
-            AppState::CommandLessonOverview { category_index, command_index } => ResumeState { screen: ResumeScreen::CommandLessonOverview, category_index: *category_index, command_index: *command_index, ..ResumeState::default() },
+            AppState::CommandLessonOverview { category_index, command_index, scroll } => ResumeState { screen: ResumeScreen::CommandLessonOverview, category_index: *category_index, command_index: *command_index, overview_scroll: *scroll, ..ResumeState::default() },
             AppState::CommandLessonPractice { category_index, command_index, example_index } => ResumeState { screen: ResumeScreen::CommandLessonPractice, category_index: *category_index, command_index: *command_index, example_index: *example_index, ..ResumeState::default() },
             AppState::SymbolTopics => ResumeState { screen: ResumeScreen::SymbolTopics, topic_index: self.symbol_topics_index, ..ResumeState::default() },
             AppState::SymbolLesson { topic_index, symbol_index, phase } => ResumeState { screen: if matches!(phase, SymbolPhase::Example(_)) { ResumeScreen::SymbolExample } else { ResumeScreen::SymbolExplain }, topic_index: *topic_index, symbol_index: *symbol_index, example_index: if let SymbolPhase::Example(i)=phase {*i} else {0}, ..ResumeState::default() },
@@ -320,7 +321,7 @@ impl App {
             ResumeScreen::Home => self.state = AppState::Home,
             ResumeScreen::LearnHub => self.state = AppState::LearnHub,
             ResumeScreen::CommandTopics => { self.command_topics_index = resume.category_index; self.state = AppState::CommandTopics; }
-            ResumeScreen::CommandLessonOverview => { self.state = AppState::CommandLessonOverview { category_index: resume.category_index, command_index: resume.command_index }; }
+            ResumeScreen::CommandLessonOverview => { self.state = AppState::CommandLessonOverview { category_index: resume.category_index, command_index: resume.command_index, scroll: resume.overview_scroll }; }
             ResumeScreen::CommandLessonPractice => {
                 let cmd = {
                     let cats = self.get_lesson_categories();
@@ -389,11 +390,13 @@ impl App {
             AppState::CommandLessonOverview {
                 category_index,
                 command_index,
+                scroll,
             } => crate::flow::lesson_flow::handle_command_lesson_overview_key(
                 self,
                 key,
                 category_index,
                 command_index,
+                scroll,
             ),
             AppState::CommandLessonPractice {
                 category_index,
@@ -568,7 +571,6 @@ impl App {
                 2 => self.enter_typing_with_filter(Some(Difficulty::Advanced), None),
                 3 => self.enter_typing_with_filter(Some(Difficulty::Practical), None),
                 4 => {
-                    self.command_topics_index = 0;
                     self.state = AppState::CommandTopics;
                 }
                 5 => {
@@ -634,6 +636,7 @@ impl App {
                         self.state = AppState::CommandLessonOverview {
                             category_index: self.command_topics_index,
                             command_index: 0,
+                            scroll: 0,
                         };
                     }
                 }
