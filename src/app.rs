@@ -43,6 +43,7 @@ pub enum AppState {
         phase: SymbolPhase,
     },
     SystemTopics,
+    ReviewTopics,
     SystemLesson {
         topic_index: usize,
         section_index: usize,
@@ -424,6 +425,7 @@ impl App {
                 phase,
             ),
             AppState::SystemTopics => crate::flow::system_flow::handle_system_topics_key(self, key),
+            AppState::ReviewTopics => self.handle_review_topics_key(key),
             AppState::SystemLesson {
                 topic_index,
                 section_index,
@@ -593,6 +595,19 @@ impl App {
                 }
                 _ => {}
             },
+            _ => {}
+        }
+    }
+
+    fn handle_review_topics_key(&mut self, key: KeyEvent) {
+        match key.code {
+            KeyCode::Esc => self.state = AppState::Home,
+            KeyCode::Up => self.review_topics_index = self.review_topics_index.saturating_sub(1),
+            KeyCode::Down => self.review_topics_index = (self.review_topics_index + 1).min(2),
+            KeyCode::Enter => {
+                // Navigate to selected review topic
+                self.state = AppState::Home;
+            }
             _ => {}
         }
     }

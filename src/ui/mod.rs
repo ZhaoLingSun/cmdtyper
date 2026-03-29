@@ -50,6 +50,7 @@ pub fn render(frame: &mut Frame, app: &App) {
             phase,
         } => symbol_lesson::render(frame, app, *topic_index, *symbol_index, phase),
         AppState::SystemTopics => system_topics::render(frame, app),
+        AppState::ReviewTopics => review::render_topics(frame, app),
         AppState::SystemLesson {
             topic_index,
             section_index,
