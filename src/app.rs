@@ -555,7 +555,7 @@ impl App {
     // ─────────────────────────────────────────────────────────
 
     fn handle_learn_hub_key(&mut self, key: KeyEvent) {
-        const LEARN_HUB_LAST_INDEX: usize = 7;
+        const LEARN_HUB_LAST_INDEX: usize = 8;
 
         match key.code {
             KeyCode::Esc => self.state = AppState::Home,
@@ -586,12 +586,8 @@ impl App {
                     self.state = AppState::SystemTopics;
                 }
                 7 => {
-                    if let Some(cat) = Category::ALL.first() {
-                        self.state = AppState::Review {
-                            source: ReviewSource::CommandCategory(*cat),
-                            phase: ReviewPhase::Summary,
-                        };
-                    }
+                    self.review_topics_index = 0;
+                    self.state = AppState::ReviewTopics;
                 }
                 _ => {}
             },
@@ -605,8 +601,25 @@ impl App {
             KeyCode::Up => self.review_topics_index = self.review_topics_index.saturating_sub(1),
             KeyCode::Down => self.review_topics_index = (self.review_topics_index + 1).min(2),
             KeyCode::Enter => {
-                // Navigate to selected review topic
-                self.state = AppState::Home;
+                use crate::data::models::Category;
+                match self.review_topics_index {
+                    0 => {
+                        if let Some(cat) = Category::ALL.get(0) {
+                            self.state = AppState::Review { source: ReviewSource::CommandCategory(*cat), phase: ReviewPhase::Summary };
+                        }
+                    }
+                    1 => {
+                        if let Some(cat) = Category::ALL.get(6) {
+                            self.state = AppState::Review { source: ReviewSource::CommandCategory(*cat), phase: ReviewPhase::Summary };
+                        }
+                    }
+                    2 => {
+                        if let Some(topic) = self.symbol_topics.first() {
+                            self.state = AppState::Review { source: ReviewSource::SymbolTopic(topic.meta.topic.clone()), phase: ReviewPhase::Summary };
+                        }
+                    }
+                    _ => {}
+                }
             }
             _ => {}
         }
