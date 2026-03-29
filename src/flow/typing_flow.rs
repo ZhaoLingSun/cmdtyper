@@ -61,7 +61,11 @@ pub fn handle_typing_key(app: &mut App, key: KeyEvent) {
         }
         KeyCode::Enter => typing_submit_or_advance(app),
         KeyCode::Char('m') | KeyCode::Char('M')
-            if key.modifiers == KeyModifiers::NONE || key.modifiers == KeyModifiers::SHIFT =>
+            if !app.typing_showing_output
+                && (app.typing_engine.start_time.is_none()
+                    || app.typing_engine.is_complete())
+                && (key.modifiers == KeyModifiers::NONE
+                    || key.modifiers == KeyModifiers::SHIFT) =>
         {
             cycle_typing_mode(app);
         }
