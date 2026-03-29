@@ -265,3 +265,61 @@ fn render_typing_line<'a>(prompt: &str, engine: &crate::core::engine::TypingEngi
 
     Line::from(spans)
 }
+pub fn render_topics(frame: &mut Frame, app: &App) {
+    let area = frame.area();
+    let chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Length(3),
+            Constraint::Min(0),
+            Constraint::Length(1),
+        ])
+        .split(area);
+
+    let title = Paragraph::new(Line::from(Span::styled(
+        " 复习专题 ",
+        Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD),
+    )))
+    .alignment(Alignment::Center)
+    .block(
+        Block::default()
+            .borders(Borders::ALL)
+            .border_style(Style::default().fg(Color::DarkGray)),
+    );
+    frame.render_widget(title, chunks[0]);
+
+    let topics = [
+        ("commands_basic", "命令·基础", "ls/cp/mv/rm/find/grep 等基础命令"),
+        ("commands_advanced", "命令·进阶", "awk/sed/tar/ssh/systemctl 等进阶命令"),
+        ("symbols", "Shell符号", "管道/重定向/通配符/引号 等符号专题"),
+    ];
+
+    let mut lines = vec![
+        Line::from("按 Enter 进入对应专题复习："),
+        Line::from(""),
+    ];
+
+    for (i, (_, name, desc)) in topics.iter().enumerate() {
+        let prefix = if i == app.review_topics_index { "▶ " } else { "  " };
+        lines.push(Line::from(format!("{}{}", prefix, name)));
+        lines.push(Line::from(format!("    {}", desc)));
+        lines.push(Line::from(""));
+    }
+
+    let content = Paragraph::new(lines).wrap(Wrap { trim: false });
+    frame.render_widget(content, chunks[1]);
+
+    let hints = vec![Line::from(vec![
+        Span::raw(" "),
+        Span::styled("↑↓", Style::default().fg(Color::Yellow)),
+        Span::raw(" 选择 "),
+        Span::styled("Enter", Style::default().fg(Color::Green)),
+        Span::raw(" 进入 "),
+        Span::styled("Esc", Style::default().fg(Color::Red)),
+        Span::raw(" 返回 "),
+    ])];
+    frame.render_widget(
+        Paragraph::new(hints).alignment(Alignment::Center),
+        chunks[2],
+    );
+}

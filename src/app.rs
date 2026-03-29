@@ -183,6 +183,7 @@ pub struct App {
     pub filter_difficulty: Option<Difficulty>,
     pub filter_category: Option<Category>,
     pub typing_filter_row: usize,
+    pub review_topics_index: usize,
 
     // Dictation mode state
     pub dictation_commands: Vec<Command>,
@@ -268,6 +269,7 @@ impl App {
             filter_difficulty: None,
             filter_category: None,
             typing_filter_row: 0,
+            review_topics_index: 0,
             dictation_commands: Vec::new(),
             dictation_index: 0,
             dictation_input: String::new(),
