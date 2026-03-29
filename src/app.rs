@@ -321,7 +321,10 @@ impl App {
 
     fn apply_resume_state(&mut self, resume: ResumeState) {
         match resume.screen {
-            ResumeScreen::Home => self.state = AppState::Home,
+            ResumeScreen::Home | ResumeScreen::ReviewTopics => {
+                self.review_topics_index = resume.topic_index;
+                self.state = AppState::ReviewTopics;
+            }
             ResumeScreen::LearnHub => self.state = AppState::LearnHub,
             ResumeScreen::CommandTopics => { self.command_topics_index = resume.category_index; self.state = AppState::CommandTopics; }
             ResumeScreen::CommandLessonOverview => { self.state = AppState::CommandLessonOverview { category_index: resume.category_index, command_index: resume.command_index, scroll: resume.overview_scroll }; }

@@ -687,15 +687,6 @@ pub struct ConfigLesson {
 // 3.6 复习模块
 // ─────────────────────────────────────────────────────────────
 
-/// 复习数据
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ReviewData {
-    pub topic_id: String,
-    pub topic_name: String,
-    pub summary_groups: Vec<ReviewGroup>,
-    pub practice_ids: Vec<String>,
-}
-
 /// 复习分组
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ReviewGroup {
@@ -902,6 +893,7 @@ pub struct ResumeState {
 pub enum ResumeScreen {
     #[default]
     Home,
+    ReviewTopics,
     LearnHub,
     CommandTopics,
     CommandLessonOverview,

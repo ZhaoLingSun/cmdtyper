@@ -290,7 +290,7 @@ pub fn render_topics(frame: &mut Frame, app: &App) {
 
     let topics = [
         ("commands_basic", "命令·基础", "ls/cp/mv/rm/find/grep 等基础命令"),
-        ("commands_advanced", "命令·进阶", "awk/sed/tar/ssh/systemctl 等进阶命令"),
+        ("commands_advanced", "压缩归档", "awk/sed/tar/ssh/systemctl 等进阶命令"),
         ("symbols", "Shell符号", "管道/重定向/通配符/引号 等符号专题"),
     ];
 
