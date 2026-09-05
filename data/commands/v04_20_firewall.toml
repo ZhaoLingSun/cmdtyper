@@ -1,0 +1,309 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "区分规则读取、最小放行和回滚；所有变更题在模拟实验主机中学习。"
+
+[meta.topic]
+id = "v04_firewall"
+title = "主机防火墙与规则计数"
+icon = "🌐"
+order = 120
+command_ids = ["ufw-status", "ufw-deny-port"]
+
+[[commands]]
+id = "v04-firewall-ed821af084"
+command = "sudo ufw app list"
+summary = "列出已安装的 UFW 应用配置名称"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ufw"
+desc = "列出已安装的 UFW 应用配置名称"
+
+[[commands.tokens]]
+text = " app"
+desc = "列出已安装的 UFW 应用配置名称；指定 app"
+
+[[commands.tokens]]
+text = " list"
+desc = "列出已安装的 UFW 应用配置名称；指定 list"
+
+[commands.dictation]
+prompt = "列出已安装的 UFW 应用配置名称"
+answers = ["sudo ufw app list"]
+
+[[commands]]
+id = "v04-firewall-5247f24e58"
+command = "sudo ufw app info 'Nginx Full'"
+summary = "查看 Nginx Full 应用配置对应的端口"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ufw"
+desc = "查看 Nginx Full 应用配置对应的端口"
+
+[[commands.tokens]]
+text = " app"
+desc = "查看 Nginx Full 应用配置对应的端口；指定 app"
+
+[[commands.tokens]]
+text = " info"
+desc = "查看 Nginx Full 应用配置对应的端口；指定 info"
+
+[[commands.tokens]]
+text = " 'Nginx Full'"
+desc = "引号保护此参数中的空格或特殊符号；查看 Nginx Full 应用配置对应的端口"
+
+[commands.dictation]
+prompt = "查看 Nginx Full 应用配置对应的端口"
+answers = ["sudo ufw app info 'Nginx Full'"]
+
+[[commands]]
+id = "v04-firewall-da0abee664"
+command = "sudo ufw --dry-run allow 443/tcp"
+summary = "预览 HTTPS 放行规则，dry-run 不落地修改"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ufw"
+desc = "预览 HTTPS 放行规则，dry-run 不落地修改"
+
+[[commands.tokens]]
+text = " --dry-run"
+desc = "预览 HTTPS 放行规则，dry-run 不落地修改；此处使用 --dry-run 选项"
+
+[[commands.tokens]]
+text = " allow"
+desc = "预览 HTTPS 放行规则，dry-run 不落地修改；指定 allow"
+
+[[commands.tokens]]
+text = " 443/tcp"
+desc = "预览 HTTPS 放行规则，dry-run 不落地修改；指定 443/tcp"
+
+[commands.dictation]
+prompt = "预览 HTTPS 放行规则，dry-run 不落地修改"
+answers = ["sudo ufw --dry-run allow 443/tcp"]
+
+[[commands]]
+id = "v04-firewall-2a8ca198cf"
+command = "sudo ufw --dry-run allow from 192.0.2.0/24 to any port 22 proto tcp"
+summary = "预览仅实验管理网段可访问 SSH 的规则"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ufw"
+desc = "预览仅实验管理网段可访问 SSH 的规则"
+
+[[commands.tokens]]
+text = " --dry-run"
+desc = "预览仅实验管理网段可访问 SSH 的规则；此处使用 --dry-run 选项"
+
+[[commands.tokens]]
+text = " allow"
+desc = "预览仅实验管理网段可访问 SSH 的规则；指定 allow"
+
+[[commands.tokens]]
+text = " from"
+desc = "预览仅实验管理网段可访问 SSH 的规则；指定 from"
+
+[[commands.tokens]]
+text = " 192.0.2.0/24"
+desc = "预览仅实验管理网段可访问 SSH 的规则；指定 192.0.2.0/24"
+
+[[commands.tokens]]
+text = " to"
+desc = "预览仅实验管理网段可访问 SSH 的规则；指定 to"
+
+[[commands.tokens]]
+text = " any"
+desc = "预览仅实验管理网段可访问 SSH 的规则；指定 any"
+
+[[commands.tokens]]
+text = " port"
+desc = "预览仅实验管理网段可访问 SSH 的规则；指定 port"
+
+[[commands.tokens]]
+text = " 22"
+desc = "本次练习的数值参数 22；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " proto"
+desc = "预览仅实验管理网段可访问 SSH 的规则；指定 proto"
+
+[[commands.tokens]]
+text = " tcp"
+desc = "预览仅实验管理网段可访问 SSH 的规则；指定 tcp"
+
+[commands.dictation]
+prompt = "预览仅实验管理网段可访问 SSH 的规则"
+answers = ["sudo ufw --dry-run allow from 192.0.2.0/24 to any port 22 proto tcp"]
+
+[[commands]]
+id = "v04-firewall-07a301cb3c"
+command = "sudo ufw --dry-run deny 23/tcp"
+summary = "预览禁用实验 Telnet TCP 端口"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ufw"
+desc = "预览禁用实验 Telnet TCP 端口"
+
+[[commands.tokens]]
+text = " --dry-run"
+desc = "预览禁用实验 Telnet TCP 端口；此处使用 --dry-run 选项"
+
+[[commands.tokens]]
+text = " deny"
+desc = "预览禁用实验 Telnet TCP 端口；指定 deny"
+
+[[commands.tokens]]
+text = " 23/tcp"
+desc = "预览禁用实验 Telnet TCP 端口；指定 23/tcp"
+
+[commands.dictation]
+prompt = "预览禁用实验 Telnet TCP 端口"
+answers = ["sudo ufw --dry-run deny 23/tcp"]
+
+[[commands]]
+id = "v04-firewall-0e9793e49d"
+command = "sudo nft -a list ruleset"
+summary = "列出规则及 handle，后续精确定位规则"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " nft"
+desc = "列出规则及 handle，后续精确定位规则"
+
+[[commands.tokens]]
+text = " -a"
+desc = "列出规则及 handle，后续精确定位规则；此处使用 -a 选项"
+
+[[commands.tokens]]
+text = " list"
+desc = "列出规则及 handle，后续精确定位规则；指定 list"
+
+[[commands.tokens]]
+text = " ruleset"
+desc = "列出规则及 handle，后续精确定位规则；指定 ruleset"
+
+[commands.dictation]
+prompt = "列出规则及 handle，后续精确定位规则"
+answers = ["sudo nft -a list ruleset"]
+
+[[commands]]
+id = "v04-firewall-388688db37"
+command = "sudo nft list tables"
+summary = "列出 nftables 表，确认协议族与管理来源"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " nft"
+desc = "列出 nftables 表，确认协议族与管理来源"
+
+[[commands.tokens]]
+text = " list"
+desc = "列出 nftables 表，确认协议族与管理来源；指定 list"
+
+[[commands.tokens]]
+text = " tables"
+desc = "列出 nftables 表，确认协议族与管理来源；指定 tables"
+
+[commands.dictation]
+prompt = "列出 nftables 表，确认协议族与管理来源"
+answers = ["sudo nft list tables"]
+
+[[commands]]
+id = "v04-firewall-9588660e6e"
+command = "sudo iptables -S"
+summary = "查看 IPv4 filter 表规则规格，便于核对默认策略"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " iptables"
+desc = "查看 IPv4 filter 表规则规格，便于核对默认策略"
+
+[[commands.tokens]]
+text = " -S"
+desc = "查看 IPv4 filter 表规则规格，便于核对默认策略；此处使用 -S 选项"
+
+[commands.dictation]
+prompt = "查看 IPv4 filter 表规则规格，便于核对默认策略"
+answers = ["sudo iptables -S"]
+
+[[commands]]
+id = "v04-firewall-1639b1a7e8"
+command = "sudo ip6tables -S"
+summary = "查看 IPv6 filter 表规则，不以 IPv4 配置推断 IPv6"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ip6tables"
+desc = "查看 IPv6 filter 表规则，不以 IPv4 配置推断 IPv6"
+
+[[commands.tokens]]
+text = " -S"
+desc = "查看 IPv6 filter 表规则，不以 IPv4 配置推断 IPv6；此处使用 -S 选项"
+
+[commands.dictation]
+prompt = "查看 IPv6 filter 表规则，不以 IPv4 配置推断 IPv6"
+answers = ["sudo ip6tables -S"]
+
+[[commands]]
+id = "v04-firewall-9409cb3506"
+command = "journalctl -k --since '-10 min' --grep='UFW' --no-pager"
+summary = "筛选近期内核 UFW 日志；无日志不等于没有丢弃"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " -k"
+desc = "只读取内核消息"
+
+[[commands.tokens]]
+text = " --since"
+desc = "设置包含的起始时间"
+
+[[commands.tokens]]
+text = " '-10 min'"
+desc = "引号保护此参数中的空格或特殊符号；筛选近期内核 UFW 日志；无日志不等于没有丢弃"
+
+[[commands.tokens]]
+text = " --grep='UFW'"
+desc = "筛选近期内核 UFW 日志；无日志不等于没有丢弃；此处使用 --grep='UFW' 选项"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "直接输出，不启动分页器"
+
+[commands.dictation]
+prompt = "筛选近期内核 UFW 日志；无日志不等于没有丢弃"
+answers = ["journalctl -k --since '-10 min' --grep='UFW' --no-pager"]

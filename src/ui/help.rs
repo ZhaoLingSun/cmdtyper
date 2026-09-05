@@ -47,13 +47,13 @@ pub fn render(frame: &mut Frame, _app: &App) {
                 .add_modifier(Modifier::BOLD),
         )),
         Line::from(Span::raw(
-            "对着打: M=切换模式  H=提示  Tab=跳过  Ctrl+R=重试  Esc=返回",
+            "对着打: F2=切换模式  F3=提示  Tab=跳过  Ctrl+R=重试  Esc=返回",
         )),
         Line::from(Span::raw("学习中心: 上下=移动  Enter=选择  Esc=返回上一级")),
         Line::from(Span::raw("通用: Esc=返回")),
         Line::from(""),
         Line::from(Span::styled(
-            "版本 0.3 — 2026",
+            "版本 0.4 — 2026",
             Style::default().fg(Color::DarkGray),
         )),
     ];

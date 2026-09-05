@@ -2814,4 +2814,3 @@ prompt = "键入: tar czf backup-$(date +%F).tar.gz --newer-mtime='1 day ago' /s
 difficulty = "practical"
 type = "typing"
 answer = "tar czf backup-$(date +%F).tar.gz --newer-mtime='1 day ago' /srv/data"
-

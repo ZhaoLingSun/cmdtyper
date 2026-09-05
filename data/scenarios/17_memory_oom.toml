@@ -1,0 +1,125 @@
+id = "memory_oom"
+title = "CPU、内存与 OOM：定位异常工作进程"
+category = "系统与进程"
+difficulty = "basic"
+background = "API 偶尔重启，当前 CPU 接近满载。日志显示报表进程大量占用内存并被 OOM Killer 终止；一个失控的报表任务仍在运行。"
+objective = "结合负载、CPU、内存、进程和历史内核日志，停止异常任务并验证系统恢复。"
+environment = "Ubuntu 24.04 LTS 教学主机 web-01（192.0.2.10），客户端 ops-01（192.0.2.50），网关 192.0.2.1。文档保留地址与 example.test 域名只用于模拟；每例独立还原起始状态，全部输出预置。"
+recap = "把负载、核数、内存 available、进程 RSS 和内核 OOM 事件串起来；按服务停止异常任务，最终改进内存使用方式。"
+sources = ["https://www.freedesktop.org/software/systemd/man/255/journalctl.html", "https://github.com/systemd/systemd/blob/v255/man/systemd.resource-control.xml"]
+
+[[steps]]
+title = "查看负载与在线时长"
+output = "09:20:00 up 5 days, load average: 4.20, 3.90, 2.10"
+explanation = "负载包含可运行任务和不可中断等待，不能直接当成 CPU 百分比。"
+instruction = "请跟打，查看负载与在线时长。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_01"
+command_id = "uptime-basic"
+
+[[steps]]
+title = "查看逻辑 CPU 数量"
+output = "2"
+explanation = "2 核系统负载长期 4 有排队迹象，仍要结合进程 CPU 与 I/O 判断。"
+instruction = "请跟打，查看逻辑 CPU 数量。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_02"
+command_id = "shared-edfdf7c499579fef"
+
+[[steps]]
+title = "检查可用内存"
+output = "Mem: 3.8Gi total 3.6Gi used 90Mi available\nSwap: 2.0Gi total 1.8Gi used"
+explanation = "available 很低且交换空间大量使用，存在明显内存压力。"
+instruction = "请跟打，检查可用内存。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_03"
+command_id = "free-human"
+
+[steps.decision]
+question = "下一步应如何定位？"
+
+[[steps.decision.choices]]
+text = "查看进程占用并关联 OOM 历史"
+correct = true
+feedback = "对，先识别资源来源和历史终止对象。"
+
+[[steps.decision.choices]]
+text = "只因负载高就重启全部服务"
+correct = false
+feedback = "负载数字不能指认进程，重启会丢失关键现场。"
+
+[[steps]]
+title = "按内存占用排列进程"
+output = "PID COMMAND %CPU %MEM RSS ARGS\n3300 python3 180 72.0 2860000 python3 /srv/reports/export.py\n1420 uvicorn 8 4.2 166000 uvicorn app:app"
+explanation = "RSS 单位通常是 KiB，报表占大部分物理内存和 CPU；需结合业务确认是否异常。"
+instruction = "请跟打，按内存占用排列进程。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_04"
+command_id = "shared-3a8a0d83a6cc0903"
+
+[[steps]]
+title = "查看历史 OOM 事件"
+output = "Out of memory: Killed process 3290 (python3) total-vm:... anon-rss:...\noom_reaper: reaped process 3290"
+explanation = "故障时被杀的是前一个报表进程；现在的 PID 3300 说明任务重新拉起，形成压力循环。"
+instruction = "请跟打，查看历史 OOM 事件。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_05"
+command_id = "shared-b8b6d75954d6136d"
+
+[[steps]]
+title = "确认任务管理来源"
+output = "report-export.service\nMain PID: 3300 (python3)\nRestart=always"
+explanation = "任务受 systemd 管理，单杀 PID 可能再次自动重启。"
+instruction = "请跟打，确认任务管理来源。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_06"
+command_id = "shared-464c6452ee0c88f4"
+
+[[steps]]
+title = "检查报表最近日志"
+output = "Loading all rows into memory; rows=50000000\nRetrying after previous worker exit"
+explanation = "变更记录确认新版本改为一次性读全表，离线报表可以暂停。"
+instruction = "请跟打，检查报表最近日志。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_07"
+command_id = "shared-959e0758d285396d"
+
+[steps.decision]
+question = "临时恢复最合适的动作是什么？"
+
+[[steps.decision.choices]]
+text = "停止报表服务，并安排分页/流式读取修复"
+correct = true
+feedback = "对，停止管理单元阻止自动拉起，后续修复内存增长原因。"
+
+[[steps.decision.choices]]
+text = "不断 kill -9 每个新 PID"
+correct = false
+feedback = "管理器还会拉起新 PID，不能打破压力循环。"
+
+[[steps]]
+title = "停止异常报表任务"
+output = "[模拟：报表服务停止]"
+explanation = "应用 API 保持运行，不扩大中断范围。"
+instruction = "请跟打，停止异常报表任务。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_08"
+command_id = "shared-8f2a43574a49bb56"
+
+[[steps]]
+title = "观察内存恢复"
+output = "Mem: 3.8Gi total 1.0Gi used 2.5Gi available\nSwap: 2.0Gi total 400Mi used"
+explanation = "可用内存恢复；Swap 不必立刻清零，不能仅为这个数字强制关闭交换空间。"
+instruction = "请跟打，观察内存恢复。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_09"
+command_id = "free-human"
+
+[[steps]]
+title = "验证 API 健康"
+output = "{\"status\":\"ok\"}"
+explanation = "后续加入服务 MemoryMax、报表批次上限和资源告警，并在代表性数据量下验证修复。"
+instruction = "请跟打，验证 API 健康。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_10"
+command_id = "shared-e2281a98a4b26251"

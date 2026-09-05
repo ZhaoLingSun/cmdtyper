@@ -1,0 +1,290 @@
+[meta]
+category = "permission"
+difficulty = "basic"
+description = "按文件、父目录、组和 ACL 逐层确认访问规则，实验变更使用 ~/ops-lab。"
+
+[meta.topic]
+id = "v04_access"
+title = "权限、路径与账号审计"
+icon = "🧰"
+order = 126
+command_ids = ["sudo-current-rules-audit"]
+
+[[commands]]
+id = "v04-access-a0522813ac"
+command = "id -un"
+summary = "显示当前有效用户名称"
+simulated_output = "ace"
+
+[[commands.tokens]]
+text = "id"
+desc = "显示当前有效用户名称"
+
+[[commands.tokens]]
+text = " -un"
+desc = "显示当前有效用户名称；此处使用 -un 选项"
+
+[commands.dictation]
+prompt = "显示当前有效用户名称"
+answers = ["id -un"]
+
+[[commands]]
+id = "v04-access-4a6e5e73cc"
+command = "id -Gn"
+summary = "显示当前用户所属组名，组变更可能需重新登录"
+
+[[commands.tokens]]
+text = "id"
+desc = "显示当前用户所属组名，组变更可能需重新登录"
+
+[[commands.tokens]]
+text = " -Gn"
+desc = "显示当前用户所属组名，组变更可能需重新登录；此处使用 -Gn 选项"
+
+[commands.dictation]
+prompt = "显示当前用户所属组名，组变更可能需重新登录"
+answers = ["id -Gn"]
+
+[[commands]]
+id = "v04-access-d4b61fcaf1"
+command = "getent passwd www-data"
+summary = "通过 NSS 查询 Web 服务账号信息"
+
+[[commands.tokens]]
+text = "getent"
+desc = "通过 NSS 查询 Web 服务账号信息"
+
+[[commands.tokens]]
+text = " passwd"
+desc = "通过 NSS 查询 Web 服务账号信息；指定 passwd"
+
+[[commands.tokens]]
+text = " www-data"
+desc = "通过 NSS 查询 Web 服务账号信息；指定 www-data"
+
+[commands.dictation]
+prompt = "通过 NSS 查询 Web 服务账号信息"
+answers = ["getent passwd www-data"]
+
+[[commands]]
+id = "v04-access-47ab8762fd"
+command = "getent group docker"
+summary = "查询 docker 组成员，识别容器管理权限范围"
+
+[[commands.tokens]]
+text = "getent"
+desc = "查询 docker 组成员，识别容器管理权限范围"
+
+[[commands.tokens]]
+text = " group"
+desc = "查询 docker 组成员，识别容器管理权限范围；指定 group"
+
+[[commands.tokens]]
+text = " docker"
+desc = "查询 docker 组成员，识别容器管理权限范围；指定 docker"
+
+[commands.dictation]
+prompt = "查询 docker 组成员，识别容器管理权限范围"
+answers = ["getent group docker"]
+
+[[commands]]
+id = "v04-access-b46193c798"
+command = "namei -l /srv/app/config.yml"
+summary = "逐级展示路径各组件权限，定位目录缺少搜索权限"
+
+[[commands.tokens]]
+text = "namei"
+desc = "逐级展示路径各组件权限，定位目录缺少搜索权限"
+
+[[commands.tokens]]
+text = " -l"
+desc = "逐级展示路径各组件权限，定位目录缺少搜索权限；此处使用 -l 选项"
+
+[[commands.tokens]]
+text = " /srv/app/config.yml"
+desc = "本次操作指定的路径：/srv/app/config.yml"
+
+[commands.dictation]
+prompt = "逐级展示路径各组件权限，定位目录缺少搜索权限"
+answers = ["namei -l /srv/app/config.yml"]
+
+[[commands]]
+id = "v04-access-0042171b00"
+command = "getfacl /srv/app/config.yml"
+summary = "查看 POSIX ACL 与 mask，解释普通权限之外的授权"
+
+[[commands.tokens]]
+text = "getfacl"
+desc = "查看 POSIX ACL 与 mask，解释普通权限之外的授权"
+
+[[commands.tokens]]
+text = " /srv/app/config.yml"
+desc = "本次操作指定的路径：/srv/app/config.yml"
+
+[commands.dictation]
+prompt = "查看 POSIX ACL 与 mask，解释普通权限之外的授权"
+answers = ["getfacl /srv/app/config.yml"]
+
+[[commands]]
+id = "v04-access-1237fcaa1c"
+command = "getfacl -p /srv/app"
+summary = "保留绝对路径读取部署目录 ACL"
+
+[[commands.tokens]]
+text = "getfacl"
+desc = "保留绝对路径读取部署目录 ACL"
+
+[[commands.tokens]]
+text = " -p"
+desc = "保留绝对路径读取部署目录 ACL；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " /srv/app"
+desc = "本次操作指定的路径：/srv/app"
+
+[commands.dictation]
+prompt = "保留绝对路径读取部署目录 ACL"
+answers = ["getfacl -p /srv/app"]
+
+[[commands]]
+id = "v04-access-7d1a696753"
+command = "chmod 600 ~/ops-lab/private.key"
+summary = "将实验私钥限制为仅所有者可读写"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "调整实验文件的权限位"
+
+[[commands.tokens]]
+text = " 600"
+desc = "本次练习的数值参数 600；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ~/ops-lab/private.key"
+desc = "本次操作指定的路径：~/ops-lab/private.key"
+
+[commands.dictation]
+prompt = "将实验私钥限制为仅所有者可读写"
+answers = ["chmod 600 ~/ops-lab/private.key"]
+
+[[commands]]
+id = "v04-access-e7a45c83d7"
+command = "chmod 640 ~/ops-lab/settings.ini"
+summary = "给实验配置所有者读写、组只读、其他人无权限"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "调整实验文件的权限位"
+
+[[commands.tokens]]
+text = " 640"
+desc = "本次练习的数值参数 640；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "本次操作指定的路径：~/ops-lab/settings.ini"
+
+[commands.dictation]
+prompt = "给实验配置所有者读写、组只读、其他人无权限"
+answers = ["chmod 640 ~/ops-lab/settings.ini"]
+
+[[commands]]
+id = "v04-access-7207fb0159"
+command = "chmod u+x ~/ops-lab/check.sh"
+summary = "仅为所有者增加实验脚本执行权限"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "调整实验文件的权限位"
+
+[[commands.tokens]]
+text = " u+x"
+desc = "仅为所有者增加实验脚本执行权限；指定 u+x"
+
+[[commands.tokens]]
+text = " ~/ops-lab/check.sh"
+desc = "本次操作指定的路径：~/ops-lab/check.sh"
+
+[commands.dictation]
+prompt = "仅为所有者增加实验脚本执行权限"
+answers = ["chmod u+x ~/ops-lab/check.sh"]
+
+[[commands]]
+id = "v04-access-1c1a01fc28"
+command = "chmod go-w ~/ops-lab/settings.ini"
+summary = "移除组和其他人的配置写权限"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "调整实验文件的权限位"
+
+[[commands.tokens]]
+text = " go-w"
+desc = "移除组和其他人的配置写权限；指定 go-w"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "本次操作指定的路径：~/ops-lab/settings.ini"
+
+[commands.dictation]
+prompt = "移除组和其他人的配置写权限"
+answers = ["chmod go-w ~/ops-lab/settings.ini"]
+
+[[commands]]
+id = "v04-access-31d18b2b6b"
+command = "umask -p"
+summary = "以可复用形式显示当前 shell 的创建权限掩码"
+
+[[commands.tokens]]
+text = "umask"
+desc = "以可复用形式显示当前 shell 的创建权限掩码"
+
+[[commands.tokens]]
+text = " -p"
+desc = "以可复用形式显示当前 shell 的创建权限掩码；此处使用 -p 选项"
+
+[commands.dictation]
+prompt = "以可复用形式显示当前 shell 的创建权限掩码"
+answers = ["umask -p"]
+
+[[commands]]
+id = "v04-access-aba44f1fe9"
+command = "sudo -n true"
+summary = "以非交互方式测试当前 sudo 是否无需提示即可执行 true"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " -n"
+desc = "以非交互方式测试当前 sudo 是否无需提示即可执行 true"
+
+[[commands.tokens]]
+text = " true"
+desc = "以非交互方式测试当前 sudo 是否无需提示即可执行 true；指定 true"
+
+[commands.dictation]
+prompt = "以非交互方式测试当前 sudo 是否无需提示即可执行 true"
+answers = ["sudo -n true"]
+
+[[commands]]
+id = "v04-access-5e9cb7917a"
+command = "loginctl list-sessions --no-pager"
+summary = "查看登录会话，和终端进程关联"
+
+[[commands.tokens]]
+text = "loginctl"
+desc = "查看登录会话，和终端进程关联"
+
+[[commands.tokens]]
+text = " list-sessions"
+desc = "查看登录会话，和终端进程关联；指定 list-sessions"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "禁用分页器，直接输出便于查看的结果"
+
+[commands.dictation]
+prompt = "查看登录会话，和终端进程关联"
+answers = ["loginctl list-sessions --no-pager"]

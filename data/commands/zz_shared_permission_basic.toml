@@ -1,0 +1,75 @@
+
+[meta]
+category = "permission"
+difficulty = "basic"
+description = "跨模块共用的规范命令（由内容归一化维护）"
+
+[[commands]]
+id = "shared-600972cd074aacab"
+command = "chmod 644 index.html"
+summary = "设置网页文件权限：所有者可读写，其他人只读"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "chmod 644 index.html"
+desc = "设置网页文件权限：所有者可读写，其他人只读"
+
+[commands.dictation]
+prompt = "设置网页文件权限：所有者可读写，其他人只读"
+answers = ["chmod 644 index.html"]
+
+[[commands]]
+id = "shared-0d1970abf7d270a7"
+command = "chmod -v go-rwx secret.key"
+summary = "移除组和其他用户的所有权限并显示变更"
+simulated_output = "mode of 'secret.key' changed from 0644 (rw-r--r--) to 0600 (rw-------)"
+
+[[commands.tokens]]
+text = "chmod -v go-rwx secret.key"
+desc = "移除组和其他用户的所有权限并显示变更"
+
+[commands.dictation]
+prompt = "移除组和其他用户的所有权限并显示变更"
+answers = ["chmod -v go-rwx secret.key"]
+
+[[commands]]
+id = "shared-5573a6b44f00a19d"
+command = "chmod -R 755 /var/www/html"
+summary = "递归设置网站目录权限"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "chmod -R 755 /var/www/html"
+desc = "递归设置网站目录权限"
+
+[commands.dictation]
+prompt = "递归设置网站目录权限"
+answers = ["chmod -R 755 /var/www/html"]
+
+[[commands]]
+id = "shared-f074a13e50398257"
+command = "chmod a+r,u+w,go-w report.pdf"
+summary = "组合符号模式：所有人可读，所有者可写，组和其他人不可写"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "chmod a+r,u+w,go-w report.pdf"
+desc = "组合符号模式：所有人可读，所有者可写，组和其他人不可写"
+
+[commands.dictation]
+prompt = "组合符号模式：所有人可读，所有者可写，组和其他人不可写"
+answers = ["chmod a+r,u+w,go-w report.pdf"]
+
+[[commands]]
+id = "shared-88625cc0b2100e7a"
+command = "find /var/www -type f -exec chmod 644 {} +"
+summary = "只修改目录下所有文件（不含目录）的权限为 644"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "find /var/www -type f -exec chmod 644 {} +"
+desc = "只修改目录下所有文件（不含目录）的权限为 644"
+
+[commands.dictation]
+prompt = "只修改目录下所有文件（不含目录）的权限为 644"
+answers = ["find /var/www -type f -exec chmod 644 {} +"]

@@ -1,0 +1,13 @@
+# 非 shell 交互命令的独立跟打提示符；场景仍使用自己的上下文。
+[prompts]
+"shared-09d5c7e4829721a8" = "app=# "
+"shared-10a31cc5c6753144" = "app=# "
+"shared-2db35aa37c4005aa" = "app=# "
+"shared-6f5a7ebd1ef5b77f" = "app=# "
+"shared-83d96f67a923fda1" = "app=# "
+"shared-9be868b5fc7744c6" = "app=# "
+"shared-ad9987ba921d0e48" = "app=# "
+"shared-bbaea739061a58e9" = "app=# "
+"shared-d522deab69ddef3f" = "app=# "
+"shared-e89b54bfc4bc93ce" = "app=# "
+"shared-f43a4150248fd4ae" = "app=# "

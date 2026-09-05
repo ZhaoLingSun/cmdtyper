@@ -1,0 +1,489 @@
+id = "website_bootstrap"
+title = "Docker 网站从零搭建：数据库、API、HTTPS"
+category = "网站完整流程"
+difficulty = "basic"
+background = "在一台干净的 Ubuntu 24.04 LTS amd64 主机部署小型订单网站，采用 Git、Docker Compose、FastAPI、PostgreSQL 17 和 Nginx。此教学站点只演示健康检查与只读订单查询。"
+objective = "完成运行环境、代码、配置、持久数据、健康依赖、版本提交、HTTP 和 HTTPS 验证；建立可续期可回滚的部署基础。"
+environment = "全新 Ubuntu 24.04 LTS amd64 主机，账户 ace 可 sudo，Git 作者信息已设定；无旧 Docker 冲突包。项目 /srv/ops-site；example.test、模拟 CA 与镜像输出均为课程预置。nano 步骤模拟保存展示的完整文件，不启动真实编辑器。"
+recap = "每条 shell 命令独立回车；编辑器步骤展示完整文件与保存结果。代码和声明入 Git，口令证书不入库；先 HTTP 验证再启用 TLS，持久卷仍需备份。后续案例继续演练版本发布、数据库事务和恢复。"
+sources = ["https://docs.docker.com/compose/how-tos/startup-order/", "https://docs.docker.com/compose/how-tos/production/", "https://docs.docker.com/engine/install/ubuntu/", "https://fastapi.tiangolo.com/deployment/docker/", "https://eff-certbot.readthedocs.io/en/stable/using.html", "https://github.com/systemd/systemd/blob/v255/man/systemd.timer.xml"]
+
+[[steps]]
+title = "确认发行版"
+output = "ID=ubuntu\nVERSION_ID=\"24.04\"\nVERSION_CODENAME=noble"
+explanation = "本例明确 Ubuntu noble amd64，所以仓库配置使用这两个值；其他架构/发行版需对应更换。"
+instruction = "请跟打，确认发行版。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_01"
+command_id = "v04-ex-7afa748b58"
+
+[[steps]]
+title = "更新软件索引"
+output = "Reading package lists... Done"
+explanation = "先同步发行版软件列表。"
+instruction = "请跟打，更新软件索引。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_02"
+command_id = "apt-update"
+
+[[steps]]
+title = "安装 HTTPS 软件源工具与编辑器"
+output = "[模拟：软件安装完成]"
+explanation = "干净教学镜像没有旧版 Docker/containerd 冲突包，现场先核对已装软件。"
+instruction = "请跟打，安装 HTTPS 软件源工具与编辑器。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_03"
+command_id = "shared-827416ac5f9eed58"
+
+[[steps]]
+title = "创建软件源密钥目录"
+output = "[模拟：目录就绪]"
+explanation = "密钥独立存放，由指定软件源引用。"
+instruction = "请跟打，创建软件源密钥目录。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_04"
+command_id = "shared-218b2426de909a69"
+
+[[steps]]
+title = "获取 Docker 官方仓库签名密钥"
+output = "[模拟：Docker 仓库密钥保存成功]"
+explanation = "HTTPS 下载官方密钥；仓库签名用于软件包来源验证。"
+instruction = "请跟打，获取 Docker 官方仓库签名密钥。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_05"
+command_id = "shared-fdf4c9035ec54670"
+
+[[steps]]
+title = "使 APT 可以读取签名密钥"
+output = "[模拟：权限已更新]"
+explanation = "APT 读取密钥需要相应权限。"
+instruction = "请跟打，使 APT 可以读取签名密钥。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_06"
+command_id = "shared-acd5489879a2f153"
+
+[[steps]]
+title = "配置 Docker 软件源"
+output = "Types: deb\nURIs: https://download.docker.com/linux/ubuntu\nSuites: noble\nComponents: stable\nArchitectures: amd64\nSigned-By: /etc/apt/keyrings/docker.asc"
+explanation = "模拟编辑器保存以上完整文件；实际 nano 中输入这些内容、Ctrl+O 保存、Ctrl+X 退出。这个步骤替代难读的长串 shell 拼接。"
+instruction = "请跟打，配置 Docker 软件源。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_07"
+command_id = "shared-427ab9b668c047cc"
+
+[[steps]]
+title = "读取新软件源索引"
+output = "Get: Docker noble InRelease\nReading package lists... Done"
+explanation = "软件源配置只有更新索引后才会参与安装。"
+instruction = "请跟打，读取新软件源索引。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_08"
+command_id = "apt-update"
+
+[[steps]]
+title = "安装 Docker Engine 与 Compose 插件"
+output = "[模拟：Docker Engine、Buildx 与 Compose 插件安装完成]"
+explanation = "使用 docker compose 子命令，后续保留 sudo；不需要加入 docker 组来完成本实验。"
+instruction = "请跟打，安装 Docker Engine 与 Compose 插件。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_09"
+command_id = "shared-ff1b58678da3a005"
+
+[[steps]]
+title = "验证 Docker 可运行"
+output = "Hello from Docker!"
+explanation = "一次性测试容器可启动，证明 daemon、镜像拉取和基本容器执行链路工作。"
+instruction = "请跟打，验证 Docker 可运行。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_10"
+command_id = "shared-2b741813abc66212"
+
+[steps.decision]
+question = "接下来怎样组织网站？"
+
+[[steps.decision.choices]]
+text = "在运行中的容器里手工修改所有代码"
+correct = false
+feedback = "容器被重建后临时修改会丢失，无法形成可复现发布。"
+
+[[steps.decision.choices]]
+text = "在独立目录保存应用、Compose 配置和 Git 历史"
+correct = true
+feedback = "对，声明式文件与版本库才能重建环境。"
+
+[[steps]]
+title = "创建项目目录"
+output = "[模拟：ace 拥有项目目录]"
+explanation = "先准备归属正确的目录，避免以后用 root 写入项目代码。"
+instruction = "请跟打，创建项目目录。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_11"
+command_id = "shared-46b0cdeaf7b27582"
+
+[[steps]]
+title = "进入项目目录"
+output = "[模拟：当前目录 /srv/ops-site]"
+explanation = "后续所有相对路径均基于这里。"
+instruction = "请跟打，进入项目目录。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_12"
+command_id = "shared-5b5b0118530bb585"
+
+[[steps]]
+title = "初始化版本库"
+output = "Initialized empty Git repository in /srv/ops-site/.git/"
+explanation = "本教学账户已配置 Git 姓名和邮箱；仓库仅本地演练，不推送远端。"
+instruction = "请跟打，初始化版本库。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_13"
+command_id = "shared-0e3151390f8442d7"
+
+[[steps]]
+title = "创建配置与数据初始化目录"
+output = "[模拟：目录已创建]"
+explanation = "数据库持久数据由命名卷承载；证书和 webroot 使用明确的宿主机目录。"
+instruction = "请跟打，创建配置与数据初始化目录。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_14"
+command_id = "shared-4c453afa713eda66"
+
+[[steps]]
+title = "生成独立数据库口令文件"
+output = "[模拟：已生成随机口令，不展示值]"
+explanation = "口令不写进命令历史或版本库。应用和数据库通过 Compose secret 读取同一文件。"
+instruction = "请跟打，生成独立数据库口令文件。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_15"
+command_id = "shared-72578ad2481f6853"
+
+[[steps]]
+title = "限制口令文件权限"
+output = "[模拟：仅项目拥有者可读写]"
+explanation = "应用镜像在此基础案例中使用默认用户读取 secret；实际进一步采用非 root 用户时需一并设计 secret 的 UID 和权限。"
+instruction = "请跟打，限制口令文件权限。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_16"
+command_id = "shared-d27fddad7d6c0f7a"
+
+[[steps]]
+title = "写入版本库忽略规则"
+output = ".db_password\n.env\ncertbot/\nbackups/\n__pycache__/\n"
+explanation = "模拟编辑器保存这些规则，避免口令、证书和数据库导出进入 Git。"
+instruction = "请跟打，写入版本库忽略规则。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_17"
+command_id = "shared-52601095c1ad376e"
+
+[[steps]]
+title = "写入依赖清单"
+output = "fastapi==0.115.12\nuvicorn==0.34.2\npsycopg[binary]==3.2.9\n"
+explanation = "这里固定兼容的教学版本；生产采用经测试的依赖锁与镜像摘要，并单独安排升级验证。"
+instruction = "请跟打，写入依赖清单。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_18"
+command_id = "shared-feda9539479f5b2a"
+
+[[steps]]
+title = "写入 API 程序"
+output = "import pathlib\nimport psycopg\nfrom fastapi import FastAPI\n\napp = FastAPI()\n\ndef connect():\n    password = pathlib.Path('/run/secrets/db_password').read_text().strip()\n    return psycopg.connect(host='db', dbname='app', user='app', password=password,\n                           connect_timeout=3)\n\n@app.get('/health')\ndef health():\n    with connect() as conn:\n        conn.execute('SELECT 1').fetchone()\n    return {'status': 'ok', 'database': 'ok'}\n\n@app.get('/orders')\ndef orders():\n    with connect() as conn:\n        rows = conn.execute('SELECT id, status FROM orders ORDER BY id LIMIT 20').fetchall()\n    return [{'id': row[0], 'status': row[1]} for row in rows]\n"
+explanation = "模拟编辑器保存完整程序。连接使用 db 服务名，健康接口实际执行 SELECT 1；上下文管理器关闭连接。"
+instruction = "请跟打，写入 API 程序。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_19"
+command_id = "shared-18e6daacf39a5cdc"
+
+[[steps]]
+title = "写入镜像构建文件"
+output = "FROM python:3.12-slim\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\nCOPY app.py .\nCMD [\"uvicorn\", \"app:app\", \"--host\", \"0.0.0.0\", \"--port\", \"8000\"]\n"
+explanation = "只复制必要代码，不把整个目录、口令或 Git 历史打入镜像。"
+instruction = "请跟打，写入镜像构建文件。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_20"
+command_id = "shared-40c69bee5d862a25"
+
+[[steps]]
+title = "限制镜像构建上下文"
+output = ".git\n.db_password\n.env\ncertbot\nbackups\n__pycache__\n"
+explanation = "构建上下文也要过滤；.gitignore 不会自动替代 .dockerignore。"
+instruction = "请跟打，限制镜像构建上下文。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_21"
+command_id = "shared-f526bdf1c97274f2"
+
+[[steps]]
+title = "准备数据库初始结构"
+output = "CREATE TABLE IF NOT EXISTS orders (id integer PRIMARY KEY, status text NOT NULL);\nINSERT INTO orders (id, status) VALUES (42, 'pending') ON CONFLICT DO NOTHING;\n"
+explanation = "PostgreSQL 镜像只在空数据卷首次启动时执行初始化目录，已有数据库的升级需独立迁移。"
+instruction = "请跟打，准备数据库初始结构。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_22"
+command_id = "shared-1a1efe509d0471ee"
+
+[[steps]]
+title = "写入 Compose 服务声明"
+output = "name: ops\nservices:\n  db:\n    image: postgres:17\n    environment:\n      POSTGRES_USER: app\n      POSTGRES_DB: app\n      POSTGRES_PASSWORD_FILE: /run/secrets/db_password\n    secrets: [db_password]\n    volumes:\n      - pgdata:/var/lib/postgresql/data\n      - ./db/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro\n    healthcheck:\n      test: [CMD-SHELL, \"pg_isready -U app -d app\"]\n      interval: 5s\n      timeout: 3s\n      retries: 10\n    restart: unless-stopped\n  api:\n    build: .\n    image: ops-api:${APP_VERSION:-v1.0.0}\n    secrets: [db_password]\n    depends_on:\n      db:\n        condition: service_healthy\n    ports: [\"127.0.0.1:8000:8000\"]\n    healthcheck:\n      test: [CMD, python, -c, \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2)\"]\n      interval: 10s\n      timeout: 3s\n      retries: 5\n    restart: unless-stopped\n  nginx:\n    image: nginx:stable\n    ports: [\"80:80\", \"443:443\"]\n    volumes:\n      - ./nginx:/etc/nginx/conf.d:ro\n      - ./certbot/www:/var/www/certbot:ro\n      - ./certbot/conf:/etc/letsencrypt:ro\n    depends_on:\n      api:\n        condition: service_healthy\n    restart: unless-stopped\nsecrets:\n  db_password:\n    file: ./.db_password\nvolumes:\n  pgdata: {}\n"
+explanation = "数据库不发布宿主机端口；API 诊断端口仅绑定回环；Nginx 提供外部入口。pgdata 持久化数据，healthcheck 与 service_healthy 控制初次就绪依赖。"
+instruction = "请跟打，写入 Compose 服务声明。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_23"
+command_id = "shared-0fad5b5a6dee1106"
+
+[[steps]]
+title = "写入初始 HTTP 代理配置"
+output = "server {\n    listen 80;\n    server_name api.example.test;\n    location /.well-known/acme-challenge/ { root /var/www/certbot; }\n    location / {\n        proxy_pass http://api:8000;\n        proxy_set_header Host $host;\n        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\n    }\n}\n"
+explanation = "先运行 HTTP 的 ACME 验证路径；未签发证书前不引用不存在的 TLS 文件。"
+instruction = "请跟打，写入初始 HTTP 代理配置。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_24"
+command_id = "shared-c5d15e1fc6c56848"
+
+[[steps]]
+title = "准备镜像版本变量"
+output = "APP_VERSION=v1.0.0\n"
+explanation = "实际 .env 被忽略；版本标识也通过 Git tag 和镜像标签记录，后续发布显式指定版本。"
+instruction = "请跟打，准备镜像版本变量。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_25"
+command_id = "shared-348dff84d6747459"
+
+[[steps]]
+title = "校验 Compose 模型"
+output = "[退出状态 0：配置解析与变量展开成功]"
+explanation = "语法有效不代表服务已就绪；下步启动后必须检查健康状态。"
+instruction = "请跟打，校验 Compose 模型。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_26"
+command_id = "shared-4a8f2b1113cf519f"
+
+[steps.decision]
+question = "数据库持久性来自哪里？"
+
+[[steps.decision.choices]]
+text = "只要设置 restart 就永不丢数据"
+correct = false
+feedback = "restart 是进程重启策略，不能替代持久存储和备份。"
+
+[[steps.decision.choices]]
+text = "pgdata 命名卷，而非容器可写层"
+correct = true
+feedback = "对，重建数据库容器仍挂载同一命名卷。"
+
+[[steps]]
+title = "构建并启动网站"
+output = "Container ops-db-1 Healthy\nContainer ops-api-1 Healthy\nContainer ops-nginx-1 Started"
+explanation = "Compose 等待健康依赖再启动下游；应用运行中仍应处理数据库短暂不可用和重连。"
+instruction = "请跟打，构建并启动网站。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_27"
+command_id = "shared-a7c3d636a8341569"
+
+[[steps]]
+title = "查看服务健康状态"
+output = "ops-db-1 Up (healthy)\nops-api-1 Up (healthy)\nops-nginx-1 Up"
+explanation = "容器处于 Up 只代表进程存活；db/api 另外显示应用健康检查通过。"
+instruction = "请跟打，查看服务健康状态。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_28"
+command_id = "shared-632830d160471f6b"
+
+[[steps]]
+title = "通过代理检查健康"
+output = "{\"status\":\"ok\",\"database\":\"ok\"}"
+explanation = "实验 DNS 和边界防火墙已允许客户端访问本机 80/443；Docker 发布端口的过滤路径要单独核对。"
+instruction = "请跟打，通过代理检查健康。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_29"
+command_id = "shared-afd3fff90b2c0097"
+
+[[steps]]
+title = "验证数据库初始化数据"
+output = "[{\"id\":42,\"status\":\"pending\"}]"
+explanation = "应用通过数据库读取刚初始化的订单，验证了真实数据通路。"
+instruction = "请跟打，验证数据库初始化数据。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_30"
+command_id = "shared-272ec8591c0b2e06"
+
+[[steps]]
+title = "记录初始项目版本"
+output = "[模拟：代码与公开配置已暂存]"
+explanation = "显式列出文件，口令和证书未加入。"
+instruction = "请跟打，记录初始项目版本。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_31"
+command_id = "shared-59bfccae41a4b01b"
+
+[[steps]]
+title = "提交可重建的网站"
+output = "[main 1a2b3c4] Add containerized orders site"
+explanation = "提交包含足以重建镜像与服务的代码和配置。"
+instruction = "请跟打，提交可重建的网站。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_32"
+command_id = "shared-bb6f17ba778590e5"
+
+[[steps]]
+title = "标记首个版本"
+output = "[模拟：v1.0.0 指向当前提交]"
+explanation = "关联 Git 版本和 ops-api:v1.0.0 镜像，后续保留旧镜像供回滚。"
+instruction = "请跟打，标记首个版本。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_33"
+command_id = "shared-bb28869812df226b"
+
+[[steps]]
+title = "申请站点证书"
+output = "[模拟 CA：证书已保存到 certbot/conf/live/api.example.test/]"
+explanation = "本机教学域名 example.test 无法向公共 CA 签发，输出由模拟 CA 提供。真实部署需自有公网域名、正确 DNS 和开放的 HTTP 验证路径。"
+instruction = "请跟打，申请站点证书。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_34"
+command_id = "shared-00c99bf964e7db5d"
+
+[[steps]]
+title = "启用 HTTPS 与 HTTP 跳转"
+output = "server {\n    listen 80;\n    server_name api.example.test;\n    location /.well-known/acme-challenge/ { root /var/www/certbot; }\n    location / { return 301 https://$host$request_uri; }\n}\nserver {\n    listen 443 ssl;\n    server_name api.example.test;\n    ssl_certificate /etc/letsencrypt/live/api.example.test/fullchain.pem;\n    ssl_certificate_key /etc/letsencrypt/live/api.example.test/privkey.pem;\n    location / {\n        proxy_pass http://api:8000;\n        proxy_set_header Host $host;\n        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\n        proxy_set_header X-Forwarded-Proto $scheme;\n    }\n}\n"
+explanation = "模拟编辑器保存配置；ACME 路径继续保留为 HTTP，其他 HTTP 请求重定向到 HTTPS。"
+instruction = "请跟打，启用 HTTPS 与 HTTP 跳转。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_35"
+command_id = "shared-c5d15e1fc6c56848"
+
+[[steps]]
+title = "在 Nginx 容器内检查配置"
+output = "nginx: configuration file /etc/nginx/nginx.conf test is successful"
+explanation = "容器内部能看到证书挂载与代理配置，才是实际运行环境的语法验证。"
+instruction = "请跟打，在 Nginx 容器内检查配置。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_36"
+command_id = "shared-0700fc2231087e89"
+
+[[steps]]
+title = "平滑加载 TLS 配置"
+output = "[notice] signal process started"
+explanation = "重载读取新配置与证书，不需要重建数据库或 API。"
+instruction = "请跟打，平滑加载 TLS 配置。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_37"
+command_id = "shared-b067c98a4b8b5a8f"
+
+[[steps]]
+title = "验证 HTTPS 业务"
+output = "{\"status\":\"ok\",\"database\":\"ok\"}"
+explanation = "教学客户端信任实验 CA；此请求保留证书校验并走外部入口。"
+instruction = "请跟打，验证 HTTPS 业务。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_38"
+command_id = "shared-a75e45756f08277e"
+
+[steps.decision]
+question = "下一步应把什么纳入日常运维？"
+
+[[steps.decision.choices]]
+text = "只监控容器是否存在"
+correct = false
+feedback = "存在容器并不表示 HTTPS 有效、数据能恢复或业务健康。"
+
+[[steps.decision.choices]]
+text = "证书续期、备份恢复演练、版本回滚与健康监控"
+correct = true
+feedback = "对，稳定运营需要持续验证证书、数据和业务可用性。"
+
+[[steps]]
+title = "检查证书续期是否可行"
+output = "[模拟 CA：续期验证成功]"
+explanation = "因为使用自定义 config-dir，需要为同一路径配置专用定时任务，并在成功续期后重载 Compose Nginx。"
+instruction = "请跟打，检查证书续期是否可行。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_39"
+command_id = "shared-c7c3b9db6f620f20"
+
+[[steps]]
+title = "保存 TLS 配置版本"
+output = "[模拟：TLS 配置已暂存]"
+explanation = "证书私钥依然由 .gitignore 排除。"
+instruction = "请跟打，保存 TLS 配置版本。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_40"
+command_id = "shared-1deae5b2c5e794e1"
+
+[[steps]]
+title = "提交 HTTPS 配置"
+output = "[main 2b3c4d5] Enable HTTPS reverse proxy"
+explanation = "后续 Git 发布案例以此 HTTPS 基线继续，不需要退回 HTTP 初始配置。"
+instruction = "请跟打，提交 HTTPS 配置。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_41"
+command_id = "shared-d6b45a407fed4beb"
+
+[[steps]]
+title = "标记 HTTPS 稳定基线"
+output = "[模拟：v1.0.1 已标记]"
+explanation = "源码与 Nginx TLS 配置共同形成稳定基线；接下来的发布案例从这个版本开始。"
+instruction = "请跟打，标记 HTTPS 稳定基线。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_42"
+command_id = "shared-13ee8ac83597daec"
+
+[[steps]]
+title = "保留基线 API 镜像"
+output = "[模拟：同一已验证 API 镜像增加 v1.0.1 标签]"
+explanation = "HTTPS 配置位于 Nginx 挂载目录，API 代码未变；保留明确版本标签以便后续回滚。"
+instruction = "请跟打，保留基线 API 镜像。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_43"
+command_id = "shared-4582f8b2aadd83bb"
+
+[[steps]]
+title = "更新默认运行版本"
+output = "[模拟：.env 记录 v1.0.1]"
+explanation = "使下次 Compose 操作仍选择当前验证过的镜像版本。"
+instruction = "请跟打，更新默认运行版本。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_44"
+command_id = "shared-87e250470b215a67"
+
+[[steps]]
+title = "配置证书续期服务"
+output = "[Unit]\nDescription=Renew ops-site certificate\nAfter=docker.service network-online.target\nWants=network-online.target\n[Service]\nType=oneshot\nExecStart=/usr/bin/certbot renew --quiet --config-dir /srv/ops-site/certbot/conf --deploy-hook \"/usr/bin/docker compose -f /srv/ops-site/compose.yaml exec -T nginx nginx -s reload\"\n"
+explanation = "模拟编辑器保存；root 执行续期，仅在实际续期成功后运行 deploy hook，使用绝对 Compose 路径且禁用 TTY。"
+instruction = "请跟打，配置证书续期服务。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_45"
+command_id = "shared-94da034b3a31a834"
+
+[[steps]]
+title = "配置每天两次续期检查"
+output = "[Unit]\nDescription=Check ops-site certificate twice daily\n[Timer]\nOnCalendar=*-*-* 00,12:00:00\nRandomizedDelaySec=1h\nPersistent=true\n[Install]\nWantedBy=timers.target\n"
+explanation = "模拟编辑器保存；timer 与同名 service 配对，随机延迟避免集中请求，Persistent 补跑关机期间错过的任务。"
+instruction = "请跟打，配置每天两次续期检查。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_46"
+command_id = "shared-65322f4a3a3db607"
+
+[[steps]]
+title = "加载新增服务与定时器"
+output = "[模拟：unit 配置已重新加载]"
+explanation = "新增或修改 unit 文件之后，重新加载 systemd 管理器配置。"
+instruction = "请跟打，加载新增服务与定时器。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_47"
+command_id = "systemctl-daemon-reload"
+
+[[steps]]
+title = "启用续期定时器"
+output = "[模拟：开机启用且当前已开始等待触发]"
+explanation = "自动检查只负责续期；还应对失败日志和证书剩余天数设置监控。"
+instruction = "请跟打，启用续期定时器。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_48"
+command_id = "shared-3f53b38045ca3c14"
+
+[[steps]]
+title = "核对下次续期检查"
+output = "NEXT 2026-09-06 12:35 UTC  UNIT ops-cert-renew.timer  ACTIVATES ops-cert-renew.service"
+explanation = "定时器已排期。自定义证书目录不能只依赖发行版默认 certbot.timer 的默认目录。"
+instruction = "请跟打，核对下次续期检查。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_49"
+command_id = "shared-91211fe7b943ba66"

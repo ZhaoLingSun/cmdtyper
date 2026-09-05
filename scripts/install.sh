@@ -151,6 +151,16 @@ staging_data="$(mktemp -d "$data_parent/.data-staging.XXXXXX")"
 for directory in "${required_data_dirs[@]}"; do
     cp -a "$repo_root/data/$directory" "$staging_data/$directory"
 done
+for directory in practice scenarios sequences; do
+    if [[ -d "$repo_root/data/$directory" ]]; then
+        cp -a "$repo_root/data/$directory" "$staging_data/$directory"
+    fi
+done
+for metadata in command_aliases.toml command_contexts.toml; do
+    if [[ -f "$repo_root/data/$metadata" ]]; then
+        cp -a "$repo_root/data/$metadata" "$staging_data/$metadata"
+    fi
+done
 validate_data_tree "$staging_data" "staged"
 
 binary_tmp="$(mktemp "$bin_dir/.cmdtyper-staging.XXXXXX")"
@@ -188,7 +198,7 @@ printf 'Installed release binary:\n'
 printf '  source:      %s\n' "$source_binary"
 printf '  destination: %s\n' "$installed_binary"
 printf 'Installed release data:\n'
-printf '  source:      %s/data/{commands,lessons,symbols,system}\n' "$repo_root"
+printf '  source:      %s/data/{commands,lessons,symbols,system,practice,scenarios,sequences}\n' "$repo_root"
 printf '  destination: %s\n' "$installed_data"
 printf '  excluded:    %s/data/reviews\n' "$repo_root"
 

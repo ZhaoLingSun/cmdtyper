@@ -1,3 +1,4 @@
+
 [meta]
 command = "systemd 服务观察与变更"
 full_name = "systemd service inspection and controlled lifecycle changes"
@@ -7,19 +8,23 @@ importance = "core"
 
 [overview]
 summary = "先用只读查询建立证据，再把即时状态变更与开机策略变更分别审批"
-explanation = """systemctl 既能观察也能改变系统状态，必须先按动词分类。status 和 list-units 属于观察：它们读取单元加载状态、当前活动状态、失败状态和近期日志，不会启动、停止或改写开机策略。start、stop、restart、reload 属于当前运行状态变更；enable、disable 属于以后开机时的持久策略变更，且 enable --now 同时改变持久策略与当前状态。排障顺序应是先确认主机、单元全名、依赖者、当前会话和备用访问，再根据授权选择最小动作。restart 会先停后启，可能中断 SSH 等现有连接；reload 只在服务支持时请求重读配置，也应先完成配置校验。所有 sudo 示例都只适用于已获授权的自有练习机，本课展示的是语义边界，不鼓励在真实服务上试验。"""
+explanation = "systemctl 既能观察也能改变系统状态，必须先按动词分类。status 和 list-units 属于观察：它们读取单元加载状态、当前活动状态、失败状态和近期日志，不会启动、停止或改写开机策略。start、stop、restart、reload 属于当前运行状态变更；enable、disable 属于以后开机时的持久策略变更，且 enable --now 同时改变持久策略与当前状态。排障顺序应是先确认主机、单元全名、依赖者、当前会话和备用访问，再根据授权选择最小动作。restart 会先停后启，可能中断 SSH 等现有连接；reload 只在服务支持时请求重读配置，也应先完成配置校验。所有 sudo 示例都只适用于已获授权的自有练习机，本课展示的是语义边界，不鼓励在真实服务上试验。"
 
 [syntax]
 basic = "systemctl 查询动作 单元；sudo systemctl 变更动作 单元"
+
 [[syntax.parts]]
 name = "查询动作"
 desc = "status、list-units、is-active 和 is-enabled 读取状态；先用它们回答现在发生了什么"
+
 [[syntax.parts]]
 name = "即时变更"
 desc = "start、stop、restart、reload 影响当前进程；它们不自动等同于改变开机启用策略"
+
 [[syntax.parts]]
 name = "持久变更"
 desc = "enable、disable 修改开机链接；--now 会额外立即改变当前运行状态"
+
 [[syntax.parts]]
 name = "单元名"
 desc = "使用完整的 nginx.service、ssh.service 等名称，避免把相似服务或用户单元当成目标"

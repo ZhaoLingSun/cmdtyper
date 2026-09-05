@@ -1,3 +1,4 @@
+
 [meta]
 command = "Vim 恢复、只读与编辑器选择"
 full_name = "Vim recovery, read-only entry points, help, and editor selection"
@@ -7,19 +8,23 @@ importance = "core"
 
 [overview]
 summary = "把只读入口、崩溃恢复、保存退出和系统编辑器选择当作不同问题处理"
-explanation = """view（等价于 vim -R）以只读意图打开文件，适合检查 /etc/hosts 等内容；大写 -R 很重要，而且只读模式只是防误写提示，不是操作系统权限隔离，强制写入仍可能绕过，因此不要把它当安全沙箱。Vim 检测到交换文件时，可能提示另一个编辑会话仍在运行，也可能表示上次崩溃留下了可恢复内容。先确认是否存在活跃进程和正确文件，再选择只读查看、恢复到缓冲区或退出；不要直接删除交换文件。恢复出的内容尚未自动写回原文件，应比较、另存或确认后再 :w；需要放弃则退出而不写。vim -h 与 vim --version 是终端中的只读信息查询。readlink -f /usr/bin/editor 和 update-alternatives --display editor 只观察默认编辑器链，不改变选择。crontab -e 则不同：即使只是临时指定 Vim，保存退出后任务表会被安装，必须先只读核对并明确保存语义。"""
+explanation = "view（等价于 vim -R）以只读意图打开文件，适合检查 /etc/hosts 等内容；大写 -R 很重要，而且只读模式只是防误写提示，不是操作系统权限隔离，强制写入仍可能绕过，因此不要把它当安全沙箱。Vim 检测到交换文件时，可能提示另一个编辑会话仍在运行，也可能表示上次崩溃留下了可恢复内容。先确认是否存在活跃进程和正确文件，再选择只读查看、恢复到缓冲区或退出；不要直接删除交换文件。恢复出的内容尚未自动写回原文件，应比较、另存或确认后再 :w；需要放弃则退出而不写。vim -h 与 vim --version 是终端中的只读信息查询。readlink -f /usr/bin/editor 和 update-alternatives --display editor 只观察默认编辑器链，不改变选择。crontab -e 则不同：即使只是临时指定 Vim，保存退出后任务表会被安装，必须先只读核对并明确保存语义。"
 
 [syntax]
 basic = "view 文件（vim -R 文件）；vim -h|--version；只读查询 editor 链；受控使用 crontab -e"
+
 [[syntax.parts]]
 name = "只读入口"
 desc = "view 或 vim -R 表达查看意图并减少误写；-R 是大写，且不构成权限隔离"
+
 [[syntax.parts]]
 name = "交换文件"
 desc = "提示可能来自活跃编辑会话或异常退出；先确认进程、文件路径、主机和时间"
+
 [[syntax.parts]]
 name = "恢复缓冲区"
 desc = "恢复先把内容带回 Vim 缓冲区，不自动覆盖原文件；应比较后决定保存或另存"
+
 [[syntax.parts]]
 name = "编辑器选择"
 desc = "readlink/update-alternatives --display 只查询系统默认入口；VISUAL/EDITOR 可仅为单次命令临时覆盖"

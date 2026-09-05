@@ -1,0 +1,342 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "区分宿主端口、容器端口与 Compose 内部 DNS，先检查网络再修改。"
+
+[meta.topic]
+id = "v04_docker_net"
+title = "Docker 网络、映射与服务名"
+icon = "🌐"
+order = 122
+
+[[commands]]
+id = "v04-docker_net-0018bd62cc"
+command = "docker network ls"
+summary = "列出 Docker 网络驱动和名称"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " network"
+desc = "列出 Docker 网络驱动和名称；指定 network"
+
+[[commands.tokens]]
+text = " ls"
+desc = "列出 Docker 网络驱动和名称；指定 ls"
+
+[commands.dictation]
+prompt = "列出 Docker 网络驱动和名称"
+answers = ["docker network ls"]
+
+[[commands]]
+id = "v04-docker_net-bf7c1bb21e"
+command = "docker network inspect bridge"
+summary = "查看默认 bridge 网络的子网、网关与端点"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " network"
+desc = "查看默认 bridge 网络的子网、网关与端点；指定 network"
+
+[[commands.tokens]]
+text = " inspect"
+desc = "查看默认 bridge 网络的子网、网关与端点；指定 inspect"
+
+[[commands.tokens]]
+text = " bridge"
+desc = "查看默认 bridge 网络的子网、网关与端点；指定 bridge"
+
+[commands.dictation]
+prompt = "查看默认 bridge 网络的子网、网关与端点"
+answers = ["docker network inspect bridge"]
+
+[[commands]]
+id = "v04-docker_net-38e737ea5a"
+command = "docker network inspect web_default"
+summary = "检查实验 Compose 网络内的容器和地址"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " network"
+desc = "检查实验 Compose 网络内的容器和地址；指定 network"
+
+[[commands.tokens]]
+text = " inspect"
+desc = "检查实验 Compose 网络内的容器和地址；指定 inspect"
+
+[[commands.tokens]]
+text = " web_default"
+desc = "检查实验 Compose 网络内的容器和地址；指定 web_default"
+
+[commands.dictation]
+prompt = "检查实验 Compose 网络内的容器和地址"
+answers = ["docker network inspect web_default"]
+
+[[commands]]
+id = "v04-docker_net-d2d690d9db"
+command = "docker inspect web --format '{{json .NetworkSettings.Networks}}'"
+summary = "读取实验 web 容器连接的网络"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " inspect"
+desc = "读取实验 web 容器连接的网络；指定 inspect"
+
+[[commands.tokens]]
+text = " web"
+desc = "读取实验 web 容器连接的网络；指定 web"
+
+[[commands.tokens]]
+text = " --format"
+desc = "读取实验 web 容器连接的网络；此处使用 --format 选项"
+
+[[commands.tokens]]
+text = " '{{json .NetworkSettings.Networks}}'"
+desc = "引号保护此参数中的空格或特殊符号；读取实验 web 容器连接的网络"
+
+[commands.dictation]
+prompt = "读取实验 web 容器连接的网络"
+answers = ["docker inspect web --format '{{json .NetworkSettings.Networks}}'"]
+
+[[commands]]
+id = "v04-docker_net-2e1a64e430"
+command = "docker port web"
+summary = "查看实验 web 容器发布到宿主的端口"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " port"
+desc = "查看实验 web 容器发布到宿主的端口；指定 port"
+
+[[commands.tokens]]
+text = " web"
+desc = "查看实验 web 容器发布到宿主的端口；指定 web"
+
+[commands.dictation]
+prompt = "查看实验 web 容器发布到宿主的端口"
+answers = ["docker port web"]
+
+[[commands]]
+id = "v04-docker_net-237ff107b2"
+command = "docker port web 80/tcp"
+summary = "只核对容器 HTTP 80 的宿主映射"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " port"
+desc = "只核对容器 HTTP 80 的宿主映射；指定 port"
+
+[[commands.tokens]]
+text = " web"
+desc = "只核对容器 HTTP 80 的宿主映射；指定 web"
+
+[[commands.tokens]]
+text = " 80/tcp"
+desc = "只核对容器 HTTP 80 的宿主映射；指定 80/tcp"
+
+[commands.dictation]
+prompt = "只核对容器 HTTP 80 的宿主映射"
+answers = ["docker port web 80/tcp"]
+
+[[commands]]
+id = "v04-docker_net-e811fd61af"
+command = "docker compose ps --all"
+summary = "查看包含退出实例的 Compose 服务状态"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "查看包含退出实例的 Compose 服务状态；指定 compose"
+
+[[commands.tokens]]
+text = " ps"
+desc = "查看包含退出实例的 Compose 服务状态；指定 ps"
+
+[[commands.tokens]]
+text = " --all"
+desc = "查看包含退出实例的 Compose 服务状态；此处使用 --all 选项"
+
+[commands.dictation]
+prompt = "查看包含退出实例的 Compose 服务状态"
+answers = ["docker compose ps --all"]
+
+[[commands]]
+id = "v04-docker_net-b1196ab547"
+command = "docker compose config --services"
+summary = "列出解析后的 Compose 服务名，避免容器名与服务名混淆"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "列出解析后的 Compose 服务名，避免容器名与服务名混淆；指定 compose"
+
+[[commands.tokens]]
+text = " config"
+desc = "列出解析后的 Compose 服务名，避免容器名与服务名混淆；指定 config"
+
+[[commands.tokens]]
+text = " --services"
+desc = "列出解析后的 Compose 服务名，避免容器名与服务名混淆；此处使用 --services 选项"
+
+[commands.dictation]
+prompt = "列出解析后的 Compose 服务名，避免容器名与服务名混淆"
+answers = ["docker compose config --services"]
+
+[[commands]]
+id = "v04-docker_net-27aaba2612"
+command = "docker compose exec backend getent hosts db"
+summary = "从后端容器验证 Compose 数据库服务名解析；镜像需有 getent"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "从后端容器验证 Compose 数据库服务名解析；镜像需有 getent；指定 compose"
+
+[[commands.tokens]]
+text = " exec"
+desc = "从后端容器验证 Compose 数据库服务名解析；镜像需有 getent；指定 exec"
+
+[[commands.tokens]]
+text = " backend"
+desc = "从后端容器验证 Compose 数据库服务名解析；镜像需有 getent；指定 backend"
+
+[[commands.tokens]]
+text = " getent"
+desc = "从后端容器验证 Compose 数据库服务名解析；镜像需有 getent；指定 getent"
+
+[[commands.tokens]]
+text = " hosts"
+desc = "从后端容器验证 Compose 数据库服务名解析；镜像需有 getent；指定 hosts"
+
+[[commands.tokens]]
+text = " db"
+desc = "从后端容器验证 Compose 数据库服务名解析；镜像需有 getent；指定 db"
+
+[commands.dictation]
+prompt = "从后端容器验证 Compose 数据库服务名解析；镜像需有 getent"
+answers = ["docker compose exec backend getent hosts db"]
+
+[[commands]]
+id = "v04-docker_net-49ac0c0f60"
+command = "docker compose exec backend python3 -c 'import socket; print(socket.gethostbyname(\"db\"))'"
+summary = "在 Python 后端容器中用标准库验证数据库 DNS"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "在 Python 后端容器中用标准库验证数据库 DNS；指定 compose"
+
+[[commands.tokens]]
+text = " exec"
+desc = "在 Python 后端容器中用标准库验证数据库 DNS；指定 exec"
+
+[[commands.tokens]]
+text = " backend"
+desc = "在 Python 后端容器中用标准库验证数据库 DNS；指定 backend"
+
+[[commands.tokens]]
+text = " python3"
+desc = "在 Python 后端容器中用标准库验证数据库 DNS；指定 python3"
+
+[[commands.tokens]]
+text = " -c"
+desc = "在 Python 后端容器中用标准库验证数据库 DNS；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 'import socket; print(socket.gethostbyname(\"db\"))'"
+desc = "引号保护此参数中的空格或特殊符号；在 Python 后端容器中用标准库验证数据库 DNS"
+
+[commands.dictation]
+prompt = "在 Python 后端容器中用标准库验证数据库 DNS"
+answers = ["docker compose exec backend python3 -c 'import socket; print(socket.gethostbyname(\"db\"))'"]
+
+[[commands]]
+id = "v04-docker_net-9b54eb5bcc"
+command = "docker compose logs --tail 30 backend"
+summary = "读取后端近期日志，寻找 DNS 或连接报错"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "读取后端近期日志，寻找 DNS 或连接报错；指定 compose"
+
+[[commands.tokens]]
+text = " logs"
+desc = "读取后端近期日志，寻找 DNS 或连接报错；指定 logs"
+
+[[commands.tokens]]
+text = " --tail"
+desc = "读取后端近期日志，寻找 DNS 或连接报错；此处使用 --tail 选项"
+
+[[commands.tokens]]
+text = " 30"
+desc = "本次练习的数值参数 30；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " backend"
+desc = "读取后端近期日志，寻找 DNS 或连接报错；指定 backend"
+
+[commands.dictation]
+prompt = "读取后端近期日志，寻找 DNS 或连接报错"
+answers = ["docker compose logs --tail 30 backend"]
+
+[[commands]]
+id = "v04-docker_net-caf228a4cb"
+command = "docker inspect web --format '{{json .HostConfig.PortBindings}}'"
+summary = "核对容器创建时配置的端口映射"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " inspect"
+desc = "核对容器创建时配置的端口映射；指定 inspect"
+
+[[commands.tokens]]
+text = " web"
+desc = "核对容器创建时配置的端口映射；指定 web"
+
+[[commands.tokens]]
+text = " --format"
+desc = "核对容器创建时配置的端口映射；此处使用 --format 选项"
+
+[[commands.tokens]]
+text = " '{{json .HostConfig.PortBindings}}'"
+desc = "引号保护此参数中的空格或特殊符号；核对容器创建时配置的端口映射"
+
+[commands.dictation]
+prompt = "核对容器创建时配置的端口映射"
+answers = ["docker inspect web --format '{{json .HostConfig.PortBindings}}'"]

@@ -1,0 +1,134 @@
+id = "systemd_restart"
+title = "systemd 反复重启：修复缺失配置"
+category = "系统服务"
+difficulty = "basic"
+background = "orders-api.service 不断退出，最后显示 start-limit-hit。部署时遗漏了 /etc/orders/api.env，模板文件可用于恢复必要配置。"
+objective = "解释退出状态、检查 unit 与 EnvironmentFile，恢复配置后清除限流并验证。"
+environment = "Ubuntu 24.04 LTS 教学主机 web-01（192.0.2.10），客户端 ops-01（192.0.2.50），网关 192.0.2.1。文档保留地址与 example.test 域名只用于模拟；每例独立还原起始状态，全部输出预置。"
+recap = "start-limit-hit 是结果；journalctl 找最早原因，systemctl cat 看生效 unit。恢复必需配置后解除限流，按是否修改 unit 决定 daemon-reload。"
+sources = ["https://www.freedesktop.org/software/systemd/man/255/journalctl.html", "https://github.com/systemd/systemd/blob/v255/man/systemd.exec.xml"]
+
+[[steps]]
+title = "查看服务失败状态"
+output = "Active: failed (Result: start-limit-hit)\nStart request repeated too quickly"
+explanation = "start-limit-hit 是连续失败后的保护结果，真正原因需要查更早日志。"
+instruction = "请跟打，查看服务失败状态。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_01"
+command_id = "shared-2706a13e8b69846d"
+
+[[steps]]
+title = "读取服务错误日志"
+output = "Failed to load environment files: No such file or directory\nFailed to run start task: No such file or directory"
+explanation = "首次错误明确指出环境文件不存在。"
+instruction = "请跟打，读取服务错误日志。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_02"
+command_id = "shared-ac3dddfb05731fe6"
+
+[steps.decision]
+question = "应该优先修复什么？"
+
+[[steps.decision.choices]]
+text = "提高无限重试次数"
+correct = false
+feedback = "重试策略不能凭空产生所需配置文件。"
+
+[[steps.decision.choices]]
+text = "确认 EnvironmentFile 路径并恢复配置"
+correct = true
+feedback = "对，先解决文件缺失，再解除失败限流。"
+
+[[steps]]
+title = "查看完整服务定义"
+output = "[Service]\nUser=orders\nEnvironmentFile=/etc/orders/api.env\nExecStart=/opt/orders/venv/bin/uvicorn app:app --host 127.0.0.1 --port 8000\nRestart=on-failure"
+explanation = "EnvironmentFile 未使用可选的减号前缀，缺失会阻止启动；本例应该补齐而非取消配置要求。"
+instruction = "请跟打，查看完整服务定义。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_03"
+command_id = "shared-9634992afe98ee03"
+
+[[steps]]
+title = "确认文件确实缺失"
+output = "ls: cannot access /etc/orders/api.env: No such file or directory"
+explanation = "目录存在，但发布漏掉单个文件。"
+instruction = "请跟打，确认文件确实缺失。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_04"
+command_id = "shared-0cf01edc570abaf8"
+
+[[steps]]
+title = "安装受限权限配置模板"
+output = "[模拟：配置文件已安装]"
+explanation = "课程模板仅含 HOST=127.0.0.1、PORT=8000、DATABASE_HOST=db.internal，不含真实口令。"
+instruction = "请跟打，安装受限权限配置模板。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_05"
+command_id = "shared-2dc4e99db138e7eb"
+
+[[steps]]
+title = "查看应用必需变量"
+output = "HOST=127.0.0.1\nPORT=8000\nDATABASE_HOST=db.internal"
+explanation = "依据部署环境核对目标数据库，不能直接把生产机指向教学示例域名。"
+instruction = "请跟打，查看应用必需变量。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_06"
+command_id = "shared-32641cc16262b0fd"
+
+[[steps]]
+title = "检查 unit 定义有效性"
+output = "[退出状态 0：unit 定义有效]"
+explanation = "本次仅恢复 EnvironmentFile，没有修改 unit 文件。"
+instruction = "请跟打，检查 unit 定义有效性。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_07"
+command_id = "shared-5263aac8c0aea9b9"
+
+[steps.decision]
+question = "重启前为什么还要 reset-failed？"
+
+[[steps.decision.choices]]
+text = "清除启动频率限制和失败状态"
+correct = true
+feedback = "对，解决原因后需要允许新的启动尝试。"
+
+[[steps.decision.choices]]
+text = "为了修改应用代码"
+correct = false
+feedback = "reset-failed 只操作管理器状态，不会编辑应用代码。"
+
+[[steps]]
+title = "清除失败限流"
+output = "[模拟：失败状态已重置]"
+explanation = "若修改过 unit 本身，应先 daemon-reload；本例单改环境文件不需要。"
+instruction = "请跟打，清除失败限流。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_08"
+command_id = "shared-67ccfcf145e4682b"
+
+[[steps]]
+title = "启动服务"
+output = "[模拟：orders-api 已启动]"
+explanation = "如果再次失败，读取新的首次错误，不应无限循环重试。"
+instruction = "请跟打，启动服务。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_09"
+command_id = "shared-deae82e6426b7b2e"
+
+[[steps]]
+title = "检查服务已稳定启动"
+output = "ActiveState=active\nNRestarts=0"
+explanation = "新一轮启动尚未出现自动重启；还要观察一个业务周期并检查健康接口。"
+instruction = "请跟打，检查服务已稳定启动。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_10"
+command_id = "shared-c8ebe8c039db9504"
+
+[[steps]]
+title = "验证应用响应"
+output = "{\"status\":\"ok\"}"
+explanation = "服务状态加业务响应同时验证修复。"
+instruction = "请跟打，验证应用响应。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_11"
+command_id = "shared-e2281a98a4b26251"

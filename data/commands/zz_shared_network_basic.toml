@@ -1,0 +1,271 @@
+
+[meta]
+category = "network"
+difficulty = "basic"
+description = "跨模块共用的规范命令（由内容归一化维护）"
+
+[[commands]]
+id = "shared-0337555b0ebe630f"
+command = "curl -s https://api.github.com/users/torvalds | jq '.name, .bio'"
+summary = "获取 GitHub 用户信息并用 jq 提取字段"
+simulated_output = "\"Linus Torvalds\"\nnull"
+
+[[commands.tokens]]
+text = "curl -s https://api.github.com/users/torvalds | jq '.name, .bio'"
+desc = "获取 GitHub 用户信息并用 jq 提取字段"
+
+[commands.dictation]
+prompt = "获取 GitHub 用户信息并用 jq 提取字段"
+answers = ["curl -s https://api.github.com/users/torvalds | jq '.name, .bio'"]
+
+[[commands]]
+id = "shared-7431b7d856e801bd"
+command = "curl -X POST -H 'Content-Type: application/json' -d '{\"username\":\"alice\",\"email\":\"alice@example.com\"}' https://api.example.com/users"
+summary = "发送 JSON 格式的 POST 请求创建用户"
+simulated_output = "{\"id\":42,\"username\":\"alice\",\"email\":\"alice@example.com\",\"created_at\":\"2026-03-09T14:30:00Z\"}"
+
+[[commands.tokens]]
+text = "curl -X POST -H 'Content-Type: application/json' -d '{\"username\":\"alice\",\"email\":\"alice@example.com\"}' https://api.example.com/users"
+desc = "发送 JSON 格式的 POST 请求创建用户"
+
+[commands.dictation]
+prompt = "发送 JSON 格式的 POST 请求创建用户"
+answers = ["curl -X POST -H 'Content-Type: application/json' -d '{\"username\":\"alice\",\"email\":\"alice@example.com\"}' https://api.example.com/users"]
+
+[[commands]]
+id = "shared-4867e341a52530cb"
+command = "curl -v -u admin:secret https://api.example.com/admin/stats"
+summary = "使用 Basic Auth 认证访问受保护的 API"
+simulated_output = "*   Trying 93.184.216.34:443...\n* Connected to api.example.com port 443\n> GET /admin/stats HTTP/2\n> Host: api.example.com\n> Authorization: Basic YWRtaW46c2VjcmV0\n> User-Agent: curl/8.5.0\n> Accept: */*\n>\n< HTTP/2 200\n< content-type: application/json\n< date: Mon, 09 Mar 2026 14:30:00 GMT\n<\n{\"users\":1234,\"active_today\":567,\"requests_per_minute\":89}"
+
+[[commands.tokens]]
+text = "curl -v -u admin:secret https://api.example.com/admin/stats"
+desc = "使用 Basic Auth 认证访问受保护的 API"
+
+[commands.dictation]
+prompt = "使用 Basic Auth 认证访问受保护的 API"
+answers = ["curl -v -u admin:secret https://api.example.com/admin/stats"]
+
+[[commands]]
+id = "shared-5ce3128f10ffd215"
+command = "curl -s -w '\\nHTTP_CODE: %{http_code}\\nTIME_TOTAL: %{time_total}s\\nSIZE: %{size_download} bytes\\n' -o /dev/null https://example.com"
+summary = "测量网站的响应时间和状态码"
+simulated_output = "HTTP_CODE: 200\nTIME_TOTAL: 0.234s\nSIZE: 1256 bytes"
+
+[[commands.tokens]]
+text = "curl -s -w '\\nHTTP_CODE: %{http_code}\\nTIME_TOTAL: %{time_total}s\\nSIZE: %{size_download} bytes\\n' -o /dev/null https://example.com"
+desc = "测量网站的响应时间和状态码"
+
+[commands.dictation]
+prompt = "测量网站的响应时间和状态码"
+answers = ["curl -s -w '\\nHTTP_CODE: %{http_code}\\nTIME_TOTAL: %{time_total}s\\nSIZE: %{size_download} bytes\\n' -o /dev/null https://example.com"]
+
+[[commands]]
+id = "shared-69c605eb64cc6213"
+command = "ip neigh show"
+summary = "查看 ARP 邻居表（局域网设备）"
+simulated_output = "192.168.1.1 dev ens33 lladdr e4:f0:42:a1:b2:c3 REACHABLE\n192.168.1.105 dev ens33 lladdr 08:00:27:d4:e5:f6 STALE\n192.168.1.110 dev ens33 lladdr 5c:e0:c5:12:34:56 REACHABLE"
+
+[[commands.tokens]]
+text = "ip neigh show"
+desc = "查看 ARP 邻居表（局域网设备）"
+
+[commands.dictation]
+prompt = "查看 ARP 邻居表（局域网设备）"
+answers = ["ip neigh show"]
+
+[[commands]]
+id = "shared-05e0381a6c29d310"
+command = "sudo ip addr add 192.168.1.200/24 dev ens33"
+summary = "为 ens33 网卡添加一个额外的 IP 地址"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "sudo ip addr add 192.168.1.200/24 dev ens33"
+desc = "为 ens33 网卡添加一个额外的 IP 地址"
+
+[commands.dictation]
+prompt = "为 ens33 网卡添加一个额外的 IP 地址"
+answers = ["sudo ip addr add 192.168.1.200/24 dev ens33"]
+
+[[commands]]
+id = "shared-02481f37989ae2f7"
+command = "ssh -i ~/.ssh/id_ed25519 deploy@10.0.0.5"
+summary = "使用指定私钥文件登录"
+simulated_output = "Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)\n\nLast login: Mon Mar  9 08:15:30 2026 from 10.0.0.1\ndeploy@prod-web-01:~$"
+
+[[commands.tokens]]
+text = "ssh -i ~/.ssh/id_ed25519 deploy@10.0.0.5"
+desc = "使用指定私钥文件登录"
+
+[commands.dictation]
+prompt = "使用指定私钥文件登录"
+answers = ["ssh -i ~/.ssh/id_ed25519 deploy@10.0.0.5"]
+
+[[commands]]
+id = "shared-2c18fc063bc17b54"
+command = "ssh -p 2222 admin@192.168.1.200"
+summary = "连接非标准端口的 SSH 服务"
+simulated_output = "admin@192.168.1.200's password:\nWelcome to Debian GNU/Linux 12 (bookworm)\n\nLast login: Sat Mar  7 22:10:05 2026 from 192.168.1.50\nadmin@firewall:~$"
+
+[[commands.tokens]]
+text = "ssh -p 2222 admin@192.168.1.200"
+desc = "连接非标准端口的 SSH 服务"
+
+[commands.dictation]
+prompt = "连接非标准端口的 SSH 服务"
+answers = ["ssh -p 2222 admin@192.168.1.200"]
+
+[[commands]]
+id = "shared-f9861bfcebcc4252"
+command = "ssh user@server uptime"
+summary = "远程执行单条命令后自动断开"
+simulated_output = " 14:23:45 up 127 days,  3:42,  2 users,  load average: 0.15, 0.10, 0.08"
+
+[[commands.tokens]]
+text = "ssh user@server uptime"
+desc = "远程执行单条命令后自动断开"
+
+[commands.dictation]
+prompt = "远程执行单条命令后自动断开"
+answers = ["ssh user@server uptime"]
+
+[[commands]]
+id = "shared-346b77862446f1f8"
+command = "ssh -L 8080:localhost:80 user@webserver"
+summary = "本地端口转发 —— 通过 SSH 隧道访问远程 Web 服务"
+simulated_output = "user@webserver's password:\nWelcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)\n\nLast login: Mon Mar  9 09:00:12 2026 from 192.168.1.50\nuser@webserver:~$\n# 现在访问本地 http://localhost:8080 即可安全访问远程 80 端口"
+
+[[commands.tokens]]
+text = "ssh -L 8080:localhost:80 user@webserver"
+desc = "本地端口转发 —— 通过 SSH 隧道访问远程 Web 服务"
+
+[commands.dictation]
+prompt = "本地端口转发 —— 通过 SSH 隧道访问远程 Web 服务"
+answers = ["ssh -L 8080:localhost:80 user@webserver"]
+
+[[commands]]
+id = "shared-ec2926776c0cf81a"
+command = "ssh -N -L 5433:db-internal:5432 user@jumphost"
+summary = "通过跳板机建立到内网数据库的隧道"
+simulated_output = "# 终端无输出（-N 不开启 shell），隧道已建立\n# 现在可以用 psql -h localhost -p 5433 连接内网数据库"
+
+[[commands.tokens]]
+text = "ssh -N -L 5433:db-internal:5432 user@jumphost"
+desc = "通过跳板机建立到内网数据库的隧道"
+
+[commands.dictation]
+prompt = "通过跳板机建立到内网数据库的隧道"
+answers = ["ssh -N -L 5433:db-internal:5432 user@jumphost"]
+
+[[commands]]
+id = "shared-e43ce3186cd61450"
+command = "ssh -v user@192.168.1.100"
+summary = "开启调试模式排查连接问题"
+simulated_output = "OpenSSH_9.6p1 Ubuntu-3ubuntu1, OpenSSL 3.0.13 30 Jan 2024\ndebug1: Reading configuration data /home/user/.ssh/config\ndebug1: Reading configuration data /etc/ssh/ssh_config\ndebug1: Connecting to 192.168.1.100 [192.168.1.100] port 22.\ndebug1: Connection established.\ndebug1: identity file /home/user/.ssh/id_ed25519 type 3\ndebug1: Local version string SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu1\ndebug1: Remote protocol version 2.0, remote software version OpenSSH_8.9p1\ndebug1: Authenticating to 192.168.1.100:22 as 'user'\ndebug1: SSH2_MSG_KEX_ECDH_INIT sent\ndebug1: expecting SSH2_MSG_KEX_ECDH_REPLY\ndebug1: Server host key: ssh-ed25519 SHA256:AbCdEfGhIjKlMnOpQrStUvWxYz\ndebug1: Host '192.168.1.100' is known and matches the ED25519 host key.\ndebug1: Found key in /home/user/.ssh/known_hosts:5\ndebug1: Authentication succeeded (publickey).\nAuthenticated to 192.168.1.100 ([192.168.1.100]:22) using \"publickey\".\nuser@server:~$"
+
+[[commands.tokens]]
+text = "ssh -v user@192.168.1.100"
+desc = "开启调试模式排查连接问题"
+
+[commands.dictation]
+prompt = "开启调试模式排查连接问题"
+answers = ["ssh -v user@192.168.1.100"]
+
+[[commands]]
+id = "shared-893f7384bb26d769"
+command = "ssh-keygen -t ed25519 -C \"user@workstation\""
+summary = "生成 Ed25519 密钥对（推荐算法）"
+simulated_output = "Generating public/private ed25519 key pair.\nEnter file in which to save the key (/home/user/.ssh/id_ed25519):\nEnter passphrase (empty for no passphrase):\nEnter same passphrase again:\nYour identification has been saved in /home/user/.ssh/id_ed25519\nYour public key has been saved in /home/user/.ssh/id_ed25519.pub\nThe key fingerprint is:\nSHA256:xK9m3pQrStUvWxYz1234567890AbCdEfGhIjKlMnOp user@workstation\nThe key's randomart image is:\n+--[ED25519 256]--+\n|        .oo=+o   |\n|       . o.=.+   |\n|      . + o =    |\n|     . = + . .   |\n|    . = S .   .  |\n|   . + = o     . |\n|    + + + .   .  |\n|   . = . o  E  . |\n|    +.o.. .o .o. |\n+----[SHA256]-----+"
+
+[[commands.tokens]]
+text = "ssh-keygen -t ed25519 -C \"user@workstation\""
+desc = "生成 Ed25519 密钥对（推荐算法）"
+
+[commands.dictation]
+prompt = "生成 Ed25519 密钥对（推荐算法）"
+answers = ["ssh-keygen -t ed25519 -C \"user@workstation\""]
+
+[[commands]]
+id = "shared-e079343f5faaf4af"
+command = "ssh-copy-id -i ~/.ssh/id_ed25519.pub user@192.168.1.100"
+summary = "将公钥复制到远程服务器，实现免密码登录"
+simulated_output = "/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: \"/home/user/.ssh/id_ed25519.pub\"\n/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed\n/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys\nuser@192.168.1.100's password:\n\nNumber of key(s) added: 1\n\nNow try logging into the machine, with:   \"ssh 'user@192.168.1.100'\"\nand check to make sure that only the key(s) you wanted were added."
+
+[[commands.tokens]]
+text = "ssh-copy-id -i ~/.ssh/id_ed25519.pub user@192.168.1.100"
+desc = "将公钥复制到远程服务器，实现免密码登录"
+
+[commands.dictation]
+prompt = "将公钥复制到远程服务器，实现免密码登录"
+answers = ["ssh-copy-id -i ~/.ssh/id_ed25519.pub user@192.168.1.100"]
+
+[[commands]]
+id = "shared-27bba3f08e46ddf0"
+command = "ssh -R 8080:localhost:3000 user@public-server"
+summary = "远程端口转发 —— 将内网开发服务器暴露到公网"
+simulated_output = "Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)\n\nLast login: Mon Mar  9 11:45:00 2026 from 203.0.113.10\nuser@public-server:~$\n# 外部用户访问 public-server:8080 即可到达你本地的 localhost:3000"
+
+[[commands.tokens]]
+text = "ssh -R 8080:localhost:3000 user@public-server"
+desc = "远程端口转发 —— 将内网开发服务器暴露到公网"
+
+[commands.dictation]
+prompt = "远程端口转发 —— 将内网开发服务器暴露到公网"
+answers = ["ssh -R 8080:localhost:3000 user@public-server"]
+
+[[commands]]
+id = "shared-a1d3b3f3c1765ac4"
+command = "wget -O go1.22.tar.gz https://go.dev/dl/go1.22.linux-amd64.tar.gz"
+summary = "下载文件并指定保存文件名"
+simulated_output = "--2026-03-09 14:31:05--  https://go.dev/dl/go1.22.linux-amd64.tar.gz\nResolving go.dev (go.dev)... 216.239.38.21\nConnecting to go.dev (go.dev)|216.239.38.21|:443... connected.\nHTTP request sent, awaiting response... 200 OK\nLength: 68182016 (65M) [application/octet-stream]\nSaving to: 'go1.22.tar.gz'\n\ngo1.22.tar.gz       100%[===================>]  65.03M  12.5MB/s    in 5.2s\n\n2026-03-09 14:31:10 (12.5 MB/s) - 'go1.22.tar.gz' saved [68182016/68182016]"
+
+[[commands.tokens]]
+text = "wget -O go1.22.tar.gz https://go.dev/dl/go1.22.linux-amd64.tar.gz"
+desc = "下载文件并指定保存文件名"
+
+[commands.dictation]
+prompt = "下载文件并指定保存文件名"
+answers = ["wget -O go1.22.tar.gz https://go.dev/dl/go1.22.linux-amd64.tar.gz"]
+
+[[commands]]
+id = "shared-2ba58c3290894fd6"
+command = "wget -c https://releases.ubuntu.com/24.04/ubuntu-24.04-live-server-amd64.iso"
+summary = "断点续传下载大文件（Ubuntu ISO）"
+simulated_output = "--2026-03-09 14:32:00--  https://releases.ubuntu.com/24.04/ubuntu-24.04-live-server-amd64.iso\nResolving releases.ubuntu.com (releases.ubuntu.com)... 91.189.91.124\nConnecting to releases.ubuntu.com|91.189.91.124|:443... connected.\nHTTP request sent, awaiting response... 206 Partial Content\nLength: 2695168000 (2.5G), 1347584000 (1.3G) remaining [application/x-iso9660-image]\nSaving to: 'ubuntu-24.04-live-server-amd64.iso'\n\nubuntu-24.04-live-  75%[+++++++++======>    ]   1.88G  5.24MB/s    eta 2m 15s"
+
+[[commands.tokens]]
+text = "wget -c https://releases.ubuntu.com/24.04/ubuntu-24.04-live-server-amd64.iso"
+desc = "断点续传下载大文件（Ubuntu ISO）"
+
+[commands.dictation]
+prompt = "断点续传下载大文件（Ubuntu ISO）"
+answers = ["wget -c https://releases.ubuntu.com/24.04/ubuntu-24.04-live-server-amd64.iso"]
+
+[[commands]]
+id = "shared-3c09f6d504affb41"
+command = "wget -q -O - https://api.github.com/zen"
+summary = "将下载内容输出到标准输出（类似 curl）"
+simulated_output = "Responsive is better than fast."
+
+[[commands.tokens]]
+text = "wget -q -O - https://api.github.com/zen"
+desc = "将下载内容输出到标准输出（类似 curl）"
+
+[commands.dictation]
+prompt = "将下载内容输出到标准输出（类似 curl）"
+answers = ["wget -q -O - https://api.github.com/zen"]
+
+[[commands]]
+id = "shared-2bd51528cdbd4233"
+command = "wget --mirror --convert-links --adjust-extension --page-requisites --no-parent https://docs.example.com/"
+summary = "镜像下载整个文档网站供离线浏览"
+simulated_output = "--2026-03-09 14:35:00--  https://docs.example.com/\nResolving docs.example.com... 93.184.216.34\nConnecting to docs.example.com|93.184.216.34|:443... connected.\nHTTP request sent, awaiting response... 200 OK\nLength: 12456 (12K) [text/html]\nSaving to: 'docs.example.com/index.html'\n\nFINISHED --2026-03-09 14:35:45--\nTotal wall clock time: 45s\nDownloaded: 87 files, 4.2M in 12s (358 KB/s)"
+
+[[commands.tokens]]
+text = "wget --mirror --convert-links --adjust-extension --page-requisites --no-parent https://docs.example.com/"
+desc = "镜像下载整个文档网站供离线浏览"
+
+[commands.dictation]
+prompt = "镜像下载整个文档网站供离线浏览"
+answers = ["wget --mirror --convert-links --adjust-extension --page-requisites --no-parent https://docs.example.com/"]

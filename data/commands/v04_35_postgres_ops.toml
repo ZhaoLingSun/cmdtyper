@@ -1,0 +1,503 @@
+[meta]
+category = "system"
+difficulty = "basic"
+description = "示例连接使用本地认证和 appdb 实验库；真实修改应在事务内先确认条件、影响行数与回滚。"
+
+[meta.topic]
+id = "v04_postgres_ops"
+title = "PostgreSQL 查询与事务演练"
+icon = "🧰"
+order = 135
+
+[[commands]]
+id = "v04-postgres_ops-a8545ed102"
+command = "psql -d appdb -c '\\conninfo'"
+summary = "显示当前实验数据库连接信息"
+
+[[commands.tokens]]
+text = "psql"
+desc = "连接 PostgreSQL 并执行指定查询或元命令"
+
+[[commands.tokens]]
+text = " -d"
+desc = "指定连接的数据库"
+
+[[commands.tokens]]
+text = " appdb"
+desc = "显示当前实验数据库连接信息；指定 appdb"
+
+[[commands.tokens]]
+text = " -c"
+desc = "在同一连接执行给定 SQL 或 psql 元命令"
+
+[[commands.tokens]]
+text = " '\\conninfo'"
+desc = "引号保护此参数中的空格或特殊符号；显示当前实验数据库连接信息"
+
+[commands.dictation]
+prompt = "显示当前实验数据库连接信息"
+answers = ["psql -d appdb -c '\\conninfo'"]
+
+[[commands]]
+id = "v04-postgres_ops-bb1ab1a3df"
+command = "psql -d appdb -c '\\dt'"
+summary = "列出当前搜索路径可见的表"
+
+[[commands.tokens]]
+text = "psql"
+desc = "连接 PostgreSQL 并执行指定查询或元命令"
+
+[[commands.tokens]]
+text = " -d"
+desc = "指定连接的数据库"
+
+[[commands.tokens]]
+text = " appdb"
+desc = "列出当前搜索路径可见的表；指定 appdb"
+
+[[commands.tokens]]
+text = " -c"
+desc = "在同一连接执行给定 SQL 或 psql 元命令"
+
+[[commands.tokens]]
+text = " '\\dt'"
+desc = "引号保护此参数中的空格或特殊符号；列出当前搜索路径可见的表"
+
+[commands.dictation]
+prompt = "列出当前搜索路径可见的表"
+answers = ["psql -d appdb -c '\\dt'"]
+
+[[commands]]
+id = "v04-postgres_ops-039e9b1231"
+command = "psql -d appdb -c '\\d users'"
+summary = "查看实验 users 表结构和约束"
+
+[[commands.tokens]]
+text = "psql"
+desc = "连接 PostgreSQL 并执行指定查询或元命令"
+
+[[commands.tokens]]
+text = " -d"
+desc = "指定连接的数据库"
+
+[[commands.tokens]]
+text = " appdb"
+desc = "查看实验 users 表结构和约束；指定 appdb"
+
+[[commands.tokens]]
+text = " -c"
+desc = "在同一连接执行给定 SQL 或 psql 元命令"
+
+[[commands.tokens]]
+text = " '\\d users'"
+desc = "引号保护此参数中的空格或特殊符号；查看实验 users 表结构和约束"
+
+[commands.dictation]
+prompt = "查看实验 users 表结构和约束"
+answers = ["psql -d appdb -c '\\d users'"]
+
+[[commands]]
+id = "v04-postgres_ops-49299c09f0"
+command = "psql -d appdb -c 'SELECT current_database(), current_user;'"
+summary = "确认库名与账号，避免在错误环境执行后续操作"
+
+[[commands.tokens]]
+text = "psql"
+desc = "连接 PostgreSQL 并执行指定查询或元命令"
+
+[[commands.tokens]]
+text = " -d"
+desc = "指定连接的数据库"
+
+[[commands.tokens]]
+text = " appdb"
+desc = "确认库名与账号，避免在错误环境执行后续操作；指定 appdb"
+
+[[commands.tokens]]
+text = " -c"
+desc = "在同一连接执行给定 SQL 或 psql 元命令"
+
+[[commands.tokens]]
+text = " 'SELECT current_database(), current_user;'"
+desc = "引号保护此参数中的空格或特殊符号；确认库名与账号，避免在错误环境执行后续操作"
+
+[commands.dictation]
+prompt = "确认库名与账号，避免在错误环境执行后续操作"
+answers = ["psql -d appdb -c 'SELECT current_database(), current_user;'"]
+
+[[commands]]
+id = "v04-postgres_ops-90f68ea17a"
+command = "psql -d appdb -c 'SELECT now();'"
+summary = "读取数据库服务器当前事务时间"
+
+[[commands.tokens]]
+text = "psql"
+desc = "连接 PostgreSQL 并执行指定查询或元命令"
+
+[[commands.tokens]]
+text = " -d"
+desc = "指定连接的数据库"
+
+[[commands.tokens]]
+text = " appdb"
+desc = "读取数据库服务器当前事务时间；指定 appdb"
+
+[[commands.tokens]]
+text = " -c"
+desc = "在同一连接执行给定 SQL 或 psql 元命令"
+
+[[commands.tokens]]
+text = " 'SELECT now();'"
+desc = "引号保护此参数中的空格或特殊符号；读取数据库服务器当前事务时间"
+
+[commands.dictation]
+prompt = "读取数据库服务器当前事务时间"
+answers = ["psql -d appdb -c 'SELECT now();'"]
+
+[[commands]]
+id = "v04-postgres_ops-9149c5c880"
+command = "psql -d appdb -c 'SELECT id, email FROM users ORDER BY id LIMIT 5;'"
+summary = "只读查看实验 users 表前五条记录"
+
+[[commands.tokens]]
+text = "psql"
+desc = "连接 PostgreSQL 并执行指定查询或元命令"
+
+[[commands.tokens]]
+text = " -d"
+desc = "指定连接的数据库"
+
+[[commands.tokens]]
+text = " appdb"
+desc = "只读查看实验 users 表前五条记录；指定 appdb"
+
+[[commands.tokens]]
+text = " -c"
+desc = "在同一连接执行给定 SQL 或 psql 元命令"
+
+[[commands.tokens]]
+text = " 'SELECT id, email FROM users ORDER BY id LIMIT 5;'"
+desc = "引号保护此参数中的空格或特殊符号；只读查看实验 users 表前五条记录"
+
+[commands.dictation]
+prompt = "只读查看实验 users 表前五条记录"
+answers = ["psql -d appdb -c 'SELECT id, email FROM users ORDER BY id LIMIT 5;'"]
+
+[[commands]]
+id = "v04-postgres_ops-d3a6c6fb0f"
+command = "psql -d appdb -c 'SELECT count(*) FROM users;'"
+summary = "统计实验 users 表行数"
+
+[[commands.tokens]]
+text = "psql"
+desc = "连接 PostgreSQL 并执行指定查询或元命令"
+
+[[commands.tokens]]
+text = " -d"
+desc = "指定连接的数据库"
+
+[[commands.tokens]]
+text = " appdb"
+desc = "统计实验 users 表行数；指定 appdb"
+
+[[commands.tokens]]
+text = " -c"
+desc = "在同一连接执行给定 SQL 或 psql 元命令"
+
+[[commands.tokens]]
+text = " 'SELECT count(*) FROM users;'"
+desc = "引号保护此参数中的空格或特殊符号；统计实验 users 表行数"
+
+[commands.dictation]
+prompt = "统计实验 users 表行数"
+answers = ["psql -d appdb -c 'SELECT count(*) FROM users;'"]
+
+[[commands]]
+id = "v04-postgres_ops-dc7adc044a"
+command = "psql -d appdb -c 'SELECT pid, state, wait_event_type FROM pg_stat_activity;'"
+summary = "查看数据库会话状态和等待类别，字段可见性受权限影响"
+
+[[commands.tokens]]
+text = "psql"
+desc = "连接 PostgreSQL 并执行指定查询或元命令"
+
+[[commands.tokens]]
+text = " -d"
+desc = "指定连接的数据库"
+
+[[commands.tokens]]
+text = " appdb"
+desc = "查看数据库会话状态和等待类别，字段可见性受权限影响；指定 appdb"
+
+[[commands.tokens]]
+text = " -c"
+desc = "在同一连接执行给定 SQL 或 psql 元命令"
+
+[[commands.tokens]]
+text = " 'SELECT pid, state, wait_event_type FROM pg_stat_activity;'"
+desc = "引号保护此参数中的空格或特殊符号；查看数据库会话状态和等待类别，字段可见性受权限影响"
+
+[commands.dictation]
+prompt = "查看数据库会话状态和等待类别，字段可见性受权限影响"
+answers = ["psql -d appdb -c 'SELECT pid, state, wait_event_type FROM pg_stat_activity;'"]
+
+[[commands]]
+id = "v04-postgres_ops-4c5a6b50d6"
+command = "psql -d appdb -c 'SELECT datname, numbackends FROM pg_stat_database;'"
+summary = "查看数据库连接数统计"
+
+[[commands.tokens]]
+text = "psql"
+desc = "连接 PostgreSQL 并执行指定查询或元命令"
+
+[[commands.tokens]]
+text = " -d"
+desc = "指定连接的数据库"
+
+[[commands.tokens]]
+text = " appdb"
+desc = "查看数据库连接数统计；指定 appdb"
+
+[[commands.tokens]]
+text = " -c"
+desc = "在同一连接执行给定 SQL 或 psql 元命令"
+
+[[commands.tokens]]
+text = " 'SELECT datname, numbackends FROM pg_stat_database;'"
+desc = "引号保护此参数中的空格或特殊符号；查看数据库连接数统计"
+
+[commands.dictation]
+prompt = "查看数据库连接数统计"
+answers = ["psql -d appdb -c 'SELECT datname, numbackends FROM pg_stat_database;'"]
+
+[[commands]]
+id = "v04-postgres_ops-cc4358dcc2"
+command = "psql -d appdb -c 'SHOW max_connections;'"
+summary = "读取数据库最大连接数配置"
+
+[[commands.tokens]]
+text = "psql"
+desc = "连接 PostgreSQL 并执行指定查询或元命令"
+
+[[commands.tokens]]
+text = " -d"
+desc = "指定连接的数据库"
+
+[[commands.tokens]]
+text = " appdb"
+desc = "读取数据库最大连接数配置；指定 appdb"
+
+[[commands.tokens]]
+text = " -c"
+desc = "在同一连接执行给定 SQL 或 psql 元命令"
+
+[[commands.tokens]]
+text = " 'SHOW max_connections;'"
+desc = "引号保护此参数中的空格或特殊符号；读取数据库最大连接数配置"
+
+[commands.dictation]
+prompt = "读取数据库最大连接数配置"
+answers = ["psql -d appdb -c 'SHOW max_connections;'"]
+
+[[commands]]
+id = "v04-postgres_ops-63ef6de92c"
+command = "psql -d appdb -c 'SHOW statement_timeout;'"
+summary = "读取当前会话语句超时设置"
+
+[[commands.tokens]]
+text = "psql"
+desc = "连接 PostgreSQL 并执行指定查询或元命令"
+
+[[commands.tokens]]
+text = " -d"
+desc = "指定连接的数据库"
+
+[[commands.tokens]]
+text = " appdb"
+desc = "读取当前会话语句超时设置；指定 appdb"
+
+[[commands.tokens]]
+text = " -c"
+desc = "在同一连接执行给定 SQL 或 psql 元命令"
+
+[[commands.tokens]]
+text = " 'SHOW statement_timeout;'"
+desc = "引号保护此参数中的空格或特殊符号；读取当前会话语句超时设置"
+
+[commands.dictation]
+prompt = "读取当前会话语句超时设置"
+answers = ["psql -d appdb -c 'SHOW statement_timeout;'"]
+
+[[commands]]
+id = "v04-postgres_ops-65128baae8"
+command = "psql -d appdb -c 'BEGIN; UPDATE users SET active = false WHERE id = 7 RETURNING id, active; ROLLBACK;'"
+summary = "在单次会话事务中演练精确更新并回滚，观察 RETURNING 结果"
+
+[[commands.tokens]]
+text = "psql"
+desc = "连接 PostgreSQL 并执行指定查询或元命令"
+
+[[commands.tokens]]
+text = " -d"
+desc = "指定连接的数据库"
+
+[[commands.tokens]]
+text = " appdb"
+desc = "在单次会话事务中演练精确更新并回滚，观察 RETURNING 结果；指定 appdb"
+
+[[commands.tokens]]
+text = " -c"
+desc = "在同一连接执行给定 SQL 或 psql 元命令"
+
+[[commands.tokens]]
+text = " 'BEGIN; UPDATE users SET active = false WHERE id = 7 RETURNING id, active; ROLLBACK;'"
+desc = "引号保护此参数中的空格或特殊符号；在单次会话事务中演练精确更新并回滚，观察 RETURNING 结果"
+
+[commands.dictation]
+prompt = "在单次会话事务中演练精确更新并回滚，观察 RETURNING 结果"
+answers = ["psql -d appdb -c 'BEGIN; UPDATE users SET active = false WHERE id = 7 RETURNING id, active; ROLLBACK;'"]
+
+[[commands]]
+id = "v04-postgres_ops-9dd317da34"
+command = "psql -d appdb -c 'EXPLAIN SELECT id FROM users WHERE id = 7;'"
+summary = "只生成查询计划，不用 ANALYZE 执行语句"
+
+[[commands.tokens]]
+text = "psql"
+desc = "连接 PostgreSQL 并执行指定查询或元命令"
+
+[[commands.tokens]]
+text = " -d"
+desc = "指定连接的数据库"
+
+[[commands.tokens]]
+text = " appdb"
+desc = "只生成查询计划，不用 ANALYZE 执行语句；指定 appdb"
+
+[[commands.tokens]]
+text = " -c"
+desc = "在同一连接执行给定 SQL 或 psql 元命令"
+
+[[commands.tokens]]
+text = " 'EXPLAIN SELECT id FROM users WHERE id = 7;'"
+desc = "引号保护此参数中的空格或特殊符号；只生成查询计划，不用 ANALYZE 执行语句"
+
+[commands.dictation]
+prompt = "只生成查询计划，不用 ANALYZE 执行语句"
+answers = ["psql -d appdb -c 'EXPLAIN SELECT id FROM users WHERE id = 7;'"]
+
+[[commands]]
+id = "v04-postgres_ops-77ea20e26f"
+command = "pg_isready -h 127.0.0.1 -p 5432 -d appdb"
+summary = "检查实验 PostgreSQL 是否接受连接，不保证业务查询成功"
+
+[[commands.tokens]]
+text = "pg_isready"
+desc = "检查实验 PostgreSQL 是否接受连接，不保证业务查询成功"
+
+[[commands.tokens]]
+text = " -h"
+desc = "检查实验 PostgreSQL 是否接受连接，不保证业务查询成功；此处使用 -h 选项"
+
+[[commands.tokens]]
+text = " 127.0.0.1"
+desc = "检查实验 PostgreSQL 是否接受连接，不保证业务查询成功；指定 127.0.0.1"
+
+[[commands.tokens]]
+text = " -p"
+desc = "检查实验 PostgreSQL 是否接受连接，不保证业务查询成功；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " 5432"
+desc = "本次练习的数值参数 5432；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -d"
+desc = "检查实验 PostgreSQL 是否接受连接，不保证业务查询成功；此处使用 -d 选项"
+
+[[commands.tokens]]
+text = " appdb"
+desc = "检查实验 PostgreSQL 是否接受连接，不保证业务查询成功；指定 appdb"
+
+[commands.dictation]
+prompt = "检查实验 PostgreSQL 是否接受连接，不保证业务查询成功"
+answers = ["pg_isready -h 127.0.0.1 -p 5432 -d appdb"]
+
+[[commands]]
+id = "v04-postgres_ops-bc9a23bd9b"
+command = "pg_dump -Fc -d appdb -f appdb.dump"
+summary = "把实验库导出为自定义格式备份"
+
+[[commands.tokens]]
+text = "pg_dump"
+desc = "把实验库导出为自定义格式备份"
+
+[[commands.tokens]]
+text = " -Fc"
+desc = "把实验库导出为自定义格式备份；此处使用 -Fc 选项"
+
+[[commands.tokens]]
+text = " -d"
+desc = "把实验库导出为自定义格式备份；此处使用 -d 选项"
+
+[[commands.tokens]]
+text = " appdb"
+desc = "把实验库导出为自定义格式备份；指定 appdb"
+
+[[commands.tokens]]
+text = " -f"
+desc = "把实验库导出为自定义格式备份；此处使用 -f 选项"
+
+[[commands.tokens]]
+text = " appdb.dump"
+desc = "把实验库导出为自定义格式备份；指定 appdb.dump"
+
+[commands.dictation]
+prompt = "把实验库导出为自定义格式备份"
+answers = ["pg_dump -Fc -d appdb -f appdb.dump"]
+
+[[commands]]
+id = "v04-postgres_ops-831a9576fd"
+command = "pg_restore --list appdb.dump"
+summary = "先查看自定义备份对象清单，不执行恢复"
+
+[[commands.tokens]]
+text = "pg_restore"
+desc = "先查看自定义备份对象清单，不执行恢复"
+
+[[commands.tokens]]
+text = " --list"
+desc = "先查看自定义备份对象清单，不执行恢复；此处使用 --list 选项"
+
+[[commands.tokens]]
+text = " appdb.dump"
+desc = "先查看自定义备份对象清单，不执行恢复；指定 appdb.dump"
+
+[commands.dictation]
+prompt = "先查看自定义备份对象清单，不执行恢复"
+answers = ["pg_restore --list appdb.dump"]
+
+[[commands]]
+id = "v04-postgres_ops-479b8bf229"
+command = "pg_restore --dbname=appdb_restore --no-owner appdb.dump"
+summary = "恢复到预先创建的隔离验证库，避免覆盖生产库"
+
+[[commands.tokens]]
+text = "pg_restore"
+desc = "恢复到预先创建的隔离验证库，避免覆盖生产库"
+
+[[commands.tokens]]
+text = " --dbname=appdb_restore"
+desc = "恢复到预先创建的隔离验证库，避免覆盖生产库；此处使用 --dbname=appdb_restore 选项"
+
+[[commands.tokens]]
+text = " --no-owner"
+desc = "恢复到预先创建的隔离验证库，避免覆盖生产库；此处使用 --no-owner 选项"
+
+[[commands.tokens]]
+text = " appdb.dump"
+desc = "恢复到预先创建的隔离验证库，避免覆盖生产库；指定 appdb.dump"
+
+[commands.dictation]
+prompt = "恢复到预先创建的隔离验证库，避免覆盖生产库"
+answers = ["pg_restore --dbname=appdb_restore --no-owner appdb.dump"]

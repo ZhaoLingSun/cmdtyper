@@ -1,0 +1,378 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "连接拒绝通常有明确响应；比较本机服务、绑定地址和远端目标。"
+
+[meta.topic]
+id = "v04_refused"
+title = "连接被拒绝的定位"
+icon = "🌐"
+order = 109
+
+[[commands]]
+id = "v04-refused-65af2f97e9"
+command = "nc -vz -w 3 192.0.2.20 22"
+summary = "探测实验主机 SSH TCP 建连，三秒超时；使用 OpenBSD netcat"
+
+[[commands.tokens]]
+text = "nc"
+desc = "使用 OpenBSD netcat 检查 TCP 或 UDP 通信"
+
+[[commands.tokens]]
+text = " -vz"
+desc = "探测实验主机 SSH TCP 建连，三秒超时；使用 OpenBSD netcat；此处使用 -vz 选项"
+
+[[commands.tokens]]
+text = " -w"
+desc = "探测实验主机 SSH TCP 建连，三秒超时；使用 OpenBSD netcat；此处使用 -w 选项"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 192.0.2.20"
+desc = "探测实验主机 SSH TCP 建连，三秒超时；使用 OpenBSD netcat；指定 192.0.2.20"
+
+[[commands.tokens]]
+text = " 22"
+desc = "本次练习的数值参数 22；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "探测实验主机 SSH TCP 建连，三秒超时；使用 OpenBSD netcat"
+answers = ["nc -vz -w 3 192.0.2.20 22"]
+
+[[commands]]
+id = "v04-refused-da73f57b04"
+command = "nc -vz -w 3 192.0.2.20 80"
+summary = "探测 HTTP TCP 建连，端口开放不代表 HTTP 内容正确"
+
+[[commands.tokens]]
+text = "nc"
+desc = "使用 OpenBSD netcat 检查 TCP 或 UDP 通信"
+
+[[commands.tokens]]
+text = " -vz"
+desc = "探测 HTTP TCP 建连，端口开放不代表 HTTP 内容正确；此处使用 -vz 选项"
+
+[[commands.tokens]]
+text = " -w"
+desc = "探测 HTTP TCP 建连，端口开放不代表 HTTP 内容正确；此处使用 -w 选项"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 192.0.2.20"
+desc = "探测 HTTP TCP 建连，端口开放不代表 HTTP 内容正确；指定 192.0.2.20"
+
+[[commands.tokens]]
+text = " 80"
+desc = "本次练习的数值参数 80；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "探测 HTTP TCP 建连，端口开放不代表 HTTP 内容正确"
+answers = ["nc -vz -w 3 192.0.2.20 80"]
+
+[[commands]]
+id = "v04-refused-eb2cfb2393"
+command = "nc -vz -w 3 192.0.2.20 443"
+summary = "探测 HTTPS TCP 建连，不执行 TLS 验证"
+
+[[commands.tokens]]
+text = "nc"
+desc = "使用 OpenBSD netcat 检查 TCP 或 UDP 通信"
+
+[[commands.tokens]]
+text = " -vz"
+desc = "探测 HTTPS TCP 建连，不执行 TLS 验证；此处使用 -vz 选项"
+
+[[commands.tokens]]
+text = " -w"
+desc = "探测 HTTPS TCP 建连，不执行 TLS 验证；此处使用 -w 选项"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 192.0.2.20"
+desc = "探测 HTTPS TCP 建连，不执行 TLS 验证；指定 192.0.2.20"
+
+[[commands.tokens]]
+text = " 443"
+desc = "本次练习的数值参数 443；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "探测 HTTPS TCP 建连，不执行 TLS 验证"
+answers = ["nc -vz -w 3 192.0.2.20 443"]
+
+[[commands]]
+id = "v04-refused-a48700caa1"
+command = "nc -vz -w 3 127.0.0.1 8000"
+summary = "先从本机检查后端监听，缩小到应用或网络层"
+
+[[commands.tokens]]
+text = "nc"
+desc = "使用 OpenBSD netcat 检查 TCP 或 UDP 通信"
+
+[[commands.tokens]]
+text = " -vz"
+desc = "先从本机检查后端监听，缩小到应用或网络层；此处使用 -vz 选项"
+
+[[commands.tokens]]
+text = " -w"
+desc = "先从本机检查后端监听，缩小到应用或网络层；此处使用 -w 选项"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 127.0.0.1"
+desc = "先从本机检查后端监听，缩小到应用或网络层；指定 127.0.0.1"
+
+[[commands.tokens]]
+text = " 8000"
+desc = "本次练习的数值参数 8000；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "先从本机检查后端监听，缩小到应用或网络层"
+answers = ["nc -vz -w 3 127.0.0.1 8000"]
+
+[[commands]]
+id = "v04-refused-7e591f3616"
+command = "curl --connect-timeout 3 http://127.0.0.1:8000/health"
+summary = "直接请求本机后端健康路径，跳过反向代理"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " --connect-timeout"
+desc = "限定连接阶段等待秒数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " http://127.0.0.1:8000/health"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "直接请求本机后端健康路径，跳过反向代理"
+answers = ["curl --connect-timeout 3 http://127.0.0.1:8000/health"]
+
+[[commands]]
+id = "v04-refused-4ebf17c01d"
+command = "curl --connect-timeout 3 http://192.0.2.20:8000/health"
+summary = "请求实验主机后端，和回环访问结果比较"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " --connect-timeout"
+desc = "限定连接阶段等待秒数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " http://192.0.2.20:8000/health"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "请求实验主机后端，和回环访问结果比较"
+answers = ["curl --connect-timeout 3 http://192.0.2.20:8000/health"]
+
+[[commands]]
+id = "v04-refused-0db0c5f5ef"
+command = "systemctl is-active nginx.service"
+summary = "查询 nginx 是否运行，active 不保证所有请求正常"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " is-active"
+desc = "查询 nginx 是否运行，active 不保证所有请求正常；指定 is-active"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "查询 nginx 是否运行，active 不保证所有请求正常；指定 nginx.service"
+
+[commands.dictation]
+prompt = "查询 nginx 是否运行，active 不保证所有请求正常"
+answers = ["systemctl is-active nginx.service"]
+
+[[commands]]
+id = "v04-refused-e37e2c4219"
+command = "systemctl show nginx.service -p ActiveState -p SubState -p Result"
+summary = "读取服务活动状态、子状态和上次结果"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " show"
+desc = "读取服务活动状态、子状态和上次结果；指定 show"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "读取服务活动状态、子状态和上次结果；指定 nginx.service"
+
+[[commands.tokens]]
+text = " -p"
+desc = "读取服务活动状态、子状态和上次结果；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " ActiveState"
+desc = "读取服务活动状态、子状态和上次结果；指定 ActiveState"
+
+[[commands.tokens]]
+text = " -p"
+desc = "读取服务活动状态、子状态和上次结果；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " SubState"
+desc = "读取服务活动状态、子状态和上次结果；指定 SubState"
+
+[[commands.tokens]]
+text = " -p"
+desc = "读取服务活动状态、子状态和上次结果；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " Result"
+desc = "读取服务活动状态、子状态和上次结果；指定 Result"
+
+[commands.dictation]
+prompt = "读取服务活动状态、子状态和上次结果"
+answers = ["systemctl show nginx.service -p ActiveState -p SubState -p Result"]
+
+[[commands]]
+id = "v04-refused-a21e31f97a"
+command = "journalctl -u nginx.service -n 30 --no-pager"
+summary = "查看最近三十行 nginx 服务日志"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " -u"
+desc = "只读取指定 systemd 单元的日志"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "查看最近三十行 nginx 服务日志；指定 nginx.service"
+
+[[commands.tokens]]
+text = " -n"
+desc = "显示末尾指定条数"
+
+[[commands.tokens]]
+text = " 30"
+desc = "本次练习的数值参数 30；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "直接输出，不启动分页器"
+
+[commands.dictation]
+prompt = "查看最近三十行 nginx 服务日志"
+answers = ["journalctl -u nginx.service -n 30 --no-pager"]
+
+[[commands]]
+id = "v04-refused-2ea571a774"
+command = "sudo tcpdump -ni ens33 -c 12 'tcp port 8000'"
+summary = "观察 SYN 后是否收到 RST，区分明确拒绝和无响应"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "观察 SYN 后是否收到 RST，区分明确拒绝和无响应；指定 ens33"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 12"
+desc = "本次练习的数值参数 12；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 'tcp port 8000'"
+desc = "引号保护此参数中的空格或特殊符号；观察 SYN 后是否收到 RST，区分明确拒绝和无响应"
+
+[commands.dictation]
+prompt = "观察 SYN 后是否收到 RST，区分明确拒绝和无响应"
+answers = ["sudo tcpdump -ni ens33 -c 12 'tcp port 8000'"]
+
+[[commands]]
+id = "v04-refused-26960f0078"
+command = "ss -tn state syn-sent"
+summary = "查看正在等待 TCP 建连的客户端套接字"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -tn"
+desc = "查看正在等待 TCP 建连的客户端套接字；此处使用 -tn 选项"
+
+[[commands.tokens]]
+text = " state"
+desc = "查看正在等待 TCP 建连的客户端套接字；指定 state"
+
+[[commands.tokens]]
+text = " syn-sent"
+desc = "查看正在等待 TCP 建连的客户端套接字；指定 syn-sent"
+
+[commands.dictation]
+prompt = "查看正在等待 TCP 建连的客户端套接字"
+answers = ["ss -tn state syn-sent"]
+
+[[commands]]
+id = "v04-refused-72dc0b9355"
+command = "ss -tn state established"
+summary = "查看已建立 TCP 连接，注意不等于应用请求成功"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -tn"
+desc = "查看已建立 TCP 连接，注意不等于应用请求成功；此处使用 -tn 选项"
+
+[[commands.tokens]]
+text = " state"
+desc = "查看已建立 TCP 连接，注意不等于应用请求成功；指定 state"
+
+[[commands.tokens]]
+text = " established"
+desc = "查看已建立 TCP 连接，注意不等于应用请求成功；指定 established"
+
+[commands.dictation]
+prompt = "查看已建立 TCP 连接，注意不等于应用请求成功"
+answers = ["ss -tn state established"]

@@ -1,3 +1,4 @@
+
 [meta]
 command = "locate / command -v / whereis"
 full_name = "indexed path lookup and command discovery"
@@ -7,16 +8,19 @@ importance = "common"
 
 [overview]
 summary = "根据问题选择索引路径搜索、shell 命令解析或标准位置文件发现"
-explanation = """“某个东西在哪里”至少有三种不同问题。locate 查询预先构建的路径名索引，速度快但结果可能陈旧，也可能未安装；command -v 询问当前 shell 会怎样解析一个命令名，能识别内建、函数、别名或 PATH 中程序；whereis 则在一组标准位置寻找程序的二进制、源码和手册。家庭电脑上可快速找配置路径，开发环境中可确认工具是否可调用，系统排查时可同时查看程序和手册位置。三者都不是文件正文搜索，也不能仅凭“无输出”断言目标绝对不存在。"""
+explanation = "“某个东西在哪里”至少有三种不同问题。locate 查询预先构建的路径名索引，速度快但结果可能陈旧，也可能未安装；command -v 询问当前 shell 会怎样解析一个命令名，能识别内建、函数、别名或 PATH 中程序；whereis 则在一组标准位置寻找程序的二进制、源码和手册。家庭电脑上可快速找配置路径，开发环境中可确认工具是否可调用，系统排查时可同时查看程序和手册位置。三者都不是文件正文搜索，也不能仅凭“无输出”断言目标绝对不存在。"
 
 [syntax]
 basic = "locate 路径子串 | command -v 命令名 | whereis 程序名"
+
 [[syntax.parts]]
 name = "locate 路径子串"
 desc = "从索引记录的完整路径中匹配子串，速度快但受索引新鲜度和可见性策略影响"
+
 [[syntax.parts]]
 name = "command -v 命令名"
 desc = "由当前 shell 报告名称如何解析；这里只查询，不运行目标程序"
+
 [[syntax.parts]]
 name = "whereis 程序名"
 desc = "在标准系统位置查找相关二进制、源码和手册文件，范围不等同于全盘搜索"

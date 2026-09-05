@@ -1,0 +1,75 @@
+
+[meta]
+category = "pipeline"
+difficulty = "advanced"
+description = "跨模块共用的规范命令（由内容归一化维护）"
+
+[[commands]]
+id = "shared-8b24dec68262c185"
+command = "find . -name '*.log' -print0 | xargs -0 wc -l"
+summary = "安全统计所有日志文件的行数（处理特殊文件名）"
+simulated_output = "   234 ./app.log\n  1523 ./error.log\n    45 ./debug.log\n  1802 total"
+
+[[commands.tokens]]
+text = "find . -name '*.log' -print0 | xargs -0 wc -l"
+desc = "安全统计所有日志文件的行数（处理特殊文件名）"
+
+[commands.dictation]
+prompt = "安全统计所有日志文件的行数（处理特殊文件名）"
+answers = ["find . -name '*.log' -print0 | xargs -0 wc -l"]
+
+[[commands]]
+id = "shared-935ca18c60df195e"
+command = "echo 1 2 3 4 5 6 | xargs -n 2 echo"
+summary = "每次传递 2 个参数"
+simulated_output = "1 2\n3 4\n5 6"
+
+[[commands.tokens]]
+text = "echo 1 2 3 4 5 6 | xargs -n 2 echo"
+desc = "每次传递 2 个参数"
+
+[commands.dictation]
+prompt = "每次传递 2 个参数"
+answers = ["echo 1 2 3 4 5 6 | xargs -n 2 echo"]
+
+[[commands]]
+id = "shared-911dae8feaa1cef6"
+command = "ls *.jpg | xargs -I {} convert {} -resize 50% thumb_{}"
+summary = "批量将 jpg 图片缩小 50% 并加前缀 thumb_"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "ls *.jpg | xargs -I {} convert {} -resize 50% thumb_{}"
+desc = "批量将 jpg 图片缩小 50% 并加前缀 thumb_"
+
+[commands.dictation]
+prompt = "批量将 jpg 图片缩小 50% 并加前缀 thumb_"
+answers = ["ls *.jpg | xargs -I {} convert {} -resize 50% thumb_{}"]
+
+[[commands]]
+id = "shared-076d51a2235d4f4d"
+command = "cat urls.txt | xargs -n 1 -P 4 wget -q"
+summary = "并行下载 URL 列表中的文件（4 个并发）"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "cat urls.txt | xargs -n 1 -P 4 wget -q"
+desc = "并行下载 URL 列表中的文件（4 个并发）"
+
+[commands.dictation]
+prompt = "并行下载 URL 列表中的文件（4 个并发）"
+answers = ["cat urls.txt | xargs -n 1 -P 4 wget -q"]
+
+[[commands]]
+id = "shared-3ccfae8350661889"
+command = "grep -rl 'old_api' ./src | xargs sed -i 's/old_api/new_api/g'"
+summary = "查找包含 old_api 的文件并批量替换为 new_api"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "grep -rl 'old_api' ./src | xargs sed -i 's/old_api/new_api/g'"
+desc = "查找包含 old_api 的文件并批量替换为 new_api"
+
+[commands.dictation]
+prompt = "查找包含 old_api 的文件并批量替换为 new_api"
+answers = ["grep -rl 'old_api' ./src | xargs sed -i 's/old_api/new_api/g'"]

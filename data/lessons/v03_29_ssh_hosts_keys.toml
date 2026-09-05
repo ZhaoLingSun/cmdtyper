@@ -1,3 +1,4 @@
+
 [meta]
 command = "ssh 主机身份与密钥"
 full_name = "SSH host identity verification and key authentication"
@@ -11,15 +12,19 @@ explanation = "SSH 同时验证远端主机身份和本地用户身份。首次�
 
 [syntax]
 basic = "ssh [身份与连接选项] 用户@主机；ssh-keygen ...；ssh-copy-id ..."
+
 [[syntax.parts]]
 name = "远端身份"
 desc = "用户@主机决定登录目标；非默认端口必须与管理员提供的信息一致"
+
 [[syntax.parts]]
 name = "主机指纹"
 desc = "首次连接或主机密钥变化时，把屏幕上的算法与 SHA256 指纹同独立可信来源逐字核对"
+
 [[syntax.parts]]
 name = "用户私钥"
 desc = "-i 后是本地私钥路径；私钥只用于本机签名，不应上传到服务器或交给他人"
+
 [[syntax.parts]]
 name = "可分发公钥"
 desc = "ssh-copy-id 的 -i 应指向 .pub 文件；公钥可安装到经核验的远端账户"

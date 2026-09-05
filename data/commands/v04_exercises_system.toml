@@ -1,0 +1,1719 @@
+[meta]
+category = "system"
+difficulty = "beginner"
+description = "基础用法的短练习：目标已在隔离实验环境中准备，按提示完成单一任务。"
+
+[[commands]]
+id = "v04-ex-d3dcad8c5e"
+command = "docker ps -a"
+summary = "列出包含停止实例的全部容器"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " ps"
+desc = "列出包含停止实例的全部容器；指定 ps"
+
+[[commands.tokens]]
+text = " -a"
+desc = "列出包含停止实例的全部容器；此处使用 -a 选项"
+
+[commands.dictation]
+prompt = "列出包含停止实例的全部容器"
+answers = ["docker ps -a"]
+
+[[commands]]
+id = "v04-ex-a7ed014266"
+command = "docker ps --filter status=running"
+summary = "仅显示正在运行的容器"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " ps"
+desc = "仅显示正在运行的容器；指定 ps"
+
+[[commands.tokens]]
+text = " --filter"
+desc = "仅显示正在运行的容器；此处使用 --filter 选项"
+
+[[commands.tokens]]
+text = " status=running"
+desc = "仅显示正在运行的容器；指定 status=running"
+
+[commands.dictation]
+prompt = "仅显示正在运行的容器"
+answers = ["docker ps --filter status=running"]
+
+[[commands]]
+id = "v04-ex-c2beecdbfd"
+command = "docker ps --format '{{.Names}}\\t{{.Status}}'"
+summary = "只列出容器名称与状态，练习输出模板"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " ps"
+desc = "只列出容器名称与状态，练习输出模板；指定 ps"
+
+[[commands.tokens]]
+text = " --format"
+desc = "只列出容器名称与状态，练习输出模板；此处使用 --format 选项"
+
+[[commands.tokens]]
+text = " '{{.Names}}\\t{{.Status}}'"
+desc = "引号保护此参数中的空格或特殊符号；只列出容器名称与状态，练习输出模板"
+
+[commands.dictation]
+prompt = "只列出容器名称与状态，练习输出模板"
+answers = ["docker ps --format '{{.Names}}\\t{{.Status}}'"]
+
+[[commands]]
+id = "v04-ex-5bb01d5994"
+command = "docker images nginx"
+summary = "只查看本地 nginx 镜像"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " images"
+desc = "只查看本地 nginx 镜像；指定 images"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "只查看本地 nginx 镜像；指定 nginx"
+
+[commands.dictation]
+prompt = "只查看本地 nginx 镜像"
+answers = ["docker images nginx"]
+
+[[commands]]
+id = "v04-ex-aa3a4faaba"
+command = "docker images --digests"
+summary = "查看镜像摘要，区分可变标签和内容标识"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " images"
+desc = "查看镜像摘要，区分可变标签和内容标识；指定 images"
+
+[[commands.tokens]]
+text = " --digests"
+desc = "查看镜像摘要，区分可变标签和内容标识；此处使用 --digests 选项"
+
+[commands.dictation]
+prompt = "查看镜像摘要，区分可变标签和内容标识"
+answers = ["docker images --digests"]
+
+[[commands]]
+id = "v04-ex-9ef6536f2f"
+command = "docker image inspect nginx:alpine"
+summary = "读取本地实验 nginx 镜像详细信息"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " image"
+desc = "读取本地实验 nginx 镜像详细信息；指定 image"
+
+[[commands.tokens]]
+text = " inspect"
+desc = "读取本地实验 nginx 镜像详细信息；指定 inspect"
+
+[[commands.tokens]]
+text = " nginx:alpine"
+desc = "读取本地实验 nginx 镜像详细信息；指定 nginx:alpine"
+
+[commands.dictation]
+prompt = "读取本地实验 nginx 镜像详细信息"
+answers = ["docker image inspect nginx:alpine"]
+
+[[commands]]
+id = "v04-ex-8c298f48dd"
+command = "sudo nginx -T"
+summary = "校验并打印完整 nginx 配置，输出可能含敏感配置应谨慎分享"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "校验并打印完整 nginx 配置，输出可能含敏感配置应谨慎分享"
+
+[[commands.tokens]]
+text = " -T"
+desc = "校验并打印完整 nginx 配置，输出可能含敏感配置应谨慎分享；此处使用 -T 选项"
+
+[commands.dictation]
+prompt = "校验并打印完整 nginx 配置，输出可能含敏感配置应谨慎分享"
+answers = ["sudo nginx -T"]
+
+[[commands]]
+id = "v04-ex-76e018946a"
+command = "nginx -V"
+summary = "查看 nginx 编译参数和配置路径"
+
+[[commands.tokens]]
+text = "nginx"
+desc = "查看 nginx 编译参数和配置路径"
+
+[[commands.tokens]]
+text = " -V"
+desc = "查看 nginx 编译参数和配置路径；此处使用 -V 选项"
+
+[commands.dictation]
+prompt = "查看 nginx 编译参数和配置路径"
+answers = ["nginx -V"]
+
+[[commands]]
+id = "v04-ex-fcec93899d"
+command = "type -a curl"
+summary = "列出 shell 能找到的所有 curl 定义与路径"
+
+[[commands.tokens]]
+text = "type"
+desc = "列出 shell 能找到的所有 curl 定义与路径"
+
+[[commands.tokens]]
+text = " -a"
+desc = "列出 shell 能找到的所有 curl 定义与路径；此处使用 -a 选项"
+
+[[commands.tokens]]
+text = " curl"
+desc = "列出 shell 能找到的所有 curl 定义与路径；指定 curl"
+
+[commands.dictation]
+prompt = "列出 shell 能找到的所有 curl 定义与路径"
+answers = ["type -a curl"]
+
+[[commands]]
+id = "v04-ex-82c5d550f6"
+command = "command -v python3"
+summary = "查询 shell 将使用的 Python 解释器位置"
+
+[[commands.tokens]]
+text = "command"
+desc = "查询 shell 将使用的 Python 解释器位置"
+
+[[commands.tokens]]
+text = " -v"
+desc = "查询 shell 将使用的 Python 解释器位置；此处使用 -v 选项"
+
+[[commands.tokens]]
+text = " python3"
+desc = "查询 shell 将使用的 Python 解释器位置；指定 python3"
+
+[commands.dictation]
+prompt = "查询 shell 将使用的 Python 解释器位置"
+answers = ["command -v python3"]
+
+[[commands]]
+id = "v04-ex-acfcdb6ac2"
+command = "which tar"
+summary = "查找 PATH 中的外部 tar 程序位置"
+
+[[commands.tokens]]
+text = "which"
+desc = "查找 PATH 中的外部 tar 程序位置"
+
+[[commands.tokens]]
+text = " tar"
+desc = "查找 PATH 中的外部 tar 程序位置；指定 tar"
+
+[commands.dictation]
+prompt = "查找 PATH 中的外部 tar 程序位置"
+answers = ["which tar"]
+
+[[commands]]
+id = "v04-ex-b3352ee376"
+command = "man cp"
+summary = "打开文件复制命令手册，练习 q 退出"
+
+[[commands.tokens]]
+text = "man"
+desc = "打开文件复制命令手册，练习 q 退出"
+
+[[commands.tokens]]
+text = " cp"
+desc = "打开文件复制命令手册，练习 q 退出；指定 cp"
+
+[commands.dictation]
+prompt = "打开文件复制命令手册，练习 q 退出"
+answers = ["man cp"]
+
+[[commands]]
+id = "v04-ex-b797cc5e00"
+command = "man 5 ssh_config"
+summary = "查看 SSH 客户端配置文件格式手册"
+
+[[commands.tokens]]
+text = "man"
+desc = "查看 SSH 客户端配置文件格式手册"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ssh_config"
+desc = "查看 SSH 客户端配置文件格式手册；指定 ssh_config"
+
+[commands.dictation]
+prompt = "查看 SSH 客户端配置文件格式手册"
+answers = ["man 5 ssh_config"]
+
+[[commands]]
+id = "v04-ex-38f70e01d8"
+command = "man 8 ss"
+summary = "查看套接字检查工具管理手册"
+
+[[commands.tokens]]
+text = "man"
+desc = "查看套接字检查工具管理手册"
+
+[[commands.tokens]]
+text = " 8"
+desc = "本次练习的数值参数 8；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ss"
+desc = "查看套接字检查工具管理手册；指定 ss"
+
+[commands.dictation]
+prompt = "查看套接字检查工具管理手册"
+answers = ["man 8 ss"]
+
+[[commands]]
+id = "v04-ex-3c1236e82a"
+command = "help printf"
+summary = "查看 Bash 内建 printf 帮助"
+
+[[commands.tokens]]
+text = "help"
+desc = "查看 Bash 内建 printf 帮助"
+
+[[commands.tokens]]
+text = " printf"
+desc = "查看 Bash 内建 printf 帮助；指定 printf"
+
+[commands.dictation]
+prompt = "查看 Bash 内建 printf 帮助"
+answers = ["help printf"]
+
+[[commands]]
+id = "v04-ex-67a5ad265e"
+command = "help type"
+summary = "查看 Bash 命令识别内建帮助"
+
+[[commands.tokens]]
+text = "help"
+desc = "查看 Bash 命令识别内建帮助"
+
+[[commands.tokens]]
+text = " type"
+desc = "查看 Bash 命令识别内建帮助；指定 type"
+
+[commands.dictation]
+prompt = "查看 Bash 命令识别内建帮助"
+answers = ["help type"]
+
+[[commands]]
+id = "v04-ex-cab0c8799f"
+command = "help test"
+summary = "查看 Bash 条件测试语法帮助"
+
+[[commands.tokens]]
+text = "help"
+desc = "查看 Bash 条件测试语法帮助"
+
+[[commands.tokens]]
+text = " test"
+desc = "查看 Bash 条件测试语法帮助；指定 test"
+
+[commands.dictation]
+prompt = "查看 Bash 条件测试语法帮助"
+answers = ["help test"]
+
+[[commands]]
+id = "v04-ex-84e7fdbffb"
+command = "find --help"
+summary = "快速查看 GNU find 条件和操作选项"
+
+[[commands.tokens]]
+text = "find"
+desc = "按路径、类型或属性筛选文件"
+
+[[commands.tokens]]
+text = " --help"
+desc = "快速查看 GNU find 条件和操作选项；此处使用 --help 选项"
+
+[commands.dictation]
+prompt = "快速查看 GNU find 条件和操作选项"
+answers = ["find --help"]
+
+[[commands]]
+id = "v04-ex-fa4741e3b2"
+command = "tar --help"
+summary = "快速查看 tar 模式与压缩选项"
+
+[[commands.tokens]]
+text = "tar"
+desc = "创建、列出或提取 tar 归档"
+
+[[commands.tokens]]
+text = " --help"
+desc = "快速查看 tar 模式与压缩选项；此处使用 --help 选项"
+
+[commands.dictation]
+prompt = "快速查看 tar 模式与压缩选项"
+answers = ["tar --help"]
+
+[[commands]]
+id = "v04-ex-8a13f7643b"
+command = "curl --help all"
+summary = "查看 curl 的完整帮助选项列表"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " --help"
+desc = "查看 curl 的完整帮助选项列表；此处使用 --help 选项"
+
+[[commands.tokens]]
+text = " all"
+desc = "查看 curl 的完整帮助选项列表；指定 all"
+
+[commands.dictation]
+prompt = "查看 curl 的完整帮助选项列表"
+answers = ["curl --help all"]
+
+[[commands]]
+id = "v04-ex-8a64c60655"
+command = "history 5"
+summary = "查看当前 Bash 会话最近五条历史"
+
+[[commands.tokens]]
+text = "history"
+desc = "查看当前 Bash 会话最近五条历史"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "查看当前 Bash 会话最近五条历史"
+answers = ["history 5"]
+
+[[commands]]
+id = "v04-ex-b9ed0ac494"
+command = "history 20"
+summary = "扩大历史查看窗口到二十条"
+
+[[commands.tokens]]
+text = "history"
+desc = "扩大历史查看窗口到二十条"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "扩大历史查看窗口到二十条"
+answers = ["history 20"]
+
+[[commands]]
+id = "v04-ex-a290de54ca"
+command = "history | tail -n 8"
+summary = "用管道只查看历史末尾八行"
+
+[[commands.tokens]]
+text = "history"
+desc = "用管道只查看历史末尾八行"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " tail"
+desc = "用管道只查看历史末尾八行；指定 tail"
+
+[[commands.tokens]]
+text = " -n"
+desc = "用管道只查看历史末尾八行；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 8"
+desc = "本次练习的数值参数 8；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "用管道只查看历史末尾八行"
+answers = ["history | tail -n 8"]
+
+[[commands]]
+id = "v04-ex-1bfeeccea4"
+command = "alias ls"
+summary = "查看当前 shell 对 ls 的别名定义，不存在时会提示"
+
+[[commands.tokens]]
+text = "alias"
+desc = "查看当前 shell 对 ls 的别名定义，不存在时会提示"
+
+[[commands.tokens]]
+text = " ls"
+desc = "查看当前 shell 对 ls 的别名定义，不存在时会提示；指定 ls"
+
+[commands.dictation]
+prompt = "查看当前 shell 对 ls 的别名定义，不存在时会提示"
+answers = ["alias ls"]
+
+[[commands]]
+id = "v04-ex-06440f8569"
+command = "alias ll='ls -lh'"
+summary = "在当前实验 shell 定义便于读大小的列表别名"
+
+[[commands.tokens]]
+text = "alias"
+desc = "在当前实验 shell 定义便于读大小的列表别名"
+
+[[commands.tokens]]
+text = " ll='ls -lh'"
+desc = "在当前实验 shell 定义便于读大小的列表别名；指定 ll='ls -lh'"
+
+[commands.dictation]
+prompt = "在当前实验 shell 定义便于读大小的列表别名"
+answers = ["alias ll='ls -lh'"]
+
+[[commands]]
+id = "v04-ex-2c023527b8"
+command = "sudo apt-get update -o APT::Update::Error-Mode=any"
+summary = "任何索引源更新失败都以失败结束，便于发现不完整更新"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " apt-get"
+desc = "任何索引源更新失败都以失败结束，便于发现不完整更新"
+
+[[commands.tokens]]
+text = " update"
+desc = "任何索引源更新失败都以失败结束，便于发现不完整更新；指定 update"
+
+[[commands.tokens]]
+text = " -o"
+desc = "任何索引源更新失败都以失败结束，便于发现不完整更新；此处使用 -o 选项"
+
+[[commands.tokens]]
+text = " APT::Update::Error-Mode=any"
+desc = "任何索引源更新失败都以失败结束，便于发现不完整更新；指定 APT::Update::Error-Mode=any"
+
+[commands.dictation]
+prompt = "任何索引源更新失败都以失败结束，便于发现不完整更新"
+answers = ["sudo apt-get update -o APT::Update::Error-Mode=any"]
+
+[[commands]]
+id = "v04-ex-7b99e2ef2e"
+command = "apt search '^curl$'"
+summary = "按完整包名查询 curl"
+
+[[commands.tokens]]
+text = "apt"
+desc = "按完整包名查询 curl"
+
+[[commands.tokens]]
+text = " search"
+desc = "按完整包名查询 curl；指定 search"
+
+[[commands.tokens]]
+text = " '^curl$'"
+desc = "引号保护此参数中的空格或特殊符号；按完整包名查询 curl"
+
+[commands.dictation]
+prompt = "按完整包名查询 curl"
+answers = ["apt search '^curl$'"]
+
+[[commands]]
+id = "v04-ex-5ce7cd79e4"
+command = "apt search tcpdump"
+summary = "按关键词查找抓包相关包"
+
+[[commands.tokens]]
+text = "apt"
+desc = "按关键词查找抓包相关包"
+
+[[commands.tokens]]
+text = " search"
+desc = "按关键词查找抓包相关包；指定 search"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按关键词查找抓包相关包；指定 tcpdump"
+
+[commands.dictation]
+prompt = "按关键词查找抓包相关包"
+answers = ["apt search tcpdump"]
+
+[[commands]]
+id = "v04-ex-d66dcf8e10"
+command = "apt show openssh-server"
+summary = "读取 SSH 服务包描述与依赖"
+
+[[commands.tokens]]
+text = "apt"
+desc = "读取 SSH 服务包描述与依赖"
+
+[[commands.tokens]]
+text = " show"
+desc = "读取 SSH 服务包描述与依赖；指定 show"
+
+[[commands.tokens]]
+text = " openssh-server"
+desc = "读取 SSH 服务包描述与依赖；指定 openssh-server"
+
+[commands.dictation]
+prompt = "读取 SSH 服务包描述与依赖"
+answers = ["apt show openssh-server"]
+
+[[commands]]
+id = "v04-ex-8619f60331"
+command = "sudo apt install tree"
+summary = "在实验 Ubuntu 安装目录树工具，审查提示的依赖变化"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " apt"
+desc = "在实验 Ubuntu 安装目录树工具，审查提示的依赖变化"
+
+[[commands.tokens]]
+text = " install"
+desc = "在实验 Ubuntu 安装目录树工具，审查提示的依赖变化；指定 install"
+
+[[commands.tokens]]
+text = " tree"
+desc = "在实验 Ubuntu 安装目录树工具，审查提示的依赖变化；指定 tree"
+
+[commands.dictation]
+prompt = "在实验 Ubuntu 安装目录树工具，审查提示的依赖变化"
+answers = ["sudo apt install tree"]
+
+[[commands]]
+id = "v04-ex-a46059337d"
+command = "sudo apt install jq"
+summary = "安装实验 JSON 命令行工具"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " apt"
+desc = "安装实验 JSON 命令行工具"
+
+[[commands.tokens]]
+text = " install"
+desc = "安装实验 JSON 命令行工具；指定 install"
+
+[[commands.tokens]]
+text = " jq"
+desc = "安装实验 JSON 命令行工具；指定 jq"
+
+[commands.dictation]
+prompt = "安装实验 JSON 命令行工具"
+answers = ["sudo apt install jq"]
+
+[[commands]]
+id = "v04-ex-d1fa4c0ecd"
+command = "sudo apt-get -s install dnsutils"
+summary = "先模拟安装 DNS 工具，确认依赖和空间需求"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " apt-get"
+desc = "先模拟安装 DNS 工具，确认依赖和空间需求"
+
+[[commands.tokens]]
+text = " -s"
+desc = "先模拟安装 DNS 工具，确认依赖和空间需求；此处使用 -s 选项"
+
+[[commands.tokens]]
+text = " install"
+desc = "先模拟安装 DNS 工具，确认依赖和空间需求；指定 install"
+
+[[commands.tokens]]
+text = " dnsutils"
+desc = "先模拟安装 DNS 工具，确认依赖和空间需求；指定 dnsutils"
+
+[commands.dictation]
+prompt = "先模拟安装 DNS 工具，确认依赖和空间需求"
+answers = ["sudo apt-get -s install dnsutils"]
+
+[[commands]]
+id = "v04-ex-a3ca2741a2"
+command = "apt list --installed curl"
+summary = "检查 curl 包是否已经安装"
+
+[[commands.tokens]]
+text = "apt"
+desc = "检查 curl 包是否已经安装"
+
+[[commands.tokens]]
+text = " list"
+desc = "检查 curl 包是否已经安装；指定 list"
+
+[[commands.tokens]]
+text = " --installed"
+desc = "检查 curl 包是否已经安装；此处使用 --installed 选项"
+
+[[commands.tokens]]
+text = " curl"
+desc = "检查 curl 包是否已经安装；指定 curl"
+
+[commands.dictation]
+prompt = "检查 curl 包是否已经安装"
+answers = ["apt list --installed curl"]
+
+[[commands]]
+id = "v04-ex-8ffcbe1cac"
+command = "apt list --installed openssh-client"
+summary = "检查 SSH 客户端包版本"
+
+[[commands.tokens]]
+text = "apt"
+desc = "检查 SSH 客户端包版本"
+
+[[commands.tokens]]
+text = " list"
+desc = "检查 SSH 客户端包版本；指定 list"
+
+[[commands.tokens]]
+text = " --installed"
+desc = "检查 SSH 客户端包版本；此处使用 --installed 选项"
+
+[[commands.tokens]]
+text = " openssh-client"
+desc = "检查 SSH 客户端包版本；指定 openssh-client"
+
+[commands.dictation]
+prompt = "检查 SSH 客户端包版本"
+answers = ["apt list --installed openssh-client"]
+
+[[commands]]
+id = "v04-ex-536540e66f"
+command = "dpkg-query -W tcpdump"
+summary = "读取已安装 tcpdump 的包名和版本"
+
+[[commands.tokens]]
+text = "dpkg-query"
+desc = "读取已安装 tcpdump 的包名和版本"
+
+[[commands.tokens]]
+text = " -W"
+desc = "读取已安装 tcpdump 的包名和版本；此处使用 -W 选项"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "读取已安装 tcpdump 的包名和版本；指定 tcpdump"
+
+[commands.dictation]
+prompt = "读取已安装 tcpdump 的包名和版本"
+answers = ["dpkg-query -W tcpdump"]
+
+[[commands]]
+id = "v04-ex-cc20a7a367"
+command = "dpkg -L tar"
+summary = "查看 tar 包安装了哪些文件"
+
+[[commands.tokens]]
+text = "dpkg"
+desc = "查看 tar 包安装了哪些文件"
+
+[[commands.tokens]]
+text = " -L"
+desc = "查看 tar 包安装了哪些文件；此处使用 -L 选项"
+
+[[commands.tokens]]
+text = " tar"
+desc = "查看 tar 包安装了哪些文件；指定 tar"
+
+[commands.dictation]
+prompt = "查看 tar 包安装了哪些文件"
+answers = ["dpkg -L tar"]
+
+[[commands]]
+id = "v04-ex-216831cd3d"
+command = "dpkg-query -S /usr/bin/ssh"
+summary = "从实际可执行文件反查所属软件包"
+
+[[commands.tokens]]
+text = "dpkg-query"
+desc = "从实际可执行文件反查所属软件包"
+
+[[commands.tokens]]
+text = " -S"
+desc = "从实际可执行文件反查所属软件包；此处使用 -S 选项"
+
+[[commands.tokens]]
+text = " /usr/bin/ssh"
+desc = "本次操作指定的路径：/usr/bin/ssh"
+
+[commands.dictation]
+prompt = "从实际可执行文件反查所属软件包"
+answers = ["dpkg-query -S /usr/bin/ssh"]
+
+[[commands]]
+id = "v04-ex-205f676ff8"
+command = "dpkg --audit curl"
+summary = "检查 curl 包状态是否存在未完整安装问题"
+
+[[commands.tokens]]
+text = "dpkg"
+desc = "检查 curl 包状态是否存在未完整安装问题"
+
+[[commands.tokens]]
+text = " --audit"
+desc = "检查 curl 包状态是否存在未完整安装问题；此处使用 --audit 选项"
+
+[[commands.tokens]]
+text = " curl"
+desc = "检查 curl 包状态是否存在未完整安装问题；指定 curl"
+
+[commands.dictation]
+prompt = "检查 curl 包状态是否存在未完整安装问题"
+answers = ["dpkg --audit curl"]
+
+[[commands]]
+id = "v04-ex-4bf65f74e8"
+command = "dpkg --audit nginx"
+summary = "检查实验 nginx 包的安装状态"
+
+[[commands.tokens]]
+text = "dpkg"
+desc = "检查实验 nginx 包的安装状态"
+
+[[commands.tokens]]
+text = " --audit"
+desc = "检查实验 nginx 包的安装状态；此处使用 --audit 选项"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "检查实验 nginx 包的安装状态；指定 nginx"
+
+[commands.dictation]
+prompt = "检查实验 nginx 包的安装状态"
+answers = ["dpkg --audit nginx"]
+
+[[commands]]
+id = "v04-ex-f1cdc0825c"
+command = "printenv HOME"
+summary = "读取导出的 HOME 环境变量"
+
+[[commands.tokens]]
+text = "printenv"
+desc = "读取导出的 HOME 环境变量"
+
+[[commands.tokens]]
+text = " HOME"
+desc = "读取导出的 HOME 环境变量；指定 HOME"
+
+[commands.dictation]
+prompt = "读取导出的 HOME 环境变量"
+answers = ["printenv HOME"]
+
+[[commands]]
+id = "v04-ex-2e2faec810"
+command = "printenv SHELL"
+summary = "读取导出的登录 shell 环境变量"
+
+[[commands.tokens]]
+text = "printenv"
+desc = "读取导出的登录 shell 环境变量"
+
+[[commands.tokens]]
+text = " SHELL"
+desc = "读取导出的登录 shell 环境变量；指定 SHELL"
+
+[commands.dictation]
+prompt = "读取导出的登录 shell 环境变量"
+answers = ["printenv SHELL"]
+
+[[commands]]
+id = "v04-ex-0403e5378c"
+command = "printenv LANG"
+summary = "读取导出的默认区域设置变量"
+
+[[commands.tokens]]
+text = "printenv"
+desc = "读取导出的默认区域设置变量"
+
+[[commands.tokens]]
+text = " LANG"
+desc = "读取导出的默认区域设置变量；指定 LANG"
+
+[commands.dictation]
+prompt = "读取导出的默认区域设置变量"
+answers = ["printenv LANG"]
+
+[[commands]]
+id = "v04-ex-cc8f75b939"
+command = "lsblk -o NAME,TYPE,SIZE"
+summary = "先关联设备名称、类型与大小"
+
+[[commands.tokens]]
+text = "lsblk"
+desc = "先关联设备名称、类型与大小"
+
+[[commands.tokens]]
+text = " -o"
+desc = "先关联设备名称、类型与大小；此处使用 -o 选项"
+
+[[commands.tokens]]
+text = " NAME,TYPE,SIZE"
+desc = "先关联设备名称、类型与大小；指定 NAME,TYPE,SIZE"
+
+[commands.dictation]
+prompt = "先关联设备名称、类型与大小"
+answers = ["lsblk -o NAME,TYPE,SIZE"]
+
+[[commands]]
+id = "v04-ex-63143c4b76"
+command = "lsblk -o NAME,FSTYPE,MOUNTPOINTS"
+summary = "把文件系统类型与挂载点关联"
+
+[[commands.tokens]]
+text = "lsblk"
+desc = "把文件系统类型与挂载点关联"
+
+[[commands.tokens]]
+text = " -o"
+desc = "把文件系统类型与挂载点关联；此处使用 -o 选项"
+
+[[commands.tokens]]
+text = " NAME,FSTYPE,MOUNTPOINTS"
+desc = "把文件系统类型与挂载点关联；指定 NAME,FSTYPE,MOUNTPOINTS"
+
+[commands.dictation]
+prompt = "把文件系统类型与挂载点关联"
+answers = ["lsblk -o NAME,FSTYPE,MOUNTPOINTS"]
+
+[[commands]]
+id = "v04-ex-64b15d3c65"
+command = "findmnt -T /srv/app"
+summary = "定位实验部署目录使用的文件系统"
+
+[[commands.tokens]]
+text = "findmnt"
+desc = "定位实验部署目录使用的文件系统"
+
+[[commands.tokens]]
+text = " -T"
+desc = "定位实验部署目录使用的文件系统；此处使用 -T 选项"
+
+[[commands.tokens]]
+text = " /srv/app"
+desc = "本次操作指定的路径：/srv/app"
+
+[commands.dictation]
+prompt = "定位实验部署目录使用的文件系统"
+answers = ["findmnt -T /srv/app"]
+
+[[commands]]
+id = "v04-ex-50349d874a"
+command = "findmnt -o TARGET,SOURCE,FSTYPE /"
+summary = "查看根挂载的来源与文件系统类型"
+
+[[commands.tokens]]
+text = "findmnt"
+desc = "查看根挂载的来源与文件系统类型"
+
+[[commands.tokens]]
+text = " -o"
+desc = "查看根挂载的来源与文件系统类型；此处使用 -o 选项"
+
+[[commands.tokens]]
+text = " TARGET,SOURCE,FSTYPE"
+desc = "查看根挂载的来源与文件系统类型；指定 TARGET,SOURCE,FSTYPE"
+
+[[commands.tokens]]
+text = " /"
+desc = "本次操作指定的路径：/"
+
+[commands.dictation]
+prompt = "查看根挂载的来源与文件系统类型"
+answers = ["findmnt -o TARGET,SOURCE,FSTYPE /"]
+
+[[commands]]
+id = "v04-ex-8a5ee4d992"
+command = "df -h /var/log"
+summary = "按可读单位查看日志所在文件系统容量"
+
+[[commands.tokens]]
+text = "df"
+desc = "按可读单位查看日志所在文件系统容量"
+
+[[commands.tokens]]
+text = " -h"
+desc = "按可读单位查看日志所在文件系统容量；此处使用 -h 选项"
+
+[[commands.tokens]]
+text = " /var/log"
+desc = "本次操作指定的路径：/var/log"
+
+[commands.dictation]
+prompt = "按可读单位查看日志所在文件系统容量"
+answers = ["df -h /var/log"]
+
+[[commands]]
+id = "v04-ex-25c66191e8"
+command = "df -i /srv/app"
+summary = "用 inode 视角排查仍有容量却无法创建文件的问题"
+
+[[commands.tokens]]
+text = "df"
+desc = "用 inode 视角排查仍有容量却无法创建文件的问题"
+
+[[commands.tokens]]
+text = " -i"
+desc = "用 inode 视角排查仍有容量却无法创建文件的问题；此处使用 -i 选项"
+
+[[commands.tokens]]
+text = " /srv/app"
+desc = "本次操作指定的路径：/srv/app"
+
+[commands.dictation]
+prompt = "用 inode 视角排查仍有容量却无法创建文件的问题"
+answers = ["df -i /srv/app"]
+
+[[commands]]
+id = "v04-ex-d58125ae84"
+command = "du -sh ~/ops-lab/input"
+summary = "查看实验输入目录总用量"
+
+[[commands.tokens]]
+text = "du"
+desc = "查看实验输入目录总用量"
+
+[[commands.tokens]]
+text = " -sh"
+desc = "查看实验输入目录总用量；此处使用 -sh 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input"
+desc = "本次操作指定的路径：~/ops-lab/input"
+
+[commands.dictation]
+prompt = "查看实验输入目录总用量"
+answers = ["du -sh ~/ops-lab/input"]
+
+[[commands]]
+id = "v04-ex-6ffbb24f08"
+command = "du -sh ~/ops-lab/backup"
+summary = "查看实验备份目录总用量"
+
+[[commands.tokens]]
+text = "du"
+desc = "查看实验备份目录总用量"
+
+[[commands.tokens]]
+text = " -sh"
+desc = "查看实验备份目录总用量；此处使用 -sh 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backup"
+desc = "本次操作指定的路径：~/ops-lab/backup"
+
+[commands.dictation]
+prompt = "查看实验备份目录总用量"
+answers = ["du -sh ~/ops-lab/backup"]
+
+[[commands]]
+id = "v04-ex-4d62c601f1"
+command = "du -hd1 ~/ops-lab"
+summary = "比较实验目录第一层各子目录用量"
+
+[[commands.tokens]]
+text = "du"
+desc = "比较实验目录第一层各子目录用量"
+
+[[commands.tokens]]
+text = " -hd1"
+desc = "比较实验目录第一层各子目录用量；此处使用 -hd1 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作指定的路径：~/ops-lab"
+
+[commands.dictation]
+prompt = "比较实验目录第一层各子目录用量"
+answers = ["du -hd1 ~/ops-lab"]
+
+[[commands]]
+id = "v04-ex-34b1c2f2d6"
+command = "uptime -s"
+summary = "读取本次系统启动时间"
+
+[[commands.tokens]]
+text = "uptime"
+desc = "读取本次系统启动时间"
+
+[[commands.tokens]]
+text = " -s"
+desc = "读取本次系统启动时间；此处使用 -s 选项"
+
+[commands.dictation]
+prompt = "读取本次系统启动时间"
+answers = ["uptime -s"]
+
+[[commands]]
+id = "v04-ex-fdd80e2f68"
+command = "cat /proc/uptime"
+summary = "读取启动以来秒数和所有 CPU 累计空闲秒数"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /proc/uptime"
+desc = "本次操作指定的路径：/proc/uptime"
+
+[commands.dictation]
+prompt = "读取启动以来秒数和所有 CPU 累计空闲秒数"
+answers = ["cat /proc/uptime"]
+
+[[commands]]
+id = "v04-ex-7f63c3e829"
+command = "crontab -l | head -n 10"
+summary = "先查看当前用户任务表前十行"
+
+[[commands.tokens]]
+text = "crontab"
+desc = "先查看当前用户任务表前十行"
+
+[[commands.tokens]]
+text = " -l"
+desc = "先查看当前用户任务表前十行；此处使用 -l 选项"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "先查看当前用户任务表前十行；指定 head"
+
+[[commands.tokens]]
+text = " -n"
+desc = "先查看当前用户任务表前十行；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 10"
+desc = "本次练习的数值参数 10；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "先查看当前用户任务表前十行"
+answers = ["crontab -l | head -n 10"]
+
+[[commands]]
+id = "v04-ex-561c842f74"
+command = "systemctl status cron.service --no-pager"
+summary = "核对 Ubuntu cron 守护服务状态"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " status"
+desc = "核对 Ubuntu cron 守护服务状态；指定 status"
+
+[[commands.tokens]]
+text = " cron.service"
+desc = "核对 Ubuntu cron 守护服务状态；指定 cron.service"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "禁用分页器，直接输出便于查看的结果"
+
+[commands.dictation]
+prompt = "核对 Ubuntu cron 守护服务状态"
+answers = ["systemctl status cron.service --no-pager"]
+
+[[commands]]
+id = "v04-ex-8dc1cd6a78"
+command = "systemctl status nginx.service --no-pager"
+summary = "查看实验 Web 服务当前状态"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " status"
+desc = "查看实验 Web 服务当前状态；指定 status"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "查看实验 Web 服务当前状态；指定 nginx.service"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "禁用分页器，直接输出便于查看的结果"
+
+[commands.dictation]
+prompt = "查看实验 Web 服务当前状态"
+answers = ["systemctl status nginx.service --no-pager"]
+
+[[commands]]
+id = "v04-ex-ba24d24226"
+command = "systemctl status ssh.service --no-pager"
+summary = "查看 Ubuntu SSH 服务状态"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " status"
+desc = "查看 Ubuntu SSH 服务状态；指定 status"
+
+[[commands.tokens]]
+text = " ssh.service"
+desc = "查看 Ubuntu SSH 服务状态；指定 ssh.service"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "禁用分页器，直接输出便于查看的结果"
+
+[commands.dictation]
+prompt = "查看 Ubuntu SSH 服务状态"
+answers = ["systemctl status ssh.service --no-pager"]
+
+[[commands]]
+id = "v04-ex-832237cea4"
+command = "systemctl status cron.service --no-pager --full"
+summary = "完整查看 Ubuntu 定时任务服务状态"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " status"
+desc = "完整查看 Ubuntu 定时任务服务状态；指定 status"
+
+[[commands.tokens]]
+text = " cron.service"
+desc = "完整查看 Ubuntu 定时任务服务状态；指定 cron.service"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "禁用分页器，直接输出便于查看的结果"
+
+[[commands.tokens]]
+text = " --full"
+desc = "完整查看 Ubuntu 定时任务服务状态；此处使用 --full 选项"
+
+[commands.dictation]
+prompt = "完整查看 Ubuntu 定时任务服务状态"
+answers = ["systemctl status cron.service --no-pager --full"]
+
+[[commands]]
+id = "v04-ex-0ab98c36fe"
+command = "systemctl is-active ssh.service"
+summary = "检查 Ubuntu SSH 服务是否处于活动状态"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " is-active"
+desc = "检查 Ubuntu SSH 服务是否处于活动状态；指定 is-active"
+
+[[commands.tokens]]
+text = " ssh.service"
+desc = "检查 Ubuntu SSH 服务是否处于活动状态；指定 ssh.service"
+
+[commands.dictation]
+prompt = "检查 Ubuntu SSH 服务是否处于活动状态"
+answers = ["systemctl is-active ssh.service"]
+
+[[commands]]
+id = "v04-ex-260cdb33cf"
+command = "systemctl show nginx.service -p ActiveState"
+summary = "以属性形式核对实验服务活动状态"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " show"
+desc = "以属性形式核对实验服务活动状态；指定 show"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "以属性形式核对实验服务活动状态；指定 nginx.service"
+
+[[commands.tokens]]
+text = " -p"
+desc = "以属性形式核对实验服务活动状态；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " ActiveState"
+desc = "以属性形式核对实验服务活动状态；指定 ActiveState"
+
+[commands.dictation]
+prompt = "以属性形式核对实验服务活动状态"
+answers = ["systemctl show nginx.service -p ActiveState"]
+
+[[commands]]
+id = "v04-ex-d639041a05"
+command = "systemctl is-enabled nginx.service"
+summary = "检查实验 Web 服务开机启动策略"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " is-enabled"
+desc = "检查实验 Web 服务开机启动策略；指定 is-enabled"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "检查实验 Web 服务开机启动策略；指定 nginx.service"
+
+[commands.dictation]
+prompt = "检查实验 Web 服务开机启动策略"
+answers = ["systemctl is-enabled nginx.service"]
+
+[[commands]]
+id = "v04-ex-2b3d8bf96f"
+command = "systemctl list-unit-files ssh.service"
+summary = "查看 SSH 单元文件及预设状态"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " list-unit-files"
+desc = "查看 SSH 单元文件及预设状态；指定 list-unit-files"
+
+[[commands.tokens]]
+text = " ssh.service"
+desc = "查看 SSH 单元文件及预设状态；指定 ssh.service"
+
+[commands.dictation]
+prompt = "查看 SSH 单元文件及预设状态"
+answers = ["systemctl list-unit-files ssh.service"]
+
+[[commands]]
+id = "v04-ex-850c47b2c5"
+command = "sudo systemctl start cron.service"
+summary = "启动实验 Ubuntu 定时任务服务"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " start"
+desc = "启动实验 Ubuntu 定时任务服务；指定 start"
+
+[[commands.tokens]]
+text = " cron.service"
+desc = "启动实验 Ubuntu 定时任务服务；指定 cron.service"
+
+[commands.dictation]
+prompt = "启动实验 Ubuntu 定时任务服务"
+answers = ["sudo systemctl start cron.service"]
+
+[[commands]]
+id = "v04-ex-fd932aa2fc"
+command = "systemctl --failed --no-pager"
+summary = "列出失败单元，不局限于服务"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " --failed"
+desc = "列出失败单元，不局限于服务；此处使用 --failed 选项"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "禁用分页器，直接输出便于查看的结果"
+
+[commands.dictation]
+prompt = "列出失败单元，不局限于服务"
+answers = ["systemctl --failed --no-pager"]
+
+[[commands]]
+id = "v04-ex-485608398f"
+command = "systemctl show nginx.service -p Result"
+summary = "读取实验 nginx 上次运行结果"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " show"
+desc = "读取实验 nginx 上次运行结果；指定 show"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "读取实验 nginx 上次运行结果；指定 nginx.service"
+
+[[commands.tokens]]
+text = " -p"
+desc = "读取实验 nginx 上次运行结果；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " Result"
+desc = "读取实验 nginx 上次运行结果；指定 Result"
+
+[commands.dictation]
+prompt = "读取实验 nginx 上次运行结果"
+answers = ["systemctl show nginx.service -p Result"]
+
+[[commands]]
+id = "v04-ex-3bcdab7bfe"
+command = "journalctl -u ssh.service -n 10 --no-pager"
+summary = "查看实验 SSH 最近十条服务日志"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " -u"
+desc = "只读取指定 systemd 单元的日志"
+
+[[commands.tokens]]
+text = " ssh.service"
+desc = "查看实验 SSH 最近十条服务日志；指定 ssh.service"
+
+[[commands.tokens]]
+text = " -n"
+desc = "显示末尾指定条数"
+
+[[commands.tokens]]
+text = " 10"
+desc = "本次练习的数值参数 10；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "直接输出，不启动分页器"
+
+[commands.dictation]
+prompt = "查看实验 SSH 最近十条服务日志"
+answers = ["journalctl -u ssh.service -n 10 --no-pager"]
+
+[[commands]]
+id = "v04-ex-bdec55df78"
+command = "journalctl -u nginx.service -n 20 --no-pager"
+summary = "查看实验 Web 最近二十条服务日志"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " -u"
+desc = "只读取指定 systemd 单元的日志"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "查看实验 Web 最近二十条服务日志；指定 nginx.service"
+
+[[commands.tokens]]
+text = " -n"
+desc = "显示末尾指定条数"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "直接输出，不启动分页器"
+
+[commands.dictation]
+prompt = "查看实验 Web 最近二十条服务日志"
+answers = ["journalctl -u nginx.service -n 20 --no-pager"]
+
+[[commands]]
+id = "v04-ex-1bc79c76f2"
+command = "journalctl -u cron.service --since '-1 hour' --no-pager"
+summary = "限定到最近一小时的定时任务服务日志"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " -u"
+desc = "只读取指定 systemd 单元的日志"
+
+[[commands.tokens]]
+text = " cron.service"
+desc = "限定到最近一小时的定时任务服务日志；指定 cron.service"
+
+[[commands.tokens]]
+text = " --since"
+desc = "设置包含的起始时间"
+
+[[commands.tokens]]
+text = " '-1 hour'"
+desc = "引号保护此参数中的空格或特殊符号；限定到最近一小时的定时任务服务日志"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "直接输出，不启动分页器"
+
+[commands.dictation]
+prompt = "限定到最近一小时的定时任务服务日志"
+answers = ["journalctl -u cron.service --since '-1 hour' --no-pager"]
+
+[[commands]]
+id = "v04-ex-1f66b700a2"
+command = "command -v nano"
+summary = "检查 nano 是否位于 PATH"
+
+[[commands.tokens]]
+text = "command"
+desc = "检查 nano 是否位于 PATH"
+
+[[commands.tokens]]
+text = " -v"
+desc = "检查 nano 是否位于 PATH；此处使用 -v 选项"
+
+[[commands.tokens]]
+text = " nano"
+desc = "检查 nano 是否位于 PATH；指定 nano"
+
+[commands.dictation]
+prompt = "检查 nano 是否位于 PATH"
+answers = ["command -v nano"]
+
+[[commands]]
+id = "v04-ex-692d45e260"
+command = "command -v vim"
+summary = "检查 vim 是否位于 PATH"
+
+[[commands.tokens]]
+text = "command"
+desc = "检查 vim 是否位于 PATH"
+
+[[commands.tokens]]
+text = " -v"
+desc = "检查 vim 是否位于 PATH；此处使用 -v 选项"
+
+[[commands.tokens]]
+text = " vim"
+desc = "检查 vim 是否位于 PATH；指定 vim"
+
+[commands.dictation]
+prompt = "检查 vim 是否位于 PATH"
+answers = ["command -v vim"]
+
+[[commands]]
+id = "v04-ex-48ee3b08fb"
+command = "type -a vim"
+summary = "列出 shell 能找到的 vim 定义和路径"
+
+[[commands.tokens]]
+text = "type"
+desc = "列出 shell 能找到的 vim 定义和路径"
+
+[[commands.tokens]]
+text = " -a"
+desc = "列出 shell 能找到的 vim 定义和路径；此处使用 -a 选项"
+
+[[commands.tokens]]
+text = " vim"
+desc = "列出 shell 能找到的 vim 定义和路径；指定 vim"
+
+[commands.dictation]
+prompt = "列出 shell 能找到的 vim 定义和路径"
+answers = ["type -a vim"]
+
+[[commands]]
+id = "v04-ex-2c95e086aa"
+command = "date '+%Y-%m-%d %H:%M:%S %z'"
+summary = "输出带数字时区的本地完整时间"
+
+[[commands.tokens]]
+text = "date"
+desc = "输出带数字时区的本地完整时间"
+
+[[commands.tokens]]
+text = " '+%Y-%m-%d %H:%M:%S %z'"
+desc = "引号保护此参数中的空格或特殊符号；输出带数字时区的本地完整时间"
+
+[commands.dictation]
+prompt = "输出带数字时区的本地完整时间"
+answers = ["date '+%Y-%m-%d %H:%M:%S %z'"]
+
+[[commands]]
+id = "v04-ex-9d30524435"
+command = "date '+%F %Z'"
+summary = "输出日期与时区缩写，跨地区交流优先使用数字偏移"
+
+[[commands.tokens]]
+text = "date"
+desc = "输出日期与时区缩写，跨地区交流优先使用数字偏移"
+
+[[commands.tokens]]
+text = " '+%F %Z'"
+desc = "引号保护此参数中的空格或特殊符号；输出日期与时区缩写，跨地区交流优先使用数字偏移"
+
+[commands.dictation]
+prompt = "输出日期与时区缩写，跨地区交流优先使用数字偏移"
+answers = ["date '+%F %Z'"]
+
+[[commands]]
+id = "v04-ex-6230c85b1e"
+command = "cal 9 2026"
+summary = "查看实验指定月份日历"
+
+[[commands.tokens]]
+text = "cal"
+desc = "查看实验指定月份日历"
+
+[[commands.tokens]]
+text = " 9"
+desc = "本次练习的数值参数 9；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 2026"
+desc = "本次练习的数值参数 2026；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "查看实验指定月份日历"
+answers = ["cal 9 2026"]
+
+[[commands]]
+id = "v04-ex-57eed46ba7"
+command = "cal -3"
+summary = "显示上月、本月与下月日历"
+
+[[commands.tokens]]
+text = "cal"
+desc = "显示上月、本月与下月日历"
+
+[[commands.tokens]]
+text = " -3"
+desc = "显示上月、本月与下月日历；此处使用 -3 选项"
+
+[commands.dictation]
+prompt = "显示上月、本月与下月日历"
+answers = ["cal -3"]
+
+[[commands]]
+id = "v04-ex-53e797a5e9"
+command = "cal 2026"
+summary = "显示实验指定整年日历"
+
+[[commands.tokens]]
+text = "cal"
+desc = "显示实验指定整年日历"
+
+[[commands.tokens]]
+text = " 2026"
+desc = "本次练习的数值参数 2026；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "显示实验指定整年日历"
+answers = ["cal 2026"]
+
+[[commands]]
+id = "v04-ex-32dc65dcb1"
+command = "locale -k LC_TIME"
+summary = "查看当前时间区域类别的关键字配置"
+
+[[commands.tokens]]
+text = "locale"
+desc = "查看当前时间区域类别的关键字配置"
+
+[[commands.tokens]]
+text = " -k"
+desc = "查看当前时间区域类别的关键字配置；此处使用 -k 选项"
+
+[[commands.tokens]]
+text = " LC_TIME"
+desc = "查看当前时间区域类别的关键字配置；指定 LC_TIME"
+
+[commands.dictation]
+prompt = "查看当前时间区域类别的关键字配置"
+answers = ["locale -k LC_TIME"]
+
+[[commands]]
+id = "v04-ex-e647e5471a"
+command = "locale -k LC_CTYPE"
+summary = "查看当前字符分类和编码相关配置"
+
+[[commands.tokens]]
+text = "locale"
+desc = "查看当前字符分类和编码相关配置"
+
+[[commands.tokens]]
+text = " -k"
+desc = "查看当前字符分类和编码相关配置；此处使用 -k 选项"
+
+[[commands.tokens]]
+text = " LC_CTYPE"
+desc = "查看当前字符分类和编码相关配置；指定 LC_CTYPE"
+
+[commands.dictation]
+prompt = "查看当前字符分类和编码相关配置"
+answers = ["locale -k LC_CTYPE"]
+
+[[commands]]
+id = "v04-ex-a488987cf1"
+command = "locale -m"
+summary = "列出可用字符映射名称，和已生成 locale 列表区分"
+
+[[commands.tokens]]
+text = "locale"
+desc = "列出可用字符映射名称，和已生成 locale 列表区分"
+
+[[commands.tokens]]
+text = " -m"
+desc = "列出可用字符映射名称，和已生成 locale 列表区分；此处使用 -m 选项"
+
+[commands.dictation]
+prompt = "列出可用字符映射名称，和已生成 locale 列表区分"
+answers = ["locale -m"]

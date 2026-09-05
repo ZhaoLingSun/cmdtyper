@@ -4,7 +4,7 @@ use ratatui::widgets::{Block, Borders, Paragraph};
 use crate::app::App;
 use crate::ui::widgets::*;
 
-const MENU_ITEMS: [(&str, &str); 5] = [
+const MENU_ITEMS: [(&str, &str); 6] = [
     (
         "\u{2328}\u{fe0f}  \u{5bf9}\u{7740}\u{6253}",
         "\u{7ec8}\u{7aef}\u{6a21}\u{62df}\u{6253}\u{5b57}\u{7ec3}\u{4e60}",
@@ -25,6 +25,7 @@ const MENU_ITEMS: [(&str, &str); 5] = [
         "\u{2699}\u{fe0f}  \u{8bbe}\u{7f6e}",
         "\u{81ea}\u{5b9a}\u{4e49}\u{914d}\u{7f6e}",
     ),
+    ("📅 练习日历", "每日跟打时长、速度、准确率与字符趋势"),
 ];
 
 pub fn render(frame: &mut Frame, app: &App) {
@@ -103,7 +104,10 @@ pub fn render(frame: &mut Frame, app: &App) {
         ]));
     }
 
-    let menu = Paragraph::new(lines).alignment(Alignment::Left);
+    let window = visible_menu_window(app.home_index * 2, lines.len(), 1, inner[1].height);
+    let menu = Paragraph::new(lines)
+        .alignment(Alignment::Left)
+        .scroll((window.start as u16, 0));
     frame.render_widget(menu, inner[1]);
 
     // Hints

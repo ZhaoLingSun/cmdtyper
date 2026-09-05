@@ -1,0 +1,1566 @@
+
+[[groups]]
+id = "practice-lesson-awk-01"
+source_kind = "lesson"
+source_id = "awk"
+unit_id = "awk-print-first-field"
+title = "提取日志文件中每行的第一个字段（IP 地址）"
+teaching_command_id = "awk-print-first-field"
+exercise_command_ids = ["v04-ex-92d1293413", "v04-ex-686f29e61e", "v04-ex-eb1e92ac9e"]
+
+[[groups]]
+id = "practice-lesson-cat-01"
+source_kind = "lesson"
+source_id = "cat"
+unit_id = "v04-ref-8536c102ab"
+title = "查看主机名文件"
+teaching_command_id = "v04-ref-8536c102ab"
+exercise_command_ids = ["v04-ex-7afa748b58", "v04-ex-6ba478139f", "v04-ex-35c62a319b"]
+
+[[groups]]
+id = "practice-lesson-cat-02"
+source_kind = "lesson"
+source_id = "cat"
+unit_id = "v04-ref-6aeb9da620"
+title = "查看用户的 bash 配置文件"
+teaching_command_id = "v04-ref-6aeb9da620"
+exercise_command_ids = ["v04-ex-7afa748b58", "v04-ex-6ba478139f", "v04-ex-35c62a319b"]
+
+[[groups]]
+id = "practice-lesson-cd-01"
+source_kind = "lesson"
+source_id = "cd"
+unit_id = "cd-home-tilde"
+title = "回到主目录"
+teaching_command_id = "cd-home-tilde"
+exercise_command_ids = ["v04-ex-review-6be1020521", "cd-home-default", "v04-ex-review-60f3a3b9ef"]
+
+[[groups]]
+id = "practice-lesson-cd-02"
+source_kind = "lesson"
+source_id = "cd"
+unit_id = "cd-parent"
+title = "切换到上一级目录"
+teaching_command_id = "cd-parent"
+exercise_command_ids = ["v04-ex-review-a45b526f97", "v04-ex-review-017975afb4", "v04-ex-review-21962f44b5"]
+
+[[groups]]
+id = "practice-lesson-chmod-01"
+source_kind = "lesson"
+source_id = "chmod"
+unit_id = "v04-ref-2e30ad2885"
+title = "给脚本设置可执行权限（所有者 rwx，其他人 rx）"
+teaching_command_id = "v04-ref-2e30ad2885"
+exercise_command_ids = ["v04-ex-review-198ffbd529", "v04-ex-review-8c17acbe04", "v04-ex-review-b85d690a1f"]
+
+[[groups]]
+id = "practice-lesson-chmod-02"
+source_kind = "lesson"
+source_id = "chmod"
+unit_id = "v04-ref-6a9b036623"
+title = "用符号模式给文件所有者添加执行权限"
+teaching_command_id = "v04-ref-6a9b036623"
+exercise_command_ids = ["v04-access-7207fb0159", "v04-ex-review-72710cf202", "v04-ex-review-38b38aa8c3"]
+
+[[groups]]
+id = "practice-lesson-cp-01"
+source_kind = "lesson"
+source_id = "cp"
+unit_id = "v04-ref-a6e7ca7f38"
+title = "将 file.txt 复制为 backup.txt"
+teaching_command_id = "v04-ref-a6e7ca7f38"
+exercise_command_ids = ["v04-ex-4883a52904", "v04-ex-008fd01613", "v04-ex-ecbbb3eb06"]
+
+[[groups]]
+id = "practice-lesson-cp-02"
+source_kind = "lesson"
+source_id = "cp"
+unit_id = "v04-ref-a637a1f19c"
+title = "复制文件到 Documents 目录并显示详情"
+teaching_command_id = "v04-ref-a637a1f19c"
+exercise_command_ids = ["v04-ex-008fd01613", "v04-ex-review-4e27cd23cb", "v04-ex-review-0beca41cfc"]
+
+[[groups]]
+id = "practice-lesson-curl-01"
+source_kind = "lesson"
+source_id = "curl"
+unit_id = "v04-ref-486cc76eb1"
+title = "发送简单的 GET 请求"
+teaching_command_id = "v04-ref-486cc76eb1"
+exercise_command_ids = ["v04-ex-25f5da636f", "v04-timeout-b19c3b59fa", "v04-ex-aab4a7dcc7"]
+
+[[groups]]
+id = "practice-lesson-docker-01"
+source_kind = "lesson"
+source_id = "docker"
+unit_id = "v04-ref-30faf94a5c"
+title = "列出所有正在运行的容器"
+teaching_command_id = "v04-ref-30faf94a5c"
+exercise_command_ids = ["v04-ex-review-b5f1b34045", "v04-ex-a7ed014266", "v04-ex-c2beecdbfd"]
+
+[[groups]]
+id = "practice-lesson-docker-02"
+source_kind = "lesson"
+source_id = "docker"
+unit_id = "v04-ref-57e5029c4a"
+title = "列出本地所有 Docker 镜像"
+teaching_command_id = "v04-ref-57e5029c4a"
+exercise_command_ids = ["v04-ex-5bb01d5994", "v04-ex-aa3a4faaba", "v04-ex-review-078aa0798f"]
+
+[[groups]]
+id = "practice-lesson-find-01"
+source_kind = "lesson"
+source_id = "find"
+unit_id = "v04-ref-124107e0b6"
+title = "在主目录下搜索所有 PDF 文件"
+teaching_command_id = "v04-ref-124107e0b6"
+exercise_command_ids = ["v04-ex-f2cb348cdf", "v04-ex-a97633e2ea", "v04-ex-1551ed06a6"]
+
+[[groups]]
+id = "practice-lesson-git-01"
+source_kind = "lesson"
+source_id = "git"
+unit_id = "v04-ref-f2a29f2b35"
+title = "查看当前仓库的工作区和暂存区状态"
+teaching_command_id = "v04-ref-f2a29f2b35"
+exercise_command_ids = ["v04-git_ops-605ccf9a59", "v04-ex-review-c489fb6132", "v04-ex-review-2ac105ffaa"]
+
+[[groups]]
+id = "practice-lesson-git-02"
+source_kind = "lesson"
+source_id = "git"
+unit_id = "v04-ref-148a36a58a"
+title = "查看最近5条提交历史（简洁格式）"
+teaching_command_id = "v04-ref-148a36a58a"
+exercise_command_ids = ["v04-ex-6c6c91e46e", "v04-ex-2bc8bc7190", "v04-ex-d003d603a9"]
+
+[[groups]]
+id = "practice-lesson-grep-01"
+source_kind = "lesson"
+source_id = "grep"
+unit_id = "v04-ref-357e37d758"
+title = "在系统日志中搜索包含 error 的行"
+teaching_command_id = "v04-ref-357e37d758"
+exercise_command_ids = ["v04-ex-37145bd0d0", "v04-text_ops-80929ffb6c", "v04-ex-a5813cea1a"]
+
+[[groups]]
+id = "practice-lesson-head-01"
+source_kind = "lesson"
+source_id = "head"
+unit_id = "v04-ref-93e1a73afd"
+title = "查看 /etc/passwd 文件的前 10 行（默认行数）"
+teaching_command_id = "v04-ref-93e1a73afd"
+exercise_command_ids = ["v04-ex-de896174d1", "v04-ex-d779656be7", "v04-ex-2394304d05"]
+
+[[groups]]
+id = "practice-lesson-head-02"
+source_kind = "lesson"
+source_id = "head"
+unit_id = "v04-ref-37303a7948"
+title = "查看 README 文件的前 5 行"
+teaching_command_id = "v04-ref-37303a7948"
+exercise_command_ids = ["v04-ex-de896174d1", "v04-ex-d779656be7", "v04-ex-2394304d05"]
+
+[[groups]]
+id = "practice-lesson-ip-01"
+source_kind = "lesson"
+source_id = "ip"
+unit_id = "ip-address-show"
+title = "显示所有网络接口的 IP 地址信息"
+teaching_command_id = "ip-address-show"
+exercise_command_ids = ["v04-ex-c808819735", "v04-ex-d1751015b6", "v04-ipv6-7d0837eb37"]
+
+[[groups]]
+id = "practice-lesson-ip-02"
+source_kind = "lesson"
+source_id = "ip"
+unit_id = "v04-ref-bea94eec4d"
+title = "以简洁格式显示所有网络接口和 IP 地址"
+teaching_command_id = "v04-ref-bea94eec4d"
+exercise_command_ids = ["v04-ex-c808819735", "v04-ex-review-5d349ac20c", "v04-ex-review-78bde592fc"]
+
+[[groups]]
+id = "practice-lesson-kill-01"
+source_kind = "lesson"
+source_id = "kill"
+unit_id = "v04-ref-4fff3a0ec0"
+title = "向进程 12345 发送默认的 SIGTERM 信号"
+teaching_command_id = "v04-ref-4fff3a0ec0"
+exercise_command_ids = ["v04-ex-1a01b9884f", "v04-ex-review-d02b9a8386", "v04-ex-review-006840c8b5"]
+
+[[groups]]
+id = "practice-lesson-kill-02"
+source_kind = "lesson"
+source_id = "kill"
+unit_id = "kill-sigkill"
+title = "显式请求进程 12345 正常退出"
+teaching_command_id = "kill-sigkill"
+exercise_command_ids = ["v04-ex-1a01b9884f", "v04-ex-review-d02b9a8386", "v04-ex-review-006840c8b5"]
+
+[[groups]]
+id = "practice-lesson-ls-01"
+source_kind = "lesson"
+source_id = "ls"
+unit_id = "ls-basic"
+title = "列出当前目录的文件"
+teaching_command_id = "ls-basic"
+exercise_command_ids = ["v04-ex-53c2ff6498", "v04-ex-2799a21fb8", "v04-ex-fe24719e74"]
+
+[[groups]]
+id = "practice-lesson-ls-02"
+source_kind = "lesson"
+source_id = "ls"
+unit_id = "v04-ref-d00f56657a"
+title = "列出 /etc 目录的内容"
+teaching_command_id = "v04-ref-d00f56657a"
+exercise_command_ids = ["v04-ex-53c2ff6498", "v04-ex-2799a21fb8", "v04-ex-fe24719e74"]
+
+[[groups]]
+id = "practice-lesson-mkdir-01"
+source_kind = "lesson"
+source_id = "mkdir"
+unit_id = "v04-ref-15afb305aa"
+title = "在当前目录创建 projects 目录"
+teaching_command_id = "v04-ref-15afb305aa"
+exercise_command_ids = ["v04-ex-a106b4112f", "v04-ex-c254f37873", "v04-ex-f2a5b489c9"]
+
+[[groups]]
+id = "practice-lesson-mkdir-02"
+source_kind = "lesson"
+source_id = "mkdir"
+unit_id = "v04-ref-640b523034"
+title = "一次性创建多级目录结构"
+teaching_command_id = "v04-ref-640b523034"
+exercise_command_ids = ["v04-ex-review-a34f0d73fe", "v04-ex-c254f37873", "v04-ex-f2a5b489c9"]
+
+[[groups]]
+id = "practice-lesson-mv-01"
+source_kind = "lesson"
+source_id = "mv"
+unit_id = "mv-file"
+title = "将 old.txt 重命名为 new.txt"
+teaching_command_id = "mv-file"
+exercise_command_ids = ["v04-ex-db464f39e6", "v04-ex-review-83437125ed", "v04-ex-902072d104"]
+
+[[groups]]
+id = "practice-lesson-mv-02"
+source_kind = "lesson"
+source_id = "mv"
+unit_id = "v04-ref-531acd0dbe"
+title = "将文件移动到 Documents 目录"
+teaching_command_id = "v04-ref-531acd0dbe"
+exercise_command_ids = ["v04-ex-review-2cc582f075", "v04-ex-review-b6fdfe6e89", "v04-ex-review-98b1ca330b"]
+
+[[groups]]
+id = "practice-lesson-nginx-01"
+source_kind = "lesson"
+source_id = "nginx"
+unit_id = "v04-ref-6b55fc52e0"
+title = "测试 Nginx 配置文件语法"
+teaching_command_id = "v04-ref-6b55fc52e0"
+exercise_command_ids = ["systemctl-restart-nginx", "v04-ex-8c298f48dd", "v04-ex-review-25fcbd4a1d"]
+
+[[groups]]
+id = "practice-lesson-nginx-02"
+source_kind = "lesson"
+source_id = "nginx"
+unit_id = "systemctl-status-nginx"
+title = "查看 Nginx 服务运行状态"
+teaching_command_id = "systemctl-status-nginx"
+exercise_command_ids = ["v04-ex-8dc1cd6a78", "v04-ex-ba24d24226", "v04-ex-832237cea4"]
+
+[[groups]]
+id = "practice-lesson-ping-01"
+source_kind = "lesson"
+source_id = "ping"
+unit_id = "ping-count-four"
+title = "向 Google DNS 发送 4 个 ICMP 包测试外网连通性"
+teaching_command_id = "ping-count-four"
+exercise_command_ids = ["v04-ex-2e784349f2", "v04-ex-a5dd9f457c", "v04-ex-8158015db6"]
+
+[[groups]]
+id = "practice-lesson-ping-02"
+source_kind = "lesson"
+source_id = "ping"
+unit_id = "v04-ref-b065e06d8b"
+title = "测试域名解析和网络连通性"
+teaching_command_id = "v04-ref-b065e06d8b"
+exercise_command_ids = ["v04-ex-ad14bb38b6", "v04-ex-ee196f0280", "v04-ex-02a963d48b"]
+
+[[groups]]
+id = "practice-lesson-ps-01"
+source_kind = "lesson"
+source_id = "ps"
+unit_id = "ps-aux"
+title = "查看所有用户的所有进程（BSD 风格）"
+teaching_command_id = "ps-aux"
+exercise_command_ids = ["v04-ex-review-567331ad77", "shared-464271da00b65eae", "v04-ex-review-4f06052773"]
+
+[[groups]]
+id = "practice-lesson-ps-02"
+source_kind = "lesson"
+source_id = "ps"
+unit_id = "ps-ef-basic"
+title = "查看所有进程的完整信息（POSIX 风格）"
+teaching_command_id = "ps-ef-basic"
+exercise_command_ids = ["v04-ex-cec6bca560", "shared-de43ce1b8ac55c1a", "v04-ex-review-99f9eadd34"]
+
+[[groups]]
+id = "practice-lesson-rm-01"
+source_kind = "lesson"
+source_id = "rm"
+unit_id = "rm-file"
+title = "删除单个文件"
+teaching_command_id = "rm-file"
+exercise_command_ids = ["v04-ex-0be6b78ec6", "v04-ex-e8b57ddf4c", "v04-ex-qa-7fa8226c1b"]
+
+[[groups]]
+id = "practice-lesson-rm-02"
+source_kind = "lesson"
+source_id = "rm"
+unit_id = "v04-ref-48bcf8fb73"
+title = "删除文件前确认"
+teaching_command_id = "v04-ref-48bcf8fb73"
+exercise_command_ids = ["v04-ex-e8b57ddf4c", "v04-ex-qa-1b4a6e12da", "v04-ex-qa-a68d52590e"]
+
+[[groups]]
+id = "practice-lesson-sed-01"
+source_kind = "lesson"
+source_id = "sed"
+unit_id = "v04-ref-3ccbc5f66c"
+title = "将日志中所有 error 替换为 ERROR"
+teaching_command_id = "v04-ref-3ccbc5f66c"
+exercise_command_ids = ["v04-ex-d69a5d8800", "v04-text_ops-7e3490539b", "v04-ex-aa57caddf1"]
+
+[[groups]]
+id = "practice-lesson-sort-01"
+source_kind = "lesson"
+source_id = "sort"
+unit_id = "v04-ref-0d5b7ce191"
+title = "按字母顺序排列文件中的名字"
+teaching_command_id = "v04-ref-0d5b7ce191"
+exercise_command_ids = ["v04-ex-5fdb6c35ff", "v04-ex-review-b76cd58f12", "v04-ex-review-b6534b4c62"]
+
+[[groups]]
+id = "practice-lesson-ssh-01"
+source_kind = "lesson"
+source_id = "ssh"
+unit_id = "v04-ref-845362d24c"
+title = "最基本的 SSH 登录"
+teaching_command_id = "v04-ref-845362d24c"
+exercise_command_ids = ["v04-ex-e070ab6592", "v04-ssh_ops-47c37252ee", "v04-ex-648cbe12c0"]
+
+[[groups]]
+id = "practice-lesson-ssh-02"
+source_kind = "lesson"
+source_id = "ssh"
+unit_id = "v04-ref-9f56c2cc95"
+title = "使用域名和指定用户登录"
+teaching_command_id = "v04-ref-9f56c2cc95"
+exercise_command_ids = ["ssh-login-basic", "ssh-login-custom-port", "ssh-port-host"]
+
+[[groups]]
+id = "practice-lesson-systemctl-01"
+source_kind = "lesson"
+source_id = "systemctl"
+unit_id = "systemctl-status-nginx"
+title = "查看 Nginx 服务的当前运行状态"
+teaching_command_id = "systemctl-status-nginx"
+exercise_command_ids = ["v04-ex-8dc1cd6a78", "v04-ex-ba24d24226", "v04-ex-832237cea4"]
+
+[[groups]]
+id = "practice-lesson-systemctl-02"
+source_kind = "lesson"
+source_id = "systemctl"
+unit_id = "v04-ref-3b33b876f2"
+title = "启动 SSH 服务"
+teaching_command_id = "v04-ref-3b33b876f2"
+exercise_command_ids = ["systemctl-start-nginx-service", "v04-ex-850c47b2c5", "v04-ex-review-cc0673d4fc"]
+
+[[groups]]
+id = "practice-lesson-tail-01"
+source_kind = "lesson"
+source_id = "tail"
+unit_id = "v04-ref-ac11355900"
+title = "查看系统日志的最后 10 行"
+teaching_command_id = "v04-ref-ac11355900"
+exercise_command_ids = ["v04-ex-4c48c174cc", "v04-ex-a004c0405b", "v04-ex-review-05c1599bb0"]
+
+[[groups]]
+id = "practice-lesson-tail-02"
+source_kind = "lesson"
+source_id = "tail"
+unit_id = "v04-ref-225add12f0"
+title = "查看最近执行的 5 条命令"
+teaching_command_id = "v04-ref-225add12f0"
+exercise_command_ids = ["v04-ex-4c48c174cc", "v04-ex-a004c0405b", "v04-ex-review-05c1599bb0"]
+
+[[groups]]
+id = "practice-lesson-tar-01"
+source_kind = "lesson"
+source_id = "tar"
+unit_id = "v04-ref-1a7bc833f4"
+title = "将 project 目录打包并用 gzip 压缩"
+teaching_command_id = "v04-ref-1a7bc833f4"
+exercise_command_ids = ["v04-ex-cad6ec6077", "v04-ex-1dc93fcbf4", "v04-ex-review-0472928bca"]
+
+[[groups]]
+id = "practice-lesson-tar-02"
+source_kind = "lesson"
+source_id = "tar"
+unit_id = "v04-ref-3b44e3e305"
+title = "解压 .tar.gz 归档文件"
+teaching_command_id = "v04-ref-3b44e3e305"
+exercise_command_ids = ["v04-ex-8e8beef327", "v04-ex-review-8ee1e34b44", "v04-ex-review-1f91514aee"]
+
+[[groups]]
+id = "practice-lesson-top-01"
+source_kind = "lesson"
+source_id = "top"
+unit_id = "top-basic"
+title = "启动 top 实时监控系统状态"
+teaching_command_id = "top-basic"
+exercise_command_ids = ["v04-ex-bb1800b09f", "v04-ex-a441ed9f89", "v04-ex-149b330c6b"]
+
+[[groups]]
+id = "practice-lesson-uniq-01"
+source_kind = "lesson"
+source_id = "uniq"
+unit_id = "xargs-one-argument-each"
+title = "排序后去除重复的名字"
+teaching_command_id = "xargs-one-argument-each"
+exercise_command_ids = ["v04-ex-cebcaac896", "v04-ex-c1a8054504", "v04-ex-cfa926d189"]
+
+[[groups]]
+id = "practice-lesson-v03_20_command_discovery_rescue-01"
+source_kind = "lesson"
+source_id = "command-discovery-rescue"
+unit_id = "type-echo"
+title = "确认一个名称在 Bash 中属于哪类命令"
+teaching_command_id = "type-echo"
+exercise_command_ids = ["v04-ex-fcec93899d", "v04-ex-review-6ef3102d0d", "v04-ex-review-f30154f95a"]
+
+[[groups]]
+id = "practice-lesson-v03_20_command_discovery_rescue-02"
+source_kind = "lesson"
+source_id = "command-discovery-rescue"
+unit_id = "which-ssh"
+title = "从 PATH 中定位远程登录程序的路径"
+teaching_command_id = "which-ssh"
+exercise_command_ids = ["v04-ex-82c5d550f6", "v04-ex-acfcdb6ac2", "v04-ex-review-fac1d81c72"]
+
+[[groups]]
+id = "practice-lesson-v03_20_help_manuals-01"
+source_kind = "lesson"
+source_id = "help-manuals"
+unit_id = "man-list-files"
+title = "忘记 ls 选项时查看完整本机手册"
+teaching_command_id = "man-list-files"
+exercise_command_ids = ["v04-ex-b3352ee376", "v04-ex-b797cc5e00", "v04-ex-38f70e01d8"]
+
+[[groups]]
+id = "practice-lesson-v03_20_help_manuals-02"
+source_kind = "lesson"
+source_id = "help-manuals"
+unit_id = "grep-help-options"
+title = "忘记文本搜索选项时查看简明帮助"
+teaching_command_id = "grep-help-options"
+exercise_command_ids = ["v04-ex-84e7fdbffb", "v04-ex-fa4741e3b2", "v04-ex-8a13f7643b"]
+
+[[groups]]
+id = "practice-lesson-v03_20_help_manuals-03"
+source_kind = "lesson"
+source_id = "help-manuals"
+unit_id = "bash-help-cd"
+title = "在 Bash 内查看切换目录功能的帮助"
+teaching_command_id = "bash-help-cd"
+exercise_command_ids = ["v04-ex-3c1236e82a", "v04-ex-67a5ad265e", "v04-ex-cab0c8799f"]
+
+[[groups]]
+id = "practice-lesson-v03_20_shell_history_jobs-01"
+source_kind = "lesson"
+source_id = "shell-history-jobs"
+unit_id = "history-list"
+title = "列出当前 Bash 会话的带编号命令历史"
+teaching_command_id = "history-list"
+exercise_command_ids = ["v04-ex-8a64c60655", "v04-ex-b9ed0ac494", "v04-ex-a290de54ca"]
+
+[[groups]]
+id = "practice-lesson-v03_20_shell_history_jobs-02"
+source_kind = "lesson"
+source_id = "shell-history-jobs"
+unit_id = "clear-keep-scrollback"
+title = "只查看最近十条 Bash 命令历史"
+teaching_command_id = "clear-keep-scrollback"
+exercise_command_ids = ["v04-ex-8a64c60655", "v04-ex-b9ed0ac494", "v04-ex-a290de54ca"]
+
+[[groups]]
+id = "practice-lesson-v03_20_shell_history_jobs-03"
+source_kind = "lesson"
+source_id = "shell-history-jobs"
+unit_id = "alias-list"
+title = "列出当前 Bash 会话中已有的全部别名"
+teaching_command_id = "alias-list"
+exercise_command_ids = ["v04-ex-1bfeeccea4", "v04-ex-review-60514ffdee", "v04-ex-review-fd2cb33acc"]
+
+[[groups]]
+id = "practice-lesson-v03_21_apt_indexes_search-01"
+source_kind = "lesson"
+source_id = "apt-indexes-search"
+unit_id = "apt-update-fail-any-source"
+title = "安装或升级前刷新本机的软件包索引"
+teaching_command_id = "apt-update-fail-any-source"
+exercise_command_ids = ["v04-ex-2c023527b8", "v04-ex-qa-9b08d791f0", "v04-ex-qa-5ef7673586"]
+
+[[groups]]
+id = "practice-lesson-v03_21_apt_indexes_search-02"
+source_kind = "lesson"
+source_id = "apt-indexes-search"
+unit_id = "apt-search-ripgrep"
+title = "按名称和描述搜索 ripgrep"
+teaching_command_id = "apt-search-ripgrep"
+exercise_command_ids = ["v04-ex-7b99e2ef2e", "v04-ex-5ce7cd79e4", "v04-ex-review-a6bd2dd529"]
+
+[[groups]]
+id = "practice-lesson-v03_21_apt_install_upgrade-01"
+source_kind = "lesson"
+source_id = "apt-install-upgrade"
+unit_id = "apt-install-ripgrep"
+title = "从软件源安装 ripgrep"
+teaching_command_id = "apt-install-ripgrep"
+exercise_command_ids = ["v04-ex-8619f60331", "v04-ex-a46059337d", "v04-ex-d1fa4c0ecd"]
+
+[[groups]]
+id = "practice-lesson-v03_21_apt_install_upgrade-02"
+source_kind = "lesson"
+source_id = "apt-install-upgrade"
+unit_id = "apt-list-installed-ripgrep"
+title = "确认 ripgrep 已安装及其版本"
+teaching_command_id = "apt-list-installed-ripgrep"
+exercise_command_ids = ["v04-ex-a3ca2741a2", "v04-ex-8ffcbe1cac", "v04-ex-536540e66f"]
+
+[[groups]]
+id = "practice-lesson-v03_21_dpkg_repair_cleanup-01"
+source_kind = "lesson"
+source_id = "dpkg-repair-cleanup"
+unit_id = "dpkg-listfiles-curl"
+title = "列出 curl 软件包安装的所有文件"
+teaching_command_id = "dpkg-listfiles-curl"
+exercise_command_ids = ["v04-ex-cc20a7a367", "v04-packages_ops-a995e6791b", "v04-ex-review-b9420185d8"]
+
+[[groups]]
+id = "practice-lesson-v03_21_dpkg_repair_cleanup-02"
+source_kind = "lesson"
+source_id = "dpkg-repair-cleanup"
+unit_id = "dpkg-audit-packages"
+title = "只读检查是否有部分安装或状态异常的软件包"
+teaching_command_id = "dpkg-audit-packages"
+exercise_command_ids = ["v04-ex-205f676ff8", "v04-ex-4bf65f74e8", "v04-ex-review-9e4647ea1c"]
+
+[[groups]]
+id = "practice-lesson-v03_22_tar_create_inspect-01"
+source_kind = "lesson"
+source_id = "tar-create-inspect"
+unit_id = "unzip-cp936-legacy"
+title = "确认归档名不存在后，把 logs 打包为未压缩归档"
+teaching_command_id = "unzip-cp936-legacy"
+exercise_command_ids = ["v04-ex-a174a468c0", "v04-ex-review-3fcc8bfe3a", "v04-ex-review-e9d4490667"]
+
+[[groups]]
+id = "practice-lesson-v03_22_tar_create_inspect-02"
+source_kind = "lesson"
+source_id = "tar-create-inspect"
+unit_id = "tar-czf-public"
+title = "确认归档名不存在后，把 public 打包为 gzip 归档"
+teaching_command_id = "tar-czf-public"
+exercise_command_ids = ["v04-ex-cad6ec6077", "v04-ex-1dc93fcbf4", "v04-ex-review-0472928bca"]
+
+[[groups]]
+id = "practice-lesson-v03_22_tar_extract_safety-01"
+source_kind = "lesson"
+source_id = "tar-extract-safety"
+unit_id = "unzip-list-source-code"
+title = "不展开文件，查看 ZIP 内容清单"
+teaching_command_id = "unzip-list-source-code"
+exercise_command_ids = ["v04-ex-2e563baffb", "v04-ex-b5b7eab4bf", "v04-ex-3bfe3aeefe"]
+
+[[groups]]
+id = "practice-lesson-v03_22_tar_extract_safety-02"
+source_kind = "lesson"
+source_id = "tar-extract-safety"
+unit_id = "unzip-test-source-code"
+title = "不写出文件，检查 ZIP 数据完整性"
+teaching_command_id = "unzip-test-source-code"
+exercise_command_ids = ["v04-ex-ccf5135b4b", "v04-ex-42074ad9e1", "v04-archives_ops-6c4937d6d2"]
+
+[[groups]]
+id = "practice-lesson-v03_22_zip_gzip_xz-01"
+source_kind = "lesson"
+source_id = "zip-gzip-xz"
+unit_id = "zip-documents"
+title = "确认压缩包不存在后，把两个文件放入新 ZIP"
+teaching_command_id = "zip-documents"
+exercise_command_ids = ["v04-ex-84b911f288", "v04-ex-a6b9a3a211", "v04-ex-5588edfcc0"]
+
+[[groups]]
+id = "practice-lesson-v03_22_zip_gzip_xz-02"
+source_kind = "lesson"
+source_id = "zip-gzip-xz"
+unit_id = "zip-r-src"
+title = "确认压缩包不存在后，递归压缩 src 目录"
+teaching_command_id = "zip-r-src"
+exercise_command_ids = ["v04-ex-a6b9a3a211", "v04-ex-5588edfcc0", "v04-ex-review-d3fc16774a"]
+
+[[groups]]
+id = "practice-lesson-v03_23_deletion_inventory-01"
+source_kind = "lesson"
+source_id = "v03-deletion-inventory"
+unit_id = "fileops-tree-temp-depth-two"
+title = "自建私有目录树并只查看前两层"
+teaching_command_id = "fileops-tree-temp-depth-two"
+exercise_command_ids = ["v04-ex-fd29ffe6ae", "v04-ex-3142b4f9e1", "v04-ex-d8f18b0787"]
+
+[[groups]]
+id = "practice-lesson-v03_23_deletion_inventory-02"
+source_kind = "lesson"
+source_id = "v03-deletion-inventory"
+unit_id = "fileops-rmdir-empty-temp"
+title = "在私有夹具中仅删除刚创建的空目录"
+teaching_command_id = "fileops-rmdir-empty-temp"
+exercise_command_ids = ["v04-ex-4c89985535", "v04-ex-f582d82a98", "v04-ex-56b3c56f33"]
+
+[[groups]]
+id = "practice-lesson-v03_23_file_create_copy_move-01"
+source_kind = "lesson"
+source_id = "v03-file-create-copy-move"
+unit_id = "fileops-mkdir-work-parents"
+title = "在唯一私有练习目录中一次创建多级目录"
+teaching_command_id = "fileops-mkdir-work-parents"
+exercise_command_ids = ["v04-ex-review-a34f0d73fe", "v04-ex-c254f37873", "v04-ex-f2a5b489c9"]
+
+[[groups]]
+id = "practice-lesson-v03_23_file_create_copy_move-02"
+source_kind = "lesson"
+source_id = "v03-file-create-copy-move"
+unit_id = "fileops-touch-batch-notes"
+title = "在唯一私有练习目录中创建两个空文件"
+teaching_command_id = "fileops-touch-batch-notes"
+exercise_command_ids = ["v04-ex-6fe23b26c4", "v04-ex-b32e7d23b8", "v04-ex-e79168f61e"]
+
+[[groups]]
+id = "practice-lesson-v03_23_links_metadata-01"
+source_kind = "lesson"
+source_id = "v03-links-metadata"
+unit_id = "fileops-ln-shared-directory"
+title = "在唯一私有练习目录中创建相对符号链接"
+teaching_command_id = "fileops-ln-shared-directory"
+exercise_command_ids = ["v04-ex-24795b2b95", "v04-ex-review-95fcb2b497", "v04-ex-review-6075666507"]
+
+[[groups]]
+id = "practice-lesson-v03_23_links_metadata-02"
+source_kind = "lesson"
+source_id = "v03-links-metadata"
+unit_id = "fileops-ln-guide-file"
+title = "自建私有夹具并稳定显示链接名称和目标"
+teaching_command_id = "fileops-ln-guide-file"
+exercise_command_ids = ["v04-ex-ba9a992713", "v04-ex-review-515295f143", "v04-ex-review-ab48e61670"]
+
+[[groups]]
+id = "practice-lesson-v03_23_links_metadata-06"
+source_kind = "lesson"
+source_id = "v03-links-metadata"
+unit_id = "fileops-stat-report-size"
+title = "在私有夹具中查看报表的精确字节大小"
+teaching_command_id = "fileops-stat-report-size"
+exercise_command_ids = ["v04-ex-863aa6e539", "v04-ex-qa-901119b876", "v04-ex-qa-8296073944"]
+
+[[groups]]
+id = "practice-lesson-v03_23_links_metadata-07"
+source_kind = "lesson"
+source_id = "v03-links-metadata"
+unit_id = "fileops-file-shell-script"
+title = "在私有夹具中识别真实脚本类型"
+teaching_command_id = "fileops-file-shell-script"
+exercise_command_ids = ["v04-ex-c6f257a216", "v04-ex-1b1b980e12", "v04-ex-819664314a"]
+
+[[groups]]
+id = "practice-lesson-v03_23_links_metadata-08"
+source_kind = "lesson"
+source_id = "v03-links-metadata"
+unit_id = "fileops-file-extensionless-image"
+title = "在私有夹具中识别无扩展名文本的实际类型"
+teaching_command_id = "fileops-file-extensionless-image"
+exercise_command_ids = ["v04-ex-c6f257a216", "v04-ex-1b1b980e12", "v04-ex-819664314a"]
+
+[[groups]]
+id = "practice-lesson-v03_24_pipeline_control-01"
+source_kind = "lesson"
+source_id = "v03-pipeline-control"
+unit_id = "xargs-collect-words"
+title = "把三个无空格示例词整理为命令参数"
+teaching_command_id = "xargs-collect-words"
+exercise_command_ids = ["v04-ex-60e55fb497", "v04-ex-6011401e62", "v04-ex-71c0088c64"]
+
+[[groups]]
+id = "practice-lesson-v03_24_pipeline_control-04"
+source_kind = "lesson"
+source_id = "v03-pipeline-control"
+unit_id = "xargs-skip-empty-input"
+title = "分页阅读较长的进程列表"
+teaching_command_id = "xargs-skip-empty-input"
+exercise_command_ids = ["v04-ex-qa-9d034c2fb8", "v04-ex-qa-89ed840aa9", "v04-ex-qa-d8ab1604cd"]
+
+[[groups]]
+id = "practice-lesson-v03_24_pipes_tee-01"
+source_kind = "lesson"
+source_id = "v03-pipes-tee"
+unit_id = "pipe-process-list-head"
+title = "只查看进程列表开头五行"
+teaching_command_id = "pipe-process-list-head"
+exercise_command_ids = ["v04-ex-55b0063e08", "v04-ex-qa-d4fa4154a1", "v04-ex-qa-5410ab9c26"]
+
+[[groups]]
+id = "practice-lesson-v03_24_pipes_tee-02"
+source_kind = "lesson"
+source_id = "v03-pipes-tee"
+unit_id = "pipe-count-error-lines"
+title = "统计日志中错误记录的行数"
+teaching_command_id = "pipe-count-error-lines"
+exercise_command_ids = ["v04-ex-c557749386", "v04-ex-f55e665e2f", "v04-ex-qa-b37fc0e74b"]
+
+[[groups]]
+id = "practice-lesson-v03_24_redirection_streams-01"
+source_kind = "lesson"
+source_id = "v03-redirection-streams"
+unit_id = "redirect-overwrite-config"
+title = "在唯一私有练习目录中演示覆盖重定向"
+teaching_command_id = "redirect-overwrite-config"
+exercise_command_ids = ["v04-ex-cd8e7b29fc", "v04-ex-1d6059d14c", "v04-ex-qa-fc679913f3"]
+
+[[groups]]
+id = "practice-lesson-v03_24_redirection_streams-02"
+source_kind = "lesson"
+source_id = "v03-redirection-streams"
+unit_id = "redirect-append-date"
+title = "在唯一私有日志夹具中演示追加重定向"
+teaching_command_id = "redirect-append-date"
+exercise_command_ids = ["v04-ex-08862ec49a", "v04-ex-9dda04da0e", "v04-ex-3f56640ef2"]
+
+[[groups]]
+id = "practice-lesson-v03_24_redirection_streams-04"
+source_kind = "lesson"
+source_id = "v03-redirection-streams"
+unit_id = "redirect-file-to-stdin"
+title = "把文件内容作为排序操作的标准输入"
+teaching_command_id = "redirect-file-to-stdin"
+exercise_command_ids = ["v04-ex-b402dae83f", "v04-ex-685cba5a02", "v04-ex-b1bbe38d1c"]
+
+[[groups]]
+id = "practice-lesson-v03_25_alias_source_shell-01"
+source_kind = "lesson"
+source_id = "v03-alias-source-shell"
+unit_id = "shell-last-exit-status"
+title = "查看上一条命令是否成功及其退出状态"
+teaching_command_id = "shell-last-exit-status"
+exercise_command_ids = ["v04-ex-cb1138050f", "v04-ex-5d895cdb5d", "v04-ex-ae416042ae"]
+
+[[groups]]
+id = "practice-lesson-v03_25_alias_source_shell-02"
+source_kind = "lesson"
+source_id = "v03-alias-source-shell"
+unit_id = "shell-invocation-name"
+title = "在交互会话中查看当前 shell 的调用名"
+teaching_command_id = "shell-invocation-name"
+exercise_command_ids = ["v04-ex-318ddfad50", "v04-ex-2d75b6172b", "v04-ex-ffd1250c68"]
+
+[[groups]]
+id = "practice-lesson-v03_25_alias_source_shell-03"
+source_kind = "lesson"
+source_id = "v03-alias-source-shell"
+unit_id = "bash-show-version"
+title = "查看 Bash 版本与构建平台"
+teaching_command_id = "bash-show-version"
+exercise_command_ids = ["v04-ex-6723f01b6d", "v04-ex-qa-35d1e7ab96", "v04-ex-qa-71b16d9cf9"]
+
+[[groups]]
+id = "practice-lesson-v03_25_environment_variables-01"
+source_kind = "lesson"
+source_id = "v03-environment-variables"
+unit_id = "env-echo-home-quoted"
+title = "用双引号安全展开并显示用户家目录"
+teaching_command_id = "env-echo-home-quoted"
+exercise_command_ids = ["v04-ex-ab2ab69fa8", "v04-ex-f1cdc0825c", "v04-ex-review-b0e27aea90"]
+
+[[groups]]
+id = "practice-lesson-v03_25_environment_variables-02"
+source_kind = "lesson"
+source_id = "v03-environment-variables"
+unit_id = "env-echo-home-literal"
+title = "用单引号原样显示变量名而不展开"
+teaching_command_id = "env-echo-home-literal"
+exercise_command_ids = ["v04-ex-23705e2379", "v04-ex-d04b7a67aa", "v04-ex-5d0b5db0f7"]
+
+[[groups]]
+id = "practice-lesson-v03_25_environment_variables-03"
+source_kind = "lesson"
+source_id = "v03-environment-variables"
+unit_id = "env-echo-user"
+title = "显示当前会话的用户名变量"
+teaching_command_id = "env-echo-user"
+exercise_command_ids = ["v04-ex-ec14e37d5c", "v04-ex-review-c149feed5f", "v04-ex-review-058efa9b5f"]
+
+[[groups]]
+id = "practice-lesson-v03_25_environment_variables-04"
+source_kind = "lesson"
+source_id = "v03-environment-variables"
+unit_id = "env-echo-login-shell"
+title = "显示用户登录 shell 的完整路径"
+teaching_command_id = "env-echo-login-shell"
+exercise_command_ids = ["v04-ex-386bc09cb3", "v04-ex-2e2faec810", "v04-ex-review-559312eb8f"]
+
+[[groups]]
+id = "practice-lesson-v03_25_path_command_diagnostics-04"
+source_kind = "lesson"
+source_id = "v03-path-command-diagnostics"
+unit_id = "env-print-path"
+title = "只查看已导出的 PATH 环境变量值"
+teaching_command_id = "env-print-path"
+exercise_command_ids = ["v04-ex-de41c67b93", "v04-ex-e583c617a1", "v04-ex-dd352f6604"]
+
+[[groups]]
+id = "practice-lesson-v03_26_find_names_types-01"
+source_kind = "lesson"
+source_id = "find（名称、类型与属性）"
+unit_id = "find-pdf-by-name"
+title = "按名称查找文档目录中的 PDF 文件"
+teaching_command_id = "find-pdf-by-name"
+exercise_command_ids = ["v04-ex-f2cb348cdf", "v04-ex-a97633e2ea", "v04-ex-1551ed06a6"]
+
+[[groups]]
+id = "practice-lesson-v03_26_find_names_types-02"
+source_kind = "lesson"
+source_id = "find（名称、类型与属性）"
+unit_id = "find-zip-ignore-case"
+title = "忽略大小写查找下载目录中的 ZIP 包"
+teaching_command_id = "find-zip-ignore-case"
+exercise_command_ids = ["v04-ex-qa-cb56443ff0", "v04-ex-qa-3cc6866575", "v04-ex-qa-ae1955f18a"]
+
+[[groups]]
+id = "practice-lesson-v03_26_find_names_types-03"
+source_kind = "lesson"
+source_id = "find（名称、类型与属性）"
+unit_id = "find-source-regular-files"
+title = "递归列出 src 中的普通文件"
+teaching_command_id = "find-source-regular-files"
+exercise_command_ids = ["v04-ex-qa-0c92d9f551", "v04-ex-qa-fadb44e220", "v04-ex-qa-b101807c0f"]
+
+[[groups]]
+id = "practice-lesson-v03_26_grep_context_regex-01"
+source_kind = "lesson"
+source_id = "grep（递归、上下文与正则）"
+unit_id = "grep-recursive-api-url"
+title = "递归查找配置目录中的 api_url 设置"
+teaching_command_id = "grep-recursive-api-url"
+exercise_command_ids = ["v04-ex-qa-011acafe10", "v04-ex-qa-96e9993f81", "v04-ex-qa-d8f10da76d"]
+
+[[groups]]
+id = "practice-lesson-v03_26_grep_context_regex-02"
+source_kind = "lesson"
+source_id = "grep（递归、上下文与正则）"
+unit_id = "grep-error-line-numbers"
+title = "显示错误日志及其行号"
+teaching_command_id = "grep-error-line-numbers"
+exercise_command_ids = ["v04-text_ops-80929ffb6c", "v04-ex-qa-155ff632cc", "v04-ex-qa-00b4f95320"]
+
+[[groups]]
+id = "practice-lesson-v03_26_grep_context_regex-03"
+source_kind = "lesson"
+source_id = "grep（递归、上下文与正则）"
+unit_id = "grep-warning-ignore-case"
+title = "忽略大小写查找警告日志"
+teaching_command_id = "grep-warning-ignore-case"
+exercise_command_ids = ["v04-ex-a5813cea1a", "v04-ex-qa-c9dfe4cf13", "v04-ex-qa-12a5273168"]
+
+[[groups]]
+id = "practice-lesson-v03_26_locate_command_discovery-01"
+source_kind = "lesson"
+source_id = "locate / command -v / whereis"
+unit_id = "locate-ssh-config"
+title = "已安装且索引可用时，按路径名快速定位 SSH 配置"
+teaching_command_id = "locate-ssh-config"
+exercise_command_ids = ["v04-ex-a8b11965c5", "v04-ex-2e0dbcfe56", "v04-ex-e6f9f5f8c1"]
+
+[[groups]]
+id = "practice-lesson-v03_26_locate_command_discovery-02"
+source_kind = "lesson"
+source_id = "locate / command -v / whereis"
+unit_id = "updatedb-refresh-locate-index"
+title = "只读检查系统是否提供 locate 索引更新程序"
+teaching_command_id = "updatedb-refresh-locate-index"
+exercise_command_ids = ["v04-ex-82c5d550f6", "v04-ex-acfcdb6ac2", "v04-ex-review-fac1d81c72"]
+
+[[groups]]
+id = "practice-lesson-v03_27_block_mount_identity-01"
+source_kind = "lesson"
+source_id = "lsblk / findmnt / blkid（块设备与挂载身份）"
+unit_id = "disk-lsblk-size-mountpoints"
+title = "查看磁盘层级、容量和挂载点"
+teaching_command_id = "disk-lsblk-size-mountpoints"
+exercise_command_ids = ["v04-ex-review-47f1bfae4e", "v04-ex-review-2cb67fa973", "v04-ex-review-c7a02a1803"]
+
+[[groups]]
+id = "practice-lesson-v03_27_block_mount_identity-02"
+source_kind = "lesson"
+source_id = "lsblk / findmnt / blkid（块设备与挂载身份）"
+unit_id = "disk-lsblk-filesystems"
+title = "查看块设备的文件系统标识"
+teaching_command_id = "disk-lsblk-filesystems"
+exercise_command_ids = ["v04-storage_observe-f5a221d62c", "v04-ex-review-d1663bf635", "v04-ex-review-f9d4d19045"]
+
+[[groups]]
+id = "practice-lesson-v03_27_block_mount_identity-04"
+source_kind = "lesson"
+source_id = "lsblk / findmnt / blkid（块设备与挂载身份）"
+unit_id = "disk-findmnt-root"
+title = "精确查看根目录的挂载信息"
+teaching_command_id = "disk-findmnt-root"
+exercise_command_ids = ["disk-findmnt-path-target", "v04-ex-64b15d3c65", "v04-ex-50349d874a"]
+
+[[groups]]
+id = "practice-lesson-v03_27_disk_capacity_inodes-01"
+source_kind = "lesson"
+source_id = "df（容量、类型与 inode）"
+unit_id = "disk-df-human-root"
+title = "查看根文件系统的容量和可用空间"
+teaching_command_id = "disk-df-human-root"
+exercise_command_ids = ["v04-ex-8a5ee4d992", "v04-storage_observe-3a44df7f41", "df-human-search"]
+
+[[groups]]
+id = "practice-lesson-v03_27_disk_capacity_inodes-02"
+source_kind = "lesson"
+source_id = "df（容量、类型与 inode）"
+unit_id = "disk-df-type-root"
+title = "确认根文件系统类型和块使用量"
+teaching_command_id = "disk-df-type-root"
+exercise_command_ids = ["v04-ex-review-ffc13b0370", "v04-storage_observe-3a44df7f41", "v04-ex-review-8199723eb0"]
+
+[[groups]]
+id = "practice-lesson-v03_27_du_usage_ranking-01"
+source_kind = "lesson"
+source_id = "du / ls（目录占用与排序）"
+unit_id = "disk-du-summary-downloads"
+title = "汇总下载目录实际占用空间"
+teaching_command_id = "disk-du-summary-downloads"
+exercise_command_ids = ["v04-ex-d58125ae84", "v04-ex-6ffbb24f08", "v04-ex-review-aa3dd9f7ea"]
+
+[[groups]]
+id = "practice-lesson-v03_27_du_usage_ranking-04"
+source_kind = "lesson"
+source_id = "du / ls（目录占用与排序）"
+unit_id = "disk-mount-root-filter"
+title = "汇总用户缓存目录的实际磁盘占用"
+teaching_command_id = "disk-mount-root-filter"
+exercise_command_ids = ["v04-ex-d58125ae84", "v04-ex-6ffbb24f08", "v04-ex-review-aa3dd9f7ea"]
+
+[[groups]]
+id = "practice-lesson-v03_27_du_usage_ranking-05"
+source_kind = "lesson"
+source_id = "du / ls（目录占用与排序）"
+unit_id = "disk-mount-ext4-filter"
+title = "汇总视频目录的实际磁盘占用"
+teaching_command_id = "disk-mount-ext4-filter"
+exercise_command_ids = ["v04-ex-d58125ae84", "v04-ex-6ffbb24f08", "v04-ex-review-aa3dd9f7ea"]
+
+[[groups]]
+id = "practice-lesson-v03_28_ports_signals_jobs-05"
+source_kind = "lesson"
+source_id = "kill / pkill / jobs（信号与作业控制）"
+unit_id = "jobs-pids-only"
+title = "只列出当前 shell 各活动作业的进程号"
+teaching_command_id = "jobs-pids-only"
+exercise_command_ids = ["v04-ex-qa-dadb35a8b3", "v04-ex-qa-40ca04ac79", "v04-ex-qa-090b0d6170"]
+
+[[groups]]
+id = "practice-lesson-v03_28_ports_signals_jobs-06"
+source_kind = "lesson"
+source_id = "kill / pkill / jobs（信号与作业控制）"
+unit_id = "bg-job-two-process-port"
+title = "让编号 2 的已暂停作业在后台继续运行"
+teaching_command_id = "bg-job-two-process-port"
+exercise_command_ids = ["bg-job-one", "v04-ex-52ef10e40b", "v04-ex-review-d1be877a4a"]
+
+[[groups]]
+id = "practice-lesson-v03_28_ports_signals_jobs-07"
+source_kind = "lesson"
+source_id = "kill / pkill / jobs（信号与作业控制）"
+unit_id = "fg-job-two-process-port"
+title = "把编号 2 的后台作业调回前台"
+teaching_command_id = "fg-job-two-process-port"
+exercise_command_ids = ["fg-job-one", "v04-ex-2623a1e1e2", "v04-ex-review-e2a0fdf5d2"]
+
+[[groups]]
+id = "practice-lesson-v03_28_process_inspection-01"
+source_kind = "lesson"
+source_id = "ps / pgrep / ss / lsof（进程与监听检查）"
+unit_id = "uptime-pretty-process"
+title = "以易读格式显示系统运行时长"
+teaching_command_id = "uptime-pretty-process"
+exercise_command_ids = ["v04-ex-review-c51e4db5be", "v04-ex-review-162581b41b", "v04-ex-review-2fbcbd87a3"]
+
+[[groups]]
+id = "practice-lesson-v03_28_process_inspection-02"
+source_kind = "lesson"
+source_id = "ps / pgrep / ss / lsof（进程与监听检查）"
+unit_id = "ps-aux-sort-cpu"
+title = "查看全量进程并按 CPU 使用率降序排列"
+teaching_command_id = "ps-aux-sort-cpu"
+exercise_command_ids = ["v04-ex-qa-6966ed174f", "v04-ex-qa-cf19598c07", "v04-ex-review-81dd370eef"]
+
+[[groups]]
+id = "practice-lesson-v03_28_process_inspection-03"
+source_kind = "lesson"
+source_id = "ps / pgrep / ss / lsof（进程与监听检查）"
+unit_id = "ps-user-chen-processes"
+title = "只读查看 chen 名下进程的 PID、状态和命令行"
+teaching_command_id = "ps-user-chen-processes"
+exercise_command_ids = ["v04-ex-868e79468e", "v04-ex-review-2b4f27fb83", "v04-ex-review-7fffee4dca"]
+
+[[groups]]
+id = "practice-lesson-v03_29_network_downloads-01"
+source_kind = "lesson"
+source_id = "wget、curl 与网络观察"
+unit_id = "wget-download-file"
+title = "从网址下载源码归档到当前目录"
+teaching_command_id = "wget-download-file"
+exercise_command_ids = ["v04-ex-c5063a7cce", "v04-ex-9a2ed411fb", "v04-ex-qa-c0647edaca"]
+
+[[groups]]
+id = "practice-lesson-v03_29_network_downloads-04"
+source_kind = "lesson"
+source_id = "wget、curl 与网络观察"
+unit_id = "curl-headers-only"
+title = "只查看网站的 HTTP 响应头"
+teaching_command_id = "curl-headers-only"
+exercise_command_ids = ["curl-head-search", "v04-ping-871d57f8c9", "v04-ex-qa-52a1663e5c"]
+
+[[groups]]
+id = "practice-lesson-v03_29_network_downloads-05"
+source_kind = "lesson"
+source_id = "wget、curl 与网络观察"
+unit_id = "ping-four-packets"
+title = "发送四次请求检查网络连通与时延"
+teaching_command_id = "ping-four-packets"
+exercise_command_ids = ["v04-ex-2e784349f2", "v04-ex-a5dd9f457c", "v04-ex-8158015db6"]
+
+[[groups]]
+id = "practice-lesson-v03_29_network_downloads-06"
+source_kind = "lesson"
+source_id = "wget、curl 与网络观察"
+unit_id = "ip-address-short"
+title = "查看所有网络接口及其地址"
+teaching_command_id = "ip-address-short"
+exercise_command_ids = ["v04-ex-c808819735", "v04-ex-d1751015b6", "v04-ipv6-7d0837eb37"]
+
+[[groups]]
+id = "practice-lesson-v03_29_scp_rsync-01"
+source_kind = "lesson"
+source_id = "scp 与 rsync 文件同步"
+unit_id = "scp-upload-file"
+title = "确认远端无同名文件后上传本地报告"
+teaching_command_id = "scp-upload-file"
+exercise_command_ids = ["v04-ex-b1d80bbe90", "v04-ex-44abef423a", "v04-ex-qa-c34a45b2fc"]
+
+[[groups]]
+id = "practice-lesson-v03_29_scp_rsync-02"
+source_kind = "lesson"
+source_id = "scp 与 rsync 文件同步"
+unit_id = "scp-download-file"
+title = "确认本地无同名文件后下载远程报表"
+teaching_command_id = "scp-download-file"
+exercise_command_ids = ["v04-ex-fda7034a28", "v04-ex-qa-e4a993d13f", "v04-ex-qa-96857c6727"]
+
+[[groups]]
+id = "practice-lesson-v03_29_ssh_hosts_keys-01"
+source_kind = "lesson"
+source_id = "ssh 主机身份与密钥"
+unit_id = "ssh-login-basic"
+title = "首次登录先通过可信渠道核验主机指纹"
+teaching_command_id = "ssh-login-basic"
+exercise_command_ids = ["v04-ex-e070ab6592", "v04-ssh_ops-47c37252ee", "v04-ex-648cbe12c0"]
+
+[[groups]]
+id = "practice-lesson-v03_30_cron_scheduling-02"
+source_kind = "lesson"
+source_id = "cron 定时任务观察与编辑"
+unit_id = "crontab-list-quiet"
+title = "分页查看个人定时任务并保留错误诊断"
+teaching_command_id = "crontab-list-quiet"
+exercise_command_ids = ["v04-ex-review-4cf808727f", "v04-ex-review-8d6e1e7b32", "v04-ex-review-08a2bb7c5d"]
+
+[[groups]]
+id = "practice-lesson-v03_30_cron_scheduling-04"
+source_kind = "lesson"
+source_id = "cron 定时任务观察与编辑"
+unit_id = "cron-field-minute-example"
+title = "仅打印每小时第 15 分钟运行的示例"
+teaching_command_id = "cron-field-minute-example"
+exercise_command_ids = ["v04-ex-6ecf1aa7fb", "v04-ex-8360802656", "v04-ex-771fd31f70"]
+
+[[groups]]
+id = "practice-lesson-v03_30_cron_scheduling-05"
+source_kind = "lesson"
+source_id = "cron 定时任务观察与编辑"
+unit_id = "cron-daemon-status"
+title = "只读查看 cron 守护进程状态与近期日志"
+teaching_command_id = "cron-daemon-status"
+exercise_command_ids = ["v04-ex-8dc1cd6a78", "v04-ex-ba24d24226", "v04-ex-832237cea4"]
+
+[[groups]]
+id = "practice-lesson-v03_30_cron_scheduling-06"
+source_kind = "lesson"
+source_id = "cron 定时任务观察与编辑"
+unit_id = "cron-daemon-is-active"
+title = "只输出 cron 服务当前是否处于活动状态"
+teaching_command_id = "cron-daemon-is-active"
+exercise_command_ids = ["v04-ex-0ab98c36fe", "v04-refused-0db0c5f5ef", "v04-ex-review-5a8e890886"]
+
+[[groups]]
+id = "practice-lesson-v03_30_cron_scheduling-07"
+source_kind = "lesson"
+source_id = "cron 定时任务观察与编辑"
+unit_id = "cron-daemon-is-enabled"
+title = "只输出 cron 服务是否设为开机启用"
+teaching_command_id = "cron-daemon-is-enabled"
+exercise_command_ids = ["v04-ex-d639041a05", "v04-services-aea2ce7a9c", "v04-ex-review-05a8b8dcba"]
+
+[[groups]]
+id = "practice-lesson-v03_30_journal_logs-01"
+source_kind = "lesson"
+source_id = "journalctl 日志范围与权限"
+unit_id = "journalctl-nginx-unit"
+title = "查看当前账号有权读取的 nginx 服务日志"
+teaching_command_id = "journalctl-nginx-unit"
+exercise_command_ids = ["v04-ex-3bcdab7bfe", "v04-ex-bdec55df78", "v04-ex-1bc79c76f2"]
+
+[[groups]]
+id = "practice-lesson-v03_30_systemd_service_inspection-01"
+source_kind = "lesson"
+source_id = "systemd 服务观察与变更"
+unit_id = "systemctl-status-ssh-service"
+title = "查看 SSH 服务的运行状态与近期日志"
+teaching_command_id = "systemctl-status-ssh-service"
+exercise_command_ids = ["v04-ex-8dc1cd6a78", "v04-ex-ba24d24226", "v04-ex-832237cea4"]
+
+[[groups]]
+id = "practice-lesson-v03_30_systemd_service_inspection-08"
+source_kind = "lesson"
+source_id = "systemd 服务观察与变更"
+unit_id = "systemctl-list-failed-services"
+title = "筛出当前处于失败状态的服务"
+teaching_command_id = "systemctl-list-failed-services"
+exercise_command_ids = ["v04-ex-fd932aa2fc", "v04-services-508adf43c2", "v04-ex-review-2732a585fa"]
+
+[[groups]]
+id = "practice-lesson-v03_31_nano_survival-01"
+source_kind = "lesson"
+source_id = "nano 生存指南"
+unit_id = "nano-version-check"
+title = "只读确认 nano 是否安装及其版本"
+teaching_command_id = "nano-version-check"
+exercise_command_ids = ["v04-ex-qa-00db611e04", "v04-ex-qa-ed0ce3485f", "v04-ex-qa-bbf4517eea"]
+
+[[groups]]
+id = "practice-lesson-v03_31_nano_survival-02"
+source_kind = "lesson"
+source_id = "nano 生存指南"
+unit_id = "nano-open-todo"
+title = "用带底部快捷键提示的编辑器打开待办文件"
+teaching_command_id = "nano-open-todo"
+exercise_command_ids = ["v04-ex-fd3ccaa781", "v04-ex-62335f6af9", "v04-ex-review-40f54575ba"]
+
+[[groups]]
+id = "practice-lesson-v03_31_nano_survival-05"
+source_kind = "lesson"
+source_id = "nano 生存指南"
+unit_id = "nano-line-numbers"
+title = "编辑脚本时在文本区左侧显示行号"
+teaching_command_id = "nano-line-numbers"
+exercise_command_ids = ["v04-ex-62335f6af9", "v04-ex-qa-9a557a87c5", "v04-ex-qa-c20bea7350"]
+
+[[groups]]
+id = "practice-lesson-v03_31_vim_navigation_editing-01"
+source_kind = "lesson"
+source_id = "Vim 导航、模式与安全编辑"
+unit_id = "vim-open-notes"
+title = "用 Vim 打开笔记；进入后按 i 编辑，Esc 后用 :wq 保存退出"
+teaching_command_id = "vim-open-notes"
+exercise_command_ids = ["v04-ex-59953f47b3", "v04-ex-69bfedaaab", "v04-ex-review-2ebbedaa57"]
+
+[[groups]]
+id = "practice-lesson-v03_31_vim_navigation_editing-02"
+source_kind = "lesson"
+source_id = "Vim 导航、模式与安全编辑"
+unit_id = "less-numbered-deploy"
+title = "只读分页查看脚本并显示行号"
+teaching_command_id = "less-numbered-deploy"
+exercise_command_ids = ["v04-ex-6ed66b670a", "v04-ex-review-9675bffee6", "v04-ex-review-1c7d4ec922"]
+
+[[groups]]
+id = "practice-lesson-v03_31_vim_navigation_editing-03"
+source_kind = "lesson"
+source_id = "Vim 导航、模式与安全编辑"
+unit_id = "less-search-source"
+title = "只读分页查看源码，进入后可用 /TODO 搜索"
+teaching_command_id = "less-search-source"
+exercise_command_ids = ["v04-ex-6ed66b670a", "v04-ex-6d5847c37d", "v04-ex-ce20ad9540"]
+
+[[groups]]
+id = "practice-lesson-v03_31_vim_navigation_editing-04"
+source_kind = "lesson"
+source_id = "Vim 导航、模式与安全编辑"
+unit_id = "less-services-readonly"
+title = "只读分页查看较长的网络服务名称表"
+teaching_command_id = "less-services-readonly"
+exercise_command_ids = ["v04-ex-6ed66b670a", "v04-ex-6d5847c37d", "v04-ex-ce20ad9540"]
+
+[[groups]]
+id = "practice-lesson-v03_31_vim_navigation_editing-05"
+source_kind = "lesson"
+source_id = "Vim 导航、模式与安全编辑"
+unit_id = "less-nginx-config"
+title = "修改前先只读分页检查 nginx 配置"
+teaching_command_id = "less-nginx-config"
+exercise_command_ids = ["v04-ex-6ed66b670a", "v04-ex-6d5847c37d", "v04-ex-ce20ad9540"]
+
+[[groups]]
+id = "practice-lesson-v03_31_vim_navigation_editing-07"
+source_kind = "lesson"
+source_id = "Vim 导航、模式与安全编辑"
+unit_id = "cat-number-deploy"
+title = "不进编辑器，直接查看脚本并给所有行编号"
+teaching_command_id = "cat-number-deploy"
+exercise_command_ids = ["v04-ex-35c62a319b", "v04-ex-qa-e08e46d029", "v04-ex-qa-7af69b7f34"]
+
+[[groups]]
+id = "practice-lesson-v03_31_vim_recovery_readonly-01"
+source_kind = "lesson"
+source_id = "Vim 恢复、只读与编辑器选择"
+unit_id = "vim-readonly-hosts"
+title = "用 Vim 的只读入口查看 hosts，减少误写风险"
+teaching_command_id = "vim-readonly-hosts"
+exercise_command_ids = ["v04-ex-14bbbabd9a", "v04-ex-qa-4daab8fd68", "v04-ex-qa-d768e8ef8d"]
+
+[[groups]]
+id = "practice-lesson-v03_31_vim_recovery_readonly-02"
+source_kind = "lesson"
+source_id = "Vim 恢复、只读与编辑器选择"
+unit_id = "vim-version-check"
+title = "只读确认 Vim 版本和已编译功能"
+teaching_command_id = "vim-version-check"
+exercise_command_ids = ["v04-ex-qa-ae0ae1c7d5", "v04-ex-qa-0fa040680e", "v04-ex-qa-d0ecf4cc08"]
+
+[[groups]]
+id = "practice-lesson-v03_31_vim_recovery_readonly-03"
+source_kind = "lesson"
+source_id = "Vim 恢复、只读与编辑器选择"
+unit_id = "editor-symlink-target"
+title = "只读确认通用 editor 命令最终指向哪个程序"
+teaching_command_id = "editor-symlink-target"
+exercise_command_ids = ["v04-ex-1865ea49e4", "v04-ex-0bcc7803d1", "v04-ex-cfe5da70f9"]
+
+[[groups]]
+id = "practice-lesson-v03_31_vim_recovery_readonly-04"
+source_kind = "lesson"
+source_id = "Vim 恢复、只读与编辑器选择"
+unit_id = "vim-quick-help"
+title = "卡在启动选项时查看 Vim 简短帮助"
+teaching_command_id = "vim-quick-help"
+exercise_command_ids = ["v04-ex-qa-9a2cb76e1e", "v04-ex-qa-9bfda033bb", "v04-ex-qa-fefe5ba602"]
+
+[[groups]]
+id = "practice-lesson-v03_32_permissions_ownership-01"
+source_kind = "lesson"
+source_id = "permissions-ownership"
+unit_id = "chmod-training-755"
+title = "让启动脚本仅所有者可写，所有用户可执行"
+teaching_command_id = "chmod-training-755"
+exercise_command_ids = ["v04-ex-review-198ffbd529", "v04-ex-review-8c17acbe04", "v04-ex-review-b85d690a1f"]
+
+[[groups]]
+id = "practice-lesson-v03_32_permissions_ownership-02"
+source_kind = "lesson"
+source_id = "permissions-ownership"
+unit_id = "chmod-training-644"
+title = "让笔记仅所有者可写，所有用户可读"
+teaching_command_id = "chmod-training-644"
+exercise_command_ids = ["v04-ex-review-9e3c4e6289", "v04-ex-review-11ae8da5b9", "v04-ex-review-d499171f00"]
+
+[[groups]]
+id = "practice-lesson-v03_32_sudo_audit-01"
+source_kind = "lesson"
+source_id = "sudo-audit"
+unit_id = "ownership-notes-audit"
+title = "在私有夹具中只读核对文件所有者和组"
+teaching_command_id = "ownership-notes-audit"
+exercise_command_ids = ["v04-ex-qa-e14a112a10", "v04-ex-ab4b512e02", "v04-ex-qa-d0085a6b24"]
+
+[[groups]]
+id = "practice-lesson-v03_32_users_identity_groups-01"
+source_kind = "lesson"
+source_id = "users-identity-groups"
+unit_id = "getent-training-account"
+title = "只读确认 training 账号是否存在及其登录信息"
+teaching_command_id = "getent-training-account"
+exercise_command_ids = ["v04-ex-c37de53430", "v04-access-d4b61fcaf1", "v04-ex-review-80b102a4ba"]
+
+[[groups]]
+id = "practice-lesson-v03_32_users_identity_groups-03"
+source_kind = "lesson"
+source_id = "users-identity-groups"
+unit_id = "groups-training-account"
+title = "查看教学账号所属的全部用户组"
+teaching_command_id = "groups-training-account"
+exercise_command_ids = ["groups-basic", "v04-ex-ac4986e33f", "v04-ex-300e21479c"]
+
+[[groups]]
+id = "practice-lesson-v03_32_users_identity_groups-04"
+source_kind = "lesson"
+source_id = "users-identity-groups"
+unit_id = "id-training-account"
+title = "查看教学账号的 UID、GID 和组成员资格"
+teaching_command_id = "id-training-account"
+exercise_command_ids = ["id-basic", "v04-ex-210eb9fe21", "v04-ex-5e3e3a9fb1"]
+
+[[groups]]
+id = "practice-lesson-v03_33_counts_head_tail-01"
+source_kind = "lesson"
+source_id = "counts-head-tail"
+unit_id = "text-uniq-count-status-runs"
+title = "统计每一段连续重复状态出现了几次"
+teaching_command_id = "text-uniq-count-status-runs"
+exercise_command_ids = ["v04-ex-c1a8054504", "v04-ex-review-3303708fcf", "v04-ex-cfa926d189"]
+
+[[groups]]
+id = "practice-lesson-v03_33_counts_head_tail-03"
+source_kind = "lesson"
+source_id = "counts-head-tail"
+unit_id = "text-head-app-fifteen"
+title = "只读查看应用日志开头 15 行"
+teaching_command_id = "text-head-app-fifteen"
+exercise_command_ids = ["v04-ex-de896174d1", "v04-ex-d779656be7", "v04-ex-2394304d05"]
+
+[[groups]]
+id = "practice-lesson-v03_33_counts_head_tail-04"
+source_kind = "lesson"
+source_id = "counts-head-tail"
+unit_id = "text-tail-service-twenty"
+title = "只读查看服务日志末尾 20 行"
+teaching_command_id = "text-tail-service-twenty"
+exercise_command_ids = ["v04-ex-4c48c174cc", "v04-ex-a004c0405b", "v04-ex-review-05c1599bb0"]
+
+[[groups]]
+id = "practice-lesson-v03_33_counts_head_tail-05"
+source_kind = "lesson"
+source_id = "counts-head-tail"
+unit_id = "text-wc-settings-lines"
+title = "只读统计配置文件的行数"
+teaching_command_id = "text-wc-settings-lines"
+exercise_command_ids = ["v04-ex-7868b4f159", "v04-ex-qa-c843e06687", "v04-ex-qa-32d42a4df7"]
+
+[[groups]]
+id = "practice-lesson-v03_33_fields_sort_unique-01"
+source_kind = "lesson"
+source_id = "fields-sort-unique"
+unit_id = "text-cut-group-names"
+title = "读取组数据库中冒号分隔的组名列"
+teaching_command_id = "text-cut-group-names"
+exercise_command_ids = ["cut-passwd-first-field", "v04-ex-4ceda5ff51", "v04-ex-0e09d3118e"]
+
+[[groups]]
+id = "practice-lesson-v03_33_fields_sort_unique-02"
+source_kind = "lesson"
+source_id = "fields-sort-unique"
+unit_id = "text-sort-response-times-numeric"
+title = "按数值而非字符顺序排列响应时间"
+teaching_command_id = "text-sort-response-times-numeric"
+exercise_command_ids = ["v04-text_ops-da58ebd003", "v04-ex-qa-36f4ae94fb", "v04-ex-qa-d94ce07df8"]
+
+[[groups]]
+id = "practice-lesson-v03_33_fields_sort_unique-03"
+source_kind = "lesson"
+source_id = "fields-sort-unique"
+unit_id = "text-sort-regions-reverse"
+title = "按当前语言环境的规则降序排列文本"
+teaching_command_id = "text-sort-regions-reverse"
+exercise_command_ids = ["v04-ex-qa-311bc7ecf3", "v04-ex-qa-c81f582989", "v04-ex-qa-271b5ec22d"]
+
+[[groups]]
+id = "practice-lesson-v03_33_join_transform-01"
+source_kind = "lesson"
+source_id = "join-transform"
+unit_id = "text-tr-greeting-uppercase"
+title = "把输入中的小写字母转换为大写"
+teaching_command_id = "text-tr-greeting-uppercase"
+exercise_command_ids = ["v04-ex-34c1124256", "v04-ex-review-8864db8133", "v04-ex-review-17e8109564"]
+
+[[groups]]
+id = "practice-lesson-v03_33_join_transform-03"
+source_kind = "lesson"
+source_id = "join-transform"
+unit_id = "text-tail-app-default"
+title = "查看应用日志末尾默认 10 行"
+teaching_command_id = "text-tail-app-default"
+exercise_command_ids = ["v04-ex-4c48c174cc", "v04-ex-a004c0405b", "v04-ex-review-05c1599bb0"]
+
+[[groups]]
+id = "practice-lesson-v03_34_date_apt_sources_locale-01"
+source_kind = "lesson"
+source_id = "date-apt-sources-locale"
+unit_id = "date-current-local"
+title = "显示当前本地日期、时间和时区缩写"
+teaching_command_id = "date-current-local"
+exercise_command_ids = ["date-current-utc", "v04-ex-2c95e086aa", "v04-ex-9d30524435"]
+
+[[groups]]
+id = "practice-lesson-v03_34_date_apt_sources_locale-02"
+source_kind = "lesson"
+source_id = "date-apt-sources-locale"
+unit_id = "date-iso-calendar-day"
+title = "以 YYYY-MM-DD 形式显示今天日期"
+teaching_command_id = "date-iso-calendar-day"
+exercise_command_ids = ["v04-ex-review-bd1cd0c74d", "v04-ex-review-d3ee0a1111", "v04-ex-review-e5b55cbca1"]
+
+[[groups]]
+id = "practice-lesson-v03_34_date_apt_sources_locale-03"
+source_kind = "lesson"
+source_id = "date-apt-sources-locale"
+unit_id = "date-timezone-abbreviation"
+title = "只读显示当前系统时区缩写"
+teaching_command_id = "date-timezone-abbreviation"
+exercise_command_ids = ["v04-ex-review-08eb985a39", "v04-ex-review-7936b9346a", "v04-ex-review-7996ce1535"]
+
+[[groups]]
+id = "practice-lesson-v03_34_date_apt_sources_locale-05"
+source_kind = "lesson"
+source_id = "date-apt-sources-locale"
+unit_id = "cal-current-month"
+title = "在终端显示当前月份的日历"
+teaching_command_id = "cal-current-month"
+exercise_command_ids = ["v04-ex-6230c85b1e", "v04-ex-57eed46ba7", "v04-ex-53e797a5e9"]
+
+[[groups]]
+id = "practice-lesson-v03_34_locale_variables_encoding-01"
+source_kind = "lesson"
+source_id = "locale-variables-encoding"
+unit_id = "locale-current-settings"
+title = "查看语言环境（locale，也称本地化设置）的各分类"
+teaching_command_id = "locale-current-settings"
+exercise_command_ids = ["v04-ex-32dc65dcb1", "v04-ex-e647e5471a", "v04-ex-review-ca209a1264"]
+
+[[groups]]
+id = "practice-lesson-v03_34_locale_variables_encoding-02"
+source_kind = "lesson"
+source_id = "locale-variables-encoding"
+unit_id = "locale-lang-variable"
+title = "查看 LANG 提供的默认语言环境值"
+teaching_command_id = "locale-lang-variable"
+exercise_command_ids = ["v04-ex-0403e5378c", "v04-ex-qa-442313f4f8", "v04-ex-qa-235f57b317"]
+
+[[groups]]
+id = "practice-lesson-v03_34_locale_variables_encoding-03"
+source_kind = "lesson"
+source_id = "locale-variables-encoding"
+unit_id = "locale-list-available"
+title = "列出本机已经生成并可用的语言环境"
+teaching_command_id = "locale-list-available"
+exercise_command_ids = ["v04-ex-qa-8278514f02", "v04-ex-qa-04bf1cbc82", "v04-ex-qa-3842c06093"]
+
+[[groups]]
+id = "practice-lesson-v03_34_locale_variables_encoding-04"
+source_kind = "lesson"
+source_id = "locale-variables-encoding"
+unit_id = "locale-current-charmap"
+title = "确认当前语言环境使用的字符集名称"
+teaching_command_id = "locale-current-charmap"
+exercise_command_ids = ["v04-ex-qa-40a0b6effa", "v04-ex-qa-ef22f6fa66", "v04-ex-qa-dd58c05c90"]
+
+[[groups]]
+id = "practice-lesson-v03_35_tmux_reptyr_sessions-01"
+source_kind = "lesson"
+source_id = "tmux-reptyr-sessions"
+unit_id = "tmux-new-session"
+title = "创建名为 dev 的 tmux 新会话，并立即进入该会话"
+teaching_command_id = "tmux-new-session"
+exercise_command_ids = ["v04-ex-5178d9cbd1", "v04-ex-054237b1b2", "v04-ex-review-f501bd1b1b"]
+
+[[groups]]
+id = "practice-lesson-v03_35_tmux_reptyr_sessions-02"
+source_kind = "lesson"
+source_id = "tmux-reptyr-sessions"
+unit_id = "tmux-attach-session"
+title = "重新连接到名为 dev 的 tmux 会话"
+teaching_command_id = "tmux-attach-session"
+exercise_command_ids = ["v04-ex-44f0759038", "v04-ex-b7f951a052", "v04-ex-55f9af1835"]
+
+[[groups]]
+id = "practice-lesson-v03_35_tmux_reptyr_sessions-03"
+source_kind = "lesson"
+source_id = "tmux-reptyr-sessions"
+unit_id = "tmux-list-sessions-recovery"
+title = "只读列出当前用户的 tmux 会话，先核对名称、窗口数与连接状态"
+teaching_command_id = "tmux-list-sessions-recovery"
+exercise_command_ids = ["v04-ex-e5dd1eb44f", "v04-ex-review-64fb06fab0", "v04-ex-review-b290b6bf83"]
+
+[[groups]]
+id = "practice-lesson-v03_35_tmux_reptyr_sessions-09"
+source_kind = "lesson"
+source_id = "tmux-reptyr-sessions"
+unit_id = "tty-current-terminal"
+title = "只读显示当前标准输入连接的终端设备，建立接管前的 TTY 基线"
+teaching_command_id = "tty-current-terminal"
+exercise_command_ids = ["v04-ex-review-516e6d6de4", "v04-ex-10b234ee47", "v04-ex-review-35f8722aea"]
+
+[[groups]]
+id = "practice-lesson-v03_35_tmux_reptyr_sessions-11"
+source_kind = "lesson"
+source_id = "tmux-reptyr-sessions"
+unit_id = "command-v-reptyr"
+title = "只读确认当前 shell 能否从 PATH 找到 reptyr"
+teaching_command_id = "command-v-reptyr"
+exercise_command_ids = ["v04-ex-82c5d550f6", "v04-ex-acfcdb6ac2", "v04-ex-review-fac1d81c72"]
+
+[[groups]]
+id = "practice-lesson-wc-01"
+source_kind = "lesson"
+source_id = "wc"
+unit_id = "v04-ref-1fec1130c6"
+title = "统计 /etc/passwd 的行数、单词数和字节数"
+teaching_command_id = "v04-ref-1fec1130c6"
+exercise_command_ids = ["v04-ex-7868b4f159", "v04-ex-f8af650687", "v04-ex-83ce868296"]
+
+[[groups]]
+id = "practice-lesson-wc-02"
+source_kind = "lesson"
+source_id = "wc"
+unit_id = "v04-ref-d17f38d48c"
+title = "统计系统中有多少个用户账户"
+teaching_command_id = "v04-ref-d17f38d48c"
+exercise_command_ids = ["v04-ex-7868b4f159", "v04-ex-qa-c843e06687", "v04-ex-qa-32d42a4df7"]
+
+[[groups]]
+id = "practice-lesson-wget-01"
+source_kind = "lesson"
+source_id = "wget"
+unit_id = "v04-ref-50d8acfa04"
+title = "下载文件到当前目录"
+teaching_command_id = "v04-ref-50d8acfa04"
+exercise_command_ids = ["v04-ex-c5063a7cce", "v04-ex-9a2ed411fb", "v04-ex-qa-c0647edaca"]
+
+[[groups]]
+id = "practice-lesson-xargs-01"
+source_kind = "lesson"
+source_id = "xargs"
+unit_id = "v04-ref-0cc3054757"
+title = "删除当前目录下所有 .tmp 文件"
+teaching_command_id = "v04-ref-0cc3054757"
+exercise_command_ids = ["v04-ex-review-9a085ecbbd", "v04-ex-review-2eef5d703f", "v04-ex-review-3abbb60b6d"]

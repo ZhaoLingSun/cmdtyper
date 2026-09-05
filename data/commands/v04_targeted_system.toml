@@ -1,0 +1,521 @@
+
+[meta]
+category = "system"
+difficulty = "basic"
+description = "针对基础用法具体操作、方向和选项的三题练习；只在模拟实验环境中输入。"
+
+[[commands]]
+id = "v04-ex-qa-442313f4f8"
+command = "printf 'LANG=%s\\n' \"$LANG\""
+summary = "带标签输出当前默认区域变量"
+
+[[commands.tokens]]
+text = "printf"
+desc = "带标签输出当前默认区域变量"
+
+[[commands.tokens]]
+text = " 'LANG=%s\\n'"
+desc = "本次操作参数：'LANG=%s\\n'。带标签输出当前默认区域变量"
+
+[[commands.tokens]]
+text = " \"$LANG\""
+desc = "本次操作参数：\"$LANG\"。带标签输出当前默认区域变量"
+
+[commands.dictation]
+prompt = "带标签输出当前默认区域变量"
+answers = ["printf 'LANG=%s\\n' \"$LANG\""]
+
+[[commands]]
+id = "v04-ex-qa-235f57b317"
+command = "printenv LC_ALL LC_CTYPE LANG"
+summary = "同时读取影响字符区域的环境变量，优先级为 LC_ALL、分类变量、LANG"
+
+[[commands.tokens]]
+text = "printenv"
+desc = "同时读取影响字符区域的环境变量，优先级为 LC_ALL、分类变量、LANG"
+
+[[commands.tokens]]
+text = " LC_ALL"
+desc = "本次操作参数：LC_ALL。同时读取影响字符区域的环境变量，优先级为 LC_ALL、分类变量、LANG"
+
+[[commands.tokens]]
+text = " LC_CTYPE"
+desc = "本次操作参数：LC_CTYPE。同时读取影响字符区域的环境变量，优先级为 LC_ALL、分类变量、LANG"
+
+[[commands.tokens]]
+text = " LANG"
+desc = "本次操作参数：LANG。同时读取影响字符区域的环境变量，优先级为 LC_ALL、分类变量、LANG"
+
+[commands.dictation]
+prompt = "同时读取影响字符区域的环境变量，优先级为 LC_ALL、分类变量、LANG"
+answers = ["printenv LC_ALL LC_CTYPE LANG"]
+
+[[commands]]
+id = "v04-ex-qa-8278514f02"
+command = "locale -a | sort"
+summary = "列出已生成的 locale 并排序，便于查找"
+
+[[commands.tokens]]
+text = "locale"
+desc = "列出已生成的 locale 并排序，便于查找"
+
+[[commands.tokens]]
+text = " -a"
+desc = "本次操作参数：-a。列出已生成的 locale 并排序，便于查找"
+
+[[commands.tokens]]
+text = " |"
+desc = "本次操作参数：|。列出已生成的 locale 并排序，便于查找"
+
+[[commands.tokens]]
+text = " sort"
+desc = "本次操作参数：sort。列出已生成的 locale 并排序，便于查找"
+
+[commands.dictation]
+prompt = "列出已生成的 locale 并排序，便于查找"
+answers = ["locale -a | sort"]
+
+[[commands]]
+id = "v04-ex-qa-04bf1cbc82"
+command = "locale -a | grep -i utf"
+summary = "从可用 locale 中筛选 UTF 相关名称"
+
+[[commands.tokens]]
+text = "locale"
+desc = "从可用 locale 中筛选 UTF 相关名称"
+
+[[commands.tokens]]
+text = " -a"
+desc = "本次操作参数：-a。从可用 locale 中筛选 UTF 相关名称"
+
+[[commands.tokens]]
+text = " |"
+desc = "本次操作参数：|。从可用 locale 中筛选 UTF 相关名称"
+
+[[commands.tokens]]
+text = " grep"
+desc = "本次操作参数：grep。从可用 locale 中筛选 UTF 相关名称"
+
+[[commands.tokens]]
+text = " -i"
+desc = "本次操作参数：-i。从可用 locale 中筛选 UTF 相关名称"
+
+[[commands.tokens]]
+text = " utf"
+desc = "本次操作参数：utf。从可用 locale 中筛选 UTF 相关名称"
+
+[commands.dictation]
+prompt = "从可用 locale 中筛选 UTF 相关名称"
+answers = ["locale -a | grep -i utf"]
+
+[[commands]]
+id = "v04-ex-qa-3842c06093"
+command = "LC_ALL=C locale -a"
+summary = "在 C 区域下列出系统可用 locale，避免诊断输出语言差异"
+
+[[commands.tokens]]
+text = "LC_ALL=C"
+desc = "在 C 区域下列出系统可用 locale，避免诊断输出语言差异"
+
+[[commands.tokens]]
+text = " locale"
+desc = "本次操作参数：locale。在 C 区域下列出系统可用 locale，避免诊断输出语言差异"
+
+[[commands.tokens]]
+text = " -a"
+desc = "本次操作参数：-a。在 C 区域下列出系统可用 locale，避免诊断输出语言差异"
+
+[commands.dictation]
+prompt = "在 C 区域下列出系统可用 locale，避免诊断输出语言差异"
+answers = ["LC_ALL=C locale -a"]
+
+[[commands]]
+id = "v04-ex-qa-40a0b6effa"
+command = "locale -k charmap"
+summary = "以关键字形式读取当前字符映射"
+
+[[commands.tokens]]
+text = "locale"
+desc = "以关键字形式读取当前字符映射"
+
+[[commands.tokens]]
+text = " -k"
+desc = "本次操作参数：-k。以关键字形式读取当前字符映射"
+
+[[commands.tokens]]
+text = " charmap"
+desc = "本次操作参数：charmap。以关键字形式读取当前字符映射"
+
+[commands.dictation]
+prompt = "以关键字形式读取当前字符映射"
+answers = ["locale -k charmap"]
+
+[[commands]]
+id = "v04-ex-qa-ef22f6fa66"
+command = "LC_ALL=C locale charmap"
+summary = "观察 C 区域使用的字符映射，不修改当前 shell 环境"
+
+[[commands.tokens]]
+text = "LC_ALL=C"
+desc = "观察 C 区域使用的字符映射，不修改当前 shell 环境"
+
+[[commands.tokens]]
+text = " locale"
+desc = "本次操作参数：locale。观察 C 区域使用的字符映射，不修改当前 shell 环境"
+
+[[commands.tokens]]
+text = " charmap"
+desc = "本次操作参数：charmap。观察 C 区域使用的字符映射，不修改当前 shell 环境"
+
+[commands.dictation]
+prompt = "观察 C 区域使用的字符映射，不修改当前 shell 环境"
+answers = ["LC_ALL=C locale charmap"]
+
+[[commands]]
+id = "v04-ex-qa-dd58c05c90"
+command = "LC_ALL=C.UTF-8 locale charmap"
+summary = "在已提供 C.UTF-8 的 Ubuntu 环境观察 UTF-8 字符映射"
+
+[[commands.tokens]]
+text = "LC_ALL=C.UTF-8"
+desc = "在已提供 C.UTF-8 的 Ubuntu 环境观察 UTF-8 字符映射"
+
+[[commands.tokens]]
+text = " locale"
+desc = "本次操作参数：locale。在已提供 C.UTF-8 的 Ubuntu 环境观察 UTF-8 字符映射"
+
+[[commands.tokens]]
+text = " charmap"
+desc = "本次操作参数：charmap。在已提供 C.UTF-8 的 Ubuntu 环境观察 UTF-8 字符映射"
+
+[commands.dictation]
+prompt = "在已提供 C.UTF-8 的 Ubuntu 环境观察 UTF-8 字符映射"
+answers = ["LC_ALL=C.UTF-8 locale charmap"]
+
+[[commands]]
+id = "v04-ex-qa-9a2cb76e1e"
+command = "vim --help"
+summary = "阅读 Vim 命令行选项帮助"
+
+[[commands.tokens]]
+text = "vim"
+desc = "阅读 Vim 命令行选项帮助"
+
+[[commands.tokens]]
+text = " --help"
+desc = "本次操作参数：--help。阅读 Vim 命令行选项帮助"
+
+[commands.dictation]
+prompt = "阅读 Vim 命令行选项帮助"
+answers = ["vim --help"]
+
+[[commands]]
+id = "v04-ex-qa-9bfda033bb"
+command = "vim --help | head -n 12"
+summary = "只查看帮助开始十二行，先掌握基本启动方式"
+
+[[commands.tokens]]
+text = "vim"
+desc = "只查看帮助开始十二行，先掌握基本启动方式"
+
+[[commands.tokens]]
+text = " --help"
+desc = "本次操作参数：--help。只查看帮助开始十二行，先掌握基本启动方式"
+
+[[commands.tokens]]
+text = " |"
+desc = "本次操作参数：|。只查看帮助开始十二行，先掌握基本启动方式"
+
+[[commands.tokens]]
+text = " head"
+desc = "本次操作参数：head。只查看帮助开始十二行，先掌握基本启动方式"
+
+[[commands.tokens]]
+text = " -n"
+desc = "本次操作参数：-n。只查看帮助开始十二行，先掌握基本启动方式"
+
+[[commands.tokens]]
+text = " 12"
+desc = "本次操作参数：12。只查看帮助开始十二行，先掌握基本启动方式"
+
+[commands.dictation]
+prompt = "只查看帮助开始十二行，先掌握基本启动方式"
+answers = ["vim --help | head -n 12"]
+
+[[commands]]
+id = "v04-ex-qa-fefe5ba602"
+command = "vim --help | less"
+summary = "分页阅读 Vim 帮助，使用 q 退出分页器"
+
+[[commands.tokens]]
+text = "vim"
+desc = "分页阅读 Vim 帮助，使用 q 退出分页器"
+
+[[commands.tokens]]
+text = " --help"
+desc = "本次操作参数：--help。分页阅读 Vim 帮助，使用 q 退出分页器"
+
+[[commands.tokens]]
+text = " |"
+desc = "本次操作参数：|。分页阅读 Vim 帮助，使用 q 退出分页器"
+
+[[commands.tokens]]
+text = " less"
+desc = "本次操作参数：less。分页阅读 Vim 帮助，使用 q 退出分页器"
+
+[commands.dictation]
+prompt = "分页阅读 Vim 帮助，使用 q 退出分页器"
+answers = ["vim --help | less"]
+
+[[commands]]
+id = "v04-ex-qa-ae0ae1c7d5"
+command = "vim --version | head -n 1"
+summary = "读取 Vim 版本输出的首行"
+
+[[commands.tokens]]
+text = "vim"
+desc = "读取 Vim 版本输出的首行"
+
+[[commands.tokens]]
+text = " --version"
+desc = "本次操作参数：--version。读取 Vim 版本输出的首行"
+
+[[commands.tokens]]
+text = " |"
+desc = "本次操作参数：|。读取 Vim 版本输出的首行"
+
+[[commands.tokens]]
+text = " head"
+desc = "本次操作参数：head。读取 Vim 版本输出的首行"
+
+[[commands.tokens]]
+text = " -n"
+desc = "本次操作参数：-n。读取 Vim 版本输出的首行"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次操作参数：1。读取 Vim 版本输出的首行"
+
+[commands.dictation]
+prompt = "读取 Vim 版本输出的首行"
+answers = ["vim --version | head -n 1"]
+
+[[commands]]
+id = "v04-ex-qa-0fa040680e"
+command = "vim --version | grep -E 'python|clipboard'"
+summary = "从版本功能表检查 Python 与剪贴板支持标记"
+
+[[commands.tokens]]
+text = "vim"
+desc = "从版本功能表检查 Python 与剪贴板支持标记"
+
+[[commands.tokens]]
+text = " --version"
+desc = "本次操作参数：--version。从版本功能表检查 Python 与剪贴板支持标记"
+
+[[commands.tokens]]
+text = " |"
+desc = "本次操作参数：|。从版本功能表检查 Python 与剪贴板支持标记"
+
+[[commands.tokens]]
+text = " grep"
+desc = "本次操作参数：grep。从版本功能表检查 Python 与剪贴板支持标记"
+
+[[commands.tokens]]
+text = " -E"
+desc = "本次操作参数：-E。从版本功能表检查 Python 与剪贴板支持标记"
+
+[[commands.tokens]]
+text = " 'python|clipboard'"
+desc = "本次操作参数：'python|clipboard'。从版本功能表检查 Python 与剪贴板支持标记"
+
+[commands.dictation]
+prompt = "从版本功能表检查 Python 与剪贴板支持标记"
+answers = ["vim --version | grep -E 'python|clipboard'"]
+
+[[commands]]
+id = "v04-ex-qa-d0ecf4cc08"
+command = "LC_ALL=C vim --version"
+summary = "在 C 区域下读取完整 Vim 版本及编译信息"
+
+[[commands.tokens]]
+text = "LC_ALL=C"
+desc = "在 C 区域下读取完整 Vim 版本及编译信息"
+
+[[commands.tokens]]
+text = " vim"
+desc = "本次操作参数：vim。在 C 区域下读取完整 Vim 版本及编译信息"
+
+[[commands.tokens]]
+text = " --version"
+desc = "本次操作参数：--version。在 C 区域下读取完整 Vim 版本及编译信息"
+
+[commands.dictation]
+prompt = "在 C 区域下读取完整 Vim 版本及编译信息"
+answers = ["LC_ALL=C vim --version"]
+
+[[commands]]
+id = "v04-ex-qa-00db611e04"
+command = "nano --version | head -n 1"
+summary = "只读取 nano 版本号所在首行"
+
+[[commands.tokens]]
+text = "nano"
+desc = "只读取 nano 版本号所在首行"
+
+[[commands.tokens]]
+text = " --version"
+desc = "本次操作参数：--version。只读取 nano 版本号所在首行"
+
+[[commands.tokens]]
+text = " |"
+desc = "本次操作参数：|。只读取 nano 版本号所在首行"
+
+[[commands.tokens]]
+text = " head"
+desc = "本次操作参数：head。只读取 nano 版本号所在首行"
+
+[[commands.tokens]]
+text = " -n"
+desc = "本次操作参数：-n。只读取 nano 版本号所在首行"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次操作参数：1。只读取 nano 版本号所在首行"
+
+[commands.dictation]
+prompt = "只读取 nano 版本号所在首行"
+answers = ["nano --version | head -n 1"]
+
+[[commands]]
+id = "v04-ex-qa-ed0ce3485f"
+command = "nano --version | head -n 3"
+summary = "查看 nano 版本输出开头的构建说明"
+
+[[commands.tokens]]
+text = "nano"
+desc = "查看 nano 版本输出开头的构建说明"
+
+[[commands.tokens]]
+text = " --version"
+desc = "本次操作参数：--version。查看 nano 版本输出开头的构建说明"
+
+[[commands.tokens]]
+text = " |"
+desc = "本次操作参数：|。查看 nano 版本输出开头的构建说明"
+
+[[commands.tokens]]
+text = " head"
+desc = "本次操作参数：head。查看 nano 版本输出开头的构建说明"
+
+[[commands.tokens]]
+text = " -n"
+desc = "本次操作参数：-n。查看 nano 版本输出开头的构建说明"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次操作参数：3。查看 nano 版本输出开头的构建说明"
+
+[commands.dictation]
+prompt = "查看 nano 版本输出开头的构建说明"
+answers = ["nano --version | head -n 3"]
+
+[[commands]]
+id = "v04-ex-qa-bbf4517eea"
+command = "LC_ALL=C nano --version"
+summary = "在 C 区域下查看 nano 完整版本信息"
+
+[[commands.tokens]]
+text = "LC_ALL=C"
+desc = "在 C 区域下查看 nano 完整版本信息"
+
+[[commands.tokens]]
+text = " nano"
+desc = "本次操作参数：nano。在 C 区域下查看 nano 完整版本信息"
+
+[[commands.tokens]]
+text = " --version"
+desc = "本次操作参数：--version。在 C 区域下查看 nano 完整版本信息"
+
+[commands.dictation]
+prompt = "在 C 区域下查看 nano 完整版本信息"
+answers = ["LC_ALL=C nano --version"]
+
+[[commands]]
+id = "v04-ex-qa-9b08d791f0"
+command = "sudo apt-get -q update"
+summary = "刷新实验 Ubuntu 软件源索引并减少进度输出"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "刷新实验 Ubuntu 软件源索引并减少进度输出"
+
+[[commands.tokens]]
+text = " apt-get"
+desc = "本次操作参数：apt-get。刷新实验 Ubuntu 软件源索引并减少进度输出"
+
+[[commands.tokens]]
+text = " -q"
+desc = "本次操作参数：-q。刷新实验 Ubuntu 软件源索引并减少进度输出"
+
+[[commands.tokens]]
+text = " update"
+desc = "本次操作参数：update。刷新实验 Ubuntu 软件源索引并减少进度输出"
+
+[commands.dictation]
+prompt = "刷新实验 Ubuntu 软件源索引并减少进度输出"
+answers = ["sudo apt-get -q update"]
+
+[[commands]]
+id = "v04-ex-qa-5ef7673586"
+command = "sudo apt-get update -o Acquire::Retries=1"
+summary = "刷新索引时为获取过程设置一次重试"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "刷新索引时为获取过程设置一次重试"
+
+[[commands.tokens]]
+text = " apt-get"
+desc = "本次操作参数：apt-get。刷新索引时为获取过程设置一次重试"
+
+[[commands.tokens]]
+text = " update"
+desc = "本次操作参数：update。刷新索引时为获取过程设置一次重试"
+
+[[commands.tokens]]
+text = " -o"
+desc = "本次操作参数：-o。刷新索引时为获取过程设置一次重试"
+
+[[commands.tokens]]
+text = " Acquire::Retries=1"
+desc = "本次操作参数：Acquire::Retries=1。刷新索引时为获取过程设置一次重试"
+
+[commands.dictation]
+prompt = "刷新索引时为获取过程设置一次重试"
+answers = ["sudo apt-get update -o Acquire::Retries=1"]
+
+[[commands]]
+id = "v04-ex-qa-e17caca506"
+command = "grep -n 'alias' ~/.bashrc"
+summary = "从当前用户 Bash 配置查找别名定义所在行"
+
+[[commands.tokens]]
+text = "grep"
+desc = "从当前用户 Bash 配置查找别名定义所在行"
+
+[[commands.tokens]]
+text = " -n"
+desc = "本次操作参数：-n。从当前用户 Bash 配置查找别名定义所在行"
+
+[[commands.tokens]]
+text = " 'alias'"
+desc = "本次操作参数：'alias'。从当前用户 Bash 配置查找别名定义所在行"
+
+[[commands.tokens]]
+text = " ~/.bashrc"
+desc = "本次操作参数：~/.bashrc。从当前用户 Bash 配置查找别名定义所在行"
+
+[commands.dictation]
+prompt = "从当前用户 Bash 配置查找别名定义所在行"
+answers = ["grep -n 'alias' ~/.bashrc"]

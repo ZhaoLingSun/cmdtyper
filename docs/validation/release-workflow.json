@@ -1,0 +1,11 @@
+{
+  "environment": "release",
+  "exit_code": 0,
+  "workflow": "tar-xzf-website",
+  "steps": 4,
+  "records": 1,
+  "completed": 1,
+  "step_output_checked": true,
+  "first_character_after_output_preserved": true,
+  "elapsed_seconds": 7.73
+}

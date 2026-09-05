@@ -1,0 +1,134 @@
+id = "file_recovery"
+title = "误操作后恢复文件：校验、预览与一致性"
+category = "备份与恢复"
+difficulty = "basic"
+background = "发布误覆盖 /srv/site 的静态文件。只读备份 /mnt/backup/site-20260905 包含文件及 SHA256SUMS，站点处于维护窗口。"
+objective = "先保全当前现场，再校验备份、预览恢复差异、恢复到暂存目录，最后替换与业务验证。"
+environment = "Ubuntu 24.04 LTS 教学主机 web-01（192.0.2.10），客户端 ops-01（192.0.2.50），网关 192.0.2.1。文档保留地址与 example.test 域名只用于模拟；每例独立还原起始状态，全部输出预置。"
+recap = "先保全现场，再验证备份完整性和时间；dry-run 看范围，隔离目录中恢复并检查配置，维护窗口切换后验证用户路径。"
+sources = ["https://download.samba.org/pub/rsync/rsync.1", "https://docs.python.org/3/library/json.html", "https://www.gnu.org/s/coreutils/manual/html_node/sha2-utilities.html"]
+
+[[steps]]
+title = "查看当前目录与文件"
+output = "index.html 0 bytes\nassets/\nconfig.json"
+explanation = "确认误操作对象，避免在其他项目目录执行恢复。"
+instruction = "请跟打，查看当前目录与文件。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_01"
+command_id = "shared-7a56d6baeaedff4a"
+
+[[steps]]
+title = "保全当前现场"
+output = "[模拟：当前现场复制完成]"
+explanation = "当前文件即使损坏也可能含未备份的变更；先保留便于比较和反向恢复。"
+instruction = "请跟打，保全当前现场。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_02"
+command_id = "shared-e55bdbe24059a63c"
+
+[[steps]]
+title = "验证备份校验清单"
+output = "/mnt/backup/site-20260905/index.html: OK\n/mnt/backup/site-20260905/assets/app.js: OK\n/mnt/backup/site-20260905/config.json: OK"
+explanation = "本备份清单使用绝对路径；如果清单使用相对路径，应先 cd 到对应备份目录再校验。"
+instruction = "请跟打，验证备份校验清单。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_03"
+command_id = "shared-6c52db37648bd59d"
+
+[steps.decision]
+question = "校验成功说明什么？"
+
+[[steps.decision.choices]]
+text = "文件内容符合清单，但还需检查备份时间与业务状态"
+correct = true
+feedback = "对，完整性不等于备份覆盖到最后一次业务变更。"
+
+[[steps.decision.choices]]
+text = "一定包含故障前所有最新数据"
+correct = false
+feedback = "校验不能证明备份足够新，必须评估可接受的数据回退范围。"
+
+[[steps]]
+title = "创建暂存恢复目录"
+output = "[模拟：暂存目录已创建]"
+explanation = "在独立目录恢复，先检查再切换当前站点。"
+instruction = "请跟打，创建暂存恢复目录。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_04"
+command_id = "shared-242f252cdb652b21"
+
+[[steps]]
+title = "预览复制范围"
+output = ">f+++++++++ index.html\ncd+++++++++ assets/\n>f+++++++++ assets/app.js\n>f+++++++++ config.json"
+explanation = "-n 为 dry-run，尾部 / 表示复制目录内容；这一步不修改目标文件。"
+instruction = "请跟打，预览复制范围。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_05"
+command_id = "shared-faef19270dc132aa"
+
+[[steps]]
+title = "恢复文件到暂存区"
+output = "[模拟：暂存恢复完成]"
+explanation = "-a 保留常见文件属性；ACL、扩展属性或硬链接需求需要明确添加对应选项。"
+instruction = "请跟打，恢复文件到暂存区。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_06"
+command_id = "shared-ce4f570d11599209"
+
+[[steps]]
+title = "验证恢复配置可解析"
+output = "{\n    \"api_base\": \"https://api.example.test\",\n    \"version\": \"v1.0.1\"\n}"
+explanation = "JSON 语法正确，API 域名与当前部署一致；版本回退到备份时的 v1.0.1 已在维护窗口内获准。"
+instruction = "请跟打，验证恢复配置可解析。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_07"
+command_id = "shared-8fa877591d181d32"
+
+[steps.decision]
+question = "怎样完成切换最稳妥？"
+
+[[steps.decision.choices]]
+text = "保留旧目录，切入已经验证的暂存目录后检查站点"
+correct = true
+feedback = "对，保留恢复前现场使验证失败时可以退回。"
+
+[[steps.decision.choices]]
+text = "删除备份和旧目录后直接发布"
+correct = false
+feedback = "删除仅有回退材料会让修复失败后无路可退。"
+
+[[steps]]
+title = "移开当前站点目录"
+output = "[模拟：旧站点保留为 /srv/site.failed]"
+explanation = "本例在维护窗口切换，有短暂目录不存在的间隙；零中断场景可设计原子 symlink 切换。"
+instruction = "请跟打，移开当前站点目录。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_08"
+command_id = "shared-b96077294bfe43d8"
+
+[[steps]]
+title = "切入已验证文件"
+output = "[模拟：恢复目录已就位]"
+explanation = "两目录位于同一文件系统，rename 完成目录替换。"
+instruction = "请跟打，切入已验证文件。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_09"
+command_id = "shared-9b6f616af22e5b08"
+
+[[steps]]
+title = "校验站点内容"
+output = "<!doctype html>\n<html lang=\"zh-CN\">\n<title>Orders Portal</title>"
+explanation = "通过用户入口验证静态页面，同时检查资产请求与 API 兼容性，不只看 HTTP 200。"
+instruction = "请跟打，校验站点内容。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_10"
+command_id = "shared-32ab079309651832"
+
+[[steps]]
+title = "比较恢复版本与备份"
+output = "[无差异，退出状态 0]"
+explanation = "文件级内容与目标备份一致。现场副本与备份按保留策略处理，不在恢复成功后立即清空。"
+instruction = "请跟打，比较恢复版本与备份。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_11"
+command_id = "shared-7cdc66f094a5b8cd"

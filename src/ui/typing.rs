@@ -45,12 +45,7 @@ fn render_top_bar(frame: &mut Frame, mode: TypingDisplayMode, area: Rect) {
         indicator,
         Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
     )))
-    .alignment(Alignment::Center)
-    .block(
-        Block::default()
-            .borders(Borders::BOTTOM)
-            .border_style(Style::default().fg(DIM)),
-    );
+    .alignment(Alignment::Center);
     frame.render_widget(bar, area);
 }
 
@@ -316,17 +311,14 @@ fn render_round_summary(frame: &mut Frame, app: &App, area: Rect, mode: TypingDi
     }
 
     let completed = app.typing_round_records.len() as f64;
+    let round_stats = crate::core::scorer::rebuild_from_history(&app.typing_round_records);
     let avg_wpm = if completed > 0.0 {
-        app.typing_round_records.iter().map(|r| r.wpm).sum::<f64>() / completed
+        round_stats.overall_avg_wpm
     } else {
         0.0
     };
     let avg_acc = if completed > 0.0 {
-        app.typing_round_records
-            .iter()
-            .map(|r| r.accuracy)
-            .sum::<f64>()
-            / completed
+        round_stats.overall_avg_accuracy
     } else {
         0.0
     };
@@ -387,6 +379,9 @@ fn render_current_command_lines(
     display: &str,
     engine: &TypingEngine,
 ) -> Vec<Line<'static>> {
+    if engine.target.contains(&'\n') {
+        return typing_lines(prompt, engine);
+    }
     let mapped_lines = map_display_lines(display, engine.target.len());
     let is_flashing = engine.is_error_flashing();
 
@@ -490,11 +485,6 @@ fn render_bottom_bar(
             "Enter/Esc 返回主页"
         };
         let bar = Paragraph::new(Line::from(Span::styled(text, Style::default().fg(ACCENT))))
-            .block(
-                Block::default()
-                    .borders(Borders::TOP)
-                    .border_style(Style::default().fg(DIM)),
-            )
             .alignment(Alignment::Center);
         frame.render_widget(bar, area);
         return;
@@ -510,11 +500,6 @@ fn render_bottom_bar(
             text,
             Style::default().fg(ACCENT).add_modifier(Modifier::BOLD),
         )))
-        .block(
-            Block::default()
-                .borders(Borders::TOP)
-                .border_style(Style::default().fg(DIM)),
-        )
         .alignment(Alignment::Center);
         frame.render_widget(bar, area);
         return;
@@ -524,49 +509,28 @@ fn render_bottom_bar(
         let bar = Paragraph::new(Line::from(vec![
             Span::styled(DETAILED_WIDTH_HINT, Style::default().fg(WARNING)),
             Span::styled("  ", Style::default()),
-            Span::styled("M 切换模式", Style::default().fg(ACCENT)),
-        ]))
-        .block(
-            Block::default()
-                .borders(Borders::TOP)
-                .border_style(Style::default().fg(DIM)),
-        );
+            Span::styled("F2 切换模式", Style::default().fg(ACCENT)),
+        ]));
         frame.render_widget(bar, area);
         return;
     }
 
     if mode == TypingDisplayMode::Terminal {
         let bar = Paragraph::new(Line::from(vec![
-            Span::styled("M 切换模式", Style::default().fg(ACCENT)),
+            Span::styled("F2 切换模式", Style::default().fg(ACCENT)),
             Span::styled("  ", Style::default()),
             Span::styled("Esc 返回", Style::default().fg(DIM)),
-        ]))
-        .block(
-            Block::default()
-                .borders(Borders::TOP)
-                .border_style(Style::default().fg(DIM)),
-        );
+        ]));
         frame.render_widget(bar, area);
         return;
     }
 
     let mut spans = Vec::new();
 
-    // Summary hint
-    if let Some(cmd) = app.current_typing_command() {
-        if app.show_hint {
-            spans.push(Span::styled(
-                cmd.short_summary().to_string(),
-                Style::default().fg(DIM),
-            ));
-        }
-        spans.push(Span::styled("  ", Style::default()));
-    }
-
-    spans.push(Span::styled("[H]", Style::default().fg(ACCENT)));
-    spans.push(Span::styled("  ", Style::default()));
-    spans.push(Span::styled("M 切换模式", Style::default().fg(ACCENT)));
-    spans.push(Span::styled("  ", Style::default()));
+    spans.push(Span::styled(
+        "F2 模式  F3 提示  Esc 返回  ",
+        Style::default().fg(ACCENT),
+    ));
 
     let wpm = app.typing_engine.current_wpm();
     spans.push(Span::styled(
@@ -590,10 +554,14 @@ fn render_bottom_bar(
         Style::default().fg(acc_color),
     ));
 
-    let bar = Paragraph::new(Line::from(spans)).block(
-        Block::default()
-            .borders(Borders::TOP)
-            .border_style(Style::default().fg(DIM)),
-    );
+    if app.show_hint {
+        if let Some(cmd) = app.current_typing_command() {
+            spans.push(Span::styled(
+                format!("  {}", cmd.short_summary()),
+                Style::default().fg(DIM),
+            ));
+        }
+    }
+    let bar = Paragraph::new(Line::from(spans));
     frame.render_widget(bar, area);
 }

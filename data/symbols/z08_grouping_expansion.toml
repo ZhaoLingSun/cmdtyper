@@ -1,3 +1,4 @@
+
 [meta]
 id = "grouping_expansion"
 topic = "分组、替换与展开顺序"
@@ -10,60 +11,51 @@ id = "subshell-group"
 char_repr = "( )"
 name = "圆括号子 Shell 分组"
 summary = "在隔离的子 Shell 环境中执行一组命令"
-explanation = """( command_a; command_b ) 会启动子 Shell 执行括号中的命令组。
-目录切换、普通变量赋值和选项变化通常只影响子 Shell，结束后父 Shell 环境保持不变。
-整个分组有一个统一的退出状态，也可以作为管道或重定向的一端。
-隔离是它的价值，也是成本：不要期待括号内的 cd 或变量修改在外层继续存在。"""
+explanation = "( command_a; command_b ) 会启动子 Shell 执行括号中的命令组。\n目录切换、普通变量赋值和选项变化通常只影响子 Shell，结束后父 Shell 环境保持不变。\n整个分组有一个统一的退出状态，也可以作为管道或重定向的一端。\n隔离是它的价值，也是成本：不要期待括号内的 cd 或变量修改在外层继续存在。"
 
 [[symbols.examples]]
 id = "subshell-directory-isolation"
-command = "( cd /srv/app && pwd ); pwd"
 explanation = "括号内观察 /srv/app，离开子 Shell 后外层工作目录仍保持原值"
 simulated_output = "/srv/app\n/home/ace"
+command_id = "v04-ref-f94cc8e780"
 
 [[symbols.examples]]
 id = "subshell-variable-isolation"
-command = "name=outer; ( name=inner; printf '%s\\n' \"$name\" ); printf '%s\\n' \"$name\""
 explanation = "子 Shell 中的变量修改不会覆盖外层变量"
 simulated_output = "inner\nouter"
+command_id = "shared-6684e34b227be834"
 
 [[symbols]]
 id = "current-shell-group"
 char_repr = "{ ; }"
 name = "花括号当前 Shell 分组"
 summary = "在当前 Shell 中组织多条命令，花括号两侧和结束分号不可省略"
-explanation = """{ command_a; command_b; } 在当前 Shell 中执行命令组，不创建隔离环境。
-因此 cd、变量赋值和函数状态可以影响后续命令。
-{ 与 } 是保留字，需要与命令之间有空格；最后一条命令后通常要有分号或换行。
-分组常用于让多条输出共享一次重定向或共同进入管道。"""
+explanation = "{ command_a; command_b; } 在当前 Shell 中执行命令组，不创建隔离环境。\n因此 cd、变量赋值和函数状态可以影响后续命令。\n{ 与 } 是保留字，需要与命令之间有空格；最后一条命令后通常要有分号或换行。\n分组常用于让多条输出共享一次重定向或共同进入管道。"
 
 [[symbols.examples]]
 id = "current-shell-output-group"
-command = "{ printf 'alpha\\n'; printf 'beta\\n'; }"
 explanation = "两条 printf 在当前 Shell 中组成一个逻辑单元"
 simulated_output = "alpha\nbeta"
+command_id = "v04-ref-413a44bd48"
 
 [[symbols.examples]]
 id = "current-shell-variable-persists"
-command = "name=outer; { name=inner; }; printf '%s\\n' \"$name\""
 explanation = "花括号不隔离变量，组内赋值会保留到后续命令"
 simulated_output = "inner"
+command_id = "shared-f91b6466bb329358"
 
 [[symbols]]
 id = "command-substitution"
 char_repr = "$( )"
 name = "命令替换"
 summary = "先取得内层命令的标准输出，再把结果嵌入外层命令"
-explanation = """$(command) 会在外层命令执行前运行内层命令，并用其标准输出替换整个表达式。
-末尾连续换行会被移除；中间换行是否保留取决于引用。
-"$(command)" 把结果保留为一个参数，未引用的 $(command) 还可能发生单词分割和路径名展开。
-现代写法 $(...) 比反引号更易嵌套，也更容易看清边界。"""
+explanation = "$(command) 会在外层命令执行前运行内层命令，并用其标准输出替换整个表达式。\n末尾连续换行会被移除；中间换行是否保留取决于引用。\n\"$(command)\" 把结果保留为一个参数，未引用的 $(command) 还可能发生单词分割和路径名展开。\n现代写法 $(...) 比反引号更易嵌套，也更容易看清边界。"
 
 [[symbols.examples]]
 id = "command-substitution-kernel-count"
-command = "printf 'cpus=%s\\n' \"$(nproc)\""
 explanation = "命令替换先得到 CPU 数量，双引号让结果保持为单个参数"
 simulated_output = "cpus=8"
+command_id = "v04-ref-f677d62425"
 
 [[symbols.examples]]
 id = "command-substitution-build-canonical"
@@ -79,44 +71,38 @@ id = "parameter-expansion-basic"
 char_repr = "${name}"
 name = "参数展开边界"
 summary = "用花括号明确变量名边界，并安全拼接前后文本"
-explanation = """${name} 与 $name 都可读取变量，但花括号能明确变量名在哪里结束。
-例如 ${base}_old 表示变量 base 后接字面量 _old；$base_old 会读取另一个变量。
-双引号中的 "${name}" 通常是最稳妥的普通展开方式：它保留空格并阻止路径名展开。
-位置参数超过 9 时必须写成 ${10}，否则 $10 会被解释为 $1 后跟字符 0。"""
+explanation = "${name} 与 $name 都可读取变量，但花括号能明确变量名在哪里结束。\n例如 ${base}_old 表示变量 base 后接字面量 _old；$base_old 会读取另一个变量。\n双引号中的 \"${name}\" 通常是最稳妥的普通展开方式：它保留空格并阻止路径名展开。\n位置参数超过 9 时必须写成 ${10}，否则 $10 会被解释为 $1 后跟字符 0。"
 
 [[symbols.examples]]
 id = "parameter-boundary"
-command = "base=report; printf '%s\\n' \"${base}_old\""
 explanation = "花括号明确变量名为 base，后缀 _old 保持字面含义"
 simulated_output = "report_old"
+command_id = "v04-ref-86b9d22b16"
 
 [[symbols.examples]]
 id = "parameter-position-ten"
-command = "( set -- one two three four five six seven eight nine archive.tar; printf '%s\\n' \"${10}\" )"
 explanation = "先在子 Shell 中建立十个位置参数，再用 ${10} 读取第十个；子 Shell 避免改动外层参数"
 simulated_output = "archive.tar"
+command_id = "shared-385e07c02c27ad81"
 
 [[symbols]]
 id = "parameter-expansion-operators"
 char_repr = "${var:-word}"
 name = "参数默认值与变换"
 summary = "在不必立即修改变量的前提下提供默认值、截取前后缀或报告缺失"
-explanation = """${var:-word} 在 var 未设置或为空时使用 word，但不修改 var。
-${var:=word} 会在缺失或为空时把 word 赋给 var；${var:?message} 会把错误信息写到标准错误，非交互 Shell 通常随即退出，交互 Shell 则保留会话但不会正常执行当前命令。
-${var#pattern} 与 ${var##pattern} 从开头删除最短/最长匹配，% 与 %% 从末尾删除。
-这些操作是字符串变换，不会访问文件系统；模式边界仍需结合引用来控制后续分割。"""
+explanation = "${var:-word} 在 var 未设置或为空时使用 word，但不修改 var。\n${var:=word} 会在缺失或为空时把 word 赋给 var；${var:?message} 会把错误信息写到标准错误，非交互 Shell 通常随即退出，交互 Shell 则保留会话但不会正常执行当前命令。\n${var#pattern} 与 ${var##pattern} 从开头删除最短/最长匹配，% 与 %% 从末尾删除。\n这些操作是字符串变换，不会访问文件系统；模式边界仍需结合引用来控制后续分割。"
 
 [[symbols.examples]]
 id = "parameter-default-value"
-command = "printf '%s\\n' \"${APP_MODE:-development}\""
 explanation = "APP_MODE 缺失或为空时只使用默认文本 development"
 simulated_output = "development"
+command_id = "v04-ref-23f5fea60a"
 
 [[symbols.examples]]
 id = "parameter-remove-suffix"
-command = "file=photo.jpeg; printf '%s\\n' \"${file%.jpeg}.jpg\""
 explanation = "删除最短 .jpeg 后缀，再拼接 .jpg"
 simulated_output = "photo.jpg"
+command_id = "shared-c16b086e7b41dd34"
 
 [[symbols.examples]]
 id = "parameter-rename-canonical"
@@ -128,74 +114,68 @@ id = "brace-expansion"
 char_repr = "{a,b} {1..3}"
 name = "花括号展开"
 summary = "在参数展开之前生成一组字面单词"
-explanation = """{one,two} 生成 one 和 two，{1..3} 生成连续序列。
-花括号展开是文本生成，不读取目录；这与 *.log 的路径名展开不同。
-展开通常发生在参数展开之前，因此 {$start..$end} 不会先把变量变成范围边界。
-对整个花括号表达式加引号会阻止展开，使它保持普通文本。"""
+explanation = "{one,two} 生成 one 和 two，{1..3} 生成连续序列。\n花括号展开是文本生成，不读取目录；这与 *.log 的路径名展开不同。\n展开通常发生在参数展开之前，因此 {$start..$end} 不会先把变量变成范围边界。\n对整个花括号表达式加引号会阻止展开，使它保持普通文本。"
 
 [[symbols.examples]]
 id = "brace-list"
-command = "printf '%s\\n' report.{txt,csv}"
 explanation = "先生成 report.txt 与 report.csv 两个参数"
 simulated_output = "report.txt\nreport.csv"
+command_id = "v04-ref-2ad04d2200"
 
 [[symbols.examples]]
 id = "brace-sequence"
-command = "printf '%s\\n' item-{1..3}"
 explanation = "生成 item-1、item-2、item-3，不需要目录中存在同名文件"
 simulated_output = "item-1\nitem-2\nitem-3"
+command_id = "shared-f0f01861e587069f"
 
 [[symbols]]
 id = "expansion-order"
 char_repr = "quote -> expand -> split -> glob"
 name = "展开顺序与引用边界"
 summary = "理解同一行如何从源码变成最终参数列表"
-explanation = """Bash 解析一行时，先识别引号、操作符和命令结构，再按规则执行展开。
-常见顺序可记为：花括号展开；波浪号、参数、算术和命令替换；单词分割；路径名展开；引号移除。
-双引号会保留参数/命令替换结果的整体性，并阻止单词分割与路径名展开；单引号会阻止几乎所有展开。
-重定向目标也会展开，但分组、管道与短路结构早已在语法解析阶段确定。"""
+explanation = "Bash 解析一行时，先识别引号、操作符和命令结构，再按规则执行展开。\n常见顺序可记为：花括号展开；波浪号、参数、算术和命令替换；单词分割；路径名展开；引号移除。\n双引号会保留参数/命令替换结果的整体性，并阻止单词分割与路径名展开；单引号会阻止几乎所有展开。\n重定向目标也会展开，但分组、管道与短路结构早已在语法解析阶段确定。"
 
 [[symbols.examples]]
 id = "expansion-order-quoted"
-command = "items='alpha beta'; printf '<%s>\\n' \"$items\""
 explanation = "双引号让包含空格的值作为一个参数传给 printf"
 simulated_output = "<alpha beta>"
+command_id = "v04-ref-ec57f57844"
 
 [[symbols.examples]]
 id = "expansion-order-unquoted"
-command = "items='alpha beta'; printf '<%s>\\n' $items"
 explanation = "未引用展开先发生单词分割，因此 printf 接收到两个参数"
 simulated_output = "<alpha>\n<beta>"
+command_id = "shared-65e977b61f211a90"
 
 [[symbols.examples]]
 id = "expansion-order-literal"
-command = "printf '%s\\n' '$HOME'"
 explanation = "单引号阻止参数展开，输出字面量 $HOME"
 simulated_output = "$HOME"
+command_id = "shared-54fe047a831d3577"
 
 [[exercises]]
 id = "group-subshell-directory"
 kind = "typing"
 prompt = "在子 Shell 中进入 /srv/app 并打印路径，然后在外层再次打印路径"
 answers = ["( cd /srv/app && pwd ); pwd"]
-command = "( cd /srv/app && pwd ); pwd"
 simulated_output = "/srv/app\n/home/ace"
+command_id = "v04-ref-f94cc8e780"
 
 [[exercises]]
 id = "group-current-shell-output"
 kind = "typing"
 prompt = "用花括号分组依次输出 alpha 和 beta"
 answers = ["{ echo alpha; echo beta; }"]
-command = "{ echo alpha; echo beta; }"
 simulated_output = "alpha\nbeta"
+command_id = "shared-dfcc30556f0344b6"
 
 [[exercises]]
 id = "group-command-substitution-cpus"
 kind = "typing"
 prompt = "用命令替换把 nproc 的结果放入 cpus= 后面"
 answers = ["printf 'cpus=%s\\n' \"$(nproc)\"", "echo \"cpus=$(nproc)\""]
-command = "printf 'cpus=%s\\n' \"$(nproc)\""
 simulated_output = "cpus=8"
+command_id = "v04-ref-f677d62425"
 
 [[exercises]]
 id = "group-make-build-canonical"
@@ -207,24 +187,24 @@ id = "group-parameter-boundary"
 kind = "typing"
 prompt = "先把 base 设为 report，再拼接字面后缀 _old，并避免把 base_old 当变量名"
 answers = ["base=report; echo \"${base}_old\"", "base=report; printf '%s\\n' \"${base}_old\""]
-command = "base=report; echo \"${base}_old\""
 simulated_output = "report_old"
+command_id = "shared-2c9dd5e154b72b51"
 
 [[exercises]]
 id = "group-parameter-default"
 kind = "typing"
 prompt = "APP_MODE 为空或未设置时输出 development，但不修改变量"
 answers = ["echo \"${APP_MODE:-development}\"", "printf '%s\\n' \"${APP_MODE:-development}\""]
-command = "echo \"${APP_MODE:-development}\""
 simulated_output = "development"
+command_id = "shared-2621989b64da1354"
 
 [[exercises]]
 id = "group-brace-list"
 kind = "typing"
 prompt = "用花括号展开生成 report.txt 和 report.csv"
 answers = ["printf '%s\\n' report.{txt,csv}", "echo report.{txt,csv}"]
-command = "printf '%s\\n' report.{txt,csv}"
 simulated_output = "report.txt\nreport.csv"
+command_id = "v04-ref-2ad04d2200"
 
 [[exercises]]
 id = "group-rename-canonical"
@@ -236,48 +216,48 @@ id = "group-subshell-dictation"
 kind = "dictation"
 prompt = "在隔离的子 Shell 中输出 one 和 two"
 answers = ["( echo one; echo two )"]
-command = "( echo one; echo two )"
 simulated_output = "one\ntwo"
+command_id = "shared-9831cf4cb4036f78"
 
 [[exercises]]
 id = "group-current-shell-dictation"
 kind = "dictation"
 prompt = "在当前 Shell 分组中依次输出 one 和 two"
 answers = ["{ echo one; echo two; }"]
-command = "{ echo one; echo two; }"
 simulated_output = "one\ntwo"
+command_id = "shared-50416fe26e095911"
 
 [[exercises]]
 id = "group-command-substitution-dictation"
 kind = "dictation"
 prompt = "把 date +%F 的结果作为 echo 的一个参数"
 answers = ["echo \"$(date +%F)\"", "printf '%s\\n' \"$(date +%F)\""]
-command = "echo \"$(date +%F)\""
 simulated_output = "2026-03-14"
+command_id = "command-substitution-date"
 
 [[exercises]]
 id = "group-parameter-suffix-dictation"
 kind = "dictation"
 prompt = "先把 file 设为 photo.jpeg，再删除末尾最短的 .jpeg 并拼接 .jpg"
 answers = ["file=photo.jpeg; echo \"${file%.jpeg}.jpg\"", "file=photo.jpeg; printf '%s\\n' \"${file%.jpeg}.jpg\""]
-command = "file=photo.jpeg; echo \"${file%.jpeg}.jpg\""
 simulated_output = "photo.jpg"
+command_id = "shared-6bd5cbd7be3fbc71"
 
 [[exercises]]
 id = "group-brace-sequence-dictation"
 kind = "dictation"
 prompt = "用花括号序列生成 item-1 到 item-3"
 answers = ["echo item-{1..3}", "printf '%s\\n' item-{1..3}"]
-command = "echo item-{1..3}"
 simulated_output = "item-1 item-2 item-3"
+command_id = "shared-3a3997ce8dd61130"
 
 [[exercises]]
 id = "group-quoted-expansion-dictation"
 kind = "dictation"
 prompt = "先把 items 设为包含空格的 alpha beta，再把它作为一个完整参数传给 printf"
 answers = ["items='alpha beta'; printf '<%s>\\n' \"$items\""]
-command = "items='alpha beta'; printf '<%s>\\n' \"$items\""
 simulated_output = "<alpha beta>"
+command_id = "v04-ref-ec57f57844"
 
 [[exercises]]
 id = "group-backup-canonical"

@@ -1,0 +1,5522 @@
+
+[meta]
+category = "system"
+difficulty = "basic"
+description = "跨模块共用的规范命令（由内容归一化维护）"
+
+[[commands]]
+id = "shared-a4634e754b552870"
+command = "systemctl enable --now docker"
+summary = "设置 Docker 开机自启并立即启动"
+simulated_output = "Created symlink /etc/systemd/system/multi-user.target.wants/docker.service → /lib/systemd/system/docker.service."
+
+[[commands.tokens]]
+text = "systemctl enable --now docker"
+desc = "设置 Docker 开机自启并立即启动"
+
+[commands.dictation]
+prompt = "设置 Docker 开机自启并立即启动"
+answers = ["systemctl enable --now docker"]
+
+[[commands]]
+id = "shared-5b79c2e375cdc273"
+command = "systemctl list-units --type=service --state=running"
+summary = "列出所有正在运行的系统服务"
+simulated_output = "  UNIT                        LOAD   ACTIVE SUB     DESCRIPTION\n  cron.service                loaded active running Regular background program processing daemon\n  docker.service              loaded active running Docker Application Container Engine\n  nginx.service               loaded active running A high performance web server\n  ssh.service                 loaded active running OpenBSD Secure Shell server\n  systemd-journald.service    loaded active running Journal Service"
+
+[[commands.tokens]]
+text = "systemctl list-units --type=service --state=running"
+desc = "列出所有正在运行的系统服务"
+
+[commands.dictation]
+prompt = "列出所有正在运行的系统服务"
+answers = ["systemctl list-units --type=service --state=running"]
+
+[[commands]]
+id = "shared-1a0fb6b4dc194bb5"
+command = "journalctl -u nginx -f --since '10 minutes ago'"
+summary = "实时查看 Nginx 服务近10分钟的日志"
+simulated_output = "Mar 09 10:28:01 myhost nginx[1235]: 203.0.113.42 - - [09/Mar/2024:10:28:01 +0000] \"GET / HTTP/1.1\" 200 615\nMar 09 10:29:15 myhost nginx[1235]: 10.0.0.5 - - [09/Mar/2024:10:29:15 +0000] \"POST /api/data HTTP/1.1\" 201 89"
+
+[[commands.tokens]]
+text = "journalctl -u nginx -f --since '10 minutes ago'"
+desc = "实时查看 Nginx 服务近10分钟的日志"
+
+[commands.dictation]
+prompt = "实时查看 Nginx 服务近10分钟的日志"
+answers = ["journalctl -u nginx -f --since '10 minutes ago'"]
+
+[[commands]]
+id = "shared-125410a46509ac33"
+command = "cat /var/log/syslog | grep error | wc -l"
+summary = "读取系统日志文件，过滤包含 error 的行，最后统计行数——典型的三段管道链"
+simulated_output = "42"
+
+[[commands.tokens]]
+text = "cat /var/log/syslog | grep error | wc -l"
+desc = "读取系统日志文件，过滤包含 error 的行，最后统计行数——典型的三段管道链"
+
+[commands.dictation]
+prompt = "读取系统日志文件，过滤包含 error 的行，最后统计行数——典型的三段管道链"
+answers = ["cat /var/log/syslog | grep error | wc -l"]
+
+[[commands]]
+id = "shared-21715d6bfbd69986"
+command = "ps aux | grep nginx | grep -v grep"
+summary = "列出所有进程，过滤出 nginx 相关进程，再排除 grep 自身的进程"
+simulated_output = "root      1234  0.0  0.1  65432  2048 ?        Ss   08:00   0:00 nginx: master process /usr/sbin/nginx\nwww-data  1235  0.0  0.3  65896  6144 ?        S    08:00   0:05 nginx: worker process\nwww-data  1236  0.0  0.3  65896  6080 ?        S    08:00   0:04 nginx: worker process"
+
+[[commands.tokens]]
+text = "ps aux | grep nginx | grep -v grep"
+desc = "列出所有进程，过滤出 nginx 相关进程，再排除 grep 自身的进程"
+
+[commands.dictation]
+prompt = "列出所有进程，过滤出 nginx 相关进程，再排除 grep 自身的进程"
+answers = ["ps aux | grep nginx | grep -v grep"]
+
+[[commands]]
+id = "shared-6e0b044dfe8435f8"
+command = "ls -la /home > file_list.txt"
+summary = "将 /home 目录的详细文件列表保存到 file_list.txt 中"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "ls -la /home > file_list.txt"
+desc = "将 /home 目录的详细文件列表保存到 file_list.txt 中"
+
+[commands.dictation]
+prompt = "将 /home 目录的详细文件列表保存到 file_list.txt 中"
+answers = ["ls -la /home > file_list.txt"]
+
+[[commands]]
+id = "shared-d0323ff63a26e904"
+command = "date > timestamp.txt && cat timestamp.txt"
+summary = "将当前日期时间写入文件，然后用 cat 验证内容"
+simulated_output = "Sun Mar  8 15:30:42 CST 2026"
+
+[[commands.tokens]]
+text = "date > timestamp.txt && cat timestamp.txt"
+desc = "将当前日期时间写入文件，然后用 cat 验证内容"
+
+[commands.dictation]
+prompt = "将当前日期时间写入文件，然后用 cat 验证内容"
+answers = ["date > timestamp.txt && cat timestamp.txt"]
+
+[[commands]]
+id = "shared-e393124f4c60ba7e"
+command = "echo \"[$(date)] 服务启动\" >> /var/log/app.log"
+summary = "将带有时间戳的日志信息追加到应用日志文件中"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "echo \"[$(date)] 服务启动\" >> /var/log/app.log"
+desc = "将带有时间戳的日志信息追加到应用日志文件中"
+
+[commands.dictation]
+prompt = "将带有时间戳的日志信息追加到应用日志文件中"
+answers = ["echo \"[$(date)] 服务启动\" >> /var/log/app.log"]
+
+[[commands]]
+id = "shared-fb6caaa35b3457cd"
+command = "for i in 1 2 3; do echo \"Item $i\" >> list.txt; done && cat list.txt"
+summary = "在循环中使用 >> 逐行追加内容到文件"
+simulated_output = "Item 1\nItem 2\nItem 3"
+
+[[commands.tokens]]
+text = "for i in 1 2 3; do echo \"Item $i\" >> list.txt; done && cat list.txt"
+desc = "在循环中使用 >> 逐行追加内容到文件"
+
+[commands.dictation]
+prompt = "在循环中使用 >> 逐行追加内容到文件"
+answers = ["for i in 1 2 3; do echo \"Item $i\" >> list.txt; done && cat list.txt"]
+
+[[commands]]
+id = "shared-fd36303c5fc53224"
+command = "find / -name \"*.conf\" 2>/dev/null | head -3"
+summary = "查找所有 .conf 文件，将权限不足等错误信息丢弃到 /dev/null，只显示正常结果"
+simulated_output = "/etc/sysctl.conf\n/etc/resolv.conf\n/etc/adduser.conf"
+
+[[commands.tokens]]
+text = "find / -name \"*.conf\" 2>/dev/null | head -3"
+desc = "查找所有 .conf 文件，将权限不足等错误信息丢弃到 /dev/null，只显示正常结果"
+
+[commands.dictation]
+prompt = "查找所有 .conf 文件，将权限不足等错误信息丢弃到 /dev/null，只显示正常结果"
+answers = ["find / -name \"*.conf\" 2>/dev/null | head -3"]
+
+[[commands]]
+id = "shared-05f3442c1aeed85d"
+command = "gcc program.c -o program 2> compile_errors.txt"
+summary = "编译 C 程序，将编译错误和警告保存到文件中以便后续分析"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "gcc program.c -o program 2> compile_errors.txt"
+desc = "编译 C 程序，将编译错误和警告保存到文件中以便后续分析"
+
+[commands.dictation]
+prompt = "编译 C 程序，将编译错误和警告保存到文件中以便后续分析"
+answers = ["gcc program.c -o program 2> compile_errors.txt"]
+
+[[commands]]
+id = "shared-d748a83a2d90172f"
+command = "make build > build.log 2>&1"
+summary = "将编译的正常输出和错误输出都保存到 build.log 中"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "make build > build.log 2>&1"
+desc = "将编译的正常输出和错误输出都保存到 build.log 中"
+
+[commands.dictation]
+prompt = "将编译的正常输出和错误输出都保存到 build.log 中"
+answers = ["make build > build.log 2>&1"]
+
+[[commands]]
+id = "shared-cf68c97664903134"
+command = "python3 script.py 2>&1 | tee output.log"
+summary = "运行 Python 脚本，合并 stdout 和 stderr，同时显示在终端并保存到文件"
+simulated_output = "Processing data...\nWarning: missing value at line 42\nResult: 128 records processed"
+
+[[commands.tokens]]
+text = "python3 script.py 2>&1 | tee output.log"
+desc = "运行 Python 脚本，合并 stdout 和 stderr，同时显示在终端并保存到文件"
+
+[commands.dictation]
+prompt = "运行 Python 脚本，合并 stdout 和 stderr，同时显示在终端并保存到文件"
+answers = ["python3 script.py 2>&1 | tee output.log"]
+
+[[commands]]
+id = "shared-739ca57423684b68"
+command = "sort < names.txt > sorted_names.txt && head -3 sorted_names.txt"
+summary = "将 names.txt 的内容排序后保存到新文件，同时演示输入输出重定向的组合"
+simulated_output = "Alice\nBob\nCharlie"
+
+[[commands.tokens]]
+text = "sort < names.txt > sorted_names.txt && head -3 sorted_names.txt"
+desc = "将 names.txt 的内容排序后保存到新文件，同时演示输入输出重定向的组合"
+
+[commands.dictation]
+prompt = "将 names.txt 的内容排序后保存到新文件，同时演示输入输出重定向的组合"
+answers = ["sort < names.txt > sorted_names.txt && head -3 sorted_names.txt"]
+
+[[commands]]
+id = "shared-9dd4fdad130269ff"
+command = "mysql -u root -p mydb < backup.sql"
+summary = "将 SQL 备份文件通过输入重定向导入到 MySQL 数据库中"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "mysql -u root -p mydb < backup.sql"
+desc = "将 SQL 备份文件通过输入重定向导入到 MySQL 数据库中"
+
+[commands.dictation]
+prompt = "将 SQL 备份文件通过输入重定向导入到 MySQL 数据库中"
+answers = ["mysql -u root -p mydb < backup.sql"]
+
+[[commands]]
+id = "shared-a5e11ea05dd98923"
+command = "cat << 'EOF'\nPrice is $100\nPath is $HOME\nEOF"
+summary = "使用加引号的结束标记来禁止变量展开，所有 $ 符号保持原样"
+simulated_output = "Price is $100\nPath is $HOME"
+
+[[commands.tokens]]
+text = "cat << 'EOF'\nPrice is $100\nPath is $HOME\nEOF"
+desc = "使用加引号的结束标记来禁止变量展开，所有 $ 符号保持原样"
+
+[commands.dictation]
+prompt = "使用加引号的结束标记来禁止变量展开，所有 $ 符号保持原样"
+answers = ["cat << 'EOF'\nPrice is $100\nPath is $HOME\nEOF"]
+
+[[commands]]
+id = "shared-43907aece9c810f3"
+command = "tee config.ini << EOF\n[database]\nhost = localhost\nport = 5432\nname = myapp\nEOF"
+summary = "使用 Here Document 配合 tee 创建配置文件"
+simulated_output = "[database]\nhost = localhost\nport = 5432\nname = myapp"
+
+[[commands.tokens]]
+text = "tee config.ini << EOF\n[database]\nhost = localhost\nport = 5432\nname = myapp\nEOF"
+desc = "使用 Here Document 配合 tee 创建配置文件"
+
+[commands.dictation]
+prompt = "使用 Here Document 配合 tee 创建配置文件"
+answers = ["tee config.ini << EOF\n[database]\nhost = localhost\nport = 5432\nname = myapp\nEOF"]
+
+[[commands]]
+id = "shared-0c51aab12e4cfa30"
+command = "echo \"deb http://archive.ubuntu.com/ubuntu jammy main\" | sudo tee /etc/apt/sources.list.d/custom.list"
+summary = "使用 tee 配合 sudo 写入需要 root 权限的文件（直接用 sudo > 是不行的）"
+simulated_output = "deb http://archive.ubuntu.com/ubuntu jammy main"
+
+[[commands.tokens]]
+text = "echo \"deb http://archive.ubuntu.com/ubuntu jammy main\" | sudo tee /etc/apt/sources.list.d/custom.list"
+desc = "使用 tee 配合 sudo 写入需要 root 权限的文件（直接用 sudo > 是不行的）"
+
+[commands.dictation]
+prompt = "使用 tee 配合 sudo 写入需要 root 权限的文件（直接用 sudo > 是不行的）"
+answers = ["echo \"deb http://archive.ubuntu.com/ubuntu jammy main\" | sudo tee /etc/apt/sources.list.d/custom.list"]
+
+[[commands]]
+id = "shared-a6a0dd424f3e242a"
+command = "cat server.log | grep ERROR | tee -a error_report.txt | wc -l"
+summary = "过滤日志中的错误，追加保存到报告文件，同时统计错误总数"
+simulated_output = "17"
+
+[[commands.tokens]]
+text = "cat server.log | grep ERROR | tee -a error_report.txt | wc -l"
+desc = "过滤日志中的错误，追加保存到报告文件，同时统计错误总数"
+
+[commands.dictation]
+prompt = "过滤日志中的错误，追加保存到报告文件，同时统计错误总数"
+answers = ["cat server.log | grep ERROR | tee -a error_report.txt | wc -l"]
+
+[[commands]]
+id = "shared-dc04eb15a2c1025c"
+command = "ls -l > filelist.txt"
+summary = "将 ls -l 的输出保存到 filelist.txt 文件中（覆盖写入）"
+
+[[commands.tokens]]
+text = "ls -l > filelist.txt"
+desc = "将 ls -l 的输出保存到 filelist.txt 文件中（覆盖写入）"
+
+[commands.dictation]
+prompt = "将 ls -l 的输出保存到 filelist.txt 文件中（覆盖写入）"
+answers = ["ls -l > filelist.txt"]
+
+[[commands]]
+id = "shared-17e677dd363c6e93"
+command = "find /var/log -name \"*.log\" 2>/dev/null"
+summary = "查找 /var/log 下的所有 .log 文件，忽略权限错误"
+
+[[commands.tokens]]
+text = "find /var/log -name \"*.log\" 2>/dev/null"
+desc = "查找 /var/log 下的所有 .log 文件，忽略权限错误"
+
+[commands.dictation]
+prompt = "查找 /var/log 下的所有 .log 文件，忽略权限错误"
+answers = ["find /var/log -name \"*.log\" 2>/dev/null"]
+
+[[commands]]
+id = "shared-8aaa861e86595a0e"
+command = "grep bash /etc/passwd | wc -l"
+summary = "统计 /etc/passwd 文件中包含 bash 的行数（使用管道）"
+
+[[commands.tokens]]
+text = "grep bash /etc/passwd | wc -l"
+desc = "统计 /etc/passwd 文件中包含 bash 的行数（使用管道）"
+
+[commands.dictation]
+prompt = "统计 /etc/passwd 文件中包含 bash 的行数（使用管道）"
+answers = ["grep bash /etc/passwd | wc -l"]
+
+[[commands]]
+id = "shared-54d439993fd7211d"
+command = "date >> log.txt"
+summary = "将当前日期追加到 log.txt 文件末尾"
+
+[[commands.tokens]]
+text = "date >> log.txt"
+desc = "将当前日期追加到 log.txt 文件末尾"
+
+[commands.dictation]
+prompt = "将当前日期追加到 log.txt 文件末尾"
+answers = ["date >> log.txt"]
+
+[[commands]]
+id = "shared-b146373c183da2ff"
+command = "cat auth.log | grep -i failed | head -5"
+summary = "筛选 auth.log 中包含 failed 的前 5 行"
+simulated_output = "Mar 14 09:11:20 sshd[101]: Failed password for root from 10.0.0.7\nMar 14 09:12:01 sshd[104]: Failed password for admin from 10.0.0.8"
+
+[[commands.tokens]]
+text = "cat auth.log | grep -i failed | head -5"
+desc = "筛选 auth.log 中包含 failed 的前 5 行"
+
+[commands.dictation]
+prompt = "筛选 auth.log 中包含 failed 的前 5 行"
+answers = ["cat auth.log | grep -i failed | head -5"]
+
+[[commands]]
+id = "shared-c60393b79c888dcf"
+command = "dmesg | grep -i error >> kernel.err"
+summary = "将 dmesg 中 error 信息追加到 kernel.err"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "dmesg | grep -i error >> kernel.err"
+desc = "将 dmesg 中 error 信息追加到 kernel.err"
+
+[commands.dictation]
+prompt = "将 dmesg 中 error 信息追加到 kernel.err"
+answers = ["dmesg | grep -i error >> kernel.err"]
+
+[[commands]]
+id = "shared-929ac73cc3a6a6fc"
+command = "cat nginx.log | grep ' 500 ' | wc -l"
+summary = "统计 nginx.log 中 500 状态码数量"
+simulated_output = "27"
+
+[[commands.tokens]]
+text = "cat nginx.log | grep ' 500 ' | wc -l"
+desc = "统计 nginx.log 中 500 状态码数量"
+
+[commands.dictation]
+prompt = "统计 nginx.log 中 500 状态码数量"
+answers = ["cat nginx.log | grep ' 500 ' | wc -l"]
+
+[[commands]]
+id = "shared-c0ce87d2b506e624"
+command = "./deploy.sh > deploy.log 2>&1"
+summary = "把 stdout/stderr 都重定向到 deploy.log"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "./deploy.sh > deploy.log 2>&1"
+desc = "把 stdout/stderr 都重定向到 deploy.log"
+
+[commands.dictation]
+prompt = "把 stdout/stderr 都重定向到 deploy.log"
+answers = ["./deploy.sh > deploy.log 2>&1"]
+
+[[commands]]
+id = "shared-430258a9e4589643"
+command = "sort -k3 users.txt > sorted.txt"
+summary = "读取 users.txt 并按第 3 列排序写入 sorted.txt"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "sort -k3 users.txt > sorted.txt"
+desc = "读取 users.txt 并按第 3 列排序写入 sorted.txt"
+
+[commands.dictation]
+prompt = "读取 users.txt 并按第 3 列排序写入 sorted.txt"
+answers = ["sort -k3 users.txt > sorted.txt"]
+
+[[commands]]
+id = "shared-88b6a56fd89eec05"
+command = "ping -c 3 8.8.8.8 | tee ping.out"
+summary = "用 tee 同时显示并保存 ping 输出"
+simulated_output = "PING 8.8.8.8 (8.8.8.8): 56 data bytes\n64 bytes from 8.8.8.8: icmp_seq=0 ttl=115 time=28.1 ms"
+
+[[commands.tokens]]
+text = "ping -c 3 8.8.8.8 | tee ping.out"
+desc = "用 tee 同时显示并保存 ping 输出"
+
+[commands.dictation]
+prompt = "用 tee 同时显示并保存 ping 输出"
+answers = ["ping -c 3 8.8.8.8 | tee ping.out"]
+
+[[commands]]
+id = "shared-53d80b0e667de955"
+command = "some_command 2>> err.log"
+summary = "将 stderr 追加到 err.log（不覆盖）"
+
+[[commands.tokens]]
+text = "some_command 2>> err.log"
+desc = "将 stderr 追加到 err.log（不覆盖）"
+
+[commands.dictation]
+prompt = "将 stderr 追加到 err.log（不覆盖）"
+answers = ["some_command 2>> err.log"]
+
+[[commands]]
+id = "shared-1a44cf6b680892e2"
+command = "grep nologin /etc/passwd | wc -l"
+summary = "统计 /etc/passwd 中包含 nologin 的行数（使用管道）"
+
+[[commands.tokens]]
+text = "grep nologin /etc/passwd | wc -l"
+desc = "统计 /etc/passwd 中包含 nologin 的行数（使用管道）"
+
+[commands.dictation]
+prompt = "统计 /etc/passwd 中包含 nologin 的行数（使用管道）"
+answers = ["grep nologin /etc/passwd | wc -l"]
+
+[[commands]]
+id = "shared-5e886b7c49c49992"
+command = "sort < list.txt > result.txt"
+summary = "将 list.txt 作为 sort 的输入并输出到 result.txt"
+
+[[commands.tokens]]
+text = "sort < list.txt > result.txt"
+desc = "将 list.txt 作为 sort 的输入并输出到 result.txt"
+
+[commands.dictation]
+prompt = "将 list.txt 作为 sort 的输入并输出到 result.txt"
+answers = ["sort < list.txt > result.txt"]
+
+[[commands]]
+id = "shared-59ee09a961d4cd72"
+command = "bash run.sh 2>/dev/null"
+summary = "运行脚本并丢弃所有错误输出"
+
+[[commands.tokens]]
+text = "bash run.sh 2>/dev/null"
+desc = "运行脚本并丢弃所有错误输出"
+
+[commands.dictation]
+prompt = "运行脚本并丢弃所有错误输出"
+answers = ["bash run.sh 2>/dev/null"]
+
+[[commands]]
+id = "shared-0109c6ff806056cc"
+command = "echo 'price is $100'"
+summary = "单引号内 $100 不会被当作变量展开，原样输出美元符号和数字"
+simulated_output = "price is $100"
+
+[[commands.tokens]]
+text = "echo 'price is $100'"
+desc = "单引号内 $100 不会被当作变量展开，原样输出美元符号和数字"
+
+[commands.dictation]
+prompt = "单引号内 $100 不会被当作变量展开，原样输出美元符号和数字"
+answers = ["echo 'price is $100'"]
+
+[[commands]]
+id = "shared-5bfd67c74f42b94b"
+command = "echo \"hello $USER\""
+summary = "双引号允许变量插值，$USER 被替换为当前登录的用户名"
+simulated_output = "hello ace"
+
+[[commands.tokens]]
+text = "echo \"hello $USER\""
+desc = "双引号允许变量插值，$USER 被替换为当前登录的用户名"
+
+[commands.dictation]
+prompt = "双引号允许变量插值，$USER 被替换为当前登录的用户名"
+answers = ["echo \"hello $USER\""]
+
+[[commands]]
+id = "shared-02f71699ff0d26dc"
+command = "echo \"files: $(ls)\""
+summary = "双引号内的 $() 命令替换仍然有效，ls 的输出被嵌入到字符串中"
+simulated_output = "files: Desktop Documents Downloads Music Pictures"
+
+[[commands.tokens]]
+text = "echo \"files: $(ls)\""
+desc = "双引号内的 $() 命令替换仍然有效，ls 的输出被嵌入到字符串中"
+
+[commands.dictation]
+prompt = "双引号内的 $() 命令替换仍然有效，ls 的输出被嵌入到字符串中"
+answers = ["echo \"files: $(ls)\""]
+
+[[commands]]
+id = "shared-7e385177ee770a84"
+command = "ls file\\ with\\ spaces"
+summary = "用反斜杠转义空格，使 Shell 将其视为单个文件名而非三个参数"
+simulated_output = "file with spaces"
+
+[[commands.tokens]]
+text = "ls file\\ with\\ spaces"
+desc = "用反斜杠转义空格，使 Shell 将其视为单个文件名而非三个参数"
+
+[commands.dictation]
+prompt = "用反斜杠转义空格，使 Shell 将其视为单个文件名而非三个参数"
+answers = ["ls file\\ with\\ spaces"]
+
+[[commands]]
+id = "shared-fbac92780ebb408f"
+command = "echo \"she said \\\\\"hello\\\\\"\""
+summary = "在双引号内用 \\\" 输出字面量的双引号字符"
+simulated_output = "she said \"hello\""
+
+[[commands.tokens]]
+text = "echo \"she said \\\\\"hello\\\\\"\""
+desc = "在双引号内用 \\\" 输出字面量的双引号字符"
+
+[commands.dictation]
+prompt = "在双引号内用 \\\" 输出字面量的双引号字符"
+answers = ["echo \"she said \\\\\"hello\\\\\"\""]
+
+[[commands]]
+id = "shared-5ec792848443ff7c"
+command = "echo \"today is `date +%Y-%m-%d`\""
+summary = "在双引号内使用反引号进行命令替换，获取格式化的当前日期"
+simulated_output = "today is 2026-03-08"
+
+[[commands.tokens]]
+text = "echo \"today is `date +%Y-%m-%d`\""
+desc = "在双引号内使用反引号进行命令替换，获取格式化的当前日期"
+
+[commands.dictation]
+prompt = "在双引号内使用反引号进行命令替换，获取格式化的当前日期"
+answers = ["echo \"today is `date +%Y-%m-%d`\""]
+
+[[commands]]
+id = "shared-1e5adadc3e23861d"
+command = "echo `whoami`@`hostname`"
+summary = "组合两个反引号命令替换，显示 用户名@主机名 的格式"
+simulated_output = "ace@cmdtyper"
+
+[[commands.tokens]]
+text = "echo `whoami`@`hostname`"
+desc = "组合两个反引号命令替换，显示 用户名@主机名 的格式"
+
+[commands.dictation]
+prompt = "组合两个反引号命令替换，显示 用户名@主机名 的格式"
+answers = ["echo `whoami`@`hostname`"]
+
+[[commands]]
+id = "shared-9d78643e6a40632f"
+command = "file_count=$(ls | wc -l) && echo $file_count"
+summary = "将 ls | wc -l 的输出赋值给变量 file_count，然后显示文件数量"
+simulated_output = "12"
+
+[[commands.tokens]]
+text = "file_count=$(ls | wc -l) && echo $file_count"
+desc = "将 ls | wc -l 的输出赋值给变量 file_count，然后显示文件数量"
+
+[commands.dictation]
+prompt = "将 ls | wc -l 的输出赋值给变量 file_count，然后显示文件数量"
+answers = ["file_count=$(ls | wc -l) && echo $file_count"]
+
+[[commands]]
+id = "shared-8d6edcc6dcd673ce"
+command = "echo \"kernel: $(uname -r)\""
+summary = "在双引号字符串中使用命令替换，嵌入内核版本信息"
+simulated_output = "kernel: 6.8.0-101-generic"
+
+[[commands.tokens]]
+text = "echo \"kernel: $(uname -r)\""
+desc = "在双引号字符串中使用命令替换，嵌入内核版本信息"
+
+[commands.dictation]
+prompt = "在双引号字符串中使用命令替换，嵌入内核版本信息"
+answers = ["echo \"kernel: $(uname -r)\""]
+
+[[commands]]
+id = "shared-1b8779650cdc074d"
+command = "echo \"user: $USER\""
+summary = "使用 echo 和双引号输出当前用户名，格式为：user: 用户名"
+
+[[commands.tokens]]
+text = "echo \"user: $USER\""
+desc = "使用 echo 和双引号输出当前用户名，格式为：user: 用户名"
+
+[commands.dictation]
+prompt = "使用 echo 和双引号输出当前用户名，格式为：user: 用户名"
+answers = ["echo \"user: $USER\""]
+
+[[commands]]
+id = "shared-2d688ace233eb0f0"
+command = "echo $(date)"
+summary = "使用 $() 命令替换获取当前日期并用 echo 输出"
+
+[[commands.tokens]]
+text = "echo $(date)"
+desc = "使用 $() 命令替换获取当前日期并用 echo 输出"
+
+[commands.dictation]
+prompt = "使用 $() 命令替换获取当前日期并用 echo 输出"
+answers = ["echo $(date)"]
+
+[[commands]]
+id = "shared-ff49535a14622e6d"
+command = "kernel=$(uname -r) && echo $kernel"
+summary = "将 uname -r 的输出赋值给变量 kernel 并用 echo 显示"
+
+[[commands.tokens]]
+text = "kernel=$(uname -r) && echo $kernel"
+desc = "将 uname -r 的输出赋值给变量 kernel 并用 echo 显示"
+
+[commands.dictation]
+prompt = "将 uname -r 的输出赋值给变量 kernel 并用 echo 显示"
+answers = ["kernel=$(uname -r) && echo $kernel"]
+
+[[commands]]
+id = "shared-1c5866711aed2acc"
+command = "echo \"login user: $USER\""
+summary = "输出带空格的字符串并包含变量 USER"
+simulated_output = "login user: ace"
+
+[[commands.tokens]]
+text = "echo \"login user: $USER\""
+desc = "输出带空格的字符串并包含变量 USER"
+
+[commands.dictation]
+prompt = "输出带空格的字符串并包含变量 USER"
+answers = ["echo \"login user: $USER\""]
+
+[[commands]]
+id = "shared-cf5a6532c4fbbcf6"
+command = "echo '$(date)'"
+summary = "使用单引号输出字面量 $(date)"
+simulated_output = "$(date)"
+
+[[commands.tokens]]
+text = "echo '$(date)'"
+desc = "使用单引号输出字面量 $(date)"
+
+[commands.dictation]
+prompt = "使用单引号输出字面量 $(date)"
+answers = ["echo '$(date)'"]
+
+[[commands]]
+id = "shared-7db117b13917db98"
+command = "echo \"Price: \\$99\""
+summary = "在双引号中转义美元符号输出 Price: $99"
+simulated_output = "Price: $99"
+
+[[commands.tokens]]
+text = "echo \"Price: \\$99\""
+desc = "在双引号中转义美元符号输出 Price: $99"
+
+[commands.dictation]
+prompt = "在双引号中转义美元符号输出 Price: $99"
+answers = ["echo \"Price: \\$99\""]
+
+[[commands]]
+id = "shared-9313ed531eacd2f9"
+command = "echo \"cwd=$(pwd)\""
+summary = "使用命令替换输出当前目录"
+simulated_output = "cwd=/home/ace/workspaces/cmdtyper"
+
+[[commands.tokens]]
+text = "echo \"cwd=$(pwd)\""
+desc = "使用命令替换输出当前目录"
+
+[commands.dictation]
+prompt = "使用命令替换输出当前目录"
+answers = ["echo \"cwd=$(pwd)\""]
+
+[[commands]]
+id = "shared-7d244359e37c659d"
+command = "echo \"she said \\\"ok\\\"\""
+summary = "在双引号里输出 she said \"ok\""
+simulated_output = "she said \"ok\""
+
+[[commands.tokens]]
+text = "echo \"she said \\\"ok\\\"\""
+desc = "在双引号里输出 she said \"ok\""
+
+[commands.dictation]
+prompt = "在双引号里输出 she said \"ok\""
+answers = ["echo \"she said \\\"ok\\\"\""]
+
+[[commands]]
+id = "shared-4ffd4e21f30c1e53"
+command = "echo '$PATH'"
+summary = "原样输出字符串 $PATH（不展开）"
+
+[[commands.tokens]]
+text = "echo '$PATH'"
+desc = "原样输出字符串 $PATH（不展开）"
+
+[commands.dictation]
+prompt = "原样输出字符串 $PATH（不展开）"
+answers = ["echo '$PATH'"]
+
+[[commands]]
+id = "shared-b56383f0f4df4821"
+command = "echo $(date +%F)"
+summary = "使用 $() 输出今天日期（格式 YYYY-MM-DD）"
+
+[[commands.tokens]]
+text = "echo $(date +%F)"
+desc = "使用 $() 输出今天日期（格式 YYYY-MM-DD）"
+
+[commands.dictation]
+prompt = "使用 $() 输出今天日期（格式 YYYY-MM-DD）"
+answers = ["echo $(date +%F)"]
+
+[[commands]]
+id = "shared-cb4f60af19ed2c66"
+command = "echo file\\ name.txt"
+summary = "打印文件名 file name.txt（包含空格，使用转义）"
+
+[[commands.tokens]]
+text = "echo file\\ name.txt"
+desc = "打印文件名 file name.txt（包含空格，使用转义）"
+
+[commands.dictation]
+prompt = "打印文件名 file name.txt（包含空格，使用转义）"
+answers = ["echo file\\ name.txt"]
+
+[[commands]]
+id = "shared-99058514835378ad"
+command = "u=$(whoami) && echo $u"
+summary = "将 whoami 的结果赋值给变量 u 并输出"
+
+[[commands.tokens]]
+text = "u=$(whoami) && echo $u"
+desc = "将 whoami 的结果赋值给变量 u 并输出"
+
+[commands.dictation]
+prompt = "将 whoami 的结果赋值给变量 u 并输出"
+answers = ["u=$(whoami) && echo $u"]
+
+[[commands]]
+id = "shared-d0c3b1242d16f169"
+command = "mkdir test; cd test; pwd"
+summary = "创建目录、进入目录、打印当前路径——三条命令顺序执行"
+simulated_output = "/home/ace/test"
+
+[[commands.tokens]]
+text = "mkdir test; cd test; pwd"
+desc = "创建目录、进入目录、打印当前路径——三条命令顺序执行"
+
+[commands.dictation]
+prompt = "创建目录、进入目录、打印当前路径——三条命令顺序执行"
+answers = ["mkdir test; cd test; pwd"]
+
+[[commands]]
+id = "shared-8d3285aa2966d721"
+command = "ls /nonexistent; echo \"依然会执行\""
+summary = "即使 ls 访问不存在的路径报错，分号后的 echo 仍然会执行"
+simulated_output = "ls: cannot access '/nonexistent': No such file or directory\n依然会执行"
+
+[[commands.tokens]]
+text = "ls /nonexistent; echo \"依然会执行\""
+desc = "即使 ls 访问不存在的路径报错，分号后的 echo 仍然会执行"
+
+[commands.dictation]
+prompt = "即使 ls 访问不存在的路径报错，分号后的 echo 仍然会执行"
+answers = ["ls /nonexistent; echo \"依然会执行\""]
+
+[[commands]]
+id = "shared-75f496277439dbac"
+command = "sudo apt update && sudo apt upgrade -y"
+summary = "先更新软件包索引，只有更新成功才执行升级操作"
+simulated_output = "Hit:1 http://archive.ubuntu.com/ubuntu jammy InRelease\nReading package lists... Done\nBuilding dependency tree... Done\nReading state information... Done\nAll packages are up to date.\n0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded."
+
+[[commands.tokens]]
+text = "sudo apt update && sudo apt upgrade -y"
+desc = "先更新软件包索引，只有更新成功才执行升级操作"
+
+[commands.dictation]
+prompt = "先更新软件包索引，只有更新成功才执行升级操作"
+answers = ["sudo apt update && sudo apt upgrade -y"]
+
+[[commands]]
+id = "shared-58874db206b307f0"
+command = "ping -c 1 google.com && echo \"网络正常\""
+summary = "发送一个 ping 包测试网络，成功后打印提示信息"
+simulated_output = "PING google.com (142.250.80.46) 56(84) bytes of data.\n64 bytes from 142.250.80.46: icmp_seq=1 ttl=116 time=12.3 ms\n\n--- google.com ping statistics ---\n1 packets transmitted, 1 received, 0% packet loss, time 0ms\nrtt min/avg/max/mdev = 12.300/12.300/12.300/0.000 ms\n网络正常"
+
+[[commands.tokens]]
+text = "ping -c 1 google.com && echo \"网络正常\""
+desc = "发送一个 ping 包测试网络，成功后打印提示信息"
+
+[commands.dictation]
+prompt = "发送一个 ping 包测试网络，成功后打印提示信息"
+answers = ["ping -c 1 google.com && echo \"网络正常\""]
+
+[[commands]]
+id = "shared-c800676cd85a283a"
+command = "command -v git || sudo apt install git -y"
+summary = "检查 git 是否已安装，如果未安装（命令不存在导致失败）则自动安装"
+simulated_output = "/usr/bin/git"
+
+[[commands.tokens]]
+text = "command -v git || sudo apt install git -y"
+desc = "检查 git 是否已安装，如果未安装（命令不存在导致失败）则自动安装"
+
+[commands.dictation]
+prompt = "检查 git 是否已安装，如果未安装（命令不存在导致失败）则自动安装"
+answers = ["command -v git || sudo apt install git -y"]
+
+[[commands]]
+id = "shared-0d59864df8274e94"
+command = "test -f config.yml || cp config.yml.example config.yml"
+summary = "检查配置文件是否存在，不存在时从示例文件复制一份"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "test -f config.yml || cp config.yml.example config.yml"
+desc = "检查配置文件是否存在，不存在时从示例文件复制一份"
+
+[commands.dictation]
+prompt = "检查配置文件是否存在，不存在时从示例文件复制一份"
+answers = ["test -f config.yml || cp config.yml.example config.yml"]
+
+[[commands]]
+id = "shared-2e9fa5d82511a7f1"
+command = "./long_task.sh > output.log 2>&1 &"
+summary = "在后台运行耗时脚本，同时将标准输出和错误输出都重定向到日志文件"
+simulated_output = "[1] 31024"
+
+[[commands.tokens]]
+text = "./long_task.sh > output.log 2>&1 &"
+desc = "在后台运行耗时脚本，同时将标准输出和错误输出都重定向到日志文件"
+
+[commands.dictation]
+prompt = "在后台运行耗时脚本，同时将标准输出和错误输出都重定向到日志文件"
+answers = ["./long_task.sh > output.log 2>&1 &"]
+
+[[commands]]
+id = "shared-39ed5c985558cf65"
+command = "nohup python3 train_model.py &"
+summary = "使用 nohup 确保即使关闭终端，训练任务也不会被中断"
+simulated_output = "[1] 40231\nnohup: ignoring input and appending output to 'nohup.out'"
+
+[[commands.tokens]]
+text = "nohup python3 train_model.py &"
+desc = "使用 nohup 确保即使关闭终端，训练任务也不会被中断"
+
+[commands.dictation]
+prompt = "使用 nohup 确保即使关闭终端，训练任务也不会被中断"
+answers = ["nohup python3 train_model.py &"]
+
+[[commands]]
+id = "shared-c6e9ec062e689ef2"
+command = "!-2"
+summary = "执行倒数第二条历史命令"
+simulated_output = "ls -la /home/ace/Documents"
+
+[[commands.tokens]]
+text = "!-2"
+desc = "执行倒数第二条历史命令"
+
+[commands.dictation]
+prompt = "执行倒数第二条历史命令"
+answers = ["!-2"]
+
+[[commands]]
+id = "shared-83933fc5059a442a"
+command = "! false && echo \"逻辑非：false 取反为 true\""
+summary = "使用 ! 对 false 命令取反——false 的退出码为 1，取反后为 0（成功），因此 && 后的 echo 会执行"
+simulated_output = "逻辑非：false 取反为 true"
+
+[[commands.tokens]]
+text = "! false && echo \"逻辑非：false 取反为 true\""
+desc = "使用 ! 对 false 命令取反——false 的退出码为 1，取反后为 0（成功），因此 && 后的 echo 会执行"
+
+[commands.dictation]
+prompt = "使用 ! 对 false 命令取反——false 的退出码为 1，取反后为 0（成功），因此 && 后的 echo 会执行"
+answers = ["! false && echo \"逻辑非：false 取反为 true\""]
+
+[[commands]]
+id = "shared-6738c8fd57085ab9"
+command = "# 这是一条完整的注释行，不会执行任何操作"
+summary = "整行都是注释，Shell 会完全跳过，不产生任何输出"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "# 这是一条完整的注释行，不会执行任何操作"
+desc = "整行都是注释，Shell 会完全跳过，不产生任何输出"
+
+[commands.dictation]
+prompt = "整行都是注释，Shell 会完全跳过，不产生任何输出"
+answers = ["# 这是一条完整的注释行，不会执行任何操作"]
+
+[[commands]]
+id = "shared-3667bb6922c0f881"
+command = "#!/bin/bash"
+summary = "Shebang 行——放在脚本第一行，告诉系统使用 /bin/bash 来执行该脚本"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "#!/bin/bash"
+desc = "Shebang 行——放在脚本第一行，告诉系统使用 /bin/bash 来执行该脚本"
+
+[commands.dictation]
+prompt = "Shebang 行——放在脚本第一行，告诉系统使用 /bin/bash 来执行该脚本"
+answers = ["#!/bin/bash"]
+
+[[commands]]
+id = "shared-e8cbd0f51501472c"
+command = "ls ~/Documents"
+summary = "列出主目录下 Documents 文件夹的内容"
+simulated_output = "notes.txt  report.pdf  projects"
+
+[[commands.tokens]]
+text = "ls ~/Documents"
+desc = "列出主目录下 Documents 文件夹的内容"
+
+[commands.dictation]
+prompt = "列出主目录下 Documents 文件夹的内容"
+answers = ["ls ~/Documents"]
+
+[[commands]]
+id = "shared-c8d321bc9bd0a71a"
+command = "cd ~alice"
+summary = "切换到用户 alice 的主目录（通常为 /home/alice）"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "cd ~alice"
+desc = "切换到用户 alice 的主目录（通常为 /home/alice）"
+
+[commands.dictation]
+prompt = "切换到用户 alice 的主目录（通常为 /home/alice）"
+answers = ["cd ~alice"]
+
+[[commands]]
+id = "shared-865a1cbee84ff7e8"
+command = ". .env && echo $DATABASE_URL"
+summary = "加载当前目录下的 .env 环境变量文件，然后验证变量是否已生效"
+simulated_output = "postgres://localhost:5432/myapp"
+
+[[commands.tokens]]
+text = ". .env && echo $DATABASE_URL"
+desc = "加载当前目录下的 .env 环境变量文件，然后验证变量是否已生效"
+
+[commands.dictation]
+prompt = "加载当前目录下的 .env 环境变量文件，然后验证变量是否已生效"
+answers = [". .env && echo $DATABASE_URL"]
+
+[[commands]]
+id = "shared-aae252f6b26eeadb"
+command = "echo \"开始\"; echo \"结束\""
+summary = "在同一行中依次执行 echo \"开始\" 和 echo \"结束\"，无论第一条是否成功"
+
+[[commands.tokens]]
+text = "echo \"开始\"; echo \"结束\""
+desc = "在同一行中依次执行 echo \"开始\" 和 echo \"结束\"，无论第一条是否成功"
+
+[commands.dictation]
+prompt = "在同一行中依次执行 echo \"开始\" 和 echo \"结束\"，无论第一条是否成功"
+answers = ["echo \"开始\"; echo \"结束\""]
+
+[[commands]]
+id = "shared-17f892b10fc5be1f"
+command = "mkdir myproject && cd myproject"
+summary = "创建目录 myproject 并在创建成功后进入该目录（使用逻辑与）"
+
+[[commands.tokens]]
+text = "mkdir myproject && cd myproject"
+desc = "创建目录 myproject 并在创建成功后进入该目录（使用逻辑与）"
+
+[commands.dictation]
+prompt = "创建目录 myproject 并在创建成功后进入该目录（使用逻辑与）"
+answers = ["mkdir myproject && cd myproject"]
+
+[[commands]]
+id = "shared-63666171cc49d714"
+command = "cd /opt/data || echo \"目录不存在\""
+summary = "尝试进入 /opt/data 目录，如果失败则输出提示\"目录不存在\"（使用逻辑或）"
+
+[[commands.tokens]]
+text = "cd /opt/data || echo \"目录不存在\""
+desc = "尝试进入 /opt/data 目录，如果失败则输出提示\"目录不存在\"（使用逻辑或）"
+
+[commands.dictation]
+prompt = "尝试进入 /opt/data 目录，如果失败则输出提示\"目录不存在\"（使用逻辑或）"
+answers = ["cd /opt/data || echo \"目录不存在\""]
+
+[[commands]]
+id = "shared-989cbbe2e9233772"
+command = "./backup.sh &"
+summary = "将一个耗时脚本 backup.sh 放到后台执行"
+
+[[commands.tokens]]
+text = "./backup.sh &"
+desc = "将一个耗时脚本 backup.sh 放到后台执行"
+
+[commands.dictation]
+prompt = "将一个耗时脚本 backup.sh 放到后台执行"
+answers = ["./backup.sh &"]
+
+[[commands]]
+id = "shared-151c881b90f8e6cb"
+command = "sudo apt update && sudo apt install -y nginx"
+summary = "先更新索引再安装 nginx（仅前者成功时执行后者）"
+simulated_output = "Reading package lists... Done\nnginx is already the newest version"
+
+[[commands.tokens]]
+text = "sudo apt update && sudo apt install -y nginx"
+desc = "先更新索引再安装 nginx（仅前者成功时执行后者）"
+
+[commands.dictation]
+prompt = "先更新索引再安装 nginx（仅前者成功时执行后者）"
+answers = ["sudo apt update && sudo apt install -y nginx"]
+
+[[commands]]
+id = "shared-9de58b34f4c9e05f"
+command = "python3 main.py || echo fallback"
+summary = "若 main.py 失败则打印 fallback"
+simulated_output = "fallback"
+
+[[commands.tokens]]
+text = "python3 main.py || echo fallback"
+desc = "若 main.py 失败则打印 fallback"
+
+[commands.dictation]
+prompt = "若 main.py 失败则打印 fallback"
+answers = ["python3 main.py || echo fallback"]
+
+[[commands]]
+id = "shared-bfcdfe4678e466d3"
+command = "echo start; sleep 1; echo done"
+summary = "顺序执行三条命令并总是继续"
+simulated_output = "start\ndone"
+
+[[commands.tokens]]
+text = "echo start; sleep 1; echo done"
+desc = "顺序执行三条命令并总是继续"
+
+[commands.dictation]
+prompt = "顺序执行三条命令并总是继续"
+answers = ["echo start; sleep 1; echo done"]
+
+[[commands]]
+id = "shared-85e5359d27c85ee9"
+command = "./service.sh & echo $!"
+summary = "后台启动服务并立即打印 PID"
+simulated_output = "41872"
+
+[[commands.tokens]]
+text = "./service.sh & echo $!"
+desc = "后台启动服务并立即打印 PID"
+
+[commands.dictation]
+prompt = "后台启动服务并立即打印 PID"
+answers = ["./service.sh & echo $!"]
+
+[[commands]]
+id = "shared-aff78d3261157375"
+command = "cd app && npm start"
+summary = "切到 app 目录并仅在成功时启动 npm"
+simulated_output = "> app@1.0.0 start\n> node server.js"
+
+[[commands.tokens]]
+text = "cd app && npm start"
+desc = "切到 app 目录并仅在成功时启动 npm"
+
+[commands.dictation]
+prompt = "切到 app 目录并仅在成功时启动 npm"
+answers = ["cd app && npm start"]
+
+[[commands]]
+id = "shared-316711130d3b0a5d"
+command = "source env.sh && echo $MODE"
+summary = "source env.sh 后再打印 MODE"
+simulated_output = "production"
+
+[[commands.tokens]]
+text = "source env.sh && echo $MODE"
+desc = "source env.sh 后再打印 MODE"
+
+[commands.dictation]
+prompt = "source env.sh 后再打印 MODE"
+answers = ["source env.sh && echo $MODE"]
+
+[[commands]]
+id = "shared-5d0340647dbe1e1a"
+command = "bash backup.sh || echo backup failed"
+summary = "执行备份脚本，若失败则输出 backup failed"
+
+[[commands.tokens]]
+text = "bash backup.sh || echo backup failed"
+desc = "执行备份脚本，若失败则输出 backup failed"
+
+[commands.dictation]
+prompt = "执行备份脚本，若失败则输出 backup failed"
+answers = ["bash backup.sh || echo backup failed"]
+
+[[commands]]
+id = "shared-34ecfb66f961f7b3"
+command = "echo A; echo B"
+summary = "先输出 A，再输出 B（使用分号）"
+
+[[commands.tokens]]
+text = "echo A; echo B"
+desc = "先输出 A，再输出 B（使用分号）"
+
+[commands.dictation]
+prompt = "先输出 A，再输出 B（使用分号）"
+answers = ["echo A; echo B"]
+
+[[commands]]
+id = "shared-80bf52b9037d96ff"
+command = "rsync -av ./src ./dst &"
+summary = "将 rsync 放到后台执行"
+
+[[commands.tokens]]
+text = "rsync -av ./src ./dst &"
+desc = "将 rsync 放到后台执行"
+
+[commands.dictation]
+prompt = "将 rsync 放到后台执行"
+answers = ["rsync -av ./src ./dst &"]
+
+[[commands]]
+id = "shared-00bfab56f40ab01d"
+command = "source ~/.profile"
+summary = "重新加载当前 shell 的 profile"
+
+[[commands.tokens]]
+text = "source ~/.profile"
+desc = "重新加载当前 shell 的 profile"
+
+[commands.dictation]
+prompt = "重新加载当前 shell 的 profile"
+answers = ["source ~/.profile"]
+
+[[commands]]
+id = "shared-3c823467ea66ecb3"
+command = "echo $PATH"
+summary = "显示系统的可执行文件搜索路径，各路径之间用冒号分隔"
+simulated_output = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+[[commands.tokens]]
+text = "echo $PATH"
+desc = "显示系统的可执行文件搜索路径，各路径之间用冒号分隔"
+
+[commands.dictation]
+prompt = "显示系统的可执行文件搜索路径，各路径之间用冒号分隔"
+answers = ["echo $PATH"]
+
+[[commands]]
+id = "shared-57788f1b63ec9a4b"
+command = "echo \"${USER}_backup\""
+summary = "在用户名后拼接下划线和字符串，生成备份目录名"
+simulated_output = "ace_backup"
+
+[[commands.tokens]]
+text = "echo \"${USER}_backup\""
+desc = "在用户名后拼接下划线和字符串，生成备份目录名"
+
+[commands.dictation]
+prompt = "在用户名后拼接下划线和字符串，生成备份目录名"
+answers = ["echo \"${USER}_backup\""]
+
+[[commands]]
+id = "shared-17a42a385b5576b3"
+command = "echo \"file_${VERSION}.tar.gz\""
+summary = "将版本号变量嵌入文件名中，如果 VERSION 未定义则该处为空"
+simulated_output = "file_2.1.0.tar.gz"
+
+[[commands.tokens]]
+text = "echo \"file_${VERSION}.tar.gz\""
+desc = "将版本号变量嵌入文件名中，如果 VERSION 未定义则该处为空"
+
+[commands.dictation]
+prompt = "将版本号变量嵌入文件名中，如果 VERSION 未定义则该处为空"
+answers = ["echo \"file_${VERSION}.tar.gz\""]
+
+[[commands]]
+id = "shared-ed810cb663ca76f3"
+command = "ls /nonexistent 2>/dev/null; echo $?"
+summary = "尝试列出不存在的目录（错误信息丢弃），然后显示退出码。失败返回 2"
+simulated_output = "2"
+
+[[commands.tokens]]
+text = "ls /nonexistent 2>/dev/null; echo $?"
+desc = "尝试列出不存在的目录（错误信息丢弃），然后显示退出码。失败返回 2"
+
+[commands.dictation]
+prompt = "尝试列出不存在的目录（错误信息丢弃），然后显示退出码。失败返回 2"
+answers = ["ls /nonexistent 2>/dev/null; echo $?"]
+
+[[commands]]
+id = "shared-4445add24054b5e1"
+command = "true && echo $?"
+summary = "true 命令总是返回成功（0），用于测试退出状态机制"
+simulated_output = "0"
+
+[[commands.tokens]]
+text = "true && echo $?"
+desc = "true 命令总是返回成功（0），用于测试退出状态机制"
+
+[commands.dictation]
+prompt = "true 命令总是返回成功（0），用于测试退出状态机制"
+answers = ["true && echo $?"]
+
+[[commands]]
+id = "shared-cd8af30682a37503"
+command = "bash -c 'echo $0' myscript"
+summary = "通过 bash -c 执行时，紧跟在命令字符串后面的 myscript 会赋值给 $0"
+simulated_output = "myscript"
+
+[[commands.tokens]]
+text = "bash -c 'echo $0' myscript"
+desc = "通过 bash -c 执行时，紧跟在命令字符串后面的 myscript 会赋值给 $0"
+
+[commands.dictation]
+prompt = "通过 bash -c 执行时，紧跟在命令字符串后面的 myscript 会赋值给 $0"
+answers = ["bash -c 'echo $0' myscript"]
+
+[[commands]]
+id = "shared-7af13b7ffc522c29"
+command = "bash -c 'echo $#' _"
+summary = "不传入任何参数时，$# 为 0"
+simulated_output = "0"
+
+[[commands.tokens]]
+text = "bash -c 'echo $#' _"
+desc = "不传入任何参数时，$# 为 0"
+
+[commands.dictation]
+prompt = "不传入任何参数时，$# 为 0"
+answers = ["bash -c 'echo $#' _"]
+
+[[commands]]
+id = "shared-e3063a03f9d0e352"
+command = "bash -c 'echo \"共 $# 个参数\"' _ x y"
+summary = "在字符串中嵌入参数个数，显示更友好的提示信息"
+simulated_output = "共 2 个参数"
+
+[[commands.tokens]]
+text = "bash -c 'echo \"共 $# 个参数\"' _ x y"
+desc = "在字符串中嵌入参数个数，显示更友好的提示信息"
+
+[commands.dictation]
+prompt = "在字符串中嵌入参数个数，显示更友好的提示信息"
+answers = ["bash -c 'echo \"共 $# 个参数\"' _ x y"]
+
+[[commands]]
+id = "shared-3978f5df59ced153"
+command = "bash -c 'for arg in \"$@\"; do echo \"参数: $arg\"; done' _ foo bar baz"
+summary = "使用 for 循环逐个遍历所有位置参数"
+simulated_output = "参数: foo\n参数: bar\n参数: baz"
+
+[[commands.tokens]]
+text = "bash -c 'for arg in \"$@\"; do echo \"参数: $arg\"; done' _ foo bar baz"
+desc = "使用 for 循环逐个遍历所有位置参数"
+
+[commands.dictation]
+prompt = "使用 for 循环逐个遍历所有位置参数"
+answers = ["bash -c 'for arg in \"$@\"; do echo \"参数: $arg\"; done' _ foo bar baz"]
+
+[[commands]]
+id = "shared-78fddb678bd9fd52"
+command = "bash -c 'echo \"参数列表: $@\"' _ one two three"
+summary = "将所有参数嵌入到提示字符串中一起显示"
+simulated_output = "参数列表: one two three"
+
+[[commands.tokens]]
+text = "bash -c 'echo \"参数列表: $@\"' _ one two three"
+desc = "将所有参数嵌入到提示字符串中一起显示"
+
+[commands.dictation]
+prompt = "将所有参数嵌入到提示字符串中一起显示"
+answers = ["bash -c 'echo \"参数列表: $@\"' _ one two three"]
+
+[[commands]]
+id = "shared-afe7a8029387f1a2"
+command = "echo \"PID: $$\""
+summary = "在字符串中嵌入当前进程 ID，可用于日志记录"
+simulated_output = "PID: 28450"
+
+[[commands.tokens]]
+text = "echo \"PID: $$\""
+desc = "在字符串中嵌入当前进程 ID，可用于日志记录"
+
+[commands.dictation]
+prompt = "在字符串中嵌入当前进程 ID，可用于日志记录"
+answers = ["echo \"PID: $$\""]
+
+[[commands]]
+id = "shared-1c9356df2612b1c3"
+command = "echo \"/tmp/work_$$.tmp\""
+summary = "使用 PID 生成唯一的临时文件名，避免多个进程之间的文件冲突"
+simulated_output = "/tmp/work_28450.tmp"
+
+[[commands.tokens]]
+text = "echo \"/tmp/work_$$.tmp\""
+desc = "使用 PID 生成唯一的临时文件名，避免多个进程之间的文件冲突"
+
+[commands.dictation]
+prompt = "使用 PID 生成唯一的临时文件名，避免多个进程之间的文件冲突"
+answers = ["echo \"/tmp/work_$$.tmp\""]
+
+[[commands]]
+id = "shared-6c48f7856f7367ee"
+command = "sleep 60 & BG_PID=$! && echo \"后台进程: $BG_PID\""
+summary = "将后台进程的 PID 保存到变量中，以便后续管理该进程"
+simulated_output = "[1] 31605\n后台进程: 31605"
+
+[[commands.tokens]]
+text = "sleep 60 & BG_PID=$! && echo \"后台进程: $BG_PID\""
+desc = "将后台进程的 PID 保存到变量中，以便后续管理该进程"
+
+[commands.dictation]
+prompt = "将后台进程的 PID 保存到变量中，以便后续管理该进程"
+answers = ["sleep 60 & BG_PID=$! && echo \"后台进程: $BG_PID\""]
+
+[[commands]]
+id = "shared-f0a8fe7c6546ca09"
+command = "sleep 30 & wait $! && echo \"后台任务已完成\""
+summary = "启动后台进程后使用 wait 等待其完成，再继续执行后续命令"
+simulated_output = "[1] 31620\n后台任务已完成"
+
+[[commands.tokens]]
+text = "sleep 30 & wait $! && echo \"后台任务已完成\""
+desc = "启动后台进程后使用 wait 等待其完成，再继续执行后续命令"
+
+[commands.dictation]
+prompt = "启动后台进程后使用 wait 等待其完成，再继续执行后续命令"
+answers = ["sleep 30 & wait $! && echo \"后台任务已完成\""]
+
+[[commands]]
+id = "shared-85a5e07830093edb"
+command = "echo ${USER}_data"
+summary = "使用花括号形式将用户名和 _data 拼接在一起并显示"
+
+[[commands.tokens]]
+text = "echo ${USER}_data"
+desc = "使用花括号形式将用户名和 _data 拼接在一起并显示"
+
+[commands.dictation]
+prompt = "使用花括号形式将用户名和 _data 拼接在一起并显示"
+answers = ["echo ${USER}_data"]
+
+[[commands]]
+id = "shared-e0200b3e38695b55"
+command = "sleep 300 & echo $!"
+summary = "将 sleep 300 放入后台运行，并显示其进程 ID"
+
+[[commands.tokens]]
+text = "sleep 300 & echo $!"
+desc = "将 sleep 300 放入后台运行，并显示其进程 ID"
+
+[commands.dictation]
+prompt = "将 sleep 300 放入后台运行，并显示其进程 ID"
+answers = ["sleep 300 & echo $!"]
+
+[[commands]]
+id = "shared-20027ed5af9485f4"
+command = "bash -c 'echo $#' _ x y z"
+summary = "检查传入脚本的参数个数（使用 bash -c 模拟，传入参数 x y z）"
+
+[[commands.tokens]]
+text = "bash -c 'echo $#' _ x y z"
+desc = "检查传入脚本的参数个数（使用 bash -c 模拟，传入参数 x y z）"
+
+[commands.dictation]
+prompt = "检查传入脚本的参数个数（使用 bash -c 模拟，传入参数 x y z）"
+answers = ["bash -c 'echo $#' _ x y z"]
+
+[[commands]]
+id = "shared-9e23184ccc002268"
+command = "echo \"$USER:$HOME\""
+summary = "输出 USER 和 HOME 两个变量"
+simulated_output = "ace:/home/ace"
+
+[[commands.tokens]]
+text = "echo \"$USER:$HOME\""
+desc = "输出 USER 和 HOME 两个变量"
+
+[commands.dictation]
+prompt = "输出 USER 和 HOME 两个变量"
+answers = ["echo \"$USER:$HOME\""]
+
+[[commands]]
+id = "shared-dc0e772e803f5f5e"
+command = "PORT=8080 && echo $PORT"
+summary = "设置临时变量 PORT=8080 并输出"
+simulated_output = "8080"
+
+[[commands.tokens]]
+text = "PORT=8080 && echo $PORT"
+desc = "设置临时变量 PORT=8080 并输出"
+
+[commands.dictation]
+prompt = "设置临时变量 PORT=8080 并输出"
+answers = ["PORT=8080 && echo $PORT"]
+
+[[commands]]
+id = "shared-26abf832788d6f7e"
+command = "echo \"${NAME:-guest}\""
+summary = "用默认值展开变量 NAME"
+simulated_output = "guest"
+
+[[commands.tokens]]
+text = "echo \"${NAME:-guest}\""
+desc = "用默认值展开变量 NAME"
+
+[commands.dictation]
+prompt = "用默认值展开变量 NAME"
+answers = ["echo \"${NAME:-guest}\""]
+
+[[commands]]
+id = "shared-3160f095de0bafbb"
+command = "echo \"branch=$(git branch --show-current)\""
+summary = "命令替换获取当前分支名"
+simulated_output = "branch=main"
+
+[[commands.tokens]]
+text = "echo \"branch=$(git branch --show-current)\""
+desc = "命令替换获取当前分支名"
+
+[commands.dictation]
+prompt = "命令替换获取当前分支名"
+answers = ["echo \"branch=$(git branch --show-current)\""]
+
+[[commands]]
+id = "shared-fdf18d7b666ea6af"
+command = "TODAY=$(date +%F) && echo $TODAY"
+summary = "把 date +%F 保存到 TODAY 并输出"
+simulated_output = "2026-03-14"
+
+[[commands.tokens]]
+text = "TODAY=$(date +%F) && echo $TODAY"
+desc = "把 date +%F 保存到 TODAY 并输出"
+
+[commands.dictation]
+prompt = "把 date +%F 保存到 TODAY 并输出"
+answers = ["TODAY=$(date +%F) && echo $TODAY"]
+
+[[commands]]
+id = "shared-523f26724b7d6cdd"
+command = "sleep 20 & echo $!"
+summary = "后台运行 sleep 并显示其 PID"
+simulated_output = "53210"
+
+[[commands.tokens]]
+text = "sleep 20 & echo $!"
+desc = "后台运行 sleep 并显示其 PID"
+
+[commands.dictation]
+prompt = "后台运行 sleep 并显示其 PID"
+answers = ["sleep 20 & echo $!"]
+
+[[commands]]
+id = "shared-f78badceab5bedff"
+command = "echo $!"
+summary = "输出最近一个后台任务 PID"
+
+[[commands.tokens]]
+text = "echo $!"
+desc = "输出最近一个后台任务 PID"
+
+[commands.dictation]
+prompt = "输出最近一个后台任务 PID"
+answers = ["echo $!"]
+
+[[commands]]
+id = "shared-aa3ebebf6a2ba3eb"
+command = "echo $#"
+summary = "输出参数总数"
+
+[[commands.tokens]]
+text = "echo $#"
+desc = "输出参数总数"
+
+[commands.dictation]
+prompt = "输出参数总数"
+answers = ["echo $#"]
+
+[[commands]]
+id = "shared-eeab9a40292f0987"
+command = "echo \"${LOG_DIR:-/var/log}\""
+summary = "打印变量 LOG_DIR，若未设置则使用 /var/log"
+
+[[commands.tokens]]
+text = "echo \"${LOG_DIR:-/var/log}\""
+desc = "打印变量 LOG_DIR，若未设置则使用 /var/log"
+
+[commands.dictation]
+prompt = "打印变量 LOG_DIR，若未设置则使用 /var/log"
+answers = ["echo \"${LOG_DIR:-/var/log}\""]
+
+[[commands]]
+id = "shared-c2f3965ea49baa7b"
+command = "find / -perm -4000 2>/dev/null | head -5"
+summary = "在系统中查找所有设置了 SUID 的文件"
+simulated_output = "/usr/bin/passwd\n/usr/bin/sudo\n/usr/bin/chfn\n/usr/bin/gpasswd\n/usr/bin/newgrp"
+
+[[commands.tokens]]
+text = "find / -perm -4000 2>/dev/null | head -5"
+desc = "在系统中查找所有设置了 SUID 的文件"
+
+[commands.dictation]
+prompt = "在系统中查找所有设置了 SUID 的文件"
+answers = ["find / -perm -4000 2>/dev/null | head -5"]
+
+[[commands]]
+id = "shared-5db5861a12d5efb0"
+command = "cat /etc/resolv.conf"
+summary = "查看系统 DNS 配置"
+simulated_output = "# This is /run/systemd/resolve/stub-resolv.conf managed by man:systemd-resolved(8).\n# Do not edit.\n#\n# This file might be symlinked as /etc/resolv.conf.\n#\n# Third party programs should typically not access this file directly, but only\n# through the symlink at /etc/resolv.conf.\n\nnameserver 127.0.0.53\noptions edns0 trust-ad\nsearch localdomain"
+
+[[commands.tokens]]
+text = "cat /etc/resolv.conf"
+desc = "查看系统 DNS 配置"
+
+[commands.dictation]
+prompt = "查看系统 DNS 配置"
+answers = ["cat /etc/resolv.conf"]
+
+[[commands]]
+id = "shared-a2bf6c816668e42e"
+command = "sudo ufw delete 5"
+summary = "删除第 5 条防火墙规则"
+simulated_output = "Deleting:\n deny 23\nProceed with operation (y|n)? y\nRule deleted"
+
+[[commands.tokens]]
+text = "sudo ufw delete 5"
+desc = "删除第 5 条防火墙规则"
+
+[commands.dictation]
+prompt = "删除第 5 条防火墙规则"
+answers = ["sudo ufw delete 5"]
+
+[[commands]]
+id = "shared-b22a319168db1dd0"
+command = "curl -v telnet://192.168.1.100:22"
+summary = "测试特定主机的端口是否开放"
+simulated_output = "*   Trying 192.168.1.100:22...\n* Connected to 192.168.1.100 (192.168.1.100) port 22\n> GET / HTTP/1.1\n> Host: 192.168.1.100:22\n> User-Agent: curl/8.5.0\n> Accept: */*\n>\nSSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu13.5\n^C"
+
+[[commands.tokens]]
+text = "curl -v telnet://192.168.1.100:22"
+desc = "测试特定主机的端口是否开放"
+
+[commands.dictation]
+prompt = "测试特定主机的端口是否开放"
+answers = ["curl -v telnet://192.168.1.100:22"]
+
+[[commands]]
+id = "shared-6e4840564c20bbbb"
+command = "ip neigh"
+summary = "查看 ARP 邻居表（局域网内的设备）"
+simulated_output = "192.168.1.1 dev ens33 lladdr e4:f0:42:a1:b2:c3 REACHABLE\n192.168.1.105 dev ens33 lladdr 08:00:27:d4:e5:f6 STALE\n192.168.1.110 dev ens33 lladdr 5c:e0:c5:12:34:56 REACHABLE\n192.168.1.254 dev ens33 lladdr 00:1a:2b:3c:4d:5e DELAY"
+
+[[commands.tokens]]
+text = "ip neigh"
+desc = "查看 ARP 邻居表（局域网内的设备）"
+
+[commands.dictation]
+prompt = "查看 ARP 邻居表（局域网内的设备）"
+answers = ["ip neigh"]
+
+[[commands]]
+id = "shared-db772d559c639b11"
+command = "apt list --installed | head -10"
+summary = "列出已安装的软件包（前 10 条）"
+simulated_output = "Listing...\naccountsservice/noble,now 23.13.9-2ubuntu6 amd64 [installed,automatic]\nacl/noble,now 2.3.2-1build1 amd64 [installed,automatic]\nadduser/noble,now 3.137ubuntu1 all [installed,automatic]\napparmor/noble,now 4.0.0-beta3-0ubuntu1 amd64 [installed,automatic]\napt/noble,now 2.7.14build2 amd64 [installed,automatic]\napt-transport-https/noble,now 2.7.14build2 all [installed,automatic]\napt-utils/noble,now 2.7.14build2 amd64 [installed,automatic]\nbase-files/noble,now 13ubuntu10 amd64 [installed,automatic]\nbase-passwd/noble,now 3.6.3build1 amd64 [installed,automatic]"
+
+[[commands.tokens]]
+text = "apt list --installed | head -10"
+desc = "列出已安装的软件包（前 10 条）"
+
+[commands.dictation]
+prompt = "列出已安装的软件包（前 10 条）"
+answers = ["apt list --installed | head -10"]
+
+[[commands]]
+id = "shared-ca2c7b7465ad4910"
+command = "dpkg -l | head -15"
+summary = "使用 dpkg 列出已安装包的详细信息"
+simulated_output = "Desired=Unknown/Install/Remove/Purge/Hold\n| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend\n|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n||/ Name                          Version                    Architecture Description\n+++-=============================-==========================-============-=====================================================\nii  accountsservice               23.13.9-2ubuntu6           amd64        query and manipulate user account information\nii  acl                           2.3.2-1build1              amd64        access control list - utilities\nii  adduser                       3.137ubuntu1               all          add and remove users and groups\nii  apparmor                      4.0.0-beta3-0ubuntu1       amd64        user-space parser utility for AppArmor\nii  apt                           2.7.14build2               amd64        commandline package manager\nii  apt-transport-https           2.7.14build2               all          transitional package for https support\nii  apt-utils                     2.7.14build2               amd64        package management related utility programs\nii  base-files                    13ubuntu10                 amd64        Debian base system miscellaneous files\nii  base-passwd                   3.6.3build1                amd64        Debian base system master password and group files\nii  bash                          5.2.21-2ubuntu4            amd64        GNU Bourne Again SHell"
+
+[[commands.tokens]]
+text = "dpkg -l | head -15"
+desc = "使用 dpkg 列出已安装包的详细信息"
+
+[commands.dictation]
+prompt = "使用 dpkg 列出已安装包的详细信息"
+answers = ["dpkg -l | head -15"]
+
+[[commands]]
+id = "shared-5389776767f36550"
+command = "yum list installed | head -10"
+summary = "列出已安装的 RPM 软件包（前 10 条）"
+simulated_output = "Installed Packages\nacl.x86_64                              2.3.2-1.el9                    @baseos\naudit.x86_64                            3.1.2-2.el9                    @baseos\naudit-libs.x86_64                       3.1.2-2.el9                    @baseos\nbasesystem.noarch                       11-13.el9                      @baseos\nbash.x86_64                             5.2.26-4.el9                   @baseos\nbash-completion.noarch                  2.11-5.el9                     @baseos\nbind-libs.x86_64                        9.16.23-18.el9                 @appstream\nbind-license.noarch                     9.16.23-18.el9                 @appstream\nbind-utils.x86_64                       9.16.23-18.el9                 @appstream"
+
+[[commands.tokens]]
+text = "yum list installed | head -10"
+desc = "列出已安装的 RPM 软件包（前 10 条）"
+
+[commands.dictation]
+prompt = "列出已安装的 RPM 软件包（前 10 条）"
+answers = ["yum list installed | head -10"]
+
+[[commands]]
+id = "shared-4fc3eca1c87b779e"
+command = "rpm -qa | head -10"
+summary = "使用 rpm 列出所有已安装的包（前 10 条）"
+simulated_output = "basesystem-11-13.el9.noarch\nfilesystem-3.16-5.el9.x86_64\nbash-5.2.26-4.el9.x86_64\nglibc-common-2.34-83.el9.x86_64\nglibc-minimal-langpack-2.34-83.el9.x86_64\nglibc-2.34-83.el9.x86_64\nncurses-libs-6.4-12.el9.x86_64\nlibgcc-11.4.1-3.el9.x86_64\nlibstdc++-11.4.1-3.el9.x86_64\nzlib-1.2.11-41.el9.x86_64"
+
+[[commands.tokens]]
+text = "rpm -qa | head -10"
+desc = "使用 rpm 列出所有已安装的包（前 10 条）"
+
+[commands.dictation]
+prompt = "使用 rpm 列出所有已安装的包（前 10 条）"
+answers = ["rpm -qa | head -10"]
+
+[[commands]]
+id = "shared-294a7aeb133c7942"
+command = "pacman -Q | head -10"
+summary = "列出所有已安装的包（前 10 条）"
+simulated_output = "acl 2.3.2-1\narchlinux-keyring 20260301-1\nattr 2.5.2-1\naudit 4.0.1-3\nautoconf 2.72-1\nautomake 1.16.5-2\nb43-fwcutter 019-4\nbase 3-2\nbase-devel 1-2\nbash 5.2.026-2"
+
+[[commands.tokens]]
+text = "pacman -Q | head -10"
+desc = "列出所有已安装的包（前 10 条）"
+
+[commands.dictation]
+prompt = "列出所有已安装的包（前 10 条）"
+answers = ["pacman -Q | head -10"]
+
+[[commands]]
+id = "shared-d861a4d56a68a451"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && ls missing >out.log 2>error.log)"
+summary = "步骤 6：在唯一私有练习目录中分别保存正常输出和错误"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && ls missing >out.log 2>error.log)"
+desc = "步骤 6：在唯一私有练习目录中分别保存正常输出和错误"
+
+[commands.dictation]
+prompt = "步骤 6：在唯一私有练习目录中分别保存正常输出和错误"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && ls missing >out.log 2>error.log)"]
+
+[[commands]]
+id = "shared-4a3a149cf0df4031"
+command = "du -x -h --max-depth=1 /var | sort -h"
+summary = "步骤 5：只在 /var 所在文件系统内汇总一级目录"
+simulated_output = "120M    /var/cache\n640M    /var/log\n2.1G    /var/lib\n3.0G    /var"
+
+[[commands.tokens]]
+text = "du -x -h --max-depth=1 /var | sort -h"
+desc = "步骤 5：只在 /var 所在文件系统内汇总一级目录"
+
+[commands.dictation]
+prompt = "步骤 5：只在 /var 所在文件系统内汇总一级目录"
+answers = ["du -x -h --max-depth=1 /var | sort -h"]
+
+[[commands]]
+id = "shared-b79c211022a8c7d5"
+command = "find /var/log -type f -size +100M -printf '%s %p\\n'"
+summary = "步骤 6：列出候选大文件供人工核对，不执行删除"
+simulated_output = "734003200 /var/log/app/archive.log"
+
+[[commands.tokens]]
+text = "find /var/log -type f -size +100M -printf '%s %p\\n'"
+desc = "步骤 6：列出候选大文件供人工核对，不执行删除"
+
+[commands.dictation]
+prompt = "步骤 6：列出候选大文件供人工核对，不执行删除"
+answers = ["find /var/log -type f -size +100M -printf '%s %p\\n'"]
+
+[[commands]]
+id = "shared-b03289c79a9b8204"
+command = "printf 'verify owner -> verify retention -> archive or remove approved data -> recheck df\\n'"
+summary = "步骤 7：输出安全动作清单"
+simulated_output = "verify owner -> verify retention -> archive or remove approved data -> recheck df"
+
+[[commands.tokens]]
+text = "printf 'verify owner -> verify retention -> archive or remove approved data -> recheck df\\n'"
+desc = "步骤 7：输出安全动作清单"
+
+[commands.dictation]
+prompt = "步骤 7：输出安全动作清单"
+answers = ["printf 'verify owner -> verify retention -> archive or remove approved data -> recheck df\\n'"]
+
+[[commands]]
+id = "shared-3a2d1e2f17b2dbf2"
+command = "who | grep '^training[[:space:]]'"
+summary = "步骤 6：观察 training 当前会话，判断是否需要重新登录刷新组身份"
+simulated_output = "training pts/2        2026-07-26 09:42 (192.0.2.25)"
+
+[[commands.tokens]]
+text = "who | grep '^training[[:space:]]'"
+desc = "步骤 6：观察 training 当前会话，判断是否需要重新登录刷新组身份"
+
+[commands.dictation]
+prompt = "步骤 6：观察 training 当前会话，判断是否需要重新登录刷新组身份"
+answers = ["who | grep '^training[[:space:]]'"]
+
+[[commands]]
+id = "shared-5b5f69b8f516b0b6"
+command = "printf 'verify owner -> change the narrowest rule -> relogin if groups changed -> verify again\\n'"
+summary = "步骤 7：输出最小授权行动清单"
+simulated_output = "verify owner -> change the narrowest rule -> relogin if groups changed -> verify again"
+
+[[commands.tokens]]
+text = "printf 'verify owner -> change the narrowest rule -> relogin if groups changed -> verify again\\n'"
+desc = "步骤 7：输出最小授权行动清单"
+
+[commands.dictation]
+prompt = "步骤 7：输出最小授权行动清单"
+answers = ["printf 'verify owner -> change the narrowest rule -> relogin if groups changed -> verify again\\n'"]
+
+[[commands]]
+id = "shared-54ef1dd5d38b4a65"
+command = "hostnamectl"
+summary = "请跟打，确认机器与当前时间。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "hostnamectl"
+desc = "请跟打，确认机器与当前时间。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，确认机器与当前时间。先观察输出，再决定下一步。"
+answers = ["hostnamectl"]
+
+[[commands]]
+id = "shared-91e1e4831ce6aa00"
+command = "journalctl --list-boots"
+summary = "请跟打，查看启动边界。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "journalctl --list-boots"
+desc = "请跟打，查看启动边界。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看启动边界。先观察输出，再决定下一步。"
+answers = ["journalctl --list-boots"]
+
+[[commands]]
+id = "shared-d2b554728d3a3f2d"
+command = "ip -br link show dev ens3"
+summary = "请跟打，检查网卡和载波。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "ip -br link show dev ens3"
+desc = "请跟打，检查网卡和载波。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查网卡和载波。先观察输出，再决定下一步。"
+answers = ["ip -br link show dev ens3"]
+
+[[commands]]
+id = "shared-3d1baa03ca36ebed"
+command = "journalctl -k --since '2026-09-06 09:10' --until '2026-09-06 09:18'"
+summary = "请跟打，查看故障窗口的内核事件。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "journalctl -k --since '2026-09-06 09:10' --until '2026-09-06 09:18'"
+desc = "请跟打，查看故障窗口的内核事件。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看故障窗口的内核事件。先观察输出，再决定下一步。"
+answers = ["journalctl -k --since '2026-09-06 09:10' --until '2026-09-06 09:18'"]
+
+[[commands]]
+id = "shared-452860517a52e4e2"
+command = "ip route get 192.0.2.1"
+summary = "请跟打，验证网关路径。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "ip route get 192.0.2.1"
+desc = "请跟打，验证网关路径。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，验证网关路径。先观察输出，再决定下一步。"
+answers = ["ip route get 192.0.2.1"]
+
+[[commands]]
+id = "shared-9e45dfdaa9e27230"
+command = "ip neigh show dev ens3"
+summary = "请跟打，检查邻居解析。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "ip neigh show dev ens3"
+desc = "请跟打，检查邻居解析。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查邻居解析。先观察输出，再决定下一步。"
+answers = ["ip neigh show dev ens3"]
+
+[[commands]]
+id = "shared-8242e3d2fab247ce"
+command = "ps -eo pid,comm,%cpu,%mem --sort=-%cpu"
+summary = "请跟打，定位主要 CPU 使用者。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "ps -eo pid,comm,%cpu,%mem --sort=-%cpu"
+desc = "请跟打，定位主要 CPU 使用者。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，定位主要 CPU 使用者。先观察输出，再决定下一步。"
+answers = ["ps -eo pid,comm,%cpu,%mem --sort=-%cpu"]
+
+[[commands]]
+id = "shared-e2281a98a4b26251"
+command = "curl -fsS http://127.0.0.1:8000/health"
+summary = "请跟打，确认应用已恢复。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "curl -fsS http://127.0.0.1:8000/health"
+desc = "请跟打，确认应用已恢复。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，确认应用已恢复。先观察输出，再决定下一步。"
+answers = ["curl -fsS http://127.0.0.1:8000/health"]
+
+[[commands]]
+id = "shared-90f3ddc4f7d3ced8"
+command = "ssh -vv -o ConnectTimeout=5 ace@192.0.2.10"
+summary = "请跟打，从客户端确认连接阶段。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "ssh -vv -o ConnectTimeout=5 ace@192.0.2.10"
+desc = "请跟打，从客户端确认连接阶段。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，从客户端确认连接阶段。先观察输出，再决定下一步。"
+answers = ["ssh -vv -o ConnectTimeout=5 ace@192.0.2.10"]
+
+[[commands]]
+id = "shared-706bdc2584bdf4bd"
+command = "systemctl is-active ssh"
+summary = "请跟打，在带外控制台检查 SSH 服务。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "systemctl is-active ssh"
+desc = "请跟打，在带外控制台检查 SSH 服务。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，在带外控制台检查 SSH 服务。先观察输出，再决定下一步。"
+answers = ["systemctl is-active ssh"]
+
+[[commands]]
+id = "shared-fa2af17a19c023d4"
+command = "sudo sshd -T | rg listenaddress"
+summary = "请跟打，检查生效监听配置。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo sshd -T | rg listenaddress"
+desc = "请跟打，检查生效监听配置。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查生效监听配置。先观察输出，再决定下一步。"
+answers = ["sudo sshd -T | rg listenaddress"]
+
+[[commands]]
+id = "shared-00fa26564a477187"
+command = "sudo cp -a /etc/ssh/sshd_config.d/listen.conf /etc/ssh/sshd_config.d/listen.conf.bak"
+summary = "请跟打，备份监听配置。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo cp -a /etc/ssh/sshd_config.d/listen.conf /etc/ssh/sshd_config.d/listen.conf.bak"
+desc = "请跟打，备份监听配置。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，备份监听配置。先观察输出，再决定下一步。"
+answers = ["sudo cp -a /etc/ssh/sshd_config.d/listen.conf /etc/ssh/sshd_config.d/listen.conf.bak"]
+
+[[commands]]
+id = "shared-0ed4fcf6353c4cd5"
+command = "printf 'ListenAddress 0.0.0.0\\n' | sudo tee /etc/ssh/sshd_config.d/listen.conf"
+summary = "请跟打，修正监听地址。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "printf 'ListenAddress 0.0.0.0\\n' | sudo tee /etc/ssh/sshd_config.d/listen.conf"
+desc = "请跟打，修正监听地址。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，修正监听地址。先观察输出，再决定下一步。"
+answers = ["printf 'ListenAddress 0.0.0.0\\n' | sudo tee /etc/ssh/sshd_config.d/listen.conf"]
+
+[[commands]]
+id = "shared-e431d5ade2e6e1f5"
+command = "sudo sshd -t"
+summary = "请跟打，校验 SSH 配置。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo sshd -t"
+desc = "请跟打，校验 SSH 配置。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，校验 SSH 配置。先观察输出，再决定下一步。"
+answers = ["sudo sshd -t"]
+
+[[commands]]
+id = "shared-0fc93373209c2316"
+command = "sudo systemctl reload ssh"
+summary = "请跟打，重载服务。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo systemctl reload ssh"
+desc = "请跟打，重载服务。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，重载服务。先观察输出，再决定下一步。"
+answers = ["sudo systemctl reload ssh"]
+
+[[commands]]
+id = "shared-c5a3784f8873aa34"
+command = "ssh -o ConnectTimeout=5 ace@192.0.2.10 hostname"
+summary = "请跟打，从客户端重新验证。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "ssh -o ConnectTimeout=5 ace@192.0.2.10 hostname"
+desc = "请跟打，从客户端重新验证。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，从客户端重新验证。先观察输出，再决定下一步。"
+answers = ["ssh -o ConnectTimeout=5 ace@192.0.2.10 hostname"]
+
+[[commands]]
+id = "shared-087aab6f07516b77"
+command = "getent ahostsv4 api.example.test"
+summary = "请跟打，观察系统名称解析。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "getent ahostsv4 api.example.test"
+desc = "请跟打，观察系统名称解析。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，观察系统名称解析。先观察输出，再决定下一步。"
+answers = ["getent ahostsv4 api.example.test"]
+
+[[commands]]
+id = "shared-ab01ff7fc2c8d61f"
+command = "resolvectl status ens3"
+summary = "请跟打，检查解析器状态。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "resolvectl status ens3"
+desc = "请跟打，检查解析器状态。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查解析器状态。先观察输出，再决定下一步。"
+answers = ["resolvectl status ens3"]
+
+[[commands]]
+id = "shared-419c2f59d447e4d4"
+command = "dig @192.0.2.53 api.example.test A +noall +answer"
+summary = "请跟打，查询指定解析服务器。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "dig @192.0.2.53 api.example.test A +noall +answer"
+desc = "请跟打，查询指定解析服务器。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查询指定解析服务器。先观察输出，再决定下一步。"
+answers = ["dig @192.0.2.53 api.example.test A +noall +answer"]
+
+[[commands]]
+id = "shared-f5f3bdc5f970b784"
+command = "curl --resolve api.example.test:80:192.0.2.10 http://api.example.test/health"
+summary = "请跟打，绕过 DNS 测试目标服务。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "curl --resolve api.example.test:80:192.0.2.10 http://api.example.test/health"
+desc = "请跟打，绕过 DNS 测试目标服务。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，绕过 DNS 测试目标服务。先观察输出，再决定下一步。"
+answers = ["curl --resolve api.example.test:80:192.0.2.10 http://api.example.test/health"]
+
+[[commands]]
+id = "shared-82228b8ca3b8be7e"
+command = "rg api.example.test /etc/hosts"
+summary = "请跟打，检查本地静态解析。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "rg api.example.test /etc/hosts"
+desc = "请跟打，检查本地静态解析。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查本地静态解析。先观察输出，再决定下一步。"
+answers = ["rg api.example.test /etc/hosts"]
+
+[[commands]]
+id = "shared-a2cd1bc5162f32e5"
+command = "git -C /srv/dns diff -- zones/example.test.zone"
+summary = "请跟打，在 DNS 管理节点查看修订差异。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "git -C /srv/dns diff -- zones/example.test.zone"
+desc = "请跟打，在 DNS 管理节点查看修订差异。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，在 DNS 管理节点查看修订差异。先观察输出，再决定下一步。"
+answers = ["git -C /srv/dns diff -- zones/example.test.zone"]
+
+[[commands]]
+id = "shared-26b130a6099e082f"
+command = "named-checkzone example.test /srv/dns/zones/example.test.zone"
+summary = "请跟打，在 DNS 节点检查区域文件。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "named-checkzone example.test /srv/dns/zones/example.test.zone"
+desc = "请跟打，在 DNS 节点检查区域文件。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，在 DNS 节点检查区域文件。先观察输出，再决定下一步。"
+answers = ["named-checkzone example.test /srv/dns/zones/example.test.zone"]
+
+[[commands]]
+id = "shared-3b1fed5b6ce86f55"
+command = "sudo rndc reload example.test"
+summary = "请跟打，在 DNS 节点重载区域。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo rndc reload example.test"
+desc = "请跟打，在 DNS 节点重载区域。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，在 DNS 节点重载区域。先观察输出，再决定下一步。"
+answers = ["sudo rndc reload example.test"]
+
+[[commands]]
+id = "shared-5ec8692f512be5af"
+command = "sudo resolvectl flush-caches"
+summary = "请跟打，在客户端刷新本机缓存。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo resolvectl flush-caches"
+desc = "请跟打，在客户端刷新本机缓存。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，在客户端刷新本机缓存。先观察输出，再决定下一步。"
+answers = ["sudo resolvectl flush-caches"]
+
+[[commands]]
+id = "shared-afd3fff90b2c0097"
+command = "curl -fsS http://api.example.test/health"
+summary = "请跟打，验证解析和 HTTP。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "curl -fsS http://api.example.test/health"
+desc = "请跟打，验证解析和 HTTP。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，验证解析和 HTTP。先观察输出，再决定下一步。"
+answers = ["curl -fsS http://api.example.test/health"]
+
+[[commands]]
+id = "shared-2706a13e8b69846d"
+command = "systemctl status orders-api --no-pager"
+summary = "请跟打，检查失败服务。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "systemctl status orders-api --no-pager"
+desc = "请跟打，检查失败服务。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查失败服务。先观察输出，再决定下一步。"
+answers = ["systemctl status orders-api --no-pager"]
+
+[[commands]]
+id = "shared-d425be20d17340b6"
+command = "journalctl -u orders-api -n 20 --no-pager"
+summary = "请跟打，查看启动错误。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "journalctl -u orders-api -n 20 --no-pager"
+desc = "请跟打，查看启动错误。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看启动错误。先观察输出，再决定下一步。"
+answers = ["journalctl -u orders-api -n 20 --no-pager"]
+
+[[commands]]
+id = "shared-93dd3f6f962d5279"
+command = "ps -p 2400 -o pid,ppid,user,args"
+summary = "请跟打，检查完整启动参数。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "ps -p 2400 -o pid,ppid,user,args"
+desc = "请跟打，检查完整启动参数。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查完整启动参数。先观察输出，再决定下一步。"
+answers = ["ps -p 2400 -o pid,ppid,user,args"]
+
+[[commands]]
+id = "shared-b2191d7f54b3acb6"
+command = "systemctl status 2400 --no-pager"
+summary = "请跟打，确认所属服务。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "systemctl status 2400 --no-pager"
+desc = "请跟打，确认所属服务。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，确认所属服务。先观察输出，再决定下一步。"
+answers = ["systemctl status 2400 --no-pager"]
+
+[[commands]]
+id = "shared-5d14182b8d3a010a"
+command = "sudo systemctl stop demo-http"
+summary = "请跟打，停止已确认不再需要的演示服务。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo systemctl stop demo-http"
+desc = "请跟打，停止已确认不再需要的演示服务。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，停止已确认不再需要的演示服务。先观察输出，再决定下一步。"
+answers = ["sudo systemctl stop demo-http"]
+
+[[commands]]
+id = "shared-deae82e6426b7b2e"
+command = "sudo systemctl start orders-api"
+summary = "请跟打，启动 API。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo systemctl start orders-api"
+desc = "请跟打，启动 API。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，启动 API。先观察输出，再决定下一步。"
+answers = ["sudo systemctl start orders-api"]
+
+[[commands]]
+id = "shared-b2e6eb91648c3b7c"
+command = "nc -vz -w 3 192.0.2.10 9100"
+summary = "请跟打，从管理端重现超时。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "nc -vz -w 3 192.0.2.10 9100"
+desc = "请跟打，从管理端重现超时。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，从管理端重现超时。先观察输出，再决定下一步。"
+answers = ["nc -vz -w 3 192.0.2.10 9100"]
+
+[[commands]]
+id = "shared-b3f648655e69cb48"
+command = "sudo ss -ltnp 'sport = :9100'"
+summary = "请跟打，在服务端确认监听。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo ss -ltnp 'sport = :9100'"
+desc = "请跟打，在服务端确认监听。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，在服务端确认监听。先观察输出，再决定下一步。"
+answers = ["sudo ss -ltnp 'sport = :9100'"]
+
+[[commands]]
+id = "shared-141f6a92ee5756d4"
+command = "curl -fsS http://127.0.0.1:9100/health"
+summary = "请跟打，测试服务端本机请求。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "curl -fsS http://127.0.0.1:9100/health"
+desc = "请跟打，测试服务端本机请求。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，测试服务端本机请求。先观察输出，再决定下一步。"
+answers = ["curl -fsS http://127.0.0.1:9100/health"]
+
+[[commands]]
+id = "shared-be60d91704aa74d2"
+command = "sudo tcpdump -ni ens3 -c 3 'host 192.0.2.50 and tcp port 9100'"
+summary = "请跟打，观察来自管理端的 SYN。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo tcpdump -ni ens3 -c 3 'host 192.0.2.50 and tcp port 9100'"
+desc = "请跟打，观察来自管理端的 SYN。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，观察来自管理端的 SYN。先观察输出，再决定下一步。"
+answers = ["sudo tcpdump -ni ens3 -c 3 'host 192.0.2.50 and tcp port 9100'"]
+
+[[commands]]
+id = "shared-5209f55e18ca75f9"
+command = "journalctl -k --grep=UFW --since=-5min"
+summary = "请跟打，查看已记录的阻断。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "journalctl -k --grep=UFW --since=-5min"
+desc = "请跟打，查看已记录的阻断。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看已记录的阻断。先观察输出，再决定下一步。"
+answers = ["journalctl -k --grep=UFW --since=-5min"]
+
+[[commands]]
+id = "shared-a18af06ff1d757a0"
+command = "sudo ufw --dry-run allow from 192.0.2.50 to any port 9100 proto tcp"
+summary = "请跟打，预览限定来源规则。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo ufw --dry-run allow from 192.0.2.50 to any port 9100 proto tcp"
+desc = "请跟打，预览限定来源规则。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，预览限定来源规则。先观察输出，再决定下一步。"
+answers = ["sudo ufw --dry-run allow from 192.0.2.50 to any port 9100 proto tcp"]
+
+[[commands]]
+id = "shared-e98f74b45a753f51"
+command = "sudo ufw allow from 192.0.2.50 to any port 9100 proto tcp"
+summary = "请跟打，添加监控来源例外。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo ufw allow from 192.0.2.50 to any port 9100 proto tcp"
+desc = "请跟打，添加监控来源例外。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，添加监控来源例外。先观察输出，再决定下一步。"
+answers = ["sudo ufw allow from 192.0.2.50 to any port 9100 proto tcp"]
+
+[[commands]]
+id = "shared-1b31a5367bc390cd"
+command = "curl -fsS --connect-timeout 3 http://192.0.2.10:9100/health"
+summary = "请跟打，从管理端验证应用。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "curl -fsS --connect-timeout 3 http://192.0.2.10:9100/health"
+desc = "请跟打，从管理端验证应用。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，从管理端验证应用。先观察输出，再决定下一步。"
+answers = ["curl -fsS --connect-timeout 3 http://192.0.2.10:9100/health"]
+
+[[commands]]
+id = "shared-60ac8e7804425c9b"
+command = "ping -c 4 198.51.100.20"
+summary = "请跟打，测试小包。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "ping -c 4 198.51.100.20"
+desc = "请跟打，测试小包。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，测试小包。先观察输出，再决定下一步。"
+answers = ["ping -c 4 198.51.100.20"]
+
+[[commands]]
+id = "shared-be12d454381ddf6b"
+command = "ping -c 3 -M do -s 1472 198.51.100.20"
+summary = "请跟打，禁止分片测试 1500 字节 IP 包。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "ping -c 3 -M do -s 1472 198.51.100.20"
+desc = "请跟打，禁止分片测试 1500 字节 IP 包。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，禁止分片测试 1500 字节 IP 包。先观察输出，再决定下一步。"
+answers = ["ping -c 3 -M do -s 1472 198.51.100.20"]
+
+[[commands]]
+id = "shared-dc608f1de2de40ae"
+command = "ping -c 3 -M do -s 1392 198.51.100.20"
+summary = "请跟打，测试较小的无分片包。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "ping -c 3 -M do -s 1392 198.51.100.20"
+desc = "请跟打，测试较小的无分片包。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，测试较小的无分片包。先观察输出，再决定下一步。"
+answers = ["ping -c 3 -M do -s 1392 198.51.100.20"]
+
+[[commands]]
+id = "shared-e7fafbcb0cee95fc"
+command = "ip -d link show dev wg0"
+summary = "请跟打，查看隧道 MTU。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "ip -d link show dev wg0"
+desc = "请跟打，查看隧道 MTU。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看隧道 MTU。先观察输出，再决定下一步。"
+answers = ["ip -d link show dev wg0"]
+
+[[commands]]
+id = "shared-d4710f65181ec894"
+command = "sudo ip link set dev wg0 mtu 1420"
+summary = "请跟打，临时调整隧道 MTU。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo ip link set dev wg0 mtu 1420"
+desc = "请跟打，临时调整隧道 MTU。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，临时调整隧道 MTU。先观察输出，再决定下一步。"
+answers = ["sudo ip link set dev wg0 mtu 1420"]
+
+[[commands]]
+id = "shared-89a1ad159cd601b8"
+command = "curl -fsS --max-time 15 -o /dev/null -w '%{http_code} %{size_download}\\n' https://files.example.test/archive.tar"
+summary = "请跟打，验证原始业务。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "curl -fsS --max-time 15 -o /dev/null -w '%{http_code} %{size_download}\\n' https://files.example.test/archive.tar"
+desc = "请跟打，验证原始业务。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，验证原始业务。先观察输出，再决定下一步。"
+answers = ["curl -fsS --max-time 15 -o /dev/null -w '%{http_code} %{size_download}\\n' https://files.example.test/archive.tar"]
+
+[[commands]]
+id = "shared-0159ad44496229ff"
+command = "sudo nano /etc/wireguard/wg0.conf"
+summary = "请跟打，在隧道配置中保存 MTU。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo nano /etc/wireguard/wg0.conf"
+desc = "请跟打，在隧道配置中保存 MTU。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，在隧道配置中保存 MTU。先观察输出，再决定下一步。"
+answers = ["sudo nano /etc/wireguard/wg0.conf"]
+
+[[commands]]
+id = "shared-e73a602f4f6bdb57"
+command = "curl -I https://api.example.test"
+summary = "请跟打，重现客户端证书错误。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "curl -I https://api.example.test"
+desc = "请跟打，重现客户端证书错误。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，重现客户端证书错误。先观察输出，再决定下一步。"
+answers = ["curl -I https://api.example.test"]
+
+[[commands]]
+id = "shared-89e036b6d8a3b4cb"
+command = "openssl s_client -connect api.example.test:443 -servername api.example.test </dev/null 2>/dev/null | openssl x509 -noout -dates -subject"
+summary = "请跟打，读取实际提供的叶子证书。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "openssl s_client -connect api.example.test:443 -servername api.example.test </dev/null 2>/dev/null | openssl x509 -noout -dates -subject"
+desc = "请跟打，读取实际提供的叶子证书。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，读取实际提供的叶子证书。先观察输出，再决定下一步。"
+answers = ["openssl s_client -connect api.example.test:443 -servername api.example.test </dev/null 2>/dev/null | openssl x509 -noout -dates -subject"]
+
+[[commands]]
+id = "shared-036b4d6b887d3d3a"
+command = "sudo certbot certificates"
+summary = "请跟打，检查 Certbot 管理记录。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo certbot certificates"
+desc = "请跟打，检查 Certbot 管理记录。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查 Certbot 管理记录。先观察输出，再决定下一步。"
+answers = ["sudo certbot certificates"]
+
+[[commands]]
+id = "shared-592fd86d68a49b9d"
+command = "sudo certbot renew --cert-name api.example.test --dry-run"
+summary = "请跟打，测试续期流程。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo certbot renew --cert-name api.example.test --dry-run"
+desc = "请跟打，测试续期流程。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，测试续期流程。先观察输出，再决定下一步。"
+answers = ["sudo certbot renew --cert-name api.example.test --dry-run"]
+
+[[commands]]
+id = "shared-4b9c34a5ab548519"
+command = "sudo certbot renew --cert-name api.example.test"
+summary = "请跟打，执行目标证书续期。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo certbot renew --cert-name api.example.test"
+desc = "请跟打，执行目标证书续期。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，执行目标证书续期。先观察输出，再决定下一步。"
+answers = ["sudo certbot renew --cert-name api.example.test"]
+
+[[commands]]
+id = "shared-829d54cda3c37ae6"
+command = "sudo systemctl reload nginx"
+summary = "请跟打，重载 Nginx。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo systemctl reload nginx"
+desc = "请跟打，重载 Nginx。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，重载 Nginx。先观察输出，再决定下一步。"
+answers = ["sudo systemctl reload nginx"]
+
+[[commands]]
+id = "shared-db240f8530405d3b"
+command = "systemctl list-timers certbot.timer --all"
+summary = "请跟打，确认自动续期定时器。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "systemctl list-timers certbot.timer --all"
+desc = "请跟打，确认自动续期定时器。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，确认自动续期定时器。先观察输出，再决定下一步。"
+answers = ["systemctl list-timers certbot.timer --all"]
+
+[[commands]]
+id = "shared-d6ec6e0333f7f13e"
+command = "curl -I http://api.example.test/health"
+summary = "请跟打，获取响应头。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "curl -I http://api.example.test/health"
+desc = "请跟打，获取响应头。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，获取响应头。先观察输出，再决定下一步。"
+answers = ["curl -I http://api.example.test/health"]
+
+[[commands]]
+id = "shared-76b1b8bb97a9c8b1"
+command = "sudo tail -n 20 /var/log/nginx/error.log"
+summary = "请跟打，查看代理最近错误。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo tail -n 20 /var/log/nginx/error.log"
+desc = "请跟打，查看代理最近错误。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看代理最近错误。先观察输出，再决定下一步。"
+answers = ["sudo tail -n 20 /var/log/nginx/error.log"]
+
+[[commands]]
+id = "shared-c657f9cb16384e9b"
+command = "sudo ss -ltnp 'sport = :8000 or sport = :8001'"
+summary = "请跟打，检查实际 API 监听。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo ss -ltnp 'sport = :8000 or sport = :8001'"
+desc = "请跟打，检查实际 API 监听。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查实际 API 监听。先观察输出，再决定下一步。"
+answers = ["sudo ss -ltnp 'sport = :8000 or sport = :8001'"]
+
+[[commands]]
+id = "shared-9717099ef9d8d902"
+command = "sudo cat /etc/nginx/sites-enabled/api.conf"
+summary = "请跟打，查看站点配置。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo cat /etc/nginx/sites-enabled/api.conf"
+desc = "请跟打，查看站点配置。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看站点配置。先观察输出，再决定下一步。"
+answers = ["sudo cat /etc/nginx/sites-enabled/api.conf"]
+
+[[commands]]
+id = "shared-e00cc531a01015ef"
+command = "sudo cp -a /etc/nginx/sites-available/api.conf /etc/nginx/sites-available/api.conf.bak"
+summary = "请跟打，备份站点配置。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo cp -a /etc/nginx/sites-available/api.conf /etc/nginx/sites-available/api.conf.bak"
+desc = "请跟打，备份站点配置。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，备份站点配置。先观察输出，再决定下一步。"
+answers = ["sudo cp -a /etc/nginx/sites-available/api.conf /etc/nginx/sites-available/api.conf.bak"]
+
+[[commands]]
+id = "shared-088f2718b9e2e18d"
+command = "sudo sed -i 's/127.0.0.1:8001/127.0.0.1:8000/' /etc/nginx/sites-available/api.conf"
+summary = "请跟打，修正上游端口。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo sed -i 's/127.0.0.1:8001/127.0.0.1:8000/' /etc/nginx/sites-available/api.conf"
+desc = "请跟打，修正上游端口。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，修正上游端口。先观察输出，再决定下一步。"
+answers = ["sudo sed -i 's/127.0.0.1:8001/127.0.0.1:8000/' /etc/nginx/sites-available/api.conf"]
+
+[[commands]]
+id = "shared-cb501023ee08b8b6"
+command = "ip route get 192.0.2.10"
+summary = "请跟打，确认目标路由。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "ip route get 192.0.2.10"
+desc = "请跟打，确认目标路由。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，确认目标路由。先观察输出，再决定下一步。"
+answers = ["ip route get 192.0.2.10"]
+
+[[commands]]
+id = "shared-395a6acc80942e8e"
+command = "sudo tcpdump -ni ens3 -c 6 -w /tmp/client.pcap 'host 192.0.2.10 and tcp port 443'"
+summary = "请跟打，从客户端保存有限包数。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo tcpdump -ni ens3 -c 6 -w /tmp/client.pcap 'host 192.0.2.10 and tcp port 443'"
+desc = "请跟打，从客户端保存有限包数。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，从客户端保存有限包数。先观察输出，再决定下一步。"
+answers = ["sudo tcpdump -ni ens3 -c 6 -w /tmp/client.pcap 'host 192.0.2.10 and tcp port 443'"]
+
+[[commands]]
+id = "shared-4335d332af202d34"
+command = "tcpdump -nn -r /tmp/client.pcap"
+summary = "请跟打，读取客户端抓包。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "tcpdump -nn -r /tmp/client.pcap"
+desc = "请跟打，读取客户端抓包。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，读取客户端抓包。先观察输出，再决定下一步。"
+answers = ["tcpdump -nn -r /tmp/client.pcap"]
+
+[[commands]]
+id = "shared-5b839870df495e1e"
+command = "tcpdump -nn -r /tmp/server.pcap"
+summary = "请跟打，读取服务端同期抓包。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "tcpdump -nn -r /tmp/server.pcap"
+desc = "请跟打，读取服务端同期抓包。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，读取服务端同期抓包。先观察输出，再决定下一步。"
+answers = ["tcpdump -nn -r /tmp/server.pcap"]
+
+[[commands]]
+id = "shared-bb355f33dd65afb3"
+command = "ip route get 192.0.2.50"
+summary = "请跟打，服务端检查返回路径。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "ip route get 192.0.2.50"
+desc = "请跟打，服务端检查返回路径。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，服务端检查返回路径。先观察输出，再决定下一步。"
+answers = ["ip route get 192.0.2.50"]
+
+[[commands]]
+id = "shared-0ebf849f0ea337b0"
+command = "ip route show 192.0.2.50/32"
+summary = "请跟打，查找覆盖路由。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "ip route show 192.0.2.50/32"
+desc = "请跟打，查找覆盖路由。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查找覆盖路由。先观察输出，再决定下一步。"
+answers = ["ip route show 192.0.2.50/32"]
+
+[[commands]]
+id = "shared-7ece8a800cf44a58"
+command = "sudo ip route del 192.0.2.50/32 via 198.51.100.1 dev ens4"
+summary = "请跟打，删除已确认错误的精确路由。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo ip route del 192.0.2.50/32 via 198.51.100.1 dev ens4"
+desc = "请跟打，删除已确认错误的精确路由。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，删除已确认错误的精确路由。先观察输出，再决定下一步。"
+answers = ["sudo ip route del 192.0.2.50/32 via 198.51.100.1 dev ens4"]
+
+[[commands]]
+id = "shared-6b655cac123a618d"
+command = "curl -fsS --connect-timeout 3 https://api.example.test/health"
+summary = "请跟打，从客户端验证握手与应用。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "curl -fsS --connect-timeout 3 https://api.example.test/health"
+desc = "请跟打，从客户端验证握手与应用。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，从客户端验证握手与应用。先观察输出，再决定下一步。"
+answers = ["curl -fsS --connect-timeout 3 https://api.example.test/health"]
+
+[[commands]]
+id = "shared-e044b7b247822339"
+command = "docker compose logs --tail=20 api"
+summary = "请跟打，查看 API 连接错误。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "docker compose logs --tail=20 api"
+desc = "请跟打，查看 API 连接错误。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看 API 连接错误。先观察输出，再决定下一步。"
+answers = ["docker compose logs --tail=20 api"]
+
+[[commands]]
+id = "shared-a0ed1b56375f124d"
+command = "docker compose exec api python -c \"import socket; print(socket.getaddrinfo('db', 5432))\""
+summary = "请跟打，从 API 内查询数据库名称。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "docker compose exec api python -c \"import socket; print(socket.getaddrinfo('db', 5432))\""
+desc = "请跟打，从 API 内查询数据库名称。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，从 API 内查询数据库名称。先观察输出，再决定下一步。"
+answers = ["docker compose exec api python -c \"import socket; print(socket.getaddrinfo('db', 5432))\""]
+
+[[commands]]
+id = "shared-b6417f222a3d478f"
+command = "docker inspect ops-db-1 --format '{{json .NetworkSettings.Networks}}'"
+summary = "请跟打，检查数据库网络。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "docker inspect ops-db-1 --format '{{json .NetworkSettings.Networks}}'"
+desc = "请跟打，检查数据库网络。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查数据库网络。先观察输出，再决定下一步。"
+answers = ["docker inspect ops-db-1 --format '{{json .NetworkSettings.Networks}}'"]
+
+[[commands]]
+id = "shared-1a07b233e9967fc8"
+command = "docker inspect ops-api-1 --format '{{json .NetworkSettings.Networks}}'"
+summary = "请跟打，检查 API 网络。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "docker inspect ops-api-1 --format '{{json .NetworkSettings.Networks}}'"
+desc = "请跟打，检查 API 网络。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查 API 网络。先观察输出，再决定下一步。"
+answers = ["docker inspect ops-api-1 --format '{{json .NetworkSettings.Networks}}'"]
+
+[[commands]]
+id = "shared-535edd5dd60a28d1"
+command = "docker inspect ops-db-1 --format '{{json .Mounts}}'"
+summary = "请跟打，核对数据库挂载。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "docker inspect ops-db-1 --format '{{json .Mounts}}'"
+desc = "请跟打，核对数据库挂载。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，核对数据库挂载。先观察输出，再决定下一步。"
+answers = ["docker inspect ops-db-1 --format '{{json .Mounts}}'"]
+
+[[commands]]
+id = "shared-bb1f84786cca9ff7"
+command = "docker compose up -d --force-recreate db"
+summary = "请跟打，重新创建数据库容器。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "docker compose up -d --force-recreate db"
+desc = "请跟打，重新创建数据库容器。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，重新创建数据库容器。先观察输出，再决定下一步。"
+answers = ["docker compose up -d --force-recreate db"]
+
+[[commands]]
+id = "shared-836d8fbe02ca912b"
+command = "docker compose exec api python -c \"import socket; socket.create_connection(('db', 5432), timeout=3).close(); print('connected')\""
+summary = "请跟打，从 API 验证 TCP 连接。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "docker compose exec api python -c \"import socket; socket.create_connection(('db', 5432), timeout=3).close(); print('connected')\""
+desc = "请跟打，从 API 验证 TCP 连接。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，从 API 验证 TCP 连接。先观察输出，再决定下一步。"
+answers = ["docker compose exec api python -c \"import socket; socket.create_connection(('db', 5432), timeout=3).close(); print('connected')\""]
+
+[[commands]]
+id = "shared-827416ac5f9eed58"
+command = "sudo apt install -y ca-certificates curl git nano certbot"
+summary = "请跟打，安装 HTTPS 软件源工具与编辑器。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo apt install -y ca-certificates curl git nano certbot"
+desc = "请跟打，安装 HTTPS 软件源工具与编辑器。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，安装 HTTPS 软件源工具与编辑器。先观察输出，再决定下一步。"
+answers = ["sudo apt install -y ca-certificates curl git nano certbot"]
+
+[[commands]]
+id = "shared-218b2426de909a69"
+command = "sudo install -m 0755 -d /etc/apt/keyrings"
+summary = "请跟打，创建软件源密钥目录。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo install -m 0755 -d /etc/apt/keyrings"
+desc = "请跟打，创建软件源密钥目录。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，创建软件源密钥目录。先观察输出，再决定下一步。"
+answers = ["sudo install -m 0755 -d /etc/apt/keyrings"]
+
+[[commands]]
+id = "shared-fdf4c9035ec54670"
+command = "sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc"
+summary = "请跟打，获取 Docker 官方仓库签名密钥。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc"
+desc = "请跟打，获取 Docker 官方仓库签名密钥。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，获取 Docker 官方仓库签名密钥。先观察输出，再决定下一步。"
+answers = ["sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc"]
+
+[[commands]]
+id = "shared-acd5489879a2f153"
+command = "sudo chmod a+r /etc/apt/keyrings/docker.asc"
+summary = "请跟打，使 APT 可以读取签名密钥。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo chmod a+r /etc/apt/keyrings/docker.asc"
+desc = "请跟打，使 APT 可以读取签名密钥。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，使 APT 可以读取签名密钥。先观察输出，再决定下一步。"
+answers = ["sudo chmod a+r /etc/apt/keyrings/docker.asc"]
+
+[[commands]]
+id = "shared-427ab9b668c047cc"
+command = "sudo nano /etc/apt/sources.list.d/docker.sources"
+summary = "请跟打，配置 Docker 软件源。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo nano /etc/apt/sources.list.d/docker.sources"
+desc = "请跟打，配置 Docker 软件源。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，配置 Docker 软件源。先观察输出，再决定下一步。"
+answers = ["sudo nano /etc/apt/sources.list.d/docker.sources"]
+
+[[commands]]
+id = "shared-ff1b58678da3a005"
+command = "sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
+summary = "请跟打，安装 Docker Engine 与 Compose 插件。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
+desc = "请跟打，安装 Docker Engine 与 Compose 插件。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，安装 Docker Engine 与 Compose 插件。先观察输出，再决定下一步。"
+answers = ["sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"]
+
+[[commands]]
+id = "shared-2b741813abc66212"
+command = "sudo docker run --rm hello-world"
+summary = "请跟打，验证 Docker 可运行。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo docker run --rm hello-world"
+desc = "请跟打，验证 Docker 可运行。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，验证 Docker 可运行。先观察输出，再决定下一步。"
+answers = ["sudo docker run --rm hello-world"]
+
+[[commands]]
+id = "shared-46b0cdeaf7b27582"
+command = "sudo install -d -o ace -g ace /srv/ops-site"
+summary = "请跟打，创建项目目录。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo install -d -o ace -g ace /srv/ops-site"
+desc = "请跟打，创建项目目录。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，创建项目目录。先观察输出，再决定下一步。"
+answers = ["sudo install -d -o ace -g ace /srv/ops-site"]
+
+[[commands]]
+id = "shared-5b5b0118530bb585"
+command = "cd /srv/ops-site"
+summary = "请跟打，进入项目目录。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "cd /srv/ops-site"
+desc = "请跟打，进入项目目录。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，进入项目目录。先观察输出，再决定下一步。"
+answers = ["cd /srv/ops-site"]
+
+[[commands]]
+id = "shared-0e3151390f8442d7"
+command = "git init"
+summary = "请跟打，初始化版本库。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "git init"
+desc = "请跟打，初始化版本库。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，初始化版本库。先观察输出，再决定下一步。"
+answers = ["git init"]
+
+[[commands]]
+id = "shared-4c453afa713eda66"
+command = "mkdir -p nginx db certbot/www certbot/conf"
+summary = "请跟打，创建配置与数据初始化目录。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "mkdir -p nginx db certbot/www certbot/conf"
+desc = "请跟打，创建配置与数据初始化目录。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，创建配置与数据初始化目录。先观察输出，再决定下一步。"
+answers = ["mkdir -p nginx db certbot/www certbot/conf"]
+
+[[commands]]
+id = "shared-72578ad2481f6853"
+command = "openssl rand -hex 24 > .db_password"
+summary = "请跟打，生成独立数据库口令文件。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "openssl rand -hex 24 > .db_password"
+desc = "请跟打，生成独立数据库口令文件。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，生成独立数据库口令文件。先观察输出，再决定下一步。"
+answers = ["openssl rand -hex 24 > .db_password"]
+
+[[commands]]
+id = "shared-d27fddad7d6c0f7a"
+command = "chmod 600 .db_password"
+summary = "请跟打，限制口令文件权限。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "chmod 600 .db_password"
+desc = "请跟打，限制口令文件权限。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，限制口令文件权限。先观察输出，再决定下一步。"
+answers = ["chmod 600 .db_password"]
+
+[[commands]]
+id = "shared-52601095c1ad376e"
+command = "nano .gitignore"
+summary = "请跟打，写入版本库忽略规则。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "nano .gitignore"
+desc = "请跟打，写入版本库忽略规则。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，写入版本库忽略规则。先观察输出，再决定下一步。"
+answers = ["nano .gitignore"]
+
+[[commands]]
+id = "shared-feda9539479f5b2a"
+command = "nano requirements.txt"
+summary = "请跟打，写入依赖清单。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "nano requirements.txt"
+desc = "请跟打，写入依赖清单。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，写入依赖清单。先观察输出，再决定下一步。"
+answers = ["nano requirements.txt"]
+
+[[commands]]
+id = "shared-18e6daacf39a5cdc"
+command = "nano app.py"
+summary = "请跟打，写入 API 程序。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "nano app.py"
+desc = "请跟打，写入 API 程序。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，写入 API 程序。先观察输出，再决定下一步。"
+answers = ["nano app.py"]
+
+[[commands]]
+id = "shared-40c69bee5d862a25"
+command = "nano Dockerfile"
+summary = "请跟打，写入镜像构建文件。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "nano Dockerfile"
+desc = "请跟打，写入镜像构建文件。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，写入镜像构建文件。先观察输出，再决定下一步。"
+answers = ["nano Dockerfile"]
+
+[[commands]]
+id = "shared-f526bdf1c97274f2"
+command = "nano .dockerignore"
+summary = "请跟打，限制镜像构建上下文。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "nano .dockerignore"
+desc = "请跟打，限制镜像构建上下文。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，限制镜像构建上下文。先观察输出，再决定下一步。"
+answers = ["nano .dockerignore"]
+
+[[commands]]
+id = "shared-1a1efe509d0471ee"
+command = "nano db/init.sql"
+summary = "请跟打，准备数据库初始结构。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "nano db/init.sql"
+desc = "请跟打，准备数据库初始结构。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，准备数据库初始结构。先观察输出，再决定下一步。"
+answers = ["nano db/init.sql"]
+
+[[commands]]
+id = "shared-0fad5b5a6dee1106"
+command = "nano compose.yaml"
+summary = "请跟打，写入 Compose 服务声明。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "nano compose.yaml"
+desc = "请跟打，写入 Compose 服务声明。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，写入 Compose 服务声明。先观察输出，再决定下一步。"
+answers = ["nano compose.yaml"]
+
+[[commands]]
+id = "shared-c5d15e1fc6c56848"
+command = "nano nginx/default.conf"
+summary = "请跟打，写入初始 HTTP 代理配置。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "nano nginx/default.conf"
+desc = "请跟打，写入初始 HTTP 代理配置。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，写入初始 HTTP 代理配置。先观察输出，再决定下一步。"
+answers = ["nano nginx/default.conf"]
+
+[[commands]]
+id = "shared-348dff84d6747459"
+command = "nano .env"
+summary = "请跟打，准备镜像版本变量。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "nano .env"
+desc = "请跟打，准备镜像版本变量。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，准备镜像版本变量。先观察输出，再决定下一步。"
+answers = ["nano .env"]
+
+[[commands]]
+id = "shared-4a8f2b1113cf519f"
+command = "sudo docker compose config --quiet"
+summary = "请跟打，校验 Compose 模型。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo docker compose config --quiet"
+desc = "请跟打，校验 Compose 模型。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，校验 Compose 模型。先观察输出，再决定下一步。"
+answers = ["sudo docker compose config --quiet"]
+
+[[commands]]
+id = "shared-a7c3d636a8341569"
+command = "sudo docker compose up -d --build"
+summary = "请跟打，构建并启动网站。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo docker compose up -d --build"
+desc = "请跟打，构建并启动网站。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，构建并启动网站。先观察输出，再决定下一步。"
+answers = ["sudo docker compose up -d --build"]
+
+[[commands]]
+id = "shared-632830d160471f6b"
+command = "sudo docker compose ps"
+summary = "请跟打，查看服务健康状态。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo docker compose ps"
+desc = "请跟打，查看服务健康状态。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看服务健康状态。先观察输出，再决定下一步。"
+answers = ["sudo docker compose ps"]
+
+[[commands]]
+id = "shared-272ec8591c0b2e06"
+command = "curl -fsS http://api.example.test/orders"
+summary = "请跟打，验证数据库初始化数据。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "curl -fsS http://api.example.test/orders"
+desc = "请跟打，验证数据库初始化数据。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，验证数据库初始化数据。先观察输出，再决定下一步。"
+answers = ["curl -fsS http://api.example.test/orders"]
+
+[[commands]]
+id = "shared-59bfccae41a4b01b"
+command = "git add .gitignore .dockerignore requirements.txt app.py Dockerfile db/init.sql compose.yaml nginx/default.conf"
+summary = "请跟打，记录初始项目版本。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "git add .gitignore .dockerignore requirements.txt app.py Dockerfile db/init.sql compose.yaml nginx/default.conf"
+desc = "请跟打，记录初始项目版本。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，记录初始项目版本。先观察输出，再决定下一步。"
+answers = ["git add .gitignore .dockerignore requirements.txt app.py Dockerfile db/init.sql compose.yaml nginx/default.conf"]
+
+[[commands]]
+id = "shared-bb6f17ba778590e5"
+command = "git commit -m \"Add containerized orders site\""
+summary = "请跟打，提交可重建的网站。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "git commit -m \"Add containerized orders site\""
+desc = "请跟打，提交可重建的网站。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，提交可重建的网站。先观察输出，再决定下一步。"
+answers = ["git commit -m \"Add containerized orders site\""]
+
+[[commands]]
+id = "shared-bb28869812df226b"
+command = "git tag -a v1.0.0 -m \"Initial website release\""
+summary = "请跟打，标记首个版本。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "git tag -a v1.0.0 -m \"Initial website release\""
+desc = "请跟打，标记首个版本。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，标记首个版本。先观察输出，再决定下一步。"
+answers = ["git tag -a v1.0.0 -m \"Initial website release\""]
+
+[[commands]]
+id = "shared-00c99bf964e7db5d"
+command = "sudo certbot certonly --webroot -w /srv/ops-site/certbot/www --config-dir /srv/ops-site/certbot/conf --work-dir /var/lib/letsencrypt --logs-dir /var/log/letsencrypt -d api.example.test --email ops@example.test --agree-tos --non-interactive"
+summary = "请跟打，申请站点证书。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo certbot certonly --webroot -w /srv/ops-site/certbot/www --config-dir /srv/ops-site/certbot/conf --work-dir /var/lib/letsencrypt --logs-dir /var/log/letsencrypt -d api.example.test --email ops@example.test --agree-tos --non-interactive"
+desc = "请跟打，申请站点证书。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，申请站点证书。先观察输出，再决定下一步。"
+answers = ["sudo certbot certonly --webroot -w /srv/ops-site/certbot/www --config-dir /srv/ops-site/certbot/conf --work-dir /var/lib/letsencrypt --logs-dir /var/log/letsencrypt -d api.example.test --email ops@example.test --agree-tos --non-interactive"]
+
+[[commands]]
+id = "shared-0700fc2231087e89"
+command = "sudo docker compose exec nginx nginx -t"
+summary = "请跟打，在 Nginx 容器内检查配置。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo docker compose exec nginx nginx -t"
+desc = "请跟打，在 Nginx 容器内检查配置。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，在 Nginx 容器内检查配置。先观察输出，再决定下一步。"
+answers = ["sudo docker compose exec nginx nginx -t"]
+
+[[commands]]
+id = "shared-b067c98a4b8b5a8f"
+command = "sudo docker compose exec nginx nginx -s reload"
+summary = "请跟打，平滑加载 TLS 配置。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo docker compose exec nginx nginx -s reload"
+desc = "请跟打，平滑加载 TLS 配置。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，平滑加载 TLS 配置。先观察输出，再决定下一步。"
+answers = ["sudo docker compose exec nginx nginx -s reload"]
+
+[[commands]]
+id = "shared-a75e45756f08277e"
+command = "curl -fsS https://api.example.test/health"
+summary = "请跟打，验证 HTTPS 业务。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "curl -fsS https://api.example.test/health"
+desc = "请跟打，验证 HTTPS 业务。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，验证 HTTPS 业务。先观察输出，再决定下一步。"
+answers = ["curl -fsS https://api.example.test/health"]
+
+[[commands]]
+id = "shared-c7c3b9db6f620f20"
+command = "sudo certbot renew --config-dir /srv/ops-site/certbot/conf --dry-run"
+summary = "请跟打，检查证书续期是否可行。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo certbot renew --config-dir /srv/ops-site/certbot/conf --dry-run"
+desc = "请跟打，检查证书续期是否可行。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查证书续期是否可行。先观察输出，再决定下一步。"
+answers = ["sudo certbot renew --config-dir /srv/ops-site/certbot/conf --dry-run"]
+
+[[commands]]
+id = "shared-1deae5b2c5e794e1"
+command = "git add nginx/default.conf"
+summary = "请跟打，保存 TLS 配置版本。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "git add nginx/default.conf"
+desc = "请跟打，保存 TLS 配置版本。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，保存 TLS 配置版本。先观察输出，再决定下一步。"
+answers = ["git add nginx/default.conf"]
+
+[[commands]]
+id = "shared-d6b45a407fed4beb"
+command = "git commit -m \"Enable HTTPS reverse proxy\""
+summary = "请跟打，提交 HTTPS 配置。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "git commit -m \"Enable HTTPS reverse proxy\""
+desc = "请跟打，提交 HTTPS 配置。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，提交 HTTPS 配置。先观察输出，再决定下一步。"
+answers = ["git commit -m \"Enable HTTPS reverse proxy\""]
+
+[[commands]]
+id = "shared-13ee8ac83597daec"
+command = "git tag -a v1.0.1 -m \"HTTPS baseline\""
+summary = "请跟打，标记 HTTPS 稳定基线。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "git tag -a v1.0.1 -m \"HTTPS baseline\""
+desc = "请跟打，标记 HTTPS 稳定基线。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，标记 HTTPS 稳定基线。先观察输出，再决定下一步。"
+answers = ["git tag -a v1.0.1 -m \"HTTPS baseline\""]
+
+[[commands]]
+id = "shared-4582f8b2aadd83bb"
+command = "sudo docker image tag ops-api:v1.0.0 ops-api:v1.0.1"
+summary = "请跟打，保留基线 API 镜像。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo docker image tag ops-api:v1.0.0 ops-api:v1.0.1"
+desc = "请跟打，保留基线 API 镜像。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，保留基线 API 镜像。先观察输出，再决定下一步。"
+answers = ["sudo docker image tag ops-api:v1.0.0 ops-api:v1.0.1"]
+
+[[commands]]
+id = "shared-87e250470b215a67"
+command = "printf 'APP_VERSION=v1.0.1\\n' > .env"
+summary = "请跟打，更新默认运行版本。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "printf 'APP_VERSION=v1.0.1\\n' > .env"
+desc = "请跟打，更新默认运行版本。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，更新默认运行版本。先观察输出，再决定下一步。"
+answers = ["printf 'APP_VERSION=v1.0.1\\n' > .env"]
+
+[[commands]]
+id = "shared-94da034b3a31a834"
+command = "sudo nano /etc/systemd/system/ops-cert-renew.service"
+summary = "请跟打，配置证书续期服务。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo nano /etc/systemd/system/ops-cert-renew.service"
+desc = "请跟打，配置证书续期服务。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，配置证书续期服务。先观察输出，再决定下一步。"
+answers = ["sudo nano /etc/systemd/system/ops-cert-renew.service"]
+
+[[commands]]
+id = "shared-65322f4a3a3db607"
+command = "sudo nano /etc/systemd/system/ops-cert-renew.timer"
+summary = "请跟打，配置每天两次续期检查。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo nano /etc/systemd/system/ops-cert-renew.timer"
+desc = "请跟打，配置每天两次续期检查。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，配置每天两次续期检查。先观察输出，再决定下一步。"
+answers = ["sudo nano /etc/systemd/system/ops-cert-renew.timer"]
+
+[[commands]]
+id = "shared-3f53b38045ca3c14"
+command = "sudo systemctl enable --now ops-cert-renew.timer"
+summary = "请跟打，启用续期定时器。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo systemctl enable --now ops-cert-renew.timer"
+desc = "请跟打，启用续期定时器。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，启用续期定时器。先观察输出，再决定下一步。"
+answers = ["sudo systemctl enable --now ops-cert-renew.timer"]
+
+[[commands]]
+id = "shared-91211fe7b943ba66"
+command = "systemctl list-timers ops-cert-renew.timer --all"
+summary = "请跟打，核对下次续期检查。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "systemctl list-timers ops-cert-renew.timer --all"
+desc = "请跟打，核对下次续期检查。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，核对下次续期检查。先观察输出，再决定下一步。"
+answers = ["systemctl list-timers ops-cert-renew.timer --all"]
+
+[[commands]]
+id = "shared-6a0d1651c8010547"
+command = "git diff v1.0.1..HEAD -- app.py"
+summary = "请跟打，查看版本差异。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "git diff v1.0.1..HEAD -- app.py"
+desc = "请跟打，查看版本差异。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看版本差异。先观察输出，再决定下一步。"
+answers = ["git diff v1.0.1..HEAD -- app.py"]
+
+[[commands]]
+id = "shared-6e58442eb0c56be6"
+command = "git log -3 --oneline"
+summary = "请跟打，确认发布提交。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "git log -3 --oneline"
+desc = "请跟打，确认发布提交。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，确认发布提交。先观察输出，再决定下一步。"
+answers = ["git log -3 --oneline"]
+
+[[commands]]
+id = "shared-889e627a1c7883b2"
+command = "git tag -a v1.1.0 -m \"Order summary release\""
+summary = "请跟打，标记候选发布。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "git tag -a v1.1.0 -m \"Order summary release\""
+desc = "请跟打，标记候选发布。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，标记候选发布。先观察输出，再决定下一步。"
+answers = ["git tag -a v1.1.0 -m \"Order summary release\""]
+
+[[commands]]
+id = "shared-2d8be63dfbc41de9"
+command = "APP_VERSION=v1.1.0 docker compose build api"
+summary = "请跟打，构建版本镜像。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "APP_VERSION=v1.1.0 docker compose build api"
+desc = "请跟打，构建版本镜像。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，构建版本镜像。先观察输出，再决定下一步。"
+answers = ["APP_VERSION=v1.1.0 docker compose build api"]
+
+[[commands]]
+id = "shared-a5c287cd7fe5f37a"
+command = "APP_VERSION=v1.1.0 docker compose up -d --no-deps api"
+summary = "请跟打，部署 API 新版本。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "APP_VERSION=v1.1.0 docker compose up -d --no-deps api"
+desc = "请跟打，部署 API 新版本。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，部署 API 新版本。先观察输出，再决定下一步。"
+answers = ["APP_VERSION=v1.1.0 docker compose up -d --no-deps api"]
+
+[[commands]]
+id = "shared-0f88814aa21d7187"
+command = "curl -i https://api.example.test/health"
+summary = "请跟打，从真实路径验收。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "curl -i https://api.example.test/health"
+desc = "请跟打，从真实路径验收。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，从真实路径验收。先观察输出，再决定下一步。"
+answers = ["curl -i https://api.example.test/health"]
+
+[[commands]]
+id = "shared-dcbffec994f57072"
+command = "docker image inspect ops-api:v1.0.1 --format '{{.Id}}'"
+summary = "请跟打，确认旧镜像仍存在。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "docker image inspect ops-api:v1.0.1 --format '{{.Id}}'"
+desc = "请跟打，确认旧镜像仍存在。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，确认旧镜像仍存在。先观察输出，再决定下一步。"
+answers = ["docker image inspect ops-api:v1.0.1 --format '{{.Id}}'"]
+
+[[commands]]
+id = "shared-bb76a8c0675768c6"
+command = "APP_VERSION=v1.0.1 docker compose up -d --no-deps --no-build api"
+summary = "请跟打，回滚 API 服务。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "APP_VERSION=v1.0.1 docker compose up -d --no-deps --no-build api"
+desc = "请跟打，回滚 API 服务。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，回滚 API 服务。先观察输出，再决定下一步。"
+answers = ["APP_VERSION=v1.0.1 docker compose up -d --no-deps --no-build api"]
+
+[[commands]]
+id = "shared-a221c3a3134dde65"
+command = "curl -i -H 'X-Request-ID: lab-500-01' https://api.example.test/orders"
+summary = "请跟打，带请求标识重现错误。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "curl -i -H 'X-Request-ID: lab-500-01' https://api.example.test/orders"
+desc = "请跟打，带请求标识重现错误。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，带请求标识重现错误。先观察输出，再决定下一步。"
+answers = ["curl -i -H 'X-Request-ID: lab-500-01' https://api.example.test/orders"]
+
+[[commands]]
+id = "shared-3597933150aa2291"
+command = "docker compose logs --since=10m api | rg 'lab-500-01|too many'"
+summary = "请跟打，查找关联 API 日志。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "docker compose logs --since=10m api | rg 'lab-500-01|too many'"
+desc = "请跟打，查找关联 API 日志。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查找关联 API 日志。先观察输出，再决定下一步。"
+answers = ["docker compose logs --since=10m api | rg 'lab-500-01|too many'"]
+
+[[commands]]
+id = "shared-4edc9b7c87cb8588"
+command = "docker compose ps db"
+summary = "请跟打，查看数据库运行状态。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "docker compose ps db"
+desc = "请跟打，查看数据库运行状态。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看数据库运行状态。先观察输出，再决定下一步。"
+answers = ["docker compose ps db"]
+
+[[commands]]
+id = "shared-34f23b512239a1f0"
+command = "docker compose exec db psql -U postgres -d app"
+summary = "请跟打，进入维护数据库会话。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "docker compose exec db psql -U postgres -d app"
+desc = "请跟打，进入维护数据库会话。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，进入维护数据库会话。先观察输出，再决定下一步。"
+answers = ["docker compose exec db psql -U postgres -d app"]
+
+[[commands]]
+id = "shared-d522deab69ddef3f"
+command = "SELECT application_name, state, count(*) FROM pg_stat_activity GROUP BY application_name, state ORDER BY count(*) DESC;"
+summary = "请跟打，按应用名聚合连接。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "SELECT application_name, state, count(*) FROM pg_stat_activity GROUP BY application_name, state ORDER BY count(*) DESC;"
+desc = "请跟打，按应用名聚合连接。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，按应用名聚合连接。先观察输出，再决定下一步。"
+answers = ["SELECT application_name, state, count(*) FROM pg_stat_activity GROUP BY application_name, state ORDER BY count(*) DESC;"]
+
+[[commands]]
+id = "shared-10a31cc5c6753144"
+command = "SELECT pid, application_name, now() - xact_start AS age FROM pg_stat_activity WHERE xact_start IS NOT NULL ORDER BY xact_start LIMIT 5;"
+summary = "请跟打，查询最长事务。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "SELECT pid, application_name, now() - xact_start AS age FROM pg_stat_activity WHERE xact_start IS NOT NULL ORDER BY xact_start LIMIT 5;"
+desc = "请跟打，查询最长事务。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查询最长事务。先观察输出，再决定下一步。"
+answers = ["SELECT pid, application_name, now() - xact_start AS age FROM pg_stat_activity WHERE xact_start IS NOT NULL ORDER BY xact_start LIMIT 5;"]
+
+[[commands]]
+id = "shared-ad9987ba921d0e48"
+command = "SELECT pid, query FROM pg_stat_activity WHERE application_name = 'report-export' LIMIT 2;"
+summary = "请跟打，只查看报表任务查询。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "SELECT pid, query FROM pg_stat_activity WHERE application_name = 'report-export' LIMIT 2;"
+desc = "请跟打，只查看报表任务查询。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，只查看报表任务查询。先观察输出，再决定下一步。"
+answers = ["SELECT pid, query FROM pg_stat_activity WHERE application_name = 'report-export' LIMIT 2;"]
+
+[[commands]]
+id = "shared-f43a4150248fd4ae"
+command = "\\q"
+summary = "请跟打，退出 SQL 客户端。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "\\q"
+desc = "请跟打，退出 SQL 客户端。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，退出 SQL 客户端。先观察输出，再决定下一步。"
+answers = ["\\q"]
+
+[[commands]]
+id = "shared-8f2a43574a49bb56"
+command = "sudo systemctl stop report-export"
+summary = "请跟打，停止异常报表服务。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo systemctl stop report-export"
+desc = "请跟打，停止异常报表服务。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，停止异常报表服务。先观察输出，再决定下一步。"
+answers = ["sudo systemctl stop report-export"]
+
+[[commands]]
+id = "shared-341f756bc2cb5d8b"
+command = "curl -fsS https://api.example.test/orders"
+summary = "请跟打，重新验证订单查询。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "curl -fsS https://api.example.test/orders"
+desc = "请跟打，重新验证订单查询。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，重新验证订单查询。先观察输出，再决定下一步。"
+answers = ["curl -fsS https://api.example.test/orders"]
+
+[[commands]]
+id = "shared-0b56288249a5c43d"
+command = "docker compose exec db psql -U app -d app"
+summary = "请跟打，连接应用数据库。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "docker compose exec db psql -U app -d app"
+desc = "请跟打，连接应用数据库。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，连接应用数据库。先观察输出，再决定下一步。"
+answers = ["docker compose exec db psql -U app -d app"]
+
+[[commands]]
+id = "shared-bbaea739061a58e9"
+command = "SELECT id, status FROM orders WHERE id = 42;"
+summary = "请跟打，查看目标订单。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "SELECT id, status FROM orders WHERE id = 42;"
+desc = "请跟打，查看目标订单。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看目标订单。先观察输出，再决定下一步。"
+answers = ["SELECT id, status FROM orders WHERE id = 42;"]
+
+[[commands]]
+id = "shared-83d96f67a923fda1"
+command = "SELECT count(*) FROM orders WHERE id = 42 AND status = 'pending';"
+summary = "请跟打，核对筛选范围。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "SELECT count(*) FROM orders WHERE id = 42 AND status = 'pending';"
+desc = "请跟打，核对筛选范围。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，核对筛选范围。先观察输出，再决定下一步。"
+answers = ["SELECT count(*) FROM orders WHERE id = 42 AND status = 'pending';"]
+
+[[commands]]
+id = "shared-09d5c7e4829721a8"
+command = "BEGIN;"
+summary = "请跟打，开始可回滚演练事务。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "BEGIN;"
+desc = "请跟打，开始可回滚演练事务。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，开始可回滚演练事务。先观察输出，再决定下一步。"
+answers = ["BEGIN;"]
+
+[[commands]]
+id = "shared-6f5a7ebd1ef5b77f"
+command = "SELECT id, status FROM orders WHERE id = 42 FOR UPDATE;"
+summary = "请跟打，锁定并再次查看目标行。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "SELECT id, status FROM orders WHERE id = 42 FOR UPDATE;"
+desc = "请跟打，锁定并再次查看目标行。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，锁定并再次查看目标行。先观察输出，再决定下一步。"
+answers = ["SELECT id, status FROM orders WHERE id = 42 FOR UPDATE;"]
+
+[[commands]]
+id = "shared-e89b54bfc4bc93ce"
+command = "UPDATE orders SET status = 'reviewed' WHERE id = 42 AND status = 'pending' RETURNING id, status;"
+summary = "请跟打，修改并返回受影响记录。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "UPDATE orders SET status = 'reviewed' WHERE id = 42 AND status = 'pending' RETURNING id, status;"
+desc = "请跟打，修改并返回受影响记录。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，修改并返回受影响记录。先观察输出，再决定下一步。"
+answers = ["UPDATE orders SET status = 'reviewed' WHERE id = 42 AND status = 'pending' RETURNING id, status;"]
+
+[[commands]]
+id = "shared-9be868b5fc7744c6"
+command = "ROLLBACK;"
+summary = "请跟打，回滚第一次演练。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "ROLLBACK;"
+desc = "请跟打，回滚第一次演练。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，回滚第一次演练。先观察输出，再决定下一步。"
+answers = ["ROLLBACK;"]
+
+[[commands]]
+id = "shared-2db35aa37c4005aa"
+command = "COMMIT;"
+summary = "请跟打，提交事务。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "COMMIT;"
+desc = "请跟打，提交事务。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，提交事务。先观察输出，再决定下一步。"
+answers = ["COMMIT;"]
+
+[[commands]]
+id = "shared-2971265edc5c9d0b"
+command = "mkdir -p backups"
+summary = "请跟打，准备备份目录。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "mkdir -p backups"
+desc = "请跟打，准备备份目录。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，准备备份目录。先观察输出，再决定下一步。"
+answers = ["mkdir -p backups"]
+
+[[commands]]
+id = "shared-601f99ecfd02f65f"
+command = "chmod 700 backups"
+summary = "请跟打，限制备份目录权限。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "chmod 700 backups"
+desc = "请跟打，限制备份目录权限。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，限制备份目录权限。先观察输出，再决定下一步。"
+answers = ["chmod 700 backups"]
+
+[[commands]]
+id = "shared-75c2c60707dde354"
+command = "docker compose exec -T db pg_dump -U app -d app -Fc > backups/app.dump"
+summary = "请跟打，导出 custom 格式数据库。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "docker compose exec -T db pg_dump -U app -d app -Fc > backups/app.dump"
+desc = "请跟打，导出 custom 格式数据库。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，导出 custom 格式数据库。先观察输出，再决定下一步。"
+answers = ["docker compose exec -T db pg_dump -U app -d app -Fc > backups/app.dump"]
+
+[[commands]]
+id = "shared-8ff78fad4a9bfcdc"
+command = "sha256sum backups/app.dump > backups/app.dump.sha256"
+summary = "请跟打，记录备份校验值。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sha256sum backups/app.dump > backups/app.dump.sha256"
+desc = "请跟打，记录备份校验值。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，记录备份校验值。先观察输出，再决定下一步。"
+answers = ["sha256sum backups/app.dump > backups/app.dump.sha256"]
+
+[[commands]]
+id = "shared-39e6e249be6c70a1"
+command = "docker compose exec -T db pg_restore --list < backups/app.dump"
+summary = "请跟打，检查归档目录。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "docker compose exec -T db pg_restore --list < backups/app.dump"
+desc = "请跟打，检查归档目录。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查归档目录。先观察输出，再决定下一步。"
+answers = ["docker compose exec -T db pg_restore --list < backups/app.dump"]
+
+[[commands]]
+id = "shared-f043b5902bc9d8d9"
+command = "docker compose exec db createdb -U app app_restore"
+summary = "请跟打，创建独立恢复库。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "docker compose exec db createdb -U app app_restore"
+desc = "请跟打，创建独立恢复库。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，创建独立恢复库。先观察输出，再决定下一步。"
+answers = ["docker compose exec db createdb -U app app_restore"]
+
+[[commands]]
+id = "shared-1b37c6bd0a6e74e3"
+command = "docker compose exec -T db pg_restore -U app -d app_restore --no-owner --exit-on-error < backups/app.dump"
+summary = "请跟打，恢复到隔离数据库。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "docker compose exec -T db pg_restore -U app -d app_restore --no-owner --exit-on-error < backups/app.dump"
+desc = "请跟打，恢复到隔离数据库。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，恢复到隔离数据库。先观察输出，再决定下一步。"
+answers = ["docker compose exec -T db pg_restore -U app -d app_restore --no-owner --exit-on-error < backups/app.dump"]
+
+[[commands]]
+id = "shared-e04ef273166e4d29"
+command = "docker compose exec db psql -U app -d app_restore -c 'SELECT count(*) FROM orders;'"
+summary = "请跟打，比较恢复库记录数。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "docker compose exec db psql -U app -d app_restore -c 'SELECT count(*) FROM orders;'"
+desc = "请跟打，比较恢复库记录数。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，比较恢复库记录数。先观察输出，再决定下一步。"
+answers = ["docker compose exec db psql -U app -d app_restore -c 'SELECT count(*) FROM orders;'"]
+
+[[commands]]
+id = "shared-e08a18b5873d8c63"
+command = "docker compose exec db psql -U app -d app_restore -c 'SELECT id, status FROM orders WHERE id = 42;'"
+summary = "请跟打，查询恢复的关键记录。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "docker compose exec db psql -U app -d app_restore -c 'SELECT id, status FROM orders WHERE id = 42;'"
+desc = "请跟打，查询恢复的关键记录。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查询恢复的关键记录。先观察输出，再决定下一步。"
+answers = ["docker compose exec db psql -U app -d app_restore -c 'SELECT id, status FROM orders WHERE id = 42;'"]
+
+[[commands]]
+id = "shared-5ccfe2ec508188c2"
+command = "sha256sum -c backups/app.dump.sha256"
+summary = "请跟打，验证复制后的校验值。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sha256sum -c backups/app.dump.sha256"
+desc = "请跟打，验证复制后的校验值。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，验证复制后的校验值。先观察输出，再决定下一步。"
+answers = ["sha256sum -c backups/app.dump.sha256"]
+
+[[commands]]
+id = "shared-91424cf7d6c5b879"
+command = "df -h /var/lib/orders"
+summary = "请跟打，查看文件系统容量。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "df -h /var/lib/orders"
+desc = "请跟打，查看文件系统容量。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看文件系统容量。先观察输出，再决定下一步。"
+answers = ["df -h /var/lib/orders"]
+
+[[commands]]
+id = "shared-f1aac1b28cb8455a"
+command = "df -i /var/lib/orders"
+summary = "请跟打，查看 inode 使用率。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "df -i /var/lib/orders"
+desc = "请跟打，查看 inode 使用率。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看 inode 使用率。先观察输出，再决定下一步。"
+answers = ["df -i /var/lib/orders"]
+
+[[commands]]
+id = "shared-875d4c068c4a4792"
+command = "sudo du --inodes -x -d 2 /var/lib/orders"
+summary = "请跟打，比较目录文件数量。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo du --inodes -x -d 2 /var/lib/orders"
+desc = "请跟打，比较目录文件数量。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，比较目录文件数量。先观察输出，再决定下一步。"
+answers = ["sudo du --inodes -x -d 2 /var/lib/orders"]
+
+[[commands]]
+id = "shared-e913b3928abff57f"
+command = "systemctl status orders-session-cleanup.timer --no-pager"
+summary = "请跟打，检查缓存生成服务。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "systemctl status orders-session-cleanup.timer --no-pager"
+desc = "请跟打，检查缓存生成服务。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查缓存生成服务。先观察输出，再决定下一步。"
+answers = ["systemctl status orders-session-cleanup.timer --no-pager"]
+
+[[commands]]
+id = "shared-35b53216b2667c3a"
+command = "sudo find /var/lib/orders/cache/sessions -xdev -type f -mmin +1440 -print -quit"
+summary = "请跟打，预览符合过期条件的文件。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo find /var/lib/orders/cache/sessions -xdev -type f -mmin +1440 -print -quit"
+desc = "请跟打，预览符合过期条件的文件。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，预览符合过期条件的文件。先观察输出，再决定下一步。"
+answers = ["sudo find /var/lib/orders/cache/sessions -xdev -type f -mmin +1440 -print -quit"]
+
+[[commands]]
+id = "shared-96bb001e12880642"
+command = "sudo find /var/lib/orders/cache/sessions -xdev -type f -mmin +1440 -printf '.' | wc -c"
+summary = "请跟打，统计可清理数量。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo find /var/lib/orders/cache/sessions -xdev -type f -mmin +1440 -printf '.' | wc -c"
+desc = "请跟打，统计可清理数量。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，统计可清理数量。先观察输出，再决定下一步。"
+answers = ["sudo find /var/lib/orders/cache/sessions -xdev -type f -mmin +1440 -printf '.' | wc -c"]
+
+[[commands]]
+id = "shared-9b2bf8f525a972b2"
+command = "sudo find /var/lib/orders/cache/sessions -xdev -type f -mmin +1440 -delete"
+summary = "请跟打，清理已确认过期缓存。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo find /var/lib/orders/cache/sessions -xdev -type f -mmin +1440 -delete"
+desc = "请跟打，清理已确认过期缓存。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，清理已确认过期缓存。先观察输出，再决定下一步。"
+answers = ["sudo find /var/lib/orders/cache/sessions -xdev -type f -mmin +1440 -delete"]
+
+[[commands]]
+id = "shared-5283882915c823b6"
+command = "sudo systemctl enable --now orders-session-cleanup.timer"
+summary = "请跟打，恢复清理定时器。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo systemctl enable --now orders-session-cleanup.timer"
+desc = "请跟打，恢复清理定时器。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，恢复清理定时器。先观察输出，再决定下一步。"
+answers = ["sudo systemctl enable --now orders-session-cleanup.timer"]
+
+[[commands]]
+id = "shared-edfdf7c499579fef"
+command = "nproc"
+summary = "请跟打，查看逻辑 CPU 数量。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "nproc"
+desc = "请跟打，查看逻辑 CPU 数量。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看逻辑 CPU 数量。先观察输出，再决定下一步。"
+answers = ["nproc"]
+
+[[commands]]
+id = "shared-3a8a0d83a6cc0903"
+command = "ps -eo pid,comm,%cpu,%mem,rss,args --sort=-rss"
+summary = "请跟打，按内存占用排列进程。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "ps -eo pid,comm,%cpu,%mem,rss,args --sort=-rss"
+desc = "请跟打，按内存占用排列进程。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，按内存占用排列进程。先观察输出，再决定下一步。"
+answers = ["ps -eo pid,comm,%cpu,%mem,rss,args --sort=-rss"]
+
+[[commands]]
+id = "shared-b8b6d75954d6136d"
+command = "journalctl -k --since=-1h --grep='oom|Out of memory|Killed process'"
+summary = "请跟打，查看历史 OOM 事件。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "journalctl -k --since=-1h --grep='oom|Out of memory|Killed process'"
+desc = "请跟打，查看历史 OOM 事件。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看历史 OOM 事件。先观察输出，再决定下一步。"
+answers = ["journalctl -k --since=-1h --grep='oom|Out of memory|Killed process'"]
+
+[[commands]]
+id = "shared-464c6452ee0c88f4"
+command = "systemctl status 3300 --no-pager"
+summary = "请跟打，确认任务管理来源。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "systemctl status 3300 --no-pager"
+desc = "请跟打，确认任务管理来源。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，确认任务管理来源。先观察输出，再决定下一步。"
+answers = ["systemctl status 3300 --no-pager"]
+
+[[commands]]
+id = "shared-959e0758d285396d"
+command = "journalctl -u report-export -n 10 --no-pager"
+summary = "请跟打，检查报表最近日志。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "journalctl -u report-export -n 10 --no-pager"
+desc = "请跟打，检查报表最近日志。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查报表最近日志。先观察输出，再决定下一步。"
+answers = ["journalctl -u report-export -n 10 --no-pager"]
+
+[[commands]]
+id = "shared-ac3dddfb05731fe6"
+command = "journalctl -u orders-api -n 30 --no-pager"
+summary = "请跟打，读取服务错误日志。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "journalctl -u orders-api -n 30 --no-pager"
+desc = "请跟打，读取服务错误日志。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，读取服务错误日志。先观察输出，再决定下一步。"
+answers = ["journalctl -u orders-api -n 30 --no-pager"]
+
+[[commands]]
+id = "shared-9634992afe98ee03"
+command = "systemctl cat orders-api"
+summary = "请跟打，查看完整服务定义。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "systemctl cat orders-api"
+desc = "请跟打，查看完整服务定义。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看完整服务定义。先观察输出，再决定下一步。"
+answers = ["systemctl cat orders-api"]
+
+[[commands]]
+id = "shared-0cf01edc570abaf8"
+command = "sudo ls -l /etc/orders/api.env"
+summary = "请跟打，确认文件确实缺失。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo ls -l /etc/orders/api.env"
+desc = "请跟打，确认文件确实缺失。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，确认文件确实缺失。先观察输出，再决定下一步。"
+answers = ["sudo ls -l /etc/orders/api.env"]
+
+[[commands]]
+id = "shared-2dc4e99db138e7eb"
+command = "sudo install -m 0640 -o root -g orders /opt/orders/api.env.example /etc/orders/api.env"
+summary = "请跟打，安装受限权限配置模板。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo install -m 0640 -o root -g orders /opt/orders/api.env.example /etc/orders/api.env"
+desc = "请跟打，安装受限权限配置模板。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，安装受限权限配置模板。先观察输出，再决定下一步。"
+answers = ["sudo install -m 0640 -o root -g orders /opt/orders/api.env.example /etc/orders/api.env"]
+
+[[commands]]
+id = "shared-32641cc16262b0fd"
+command = "sudo cat /etc/orders/api.env"
+summary = "请跟打，查看应用必需变量。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo cat /etc/orders/api.env"
+desc = "请跟打，查看应用必需变量。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看应用必需变量。先观察输出，再决定下一步。"
+answers = ["sudo cat /etc/orders/api.env"]
+
+[[commands]]
+id = "shared-5263aac8c0aea9b9"
+command = "sudo systemd-analyze verify /etc/systemd/system/orders-api.service"
+summary = "请跟打，检查 unit 定义有效性。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo systemd-analyze verify /etc/systemd/system/orders-api.service"
+desc = "请跟打，检查 unit 定义有效性。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查 unit 定义有效性。先观察输出，再决定下一步。"
+answers = ["sudo systemd-analyze verify /etc/systemd/system/orders-api.service"]
+
+[[commands]]
+id = "shared-67ccfcf145e4682b"
+command = "sudo systemctl reset-failed orders-api"
+summary = "请跟打，清除失败限流。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo systemctl reset-failed orders-api"
+desc = "请跟打，清除失败限流。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，清除失败限流。先观察输出，再决定下一步。"
+answers = ["sudo systemctl reset-failed orders-api"]
+
+[[commands]]
+id = "shared-c8ebe8c039db9504"
+command = "systemctl show orders-api -p ActiveState -p NRestarts"
+summary = "请跟打，检查服务已稳定启动。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "systemctl show orders-api -p ActiveState -p NRestarts"
+desc = "请跟打，检查服务已稳定启动。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查服务已稳定启动。先观察输出，再决定下一步。"
+answers = ["systemctl show orders-api -p ActiveState -p NRestarts"]
+
+[[commands]]
+id = "shared-d10a90d89eb6d751"
+command = "systemctl is-active cron"
+summary = "请跟打，检查 cron 是否运行。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "systemctl is-active cron"
+desc = "请跟打，检查 cron 是否运行。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查 cron 是否运行。先观察输出，再决定下一步。"
+answers = ["systemctl is-active cron"]
+
+[[commands]]
+id = "shared-78e5ded47ec025be"
+command = "sudo cat /etc/cron.d/orders-backup"
+summary = "请跟打，查看系统任务文件。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo cat /etc/cron.d/orders-backup"
+desc = "请跟打，查看系统任务文件。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看系统任务文件。先观察输出，再决定下一步。"
+answers = ["sudo cat /etc/cron.d/orders-backup"]
+
+[[commands]]
+id = "shared-b885050c8ab0966c"
+command = "journalctl -u cron --since=today --no-pager"
+summary = "请跟打，查询 cron 日志。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "journalctl -u cron --since=today --no-pager"
+desc = "请跟打，查询 cron 日志。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查询 cron 日志。先观察输出，再决定下一步。"
+answers = ["journalctl -u cron --since=today --no-pager"]
+
+[[commands]]
+id = "shared-d370d807b7b4a6e4"
+command = "namei -l /usr/local/bin/orders-backup"
+summary = "请跟打，检查路径权限链。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "namei -l /usr/local/bin/orders-backup"
+desc = "请跟打，检查路径权限链。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查路径权限链。先观察输出，再决定下一步。"
+answers = ["namei -l /usr/local/bin/orders-backup"]
+
+[[commands]]
+id = "shared-8d63e92434c54b00"
+command = "sudo cat /usr/local/bin/orders-backup"
+summary = "请跟打，读取备份脚本。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo cat /usr/local/bin/orders-backup"
+desc = "请跟打，读取备份脚本。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，读取备份脚本。先观察输出，再决定下一步。"
+answers = ["sudo cat /usr/local/bin/orders-backup"]
+
+[[commands]]
+id = "shared-aba7653c9e469569"
+command = "sudo nano /usr/local/bin/orders-backup"
+summary = "请跟打，修正脚本输出为绝对路径。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo nano /usr/local/bin/orders-backup"
+desc = "请跟打，修正脚本输出为绝对路径。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，修正脚本输出为绝对路径。先观察输出，再决定下一步。"
+answers = ["sudo nano /usr/local/bin/orders-backup"]
+
+[[commands]]
+id = "shared-5b635219e03d9ca3"
+command = "sudo install -d -m 0700 -o backup -g backup /var/backups/orders"
+summary = "请跟打，准备备份目录。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo install -d -m 0700 -o backup -g backup /var/backups/orders"
+desc = "请跟打，准备备份目录。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，准备备份目录。先观察输出，再决定下一步。"
+answers = ["sudo install -d -m 0700 -o backup -g backup /var/backups/orders"]
+
+[[commands]]
+id = "shared-24a8ea4eb9c6e639"
+command = "sudo chmod 750 /usr/local/bin/orders-backup"
+summary = "请跟打，授予预期执行权限。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo chmod 750 /usr/local/bin/orders-backup"
+desc = "请跟打，授予预期执行权限。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，授予预期执行权限。先观察输出，再决定下一步。"
+answers = ["sudo chmod 750 /usr/local/bin/orders-backup"]
+
+[[commands]]
+id = "shared-d204d3969eb01999"
+command = "sudo -u backup /usr/local/bin/orders-backup"
+summary = "请跟打，以实际任务身份验证。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo -u backup /usr/local/bin/orders-backup"
+desc = "请跟打，以实际任务身份验证。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，以实际任务身份验证。先观察输出，再决定下一步。"
+answers = ["sudo -u backup /usr/local/bin/orders-backup"]
+
+[[commands]]
+id = "shared-c630b1764697564d"
+command = "sudo ls -lh /var/backups/orders/app.dump"
+summary = "请跟打，检查新备份文件。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo ls -lh /var/backups/orders/app.dump"
+desc = "请跟打，检查新备份文件。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，检查新备份文件。先观察输出，再决定下一步。"
+answers = ["sudo ls -lh /var/backups/orders/app.dump"]
+
+[[commands]]
+id = "shared-7a56d6baeaedff4a"
+command = "ls -lah /srv/site"
+summary = "请跟打，查看当前目录与文件。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "ls -lah /srv/site"
+desc = "请跟打，查看当前目录与文件。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，查看当前目录与文件。先观察输出，再决定下一步。"
+answers = ["ls -lah /srv/site"]
+
+[[commands]]
+id = "shared-e55bdbe24059a63c"
+command = "sudo cp -a /srv/site /srv/site.before-restore"
+summary = "请跟打，保全当前现场。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo cp -a /srv/site /srv/site.before-restore"
+desc = "请跟打，保全当前现场。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，保全当前现场。先观察输出，再决定下一步。"
+answers = ["sudo cp -a /srv/site /srv/site.before-restore"]
+
+[[commands]]
+id = "shared-6c52db37648bd59d"
+command = "sha256sum -c /mnt/backup/site-20260905/SHA256SUMS"
+summary = "请跟打，验证备份校验清单。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sha256sum -c /mnt/backup/site-20260905/SHA256SUMS"
+desc = "请跟打，验证备份校验清单。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，验证备份校验清单。先观察输出，再决定下一步。"
+answers = ["sha256sum -c /mnt/backup/site-20260905/SHA256SUMS"]
+
+[[commands]]
+id = "shared-242f252cdb652b21"
+command = "sudo mkdir -p /srv/site.restore"
+summary = "请跟打，创建暂存恢复目录。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo mkdir -p /srv/site.restore"
+desc = "请跟打，创建暂存恢复目录。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，创建暂存恢复目录。先观察输出，再决定下一步。"
+answers = ["sudo mkdir -p /srv/site.restore"]
+
+[[commands]]
+id = "shared-faef19270dc132aa"
+command = "sudo rsync -ain --exclude=SHA256SUMS /mnt/backup/site-20260905/ /srv/site.restore/"
+summary = "请跟打，预览复制范围。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo rsync -ain --exclude=SHA256SUMS /mnt/backup/site-20260905/ /srv/site.restore/"
+desc = "请跟打，预览复制范围。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，预览复制范围。先观察输出，再决定下一步。"
+answers = ["sudo rsync -ain --exclude=SHA256SUMS /mnt/backup/site-20260905/ /srv/site.restore/"]
+
+[[commands]]
+id = "shared-ce4f570d11599209"
+command = "sudo rsync -a --exclude=SHA256SUMS /mnt/backup/site-20260905/ /srv/site.restore/"
+summary = "请跟打，恢复文件到暂存区。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo rsync -a --exclude=SHA256SUMS /mnt/backup/site-20260905/ /srv/site.restore/"
+desc = "请跟打，恢复文件到暂存区。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，恢复文件到暂存区。先观察输出，再决定下一步。"
+answers = ["sudo rsync -a --exclude=SHA256SUMS /mnt/backup/site-20260905/ /srv/site.restore/"]
+
+[[commands]]
+id = "shared-8fa877591d181d32"
+command = "python3 -m json.tool /srv/site.restore/config.json"
+summary = "请跟打，验证恢复配置可解析。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "python3 -m json.tool /srv/site.restore/config.json"
+desc = "请跟打，验证恢复配置可解析。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，验证恢复配置可解析。先观察输出，再决定下一步。"
+answers = ["python3 -m json.tool /srv/site.restore/config.json"]
+
+[[commands]]
+id = "shared-b96077294bfe43d8"
+command = "sudo mv /srv/site /srv/site.failed"
+summary = "请跟打，移开当前站点目录。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo mv /srv/site /srv/site.failed"
+desc = "请跟打，移开当前站点目录。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，移开当前站点目录。先观察输出，再决定下一步。"
+answers = ["sudo mv /srv/site /srv/site.failed"]
+
+[[commands]]
+id = "shared-9b6f616af22e5b08"
+command = "sudo mv /srv/site.restore /srv/site"
+summary = "请跟打，切入已验证文件。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo mv /srv/site.restore /srv/site"
+desc = "请跟打，切入已验证文件。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，切入已验证文件。先观察输出，再决定下一步。"
+answers = ["sudo mv /srv/site.restore /srv/site"]
+
+[[commands]]
+id = "shared-32ab079309651832"
+command = "curl -fsS https://www.example.test/ | head -n 3"
+summary = "请跟打，校验站点内容。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "curl -fsS https://www.example.test/ | head -n 3"
+desc = "请跟打，校验站点内容。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，校验站点内容。先观察输出，再决定下一步。"
+answers = ["curl -fsS https://www.example.test/ | head -n 3"]
+
+[[commands]]
+id = "shared-7cdc66f094a5b8cd"
+command = "sudo diff -qr --exclude=SHA256SUMS /mnt/backup/site-20260905 /srv/site"
+summary = "请跟打，比较恢复版本与备份。先观察输出，再决定下一步。"
+
+[[commands.tokens]]
+text = "sudo diff -qr --exclude=SHA256SUMS /mnt/backup/site-20260905 /srv/site"
+desc = "请跟打，比较恢复版本与备份。先观察输出，再决定下一步。"
+
+[commands.dictation]
+prompt = "请跟打，比较恢复版本与备份。先观察输出，再决定下一步。"
+answers = ["sudo diff -qr --exclude=SHA256SUMS /mnt/backup/site-20260905 /srv/site"]
+
+[[commands]]
+id = "shared-af0ddb3670ba0dc1"
+command = "archive=$(mktemp ./backup-XXXXXX.tar.gz)"
+summary = "创建唯一的 gzip 归档路径并保存为 archive"
+
+[[commands.tokens]]
+text = "archive=$(mktemp ./backup-XXXXXX.tar.gz)"
+desc = "创建唯一的 gzip 归档路径并保存为 archive"
+
+[commands.dictation]
+prompt = "创建唯一的 gzip 归档路径并保存为 archive"
+answers = ["archive=$(mktemp ./backup-XXXXXX.tar.gz)"]
+
+[[commands]]
+id = "shared-030f8805afa2932c"
+command = "tar -czf \"$archive\" project"
+summary = "将 project 目录打包压缩到 archive 指定文件"
+
+[[commands.tokens]]
+text = "tar -czf \"$archive\" project"
+desc = "将 project 目录打包压缩到 archive 指定文件"
+
+[commands.dictation]
+prompt = "将 project 目录打包压缩到 archive 指定文件"
+answers = ["tar -czf \"$archive\" project"]
+
+[[commands]]
+id = "shared-f45fd14eb1aa89fd"
+command = "printf '已创建并检查：%s\\n' \"$archive\""
+summary = "打印刚创建的归档路径供后续检查"
+
+[[commands.tokens]]
+text = "printf '已创建并检查：%s\\n' \"$archive\""
+desc = "打印刚创建的归档路径供后续检查"
+
+[commands.dictation]
+prompt = "打印刚创建的归档路径供后续检查"
+answers = ["printf '已创建并检查：%s\\n' \"$archive\""]
+
+[[commands]]
+id = "shared-b915cf3a54538c59"
+command = "tar -tzf \"$archive\""
+summary = "列出刚创建的 gzip 归档以核对成员"
+
+[[commands.tokens]]
+text = "tar -tzf \"$archive\""
+desc = "列出刚创建的 gzip 归档以核对成员"
+
+[commands.dictation]
+prompt = "列出刚创建的 gzip 归档以核对成员"
+answers = ["tar -tzf \"$archive\""]
+
+[[commands]]
+id = "shared-f1fb58c8bea57911"
+command = "archive=$(mktemp ./etc-backup-XXXXXX.tar.gz)"
+summary = "为 etc 备份预留唯一归档文件并记录路径"
+
+[[commands.tokens]]
+text = "archive=$(mktemp ./etc-backup-XXXXXX.tar.gz)"
+desc = "为 etc 备份预留唯一归档文件并记录路径"
+
+[commands.dictation]
+prompt = "为 etc 备份预留唯一归档文件并记录路径"
+answers = ["archive=$(mktemp ./etc-backup-XXXXXX.tar.gz)"]
+
+[[commands]]
+id = "shared-625a10fca678fe8a"
+command = "sudo tar -czf \"$archive\" -C / etc"
+summary = "从根目录相对打包 etc 到指定备份文件"
+
+[[commands.tokens]]
+text = "sudo tar -czf \"$archive\" -C / etc"
+desc = "从根目录相对打包 etc 到指定备份文件"
+
+[commands.dictation]
+prompt = "从根目录相对打包 etc 到指定备份文件"
+answers = ["sudo tar -czf \"$archive\" -C / etc"]
+
+[[commands]]
+id = "shared-3b431a169335ab45"
+command = "printf '%s\\n' \"$archive\""
+summary = "打印本流程 archive 变量保存的归档路径"
+
+[[commands.tokens]]
+text = "printf '%s\\n' \"$archive\""
+desc = "打印本流程 archive 变量保存的归档路径"
+
+[commands.dictation]
+prompt = "打印本流程 archive 变量保存的归档路径"
+answers = ["printf '%s\\n' \"$archive\""]
+
+[[commands]]
+id = "shared-8b02cc88fea0e809"
+command = "output=$(mktemp ./index-XXXXXX.html)"
+summary = "预留唯一下载文件并保存到 output 变量"
+
+[[commands.tokens]]
+text = "output=$(mktemp ./index-XXXXXX.html)"
+desc = "预留唯一下载文件并保存到 output 变量"
+
+[commands.dictation]
+prompt = "预留唯一下载文件并保存到 output 变量"
+answers = ["output=$(mktemp ./index-XXXXXX.html)"]
+
+[[commands]]
+id = "shared-3218cba4f9f5b014"
+command = "wget -q -O \"$output\" https://example.com/"
+summary = "把教学 HTTPS 响应正文下载到 output 文件"
+
+[[commands.tokens]]
+text = "wget -q -O \"$output\" https://example.com/"
+desc = "把教学 HTTPS 响应正文下载到 output 文件"
+
+[commands.dictation]
+prompt = "把教学 HTTPS 响应正文下载到 output 文件"
+answers = ["wget -q -O \"$output\" https://example.com/"]
+
+[[commands]]
+id = "shared-d775942f9f051913"
+command = "head -n 5 \"$output\""
+summary = "读取刚下载文件的前五行检查响应内容"
+
+[[commands.tokens]]
+text = "head -n 5 \"$output\""
+desc = "读取刚下载文件的前五行检查响应内容"
+
+[commands.dictation]
+prompt = "读取刚下载文件的前五行检查响应内容"
+answers = ["head -n 5 \"$output\""]
+
+[[commands]]
+id = "shared-0ccdda4c86bbcc81"
+command = "archive=$(mktemp ./release-XXXXXX.tar.gz)"
+summary = "为发布包创建唯一归档路径"
+
+[[commands.tokens]]
+text = "archive=$(mktemp ./release-XXXXXX.tar.gz)"
+desc = "为发布包创建唯一归档路径"
+
+[commands.dictation]
+prompt = "为发布包创建唯一归档路径"
+answers = ["archive=$(mktemp ./release-XXXXXX.tar.gz)"]
+
+[[commands]]
+id = "shared-afb5020c245284ab"
+command = "tar czf \"$archive\" --exclude=.git --exclude=node_modules project"
+summary = "打包 project 并排除 Git 历史和依赖目录"
+
+[[commands.tokens]]
+text = "tar czf \"$archive\" --exclude=.git --exclude=node_modules project"
+desc = "打包 project 并排除 Git 历史和依赖目录"
+
+[commands.dictation]
+prompt = "打包 project 并排除 Git 历史和依赖目录"
+answers = ["tar czf \"$archive\" --exclude=.git --exclude=node_modules project"]
+
+[[commands]]
+id = "shared-3eb737ac04c0fa7e"
+command = "make clean"
+summary = "调用当前 Makefile 的 clean 目标清理构建产物"
+
+[[commands.tokens]]
+text = "make clean"
+desc = "调用当前 Makefile 的 clean 目标清理构建产物"
+
+[commands.dictation]
+prompt = "调用当前 Makefile 的 clean 目标清理构建产物"
+answers = ["make clean"]
+
+[[commands]]
+id = "shared-77053513dbdeb2fc"
+command = "make -j$(nproc)"
+summary = "按可用 CPU 数并行执行默认构建目标"
+
+[[commands.tokens]]
+text = "make -j$(nproc)"
+desc = "按可用 CPU 数并行执行默认构建目标"
+
+[commands.dictation]
+prompt = "按可用 CPU 数并行执行默认构建目标"
+answers = ["make -j$(nproc)"]
+
+[[commands]]
+id = "shared-07a719971dbc2f2d"
+command = "umask 077"
+summary = "将当前 shell 新建文件的权限掩码设为 077"
+
+[[commands.tokens]]
+text = "umask 077"
+desc = "将当前 shell 新建文件的权限掩码设为 077"
+
+[commands.dictation]
+prompt = "将当前 shell 新建文件的权限掩码设为 077"
+answers = ["umask 077"]
+
+[[commands]]
+id = "shared-7565efb68ccc3aa0"
+command = "key_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-deploy-key.XXXXXX\")"
+summary = "创建部署密钥专用的随机临时目录"
+
+[[commands.tokens]]
+text = "key_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-deploy-key.XXXXXX\")"
+desc = "创建部署密钥专用的随机临时目录"
+
+[commands.dictation]
+prompt = "创建部署密钥专用的随机临时目录"
+answers = ["key_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-deploy-key.XXXXXX\")"]
+
+[[commands]]
+id = "shared-1674d6da012a8e63"
+command = "chmod 700 \"$key_dir\""
+summary = "把刚创建的密钥目录限制为本人可访问"
+
+[[commands.tokens]]
+text = "chmod 700 \"$key_dir\""
+desc = "把刚创建的密钥目录限制为本人可访问"
+
+[commands.dictation]
+prompt = "把刚创建的密钥目录限制为本人可访问"
+answers = ["chmod 700 \"$key_dir\""]
+
+[[commands]]
+id = "shared-792e30445839a14d"
+command = "key=\"$key_dir/id_ed25519_deploy\""
+summary = "设置本次部署私钥文件的完整路径"
+
+[[commands.tokens]]
+text = "key=\"$key_dir/id_ed25519_deploy\""
+desc = "设置本次部署私钥文件的完整路径"
+
+[commands.dictation]
+prompt = "设置本次部署私钥文件的完整路径"
+answers = ["key=\"$key_dir/id_ed25519_deploy\""]
+
+[[commands]]
+id = "shared-6f5eb8ccaba69d32"
+command = "ssh-keygen -t ed25519 -f \"$key\" -C 'deploy@server'"
+summary = "在练习目录生成带部署用途注释的 Ed25519 密钥"
+
+[[commands.tokens]]
+text = "ssh-keygen -t ed25519 -f \"$key\" -C 'deploy@server'"
+desc = "在练习目录生成带部署用途注释的 Ed25519 密钥"
+
+[commands.dictation]
+prompt = "在练习目录生成带部署用途注释的 Ed25519 密钥"
+answers = ["ssh-keygen -t ed25519 -f \"$key\" -C 'deploy@server'"]
+
+[[commands]]
+id = "shared-772ced97fdc47c86"
+command = "printf 'Key directory: %s\\nPrivate key: %s\\nPublic key: %s\\n' \"$key_dir\" \"$key\" \"$key.pub\""
+summary = "显示本次生成密钥的目录、私钥和公钥路径"
+
+[[commands.tokens]]
+text = "printf 'Key directory: %s\\nPrivate key: %s\\nPublic key: %s\\n' \"$key_dir\" \"$key\" \"$key.pub\""
+desc = "显示本次生成密钥的目录、私钥和公钥路径"
+
+[commands.dictation]
+prompt = "显示本次生成密钥的目录、私钥和公钥路径"
+answers = ["printf 'Key directory: %s\\nPrivate key: %s\\nPublic key: %s\\n' \"$key_dir\" \"$key\" \"$key.pub\""]
+
+[[commands]]
+id = "shared-47616f5854c6d03e"
+command = "ssh-keygen -lf ~/.ssh/id_ed25519_deploy.pub"
+summary = "显示已有部署公钥的算法和 SHA256 指纹"
+
+[[commands.tokens]]
+text = "ssh-keygen -lf ~/.ssh/id_ed25519_deploy.pub"
+desc = "显示已有部署公钥的算法和 SHA256 指纹"
+
+[commands.dictation]
+prompt = "显示已有部署公钥的算法和 SHA256 指纹"
+answers = ["ssh-keygen -lf ~/.ssh/id_ed25519_deploy.pub"]
+
+[[commands]]
+id = "shared-2188450906e46d6c"
+command = "ssh-keyscan -t ed25519 example.com"
+summary = "读取目标服务器声明的 Ed25519 主机公钥"
+
+[[commands.tokens]]
+text = "ssh-keyscan -t ed25519 example.com"
+desc = "读取目标服务器声明的 Ed25519 主机公钥"
+
+[commands.dictation]
+prompt = "读取目标服务器声明的 Ed25519 主机公钥"
+answers = ["ssh-keyscan -t ed25519 example.com"]
+
+[[commands]]
+id = "shared-4137255ee0660d50"
+command = "ssh-copy-id -i ~/.ssh/id_ed25519_deploy.pub admin@example.com"
+summary = "把已核对的本地部署公钥安装到目标账号"
+
+[[commands.tokens]]
+text = "ssh-copy-id -i ~/.ssh/id_ed25519_deploy.pub admin@example.com"
+desc = "把已核对的本地部署公钥安装到目标账号"
+
+[commands.dictation]
+prompt = "把已核对的本地部署公钥安装到目标账号"
+answers = ["ssh-copy-id -i ~/.ssh/id_ed25519_deploy.pub admin@example.com"]
+
+[[commands]]
+id = "shared-569695b0533a207c"
+command = "archive=$(mktemp \"./backup-$(date +%F)-XXXXXX.tar.gz\")"
+summary = "创建带日期且不覆盖旧文件的归档路径"
+
+[[commands.tokens]]
+text = "archive=$(mktemp \"./backup-$(date +%F)-XXXXXX.tar.gz\")"
+desc = "创建带日期且不覆盖旧文件的归档路径"
+
+[commands.dictation]
+prompt = "创建带日期且不覆盖旧文件的归档路径"
+answers = ["archive=$(mktemp \"./backup-$(date +%F)-XXXXXX.tar.gz\")"]
+
+[[commands]]
+id = "shared-a17968f115b004cd"
+command = "tar czf \"$archive\" --newer-mtime='1 day ago' /srv/data"
+summary = "归档 /srv/data 中最近一天修改的文件"
+
+[[commands.tokens]]
+text = "tar czf \"$archive\" --newer-mtime='1 day ago' /srv/data"
+desc = "归档 /srv/data 中最近一天修改的文件"
+
+[commands.dictation]
+prompt = "归档 /srv/data 中最近一天修改的文件"
+answers = ["tar czf \"$archive\" --newer-mtime='1 day ago' /srv/data"]
+
+[[commands]]
+id = "shared-865fab195d9620e0"
+command = "dest=$(mktemp -d)"
+summary = "创建独立解压目录并保存为 dest"
+
+[[commands.tokens]]
+text = "dest=$(mktemp -d)"
+desc = "创建独立解压目录并保存为 dest"
+
+[commands.dictation]
+prompt = "创建独立解压目录并保存为 dest"
+answers = ["dest=$(mktemp -d)"]
+
+[[commands]]
+id = "shared-8995b0a9da991f09"
+command = "tar --extract --gzip --no-same-owner --no-same-permissions --file website.tar.gz --directory \"$dest\""
+summary = "把网站归档解压到新建暂存目录"
+
+[[commands.tokens]]
+text = "tar --extract --gzip --no-same-owner --no-same-permissions --file website.tar.gz --directory \"$dest\""
+desc = "把网站归档解压到新建暂存目录"
+
+[commands.dictation]
+prompt = "把网站归档解压到新建暂存目录"
+answers = ["tar --extract --gzip --no-same-owner --no-same-permissions --file website.tar.gz --directory \"$dest\""]
+
+[[commands]]
+id = "shared-084be21ed445ccc6"
+command = "find \"$dest\" -maxdepth 2 -type f"
+summary = "列出暂存目录两层内恢复出的普通文件"
+
+[[commands.tokens]]
+text = "find \"$dest\" -maxdepth 2 -type f"
+desc = "列出暂存目录两层内恢复出的普通文件"
+
+[commands.dictation]
+prompt = "列出暂存目录两层内恢复出的普通文件"
+answers = ["find \"$dest\" -maxdepth 2 -type f"]
+
+[[commands]]
+id = "shared-7496e4b814530db2"
+command = "practice_dir=$(mktemp -d)"
+summary = "创建本流程独占的临时练习目录"
+
+[[commands.tokens]]
+text = "practice_dir=$(mktemp -d)"
+desc = "创建本流程独占的临时练习目录"
+
+[commands.dictation]
+prompt = "创建本流程独占的临时练习目录"
+answers = ["practice_dir=$(mktemp -d)"]
+
+[[commands]]
+id = "shared-e09414932f8ea894"
+command = "chmod 700 \"$practice_dir\""
+summary = "限制本流程临时目录的访问权限为 700"
+
+[[commands.tokens]]
+text = "chmod 700 \"$practice_dir\""
+desc = "限制本流程临时目录的访问权限为 700"
+
+[commands.dictation]
+prompt = "限制本流程临时目录的访问权限为 700"
+answers = ["chmod 700 \"$practice_dir\""]
+
+[[commands]]
+id = "shared-48b9f12d8ec7b107"
+command = "mkdir -p \"$practice_dir/work/docs\""
+summary = "在临时目录中递归创建 work/docs"
+
+[[commands.tokens]]
+text = "mkdir -p \"$practice_dir/work/docs\""
+desc = "在临时目录中递归创建 work/docs"
+
+[commands.dictation]
+prompt = "在临时目录中递归创建 work/docs"
+answers = ["mkdir -p \"$practice_dir/work/docs\""]
+
+[[commands]]
+id = "shared-672d02fef33ec6fb"
+command = "touch \"$practice_dir/notes.txt\" \"$practice_dir/todo.txt\""
+summary = "在练习目录一次创建 notes.txt 和 todo.txt"
+
+[[commands.tokens]]
+text = "touch \"$practice_dir/notes.txt\" \"$practice_dir/todo.txt\""
+desc = "在练习目录一次创建 notes.txt 和 todo.txt"
+
+[commands.dictation]
+prompt = "在练习目录一次创建 notes.txt 和 todo.txt"
+answers = ["touch \"$practice_dir/notes.txt\" \"$practice_dir/todo.txt\""]
+
+[[commands]]
+id = "shared-ca27305e6faf230a"
+command = "mkdir -p \"$practice_dir/assets/icons\""
+summary = "建立含 icons 子目录的 assets 目录"
+
+[[commands.tokens]]
+text = "mkdir -p \"$practice_dir/assets/icons\""
+desc = "建立含 icons 子目录的 assets 目录"
+
+[commands.dictation]
+prompt = "建立含 icons 子目录的 assets 目录"
+answers = ["mkdir -p \"$practice_dir/assets/icons\""]
+
+[[commands]]
+id = "shared-14bc1febabde2795"
+command = "touch \"$practice_dir/assets/logo.png\""
+summary = "创建用于复制练习的空 logo.png 文件"
+
+[[commands.tokens]]
+text = "touch \"$practice_dir/assets/logo.png\""
+desc = "创建用于复制练习的空 logo.png 文件"
+
+[commands.dictation]
+prompt = "创建用于复制练习的空 logo.png 文件"
+answers = ["touch \"$practice_dir/assets/logo.png\""]
+
+[[commands]]
+id = "shared-84dc466223fd16e7"
+command = "cp -r \"$practice_dir/assets\" \"$practice_dir/assets-backup\""
+summary = "递归复制 assets 为新建的 assets-backup"
+
+[[commands.tokens]]
+text = "cp -r \"$practice_dir/assets\" \"$practice_dir/assets-backup\""
+desc = "递归复制 assets 为新建的 assets-backup"
+
+[commands.dictation]
+prompt = "递归复制 assets 为新建的 assets-backup"
+answers = ["cp -r \"$practice_dir/assets\" \"$practice_dir/assets-backup\""]
+
+[[commands]]
+id = "shared-259a60aec2d8f075"
+command = "cd \"$practice_dir\""
+summary = "进入本流程的临时练习目录"
+
+[[commands.tokens]]
+text = "cd \"$practice_dir\""
+desc = "进入本流程的临时练习目录"
+
+[commands.dictation]
+prompt = "进入本流程的临时练习目录"
+answers = ["cd \"$practice_dir\""]
+
+[[commands]]
+id = "shared-d77f078fe125f857"
+command = "mkdir backup"
+summary = "创建用于观察覆盖行为的 backup 目录"
+
+[[commands.tokens]]
+text = "mkdir backup"
+desc = "创建用于观察覆盖行为的 backup 目录"
+
+[commands.dictation]
+prompt = "创建用于观察覆盖行为的 backup 目录"
+answers = ["mkdir backup"]
+
+[[commands]]
+id = "shared-0bf30e7a65393b4f"
+command = "printf 'new\\n' > settings.ini"
+summary = "把新配置样例写入 settings.ini"
+
+[[commands.tokens]]
+text = "printf 'new\\n' > settings.ini"
+desc = "把新配置样例写入 settings.ini"
+
+[commands.dictation]
+prompt = "把新配置样例写入 settings.ini"
+answers = ["printf 'new\\n' > settings.ini"]
+
+[[commands]]
+id = "shared-3b05f2d7df78d65e"
+command = "printf 'old\\n' > backup/settings.ini"
+summary = "准备已经存在的旧备份配置"
+
+[[commands.tokens]]
+text = "printf 'old\\n' > backup/settings.ini"
+desc = "准备已经存在的旧备份配置"
+
+[commands.dictation]
+prompt = "准备已经存在的旧备份配置"
+answers = ["printf 'old\\n' > backup/settings.ini"]
+
+[[commands]]
+id = "shared-594d17a0e12cbe24"
+command = "cp -i settings.ini backup/settings.ini"
+summary = "复制配置前交互确认是否覆盖已有备份"
+
+[[commands.tokens]]
+text = "cp -i settings.ini backup/settings.ini"
+desc = "复制配置前交互确认是否覆盖已有备份"
+
+[commands.dictation]
+prompt = "复制配置前交互确认是否覆盖已有备份"
+answers = ["cp -i settings.ini backup/settings.ini"]
+
+[[commands]]
+id = "shared-e153ae4867ec6f40"
+command = "touch draft.md final.md"
+summary = "准备两个同目录的空 Markdown 文件"
+
+[[commands.tokens]]
+text = "touch draft.md final.md"
+desc = "准备两个同目录的空 Markdown 文件"
+
+[commands.dictation]
+prompt = "准备两个同目录的空 Markdown 文件"
+answers = ["touch draft.md final.md"]
+
+[[commands]]
+id = "shared-dd30501d7aec8dfd"
+command = "mv -i draft.md final.md"
+summary = "重命名 draft.md 前确认覆盖 final.md"
+
+[[commands.tokens]]
+text = "mv -i draft.md final.md"
+desc = "重命名 draft.md 前确认覆盖 final.md"
+
+[commands.dictation]
+prompt = "重命名 draft.md 前确认覆盖 final.md"
+answers = ["mv -i draft.md final.md"]
+
+[[commands]]
+id = "shared-c96f6dbdef5efc4c"
+command = "mkdir archive"
+summary = "创建报表归档目录"
+
+[[commands.tokens]]
+text = "mkdir archive"
+desc = "创建报表归档目录"
+
+[commands.dictation]
+prompt = "创建报表归档目录"
+answers = ["mkdir archive"]
+
+[[commands]]
+id = "shared-33cb67fb9465285e"
+command = "touch report.csv archive/report.csv"
+summary = "准备当前报表和同名归档文件"
+
+[[commands.tokens]]
+text = "touch report.csv archive/report.csv"
+desc = "准备当前报表和同名归档文件"
+
+[commands.dictation]
+prompt = "准备当前报表和同名归档文件"
+answers = ["touch report.csv archive/report.csv"]
+
+[[commands]]
+id = "shared-8716eacdf69ce64b"
+command = "mv -i report.csv archive/"
+summary = "把报表移入 archive 前确认同名覆盖"
+
+[[commands.tokens]]
+text = "mv -i report.csv archive/"
+desc = "把报表移入 archive 前确认同名覆盖"
+
+[commands.dictation]
+prompt = "把报表移入 archive 前确认同名覆盖"
+answers = ["mv -i report.csv archive/"]
+
+[[commands]]
+id = "shared-7ca7c58cfa7a2d41"
+command = "mkdir shared"
+summary = "创建符号链接将指向的 shared 目录"
+
+[[commands.tokens]]
+text = "mkdir shared"
+desc = "创建符号链接将指向的 shared 目录"
+
+[commands.dictation]
+prompt = "创建符号链接将指向的 shared 目录"
+answers = ["mkdir shared"]
+
+[[commands]]
+id = "shared-f0c9824a14e3f44a"
+command = "ln -s shared current"
+summary = "创建指向 shared 的相对符号链接 current"
+
+[[commands.tokens]]
+text = "ln -s shared current"
+desc = "创建指向 shared 的相对符号链接 current"
+
+[commands.dictation]
+prompt = "创建指向 shared 的相对符号链接 current"
+answers = ["ln -s shared current"]
+
+[[commands]]
+id = "shared-53a4a77e2d35886d"
+command = "printf 'current -> %s\\n' \"$(readlink current)\""
+summary = "读取 current 保存的链接文本并加标签显示"
+
+[[commands.tokens]]
+text = "printf 'current -> %s\\n' \"$(readlink current)\""
+desc = "读取 current 保存的链接文本并加标签显示"
+
+[commands.dictation]
+prompt = "读取 current 保存的链接文本并加标签显示"
+answers = ["printf 'current -> %s\\n' \"$(readlink current)\""]
+
+[[commands]]
+id = "shared-11cee6104286ed60"
+command = "resolved=$(readlink -f current)"
+summary = "解析 current 的真实绝对路径并存入 resolved"
+
+[[commands.tokens]]
+text = "resolved=$(readlink -f current)"
+desc = "解析 current 的真实绝对路径并存入 resolved"
+
+[commands.dictation]
+prompt = "解析 current 的真实绝对路径并存入 resolved"
+answers = ["resolved=$(readlink -f current)"]
+
+[[commands]]
+id = "shared-497c7e48567638b2"
+command = "printf '%s\\n' \"${resolved#\"$practice_dir\"/}\""
+summary = "去掉练习目录前缀后显示已解析目标"
+
+[[commands.tokens]]
+text = "printf '%s\\n' \"${resolved#\"$practice_dir\"/}\""
+desc = "去掉练习目录前缀后显示已解析目标"
+
+[commands.dictation]
+prompt = "去掉练习目录前缀后显示已解析目标"
+answers = ["printf '%s\\n' \"${resolved#\"$practice_dir\"/}\""]
+
+[[commands]]
+id = "shared-246355136e1b03ab"
+command = "rm -i current"
+summary = "确认后删除 current 链接本身"
+
+[[commands.tokens]]
+text = "rm -i current"
+desc = "确认后删除 current 链接本身"
+
+[commands.dictation]
+prompt = "确认后删除 current 链接本身"
+answers = ["rm -i current"]
+
+[[commands]]
+id = "shared-9555262d7c69c071"
+command = "printf 'mode=safe\\n' > settings.ini"
+summary = "写入用于元数据观察的 settings.ini"
+
+[[commands.tokens]]
+text = "printf 'mode=safe\\n' > settings.ini"
+desc = "写入用于元数据观察的 settings.ini"
+
+[commands.dictation]
+prompt = "写入用于元数据观察的 settings.ini"
+answers = ["printf 'mode=safe\\n' > settings.ini"]
+
+[[commands]]
+id = "shared-bdc8f8c9c385aa38"
+command = "stat -c '%F %a %s %n' settings.ini"
+summary = "按固定格式查看配置文件类型、权限和字节数"
+
+[[commands.tokens]]
+text = "stat -c '%F %a %s %n' settings.ini"
+desc = "按固定格式查看配置文件类型、权限和字节数"
+
+[commands.dictation]
+prompt = "按固定格式查看配置文件类型、权限和字节数"
+answers = ["stat -c '%F %a %s %n' settings.ini"]
+
+[[commands]]
+id = "shared-0ab6ecdeadb5b45b"
+command = "truncate -s 24K report.csv"
+summary = "创建逻辑大小为 24 KiB 的稀疏报表样例"
+
+[[commands.tokens]]
+text = "truncate -s 24K report.csv"
+desc = "创建逻辑大小为 24 KiB 的稀疏报表样例"
+
+[commands.dictation]
+prompt = "创建逻辑大小为 24 KiB 的稀疏报表样例"
+answers = ["truncate -s 24K report.csv"]
+
+[[commands]]
+id = "shared-20c43d6d354e457d"
+command = "stat -c '%n %s bytes' report.csv"
+summary = "用 stat 显示报表的精确逻辑字节数"
+
+[[commands.tokens]]
+text = "stat -c '%n %s bytes' report.csv"
+desc = "用 stat 显示报表的精确逻辑字节数"
+
+[commands.dictation]
+prompt = "用 stat 显示报表的精确逻辑字节数"
+answers = ["stat -c '%n %s bytes' report.csv"]
+
+[[commands]]
+id = "shared-dafa9930940c1617"
+command = "printf '#!/bin/sh\\nexit 0\\n' > run.sh"
+summary = "创建仅正常退出的 POSIX shell 脚本"
+
+[[commands.tokens]]
+text = "printf '#!/bin/sh\\nexit 0\\n' > run.sh"
+desc = "创建仅正常退出的 POSIX shell 脚本"
+
+[commands.dictation]
+prompt = "创建仅正常退出的 POSIX shell 脚本"
+answers = ["printf '#!/bin/sh\\nexit 0\\n' > run.sh"]
+
+[[commands]]
+id = "shared-7e8b68d500644b8d"
+command = "chmod 700 run.sh"
+summary = "仅允许本人读取、编辑并执行 run.sh"
+
+[[commands.tokens]]
+text = "chmod 700 run.sh"
+desc = "仅允许本人读取、编辑并执行 run.sh"
+
+[commands.dictation]
+prompt = "仅允许本人读取、编辑并执行 run.sh"
+answers = ["chmod 700 run.sh"]
+
+[[commands]]
+id = "shared-bdc2387893812b7e"
+command = "file run.sh"
+summary = "根据脚本内容识别 run.sh 的类型"
+
+[[commands.tokens]]
+text = "file run.sh"
+desc = "根据脚本内容识别 run.sh 的类型"
+
+[commands.dictation]
+prompt = "根据脚本内容识别 run.sh 的类型"
+answers = ["file run.sh"]
+
+[[commands]]
+id = "shared-771aef82862c4e95"
+command = "printf 'sample\\n' > download"
+summary = "创建没有扩展名的文本文件 download"
+
+[[commands.tokens]]
+text = "printf 'sample\\n' > download"
+desc = "创建没有扩展名的文本文件 download"
+
+[commands.dictation]
+prompt = "创建没有扩展名的文本文件 download"
+answers = ["printf 'sample\\n' > download"]
+
+[[commands]]
+id = "shared-78f0b7a92c6fb885"
+command = "file download"
+summary = "根据内容识别无扩展名文件 download"
+
+[[commands.tokens]]
+text = "file download"
+desc = "根据内容识别无扩展名文件 download"
+
+[commands.dictation]
+prompt = "根据内容识别无扩展名文件 download"
+answers = ["file download"]
+
+[[commands]]
+id = "shared-3c8ce716e15c790d"
+command = "mkdir -p archive assets/icons backup shared work/docs"
+summary = "准备多分支目录树供 tree 分层观察"
+
+[[commands.tokens]]
+text = "mkdir -p archive assets/icons backup shared work/docs"
+desc = "准备多分支目录树供 tree 分层观察"
+
+[commands.dictation]
+prompt = "准备多分支目录树供 tree 分层观察"
+answers = ["mkdir -p archive assets/icons backup shared work/docs"]
+
+[[commands]]
+id = "shared-c694a8ba5125c633"
+command = "touch archive/report.csv assets/logo.png backup/settings.ini settings.ini"
+summary = "在目录树四个位置创建空样例文件"
+
+[[commands.tokens]]
+text = "touch archive/report.csv assets/logo.png backup/settings.ini settings.ini"
+desc = "在目录树四个位置创建空样例文件"
+
+[commands.dictation]
+prompt = "在目录树四个位置创建空样例文件"
+answers = ["touch archive/report.csv assets/logo.png backup/settings.ini settings.ini"]
+
+[[commands]]
+id = "shared-749e4ab1dcadb716"
+command = "tree -L 2 ."
+summary = "显示当前练习目录两层以内的目录树"
+
+[[commands.tokens]]
+text = "tree -L 2 ."
+desc = "显示当前练习目录两层以内的目录树"
+
+[commands.dictation]
+prompt = "显示当前练习目录两层以内的目录树"
+answers = ["tree -L 2 ."]
+
+[[commands]]
+id = "shared-62350cef90e361c1"
+command = "mkdir empty"
+summary = "创建待删除的空目录 empty"
+
+[[commands.tokens]]
+text = "mkdir empty"
+desc = "创建待删除的空目录 empty"
+
+[commands.dictation]
+prompt = "创建待删除的空目录 empty"
+answers = ["mkdir empty"]
+
+[[commands]]
+id = "shared-fe6a61ccc6675062"
+command = "rmdir empty"
+summary = "删除已确认没有内容的 empty 目录"
+
+[[commands.tokens]]
+text = "rmdir empty"
+desc = "删除已确认没有内容的 empty 目录"
+
+[commands.dictation]
+prompt = "删除已确认没有内容的 empty 目录"
+answers = ["rmdir empty"]
+
+[[commands]]
+id = "shared-12974c1cb37bc78a"
+command = "mkdir trash-review"
+summary = "创建用于逐项确认删除的 trash-review 目录"
+
+[[commands.tokens]]
+text = "mkdir trash-review"
+desc = "创建用于逐项确认删除的 trash-review 目录"
+
+[commands.dictation]
+prompt = "创建用于逐项确认删除的 trash-review 目录"
+answers = ["mkdir trash-review"]
+
+[[commands]]
+id = "shared-8e14878a3cdc216c"
+command = "touch trash-review/old.log"
+summary = "在练习删除目录内创建空 old.log"
+
+[[commands.tokens]]
+text = "touch trash-review/old.log"
+desc = "在练习删除目录内创建空 old.log"
+
+[commands.dictation]
+prompt = "在练习删除目录内创建空 old.log"
+answers = ["touch trash-review/old.log"]
+
+[[commands]]
+id = "shared-1099d76e2420945d"
+command = "rm -ri trash-review"
+summary = "逐项确认后递归删除本流程的练习目录"
+
+[[commands.tokens]]
+text = "rm -ri trash-review"
+desc = "逐项确认后递归删除本流程的练习目录"
+
+[commands.dictation]
+prompt = "逐项确认后递归删除本流程的练习目录"
+answers = ["rm -ri trash-review"]
+
+[[commands]]
+id = "shared-ab48712f566e6c31"
+command = "mkdir -p disposable-cache/thumbnails"
+summary = "创建只含缩略图子目录的可丢弃缓存样例"
+
+[[commands.tokens]]
+text = "mkdir -p disposable-cache/thumbnails"
+desc = "创建只含缩略图子目录的可丢弃缓存样例"
+
+[commands.dictation]
+prompt = "创建只含缩略图子目录的可丢弃缓存样例"
+answers = ["mkdir -p disposable-cache/thumbnails"]
+
+[[commands]]
+id = "shared-2728f55d64edee48"
+command = "touch disposable-cache/.keep"
+summary = "在练习缓存中创建隐藏占位文件 .keep"
+
+[[commands.tokens]]
+text = "touch disposable-cache/.keep"
+desc = "在练习缓存中创建隐藏占位文件 .keep"
+
+[commands.dictation]
+prompt = "在练习缓存中创建隐藏占位文件 .keep"
+answers = ["touch disposable-cache/.keep"]
+
+[[commands]]
+id = "shared-d2f132ef5c4a30c8"
+command = "find disposable-cache -mindepth 1 -maxdepth 1 -printf '%f\\n' | sort"
+summary = "排序预览缓存第一层内容并包含隐藏文件"
+
+[[commands.tokens]]
+text = "find disposable-cache -mindepth 1 -maxdepth 1 -printf '%f\\n' | sort"
+desc = "排序预览缓存第一层内容并包含隐藏文件"
+
+[commands.dictation]
+prompt = "排序预览缓存第一层内容并包含隐藏文件"
+answers = ["find disposable-cache -mindepth 1 -maxdepth 1 -printf '%f\\n' | sort"]
+
+[[commands]]
+id = "shared-35a65ecfba87449c"
+command = "echo 'mode=production' > \"$practice_dir/app.conf\""
+summary = "用覆盖重定向把运行模式写入练习配置"
+
+[[commands.tokens]]
+text = "echo 'mode=production' > \"$practice_dir/app.conf\""
+desc = "用覆盖重定向把运行模式写入练习配置"
+
+[commands.dictation]
+prompt = "用覆盖重定向把运行模式写入练习配置"
+answers = ["echo 'mode=production' > \"$practice_dir/app.conf\""]
+
+[[commands]]
+id = "shared-c3de20e77a2afe0b"
+command = "printf 'deployment started\\n' > \"$practice_dir/deploy.log\""
+summary = "创建带部署开始标记的日志文件"
+
+[[commands.tokens]]
+text = "printf 'deployment started\\n' > \"$practice_dir/deploy.log\""
+desc = "创建带部署开始标记的日志文件"
+
+[commands.dictation]
+prompt = "创建带部署开始标记的日志文件"
+answers = ["printf 'deployment started\\n' > \"$practice_dir/deploy.log\""]
+
+[[commands]]
+id = "shared-8e16c4a94f2fea47"
+command = "date >> \"$practice_dir/deploy.log\""
+summary = "将当前日期追加到已有部署日志"
+
+[[commands.tokens]]
+text = "date >> \"$practice_dir/deploy.log\""
+desc = "将当前日期追加到已有部署日志"
+
+[commands.dictation]
+prompt = "将当前日期追加到已有部署日志"
+answers = ["date >> \"$practice_dir/deploy.log\""]
+
+[[commands]]
+id = "shared-de2a69f07312c60d"
+command = "grep 'ERROR' missing.log 2>grep-errors.log"
+summary = "查找缺失日志并把错误消息单独保存"
+
+[[commands.tokens]]
+text = "grep 'ERROR' missing.log 2>grep-errors.log"
+desc = "查找缺失日志并把错误消息单独保存"
+
+[commands.dictation]
+prompt = "查找缺失日志并把错误消息单独保存"
+answers = ["grep 'ERROR' missing.log 2>grep-errors.log"]
+
+[[commands]]
+id = "shared-f8c5ecd34df4e0d0"
+command = "echo 'build complete' | tee \"$practice_dir/build.status\""
+summary = "将构建完成标记同时显示并保存到状态文件"
+
+[[commands.tokens]]
+text = "echo 'build complete' | tee \"$practice_dir/build.status\""
+desc = "将构建完成标记同时显示并保存到状态文件"
+
+[commands.dictation]
+prompt = "将构建完成标记同时显示并保存到状态文件"
+answers = ["echo 'build complete' | tee \"$practice_dir/build.status\""]
+
+[[commands]]
+id = "shared-215359a018b304f2"
+command = "printf 'previous check\\n' > \"$practice_dir/monitor.log\""
+summary = "为追加演示准备已有监控日志"
+
+[[commands.tokens]]
+text = "printf 'previous check\\n' > \"$practice_dir/monitor.log\""
+desc = "为追加演示准备已有监控日志"
+
+[commands.dictation]
+prompt = "为追加演示准备已有监控日志"
+answers = ["printf 'previous check\\n' > \"$practice_dir/monitor.log\""]
+
+[[commands]]
+id = "shared-34ec130d999d8fc3"
+command = "echo 'health check passed' | tee -a \"$practice_dir/monitor.log\""
+summary = "显示健康检查标记并追加到监控日志"
+
+[[commands.tokens]]
+text = "echo 'health check passed' | tee -a \"$practice_dir/monitor.log\""
+desc = "显示健康检查标记并追加到监控日志"
+
+[commands.dictation]
+prompt = "显示健康检查标记并追加到监控日志"
+answers = ["echo 'health check passed' | tee -a \"$practice_dir/monitor.log\""]
+
+[[commands]]
+id = "shared-c66a154b850116d1"
+command = "ls missing > listing.log 2>&1"
+summary = "将标准输出与标准错误按顺序合并到日志"
+
+[[commands.tokens]]
+text = "ls missing > listing.log 2>&1"
+desc = "将标准输出与标准错误按顺序合并到日志"
+
+[commands.dictation]
+prompt = "将标准输出与标准错误按顺序合并到日志"
+answers = ["ls missing > listing.log 2>&1"]
+
+[[commands]]
+id = "shared-cda055c0aeebd1ae"
+command = "ls missing 2>&1 > listing.log"
+summary = "观察重定向顺序使标准错误仍留在终端"
+
+[[commands.tokens]]
+text = "ls missing 2>&1 > listing.log"
+desc = "观察重定向顺序使标准错误仍留在终端"
+
+[commands.dictation]
+prompt = "观察重定向顺序使标准错误仍留在终端"
+answers = ["ls missing 2>&1 > listing.log"]
+
+[[commands]]
+id = "shared-feaa92ceae7e7117"
+command = "key_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-work-key.XXXXXX\")"
+summary = "创建工作密钥专用的随机临时目录"
+
+[[commands.tokens]]
+text = "key_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-work-key.XXXXXX\")"
+desc = "创建工作密钥专用的随机临时目录"
+
+[commands.dictation]
+prompt = "创建工作密钥专用的随机临时目录"
+answers = ["key_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-work-key.XXXXXX\")"]
+
+[[commands]]
+id = "shared-27471c486ad059dc"
+command = "key=\"$key_dir/work_ed25519\""
+summary = "设置工作私钥的完整练习路径"
+
+[[commands.tokens]]
+text = "key=\"$key_dir/work_ed25519\""
+desc = "设置工作私钥的完整练习路径"
+
+[commands.dictation]
+prompt = "设置工作私钥的完整练习路径"
+answers = ["key=\"$key_dir/work_ed25519\""]
+
+[[commands]]
+id = "shared-f679af1d6083d234"
+command = "ssh-keygen -t ed25519 -f \"$key\" -C 'alice@laptop'"
+summary = "生成带工作用途注释的 Ed25519 密钥"
+
+[[commands.tokens]]
+text = "ssh-keygen -t ed25519 -f \"$key\" -C 'alice@laptop'"
+desc = "生成带工作用途注释的 Ed25519 密钥"
+
+[commands.dictation]
+prompt = "生成带工作用途注释的 Ed25519 密钥"
+answers = ["ssh-keygen -t ed25519 -f \"$key\" -C 'alice@laptop'"]
+
+[[commands]]
+id = "shared-3b34ca0d1c276085"
+command = "ssh-keygen -lf ~/.ssh/work_ed25519.pub"
+summary = "读取预置工作公钥的 Ed25519 指纹"
+
+[[commands.tokens]]
+text = "ssh-keygen -lf ~/.ssh/work_ed25519.pub"
+desc = "读取预置工作公钥的 Ed25519 指纹"
+
+[commands.dictation]
+prompt = "读取预置工作公钥的 Ed25519 指纹"
+answers = ["ssh-keygen -lf ~/.ssh/work_ed25519.pub"]
+
+[[commands]]
+id = "shared-3c939f45d0d5a0cb"
+command = "ssh-keyscan -t ed25519 server.example.com"
+summary = "获取教学服务器提供的 Ed25519 主机公钥"
+
+[[commands.tokens]]
+text = "ssh-keyscan -t ed25519 server.example.com"
+desc = "获取教学服务器提供的 Ed25519 主机公钥"
+
+[commands.dictation]
+prompt = "获取教学服务器提供的 Ed25519 主机公钥"
+answers = ["ssh-keyscan -t ed25519 server.example.com"]
+
+[[commands]]
+id = "shared-449f31dd03dc4066"
+command = "ssh-copy-id -i ~/.ssh/work_ed25519.pub alice@server.example.com"
+summary = "将工作公钥安装到教学服务器的 alice 账号"
+
+[[commands.tokens]]
+text = "ssh-copy-id -i ~/.ssh/work_ed25519.pub alice@server.example.com"
+desc = "将工作公钥安装到教学服务器的 alice 账号"
+
+[commands.dictation]
+prompt = "将工作公钥安装到教学服务器的 alice 账号"
+answers = ["ssh-copy-id -i ~/.ssh/work_ed25519.pub alice@server.example.com"]
+
+[[commands]]
+id = "shared-548786783e50359c"
+command = "mkdir \"$practice_dir/training-share\""
+summary = "创建用于权限演示的 training-share 目录"
+
+[[commands.tokens]]
+text = "mkdir \"$practice_dir/training-share\""
+desc = "创建用于权限演示的 training-share 目录"
+
+[commands.dictation]
+prompt = "创建用于权限演示的 training-share 目录"
+answers = ["mkdir \"$practice_dir/training-share\""]
+
+[[commands]]
+id = "shared-93fc080a51b8e417"
+command = "chmod 770 \"$practice_dir/training-share\""
+summary = "把练习目录设为所有者与所属组可访问的 770"
+
+[[commands.tokens]]
+text = "chmod 770 \"$practice_dir/training-share\""
+desc = "把练习目录设为所有者与所属组可访问的 770"
+
+[commands.dictation]
+prompt = "把练习目录设为所有者与所属组可访问的 770"
+answers = ["chmod 770 \"$practice_dir/training-share\""]
+
+[[commands]]
+id = "shared-1a12f949bc73eca0"
+command = "mkdir ownership"
+summary = "建立用于所有者和路径权限观察的目录"
+
+[[commands.tokens]]
+text = "mkdir ownership"
+desc = "建立用于所有者和路径权限观察的目录"
+
+[commands.dictation]
+prompt = "建立用于所有者和路径权限观察的目录"
+answers = ["mkdir ownership"]
+
+[[commands]]
+id = "shared-df37de5cfb530889"
+command = "printf 'notes\\n' > ownership/notes.txt"
+summary = "创建归属为当前用户的 notes.txt 样例"
+
+[[commands.tokens]]
+text = "printf 'notes\\n' > ownership/notes.txt"
+desc = "创建归属为当前用户的 notes.txt 样例"
+
+[commands.dictation]
+prompt = "创建归属为当前用户的 notes.txt 样例"
+answers = ["printf 'notes\\n' > ownership/notes.txt"]
+
+[[commands]]
+id = "shared-76ae12b974997ed5"
+command = "stat -c '%U:%G %n' ownership/notes.txt"
+summary = "以用户名和组名查看 notes.txt 的归属"
+
+[[commands.tokens]]
+text = "stat -c '%U:%G %n' ownership/notes.txt"
+desc = "以用户名和组名查看 notes.txt 的归属"
+
+[commands.dictation]
+prompt = "以用户名和组名查看 notes.txt 的归属"
+answers = ["stat -c '%U:%G %n' ownership/notes.txt"]
+
+[[commands]]
+id = "shared-09467d15ff93dd44"
+command = "mkdir -p ownership/project/config"
+summary = "创建带 config 子目录的权限审计样例"
+
+[[commands.tokens]]
+text = "mkdir -p ownership/project/config"
+desc = "创建带 config 子目录的权限审计样例"
+
+[commands.dictation]
+prompt = "创建带 config 子目录的权限审计样例"
+answers = ["mkdir -p ownership/project/config"]
+
+[[commands]]
+id = "shared-fcda13e6653fed9c"
+command = "printf 'MODE=demo\\n' > ownership/project/.env"
+summary = "写入项目的隐藏环境配置样例"
+
+[[commands.tokens]]
+text = "printf 'MODE=demo\\n' > ownership/project/.env"
+desc = "写入项目的隐藏环境配置样例"
+
+[commands.dictation]
+prompt = "写入项目的隐藏环境配置样例"
+answers = ["printf 'MODE=demo\\n' > ownership/project/.env"]
+
+[[commands]]
+id = "shared-e130ae03ab009c81"
+command = "printf 'port=8080\\n' > ownership/project/config/app.conf"
+summary = "写入项目 config 下的端口配置样例"
+
+[[commands.tokens]]
+text = "printf 'port=8080\\n' > ownership/project/config/app.conf"
+desc = "写入项目 config 下的端口配置样例"
+
+[commands.dictation]
+prompt = "写入项目 config 下的端口配置样例"
+answers = ["printf 'port=8080\\n' > ownership/project/config/app.conf"]
+
+[[commands]]
+id = "shared-2307254bbd6554a7"
+command = "find ownership/project -maxdepth 2 -printf '%M %u:%g %p\\n' | sort"
+summary = "排序查看项目两层内的权限和属主属组"
+
+[[commands.tokens]]
+text = "find ownership/project -maxdepth 2 -printf '%M %u:%g %p\\n' | sort"
+desc = "排序查看项目两层内的权限和属主属组"
+
+[commands.dictation]
+prompt = "排序查看项目两层内的权限和属主属组"
+answers = ["find ownership/project -maxdepth 2 -printf '%M %u:%g %p\\n' | sort"]
+
+[[commands]]
+id = "shared-ee9e47ce0ac8aa2f"
+command = "namei -l ownership/notes.txt"
+summary = "逐级检查 ownership/notes.txt 的路径权限"
+
+[[commands.tokens]]
+text = "namei -l ownership/notes.txt"
+desc = "逐级检查 ownership/notes.txt 的路径权限"
+
+[commands.dictation]
+prompt = "逐级检查 ownership/notes.txt 的路径权限"
+answers = ["namei -l ownership/notes.txt"]

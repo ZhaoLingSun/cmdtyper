@@ -1,0 +1,125 @@
+id = "cron_permission"
+title = "定时任务不运行：权限、用户与环境"
+category = "系统任务"
+difficulty = "basic"
+background = "每日备份没有生成。系统 cron 以 backup 用户运行 /usr/local/bin/orders-backup，但脚本权限为 0644，且脚本依赖相对路径。"
+objective = "确认调度器、实际身份、路径权限和运行环境，修复后以同一用户验证。"
+environment = "Ubuntu 24.04 LTS 教学主机 web-01（192.0.2.10），客户端 ops-01（192.0.2.50），网关 192.0.2.1。文档保留地址与 example.test 域名只用于模拟；每例独立还原起始状态，全部输出预置。"
+recap = "cron 问题分调度、身份、权限和环境四层检查；使用绝对路径与明确 PATH，用实际用户验收。恢复备份运行后仍需验证可恢复性。"
+sources = ["https://www.freedesktop.org/software/systemd/man/255/journalctl.html", "https://man7.org/linux/man-pages/man5/crontab.5.html"]
+
+[[steps]]
+title = "检查 cron 是否运行"
+output = "active"
+explanation = "调度进程运行只是第一层。"
+instruction = "请跟打，检查 cron 是否运行。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_01"
+command_id = "shared-d10a90d89eb6d751"
+
+[[steps]]
+title = "查看系统任务文件"
+output = "SHELL=/bin/sh\nPATH=/usr/local/bin:/usr/bin:/bin\n0 2 * * * backup /usr/local/bin/orders-backup"
+explanation = "/etc/cron.d 多出一个执行用户字段；用户自己的 crontab 没有这一列。"
+instruction = "请跟打，查看系统任务文件。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_02"
+command_id = "shared-78e5ded47ec025be"
+
+[[steps]]
+title = "查询 cron 日志"
+output = "CRON[2200]: (backup) CMD (/usr/local/bin/orders-backup)\n/bin/sh: 1: /usr/local/bin/orders-backup: Permission denied"
+explanation = "任务已经触发，但脚本无法执行。"
+instruction = "请跟打，查询 cron 日志。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_03"
+command_id = "shared-b885050c8ab0966c"
+
+[steps.decision]
+question = "下一步检查什么？"
+
+[[steps.decision.choices]]
+text = "脚本与父目录权限以及实际执行用户"
+correct = true
+feedback = "对，调度已发生，应检查执行权限链。"
+
+[[steps.decision.choices]]
+text = "把 cron 时间改成每分钟"
+correct = false
+feedback = "更频繁调度只会更频繁失败，不能修复权限。"
+
+[[steps]]
+title = "检查路径权限链"
+output = "drwxr-xr-x root root /\ndrwxr-xr-x root root usr\ndrwxr-xr-x root root local\ndrwxr-xr-x root root bin\n-rw-r--r-- root backup orders-backup"
+explanation = "父目录允许遍历，脚本自身没有 x 执行位。"
+instruction = "请跟打，检查路径权限链。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_04"
+command_id = "shared-d370d807b7b4a6e4"
+
+[[steps]]
+title = "读取备份脚本"
+output = "#!/bin/sh\npg_dump -h 127.0.0.1 -U app -d app -Fc > backups/app.dump"
+explanation = "除了权限，backups 是相对路径，cron 的工作目录不能按交互终端假设。本例 backup 用户已配置 0600 的 .pgpass。"
+instruction = "请跟打，读取备份脚本。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_05"
+command_id = "shared-8d63e92434c54b00"
+
+[[steps]]
+title = "修正脚本输出为绝对路径"
+output = "#!/bin/sh\nset -eu\numask 077\n/usr/bin/pg_dump -h 127.0.0.1 -U app -d app -Fc > /var/backups/orders/app.dump.tmp\n/usr/bin/mv /var/backups/orders/app.dump.tmp /var/backups/orders/app.dump\n"
+explanation = "模拟编辑器保存；失败不覆盖上一份成功备份，实际还应采用按日期命名和保留策略。"
+instruction = "请跟打，修正脚本输出为绝对路径。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_06"
+command_id = "shared-aba7653c9e469569"
+
+[[steps]]
+title = "准备备份目录"
+output = "[模拟：backup 用户独占目录已创建]"
+explanation = "目录权限符合数据访问范围。"
+instruction = "请跟打，准备备份目录。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_07"
+command_id = "shared-5b635219e03d9ca3"
+
+[steps.decision]
+question = "应该给脚本什么权限？"
+
+[[steps.decision.choices]]
+text = "root 可改，backup 组可读执行（0750）"
+correct = true
+feedback = "对，任务用户只需读取与执行，不需要编辑系统脚本。"
+
+[[steps.decision.choices]]
+text = "所有人可写（0777）"
+correct = false
+feedback = "任意用户可写系统定时脚本会扩大修改权限，不符合需求。"
+
+[[steps]]
+title = "授予预期执行权限"
+output = "[模拟：脚本权限变为 rwxr-x---]"
+explanation = "此前 group 已为 backup，当前备份身份可以执行。"
+instruction = "请跟打，授予预期执行权限。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_08"
+command_id = "shared-24a8ea4eb9c6e639"
+
+[[steps]]
+title = "以实际任务身份验证"
+output = "[退出状态 0：备份完成]"
+explanation = "用 backup 身份测试比 root 执行更能发现权限问题。"
+instruction = "请跟打，以实际任务身份验证。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_09"
+command_id = "shared-d204d3969eb01999"
+
+[[steps]]
+title = "检查新备份文件"
+output = "-rw------- 1 backup backup 4.0K Sep 6 09:30 /var/backups/orders/app.dump"
+explanation = "文件身份、权限和时间符合预期；再做归档校验与隔离恢复演练，监控下次定时触发。"
+instruction = "请跟打，检查新备份文件。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_10"
+command_id = "shared-c630b1764697564d"

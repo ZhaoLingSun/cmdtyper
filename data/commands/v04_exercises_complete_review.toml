@@ -1,0 +1,2990 @@
+[meta]
+category = "system"
+difficulty = "beginner"
+description = "逐组语义复核补题：每题独立还原课程快照，所需练习文件、账号、服务、PID、作业或会话均按题意预置；所有命令只模拟，不真实执行。"
+
+[[commands]]
+id = "v04-ex-review-006840c8b5"
+command = "kill -n 15 6262"
+summary = "使用Linux中SIGTERM的编号15请求练习任务6262正常清理退出"
+
+[[commands.tokens]]
+text = "kill"
+desc = "使用Linux中SIGTERM的编号15请求练习任务6262正常清理退出"
+
+[[commands.tokens]]
+text = " -n"
+desc = "保留本题核心操作的参数 -n；使用Linux中SIGTERM的编号15请求练习任务6262正常清理退出"
+
+[[commands.tokens]]
+text = " 15"
+desc = "保留本题核心操作的参数 15；使用Linux中SIGTERM的编号15请求练习任务6262正常清理退出"
+
+[[commands.tokens]]
+text = " 6262"
+desc = "保留本题核心操作的参数 6262；使用Linux中SIGTERM的编号15请求练习任务6262正常清理退出"
+
+[commands.dictation]
+prompt = "使用Linux中SIGTERM的编号15请求练习任务6262正常清理退出"
+answers = ["kill -n 15 6262"]
+
+[[commands]]
+id = "v04-ex-review-017975afb4"
+command = "cd ../.."
+summary = "连续使用两个 .. 从当前目录上移两级"
+
+[[commands.tokens]]
+text = "cd"
+desc = "连续使用两个 .. 从当前目录上移两级"
+
+[[commands.tokens]]
+text = " ../.."
+desc = "保留本题核心操作的参数 ../..；连续使用两个 .. 从当前目录上移两级"
+
+[commands.dictation]
+prompt = "连续使用两个 .. 从当前目录上移两级"
+answers = ["cd ../.."]
+
+[[commands]]
+id = "v04-ex-review-0472928bca"
+command = "tar -czf logs.tar.gz -C ~/ops-lab logs"
+summary = "把日志目录归档为gzip包以便保存或传输"
+
+[[commands.tokens]]
+text = "tar"
+desc = "把日志目录归档为gzip包以便保存或传输"
+
+[[commands.tokens]]
+text = " -czf"
+desc = "保留本题核心操作的参数 -czf；把日志目录归档为gzip包以便保存或传输"
+
+[[commands.tokens]]
+text = " logs.tar.gz"
+desc = "保留本题核心操作的参数 logs.tar.gz；把日志目录归档为gzip包以便保存或传输"
+
+[[commands.tokens]]
+text = " -C"
+desc = "保留本题核心操作的参数 -C；把日志目录归档为gzip包以便保存或传输"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "保留本题核心操作的参数 ~/ops-lab；把日志目录归档为gzip包以便保存或传输"
+
+[[commands.tokens]]
+text = " logs"
+desc = "保留本题核心操作的参数 logs；把日志目录归档为gzip包以便保存或传输"
+
+[commands.dictation]
+prompt = "把日志目录归档为gzip包以便保存或传输"
+answers = ["tar -czf logs.tar.gz -C ~/ops-lab logs"]
+
+[[commands]]
+id = "v04-ex-review-058efa9b5f"
+command = "printf 'operator=%s\\n' \"$USER\""
+summary = "将用户名变量加上操作者标签供检查记录"
+
+[[commands.tokens]]
+text = "printf"
+desc = "将用户名变量加上操作者标签供检查记录"
+
+[[commands.tokens]]
+text = " 'operator=%s\\n'"
+desc = "保留本题核心操作的参数 'operator=%s\\n'；将用户名变量加上操作者标签供检查记录"
+
+[[commands.tokens]]
+text = " \"$USER\""
+desc = "保留本题核心操作的参数 \"$USER\"；将用户名变量加上操作者标签供检查记录"
+
+[commands.dictation]
+prompt = "将用户名变量加上操作者标签供检查记录"
+answers = ["printf 'operator=%s\\n' \"$USER\""]
+
+[[commands]]
+id = "v04-ex-review-05a8b8dcba"
+command = "systemctl is-enabled systemd-timesyncd.service"
+summary = "核对时间同步服务的启用配置"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "核对时间同步服务的启用配置"
+
+[[commands.tokens]]
+text = " is-enabled"
+desc = "保留本题核心操作的参数 is-enabled；核对时间同步服务的启用配置"
+
+[[commands.tokens]]
+text = " systemd-timesyncd.service"
+desc = "保留本题核心操作的参数 systemd-timesyncd.service；核对时间同步服务的启用配置"
+
+[commands.dictation]
+prompt = "核对时间同步服务的启用配置"
+answers = ["systemctl is-enabled systemd-timesyncd.service"]
+
+[[commands]]
+id = "v04-ex-review-05c1599bb0"
+command = "tail -n 5 ~/ops-lab/settings.ini"
+summary = "读取配置末尾五行检查最近一段设置"
+
+[[commands.tokens]]
+text = "tail"
+desc = "读取配置末尾五行检查最近一段设置"
+
+[[commands.tokens]]
+text = " -n"
+desc = "保留本题核心操作的参数 -n；读取配置末尾五行检查最近一段设置"
+
+[[commands.tokens]]
+text = " 5"
+desc = "保留本题核心操作的参数 5；读取配置末尾五行检查最近一段设置"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "保留本题核心操作的参数 ~/ops-lab/settings.ini；读取配置末尾五行检查最近一段设置"
+
+[commands.dictation]
+prompt = "读取配置末尾五行检查最近一段设置"
+answers = ["tail -n 5 ~/ops-lab/settings.ini"]
+
+[[commands]]
+id = "v04-ex-review-078aa0798f"
+command = "docker images --format '{{.Repository}}:{{.Tag}}'"
+summary = "把本地镜像清单转为仓库加标签形式"
+
+[[commands.tokens]]
+text = "docker"
+desc = "把本地镜像清单转为仓库加标签形式"
+
+[[commands.tokens]]
+text = " images"
+desc = "保留本题核心操作的参数 images；把本地镜像清单转为仓库加标签形式"
+
+[[commands.tokens]]
+text = " --format"
+desc = "保留本题核心操作的参数 --format；把本地镜像清单转为仓库加标签形式"
+
+[[commands.tokens]]
+text = " '{{.Repository}}:{{.Tag}}'"
+desc = "保留本题核心操作的参数 '{{.Repository}}:{{.Tag}}'；把本地镜像清单转为仓库加标签形式"
+
+[commands.dictation]
+prompt = "把本地镜像清单转为仓库加标签形式"
+answers = ["docker images --format '{{.Repository}}:{{.Tag}}'"]
+
+[[commands]]
+id = "v04-ex-review-08a2bb7c5d"
+command = "crontab -l | less -S"
+summary = "分页检查较长的定时命令并避免自动折行"
+
+[[commands.tokens]]
+text = "crontab"
+desc = "分页检查较长的定时命令并避免自动折行"
+
+[[commands.tokens]]
+text = " -l"
+desc = "保留本题核心操作的参数 -l；分页检查较长的定时命令并避免自动折行"
+
+[[commands.tokens]]
+text = " |"
+desc = "管道把前一命令的标准输出交给后一命令"
+
+[[commands.tokens]]
+text = " less"
+desc = "保留本题核心操作的参数 less；分页检查较长的定时命令并避免自动折行"
+
+[[commands.tokens]]
+text = " -S"
+desc = "保留本题核心操作的参数 -S；分页检查较长的定时命令并避免自动折行"
+
+[commands.dictation]
+prompt = "分页检查较长的定时命令并避免自动折行"
+answers = ["crontab -l | less -S"]
+
+[[commands]]
+id = "v04-ex-review-08eb985a39"
+command = "date -u +%Z"
+summary = "读取UTC时区缩写"
+
+[[commands.tokens]]
+text = "date"
+desc = "读取UTC时区缩写"
+
+[[commands.tokens]]
+text = " -u"
+desc = "保留本题核心操作的参数 -u；读取UTC时区缩写"
+
+[[commands.tokens]]
+text = " +%Z"
+desc = "保留本题核心操作的参数 +%Z；读取UTC时区缩写"
+
+[commands.dictation]
+prompt = "读取UTC时区缩写"
+answers = ["date -u +%Z"]
+
+[[commands]]
+id = "v04-ex-review-0beca41cfc"
+command = "cp -v ~/ops-lab/input/report.txt ~/ops-lab/backup/report.txt"
+summary = "复制另一份报告并用输出核对准确目标路径"
+
+[[commands.tokens]]
+text = "cp"
+desc = "复制另一份报告并用输出核对准确目标路径"
+
+[[commands.tokens]]
+text = " -v"
+desc = "保留本题核心操作的参数 -v；复制另一份报告并用输出核对准确目标路径"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input/report.txt"
+desc = "保留本题核心操作的参数 ~/ops-lab/input/report.txt；复制另一份报告并用输出核对准确目标路径"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backup/report.txt"
+desc = "保留本题核心操作的参数 ~/ops-lab/backup/report.txt；复制另一份报告并用输出核对准确目标路径"
+
+[commands.dictation]
+prompt = "复制另一份报告并用输出核对准确目标路径"
+answers = ["cp -v ~/ops-lab/input/report.txt ~/ops-lab/backup/report.txt"]
+
+[[commands]]
+id = "v04-ex-review-11ae8da5b9"
+command = "chmod -v 644 ~/ops-lab/report.txt"
+summary = "设置报告为 644 并显示权限变更"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "设置报告为 644 并显示权限变更"
+
+[[commands.tokens]]
+text = " -v"
+desc = "保留本题核心操作的参数 -v；设置报告为 644 并显示权限变更"
+
+[[commands.tokens]]
+text = " 644"
+desc = "保留本题核心操作的参数 644；设置报告为 644 并显示权限变更"
+
+[[commands.tokens]]
+text = " ~/ops-lab/report.txt"
+desc = "保留本题核心操作的参数 ~/ops-lab/report.txt；设置报告为 644 并显示权限变更"
+
+[commands.dictation]
+prompt = "设置报告为 644 并显示权限变更"
+answers = ["chmod -v 644 ~/ops-lab/report.txt"]
+
+[[commands]]
+id = "v04-ex-review-162581b41b"
+command = "LC_ALL=C uptime -p"
+summary = "固定输出语言后读取pretty运行时长"
+
+[[commands.tokens]]
+text = "LC_ALL=C"
+desc = "固定输出语言后读取pretty运行时长"
+
+[[commands.tokens]]
+text = " uptime"
+desc = "保留本题核心操作的参数 uptime；固定输出语言后读取pretty运行时长"
+
+[[commands.tokens]]
+text = " -p"
+desc = "保留本题核心操作的参数 -p；固定输出语言后读取pretty运行时长"
+
+[commands.dictation]
+prompt = "固定输出语言后读取pretty运行时长"
+answers = ["LC_ALL=C uptime -p"]
+
+[[commands]]
+id = "v04-ex-review-17e8109564"
+command = "printf 'ready\\n' | tr '[:lower:]' '[:upper:]'"
+summary = "将管道中的状态词规范为大写"
+
+[[commands.tokens]]
+text = "printf"
+desc = "将管道中的状态词规范为大写"
+
+[[commands.tokens]]
+text = " 'ready\\n'"
+desc = "保留本题核心操作的参数 'ready\\n'；将管道中的状态词规范为大写"
+
+[[commands.tokens]]
+text = " |"
+desc = "管道把前一命令的标准输出交给后一命令"
+
+[[commands.tokens]]
+text = " tr"
+desc = "保留本题核心操作的参数 tr；将管道中的状态词规范为大写"
+
+[[commands.tokens]]
+text = " '[:lower:]'"
+desc = "保留本题核心操作的参数 '[:lower:]'；将管道中的状态词规范为大写"
+
+[[commands.tokens]]
+text = " '[:upper:]'"
+desc = "保留本题核心操作的参数 '[:upper:]'；将管道中的状态词规范为大写"
+
+[commands.dictation]
+prompt = "将管道中的状态词规范为大写"
+answers = ["printf 'ready\\n' | tr '[:lower:]' '[:upper:]'"]
+
+[[commands]]
+id = "v04-ex-review-198ffbd529"
+command = "chmod 755 ~/ops-lab/check.sh"
+summary = "设置练习脚本为所有者 rwx、组与其他人 rx"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "设置练习脚本为所有者 rwx、组与其他人 rx"
+
+[[commands.tokens]]
+text = " 755"
+desc = "保留本题核心操作的参数 755；设置练习脚本为所有者 rwx、组与其他人 rx"
+
+[[commands.tokens]]
+text = " ~/ops-lab/check.sh"
+desc = "保留本题核心操作的参数 ~/ops-lab/check.sh；设置练习脚本为所有者 rwx、组与其他人 rx"
+
+[commands.dictation]
+prompt = "设置练习脚本为所有者 rwx、组与其他人 rx"
+answers = ["chmod 755 ~/ops-lab/check.sh"]
+
+[[commands]]
+id = "v04-ex-review-1c7d4ec922"
+command = "less -N +G ~/ops-lab/backend.log"
+summary = "带行号打开日志并先定位末尾"
+
+[[commands.tokens]]
+text = "less"
+desc = "带行号打开日志并先定位末尾"
+
+[[commands.tokens]]
+text = " -N"
+desc = "保留本题核心操作的参数 -N；带行号打开日志并先定位末尾"
+
+[[commands.tokens]]
+text = " +G"
+desc = "保留本题核心操作的参数 +G；带行号打开日志并先定位末尾"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backend.log"
+desc = "保留本题核心操作的参数 ~/ops-lab/backend.log；带行号打开日志并先定位末尾"
+
+[commands.dictation]
+prompt = "带行号打开日志并先定位末尾"
+answers = ["less -N +G ~/ops-lab/backend.log"]
+
+[[commands]]
+id = "v04-ex-review-1f91514aee"
+command = "tar -xzf logs.tar.gz --no-same-owner -C ~/ops-lab/output"
+summary = "解压日志归档时不恢复归档声明的原所有者"
+
+[[commands.tokens]]
+text = "tar"
+desc = "解压日志归档时不恢复归档声明的原所有者"
+
+[[commands.tokens]]
+text = " -xzf"
+desc = "保留本题核心操作的参数 -xzf；解压日志归档时不恢复归档声明的原所有者"
+
+[[commands.tokens]]
+text = " logs.tar.gz"
+desc = "保留本题核心操作的参数 logs.tar.gz；解压日志归档时不恢复归档声明的原所有者"
+
+[[commands.tokens]]
+text = " --no-same-owner"
+desc = "保留本题核心操作的参数 --no-same-owner；解压日志归档时不恢复归档声明的原所有者"
+
+[[commands.tokens]]
+text = " -C"
+desc = "保留本题核心操作的参数 -C；解压日志归档时不恢复归档声明的原所有者"
+
+[[commands.tokens]]
+text = " ~/ops-lab/output"
+desc = "保留本题核心操作的参数 ~/ops-lab/output；解压日志归档时不恢复归档声明的原所有者"
+
+[commands.dictation]
+prompt = "解压日志归档时不恢复归档声明的原所有者"
+answers = ["tar -xzf logs.tar.gz --no-same-owner -C ~/ops-lab/output"]
+
+[[commands]]
+id = "v04-ex-review-21962f44b5"
+command = "cd .. && pwd"
+summary = "上移一级后显示目录，确认相对路径的结果"
+
+[[commands.tokens]]
+text = "cd"
+desc = "上移一级后显示目录，确认相对路径的结果"
+
+[[commands.tokens]]
+text = " .."
+desc = "保留本题核心操作的参数 ..；上移一级后显示目录，确认相对路径的结果"
+
+[[commands.tokens]]
+text = " &&"
+desc = "只在前一条命令成功时继续后一条"
+
+[[commands.tokens]]
+text = " pwd"
+desc = "保留本题核心操作的参数 pwd；上移一级后显示目录，确认相对路径的结果"
+
+[commands.dictation]
+prompt = "上移一级后显示目录，确认相对路径的结果"
+answers = ["cd .. && pwd"]
+
+[[commands]]
+id = "v04-ex-review-25fcbd4a1d"
+command = "sudo nginx -t -c /etc/nginx/nginx.conf"
+summary = "显式指定主配置文件进行语法和引用检查"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "显式指定主配置文件进行语法和引用检查"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "保留本题核心操作的参数 nginx；显式指定主配置文件进行语法和引用检查"
+
+[[commands.tokens]]
+text = " -t"
+desc = "保留本题核心操作的参数 -t；显式指定主配置文件进行语法和引用检查"
+
+[[commands.tokens]]
+text = " -c"
+desc = "保留本题核心操作的参数 -c；显式指定主配置文件进行语法和引用检查"
+
+[[commands.tokens]]
+text = " /etc/nginx/nginx.conf"
+desc = "保留本题核心操作的参数 /etc/nginx/nginx.conf；显式指定主配置文件进行语法和引用检查"
+
+[commands.dictation]
+prompt = "显式指定主配置文件进行语法和引用检查"
+answers = ["sudo nginx -t -c /etc/nginx/nginx.conf"]
+
+[[commands]]
+id = "v04-ex-review-2732a585fa"
+command = "systemctl list-units --failed --type=service --no-legend"
+summary = "去掉说明行后查看失败服务清单"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "去掉说明行后查看失败服务清单"
+
+[[commands.tokens]]
+text = " list-units"
+desc = "保留本题核心操作的参数 list-units；去掉说明行后查看失败服务清单"
+
+[[commands.tokens]]
+text = " --failed"
+desc = "保留本题核心操作的参数 --failed；去掉说明行后查看失败服务清单"
+
+[[commands.tokens]]
+text = " --type=service"
+desc = "保留本题核心操作的参数 --type=service；去掉说明行后查看失败服务清单"
+
+[[commands.tokens]]
+text = " --no-legend"
+desc = "保留本题核心操作的参数 --no-legend；去掉说明行后查看失败服务清单"
+
+[commands.dictation]
+prompt = "去掉说明行后查看失败服务清单"
+answers = ["systemctl list-units --failed --type=service --no-legend"]
+
+[[commands]]
+id = "v04-ex-review-2ac105ffaa"
+command = "git status --porcelain=v1"
+summary = "以稳定格式读取仓库变更状态供脚本使用"
+
+[[commands.tokens]]
+text = "git"
+desc = "以稳定格式读取仓库变更状态供脚本使用"
+
+[[commands.tokens]]
+text = " status"
+desc = "保留本题核心操作的参数 status；以稳定格式读取仓库变更状态供脚本使用"
+
+[[commands.tokens]]
+text = " --porcelain=v1"
+desc = "保留本题核心操作的参数 --porcelain=v1；以稳定格式读取仓库变更状态供脚本使用"
+
+[commands.dictation]
+prompt = "以稳定格式读取仓库变更状态供脚本使用"
+answers = ["git status --porcelain=v1"]
+
+[[commands]]
+id = "v04-ex-review-2b4f27fb83"
+command = "ps -u ace -o pid,stat,args"
+summary = "改变用户名以查看课程账号的同一组字段"
+
+[[commands.tokens]]
+text = "ps"
+desc = "改变用户名以查看课程账号的同一组字段"
+
+[[commands.tokens]]
+text = " -u"
+desc = "保留本题核心操作的参数 -u；改变用户名以查看课程账号的同一组字段"
+
+[[commands.tokens]]
+text = " ace"
+desc = "保留本题核心操作的参数 ace；改变用户名以查看课程账号的同一组字段"
+
+[[commands.tokens]]
+text = " -o"
+desc = "保留本题核心操作的参数 -o；改变用户名以查看课程账号的同一组字段"
+
+[[commands.tokens]]
+text = " pid,stat,args"
+desc = "保留本题核心操作的参数 pid,stat,args；改变用户名以查看课程账号的同一组字段"
+
+[commands.dictation]
+prompt = "改变用户名以查看课程账号的同一组字段"
+answers = ["ps -u ace -o pid,stat,args"]
+
+[[commands]]
+id = "v04-ex-review-2cb67fa973"
+command = "lsblk -o NAME,SIZE,TYPE,MOUNTPOINTS /dev/sda"
+summary = "限定实验磁盘并保留层级和挂载字段"
+
+[[commands.tokens]]
+text = "lsblk"
+desc = "限定实验磁盘并保留层级和挂载字段"
+
+[[commands.tokens]]
+text = " -o"
+desc = "保留本题核心操作的参数 -o；限定实验磁盘并保留层级和挂载字段"
+
+[[commands.tokens]]
+text = " NAME,SIZE,TYPE,MOUNTPOINTS"
+desc = "保留本题核心操作的参数 NAME,SIZE,TYPE,MOUNTPOINTS；限定实验磁盘并保留层级和挂载字段"
+
+[[commands.tokens]]
+text = " /dev/sda"
+desc = "保留本题核心操作的参数 /dev/sda；限定实验磁盘并保留层级和挂载字段"
+
+[commands.dictation]
+prompt = "限定实验磁盘并保留层级和挂载字段"
+answers = ["lsblk -o NAME,SIZE,TYPE,MOUNTPOINTS /dev/sda"]
+
+[[commands]]
+id = "v04-ex-review-2cc582f075"
+command = "mv ~/ops-lab/report.txt ~/ops-lab/backup/"
+summary = "将练习报告移入已有备份目录"
+
+[[commands.tokens]]
+text = "mv"
+desc = "将练习报告移入已有备份目录"
+
+[[commands.tokens]]
+text = " ~/ops-lab/report.txt"
+desc = "保留本题核心操作的参数 ~/ops-lab/report.txt；将练习报告移入已有备份目录"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backup/"
+desc = "保留本题核心操作的参数 ~/ops-lab/backup/；将练习报告移入已有备份目录"
+
+[commands.dictation]
+prompt = "将练习报告移入已有备份目录"
+answers = ["mv ~/ops-lab/report.txt ~/ops-lab/backup/"]
+
+[[commands]]
+id = "v04-ex-review-2ebbedaa57"
+command = "vim -n ~/ops-lab/settings.ini"
+summary = "在临时练习配置中编辑且不创建交换文件"
+
+[[commands.tokens]]
+text = "vim"
+desc = "在临时练习配置中编辑且不创建交换文件"
+
+[[commands.tokens]]
+text = " -n"
+desc = "保留本题核心操作的参数 -n；在临时练习配置中编辑且不创建交换文件"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "保留本题核心操作的参数 ~/ops-lab/settings.ini；在临时练习配置中编辑且不创建交换文件"
+
+[commands.dictation]
+prompt = "在临时练习配置中编辑且不创建交换文件"
+answers = ["vim -n ~/ops-lab/settings.ini"]
+
+[[commands]]
+id = "v04-ex-review-2eef5d703f"
+command = "find ~/ops-lab/cache -maxdepth 1 -type f -name '*.tmp' -print0 | xargs -0 -r rm --"
+summary = "只在缓存第一层选择临时文件并保持安全文件名边界"
+
+[[commands.tokens]]
+text = "find"
+desc = "只在缓存第一层选择临时文件并保持安全文件名边界"
+
+[[commands.tokens]]
+text = " ~/ops-lab/cache"
+desc = "保留本题核心操作的参数 ~/ops-lab/cache；只在缓存第一层选择临时文件并保持安全文件名边界"
+
+[[commands.tokens]]
+text = " -maxdepth"
+desc = "保留本题核心操作的参数 -maxdepth；只在缓存第一层选择临时文件并保持安全文件名边界"
+
+[[commands.tokens]]
+text = " 1"
+desc = "保留本题核心操作的参数 1；只在缓存第一层选择临时文件并保持安全文件名边界"
+
+[[commands.tokens]]
+text = " -type"
+desc = "保留本题核心操作的参数 -type；只在缓存第一层选择临时文件并保持安全文件名边界"
+
+[[commands.tokens]]
+text = " f"
+desc = "保留本题核心操作的参数 f；只在缓存第一层选择临时文件并保持安全文件名边界"
+
+[[commands.tokens]]
+text = " -name"
+desc = "保留本题核心操作的参数 -name；只在缓存第一层选择临时文件并保持安全文件名边界"
+
+[[commands.tokens]]
+text = " '*.tmp'"
+desc = "保留本题核心操作的参数 '*.tmp'；只在缓存第一层选择临时文件并保持安全文件名边界"
+
+[[commands.tokens]]
+text = " -print0"
+desc = "保留本题核心操作的参数 -print0；只在缓存第一层选择临时文件并保持安全文件名边界"
+
+[[commands.tokens]]
+text = " |"
+desc = "管道把前一命令的标准输出交给后一命令"
+
+[[commands.tokens]]
+text = " xargs"
+desc = "保留本题核心操作的参数 xargs；只在缓存第一层选择临时文件并保持安全文件名边界"
+
+[[commands.tokens]]
+text = " -0"
+desc = "保留本题核心操作的参数 -0；只在缓存第一层选择临时文件并保持安全文件名边界"
+
+[[commands.tokens]]
+text = " -r"
+desc = "保留本题核心操作的参数 -r；只在缓存第一层选择临时文件并保持安全文件名边界"
+
+[[commands.tokens]]
+text = " rm"
+desc = "保留本题核心操作的参数 rm；只在缓存第一层选择临时文件并保持安全文件名边界"
+
+[[commands.tokens]]
+text = " --"
+desc = "保留本题核心操作的参数 --；只在缓存第一层选择临时文件并保持安全文件名边界"
+
+[commands.dictation]
+prompt = "只在缓存第一层选择临时文件并保持安全文件名边界"
+answers = ["find ~/ops-lab/cache -maxdepth 1 -type f -name '*.tmp' -print0 | xargs -0 -r rm --"]
+
+[[commands]]
+id = "v04-ex-review-2fbcbd87a3"
+command = "uptime -p | sed 's/^up //'"
+summary = "读取易读运行时长并去掉开头标签供显示"
+
+[[commands.tokens]]
+text = "uptime"
+desc = "读取易读运行时长并去掉开头标签供显示"
+
+[[commands.tokens]]
+text = " -p"
+desc = "保留本题核心操作的参数 -p；读取易读运行时长并去掉开头标签供显示"
+
+[[commands.tokens]]
+text = " |"
+desc = "管道把前一命令的标准输出交给后一命令"
+
+[[commands.tokens]]
+text = " sed"
+desc = "保留本题核心操作的参数 sed；读取易读运行时长并去掉开头标签供显示"
+
+[[commands.tokens]]
+text = " 's/^up //'"
+desc = "保留本题核心操作的参数 's/^up //'；读取易读运行时长并去掉开头标签供显示"
+
+[commands.dictation]
+prompt = "读取易读运行时长并去掉开头标签供显示"
+answers = ["uptime -p | sed 's/^up //'"]
+
+[[commands]]
+id = "v04-ex-review-3303708fcf"
+command = "uniq -c status-runs.txt"
+summary = "对状态序列的每一段连续重复值计数"
+
+[[commands.tokens]]
+text = "uniq"
+desc = "对状态序列的每一段连续重复值计数"
+
+[[commands.tokens]]
+text = " -c"
+desc = "保留本题核心操作的参数 -c；对状态序列的每一段连续重复值计数"
+
+[[commands.tokens]]
+text = " status-runs.txt"
+desc = "保留本题核心操作的参数 status-runs.txt；对状态序列的每一段连续重复值计数"
+
+[commands.dictation]
+prompt = "对状态序列的每一段连续重复值计数"
+answers = ["uniq -c status-runs.txt"]
+
+[[commands]]
+id = "v04-ex-review-35f8722aea"
+command = "tty | sed 's#^/dev/##'"
+summary = "读取标准输入终端名后去掉设备目录前缀"
+
+[[commands.tokens]]
+text = "tty"
+desc = "读取标准输入终端名后去掉设备目录前缀"
+
+[[commands.tokens]]
+text = " |"
+desc = "管道把前一命令的标准输出交给后一命令"
+
+[[commands.tokens]]
+text = " sed"
+desc = "保留本题核心操作的参数 sed；读取标准输入终端名后去掉设备目录前缀"
+
+[[commands.tokens]]
+text = " 's#^/dev/##'"
+desc = "保留本题核心操作的参数 's#^/dev/##'；读取标准输入终端名后去掉设备目录前缀"
+
+[commands.dictation]
+prompt = "读取标准输入终端名后去掉设备目录前缀"
+answers = ["tty | sed 's#^/dev/##'"]
+
+[[commands]]
+id = "v04-ex-review-38b38aa8c3"
+command = "chmod u+rx ~/ops-lab/start.sh"
+summary = "为本人补齐读取和执行脚本所需权限"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "为本人补齐读取和执行脚本所需权限"
+
+[[commands.tokens]]
+text = " u+rx"
+desc = "保留本题核心操作的参数 u+rx；为本人补齐读取和执行脚本所需权限"
+
+[[commands.tokens]]
+text = " ~/ops-lab/start.sh"
+desc = "保留本题核心操作的参数 ~/ops-lab/start.sh；为本人补齐读取和执行脚本所需权限"
+
+[commands.dictation]
+prompt = "为本人补齐读取和执行脚本所需权限"
+answers = ["chmod u+rx ~/ops-lab/start.sh"]
+
+[[commands]]
+id = "v04-ex-review-39247445ea"
+command = "LC_ALL=C locale"
+summary = "临时使用最高优先级变量观察所有分类的覆盖结果"
+
+[[commands.tokens]]
+text = "LC_ALL=C"
+desc = "临时使用最高优先级变量观察所有分类的覆盖结果"
+
+[[commands.tokens]]
+text = " locale"
+desc = "保留本题核心操作的参数 locale；临时使用最高优先级变量观察所有分类的覆盖结果"
+
+[commands.dictation]
+prompt = "临时使用最高优先级变量观察所有分类的覆盖结果"
+answers = ["LC_ALL=C locale"]
+
+[[commands]]
+id = "v04-ex-review-3abbb60b6d"
+command = "find ~/ops-lab/cache -type f -name '*.cache' -print0 | xargs -0 -r rm -v --"
+summary = "删除已确认可再生缓存并显示每个目标，空列表不执行rm"
+
+[[commands.tokens]]
+text = "find"
+desc = "删除已确认可再生缓存并显示每个目标，空列表不执行rm"
+
+[[commands.tokens]]
+text = " ~/ops-lab/cache"
+desc = "保留本题核心操作的参数 ~/ops-lab/cache；删除已确认可再生缓存并显示每个目标，空列表不执行rm"
+
+[[commands.tokens]]
+text = " -type"
+desc = "保留本题核心操作的参数 -type；删除已确认可再生缓存并显示每个目标，空列表不执行rm"
+
+[[commands.tokens]]
+text = " f"
+desc = "保留本题核心操作的参数 f；删除已确认可再生缓存并显示每个目标，空列表不执行rm"
+
+[[commands.tokens]]
+text = " -name"
+desc = "保留本题核心操作的参数 -name；删除已确认可再生缓存并显示每个目标，空列表不执行rm"
+
+[[commands.tokens]]
+text = " '*.cache'"
+desc = "保留本题核心操作的参数 '*.cache'；删除已确认可再生缓存并显示每个目标，空列表不执行rm"
+
+[[commands.tokens]]
+text = " -print0"
+desc = "保留本题核心操作的参数 -print0；删除已确认可再生缓存并显示每个目标，空列表不执行rm"
+
+[[commands.tokens]]
+text = " |"
+desc = "管道把前一命令的标准输出交给后一命令"
+
+[[commands.tokens]]
+text = " xargs"
+desc = "保留本题核心操作的参数 xargs；删除已确认可再生缓存并显示每个目标，空列表不执行rm"
+
+[[commands.tokens]]
+text = " -0"
+desc = "保留本题核心操作的参数 -0；删除已确认可再生缓存并显示每个目标，空列表不执行rm"
+
+[[commands.tokens]]
+text = " -r"
+desc = "保留本题核心操作的参数 -r；删除已确认可再生缓存并显示每个目标，空列表不执行rm"
+
+[[commands.tokens]]
+text = " rm"
+desc = "保留本题核心操作的参数 rm；删除已确认可再生缓存并显示每个目标，空列表不执行rm"
+
+[[commands.tokens]]
+text = " -v"
+desc = "保留本题核心操作的参数 -v；删除已确认可再生缓存并显示每个目标，空列表不执行rm"
+
+[[commands.tokens]]
+text = " --"
+desc = "保留本题核心操作的参数 --；删除已确认可再生缓存并显示每个目标，空列表不执行rm"
+
+[commands.dictation]
+prompt = "删除已确认可再生缓存并显示每个目标，空列表不执行rm"
+answers = ["find ~/ops-lab/cache -type f -name '*.cache' -print0 | xargs -0 -r rm -v --"]
+
+[[commands]]
+id = "v04-ex-review-3fcc8bfe3a"
+command = "tar -cf reports.tar reports"
+summary = "改变归档对象，仍保持未压缩格式"
+
+[[commands.tokens]]
+text = "tar"
+desc = "改变归档对象，仍保持未压缩格式"
+
+[[commands.tokens]]
+text = " -cf"
+desc = "保留本题核心操作的参数 -cf；改变归档对象，仍保持未压缩格式"
+
+[[commands.tokens]]
+text = " reports.tar"
+desc = "保留本题核心操作的参数 reports.tar；改变归档对象，仍保持未压缩格式"
+
+[[commands.tokens]]
+text = " reports"
+desc = "保留本题核心操作的参数 reports；改变归档对象，仍保持未压缩格式"
+
+[commands.dictation]
+prompt = "改变归档对象，仍保持未压缩格式"
+answers = ["tar -cf reports.tar reports"]
+
+[[commands]]
+id = "v04-ex-review-40f54575ba"
+command = "nano -w ~/ops-lab/settings.ini"
+summary = "编辑练习配置并关闭自动硬换行"
+
+[[commands.tokens]]
+text = "nano"
+desc = "编辑练习配置并关闭自动硬换行"
+
+[[commands.tokens]]
+text = " -w"
+desc = "保留本题核心操作的参数 -w；编辑练习配置并关闭自动硬换行"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "保留本题核心操作的参数 ~/ops-lab/settings.ini；编辑练习配置并关闭自动硬换行"
+
+[commands.dictation]
+prompt = "编辑练习配置并关闭自动硬换行"
+answers = ["nano -w ~/ops-lab/settings.ini"]
+
+[[commands]]
+id = "v04-ex-review-47f1bfae4e"
+command = "lsblk -o NAME,TYPE,SIZE,MOUNTPOINTS"
+summary = "同时列出块设备层级、类型、容量和挂载位置"
+
+[[commands.tokens]]
+text = "lsblk"
+desc = "同时列出块设备层级、类型、容量和挂载位置"
+
+[[commands.tokens]]
+text = " -o"
+desc = "保留本题核心操作的参数 -o；同时列出块设备层级、类型、容量和挂载位置"
+
+[[commands.tokens]]
+text = " NAME,TYPE,SIZE,MOUNTPOINTS"
+desc = "保留本题核心操作的参数 NAME,TYPE,SIZE,MOUNTPOINTS；同时列出块设备层级、类型、容量和挂载位置"
+
+[commands.dictation]
+prompt = "同时列出块设备层级、类型、容量和挂载位置"
+answers = ["lsblk -o NAME,TYPE,SIZE,MOUNTPOINTS"]
+
+[[commands]]
+id = "v04-ex-review-4cf808727f"
+command = "crontab -l | less -N"
+summary = "读取个人定时配置并带行号分页"
+
+[[commands.tokens]]
+text = "crontab"
+desc = "读取个人定时配置并带行号分页"
+
+[[commands.tokens]]
+text = " -l"
+desc = "保留本题核心操作的参数 -l；读取个人定时配置并带行号分页"
+
+[[commands.tokens]]
+text = " |"
+desc = "管道把前一命令的标准输出交给后一命令"
+
+[[commands.tokens]]
+text = " less"
+desc = "保留本题核心操作的参数 less；读取个人定时配置并带行号分页"
+
+[[commands.tokens]]
+text = " -N"
+desc = "保留本题核心操作的参数 -N；读取个人定时配置并带行号分页"
+
+[commands.dictation]
+prompt = "读取个人定时配置并带行号分页"
+answers = ["crontab -l | less -N"]
+
+[[commands]]
+id = "v04-ex-review-4e27cd23cb"
+command = "cp -iv ~/ops-lab/input/notes.txt ~/ops-lab/backup/notes.txt"
+summary = "保留详细输出并在覆盖已有笔记备份前询问"
+
+[[commands.tokens]]
+text = "cp"
+desc = "保留详细输出并在覆盖已有笔记备份前询问"
+
+[[commands.tokens]]
+text = " -iv"
+desc = "保留本题核心操作的参数 -iv；保留详细输出并在覆盖已有笔记备份前询问"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input/notes.txt"
+desc = "保留本题核心操作的参数 ~/ops-lab/input/notes.txt；保留详细输出并在覆盖已有笔记备份前询问"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backup/notes.txt"
+desc = "保留本题核心操作的参数 ~/ops-lab/backup/notes.txt；保留详细输出并在覆盖已有笔记备份前询问"
+
+[commands.dictation]
+prompt = "保留详细输出并在覆盖已有笔记备份前询问"
+answers = ["cp -iv ~/ops-lab/input/notes.txt ~/ops-lab/backup/notes.txt"]
+
+[[commands]]
+id = "v04-ex-review-4f06052773"
+command = "ps aux --forest"
+summary = "用BSD完整格式和进程树关系观察全部进程"
+
+[[commands.tokens]]
+text = "ps"
+desc = "用BSD完整格式和进程树关系观察全部进程"
+
+[[commands.tokens]]
+text = " aux"
+desc = "保留本题核心操作的参数 aux；用BSD完整格式和进程树关系观察全部进程"
+
+[[commands.tokens]]
+text = " --forest"
+desc = "保留本题核心操作的参数 --forest；用BSD完整格式和进程树关系观察全部进程"
+
+[commands.dictation]
+prompt = "用BSD完整格式和进程树关系观察全部进程"
+answers = ["ps aux --forest"]
+
+[[commands]]
+id = "v04-ex-review-4f9345a9cc"
+command = "journalctl -u nginx.service -n 10 --no-pager"
+summary = "取Nginx最近十条日志进行服务故障检查"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "取Nginx最近十条日志进行服务故障检查"
+
+[[commands.tokens]]
+text = " -u"
+desc = "保留本题核心操作的参数 -u；取Nginx最近十条日志进行服务故障检查"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "保留本题核心操作的参数 nginx.service；取Nginx最近十条日志进行服务故障检查"
+
+[[commands.tokens]]
+text = " -n"
+desc = "保留本题核心操作的参数 -n；取Nginx最近十条日志进行服务故障检查"
+
+[[commands.tokens]]
+text = " 10"
+desc = "保留本题核心操作的参数 10；取Nginx最近十条日志进行服务故障检查"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "保留本题核心操作的参数 --no-pager；取Nginx最近十条日志进行服务故障检查"
+
+[commands.dictation]
+prompt = "取Nginx最近十条日志进行服务故障检查"
+answers = ["journalctl -u nginx.service -n 10 --no-pager"]
+
+[[commands]]
+id = "v04-ex-review-515295f143"
+command = "readlink -n ~/ops-lab/settings-link"
+summary = "读取另一链接目标并省略末尾换行"
+
+[[commands.tokens]]
+text = "readlink"
+desc = "读取另一链接目标并省略末尾换行"
+
+[[commands.tokens]]
+text = " -n"
+desc = "保留本题核心操作的参数 -n；读取另一链接目标并省略末尾换行"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings-link"
+desc = "保留本题核心操作的参数 ~/ops-lab/settings-link；读取另一链接目标并省略末尾换行"
+
+[commands.dictation]
+prompt = "读取另一链接目标并省略末尾换行"
+answers = ["readlink -n ~/ops-lab/settings-link"]
+
+[[commands]]
+id = "v04-ex-review-516e6d6de4"
+command = "tty < /dev/tty"
+summary = "从当前控制终端取得标准输入并显示终端设备"
+
+[[commands.tokens]]
+text = "tty"
+desc = "从当前控制终端取得标准输入并显示终端设备"
+
+[[commands.tokens]]
+text = " <"
+desc = "把指定文件接到命令的标准输入"
+
+[[commands.tokens]]
+text = " /dev/tty"
+desc = "保留本题核心操作的参数 /dev/tty；从当前控制终端取得标准输入并显示终端设备"
+
+[commands.dictation]
+prompt = "从当前控制终端取得标准输入并显示终端设备"
+answers = ["tty < /dev/tty"]
+
+[[commands]]
+id = "v04-ex-review-54d263b75c"
+command = "ss -ltnp"
+summary = "只看TCP监听端口与对应进程"
+
+[[commands.tokens]]
+text = "ss"
+desc = "只看TCP监听端口与对应进程"
+
+[[commands.tokens]]
+text = " -ltnp"
+desc = "保留本题核心操作的参数 -ltnp；只看TCP监听端口与对应进程"
+
+[commands.dictation]
+prompt = "只看TCP监听端口与对应进程"
+answers = ["ss -ltnp"]
+
+[[commands]]
+id = "v04-ex-review-559312eb8f"
+command = "printf 'login_shell=%s\\n' \"$SHELL\""
+summary = "带明确标签输出登录shell路径用于环境诊断"
+
+[[commands.tokens]]
+text = "printf"
+desc = "带明确标签输出登录shell路径用于环境诊断"
+
+[[commands.tokens]]
+text = " 'login_shell=%s\\n'"
+desc = "保留本题核心操作的参数 'login_shell=%s\\n'；带明确标签输出登录shell路径用于环境诊断"
+
+[[commands.tokens]]
+text = " \"$SHELL\""
+desc = "保留本题核心操作的参数 \"$SHELL\"；带明确标签输出登录shell路径用于环境诊断"
+
+[commands.dictation]
+prompt = "带明确标签输出登录shell路径用于环境诊断"
+answers = ["printf 'login_shell=%s\\n' \"$SHELL\""]
+
+[[commands]]
+id = "v04-ex-review-567331ad77"
+command = "ps aux --sort=pid"
+summary = "以BSD完整格式查看全部用户进程并按PID排序"
+
+[[commands.tokens]]
+text = "ps"
+desc = "以BSD完整格式查看全部用户进程并按PID排序"
+
+[[commands.tokens]]
+text = " aux"
+desc = "保留本题核心操作的参数 aux；以BSD完整格式查看全部用户进程并按PID排序"
+
+[[commands.tokens]]
+text = " --sort=pid"
+desc = "保留本题核心操作的参数 --sort=pid；以BSD完整格式查看全部用户进程并按PID排序"
+
+[commands.dictation]
+prompt = "以BSD完整格式查看全部用户进程并按PID排序"
+answers = ["ps aux --sort=pid"]
+
+[[commands]]
+id = "v04-ex-review-5a8e890886"
+command = "systemctl is-active rsyslog.service"
+summary = "在日志诊断前查询rsyslog是否活动"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "在日志诊断前查询rsyslog是否活动"
+
+[[commands.tokens]]
+text = " is-active"
+desc = "保留本题核心操作的参数 is-active；在日志诊断前查询rsyslog是否活动"
+
+[[commands.tokens]]
+text = " rsyslog.service"
+desc = "保留本题核心操作的参数 rsyslog.service；在日志诊断前查询rsyslog是否活动"
+
+[commands.dictation]
+prompt = "在日志诊断前查询rsyslog是否活动"
+answers = ["systemctl is-active rsyslog.service"]
+
+[[commands]]
+id = "v04-ex-review-5d1cb9cb8f"
+command = "sed -n '1,20p' ~/.bashrc"
+summary = "只读查看启动配置前二十行以核对环境设置"
+
+[[commands.tokens]]
+text = "sed"
+desc = "只读查看启动配置前二十行以核对环境设置"
+
+[[commands.tokens]]
+text = " -n"
+desc = "保留本题核心操作的参数 -n；只读查看启动配置前二十行以核对环境设置"
+
+[[commands.tokens]]
+text = " '1,20p'"
+desc = "保留本题核心操作的参数 '1,20p'；只读查看启动配置前二十行以核对环境设置"
+
+[[commands.tokens]]
+text = " ~/.bashrc"
+desc = "保留本题核心操作的参数 ~/.bashrc；只读查看启动配置前二十行以核对环境设置"
+
+[commands.dictation]
+prompt = "只读查看启动配置前二十行以核对环境设置"
+answers = ["sed -n '1,20p' ~/.bashrc"]
+
+[[commands]]
+id = "v04-ex-review-5d20b6c282"
+command = "ip address show dev lo"
+summary = "改变接口对象以检查回环地址"
+
+[[commands.tokens]]
+text = "ip"
+desc = "改变接口对象以检查回环地址"
+
+[[commands.tokens]]
+text = " address"
+desc = "保留本题核心操作的参数 address；改变接口对象以检查回环地址"
+
+[[commands.tokens]]
+text = " show"
+desc = "保留本题核心操作的参数 show；改变接口对象以检查回环地址"
+
+[[commands.tokens]]
+text = " dev"
+desc = "保留本题核心操作的参数 dev；改变接口对象以检查回环地址"
+
+[[commands.tokens]]
+text = " lo"
+desc = "保留本题核心操作的参数 lo；改变接口对象以检查回环地址"
+
+[commands.dictation]
+prompt = "改变接口对象以检查回环地址"
+answers = ["ip address show dev lo"]
+
+[[commands]]
+id = "v04-ex-review-5d349ac20c"
+command = "ip -br -4 address show"
+summary = "以每接口一行格式只显示 IPv4 地址"
+
+[[commands.tokens]]
+text = "ip"
+desc = "以每接口一行格式只显示 IPv4 地址"
+
+[[commands.tokens]]
+text = " -br"
+desc = "使用简短的每接口一行地址格式"
+
+[[commands.tokens]]
+text = " -4"
+desc = "保留本题核心操作的参数 -4；以每接口一行格式只显示 IPv4 地址"
+
+[[commands.tokens]]
+text = " address"
+desc = "保留本题核心操作的参数 address；以每接口一行格式只显示 IPv4 地址"
+
+[[commands.tokens]]
+text = " show"
+desc = "保留本题核心操作的参数 show；以每接口一行格式只显示 IPv4 地址"
+
+[commands.dictation]
+prompt = "以每接口一行格式只显示 IPv4 地址"
+answers = ["ip -br -4 address show"]
+
+[[commands]]
+id = "v04-ex-review-5f9fdcc237"
+command = "sudo sshd -T"
+summary = "展开并读取SSH服务端的有效配置"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "展开并读取SSH服务端的有效配置"
+
+[[commands.tokens]]
+text = " sshd"
+desc = "保留本题核心操作的参数 sshd；展开并读取SSH服务端的有效配置"
+
+[[commands.tokens]]
+text = " -T"
+desc = "保留本题核心操作的参数 -T；展开并读取SSH服务端的有效配置"
+
+[commands.dictation]
+prompt = "展开并读取SSH服务端的有效配置"
+answers = ["sudo sshd -T"]
+
+[[commands]]
+id = "v04-ex-review-60514ffdee"
+command = "alias -p"
+summary = "按可复用格式列出全部已有别名定义"
+
+[[commands.tokens]]
+text = "alias"
+desc = "按可复用格式列出全部已有别名定义"
+
+[[commands.tokens]]
+text = " -p"
+desc = "保留本题核心操作的参数 -p；按可复用格式列出全部已有别名定义"
+
+[commands.dictation]
+prompt = "按可复用格式列出全部已有别名定义"
+answers = ["alias -p"]
+
+[[commands]]
+id = "v04-ex-review-6075666507"
+command = "ln -s ~/ops-lab/settings.ini ~/ops-lab/settings-link"
+summary = "为练习配置文件建立绝对目标符号链接"
+
+[[commands.tokens]]
+text = "ln"
+desc = "为练习配置文件建立绝对目标符号链接"
+
+[[commands.tokens]]
+text = " -s"
+desc = "保留本题核心操作的参数 -s；为练习配置文件建立绝对目标符号链接"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "保留本题核心操作的参数 ~/ops-lab/settings.ini；为练习配置文件建立绝对目标符号链接"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings-link"
+desc = "保留本题核心操作的参数 ~/ops-lab/settings-link；为练习配置文件建立绝对目标符号链接"
+
+[commands.dictation]
+prompt = "为练习配置文件建立绝对目标符号链接"
+answers = ["ln -s ~/ops-lab/settings.ini ~/ops-lab/settings-link"]
+
+[[commands]]
+id = "v04-ex-review-60f3a3b9ef"
+command = "cd ~ && pwd"
+summary = "回到自己的主目录后显示实际路径供核对"
+
+[[commands.tokens]]
+text = "cd"
+desc = "回到自己的主目录后显示实际路径供核对"
+
+[[commands.tokens]]
+text = " ~"
+desc = "保留本题核心操作的参数 ~；回到自己的主目录后显示实际路径供核对"
+
+[[commands.tokens]]
+text = " &&"
+desc = "只在前一条命令成功时继续后一条"
+
+[[commands.tokens]]
+text = " pwd"
+desc = "保留本题核心操作的参数 pwd；回到自己的主目录后显示实际路径供核对"
+
+[commands.dictation]
+prompt = "回到自己的主目录后显示实际路径供核对"
+answers = ["cd ~ && pwd"]
+
+[[commands]]
+id = "v04-ex-review-64fb06fab0"
+command = "tmux list-sessions -F '#S attached=#{session_attached}'"
+summary = "列出会话时核对是否已有客户端连接"
+
+[[commands.tokens]]
+text = "tmux"
+desc = "列出会话时核对是否已有客户端连接"
+
+[[commands.tokens]]
+text = " list-sessions"
+desc = "保留本题核心操作的参数 list-sessions；列出会话时核对是否已有客户端连接"
+
+[[commands.tokens]]
+text = " -F"
+desc = "保留本题核心操作的参数 -F；列出会话时核对是否已有客户端连接"
+
+[[commands.tokens]]
+text = " '#S attached=#{session_attached}'"
+desc = "保留本题核心操作的参数 '#S attached=#{session_attached}'；列出会话时核对是否已有客户端连接"
+
+[commands.dictation]
+prompt = "列出会话时核对是否已有客户端连接"
+answers = ["tmux list-sessions -F '#S attached=#{session_attached}'"]
+
+[[commands]]
+id = "v04-ex-review-6be1020521"
+command = "cd \"$HOME\""
+summary = "用已定义 HOME 路径回到自己的主目录"
+
+[[commands.tokens]]
+text = "cd"
+desc = "用已定义 HOME 路径回到自己的主目录"
+
+[[commands.tokens]]
+text = " \"$HOME\""
+desc = "保留本题核心操作的参数 \"$HOME\"；用已定义 HOME 路径回到自己的主目录"
+
+[commands.dictation]
+prompt = "用已定义 HOME 路径回到自己的主目录"
+answers = ["cd \"$HOME\""]
+
+[[commands]]
+id = "v04-ex-review-6ef3102d0d"
+command = "type -t printf"
+summary = "仅输出printf的命令类别"
+
+[[commands.tokens]]
+text = "type"
+desc = "仅输出printf的命令类别"
+
+[[commands.tokens]]
+text = " -t"
+desc = "保留本题核心操作的参数 -t；仅输出printf的命令类别"
+
+[[commands.tokens]]
+text = " printf"
+desc = "保留本题核心操作的参数 printf；仅输出printf的命令类别"
+
+[commands.dictation]
+prompt = "仅输出printf的命令类别"
+answers = ["type -t printf"]
+
+[[commands]]
+id = "v04-ex-review-72710cf202"
+command = "chmod -v u+x ~/ops-lab/deploy.sh"
+summary = "给所有者增加执行位并显示变更"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "给所有者增加执行位并显示变更"
+
+[[commands.tokens]]
+text = " -v"
+desc = "保留本题核心操作的参数 -v；给所有者增加执行位并显示变更"
+
+[[commands.tokens]]
+text = " u+x"
+desc = "保留本题核心操作的参数 u+x；给所有者增加执行位并显示变更"
+
+[[commands.tokens]]
+text = " ~/ops-lab/deploy.sh"
+desc = "保留本题核心操作的参数 ~/ops-lab/deploy.sh；给所有者增加执行位并显示变更"
+
+[commands.dictation]
+prompt = "给所有者增加执行位并显示变更"
+answers = ["chmod -v u+x ~/ops-lab/deploy.sh"]
+
+[[commands]]
+id = "v04-ex-review-78bde592fc"
+command = "ip -br -6 address show"
+summary = "用同样的简洁格式核对 IPv6 地址"
+
+[[commands.tokens]]
+text = "ip"
+desc = "用同样的简洁格式核对 IPv6 地址"
+
+[[commands.tokens]]
+text = " -br"
+desc = "使用简短的每接口一行地址格式"
+
+[[commands.tokens]]
+text = " -6"
+desc = "保留本题核心操作的参数 -6；用同样的简洁格式核对 IPv6 地址"
+
+[[commands.tokens]]
+text = " address"
+desc = "保留本题核心操作的参数 address；用同样的简洁格式核对 IPv6 地址"
+
+[[commands.tokens]]
+text = " show"
+desc = "保留本题核心操作的参数 show；用同样的简洁格式核对 IPv6 地址"
+
+[commands.dictation]
+prompt = "用同样的简洁格式核对 IPv6 地址"
+answers = ["ip -br -6 address show"]
+
+[[commands]]
+id = "v04-ex-review-7936b9346a"
+command = "TZ=Asia/Shanghai date +%Z"
+summary = "临时按上海时区显示缩写，不修改系统时区"
+
+[[commands.tokens]]
+text = "TZ=Asia/Shanghai"
+desc = "临时按上海时区显示缩写，不修改系统时区"
+
+[[commands.tokens]]
+text = " date"
+desc = "保留本题核心操作的参数 date；临时按上海时区显示缩写，不修改系统时区"
+
+[[commands.tokens]]
+text = " +%Z"
+desc = "保留本题核心操作的参数 +%Z；临时按上海时区显示缩写，不修改系统时区"
+
+[commands.dictation]
+prompt = "临时按上海时区显示缩写，不修改系统时区"
+answers = ["TZ=Asia/Shanghai date +%Z"]
+
+[[commands]]
+id = "v04-ex-review-7996ce1535"
+command = "TZ=UTC date '+%Z %z'"
+summary = "同时显示UTC缩写和偏移以区分两者"
+
+[[commands.tokens]]
+text = "TZ=UTC"
+desc = "同时显示UTC缩写和偏移以区分两者"
+
+[[commands.tokens]]
+text = " date"
+desc = "保留本题核心操作的参数 date；同时显示UTC缩写和偏移以区分两者"
+
+[[commands.tokens]]
+text = " '+%Z %z'"
+desc = "保留本题核心操作的参数 '+%Z %z'；同时显示UTC缩写和偏移以区分两者"
+
+[commands.dictation]
+prompt = "同时显示UTC缩写和偏移以区分两者"
+answers = ["TZ=UTC date '+%Z %z'"]
+
+[[commands]]
+id = "v04-ex-review-7fffee4dca"
+command = "ps -u root -o pid,stat,args --sort=pid"
+summary = "只读核对root进程并按PID排列其状态与命令行"
+
+[[commands.tokens]]
+text = "ps"
+desc = "只读核对root进程并按PID排列其状态与命令行"
+
+[[commands.tokens]]
+text = " -u"
+desc = "保留本题核心操作的参数 -u；只读核对root进程并按PID排列其状态与命令行"
+
+[[commands.tokens]]
+text = " root"
+desc = "保留本题核心操作的参数 root；只读核对root进程并按PID排列其状态与命令行"
+
+[[commands.tokens]]
+text = " -o"
+desc = "保留本题核心操作的参数 -o；只读核对root进程并按PID排列其状态与命令行"
+
+[[commands.tokens]]
+text = " pid,stat,args"
+desc = "保留本题核心操作的参数 pid,stat,args；只读核对root进程并按PID排列其状态与命令行"
+
+[[commands.tokens]]
+text = " --sort=pid"
+desc = "保留本题核心操作的参数 --sort=pid；只读核对root进程并按PID排列其状态与命令行"
+
+[commands.dictation]
+prompt = "只读核对root进程并按PID排列其状态与命令行"
+answers = ["ps -u root -o pid,stat,args --sort=pid"]
+
+[[commands]]
+id = "v04-ex-review-80b102a4ba"
+command = "getent passwd root"
+summary = "只读核对管理员账号的passwd身份字段"
+
+[[commands.tokens]]
+text = "getent"
+desc = "只读核对管理员账号的passwd身份字段"
+
+[[commands.tokens]]
+text = " passwd"
+desc = "保留本题核心操作的参数 passwd；只读核对管理员账号的passwd身份字段"
+
+[[commands.tokens]]
+text = " root"
+desc = "保留本题核心操作的参数 root；只读核对管理员账号的passwd身份字段"
+
+[commands.dictation]
+prompt = "只读核对管理员账号的passwd身份字段"
+answers = ["getent passwd root"]
+
+[[commands]]
+id = "v04-ex-review-8199723eb0"
+command = "df -T /home"
+summary = "核对家目录所在文件系统的类型和使用量"
+
+[[commands.tokens]]
+text = "df"
+desc = "核对家目录所在文件系统的类型和使用量"
+
+[[commands.tokens]]
+text = " -T"
+desc = "保留本题核心操作的参数 -T；核对家目录所在文件系统的类型和使用量"
+
+[[commands.tokens]]
+text = " /home"
+desc = "保留本题核心操作的参数 /home；核对家目录所在文件系统的类型和使用量"
+
+[commands.dictation]
+prompt = "核对家目录所在文件系统的类型和使用量"
+answers = ["df -T /home"]
+
+[[commands]]
+id = "v04-ex-review-81dd370eef"
+command = "ps -eo pid,comm,%cpu --sort=-%cpu | head -n 6"
+summary = "从全量CPU排序中截取表头和前五个进程"
+
+[[commands.tokens]]
+text = "ps"
+desc = "从全量CPU排序中截取表头和前五个进程"
+
+[[commands.tokens]]
+text = " -eo"
+desc = "保留本题核心操作的参数 -eo；从全量CPU排序中截取表头和前五个进程"
+
+[[commands.tokens]]
+text = " pid,comm,%cpu"
+desc = "保留本题核心操作的参数 pid,comm,%cpu；从全量CPU排序中截取表头和前五个进程"
+
+[[commands.tokens]]
+text = " --sort=-%cpu"
+desc = "保留本题核心操作的参数 --sort=-%cpu；从全量CPU排序中截取表头和前五个进程"
+
+[[commands.tokens]]
+text = " |"
+desc = "管道把前一命令的标准输出交给后一命令"
+
+[[commands.tokens]]
+text = " head"
+desc = "保留本题核心操作的参数 head；从全量CPU排序中截取表头和前五个进程"
+
+[[commands.tokens]]
+text = " -n"
+desc = "保留本题核心操作的参数 -n；从全量CPU排序中截取表头和前五个进程"
+
+[[commands.tokens]]
+text = " 6"
+desc = "保留本题核心操作的参数 6；从全量CPU排序中截取表头和前五个进程"
+
+[commands.dictation]
+prompt = "从全量CPU排序中截取表头和前五个进程"
+answers = ["ps -eo pid,comm,%cpu --sort=-%cpu | head -n 6"]
+
+[[commands]]
+id = "v04-ex-review-83437125ed"
+command = "mv -i ~/ops-lab/notes.old ~/ops-lab/notes.txt"
+summary = "在同名目标存在时先确认再重命名"
+
+[[commands.tokens]]
+text = "mv"
+desc = "在同名目标存在时先确认再重命名"
+
+[[commands.tokens]]
+text = " -i"
+desc = "保留本题核心操作的参数 -i；在同名目标存在时先确认再重命名"
+
+[[commands.tokens]]
+text = " ~/ops-lab/notes.old"
+desc = "保留本题核心操作的参数 ~/ops-lab/notes.old；在同名目标存在时先确认再重命名"
+
+[[commands.tokens]]
+text = " ~/ops-lab/notes.txt"
+desc = "保留本题核心操作的参数 ~/ops-lab/notes.txt；在同名目标存在时先确认再重命名"
+
+[commands.dictation]
+prompt = "在同名目标存在时先确认再重命名"
+answers = ["mv -i ~/ops-lab/notes.old ~/ops-lab/notes.txt"]
+
+[[commands]]
+id = "v04-ex-review-88156bb1e4"
+command = "grep -v '^#' /etc/fstab"
+summary = "过滤注释后核对fstab设备、挂载点与选项字段"
+
+[[commands.tokens]]
+text = "grep"
+desc = "过滤注释后核对fstab设备、挂载点与选项字段"
+
+[[commands.tokens]]
+text = " -v"
+desc = "保留本题核心操作的参数 -v；过滤注释后核对fstab设备、挂载点与选项字段"
+
+[[commands.tokens]]
+text = " '^#'"
+desc = "保留本题核心操作的参数 '^#'；过滤注释后核对fstab设备、挂载点与选项字段"
+
+[[commands.tokens]]
+text = " /etc/fstab"
+desc = "保留本题核心操作的参数 /etc/fstab；过滤注释后核对fstab设备、挂载点与选项字段"
+
+[commands.dictation]
+prompt = "过滤注释后核对fstab设备、挂载点与选项字段"
+answers = ["grep -v '^#' /etc/fstab"]
+
+[[commands]]
+id = "v04-ex-review-8864db8133"
+command = "tr '[:lower:]' '[:upper:]' < ~/ops-lab/labels.txt"
+summary = "改变输入文件并保留小写到大写的方向"
+
+[[commands.tokens]]
+text = "tr"
+desc = "改变输入文件并保留小写到大写的方向"
+
+[[commands.tokens]]
+text = " '[:lower:]'"
+desc = "保留本题核心操作的参数 '[:lower:]'；改变输入文件并保留小写到大写的方向"
+
+[[commands.tokens]]
+text = " '[:upper:]'"
+desc = "保留本题核心操作的参数 '[:upper:]'；改变输入文件并保留小写到大写的方向"
+
+[[commands.tokens]]
+text = " <"
+desc = "把指定文件接到命令的标准输入"
+
+[[commands.tokens]]
+text = " ~/ops-lab/labels.txt"
+desc = "保留本题核心操作的参数 ~/ops-lab/labels.txt；改变输入文件并保留小写到大写的方向"
+
+[commands.dictation]
+prompt = "改变输入文件并保留小写到大写的方向"
+answers = ["tr '[:lower:]' '[:upper:]' < ~/ops-lab/labels.txt"]
+
+[[commands]]
+id = "v04-ex-review-8c17acbe04"
+command = "chmod -v 755 ~/ops-lab/deploy.sh"
+summary = "以详细输出确认另一脚本的 755 执行权限"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "以详细输出确认另一脚本的 755 执行权限"
+
+[[commands.tokens]]
+text = " -v"
+desc = "保留本题核心操作的参数 -v；以详细输出确认另一脚本的 755 执行权限"
+
+[[commands.tokens]]
+text = " 755"
+desc = "保留本题核心操作的参数 755；以详细输出确认另一脚本的 755 执行权限"
+
+[[commands.tokens]]
+text = " ~/ops-lab/deploy.sh"
+desc = "保留本题核心操作的参数 ~/ops-lab/deploy.sh；以详细输出确认另一脚本的 755 执行权限"
+
+[commands.dictation]
+prompt = "以详细输出确认另一脚本的 755 执行权限"
+answers = ["chmod -v 755 ~/ops-lab/deploy.sh"]
+
+[[commands]]
+id = "v04-ex-review-8d6e1e7b32"
+command = "crontab -l | less +G"
+summary = "分页打开个人定时配置后先定位末尾"
+
+[[commands.tokens]]
+text = "crontab"
+desc = "分页打开个人定时配置后先定位末尾"
+
+[[commands.tokens]]
+text = " -l"
+desc = "保留本题核心操作的参数 -l；分页打开个人定时配置后先定位末尾"
+
+[[commands.tokens]]
+text = " |"
+desc = "管道把前一命令的标准输出交给后一命令"
+
+[[commands.tokens]]
+text = " less"
+desc = "保留本题核心操作的参数 less；分页打开个人定时配置后先定位末尾"
+
+[[commands.tokens]]
+text = " +G"
+desc = "保留本题核心操作的参数 +G；分页打开个人定时配置后先定位末尾"
+
+[commands.dictation]
+prompt = "分页打开个人定时配置后先定位末尾"
+answers = ["crontab -l | less +G"]
+
+[[commands]]
+id = "v04-ex-review-8ee1e34b44"
+command = "tar -xzf settings.tar.gz -C ~/ops-lab/restore"
+summary = "改变归档和目标，保留gzip解压操作"
+
+[[commands.tokens]]
+text = "tar"
+desc = "改变归档和目标，保留gzip解压操作"
+
+[[commands.tokens]]
+text = " -xzf"
+desc = "保留本题核心操作的参数 -xzf；改变归档和目标，保留gzip解压操作"
+
+[[commands.tokens]]
+text = " settings.tar.gz"
+desc = "保留本题核心操作的参数 settings.tar.gz；改变归档和目标，保留gzip解压操作"
+
+[[commands.tokens]]
+text = " -C"
+desc = "保留本题核心操作的参数 -C；改变归档和目标，保留gzip解压操作"
+
+[[commands.tokens]]
+text = " ~/ops-lab/restore"
+desc = "保留本题核心操作的参数 ~/ops-lab/restore；改变归档和目标，保留gzip解压操作"
+
+[commands.dictation]
+prompt = "改变归档和目标，保留gzip解压操作"
+answers = ["tar -xzf settings.tar.gz -C ~/ops-lab/restore"]
+
+[[commands]]
+id = "v04-ex-review-9190de6648"
+command = "findmnt --fstab"
+summary = "只读取持久挂载表而不是当前运行态挂载"
+
+[[commands.tokens]]
+text = "findmnt"
+desc = "只读取持久挂载表而不是当前运行态挂载"
+
+[[commands.tokens]]
+text = " --fstab"
+desc = "保留本题核心操作的参数 --fstab；只读取持久挂载表而不是当前运行态挂载"
+
+[commands.dictation]
+prompt = "只读取持久挂载表而不是当前运行态挂载"
+answers = ["findmnt --fstab"]
+
+[[commands]]
+id = "v04-ex-review-9411f6b8dc"
+command = "namei -l /srv/app/settings.ini"
+summary = "逐级检查课程目标配置路径的目录遍历和文件权限"
+
+[[commands.tokens]]
+text = "namei"
+desc = "逐级检查课程目标配置路径的目录遍历和文件权限"
+
+[[commands.tokens]]
+text = " -l"
+desc = "保留本题核心操作的参数 -l；逐级检查课程目标配置路径的目录遍历和文件权限"
+
+[[commands.tokens]]
+text = " /srv/app/settings.ini"
+desc = "保留本题核心操作的参数 /srv/app/settings.ini；逐级检查课程目标配置路径的目录遍历和文件权限"
+
+[commands.dictation]
+prompt = "逐级检查课程目标配置路径的目录遍历和文件权限"
+answers = ["namei -l /srv/app/settings.ini"]
+
+[[commands]]
+id = "v04-ex-review-94e20264be"
+command = "printf '%s\\n' '# literal text' # quoted hash is data"
+summary = "区分引号内的字面井号与引号外真正开始的注释"
+
+[[commands.tokens]]
+text = "printf"
+desc = "区分引号内的字面井号与引号外真正开始的注释"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "保留本题核心操作的参数 '%s\\n'；区分引号内的字面井号与引号外真正开始的注释"
+
+[[commands.tokens]]
+text = " '# literal text'"
+desc = "保留本题核心操作的参数 '# literal text'；区分引号内的字面井号与引号外真正开始的注释"
+
+[[commands.tokens]]
+text = " #"
+desc = "保留本题核心操作的参数 #；区分引号内的字面井号与引号外真正开始的注释"
+
+[[commands.tokens]]
+text = " quoted"
+desc = "保留本题核心操作的参数 quoted；区分引号内的字面井号与引号外真正开始的注释"
+
+[[commands.tokens]]
+text = " hash"
+desc = "保留本题核心操作的参数 hash；区分引号内的字面井号与引号外真正开始的注释"
+
+[[commands.tokens]]
+text = " is"
+desc = "保留本题核心操作的参数 is；区分引号内的字面井号与引号外真正开始的注释"
+
+[[commands.tokens]]
+text = " data"
+desc = "保留本题核心操作的参数 data；区分引号内的字面井号与引号外真正开始的注释"
+
+[commands.dictation]
+prompt = "区分引号内的字面井号与引号外真正开始的注释"
+answers = ["printf '%s\\n' '# literal text' # quoted hash is data"]
+
+[[commands]]
+id = "v04-ex-review-95fcb2b497"
+command = "ln -s ../shared ~/ops-lab/input/shared"
+summary = "从链接所在input目录解析上一级shared目标"
+
+[[commands.tokens]]
+text = "ln"
+desc = "从链接所在input目录解析上一级shared目标"
+
+[[commands.tokens]]
+text = " -s"
+desc = "保留本题核心操作的参数 -s；从链接所在input目录解析上一级shared目标"
+
+[[commands.tokens]]
+text = " ../shared"
+desc = "保留本题核心操作的参数 ../shared；从链接所在input目录解析上一级shared目标"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input/shared"
+desc = "保留本题核心操作的参数 ~/ops-lab/input/shared；从链接所在input目录解析上一级shared目标"
+
+[commands.dictation]
+prompt = "从链接所在input目录解析上一级shared目标"
+answers = ["ln -s ../shared ~/ops-lab/input/shared"]
+
+[[commands]]
+id = "v04-ex-review-9675bffee6"
+command = "less -N ~/ops-lab/backend.log"
+summary = "为日志分页保留行号"
+
+[[commands.tokens]]
+text = "less"
+desc = "为日志分页保留行号"
+
+[[commands.tokens]]
+text = " -N"
+desc = "保留本题核心操作的参数 -N；为日志分页保留行号"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backend.log"
+desc = "保留本题核心操作的参数 ~/ops-lab/backend.log；为日志分页保留行号"
+
+[commands.dictation]
+prompt = "为日志分页保留行号"
+answers = ["less -N ~/ops-lab/backend.log"]
+
+[[commands]]
+id = "v04-ex-review-9889e58ef2"
+command = "sudo -ll"
+summary = "以详细列表检查当前账号的sudo规则与选项"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以详细列表检查当前账号的sudo规则与选项"
+
+[[commands.tokens]]
+text = " -ll"
+desc = "保留本题核心操作的参数 -ll；以详细列表检查当前账号的sudo规则与选项"
+
+[commands.dictation]
+prompt = "以详细列表检查当前账号的sudo规则与选项"
+answers = ["sudo -ll"]
+
+[[commands]]
+id = "v04-ex-review-98b1ca330b"
+command = "mv -v ~/ops-lab/old.log ~/ops-lab/archive/"
+summary = "将日志移入归档目录并显示移动结果"
+
+[[commands.tokens]]
+text = "mv"
+desc = "将日志移入归档目录并显示移动结果"
+
+[[commands.tokens]]
+text = " -v"
+desc = "保留本题核心操作的参数 -v；将日志移入归档目录并显示移动结果"
+
+[[commands.tokens]]
+text = " ~/ops-lab/old.log"
+desc = "保留本题核心操作的参数 ~/ops-lab/old.log；将日志移入归档目录并显示移动结果"
+
+[[commands.tokens]]
+text = " ~/ops-lab/archive/"
+desc = "保留本题核心操作的参数 ~/ops-lab/archive/；将日志移入归档目录并显示移动结果"
+
+[commands.dictation]
+prompt = "将日志移入归档目录并显示移动结果"
+answers = ["mv -v ~/ops-lab/old.log ~/ops-lab/archive/"]
+
+[[commands]]
+id = "v04-ex-review-99f9eadd34"
+command = "ps -ef --no-headers"
+summary = "去掉表头以便处理完整进程清单"
+
+[[commands.tokens]]
+text = "ps"
+desc = "去掉表头以便处理完整进程清单"
+
+[[commands.tokens]]
+text = " -ef"
+desc = "保留本题核心操作的参数 -ef；去掉表头以便处理完整进程清单"
+
+[[commands.tokens]]
+text = " --no-headers"
+desc = "保留本题核心操作的参数 --no-headers；去掉表头以便处理完整进程清单"
+
+[commands.dictation]
+prompt = "去掉表头以便处理完整进程清单"
+answers = ["ps -ef --no-headers"]
+
+[[commands]]
+id = "v04-ex-review-9a085ecbbd"
+command = "find ~/ops-lab/cache -type f -name '*.tmp' -print0 | xargs -0 -r rm --"
+summary = "按NUL边界删除课程已确认可丢弃的临时文件"
+
+[[commands.tokens]]
+text = "find"
+desc = "按NUL边界删除课程已确认可丢弃的临时文件"
+
+[[commands.tokens]]
+text = " ~/ops-lab/cache"
+desc = "保留本题核心操作的参数 ~/ops-lab/cache；按NUL边界删除课程已确认可丢弃的临时文件"
+
+[[commands.tokens]]
+text = " -type"
+desc = "保留本题核心操作的参数 -type；按NUL边界删除课程已确认可丢弃的临时文件"
+
+[[commands.tokens]]
+text = " f"
+desc = "保留本题核心操作的参数 f；按NUL边界删除课程已确认可丢弃的临时文件"
+
+[[commands.tokens]]
+text = " -name"
+desc = "保留本题核心操作的参数 -name；按NUL边界删除课程已确认可丢弃的临时文件"
+
+[[commands.tokens]]
+text = " '*.tmp'"
+desc = "保留本题核心操作的参数 '*.tmp'；按NUL边界删除课程已确认可丢弃的临时文件"
+
+[[commands.tokens]]
+text = " -print0"
+desc = "保留本题核心操作的参数 -print0；按NUL边界删除课程已确认可丢弃的临时文件"
+
+[[commands.tokens]]
+text = " |"
+desc = "管道把前一命令的标准输出交给后一命令"
+
+[[commands.tokens]]
+text = " xargs"
+desc = "保留本题核心操作的参数 xargs；按NUL边界删除课程已确认可丢弃的临时文件"
+
+[[commands.tokens]]
+text = " -0"
+desc = "保留本题核心操作的参数 -0；按NUL边界删除课程已确认可丢弃的临时文件"
+
+[[commands.tokens]]
+text = " -r"
+desc = "保留本题核心操作的参数 -r；按NUL边界删除课程已确认可丢弃的临时文件"
+
+[[commands.tokens]]
+text = " rm"
+desc = "保留本题核心操作的参数 rm；按NUL边界删除课程已确认可丢弃的临时文件"
+
+[[commands.tokens]]
+text = " --"
+desc = "保留本题核心操作的参数 --；按NUL边界删除课程已确认可丢弃的临时文件"
+
+[commands.dictation]
+prompt = "按NUL边界删除课程已确认可丢弃的临时文件"
+answers = ["find ~/ops-lab/cache -type f -name '*.tmp' -print0 | xargs -0 -r rm --"]
+
+[[commands]]
+id = "v04-ex-review-9e3c4e6289"
+command = "chmod 644 ~/ops-lab/notes.txt"
+summary = "将练习笔记设为所有者读写、组与其他人只读"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "将练习笔记设为所有者读写、组与其他人只读"
+
+[[commands.tokens]]
+text = " 644"
+desc = "保留本题核心操作的参数 644；将练习笔记设为所有者读写、组与其他人只读"
+
+[[commands.tokens]]
+text = " ~/ops-lab/notes.txt"
+desc = "保留本题核心操作的参数 ~/ops-lab/notes.txt；将练习笔记设为所有者读写、组与其他人只读"
+
+[commands.dictation]
+prompt = "将练习笔记设为所有者读写、组与其他人只读"
+answers = ["chmod 644 ~/ops-lab/notes.txt"]
+
+[[commands]]
+id = "v04-ex-review-9e4647ea1c"
+command = "dpkg --audit openssh-client"
+summary = "在修复SSH客户端前检查其包安装状态"
+
+[[commands.tokens]]
+text = "dpkg"
+desc = "在修复SSH客户端前检查其包安装状态"
+
+[[commands.tokens]]
+text = " --audit"
+desc = "保留本题核心操作的参数 --audit；在修复SSH客户端前检查其包安装状态"
+
+[[commands.tokens]]
+text = " openssh-client"
+desc = "保留本题核心操作的参数 openssh-client；在修复SSH客户端前检查其包安装状态"
+
+[commands.dictation]
+prompt = "在修复SSH客户端前检查其包安装状态"
+answers = ["dpkg --audit openssh-client"]
+
+[[commands]]
+id = "v04-ex-review-a34f0d73fe"
+command = "mkdir -p ~/ops-lab/work/reports"
+summary = "一次补齐工作目录与报告子目录"
+
+[[commands.tokens]]
+text = "mkdir"
+desc = "一次补齐工作目录与报告子目录"
+
+[[commands.tokens]]
+text = " -p"
+desc = "保留本题核心操作的参数 -p；一次补齐工作目录与报告子目录"
+
+[[commands.tokens]]
+text = " ~/ops-lab/work/reports"
+desc = "保留本题核心操作的参数 ~/ops-lab/work/reports；一次补齐工作目录与报告子目录"
+
+[commands.dictation]
+prompt = "一次补齐工作目录与报告子目录"
+answers = ["mkdir -p ~/ops-lab/work/reports"]
+
+[[commands]]
+id = "v04-ex-review-a35ca6b63a"
+command = "printenv LANG LC_ALL LC_CTYPE"
+summary = "并列读取默认、总覆盖与字符分类变量"
+
+[[commands.tokens]]
+text = "printenv"
+desc = "并列读取默认、总覆盖与字符分类变量"
+
+[[commands.tokens]]
+text = " LANG"
+desc = "保留本题核心操作的参数 LANG；并列读取默认、总覆盖与字符分类变量"
+
+[[commands.tokens]]
+text = " LC_ALL"
+desc = "保留本题核心操作的参数 LC_ALL；并列读取默认、总覆盖与字符分类变量"
+
+[[commands.tokens]]
+text = " LC_CTYPE"
+desc = "保留本题核心操作的参数 LC_CTYPE；并列读取默认、总覆盖与字符分类变量"
+
+[commands.dictation]
+prompt = "并列读取默认、总覆盖与字符分类变量"
+answers = ["printenv LANG LC_ALL LC_CTYPE"]
+
+[[commands]]
+id = "v04-ex-review-a45b526f97"
+command = "cd ../"
+summary = "使用带尾部斜杠的 .. 路径切换到上一级目录"
+
+[[commands.tokens]]
+text = "cd"
+desc = "使用带尾部斜杠的 .. 路径切换到上一级目录"
+
+[[commands.tokens]]
+text = " ../"
+desc = "保留本题核心操作的参数 ../；使用带尾部斜杠的 .. 路径切换到上一级目录"
+
+[commands.dictation]
+prompt = "使用带尾部斜杠的 .. 路径切换到上一级目录"
+answers = ["cd ../"]
+
+[[commands]]
+id = "v04-ex-review-a6bd2dd529"
+command = "apt search openssh-server"
+summary = "搜索提供SSH服务端的软件包"
+
+[[commands.tokens]]
+text = "apt"
+desc = "搜索提供SSH服务端的软件包"
+
+[[commands.tokens]]
+text = " search"
+desc = "保留本题核心操作的参数 search；搜索提供SSH服务端的软件包"
+
+[[commands.tokens]]
+text = " openssh-server"
+desc = "保留本题核心操作的参数 openssh-server；搜索提供SSH服务端的软件包"
+
+[commands.dictation]
+prompt = "搜索提供SSH服务端的软件包"
+answers = ["apt search openssh-server"]
+
+[[commands]]
+id = "v04-ex-review-aa3dd9f7ea"
+command = "du -sh -- ~/ops-lab/logs"
+summary = "在明确结束选项后汇总日志目录占用"
+
+[[commands.tokens]]
+text = "du"
+desc = "在明确结束选项后汇总日志目录占用"
+
+[[commands.tokens]]
+text = " -sh"
+desc = "保留本题核心操作的参数 -sh；在明确结束选项后汇总日志目录占用"
+
+[[commands.tokens]]
+text = " --"
+desc = "保留本题核心操作的参数 --；在明确结束选项后汇总日志目录占用"
+
+[[commands.tokens]]
+text = " ~/ops-lab/logs"
+desc = "保留本题核心操作的参数 ~/ops-lab/logs；在明确结束选项后汇总日志目录占用"
+
+[commands.dictation]
+prompt = "在明确结束选项后汇总日志目录占用"
+answers = ["du -sh -- ~/ops-lab/logs"]
+
+[[commands]]
+id = "v04-ex-review-ab48e61670"
+command = "printf 'target=%s\\n' \"$(readlink ~/ops-lab/current)\""
+summary = "把链接文本加上标签用于检查记录"
+
+[[commands.tokens]]
+text = "printf"
+desc = "把链接文本加上标签用于检查记录"
+
+[[commands.tokens]]
+text = " 'target=%s\\n'"
+desc = "保留本题核心操作的参数 'target=%s\\n'；把链接文本加上标签用于检查记录"
+
+[[commands.tokens]]
+text = " \"$(readlink ~/ops-lab/current)\""
+desc = "保留本题核心操作的参数 \"$(readlink ~/ops-lab/current)\"；把链接文本加上标签用于检查记录"
+
+[commands.dictation]
+prompt = "把链接文本加上标签用于检查记录"
+answers = ["printf 'target=%s\\n' \"$(readlink ~/ops-lab/current)\""]
+
+[[commands]]
+id = "v04-ex-review-aef35ddea0"
+command = "sudo -l -U ace"
+summary = "改变被审查账号，仍仅列出sudo授权规则"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "改变被审查账号，仍仅列出sudo授权规则"
+
+[[commands.tokens]]
+text = " -l"
+desc = "保留本题核心操作的参数 -l；改变被审查账号，仍仅列出sudo授权规则"
+
+[[commands.tokens]]
+text = " -U"
+desc = "保留本题核心操作的参数 -U；改变被审查账号，仍仅列出sudo授权规则"
+
+[[commands.tokens]]
+text = " ace"
+desc = "保留本题核心操作的参数 ace；改变被审查账号，仍仅列出sudo授权规则"
+
+[commands.dictation]
+prompt = "改变被审查账号，仍仅列出sudo授权规则"
+answers = ["sudo -l -U ace"]
+
+[[commands]]
+id = "v04-ex-review-b0e27aea90"
+command = "printf 'config=%s\\n' \"$HOME/.config\""
+summary = "使用HOME构造用户配置目录并显示"
+
+[[commands.tokens]]
+text = "printf"
+desc = "使用HOME构造用户配置目录并显示"
+
+[[commands.tokens]]
+text = " 'config=%s\\n'"
+desc = "保留本题核心操作的参数 'config=%s\\n'；使用HOME构造用户配置目录并显示"
+
+[[commands.tokens]]
+text = " \"$HOME/.config\""
+desc = "保留本题核心操作的参数 \"$HOME/.config\"；使用HOME构造用户配置目录并显示"
+
+[commands.dictation]
+prompt = "使用HOME构造用户配置目录并显示"
+answers = ["printf 'config=%s\\n' \"$HOME/.config\""]
+
+[[commands]]
+id = "v04-ex-review-b290b6bf83"
+command = "tmux list-sessions -F '#S created=#{session_created}'"
+summary = "读取会话创建时间字段以区分长期任务上下文"
+
+[[commands.tokens]]
+text = "tmux"
+desc = "读取会话创建时间字段以区分长期任务上下文"
+
+[[commands.tokens]]
+text = " list-sessions"
+desc = "保留本题核心操作的参数 list-sessions；读取会话创建时间字段以区分长期任务上下文"
+
+[[commands.tokens]]
+text = " -F"
+desc = "保留本题核心操作的参数 -F；读取会话创建时间字段以区分长期任务上下文"
+
+[[commands.tokens]]
+text = " '#S created=#{session_created}'"
+desc = "保留本题核心操作的参数 '#S created=#{session_created}'；读取会话创建时间字段以区分长期任务上下文"
+
+[commands.dictation]
+prompt = "读取会话创建时间字段以区分长期任务上下文"
+answers = ["tmux list-sessions -F '#S created=#{session_created}'"]
+
+[[commands]]
+id = "v04-ex-review-b5f1b34045"
+command = "docker ps --no-trunc"
+summary = "只列运行容器，并显示完整容器ID及启动命令"
+
+[[commands.tokens]]
+text = "docker"
+desc = "只列运行容器，并显示完整容器ID及启动命令"
+
+[[commands.tokens]]
+text = " ps"
+desc = "保留本题核心操作的参数 ps；只列运行容器，并显示完整容器ID及启动命令"
+
+[[commands.tokens]]
+text = " --no-trunc"
+desc = "保留本题核心操作的参数 --no-trunc；只列运行容器，并显示完整容器ID及启动命令"
+
+[commands.dictation]
+prompt = "只列运行容器，并显示完整容器ID及启动命令"
+answers = ["docker ps --no-trunc"]
+
+[[commands]]
+id = "v04-ex-review-b6534b4c62"
+command = "LC_ALL=C sort -u labels.txt"
+summary = "使用固定C排序规则整理并去重标签"
+
+[[commands.tokens]]
+text = "LC_ALL=C"
+desc = "使用固定C排序规则整理并去重标签"
+
+[[commands.tokens]]
+text = " sort"
+desc = "保留本题核心操作的参数 sort；使用固定C排序规则整理并去重标签"
+
+[[commands.tokens]]
+text = " -u"
+desc = "保留本题核心操作的参数 -u；使用固定C排序规则整理并去重标签"
+
+[[commands.tokens]]
+text = " labels.txt"
+desc = "保留本题核心操作的参数 labels.txt；使用固定C排序规则整理并去重标签"
+
+[commands.dictation]
+prompt = "使用固定C排序规则整理并去重标签"
+answers = ["LC_ALL=C sort -u labels.txt"]
+
+[[commands]]
+id = "v04-ex-review-b6fdfe6e89"
+command = "mv -i ~/ops-lab/notes.txt ~/ops-lab/backup/"
+summary = "移入目录时先确认同名覆盖"
+
+[[commands.tokens]]
+text = "mv"
+desc = "移入目录时先确认同名覆盖"
+
+[[commands.tokens]]
+text = " -i"
+desc = "保留本题核心操作的参数 -i；移入目录时先确认同名覆盖"
+
+[[commands.tokens]]
+text = " ~/ops-lab/notes.txt"
+desc = "保留本题核心操作的参数 ~/ops-lab/notes.txt；移入目录时先确认同名覆盖"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backup/"
+desc = "保留本题核心操作的参数 ~/ops-lab/backup/；移入目录时先确认同名覆盖"
+
+[commands.dictation]
+prompt = "移入目录时先确认同名覆盖"
+answers = ["mv -i ~/ops-lab/notes.txt ~/ops-lab/backup/"]
+
+[[commands]]
+id = "v04-ex-review-b76cd58f12"
+command = "sort users.txt"
+summary = "将另一份用户名称列表按文本规则升序排列"
+
+[[commands.tokens]]
+text = "sort"
+desc = "将另一份用户名称列表按文本规则升序排列"
+
+[[commands.tokens]]
+text = " users.txt"
+desc = "保留本题核心操作的参数 users.txt；将另一份用户名称列表按文本规则升序排列"
+
+[commands.dictation]
+prompt = "将另一份用户名称列表按文本规则升序排列"
+answers = ["sort users.txt"]
+
+[[commands]]
+id = "v04-ex-review-b85d690a1f"
+command = "chmod u=rwx,go=rx ~/ops-lab/start.sh"
+summary = "用等价符号权限表达 755，使启动脚本仅所有者可写"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "用等价符号权限表达 755，使启动脚本仅所有者可写"
+
+[[commands.tokens]]
+text = " u=rwx,go=rx"
+desc = "保留本题核心操作的参数 u=rwx,go=rx；用等价符号权限表达 755，使启动脚本仅所有者可写"
+
+[[commands.tokens]]
+text = " ~/ops-lab/start.sh"
+desc = "保留本题核心操作的参数 ~/ops-lab/start.sh；用等价符号权限表达 755，使启动脚本仅所有者可写"
+
+[commands.dictation]
+prompt = "用等价符号权限表达 755，使启动脚本仅所有者可写"
+answers = ["chmod u=rwx,go=rx ~/ops-lab/start.sh"]
+
+[[commands]]
+id = "v04-ex-review-b9420185d8"
+command = "dpkg -L bash"
+summary = "定位Bash软件包提供的程序和文档文件"
+
+[[commands.tokens]]
+text = "dpkg"
+desc = "定位Bash软件包提供的程序和文档文件"
+
+[[commands.tokens]]
+text = " -L"
+desc = "保留本题核心操作的参数 -L；定位Bash软件包提供的程序和文档文件"
+
+[[commands.tokens]]
+text = " bash"
+desc = "保留本题核心操作的参数 bash；定位Bash软件包提供的程序和文档文件"
+
+[commands.dictation]
+prompt = "定位Bash软件包提供的程序和文档文件"
+answers = ["dpkg -L bash"]
+
+[[commands]]
+id = "v04-ex-review-bd1cd0c74d"
+command = "date -u +%F"
+summary = "以YYYY-MM-DD输出UTC日历日期"
+
+[[commands.tokens]]
+text = "date"
+desc = "以YYYY-MM-DD输出UTC日历日期"
+
+[[commands.tokens]]
+text = " -u"
+desc = "保留本题核心操作的参数 -u；以YYYY-MM-DD输出UTC日历日期"
+
+[[commands.tokens]]
+text = " +%F"
+desc = "保留本题核心操作的参数 +%F；以YYYY-MM-DD输出UTC日历日期"
+
+[commands.dictation]
+prompt = "以YYYY-MM-DD输出UTC日历日期"
+answers = ["date -u +%F"]
+
+[[commands]]
+id = "v04-ex-review-c149feed5f"
+command = "printenv USER"
+summary = "从导出的环境中读取USER"
+
+[[commands.tokens]]
+text = "printenv"
+desc = "从导出的环境中读取USER"
+
+[[commands.tokens]]
+text = " USER"
+desc = "保留本题核心操作的参数 USER；从导出的环境中读取USER"
+
+[commands.dictation]
+prompt = "从导出的环境中读取USER"
+answers = ["printenv USER"]
+
+[[commands]]
+id = "v04-ex-review-c489fb6132"
+command = "git status --short --branch"
+summary = "在简洁状态中增加当前分支信息"
+
+[[commands.tokens]]
+text = "git"
+desc = "在简洁状态中增加当前分支信息"
+
+[[commands.tokens]]
+text = " status"
+desc = "保留本题核心操作的参数 status；在简洁状态中增加当前分支信息"
+
+[[commands.tokens]]
+text = " --short"
+desc = "保留本题核心操作的参数 --short；在简洁状态中增加当前分支信息"
+
+[[commands.tokens]]
+text = " --branch"
+desc = "保留本题核心操作的参数 --branch；在简洁状态中增加当前分支信息"
+
+[commands.dictation]
+prompt = "在简洁状态中增加当前分支信息"
+answers = ["git status --short --branch"]
+
+[[commands]]
+id = "v04-ex-review-c51e4db5be"
+command = "uptime --pretty"
+summary = "使用长选项输出易读的连续运行时长"
+
+[[commands.tokens]]
+text = "uptime"
+desc = "使用长选项输出易读的连续运行时长"
+
+[[commands.tokens]]
+text = " --pretty"
+desc = "保留本题核心操作的参数 --pretty；使用长选项输出易读的连续运行时长"
+
+[commands.dictation]
+prompt = "使用长选项输出易读的连续运行时长"
+answers = ["uptime --pretty"]
+
+[[commands]]
+id = "v04-ex-review-c7a02a1803"
+command = "lsblk --json -o NAME,SIZE,TYPE,MOUNTPOINTS"
+summary = "用JSON表示同样的设备层级和挂载信息"
+
+[[commands.tokens]]
+text = "lsblk"
+desc = "用JSON表示同样的设备层级和挂载信息"
+
+[[commands.tokens]]
+text = " --json"
+desc = "保留本题核心操作的参数 --json；用JSON表示同样的设备层级和挂载信息"
+
+[[commands.tokens]]
+text = " -o"
+desc = "保留本题核心操作的参数 -o；用JSON表示同样的设备层级和挂载信息"
+
+[[commands.tokens]]
+text = " NAME,SIZE,TYPE,MOUNTPOINTS"
+desc = "保留本题核心操作的参数 NAME,SIZE,TYPE,MOUNTPOINTS；用JSON表示同样的设备层级和挂载信息"
+
+[commands.dictation]
+prompt = "用JSON表示同样的设备层级和挂载信息"
+answers = ["lsblk --json -o NAME,SIZE,TYPE,MOUNTPOINTS"]
+
+[[commands]]
+id = "v04-ex-review-ca209a1264"
+command = "locale -k LC_NUMERIC"
+summary = "检查数字小数点和分组规则的当前分类设置"
+
+[[commands.tokens]]
+text = "locale"
+desc = "检查数字小数点和分组规则的当前分类设置"
+
+[[commands.tokens]]
+text = " -k"
+desc = "保留本题核心操作的参数 -k；检查数字小数点和分组规则的当前分类设置"
+
+[[commands.tokens]]
+text = " LC_NUMERIC"
+desc = "保留本题核心操作的参数 LC_NUMERIC；检查数字小数点和分组规则的当前分类设置"
+
+[commands.dictation]
+prompt = "检查数字小数点和分组规则的当前分类设置"
+answers = ["locale -k LC_NUMERIC"]
+
+[[commands]]
+id = "v04-ex-review-cbd198a330"
+command = "LANG=C.UTF-8 locale"
+summary = "只设置默认值并检查已有分类或LC_ALL是否继续覆盖它"
+
+[[commands.tokens]]
+text = "LANG=C.UTF-8"
+desc = "只设置默认值并检查已有分类或LC_ALL是否继续覆盖它"
+
+[[commands.tokens]]
+text = " locale"
+desc = "保留本题核心操作的参数 locale；只设置默认值并检查已有分类或LC_ALL是否继续覆盖它"
+
+[commands.dictation]
+prompt = "只设置默认值并检查已有分类或LC_ALL是否继续覆盖它"
+answers = ["LANG=C.UTF-8 locale"]
+
+[[commands]]
+id = "v04-ex-review-cc0673d4fc"
+command = "sudo systemctl start ssh.service"
+summary = "启动Ubuntu实验机的SSH服务单元"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "启动Ubuntu实验机的SSH服务单元"
+
+[[commands.tokens]]
+text = " systemctl"
+desc = "保留本题核心操作的参数 systemctl；启动Ubuntu实验机的SSH服务单元"
+
+[[commands.tokens]]
+text = " start"
+desc = "保留本题核心操作的参数 start；启动Ubuntu实验机的SSH服务单元"
+
+[[commands.tokens]]
+text = " ssh.service"
+desc = "保留本题核心操作的参数 ssh.service；启动Ubuntu实验机的SSH服务单元"
+
+[commands.dictation]
+prompt = "启动Ubuntu实验机的SSH服务单元"
+answers = ["sudo systemctl start ssh.service"]
+
+[[commands]]
+id = "v04-ex-review-cc33fbcce9"
+command = "ls -l /etc/cron.d/"
+summary = "定位系统级定时任务配置文件并核对权限"
+
+[[commands.tokens]]
+text = "ls"
+desc = "定位系统级定时任务配置文件并核对权限"
+
+[[commands.tokens]]
+text = " -l"
+desc = "保留本题核心操作的参数 -l；定位系统级定时任务配置文件并核对权限"
+
+[[commands.tokens]]
+text = " /etc/cron.d/"
+desc = "保留本题核心操作的参数 /etc/cron.d/；定位系统级定时任务配置文件并核对权限"
+
+[commands.dictation]
+prompt = "定位系统级定时任务配置文件并核对权限"
+answers = ["ls -l /etc/cron.d/"]
+
+[[commands]]
+id = "v04-ex-review-d02b9a8386"
+command = "kill -s TERM 5252"
+summary = "用显式信号名称语法请求练习进程5252正常终止"
+
+[[commands.tokens]]
+text = "kill"
+desc = "用显式信号名称语法请求练习进程5252正常终止"
+
+[[commands.tokens]]
+text = " -s"
+desc = "保留本题核心操作的参数 -s；用显式信号名称语法请求练习进程5252正常终止"
+
+[[commands.tokens]]
+text = " TERM"
+desc = "保留本题核心操作的参数 TERM；用显式信号名称语法请求练习进程5252正常终止"
+
+[[commands.tokens]]
+text = " 5252"
+desc = "保留本题核心操作的参数 5252；用显式信号名称语法请求练习进程5252正常终止"
+
+[commands.dictation]
+prompt = "用显式信号名称语法请求练习进程5252正常终止"
+answers = ["kill -s TERM 5252"]
+
+[[commands]]
+id = "v04-ex-review-d1663bf635"
+command = "lsblk -o NAME,FSTYPE,UUID,MOUNTPOINTS"
+summary = "显式选择文件系统识别所需字段"
+
+[[commands.tokens]]
+text = "lsblk"
+desc = "显式选择文件系统识别所需字段"
+
+[[commands.tokens]]
+text = " -o"
+desc = "保留本题核心操作的参数 -o；显式选择文件系统识别所需字段"
+
+[[commands.tokens]]
+text = " NAME,FSTYPE,UUID,MOUNTPOINTS"
+desc = "保留本题核心操作的参数 NAME,FSTYPE,UUID,MOUNTPOINTS；显式选择文件系统识别所需字段"
+
+[commands.dictation]
+prompt = "显式选择文件系统识别所需字段"
+answers = ["lsblk -o NAME,FSTYPE,UUID,MOUNTPOINTS"]
+
+[[commands]]
+id = "v04-ex-review-d1be877a4a"
+command = "bg %4"
+summary = "把课程预置的暂停作业4恢复到后台继续处理"
+
+[[commands.tokens]]
+text = "bg"
+desc = "把课程预置的暂停作业4恢复到后台继续处理"
+
+[[commands.tokens]]
+text = " %4"
+desc = "保留本题核心操作的参数 %4；把课程预置的暂停作业4恢复到后台继续处理"
+
+[commands.dictation]
+prompt = "把课程预置的暂停作业4恢复到后台继续处理"
+answers = ["bg %4"]
+
+[[commands]]
+id = "v04-ex-review-d3ee0a1111"
+command = "date '+%Y-%m-%d'"
+summary = "用等价显式字段输出本地日历日期"
+
+[[commands.tokens]]
+text = "date"
+desc = "用等价显式字段输出本地日历日期"
+
+[[commands.tokens]]
+text = " '+%Y-%m-%d'"
+desc = "保留本题核心操作的参数 '+%Y-%m-%d'；用等价显式字段输出本地日历日期"
+
+[commands.dictation]
+prompt = "用等价显式字段输出本地日历日期"
+answers = ["date '+%Y-%m-%d'"]
+
+[[commands]]
+id = "v04-ex-review-d3fc16774a"
+command = "zip -r logs.zip logs"
+summary = "递归打包日志目录供移交使用"
+
+[[commands.tokens]]
+text = "zip"
+desc = "递归打包日志目录供移交使用"
+
+[[commands.tokens]]
+text = " -r"
+desc = "保留本题核心操作的参数 -r；递归打包日志目录供移交使用"
+
+[[commands.tokens]]
+text = " logs.zip"
+desc = "保留本题核心操作的参数 logs.zip；递归打包日志目录供移交使用"
+
+[[commands.tokens]]
+text = " logs"
+desc = "保留本题核心操作的参数 logs；递归打包日志目录供移交使用"
+
+[commands.dictation]
+prompt = "递归打包日志目录供移交使用"
+answers = ["zip -r logs.zip logs"]
+
+[[commands]]
+id = "v04-ex-review-d499171f00"
+command = "chmod u=rw,go=r ~/ops-lab/public.conf"
+summary = "用符号形式设置不含秘密的公开练习配置为 644"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "用符号形式设置不含秘密的公开练习配置为 644"
+
+[[commands.tokens]]
+text = " u=rw,go=r"
+desc = "保留本题核心操作的参数 u=rw,go=r；用符号形式设置不含秘密的公开练习配置为 644"
+
+[[commands.tokens]]
+text = " ~/ops-lab/public.conf"
+desc = "保留本题核心操作的参数 ~/ops-lab/public.conf；用符号形式设置不含秘密的公开练习配置为 644"
+
+[commands.dictation]
+prompt = "用符号形式设置不含秘密的公开练习配置为 644"
+answers = ["chmod u=rw,go=r ~/ops-lab/public.conf"]
+
+[[commands]]
+id = "v04-ex-review-d527734825"
+command = "grep -n '^Include' /etc/ssh/sshd_config"
+summary = "检查主配置是否包含额外SSH配置片段"
+
+[[commands.tokens]]
+text = "grep"
+desc = "检查主配置是否包含额外SSH配置片段"
+
+[[commands.tokens]]
+text = " -n"
+desc = "保留本题核心操作的参数 -n；检查主配置是否包含额外SSH配置片段"
+
+[[commands.tokens]]
+text = " '^Include'"
+desc = "保留本题核心操作的参数 '^Include'；检查主配置是否包含额外SSH配置片段"
+
+[[commands.tokens]]
+text = " /etc/ssh/sshd_config"
+desc = "保留本题核心操作的参数 /etc/ssh/sshd_config；检查主配置是否包含额外SSH配置片段"
+
+[commands.dictation]
+prompt = "检查主配置是否包含额外SSH配置片段"
+answers = ["grep -n '^Include' /etc/ssh/sshd_config"]
+
+[[commands]]
+id = "v04-ex-review-d926098cb9"
+command = "tmux detach-client -s ops"
+summary = "让课程已存在的ops会话客户端分离，保留其中任务"
+
+[[commands.tokens]]
+text = "tmux"
+desc = "让课程已存在的ops会话客户端分离，保留其中任务"
+
+[[commands.tokens]]
+text = " detach-client"
+desc = "保留本题核心操作的参数 detach-client；让课程已存在的ops会话客户端分离，保留其中任务"
+
+[[commands.tokens]]
+text = " -s"
+desc = "保留本题核心操作的参数 -s；让课程已存在的ops会话客户端分离，保留其中任务"
+
+[[commands.tokens]]
+text = " ops"
+desc = "保留本题核心操作的参数 ops；让课程已存在的ops会话客户端分离，保留其中任务"
+
+[commands.dictation]
+prompt = "让课程已存在的ops会话客户端分离，保留其中任务"
+answers = ["tmux detach-client -s ops"]
+
+[[commands]]
+id = "v04-ex-review-e1793e55b2"
+command = "kill -l TERM"
+summary = "只查询TERM信号对应编号，不发送任何信号"
+
+[[commands.tokens]]
+text = "kill"
+desc = "只查询TERM信号对应编号，不发送任何信号"
+
+[[commands.tokens]]
+text = " -l"
+desc = "保留本题核心操作的参数 -l；只查询TERM信号对应编号，不发送任何信号"
+
+[[commands.tokens]]
+text = " TERM"
+desc = "保留本题核心操作的参数 TERM；只查询TERM信号对应编号，不发送任何信号"
+
+[commands.dictation]
+prompt = "只查询TERM信号对应编号，不发送任何信号"
+answers = ["kill -l TERM"]
+
+[[commands]]
+id = "v04-ex-review-e2a0fdf5d2"
+command = "fg %4"
+summary = "回到课程预置作业4的前台交互"
+
+[[commands.tokens]]
+text = "fg"
+desc = "回到课程预置作业4的前台交互"
+
+[[commands.tokens]]
+text = " %4"
+desc = "保留本题核心操作的参数 %4；回到课程预置作业4的前台交互"
+
+[commands.dictation]
+prompt = "回到课程预置作业4的前台交互"
+answers = ["fg %4"]
+
+[[commands]]
+id = "v04-ex-review-e5b55cbca1"
+command = "date -d tomorrow +%F"
+summary = "按相同日期格式预览明天的日期"
+
+[[commands.tokens]]
+text = "date"
+desc = "按相同日期格式预览明天的日期"
+
+[[commands.tokens]]
+text = " -d"
+desc = "保留本题核心操作的参数 -d；按相同日期格式预览明天的日期"
+
+[[commands.tokens]]
+text = " tomorrow"
+desc = "保留本题核心操作的参数 tomorrow；按相同日期格式预览明天的日期"
+
+[[commands.tokens]]
+text = " +%F"
+desc = "保留本题核心操作的参数 +%F；按相同日期格式预览明天的日期"
+
+[commands.dictation]
+prompt = "按相同日期格式预览明天的日期"
+answers = ["date -d tomorrow +%F"]
+
+[[commands]]
+id = "v04-ex-review-e9d4490667"
+command = "tar -cf config.tar -C ~/ops-lab config"
+summary = "从实验根目录相对创建配置未压缩归档"
+
+[[commands.tokens]]
+text = "tar"
+desc = "从实验根目录相对创建配置未压缩归档"
+
+[[commands.tokens]]
+text = " -cf"
+desc = "保留本题核心操作的参数 -cf；从实验根目录相对创建配置未压缩归档"
+
+[[commands.tokens]]
+text = " config.tar"
+desc = "保留本题核心操作的参数 config.tar；从实验根目录相对创建配置未压缩归档"
+
+[[commands.tokens]]
+text = " -C"
+desc = "保留本题核心操作的参数 -C；从实验根目录相对创建配置未压缩归档"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "保留本题核心操作的参数 ~/ops-lab；从实验根目录相对创建配置未压缩归档"
+
+[[commands.tokens]]
+text = " config"
+desc = "保留本题核心操作的参数 config；从实验根目录相对创建配置未压缩归档"
+
+[commands.dictation]
+prompt = "从实验根目录相对创建配置未压缩归档"
+answers = ["tar -cf config.tar -C ~/ops-lab config"]
+
+[[commands]]
+id = "v04-ex-review-ee099f43f9"
+command = "date -u '+%F %T %Z'"
+summary = "以明确UTC时间对照本地显示，判断八小时时差是否来自时区"
+
+[[commands.tokens]]
+text = "date"
+desc = "以明确UTC时间对照本地显示，判断八小时时差是否来自时区"
+
+[[commands.tokens]]
+text = " -u"
+desc = "保留本题核心操作的参数 -u；以明确UTC时间对照本地显示，判断八小时时差是否来自时区"
+
+[[commands.tokens]]
+text = " '+%F %T %Z'"
+desc = "保留本题核心操作的参数 '+%F %T %Z'；以明确UTC时间对照本地显示，判断八小时时差是否来自时区"
+
+[commands.dictation]
+prompt = "以明确UTC时间对照本地显示，判断八小时时差是否来自时区"
+answers = ["date -u '+%F %T %Z'"]
+
+[[commands]]
+id = "v04-ex-review-f30154f95a"
+command = "type -a cd"
+summary = "核对cd属于shell内建而不是普通外部程序"
+
+[[commands.tokens]]
+text = "type"
+desc = "核对cd属于shell内建而不是普通外部程序"
+
+[[commands.tokens]]
+text = " -a"
+desc = "保留本题核心操作的参数 -a；核对cd属于shell内建而不是普通外部程序"
+
+[[commands.tokens]]
+text = " cd"
+desc = "保留本题核心操作的参数 cd；核对cd属于shell内建而不是普通外部程序"
+
+[commands.dictation]
+prompt = "核对cd属于shell内建而不是普通外部程序"
+answers = ["type -a cd"]
+
+[[commands]]
+id = "v04-ex-review-f501bd1b1b"
+command = "tmux new-session -s backup"
+summary = "为备份工作创建命名会话并连接到其中"
+
+[[commands.tokens]]
+text = "tmux"
+desc = "为备份工作创建命名会话并连接到其中"
+
+[[commands.tokens]]
+text = " new-session"
+desc = "保留本题核心操作的参数 new-session；为备份工作创建命名会话并连接到其中"
+
+[[commands.tokens]]
+text = " -s"
+desc = "保留本题核心操作的参数 -s；为备份工作创建命名会话并连接到其中"
+
+[[commands.tokens]]
+text = " backup"
+desc = "保留本题核心操作的参数 backup；为备份工作创建命名会话并连接到其中"
+
+[commands.dictation]
+prompt = "为备份工作创建命名会话并连接到其中"
+answers = ["tmux new-session -s backup"]
+
+[[commands]]
+id = "v04-ex-review-f9d4d19045"
+command = "lsblk -f -e 7"
+summary = "忽略loop设备主设备号7后查看文件系统标识"
+
+[[commands.tokens]]
+text = "lsblk"
+desc = "忽略loop设备主设备号7后查看文件系统标识"
+
+[[commands.tokens]]
+text = " -f"
+desc = "保留本题核心操作的参数 -f；忽略loop设备主设备号7后查看文件系统标识"
+
+[[commands.tokens]]
+text = " -e"
+desc = "保留本题核心操作的参数 -e；忽略loop设备主设备号7后查看文件系统标识"
+
+[[commands.tokens]]
+text = " 7"
+desc = "保留本题核心操作的参数 7；忽略loop设备主设备号7后查看文件系统标识"
+
+[commands.dictation]
+prompt = "忽略loop设备主设备号7后查看文件系统标识"
+answers = ["lsblk -f -e 7"]
+
+[[commands]]
+id = "v04-ex-review-fac1d81c72"
+command = "command -v curl"
+summary = "在运行网络检查前确认curl能否从PATH找到"
+
+[[commands.tokens]]
+text = "command"
+desc = "在运行网络检查前确认curl能否从PATH找到"
+
+[[commands.tokens]]
+text = " -v"
+desc = "保留本题核心操作的参数 -v；在运行网络检查前确认curl能否从PATH找到"
+
+[[commands.tokens]]
+text = " curl"
+desc = "保留本题核心操作的参数 curl；在运行网络检查前确认curl能否从PATH找到"
+
+[commands.dictation]
+prompt = "在运行网络检查前确认curl能否从PATH找到"
+answers = ["command -v curl"]
+
+[[commands]]
+id = "v04-ex-review-fd2cb33acc"
+command = "alias ll"
+summary = "只读核对课程预置ll别名的实际展开内容"
+
+[[commands.tokens]]
+text = "alias"
+desc = "只读核对课程预置ll别名的实际展开内容"
+
+[[commands.tokens]]
+text = " ll"
+desc = "保留本题核心操作的参数 ll；只读核对课程预置ll别名的实际展开内容"
+
+[commands.dictation]
+prompt = "只读核对课程预置ll别名的实际展开内容"
+answers = ["alias ll"]
+
+[[commands]]
+id = "v04-ex-review-ffc13b0370"
+command = "df -T /var/log"
+summary = "显示日志路径所在文件系统类型与块容量"
+
+[[commands.tokens]]
+text = "df"
+desc = "显示日志路径所在文件系统类型与块容量"
+
+[[commands.tokens]]
+text = " -T"
+desc = "保留本题核心操作的参数 -T；显示日志路径所在文件系统类型与块容量"
+
+[[commands.tokens]]
+text = " /var/log"
+desc = "保留本题核心操作的参数 /var/log；显示日志路径所在文件系统类型与块容量"
+
+[commands.dictation]
+prompt = "显示日志路径所在文件系统类型与块容量"
+answers = ["df -T /var/log"]

@@ -1,12 +1,11 @@
 use chrono::Utc;
-use crossterm::event::{KeyCode, KeyEvent};
+use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 
 use crate::app::{
     App, AppState, ReviewExercise, ReviewExerciseKind, ReviewPhase, ReviewPracticeState,
     ReviewSource,
 };
 use crate::core::matcher::{self, MatchResult};
-use crate::core::scorer;
 use crate::data::models::{
     Command, Exercise, RecordMode, SessionRecord, SymbolTopic, SystemSection, SystemTopic, Token,
     TokenKind, TopicTrainingLevel,
@@ -69,6 +68,23 @@ fn handle_practice_key(app: &mut App, key: KeyEvent, source: ReviewSource) {
         }
     };
 
+    if key.modifiers.contains(KeyModifiers::CONTROL)
+        && !key.modifiers.contains(KeyModifiers::ALT)
+        && key.code == KeyCode::Char('r')
+    {
+        if exercise.kind == ReviewExerciseKind::Typing {
+            reset_typing_engine_for_current_exercise(app);
+            app.review_practice.typing_showing_output = false;
+        }
+        return;
+    }
+    if key
+        .modifiers
+        .intersects(KeyModifiers::CONTROL | KeyModifiers::ALT)
+    {
+        return;
+    }
+
     match exercise.kind {
         ReviewExerciseKind::Typing => handle_typing_key(app, key, &source, &exercise),
         ReviewExerciseKind::Cloze => handle_cloze_key(app, key, &source, &exercise),
@@ -83,6 +99,12 @@ fn handle_typing_key(
     exercise: &ReviewExercise,
 ) {
     match key.code {
+        KeyCode::Char(_) if app.review_practice.typing_showing_output => {
+            advance_review_practice(app, source);
+            if !app.review_practice.completed {
+                handle_practice_key(app, key, source.clone());
+            }
+        }
         KeyCode::Backspace if !app.review_practice.typing_showing_output => {
             app.typing_engine.backspace();
         }
@@ -556,6 +578,7 @@ fn record_review_exercise_result(
 ) {
     let now_ms = Utc::now().timestamp_millis();
     let record = SessionRecord {
+        typing: None,
         id: format!("{}-{}", now_ms, exercise.command_id),
         command_id: exercise.command_id.clone(),
         mode,
@@ -572,10 +595,7 @@ fn record_review_exercise_result(
 }
 
 fn persist_review_record(app: &mut App, record: SessionRecord) {
-    scorer::update_stats(&mut app.user_stats, &record);
-    let _ = app.progress_store.save_stats(&app.user_stats);
-    let _ = app.progress_store.append_record(&record);
-    app.history.push(record);
+    app.persist_record(record);
 }
 
 fn record_review_stats(app: &mut App) {

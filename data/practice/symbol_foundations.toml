@@ -1,0 +1,495 @@
+
+[[groups]]
+id = "practice-symbol-pipe_redirect-pipe"
+source_kind = "symbol"
+source_id = "pipe_redirect"
+unit_id = "pipe"
+title = "管道"
+teaching_command_id = "v04-ref-b3851cdafc"
+exercise_command_ids = ["v04-ex-138dbc3390", "v04-ex-a54e02876e", "v04-ex-f55e665e2f"]
+
+[[groups]]
+id = "practice-symbol-pipe_redirect-redirect_stdout_overwrite"
+source_kind = "symbol"
+source_id = "pipe_redirect"
+unit_id = "redirect_stdout_overwrite"
+title = "输出重定向（覆盖）"
+teaching_command_id = "v04-ref-5b5f79fc42"
+exercise_command_ids = ["v04-ex-fd967b9341", "v04-ex-e91c2f5e90", "v04-ex-1d6059d14c"]
+
+[[groups]]
+id = "practice-symbol-pipe_redirect-redirect_stdout_append"
+source_kind = "symbol"
+source_id = "pipe_redirect"
+unit_id = "redirect_stdout_append"
+title = "输出重定向（追加）"
+teaching_command_id = "v04-ref-53347128cc"
+exercise_command_ids = ["v04-ex-9dda04da0e", "v04-ex-08862ec49a", "v04-ex-3f56640ef2"]
+
+[[groups]]
+id = "practice-symbol-pipe_redirect-redirect_stderr"
+source_kind = "symbol"
+source_id = "pipe_redirect"
+unit_id = "redirect_stderr"
+title = "标准错误重定向"
+teaching_command_id = "v04-ref-8aee894088"
+exercise_command_ids = ["v04-ex-e7e461013d", "v04-ex-c6a773694c", "v04-ex-1977e75759"]
+
+[[groups]]
+id = "practice-symbol-pipe_redirect-redirect_stderr_to_stdout"
+source_kind = "symbol"
+source_id = "pipe_redirect"
+unit_id = "redirect_stderr_to_stdout"
+title = "合并标准错误到标准输出"
+teaching_command_id = "v04-ref-3295d2a9d6"
+exercise_command_ids = ["v04-ex-aa6e14365c", "v04-ex-8bd0e829da", "v04-ex-2843d309be"]
+
+[[groups]]
+id = "practice-symbol-pipe_redirect-redirect_stdin"
+source_kind = "symbol"
+source_id = "pipe_redirect"
+unit_id = "redirect_stdin"
+title = "输入重定向"
+teaching_command_id = "v04-ref-91000503b6"
+exercise_command_ids = ["v04-ex-685cba5a02", "v04-ex-b402dae83f", "v04-ex-b1bbe38d1c"]
+
+[[groups]]
+id = "practice-symbol-pipe_redirect-heredoc"
+source_kind = "symbol"
+source_id = "pipe_redirect"
+unit_id = "heredoc"
+title = "Here Document"
+teaching_command_id = "v04-ref-023c24397c"
+exercise_command_ids = ["v04-ex-fdd519fb34", "v04-ex-0235108569", "v04-ex-4bfbfde272"]
+
+[[groups]]
+id = "practice-symbol-pipe_redirect-tee"
+source_kind = "symbol"
+source_id = "pipe_redirect"
+unit_id = "tee"
+title = "tee 分流器"
+teaching_command_id = "v04-ref-bd05b158bd"
+exercise_command_ids = ["v04-ex-725374647f", "v04-ex-ab0f00ec72", "v04-ex-0aa45dbaa7"]
+
+[[groups]]
+id = "practice-symbol-quotes_escape-single_quote"
+source_kind = "symbol"
+source_id = "quotes_escape"
+unit_id = "single_quote"
+title = "单引号"
+teaching_command_id = "env-echo-home-literal"
+exercise_command_ids = ["v04-ex-de98b2c736", "v04-ex-96384ca2eb", "v04-ex-0c5536b445"]
+
+[[groups]]
+id = "practice-symbol-quotes_escape-double_quote"
+source_kind = "symbol"
+source_id = "quotes_escape"
+unit_id = "double_quote"
+title = "双引号"
+teaching_command_id = "env-echo-home-quoted"
+exercise_command_ids = ["v04-ex-ec14e37d5c", "v04-ex-c0f5316362", "v04-ex-217052f69b"]
+
+[[groups]]
+id = "practice-symbol-quotes_escape-backslash"
+source_kind = "symbol"
+source_id = "quotes_escape"
+unit_id = "backslash"
+title = "反斜杠（转义符）"
+teaching_command_id = "v04-ref-7b96a288ac"
+exercise_command_ids = ["v04-ex-a20982d7ac", "v04-ex-b0f5c3af44", "v04-ex-780b45bd10"]
+
+[[groups]]
+id = "practice-symbol-quotes_escape-backtick"
+source_kind = "symbol"
+source_id = "quotes_escape"
+unit_id = "backtick"
+title = "反引号（旧式命令替换）"
+teaching_command_id = "v04-ref-72ea6fefa3"
+exercise_command_ids = ["v04-ex-c4f70af948", "v04-ex-c0b8d9734a", "v04-ex-887e84689b"]
+
+[[groups]]
+id = "practice-symbol-quotes_escape-command_substitution"
+source_kind = "symbol"
+source_id = "quotes_escape"
+unit_id = "command_substitution"
+title = "命令替换"
+teaching_command_id = "v04-ref-3a8a258d43"
+exercise_command_ids = ["v04-ex-d642bff2fd", "v04-ex-7cb8b2be1d", "v04-ex-cdd904723c"]
+
+[[groups]]
+id = "practice-symbol-regex_basics-regex_dot"
+source_kind = "symbol"
+source_id = "regex_basics"
+unit_id = "regex_dot"
+title = "点号元字符"
+teaching_command_id = "v04-ref-2b197f9615"
+exercise_command_ids = ["v04-ex-2a0b8c6b33", "v04-ex-89ffe7b2e7", "v04-ex-b262b8a970"]
+
+[[groups]]
+id = "practice-symbol-regex_basics-regex_star"
+source_kind = "symbol"
+source_id = "regex_basics"
+unit_id = "regex_star"
+title = "星号量词"
+teaching_command_id = "v04-ref-53eb9456ab"
+exercise_command_ids = ["v04-ex-1c38215917", "v04-ex-ccad047039", "v04-ex-d6b283af47"]
+
+[[groups]]
+id = "practice-symbol-regex_basics-regex_plus"
+source_kind = "symbol"
+source_id = "regex_basics"
+unit_id = "regex_plus"
+title = "加号量词"
+teaching_command_id = "v04-ref-ccdc4ac912"
+exercise_command_ids = ["v04-ex-d2cb99820f", "v04-ex-0e8b7e59d9", "v04-ex-9af499c8f1"]
+
+[[groups]]
+id = "practice-symbol-regex_basics-regex_question"
+source_kind = "symbol"
+source_id = "regex_basics"
+unit_id = "regex_question"
+title = "问号量词"
+teaching_command_id = "v04-ref-03fd4156f8"
+exercise_command_ids = ["v04-ex-d25105a575", "v04-ex-7ffa152e57", "v04-ex-4ec71d870f"]
+
+[[groups]]
+id = "practice-symbol-regex_basics-regex_caret"
+source_kind = "symbol"
+source_id = "regex_basics"
+unit_id = "regex_caret"
+title = "脱字符（行首锚点）"
+teaching_command_id = "v04-ref-80bca3c0cf"
+exercise_command_ids = ["v04-ex-023a074040", "v04-ex-e3bddcc3d0", "v04-ex-eb62885d3b"]
+
+[[groups]]
+id = "practice-symbol-regex_basics-regex_dollar"
+source_kind = "symbol"
+source_id = "regex_basics"
+unit_id = "regex_dollar"
+title = "美元符号（行尾锚点）"
+teaching_command_id = "v04-ref-8ac908ef45"
+exercise_command_ids = ["v04-ex-63134b5756", "v04-ex-45ce0ba7eb", "v04-ex-8b0beaae01"]
+
+[[groups]]
+id = "practice-symbol-regex_basics-regex_bracket"
+source_kind = "symbol"
+source_id = "regex_basics"
+unit_id = "regex_bracket"
+title = "方括号字符类"
+teaching_command_id = "v04-ref-f66555e840"
+exercise_command_ids = ["v04-ex-ceb1361c2c", "v04-ex-a63d3e3aa3", "v04-ex-28c40b5e9c"]
+
+[[groups]]
+id = "practice-symbol-regex_basics-regex_group"
+source_kind = "symbol"
+source_id = "regex_basics"
+unit_id = "regex_group"
+title = "圆括号分组"
+teaching_command_id = "v04-ref-7452f01c9c"
+exercise_command_ids = ["v04-ex-228bc8298d", "v04-ex-b3ee3caba0", "v04-ex-e4a87aaa36"]
+
+[[groups]]
+id = "practice-symbol-special_chars-semicolon"
+source_kind = "symbol"
+source_id = "special_chars"
+unit_id = "semicolon"
+title = "分号（命令分隔符）"
+teaching_command_id = "v04-ref-0cc404dda0"
+exercise_command_ids = ["v04-ex-3fd803dc4f", "v04-ex-c2a91b44e4", "v04-ex-4a444808b5"]
+
+[[groups]]
+id = "practice-symbol-special_chars-logical_and"
+source_kind = "symbol"
+source_id = "special_chars"
+unit_id = "logical_and"
+title = "逻辑与（AND）"
+teaching_command_id = "v04-ref-1f031c60cf"
+exercise_command_ids = ["v04-ex-a8162d0d06", "v04-ex-be40630fc4", "v04-ex-1f67961bd3"]
+
+[[groups]]
+id = "practice-symbol-special_chars-logical_or"
+source_kind = "symbol"
+source_id = "special_chars"
+unit_id = "logical_or"
+title = "逻辑或（OR）"
+teaching_command_id = "v04-ref-f7b6ee0c8e"
+exercise_command_ids = ["v04-ex-22cbcfe716", "v04-ex-be6816b359", "v04-ex-48578f223b"]
+
+[[groups]]
+id = "practice-symbol-special_chars-background"
+source_kind = "symbol"
+source_id = "special_chars"
+unit_id = "background"
+title = "后台执行符"
+teaching_command_id = "v04-ref-7dcc710e11"
+exercise_command_ids = ["v04-ex-75245f36a9", "v04-ex-c402ec4110", "v04-ex-963ec3ad37"]
+
+[[groups]]
+id = "practice-symbol-special_chars-exclamation"
+source_kind = "symbol"
+source_id = "special_chars"
+unit_id = "exclamation"
+title = "感叹号（历史展开与逻辑非）"
+teaching_command_id = "history-repeat-last"
+exercise_command_ids = ["v04-ex-2954a894d9", "v04-ex-f5f6026eef", "v04-ex-ecd895caa5"]
+
+[[groups]]
+id = "practice-symbol-special_chars-comment"
+source_kind = "symbol"
+source_id = "special_chars"
+unit_id = "comment"
+title = "井号（注释符）"
+teaching_command_id = "v04-ref-bc4e985372"
+exercise_command_ids = ["v04-ex-cba79acf21", "v04-ex-8d539a4559", "v04-ex-review-94e20264be"]
+
+[[groups]]
+id = "practice-symbol-special_chars-tilde"
+source_kind = "symbol"
+source_id = "special_chars"
+unit_id = "tilde"
+title = "波浪号（主目录快捷方式）"
+teaching_command_id = "cd-home-tilde"
+exercise_command_ids = ["v04-ex-f51f4bd9dc", "v04-ex-fb51c1b98e", "v04-ex-5c21decd75"]
+
+[[groups]]
+id = "practice-symbol-special_chars-dot_command"
+source_kind = "symbol"
+source_id = "special_chars"
+unit_id = "dot_command"
+title = "点号（source 命令 / 当前目录）"
+teaching_command_id = "v04-ref-63eeb676b1"
+exercise_command_ids = ["v04-ex-080596411e", "v04-ex-37dbb2aa65", "v04-python_ops-9f61792990"]
+
+[[groups]]
+id = "practice-symbol-variables-var_reference"
+source_kind = "symbol"
+source_id = "variables"
+unit_id = "var_reference"
+title = "变量引用"
+teaching_command_id = "echo-var-home"
+exercise_command_ids = ["v04-ex-ec14e37d5c", "v04-ex-bc3702c77d", "v04-ex-386bc09cb3"]
+
+[[groups]]
+id = "practice-symbol-variables-var_brace"
+source_kind = "symbol"
+source_id = "variables"
+unit_id = "var_brace"
+title = "花括号变量引用"
+teaching_command_id = "v04-ref-521aa3cf1e"
+exercise_command_ids = ["v04-ex-d7e72cc5ef", "v04-ex-bda258255e", "v04-ex-52a8862405"]
+
+[[groups]]
+id = "practice-symbol-variables-exit_status"
+source_kind = "symbol"
+source_id = "variables"
+unit_id = "exit_status"
+title = "退出状态码"
+teaching_command_id = "v04-ref-dcf61be114"
+exercise_command_ids = ["v04-ex-e72d3b8059", "v04-ex-2cc809b680", "v04-ex-0dd88601dd"]
+
+[[groups]]
+id = "practice-symbol-variables-script_name"
+source_kind = "symbol"
+source_id = "variables"
+unit_id = "script_name"
+title = "脚本/Shell 名称"
+teaching_command_id = "shell-invocation-name"
+exercise_command_ids = ["v04-ex-4ddf3d4a34", "v04-ex-ddba9e5131", "v04-ex-721fc66ac5"]
+
+[[groups]]
+id = "practice-symbol-variables-arg_count"
+source_kind = "symbol"
+source_id = "variables"
+unit_id = "arg_count"
+title = "参数个数"
+teaching_command_id = "v04-ref-8e83434495"
+exercise_command_ids = ["v04-ex-53a0cfb64e", "v04-ex-b4eba42af8", "v04-ex-736d5de44c"]
+
+[[groups]]
+id = "practice-symbol-variables-all_args"
+source_kind = "symbol"
+source_id = "variables"
+unit_id = "all_args"
+title = "所有位置参数"
+teaching_command_id = "v04-ref-65def0ea7d"
+exercise_command_ids = ["v04-ex-33b52f18a0", "v04-ex-aa76a0bb03", "v04-ex-da8ebc41a9"]
+
+[[groups]]
+id = "practice-symbol-variables-current_pid"
+source_kind = "symbol"
+source_id = "variables"
+unit_id = "current_pid"
+title = "当前进程 ID"
+teaching_command_id = "v04-ref-a5f78a681e"
+exercise_command_ids = ["v04-ex-dcfdd06947", "v04-ex-0e376e2c38", "v04-ex-b038b9917e"]
+
+[[groups]]
+id = "practice-symbol-variables-last_bg_pid"
+source_kind = "symbol"
+source_id = "variables"
+unit_id = "last_bg_pid"
+title = "后台进程 PID"
+teaching_command_id = "v04-ref-08aee02fbd"
+exercise_command_ids = ["v04-ex-c1ffe4f821", "v04-ex-0e478d90a9", "v04-ex-3aa964a1ae"]
+
+[[groups]]
+id = "practice-symbol-wildcards-asterisk"
+source_kind = "symbol"
+source_id = "wildcards"
+unit_id = "asterisk"
+title = "星号通配符"
+teaching_command_id = "v04-ref-0270db571e"
+exercise_command_ids = ["v04-ex-1085bff8a4", "v04-ex-6138e082c8", "v04-ex-9f8bd65a75"]
+
+[[groups]]
+id = "practice-symbol-wildcards-question_mark"
+source_kind = "symbol"
+source_id = "wildcards"
+unit_id = "question_mark"
+title = "问号通配符"
+teaching_command_id = "v04-ref-2a70e392fd"
+exercise_command_ids = ["v04-ex-c7b2b5b949", "v04-ex-7ebfb48be5", "v04-ex-f8e71d8d81"]
+
+[[groups]]
+id = "practice-symbol-wildcards-bracket_class"
+source_kind = "symbol"
+source_id = "wildcards"
+unit_id = "bracket_class"
+title = "方括号字符类"
+teaching_command_id = "v04-ref-91d8bd9a48"
+exercise_command_ids = ["v04-ex-02b960f984", "v04-ex-0de5a54460", "v04-ex-5950bb8a27"]
+
+[[groups]]
+id = "practice-symbol-wildcards-brace_expansion"
+source_kind = "symbol"
+source_id = "wildcards"
+unit_id = "brace_expansion"
+title = "花括号展开"
+teaching_command_id = "v04-ref-67301e1535"
+exercise_command_ids = ["v04-ex-eb6f819559", "v04-ex-d4e6550575", "v04-ex-0a33308cee"]
+
+[[groups]]
+id = "practice-symbol-tests_conditionals-single-bracket-test"
+source_kind = "symbol"
+source_id = "tests_conditionals"
+unit_id = "single-bracket-test"
+title = "单中括号条件测试"
+teaching_command_id = "v04-ref-c3ffaf1554"
+exercise_command_ids = ["v04-ex-26605bea0b", "v04-ex-57337042d3", "v04-ex-652f336d6e"]
+
+[[groups]]
+id = "practice-symbol-tests_conditionals-double-bracket-test"
+source_kind = "symbol"
+source_id = "tests_conditionals"
+unit_id = "double-bracket-test"
+title = "双中括号条件表达式"
+teaching_command_id = "v04-ref-b8a48f9f4b"
+exercise_command_ids = ["v04-ex-632d405599", "v04-ex-266e6e5fe1", "v04-ex-2ca02b061a"]
+
+[[groups]]
+id = "practice-symbol-tests_conditionals-file-tests"
+source_kind = "symbol"
+source_id = "tests_conditionals"
+unit_id = "file-tests"
+title = "文件属性测试"
+teaching_command_id = "if-file-exists"
+exercise_command_ids = ["v04-ex-b7177e06b2", "v04-ex-e81c0403fc", "v04-ex-15c3c1b0d8"]
+
+[[groups]]
+id = "practice-symbol-tests_conditionals-string-tests"
+source_kind = "symbol"
+source_id = "tests_conditionals"
+unit_id = "string-tests"
+title = "字符串测试"
+teaching_command_id = "v04-ref-581d05315b"
+exercise_command_ids = ["v04-ex-d520bb895f", "v04-ex-296f18a421", "v04-ex-d59d07af72"]
+
+[[groups]]
+id = "practice-symbol-tests_conditionals-numeric-tests"
+source_kind = "symbol"
+source_id = "tests_conditionals"
+unit_id = "numeric-tests"
+title = "整数比较测试"
+teaching_command_id = "v04-ref-501d51f219"
+exercise_command_ids = ["v04-ex-fcc3cc2c13", "v04-ex-376c5ce4d0", "v04-ex-7a4d7547f0"]
+
+[[groups]]
+id = "practice-symbol-tests_conditionals-logical-and-flow"
+source_kind = "symbol"
+source_id = "tests_conditionals"
+unit_id = "logical-and-flow"
+title = "成功后继续"
+teaching_command_id = "v04-ref-5086b97528"
+exercise_command_ids = ["v04-ex-a8162d0d06", "v04-ex-be40630fc4", "v04-ex-1f67961bd3"]
+
+[[groups]]
+id = "practice-symbol-tests_conditionals-logical-or-flow"
+source_kind = "symbol"
+source_id = "tests_conditionals"
+unit_id = "logical-or-flow"
+title = "失败后走备用分支"
+teaching_command_id = "v04-ref-3cc3178b14"
+exercise_command_ids = ["v04-ex-22cbcfe716", "v04-ex-be6816b359", "v04-ex-48578f223b"]
+
+[[groups]]
+id = "practice-symbol-grouping_expansion-subshell-group"
+source_kind = "symbol"
+source_id = "grouping_expansion"
+unit_id = "subshell-group"
+title = "圆括号子 Shell 分组"
+teaching_command_id = "v04-ref-f94cc8e780"
+exercise_command_ids = ["v04-ex-3a125659dd", "v04-ex-a77ae676d7", "v04-ex-2bfbe9f0a0"]
+
+[[groups]]
+id = "practice-symbol-grouping_expansion-current-shell-group"
+source_kind = "symbol"
+source_id = "grouping_expansion"
+unit_id = "current-shell-group"
+title = "花括号当前 Shell 分组"
+teaching_command_id = "v04-ref-413a44bd48"
+exercise_command_ids = ["v04-ex-6c134d5c22", "v04-ex-8b28868429", "v04-ex-6a10620014"]
+
+[[groups]]
+id = "practice-symbol-grouping_expansion-command-substitution"
+source_kind = "symbol"
+source_id = "grouping_expansion"
+unit_id = "command-substitution"
+title = "命令替换"
+teaching_command_id = "v04-ref-f677d62425"
+exercise_command_ids = ["v04-ex-d642bff2fd", "v04-ex-7cb8b2be1d", "v04-ex-cdd904723c"]
+
+[[groups]]
+id = "practice-symbol-grouping_expansion-parameter-expansion-basic"
+source_kind = "symbol"
+source_id = "grouping_expansion"
+unit_id = "parameter-expansion-basic"
+title = "参数展开边界"
+teaching_command_id = "v04-ref-86b9d22b16"
+exercise_command_ids = ["v04-ex-d7e72cc5ef", "v04-ex-bda258255e", "v04-ex-52a8862405"]
+
+[[groups]]
+id = "practice-symbol-grouping_expansion-parameter-expansion-operators"
+source_kind = "symbol"
+source_id = "grouping_expansion"
+unit_id = "parameter-expansion-operators"
+title = "参数默认值与变换"
+teaching_command_id = "v04-ref-23f5fea60a"
+exercise_command_ids = ["v04-ex-7454990844", "v04-ex-bd598314af", "v04-ex-e8513242e6"]
+
+[[groups]]
+id = "practice-symbol-grouping_expansion-brace-expansion"
+source_kind = "symbol"
+source_id = "grouping_expansion"
+unit_id = "brace-expansion"
+title = "花括号展开"
+teaching_command_id = "v04-ref-2ad04d2200"
+exercise_command_ids = ["v04-ex-eb6f819559", "v04-ex-d4e6550575", "v04-ex-0a33308cee"]
+
+[[groups]]
+id = "practice-symbol-grouping_expansion-expansion-order"
+source_kind = "symbol"
+source_id = "grouping_expansion"
+unit_id = "expansion-order"
+title = "展开顺序与引用边界"
+teaching_command_id = "v04-ref-ec57f57844"
+exercise_command_ids = ["v04-ex-d02d122c43", "v04-ex-4f3a6c2768", "v04-ex-de98b2c736"]

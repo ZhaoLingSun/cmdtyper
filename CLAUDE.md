@@ -41,18 +41,20 @@ Module roles:
 - `src/flow/` — key-event handlers per user journey (typing, lesson, symbol, system, review). Business logic for state transitions lives here, not in `ui/`.
 - `src/ui/` — pure render functions `fn render(frame, app, ...)`; read-only over `App`.
 - `src/core/` — mode-independent logic: `TypingEngine` (per-char typing state), `matcher` (dictation answer matching/normalization/diff), `scorer` (WPM/accuracy), `timer`, `terminal_history`.
-- `src/data/` — serde models (`models.rs`), one TOML loader per content type (`command_loader`, `lesson_loader`, `symbol_loader`, `system_loader`, `review_loader`), `progress.rs` (JSON persistence), and `lexicon.rs` (static built-in token descriptions used as fallback when a lesson lacks `token_details`).
+- `src/data/` — serde models (`models.rs`), one TOML loader per content type (commands, lessons, symbols, system, practice groups, sequences, scenarios), `progress.rs` (JSON persistence), and `lexicon.rs` (static built-in token descriptions used as fallback when a lesson lacks `token_details`).
 - `src/main.rs` — terminal setup/teardown and the event loop; `src/event.rs` polls with a 50ms tick.
 
 ### Data and persistence paths
 
-- Content dir resolution (`App::detect_data_dir`): `CMDTYPER_DATA_DIR` env var → `/home/ace/workspaces/cmdtyper/data` → `/usr/local/share/cmdtyper/data` → `./data`. A candidate is accepted only if it contains `commands/` and `lessons/` subdirs.
-- User data (`ProgressStore`): `CMDTYPER_USER_DIR` env var, else `~/.local/share/cmdtyper/`. Files: `stats.json`, `history.json`, `config.json`, `resume_state.json`. Writes are atomic (tmp file + rename); corrupt files fall back to defaults, and old-version JSON must keep loading (covered by `tests/compat.rs`).
+- Content dir resolution (`App::detect_data_dir`): `CMDTYPER_DATA_DIR` → `~/.local/share/cmdtyper/data` → `/usr/local/share/cmdtyper/data` → `./data`. A candidate must contain `commands/`, `lessons/`, `symbols/`, and `system/`.
+- User data (`ProgressStore`): `CMDTYPER_USER_DIR`, else `~/.local/share/cmdtyper/`. Files include `stats.json`, `history.json`, `config.json`, `resume_state.json`, and `scenario_progress.json`. Typing records go through `App::persist_record`: durable history first, then a rebuildable aggregate cache. A failed history write must prevent navigation that discards the active session. Corrupt history is an error during migration or update; never replace it with an empty default. Migrations publish complete backups atomically before changing originals; preserve old fields and stable IDs. See `docs/statistics.md` and compatibility/migration tests.
 - The Dockerfile sets both env vars (`/usr/local/share/cmdtyper/data`, `/userdata` volume); keep Docker defaults aligned when touching load/persist logic.
 
 ### Content files (`data/`)
 
 - `commands/*.toml` — typing/dictation question bank; `lessons/*.toml` — per-command lessons; `symbols/*.toml` — symbol topics; `system/*.toml` — system-architecture topics; `reviews/<topic>.toml` — v0.3 review exercises; `syntax/` — token/syntax reference data.
+- `practice/` defines one teaching command and three exercises per foundational use; `sequences/` defines ordered steps with contextual output, explanation and prompt; `scenarios/` defines cases with evidence and decisions. `command_aliases.toml` migrates historical IDs, and `command_contexts.toml` provides SQL prompts. Shared canonical command definitions belong in `commands/`; references retain their own contextual teaching text.
+- `workflow_flow` wraps the full-typing entrypoints to submit each step and exclude output reading from timing while retaining one stable session. Update its behavior tests when changing parent screen transitions.
 - Command and topic IDs must stay unique and stable — saved user progress and tests depend on them. Filenames are lowercase underscore-separated.
 - In command entries, the concatenated token texts must exactly reproduce the command string (`tokens_consistency` enforces this).
 

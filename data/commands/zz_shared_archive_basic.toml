@@ -1,0 +1,47 @@
+
+[meta]
+category = "archive"
+difficulty = "basic"
+description = "跨模块共用的规范命令（由内容归一化维护）"
+
+[[commands]]
+id = "shared-ff7e3d388bad4e52"
+command = "tar -czvf backup.tar.gz --exclude='*.log' --exclude='node_modules' project/"
+summary = "打包项目但排除日志文件和 node_modules"
+simulated_output = "project/\nproject/package.json\nproject/src/\nproject/src/index.js\nproject/src/app.js\nproject/public/\nproject/public/index.html\nproject/README.md"
+
+[[commands.tokens]]
+text = "tar -czvf backup.tar.gz --exclude='*.log' --exclude='node_modules' project/"
+desc = "打包项目但排除日志文件和 node_modules"
+
+[commands.dictation]
+prompt = "打包项目但排除日志文件和 node_modules"
+answers = ["tar -czvf backup.tar.gz --exclude='*.log' --exclude='node_modules' project/"]
+
+[[commands]]
+id = "shared-1f0b104d075493ca"
+command = "tar -xzf release-v2.0.tar.gz -C /opt/app/"
+summary = "将归档解压到指定目录"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "tar -xzf release-v2.0.tar.gz -C /opt/app/"
+desc = "将归档解压到指定目录"
+
+[commands.dictation]
+prompt = "将归档解压到指定目录"
+answers = ["tar -xzf release-v2.0.tar.gz -C /opt/app/"]
+
+[[commands]]
+id = "shared-2469e4fb07b8da49"
+command = "tar -czf /backup/www-$(date +%Y%m%d).tar.gz -C /var/www html/"
+summary = "备份网站目录，文件名包含日期"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "tar -czf /backup/www-$(date +%Y%m%d).tar.gz -C /var/www html/"
+desc = "备份网站目录，文件名包含日期"
+
+[commands.dictation]
+prompt = "备份网站目录，文件名包含日期"
+answers = ["tar -czf /backup/www-$(date +%Y%m%d).tar.gz -C /var/www html/"]

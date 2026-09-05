@@ -1,0 +1,422 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "IPv4 无选项 ICMP 的 IP 与 ICMP 头合计 28 字节；1472 字节载荷对应 1500 字节包。"
+
+[meta.topic]
+id = "v04_mtu"
+title = "MTU 与大包异常"
+icon = "🌐"
+order = 116
+
+[[commands]]
+id = "v04-mtu-bbd188566d"
+command = "ping -4 -c 3 -M do -s 1472 192.0.2.1"
+summary = "禁止分片发送 1472 字节载荷，测试 1500 字节 IPv4 路径"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -4"
+desc = "只使用 IPv4"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -M"
+desc = "设置路径 MTU 发现策略，do 禁止本地分片"
+
+[[commands.tokens]]
+text = " do"
+desc = "禁止分片发送 1472 字节载荷，测试 1500 字节 IPv4 路径；指定 do"
+
+[[commands.tokens]]
+text = " -s"
+desc = "设置 ICMP 载荷字节数"
+
+[[commands.tokens]]
+text = " 1472"
+desc = "本次练习的数值参数 1472；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 192.0.2.1"
+desc = "禁止分片发送 1472 字节载荷，测试 1500 字节 IPv4 路径；指定 192.0.2.1"
+
+[commands.dictation]
+prompt = "禁止分片发送 1472 字节载荷，测试 1500 字节 IPv4 路径"
+answers = ["ping -4 -c 3 -M do -s 1472 192.0.2.1"]
+
+[[commands]]
+id = "v04-mtu-a514a41d04"
+command = "ping -4 -c 3 -M do -s 1400 192.0.2.1"
+summary = "降低载荷对比大包失败是否与 MTU 有关"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -4"
+desc = "只使用 IPv4"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -M"
+desc = "设置路径 MTU 发现策略，do 禁止本地分片"
+
+[[commands.tokens]]
+text = " do"
+desc = "降低载荷对比大包失败是否与 MTU 有关；指定 do"
+
+[[commands.tokens]]
+text = " -s"
+desc = "设置 ICMP 载荷字节数"
+
+[[commands.tokens]]
+text = " 1400"
+desc = "本次练习的数值参数 1400；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 192.0.2.1"
+desc = "降低载荷对比大包失败是否与 MTU 有关；指定 192.0.2.1"
+
+[commands.dictation]
+prompt = "降低载荷对比大包失败是否与 MTU 有关"
+answers = ["ping -4 -c 3 -M do -s 1400 192.0.2.1"]
+
+[[commands]]
+id = "v04-mtu-152db467ab"
+command = "ping -4 -c 3 -M do -s 1372 198.51.100.20"
+summary = "用 1400 字节 IPv4 包探测实验隧道路径"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -4"
+desc = "只使用 IPv4"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -M"
+desc = "设置路径 MTU 发现策略，do 禁止本地分片"
+
+[[commands.tokens]]
+text = " do"
+desc = "用 1400 字节 IPv4 包探测实验隧道路径；指定 do"
+
+[[commands.tokens]]
+text = " -s"
+desc = "设置 ICMP 载荷字节数"
+
+[[commands.tokens]]
+text = " 1372"
+desc = "本次练习的数值参数 1372；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "用 1400 字节 IPv4 包探测实验隧道路径；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "用 1400 字节 IPv4 包探测实验隧道路径"
+answers = ["ping -4 -c 3 -M do -s 1372 198.51.100.20"]
+
+[[commands]]
+id = "v04-mtu-c9ca02adca"
+command = "ping -4 -c 3 -M do -s 1200 198.51.100.20"
+summary = "进一步降低载荷寻找可通过范围"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -4"
+desc = "只使用 IPv4"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -M"
+desc = "设置路径 MTU 发现策略，do 禁止本地分片"
+
+[[commands.tokens]]
+text = " do"
+desc = "进一步降低载荷寻找可通过范围；指定 do"
+
+[[commands.tokens]]
+text = " -s"
+desc = "设置 ICMP 载荷字节数"
+
+[[commands.tokens]]
+text = " 1200"
+desc = "本次练习的数值参数 1200；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "进一步降低载荷寻找可通过范围；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "进一步降低载荷寻找可通过范围"
+answers = ["ping -4 -c 3 -M do -s 1200 198.51.100.20"]
+
+[[commands]]
+id = "v04-mtu-40decab3b1"
+command = "ping -6 -c 3 -M do -s 1232 2001:db8:2::20"
+summary = "使用 1232 字节载荷测试 1280 字节 IPv6 基本路径"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -6"
+desc = "只使用 IPv6"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -M"
+desc = "设置路径 MTU 发现策略，do 禁止本地分片"
+
+[[commands.tokens]]
+text = " do"
+desc = "使用 1232 字节载荷测试 1280 字节 IPv6 基本路径；指定 do"
+
+[[commands.tokens]]
+text = " -s"
+desc = "设置 ICMP 载荷字节数"
+
+[[commands.tokens]]
+text = " 1232"
+desc = "本次练习的数值参数 1232；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 2001:db8:2::20"
+desc = "使用 1232 字节载荷测试 1280 字节 IPv6 基本路径；指定 2001:db8:2::20"
+
+[commands.dictation]
+prompt = "使用 1232 字节载荷测试 1280 字节 IPv6 基本路径"
+answers = ["ping -6 -c 3 -M do -s 1232 2001:db8:2::20"]
+
+[[commands]]
+id = "v04-mtu-4a14ce61d8"
+command = "ip -d link show"
+summary = "查看 VLAN、VXLAN 等封装信息及各接口 MTU"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -d"
+desc = "显示详细属性"
+
+[[commands.tokens]]
+text = " link"
+desc = "查看 VLAN、VXLAN 等封装信息及各接口 MTU；指定 link"
+
+[[commands.tokens]]
+text = " show"
+desc = "查看 VLAN、VXLAN 等封装信息及各接口 MTU；指定 show"
+
+[commands.dictation]
+prompt = "查看 VLAN、VXLAN 等封装信息及各接口 MTU"
+answers = ["ip -d link show"]
+
+[[commands]]
+id = "v04-mtu-4351903457"
+command = "ip route get 198.51.100.20 fibmatch"
+summary = "查看匹配的 FIB 路由，辅助分析路由 MTU 配置"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " route"
+desc = "查看匹配的 FIB 路由，辅助分析路由 MTU 配置；指定 route"
+
+[[commands.tokens]]
+text = " get"
+desc = "查看匹配的 FIB 路由，辅助分析路由 MTU 配置；指定 get"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "查看匹配的 FIB 路由，辅助分析路由 MTU 配置；指定 198.51.100.20"
+
+[[commands.tokens]]
+text = " fibmatch"
+desc = "查看匹配的 FIB 路由，辅助分析路由 MTU 配置；指定 fibmatch"
+
+[commands.dictation]
+prompt = "查看匹配的 FIB 路由，辅助分析路由 MTU 配置"
+answers = ["ip route get 198.51.100.20 fibmatch"]
+
+[[commands]]
+id = "v04-mtu-224f9c169f"
+command = "sudo tcpdump -ni ens33 -c 10 'icmp[0] = 3 and icmp[1] = 4'"
+summary = "捕获 IPv4 需要分片但 DF 已设置的 ICMP 错误"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "捕获 IPv4 需要分片但 DF 已设置的 ICMP 错误；指定 ens33"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 10"
+desc = "本次练习的数值参数 10；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 'icmp[0] = 3 and icmp[1] = 4'"
+desc = "引号保护此参数中的空格或特殊符号；捕获 IPv4 需要分片但 DF 已设置的 ICMP 错误"
+
+[commands.dictation]
+prompt = "捕获 IPv4 需要分片但 DF 已设置的 ICMP 错误"
+answers = ["sudo tcpdump -ni ens33 -c 10 'icmp[0] = 3 and icmp[1] = 4'"]
+
+[[commands]]
+id = "v04-mtu-18e12f4e6d"
+command = "sudo tcpdump -ni ens33 -c 10 'icmp6 and ip6[40] = 2'"
+summary = "在无 IPv6 扩展头场景捕获 Packet Too Big 消息"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "在无 IPv6 扩展头场景捕获 Packet Too Big 消息；指定 ens33"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 10"
+desc = "本次练习的数值参数 10；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 'icmp6 and ip6[40] = 2'"
+desc = "引号保护此参数中的空格或特殊符号；在无 IPv6 扩展头场景捕获 Packet Too Big 消息"
+
+[commands.dictation]
+prompt = "在无 IPv6 扩展头场景捕获 Packet Too Big 消息"
+answers = ["sudo tcpdump -ni ens33 -c 10 'icmp6 and ip6[40] = 2'"]
+
+[[commands]]
+id = "v04-mtu-419f01f747"
+command = "sysctl net.ipv4.ip_no_pmtu_disc"
+summary = "读取 IPv4 路径 MTU 发现策略"
+
+[[commands.tokens]]
+text = "sysctl"
+desc = "读取内核参数；无 -w 时不写入配置"
+
+[[commands.tokens]]
+text = " net.ipv4.ip_no_pmtu_disc"
+desc = "读取 IPv4 路径 MTU 发现策略；指定 net.ipv4.ip_no_pmtu_disc"
+
+[commands.dictation]
+prompt = "读取 IPv4 路径 MTU 发现策略"
+answers = ["sysctl net.ipv4.ip_no_pmtu_disc"]
+
+[[commands]]
+id = "v04-mtu-7094d5464d"
+command = "sysctl net.ipv4.tcp_mtu_probing"
+summary = "读取 TCP MTU 探测设置，先留证再考虑修改"
+
+[[commands.tokens]]
+text = "sysctl"
+desc = "读取内核参数；无 -w 时不写入配置"
+
+[[commands.tokens]]
+text = " net.ipv4.tcp_mtu_probing"
+desc = "读取 TCP MTU 探测设置，先留证再考虑修改；指定 net.ipv4.tcp_mtu_probing"
+
+[commands.dictation]
+prompt = "读取 TCP MTU 探测设置，先留证再考虑修改"
+answers = ["sysctl net.ipv4.tcp_mtu_probing"]
+
+[[commands]]
+id = "v04-mtu-c6fba0245c"
+command = "sudo ethtool -k ens33"
+summary = "查看网卡卸载功能；抓包观察受 GRO/GSO 等影响"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ethtool"
+desc = "查看网卡卸载功能；抓包观察受 GRO/GSO 等影响"
+
+[[commands.tokens]]
+text = " -k"
+desc = "查看网卡卸载功能；抓包观察受 GRO/GSO 等影响；此处使用 -k 选项"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "查看网卡卸载功能；抓包观察受 GRO/GSO 等影响；指定 ens33"
+
+[commands.dictation]
+prompt = "查看网卡卸载功能；抓包观察受 GRO/GSO 等影响"
+answers = ["sudo ethtool -k ens33"]

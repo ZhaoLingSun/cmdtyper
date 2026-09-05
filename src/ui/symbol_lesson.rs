@@ -49,6 +49,12 @@ pub fn render(
             frame.render_widget(title, chunks[0]);
 
             let mut lines: Vec<Line> = Vec::new();
+            let (usages, exercises, completed) = app.practice_counts("symbol", &topic.meta.id);
+            lines.push(Line::styled(
+                format!("基础用法 {usages} · 练习 {completed}/{exercises} · P 进入三题训练"),
+                Style::default().fg(ACCENT),
+            ));
+
             lines.push(Line::from(Span::styled(
                 symbol.summary.clone(),
                 Style::default()
@@ -67,7 +73,7 @@ pub fn render(
             let content = Paragraph::new(lines).wrap(Wrap { trim: false });
             frame.render_widget(content, chunks[1]);
 
-            let hints = hint_line(&[("→/Enter", "查看示例"), ("Esc", "返回")]);
+            let hints = hint_line(&[("→/Enter", "查看示例"), ("P", "三题练习"), ("Esc", "返回")]);
             frame.render_widget(
                 Paragraph::new(hints).alignment(Alignment::Center),
                 chunks[2],
@@ -195,7 +201,7 @@ fn render_typing_practice(
             lines.push(Line::from(""));
         }
 
-        lines.push(render_typing_line("$ ", &app.typing_engine));
+        lines.extend(crate::ui::widgets::typing_lines("$ ", &app.typing_engine));
         lines.push(Line::from(""));
         lines.push(Line::from(Span::styled(
             format!(
@@ -388,30 +394,4 @@ fn render_symbol_summary_lines(app: &App, lines: &mut Vec<Line>) {
         "默写: {} 题（准确率 {:.0}%）",
         sp.dictation_count, dict_acc
     )));
-}
-
-fn render_typing_line<'a>(prompt: &str, engine: &crate::core::engine::TypingEngine) -> Line<'a> {
-    let mut spans = Vec::new();
-    spans.push(Span::styled(
-        prompt.to_string(),
-        Style::default().fg(PROMPT_COLOR),
-    ));
-
-    let is_flashing = engine.is_error_flashing();
-    for (idx, ch) in engine.target.iter().enumerate() {
-        let style = if idx < engine.cursor {
-            Style::default().fg(TYPED_CORRECT)
-        } else if idx == engine.cursor {
-            if is_flashing {
-                Style::default().fg(ERROR_FLASH).bg(ERROR_FLASH_BG)
-            } else {
-                Style::default().fg(CURSOR).bg(CURSOR_BG)
-            }
-        } else {
-            Style::default().fg(PENDING).bg(PENDING_BG)
-        };
-        spans.push(Span::styled(ch.to_string(), style));
-    }
-
-    Line::from(spans)
 }

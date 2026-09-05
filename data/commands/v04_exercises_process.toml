@@ -1,0 +1,858 @@
+[meta]
+category = "process"
+difficulty = "beginner"
+description = "基础用法的短练习：目标已在隔离实验环境中准备，按提示完成单一任务。"
+
+[[commands]]
+id = "v04-ex-1a01b9884f"
+command = "kill -TERM 4242"
+summary = "向已核对的实验 PID 请求正常终止，让程序有机会清理"
+
+[[commands.tokens]]
+text = "kill"
+desc = "向已核对的实验 PID 请求正常终止，让程序有机会清理"
+
+[[commands.tokens]]
+text = " -TERM"
+desc = "向已核对的实验 PID 请求正常终止，让程序有机会清理；此处使用 -TERM 选项"
+
+[[commands.tokens]]
+text = " 4242"
+desc = "本次练习的数值参数 4242；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "向已核对的实验 PID 请求正常终止，让程序有机会清理"
+answers = ["kill -TERM 4242"]
+
+[[commands]]
+id = "v04-ex-21c8604a6e"
+command = "kill -0 4242"
+summary = "只检查实验 PID 是否存在及是否有发信号权限，不实际发送信号"
+
+[[commands.tokens]]
+text = "kill"
+desc = "只检查实验 PID 是否存在及是否有发信号权限，不实际发送信号"
+
+[[commands.tokens]]
+text = " -0"
+desc = "只检查实验 PID 是否存在及是否有发信号权限，不实际发送信号；此处使用 -0 选项"
+
+[[commands.tokens]]
+text = " 4242"
+desc = "本次练习的数值参数 4242；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "只检查实验 PID 是否存在及是否有发信号权限，不实际发送信号"
+answers = ["kill -0 4242"]
+
+[[commands]]
+id = "v04-ex-13e99fbdb9"
+command = "kill -INT 4242"
+summary = "向已核对的实验进程发送中断请求，行为由程序处理方式决定"
+
+[[commands.tokens]]
+text = "kill"
+desc = "向已核对的实验进程发送中断请求，行为由程序处理方式决定"
+
+[[commands.tokens]]
+text = " -INT"
+desc = "向已核对的实验进程发送中断请求，行为由程序处理方式决定；此处使用 -INT 选项"
+
+[[commands.tokens]]
+text = " 4242"
+desc = "本次练习的数值参数 4242；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "向已核对的实验进程发送中断请求，行为由程序处理方式决定"
+answers = ["kill -INT 4242"]
+
+[[commands]]
+id = "v04-ex-cec6bca560"
+command = "ps -ef --sort=pid"
+summary = "按 PID 排序查看所有进程及父 PID"
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示进程快照及所选字段"
+
+[[commands.tokens]]
+text = " -ef"
+desc = "按 PID 排序查看所有进程及父 PID；此处使用 -ef 选项"
+
+[[commands.tokens]]
+text = " --sort=pid"
+desc = "按 PID 排序查看所有进程及父 PID；此处使用 --sort=pid 选项"
+
+[commands.dictation]
+prompt = "按 PID 排序查看所有进程及父 PID"
+answers = ["ps -ef --sort=pid"]
+
+[[commands]]
+id = "v04-ex-868e79468e"
+command = "ps -u www-data -o pid,stat,args"
+summary = "只看 Web 服务账号的进程状态和命令"
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示进程快照及所选字段"
+
+[[commands.tokens]]
+text = " -u"
+desc = "只看 Web 服务账号的进程状态和命令；此处使用 -u 选项"
+
+[[commands.tokens]]
+text = " www-data"
+desc = "只看 Web 服务账号的进程状态和命令；指定 www-data"
+
+[[commands.tokens]]
+text = " -o"
+desc = "只看 Web 服务账号的进程状态和命令；此处使用 -o 选项"
+
+[[commands.tokens]]
+text = " pid,stat,args"
+desc = "只看 Web 服务账号的进程状态和命令；指定 pid,stat,args"
+
+[commands.dictation]
+prompt = "只看 Web 服务账号的进程状态和命令"
+answers = ["ps -u www-data -o pid,stat,args"]
+
+[[commands]]
+id = "v04-ex-b1ce5e4c49"
+command = "ps -p 4242 -o pid,ppid,etime,args"
+summary = "核对实验进程父进程及运行时长"
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示进程快照及所选字段"
+
+[[commands.tokens]]
+text = " -p"
+desc = "核对实验进程父进程及运行时长；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " 4242"
+desc = "本次练习的数值参数 4242；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -o"
+desc = "核对实验进程父进程及运行时长；此处使用 -o 选项"
+
+[[commands.tokens]]
+text = " pid,ppid,etime,args"
+desc = "核对实验进程父进程及运行时长；指定 pid,ppid,etime,args"
+
+[commands.dictation]
+prompt = "核对实验进程父进程及运行时长"
+answers = ["ps -p 4242 -o pid,ppid,etime,args"]
+
+[[commands]]
+id = "v04-ex-bb1800b09f"
+command = "top -b -n 1"
+summary = "以批处理模式输出一次进程资源快照"
+
+[[commands.tokens]]
+text = "top"
+desc = "以批处理模式输出一次进程资源快照"
+
+[[commands.tokens]]
+text = " -b"
+desc = "以批处理模式输出一次进程资源快照；此处使用 -b 选项"
+
+[[commands.tokens]]
+text = " -n"
+desc = "以批处理模式输出一次进程资源快照；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次练习的数值参数 1；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "以批处理模式输出一次进程资源快照"
+answers = ["top -b -n 1"]
+
+[[commands]]
+id = "v04-ex-a441ed9f89"
+command = "top -b -n 2 -d 1"
+summary = "间隔一秒采样两次进程资源"
+
+[[commands.tokens]]
+text = "top"
+desc = "间隔一秒采样两次进程资源"
+
+[[commands.tokens]]
+text = " -b"
+desc = "间隔一秒采样两次进程资源；此处使用 -b 选项"
+
+[[commands.tokens]]
+text = " -n"
+desc = "间隔一秒采样两次进程资源；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 2"
+desc = "本次练习的数值参数 2；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -d"
+desc = "间隔一秒采样两次进程资源；此处使用 -d 选项"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次练习的数值参数 1；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "间隔一秒采样两次进程资源"
+answers = ["top -b -n 2 -d 1"]
+
+[[commands]]
+id = "v04-ex-149b330c6b"
+command = "top -p 4242"
+summary = "只观察已核对的实验进程，退出交互界面使用 q"
+
+[[commands.tokens]]
+text = "top"
+desc = "只观察已核对的实验进程，退出交互界面使用 q"
+
+[[commands.tokens]]
+text = " -p"
+desc = "只观察已核对的实验进程，退出交互界面使用 q；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " 4242"
+desc = "本次练习的数值参数 4242；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "只观察已核对的实验进程，退出交互界面使用 q"
+answers = ["top -p 4242"]
+
+[[commands]]
+id = "v04-ex-f2d1d5e824"
+command = "jobs -r"
+summary = "只显示当前 shell 正在运行的作业"
+
+[[commands.tokens]]
+text = "jobs"
+desc = "只显示当前 shell 正在运行的作业"
+
+[[commands.tokens]]
+text = " -r"
+desc = "只显示当前 shell 正在运行的作业；此处使用 -r 选项"
+
+[commands.dictation]
+prompt = "只显示当前 shell 正在运行的作业"
+answers = ["jobs -r"]
+
+[[commands]]
+id = "v04-ex-33b78055f9"
+command = "jobs -s"
+summary = "只显示当前 shell 暂停的作业"
+
+[[commands.tokens]]
+text = "jobs"
+desc = "只显示当前 shell 暂停的作业"
+
+[[commands.tokens]]
+text = " -s"
+desc = "只显示当前 shell 暂停的作业；此处使用 -s 选项"
+
+[commands.dictation]
+prompt = "只显示当前 shell 暂停的作业"
+answers = ["jobs -s"]
+
+[[commands]]
+id = "v04-ex-52ef10e40b"
+command = "bg %3"
+summary = "让实验三号暂停作业在后台继续，先用 jobs 核对"
+
+[[commands.tokens]]
+text = "bg"
+desc = "让实验三号暂停作业在后台继续，先用 jobs 核对"
+
+[[commands.tokens]]
+text = " %3"
+desc = "让实验三号暂停作业在后台继续，先用 jobs 核对；指定 %3"
+
+[commands.dictation]
+prompt = "让实验三号暂停作业在后台继续，先用 jobs 核对"
+answers = ["bg %3"]
+
+[[commands]]
+id = "v04-ex-2623a1e1e2"
+command = "fg %3"
+summary = "把已核对的实验三号作业切到前台"
+
+[[commands.tokens]]
+text = "fg"
+desc = "把已核对的实验三号作业切到前台"
+
+[[commands.tokens]]
+text = " %3"
+desc = "把已核对的实验三号作业切到前台；指定 %3"
+
+[commands.dictation]
+prompt = "把已核对的实验三号作业切到前台"
+answers = ["fg %3"]
+
+[[commands]]
+id = "v04-ex-5178d9cbd1"
+command = "tmux new -s ops"
+summary = "创建并进入实验 ops 会话"
+
+[[commands.tokens]]
+text = "tmux"
+desc = "创建并进入实验 ops 会话"
+
+[[commands.tokens]]
+text = " new"
+desc = "创建并进入实验 ops 会话；指定 new"
+
+[[commands.tokens]]
+text = " -s"
+desc = "创建并进入实验 ops 会话；此处使用 -s 选项"
+
+[[commands.tokens]]
+text = " ops"
+desc = "创建并进入实验 ops 会话；指定 ops"
+
+[commands.dictation]
+prompt = "创建并进入实验 ops 会话"
+answers = ["tmux new -s ops"]
+
+[[commands]]
+id = "v04-ex-054237b1b2"
+command = "tmux new -s monitor"
+summary = "为持续观察任务创建命名会话"
+
+[[commands.tokens]]
+text = "tmux"
+desc = "为持续观察任务创建命名会话"
+
+[[commands.tokens]]
+text = " new"
+desc = "为持续观察任务创建命名会话；指定 new"
+
+[[commands.tokens]]
+text = " -s"
+desc = "为持续观察任务创建命名会话；此处使用 -s 选项"
+
+[[commands.tokens]]
+text = " monitor"
+desc = "为持续观察任务创建命名会话；指定 monitor"
+
+[commands.dictation]
+prompt = "为持续观察任务创建命名会话"
+answers = ["tmux new -s monitor"]
+
+[[commands]]
+id = "v04-ex-ac4a39e75e"
+command = "tmux new-session -d -s backup"
+summary = "创建实验后台会话，稍后可以 attach"
+
+[[commands.tokens]]
+text = "tmux"
+desc = "创建实验后台会话，稍后可以 attach"
+
+[[commands.tokens]]
+text = " new-session"
+desc = "创建实验后台会话，稍后可以 attach；指定 new-session"
+
+[[commands.tokens]]
+text = " -d"
+desc = "创建实验后台会话，稍后可以 attach；此处使用 -d 选项"
+
+[[commands.tokens]]
+text = " -s"
+desc = "创建实验后台会话，稍后可以 attach；此处使用 -s 选项"
+
+[[commands.tokens]]
+text = " backup"
+desc = "创建实验后台会话，稍后可以 attach；指定 backup"
+
+[commands.dictation]
+prompt = "创建实验后台会话，稍后可以 attach"
+answers = ["tmux new-session -d -s backup"]
+
+[[commands]]
+id = "v04-ex-44f0759038"
+command = "tmux attach -t ops"
+summary = "重新连接实验 ops 会话"
+
+[[commands.tokens]]
+text = "tmux"
+desc = "重新连接实验 ops 会话"
+
+[[commands.tokens]]
+text = " attach"
+desc = "重新连接实验 ops 会话；指定 attach"
+
+[[commands.tokens]]
+text = " -t"
+desc = "重新连接实验 ops 会话；此处使用 -t 选项"
+
+[[commands.tokens]]
+text = " ops"
+desc = "重新连接实验 ops 会话；指定 ops"
+
+[commands.dictation]
+prompt = "重新连接实验 ops 会话"
+answers = ["tmux attach -t ops"]
+
+[[commands]]
+id = "v04-ex-b7f951a052"
+command = "tmux attach -t monitor"
+summary = "重新连接实验监控会话"
+
+[[commands.tokens]]
+text = "tmux"
+desc = "重新连接实验监控会话"
+
+[[commands.tokens]]
+text = " attach"
+desc = "重新连接实验监控会话；指定 attach"
+
+[[commands.tokens]]
+text = " -t"
+desc = "重新连接实验监控会话；此处使用 -t 选项"
+
+[[commands.tokens]]
+text = " monitor"
+desc = "重新连接实验监控会话；指定 monitor"
+
+[commands.dictation]
+prompt = "重新连接实验监控会话"
+answers = ["tmux attach -t monitor"]
+
+[[commands]]
+id = "v04-ex-55f9af1835"
+command = "tmux attach -r -t backup"
+summary = "只读连接实验备份会话，避免误输入干扰任务"
+
+[[commands.tokens]]
+text = "tmux"
+desc = "只读连接实验备份会话，避免误输入干扰任务"
+
+[[commands.tokens]]
+text = " attach"
+desc = "只读连接实验备份会话，避免误输入干扰任务；指定 attach"
+
+[[commands.tokens]]
+text = " -r"
+desc = "只读连接实验备份会话，避免误输入干扰任务；此处使用 -r 选项"
+
+[[commands.tokens]]
+text = " -t"
+desc = "只读连接实验备份会话，避免误输入干扰任务；此处使用 -t 选项"
+
+[[commands.tokens]]
+text = " backup"
+desc = "只读连接实验备份会话，避免误输入干扰任务；指定 backup"
+
+[commands.dictation]
+prompt = "只读连接实验备份会话，避免误输入干扰任务"
+answers = ["tmux attach -r -t backup"]
+
+[[commands]]
+id = "v04-ex-2b645ebb45"
+command = "tmux list-windows -t ops"
+summary = "查看实验 ops 会话中的窗口"
+
+[[commands.tokens]]
+text = "tmux"
+desc = "查看实验 ops 会话中的窗口"
+
+[[commands.tokens]]
+text = " list-windows"
+desc = "查看实验 ops 会话中的窗口；指定 list-windows"
+
+[[commands.tokens]]
+text = " -t"
+desc = "查看实验 ops 会话中的窗口；此处使用 -t 选项"
+
+[[commands.tokens]]
+text = " ops"
+desc = "查看实验 ops 会话中的窗口；指定 ops"
+
+[commands.dictation]
+prompt = "查看实验 ops 会话中的窗口"
+answers = ["tmux list-windows -t ops"]
+
+[[commands]]
+id = "v04-ex-5d983e4837"
+command = "tmux list-panes -t ops"
+summary = "查看实验 ops 会话当前窗口的窗格"
+
+[[commands.tokens]]
+text = "tmux"
+desc = "查看实验 ops 会话当前窗口的窗格"
+
+[[commands.tokens]]
+text = " list-panes"
+desc = "查看实验 ops 会话当前窗口的窗格；指定 list-panes"
+
+[[commands.tokens]]
+text = " -t"
+desc = "查看实验 ops 会话当前窗口的窗格；此处使用 -t 选项"
+
+[[commands.tokens]]
+text = " ops"
+desc = "查看实验 ops 会话当前窗口的窗格；指定 ops"
+
+[commands.dictation]
+prompt = "查看实验 ops 会话当前窗口的窗格"
+answers = ["tmux list-panes -t ops"]
+
+[[commands]]
+id = "v04-ex-e5dd1eb44f"
+command = "tmux list-sessions -F '#S: #{session_windows} windows'"
+summary = "按明确模板查看会话名和窗口数"
+
+[[commands.tokens]]
+text = "tmux"
+desc = "按明确模板查看会话名和窗口数"
+
+[[commands.tokens]]
+text = " list-sessions"
+desc = "按明确模板查看会话名和窗口数；指定 list-sessions"
+
+[[commands.tokens]]
+text = " -F"
+desc = "按明确模板查看会话名和窗口数；此处使用 -F 选项"
+
+[[commands.tokens]]
+text = " '#S: #{session_windows} windows'"
+desc = "引号保护此参数中的空格或特殊符号；按明确模板查看会话名和窗口数"
+
+[commands.dictation]
+prompt = "按明确模板查看会话名和窗口数"
+answers = ["tmux list-sessions -F '#S: #{session_windows} windows'"]
+
+[[commands]]
+id = "v04-ex-10b234ee47"
+command = "tty -s"
+summary = "静默检查标准输入是否为终端，使用退出状态判断"
+
+[[commands.tokens]]
+text = "tty"
+desc = "静默检查标准输入是否为终端，使用退出状态判断"
+
+[[commands.tokens]]
+text = " -s"
+desc = "静默检查标准输入是否为终端，使用退出状态判断；此处使用 -s 选项"
+
+[commands.dictation]
+prompt = "静默检查标准输入是否为终端，使用退出状态判断"
+answers = ["tty -s"]
+
+[[commands]]
+id = "v04-ex-944c9b324a"
+command = "ps -p $$ -o pid,tty,args"
+summary = "查看当前 shell PID、控制终端与命令行"
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示进程快照及所选字段"
+
+[[commands.tokens]]
+text = " -p"
+desc = "查看当前 shell PID、控制终端与命令行；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " $$"
+desc = "查看当前 shell PID、控制终端与命令行；指定 $$"
+
+[[commands.tokens]]
+text = " -o"
+desc = "查看当前 shell PID、控制终端与命令行；此处使用 -o 选项"
+
+[[commands.tokens]]
+text = " pid,tty,args"
+desc = "查看当前 shell PID、控制终端与命令行；指定 pid,tty,args"
+
+[commands.dictation]
+prompt = "查看当前 shell PID、控制终端与命令行"
+answers = ["ps -p $$ -o pid,tty,args"]
+
+[[commands]]
+id = "v04-ex-2b10deb663"
+command = "who am i"
+summary = "查看当前登录终端的登录记录，非登录会话可能没有输出"
+
+[[commands.tokens]]
+text = "who"
+desc = "查看当前登录终端的登录记录，非登录会话可能没有输出"
+
+[[commands.tokens]]
+text = " am"
+desc = "查看当前登录终端的登录记录，非登录会话可能没有输出；指定 am"
+
+[[commands.tokens]]
+text = " i"
+desc = "查看当前登录终端的登录记录，非登录会话可能没有输出；指定 i"
+
+[commands.dictation]
+prompt = "查看当前登录终端的登录记录，非登录会话可能没有输出"
+answers = ["who am i"]
+
+[[commands]]
+id = "v04-ex-75245f36a9"
+command = "sleep 15 &"
+summary = "把短实验等待任务放到后台，shell 立即可继续输入"
+
+[[commands.tokens]]
+text = "sleep"
+desc = "把短实验等待任务放到后台，shell 立即可继续输入"
+
+[[commands.tokens]]
+text = " 15"
+desc = "本次练习的数值参数 15；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " &"
+desc = "让前一命令在后台运行"
+
+[commands.dictation]
+prompt = "把短实验等待任务放到后台，shell 立即可继续输入"
+answers = ["sleep 15 &"]
+
+[[commands]]
+id = "v04-ex-c402ec4110"
+command = "sleep 25 > ~/ops-lab/sleep.log 2>&1 &"
+summary = "先重定向输出，再让实验任务后台运行"
+
+[[commands.tokens]]
+text = "sleep"
+desc = "先重定向输出，再让实验任务后台运行"
+
+[[commands.tokens]]
+text = " 25"
+desc = "本次练习的数值参数 25；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " >"
+desc = "将标准输出写入目标并覆盖现有内容"
+
+[[commands.tokens]]
+text = " ~/ops-lab/sleep.log"
+desc = "本次操作指定的路径：~/ops-lab/sleep.log"
+
+[[commands.tokens]]
+text = " 2>&1"
+desc = "让标准错误复制当前标准输出的去向"
+
+[[commands.tokens]]
+text = " &"
+desc = "让前一命令在后台运行"
+
+[commands.dictation]
+prompt = "先重定向输出，再让实验任务后台运行"
+answers = ["sleep 25 > ~/ops-lab/sleep.log 2>&1 &"]
+
+[[commands]]
+id = "v04-ex-963ec3ad37"
+command = "nohup sleep 30 > ~/ops-lab/nohup.log 2>&1 &"
+summary = "演练忽略 SIGHUP 并明确日志去向的后台任务"
+
+[[commands.tokens]]
+text = "nohup"
+desc = "演练忽略 SIGHUP 并明确日志去向的后台任务"
+
+[[commands.tokens]]
+text = " sleep"
+desc = "演练忽略 SIGHUP 并明确日志去向的后台任务；指定 sleep"
+
+[[commands.tokens]]
+text = " 30"
+desc = "本次练习的数值参数 30；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " >"
+desc = "将标准输出写入目标并覆盖现有内容"
+
+[[commands.tokens]]
+text = " ~/ops-lab/nohup.log"
+desc = "本次操作指定的路径：~/ops-lab/nohup.log"
+
+[[commands.tokens]]
+text = " 2>&1"
+desc = "让标准错误复制当前标准输出的去向"
+
+[[commands.tokens]]
+text = " &"
+desc = "让前一命令在后台运行"
+
+[commands.dictation]
+prompt = "演练忽略 SIGHUP 并明确日志去向的后台任务"
+answers = ["nohup sleep 30 > ~/ops-lab/nohup.log 2>&1 &"]
+
+[[commands]]
+id = "v04-ex-dcfdd06947"
+command = "printf 'shell pid=%s\\n' \"$$\""
+summary = "读取当前 shell 的进程标识"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'shell pid=%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；读取当前 shell 的进程标识"
+
+[[commands.tokens]]
+text = " \"$$\""
+desc = "引号保护此参数中的空格或特殊符号；读取当前 shell 的进程标识"
+
+[commands.dictation]
+prompt = "读取当前 shell 的进程标识"
+answers = ["printf 'shell pid=%s\\n' \"$$\""]
+
+[[commands]]
+id = "v04-ex-0e376e2c38"
+command = "ps -p $$ -o pid,ppid,tty"
+summary = "用当前 shell PID 查询进程关系"
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示进程快照及所选字段"
+
+[[commands.tokens]]
+text = " -p"
+desc = "用当前 shell PID 查询进程关系；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " $$"
+desc = "用当前 shell PID 查询进程关系；指定 $$"
+
+[[commands.tokens]]
+text = " -o"
+desc = "用当前 shell PID 查询进程关系；此处使用 -o 选项"
+
+[[commands.tokens]]
+text = " pid,ppid,tty"
+desc = "用当前 shell PID 查询进程关系；指定 pid,ppid,tty"
+
+[commands.dictation]
+prompt = "用当前 shell PID 查询进程关系"
+answers = ["ps -p $$ -o pid,ppid,tty"]
+
+[[commands]]
+id = "v04-ex-b038b9917e"
+command = "printf '/tmp/ops-%s.log\\n' \"$$\""
+summary = "把 shell PID 加入实验文件名；临时敏感文件仍应使用 mktemp"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '/tmp/ops-%s.log\\n'"
+desc = "引号保护此参数中的空格或特殊符号；把 shell PID 加入实验文件名；临时敏感文件仍应使用 mktemp"
+
+[[commands.tokens]]
+text = " \"$$\""
+desc = "引号保护此参数中的空格或特殊符号；把 shell PID 加入实验文件名；临时敏感文件仍应使用 mktemp"
+
+[commands.dictation]
+prompt = "把 shell PID 加入实验文件名；临时敏感文件仍应使用 mktemp"
+answers = ["printf '/tmp/ops-%s.log\\n' \"$$\""]
+
+[[commands]]
+id = "v04-ex-c1ffe4f821"
+command = "sleep 5 & printf 'pid=%s\\n' \"$!\""
+summary = "后台启动短任务并立即读取其 PID"
+
+[[commands.tokens]]
+text = "sleep"
+desc = "后台启动短任务并立即读取其 PID"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " &"
+desc = "让前一命令在后台运行"
+
+[[commands.tokens]]
+text = " printf"
+desc = "后台启动短任务并立即读取其 PID；指定 printf"
+
+[[commands.tokens]]
+text = " 'pid=%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；后台启动短任务并立即读取其 PID"
+
+[[commands.tokens]]
+text = " \"$!\""
+desc = "引号保护此参数中的空格或特殊符号；后台启动短任务并立即读取其 PID"
+
+[commands.dictation]
+prompt = "后台启动短任务并立即读取其 PID"
+answers = ["sleep 5 & printf 'pid=%s\\n' \"$!\""]
+
+[[commands]]
+id = "v04-ex-0e478d90a9"
+command = "sleep 7 & wait \"$!\""
+summary = "等待最近的后台实验任务完成"
+
+[[commands.tokens]]
+text = "sleep"
+desc = "等待最近的后台实验任务完成"
+
+[[commands.tokens]]
+text = " 7"
+desc = "本次练习的数值参数 7；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " &"
+desc = "让前一命令在后台运行"
+
+[[commands.tokens]]
+text = " wait"
+desc = "等待最近的后台实验任务完成；指定 wait"
+
+[[commands.tokens]]
+text = " \"$!\""
+desc = "引号保护此参数中的空格或特殊符号；等待最近的后台实验任务完成"
+
+[commands.dictation]
+prompt = "等待最近的后台实验任务完成"
+answers = ["sleep 7 & wait \"$!\""]
+
+[[commands]]
+id = "v04-ex-3aa964a1ae"
+command = "sleep 9 & ps -p \"$!\" -o pid,args"
+summary = "用后台 PID 查询实验等待进程"
+
+[[commands.tokens]]
+text = "sleep"
+desc = "用后台 PID 查询实验等待进程"
+
+[[commands.tokens]]
+text = " 9"
+desc = "本次练习的数值参数 9；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " &"
+desc = "让前一命令在后台运行"
+
+[[commands.tokens]]
+text = " ps"
+desc = "用后台 PID 查询实验等待进程；指定 ps"
+
+[[commands.tokens]]
+text = " -p"
+desc = "用后台 PID 查询实验等待进程；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " \"$!\""
+desc = "引号保护此参数中的空格或特殊符号；用后台 PID 查询实验等待进程"
+
+[[commands.tokens]]
+text = " -o"
+desc = "用后台 PID 查询实验等待进程；此处使用 -o 选项"
+
+[[commands.tokens]]
+text = " pid,args"
+desc = "用后台 PID 查询实验等待进程；指定 pid,args"
+
+[commands.dictation]
+prompt = "用后台 PID 查询实验等待进程"
+answers = ["sleep 9 & ps -p \"$!\" -o pid,args"]

@@ -1,0 +1,317 @@
+[meta]
+category = "system"
+difficulty = "basic"
+description = "Ubuntu 使用 apt/dpkg；安装前读取来源和版本，先模拟再变更。"
+
+[meta.topic]
+id = "v04_packages_ops"
+title = "包查询、安装验证与修复"
+icon = "🧰"
+order = 130
+command_ids = ["apt-list-upgradable"]
+
+[[commands]]
+id = "v04-packages_ops-1d8d6a8f71"
+command = "apt-cache policy nginx"
+summary = "查看 nginx 已安装版本和候选版本来源"
+
+[[commands.tokens]]
+text = "apt-cache"
+desc = "查看 nginx 已安装版本和候选版本来源"
+
+[[commands.tokens]]
+text = " policy"
+desc = "查看 nginx 已安装版本和候选版本来源；指定 policy"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "查看 nginx 已安装版本和候选版本来源；指定 nginx"
+
+[commands.dictation]
+prompt = "查看 nginx 已安装版本和候选版本来源"
+answers = ["apt-cache policy nginx"]
+
+[[commands]]
+id = "v04-packages_ops-03c269beb9"
+command = "apt-cache policy curl"
+summary = "核对 curl 版本优先级及软件源"
+
+[[commands.tokens]]
+text = "apt-cache"
+desc = "核对 curl 版本优先级及软件源"
+
+[[commands.tokens]]
+text = " policy"
+desc = "核对 curl 版本优先级及软件源；指定 policy"
+
+[[commands.tokens]]
+text = " curl"
+desc = "核对 curl 版本优先级及软件源；指定 curl"
+
+[commands.dictation]
+prompt = "核对 curl 版本优先级及软件源"
+answers = ["apt-cache policy curl"]
+
+[[commands]]
+id = "v04-packages_ops-2e64d30ab5"
+command = "apt-cache depends openssh-server"
+summary = "查看 SSH 服务包依赖关系"
+
+[[commands.tokens]]
+text = "apt-cache"
+desc = "查看 SSH 服务包依赖关系"
+
+[[commands.tokens]]
+text = " depends"
+desc = "查看 SSH 服务包依赖关系；指定 depends"
+
+[[commands.tokens]]
+text = " openssh-server"
+desc = "查看 SSH 服务包依赖关系；指定 openssh-server"
+
+[commands.dictation]
+prompt = "查看 SSH 服务包依赖关系"
+answers = ["apt-cache depends openssh-server"]
+
+[[commands]]
+id = "v04-packages_ops-4209ecb944"
+command = "apt-cache rdepends libssl3"
+summary = "查询软件包反向依赖，评估删除影响；包名依发行版版本而定"
+
+[[commands.tokens]]
+text = "apt-cache"
+desc = "查询软件包反向依赖，评估删除影响；包名依发行版版本而定"
+
+[[commands.tokens]]
+text = " rdepends"
+desc = "查询软件包反向依赖，评估删除影响；包名依发行版版本而定；指定 rdepends"
+
+[[commands.tokens]]
+text = " libssl3"
+desc = "查询软件包反向依赖，评估删除影响；包名依发行版版本而定；指定 libssl3"
+
+[commands.dictation]
+prompt = "查询软件包反向依赖，评估删除影响；包名依发行版版本而定"
+answers = ["apt-cache rdepends libssl3"]
+
+[[commands]]
+id = "v04-packages_ops-a78c5f46c5"
+command = "apt show tcpdump"
+summary = "读取抓包工具描述、依赖与包信息"
+
+[[commands.tokens]]
+text = "apt"
+desc = "读取抓包工具描述、依赖与包信息"
+
+[[commands.tokens]]
+text = " show"
+desc = "读取抓包工具描述、依赖与包信息；指定 show"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "读取抓包工具描述、依赖与包信息；指定 tcpdump"
+
+[commands.dictation]
+prompt = "读取抓包工具描述、依赖与包信息"
+answers = ["apt show tcpdump"]
+
+[[commands]]
+id = "v04-packages_ops-1510cbb3ff"
+command = "apt search '^dnsutils$'"
+summary = "按完整包名搜索 BIND DNS 工具集合"
+
+[[commands.tokens]]
+text = "apt"
+desc = "按完整包名搜索 BIND DNS 工具集合"
+
+[[commands.tokens]]
+text = " search"
+desc = "按完整包名搜索 BIND DNS 工具集合；指定 search"
+
+[[commands.tokens]]
+text = " '^dnsutils$'"
+desc = "引号保护此参数中的空格或特殊符号；按完整包名搜索 BIND DNS 工具集合"
+
+[commands.dictation]
+prompt = "按完整包名搜索 BIND DNS 工具集合"
+answers = ["apt search '^dnsutils$'"]
+
+[[commands]]
+id = "v04-packages_ops-1065c20259"
+command = "dpkg-query -W -f='${Package} ${Version}\\n' nginx"
+summary = "以明确字段输出已安装 nginx 包和版本"
+
+[[commands.tokens]]
+text = "dpkg-query"
+desc = "以明确字段输出已安装 nginx 包和版本"
+
+[[commands.tokens]]
+text = " -W"
+desc = "以明确字段输出已安装 nginx 包和版本；此处使用 -W 选项"
+
+[[commands.tokens]]
+text = " -f='${Package} ${Version}\\n'"
+desc = "以明确字段输出已安装 nginx 包和版本；此处使用 -f='${Package} ${Version}\\n' 选项"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "以明确字段输出已安装 nginx 包和版本；指定 nginx"
+
+[commands.dictation]
+prompt = "以明确字段输出已安装 nginx 包和版本"
+answers = ["dpkg-query -W -f='${Package} ${Version}\\n' nginx"]
+
+[[commands]]
+id = "v04-packages_ops-5a36754b47"
+command = "dpkg-query -S /usr/bin/curl"
+summary = "查询 curl 可执行文件归属哪个 Debian 包"
+
+[[commands.tokens]]
+text = "dpkg-query"
+desc = "查询 curl 可执行文件归属哪个 Debian 包"
+
+[[commands.tokens]]
+text = " -S"
+desc = "查询 curl 可执行文件归属哪个 Debian 包；此处使用 -S 选项"
+
+[[commands.tokens]]
+text = " /usr/bin/curl"
+desc = "本次操作指定的路径：/usr/bin/curl"
+
+[commands.dictation]
+prompt = "查询 curl 可执行文件归属哪个 Debian 包"
+answers = ["dpkg-query -S /usr/bin/curl"]
+
+[[commands]]
+id = "v04-packages_ops-a995e6791b"
+command = "dpkg -L openssh-client"
+summary = "列出 SSH 客户端包安装的文件"
+
+[[commands.tokens]]
+text = "dpkg"
+desc = "列出 SSH 客户端包安装的文件"
+
+[[commands.tokens]]
+text = " -L"
+desc = "列出 SSH 客户端包安装的文件；此处使用 -L 选项"
+
+[[commands.tokens]]
+text = " openssh-client"
+desc = "列出 SSH 客户端包安装的文件；指定 openssh-client"
+
+[commands.dictation]
+prompt = "列出 SSH 客户端包安装的文件"
+answers = ["dpkg -L openssh-client"]
+
+[[commands]]
+id = "v04-packages_ops-e77033db65"
+command = "dpkg --verify curl"
+summary = "比较 curl 包文件的可验证属性；并非完整恶意篡改检测"
+
+[[commands.tokens]]
+text = "dpkg"
+desc = "比较 curl 包文件的可验证属性；并非完整恶意篡改检测"
+
+[[commands.tokens]]
+text = " --verify"
+desc = "比较 curl 包文件的可验证属性；并非完整恶意篡改检测；此处使用 --verify 选项"
+
+[[commands.tokens]]
+text = " curl"
+desc = "比较 curl 包文件的可验证属性；并非完整恶意篡改检测；指定 curl"
+
+[commands.dictation]
+prompt = "比较 curl 包文件的可验证属性；并非完整恶意篡改检测"
+answers = ["dpkg --verify curl"]
+
+[[commands]]
+id = "v04-packages_ops-850e88df4c"
+command = "sudo apt-get -s install tcpdump"
+summary = "模拟安装抓包工具，审查依赖和磁盘变化"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " apt-get"
+desc = "模拟安装抓包工具，审查依赖和磁盘变化"
+
+[[commands.tokens]]
+text = " -s"
+desc = "模拟安装抓包工具，审查依赖和磁盘变化；此处使用 -s 选项"
+
+[[commands.tokens]]
+text = " install"
+desc = "模拟安装抓包工具，审查依赖和磁盘变化；指定 install"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "模拟安装抓包工具，审查依赖和磁盘变化；指定 tcpdump"
+
+[commands.dictation]
+prompt = "模拟安装抓包工具，审查依赖和磁盘变化"
+answers = ["sudo apt-get -s install tcpdump"]
+
+[[commands]]
+id = "v04-packages_ops-2b6810e8d9"
+command = "sudo apt-get -s upgrade"
+summary = "模拟可升级包操作，先审查计划"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " apt-get"
+desc = "模拟可升级包操作，先审查计划"
+
+[[commands.tokens]]
+text = " -s"
+desc = "模拟可升级包操作，先审查计划；此处使用 -s 选项"
+
+[[commands.tokens]]
+text = " upgrade"
+desc = "模拟可升级包操作，先审查计划；指定 upgrade"
+
+[commands.dictation]
+prompt = "模拟可升级包操作，先审查计划"
+answers = ["sudo apt-get -s upgrade"]
+
+[[commands]]
+id = "v04-packages_ops-66fb4d13e6"
+command = "sudo dpkg --audit"
+summary = "检查未完整安装或需要修复的软件包状态"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " dpkg"
+desc = "检查未完整安装或需要修复的软件包状态"
+
+[[commands.tokens]]
+text = " --audit"
+desc = "检查未完整安装或需要修复的软件包状态；此处使用 --audit 选项"
+
+[commands.dictation]
+prompt = "检查未完整安装或需要修复的软件包状态"
+answers = ["sudo dpkg --audit"]
+
+[[commands]]
+id = "v04-packages_ops-c66df12bbc"
+command = "apt-mark showhold"
+summary = "查看被 hold 的包，解释为什么未随常规升级更新"
+
+[[commands.tokens]]
+text = "apt-mark"
+desc = "查看被 hold 的包，解释为什么未随常规升级更新"
+
+[[commands.tokens]]
+text = " showhold"
+desc = "查看被 hold 的包，解释为什么未随常规升级更新；指定 showhold"
+
+[commands.dictation]
+prompt = "查看被 hold 的包，解释为什么未随常规升级更新"
+answers = ["apt-mark showhold"]

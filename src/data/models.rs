@@ -324,6 +324,7 @@ pub enum RecordMode {
     ReviewDictation,
     #[serde(alias = "review_cloze")]
     ReviewCloze,
+    ScenarioTyping,
 }
 
 /// 重要程度
@@ -380,6 +381,8 @@ pub struct CommandTopicMeta {
     #[serde(default)]
     pub icon: Option<String>,
     pub order: u16,
+    #[serde(default)]
+    pub command_ids: Vec<String>,
 }
 
 /// 命令专题训练元数据与运行时命令映射
@@ -842,6 +845,76 @@ pub struct SessionRecord {
     pub accuracy: f64,
     pub error_count: u32,
     pub difficulty: Difficulty,
+    #[serde(default)]
+    pub typing: Option<TypingMetrics>,
+}
+
+impl SessionRecord {
+    pub fn is_completed(&self) -> bool {
+        self.typing.as_ref().is_none_or(|metrics| metrics.completed)
+    }
+}
+
+/// Position-based follow-typing measurements; absent on legacy/non-typing records.
+#[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize)]
+pub struct TypingMetrics {
+    pub version: u32,
+    pub completed: bool,
+    /// Local date captured when the command completed; empty on older records.
+    #[serde(default)]
+    pub completed_date: String,
+    pub active_duration_ms: u64,
+    pub positions: Vec<TypingPosition>,
+    pub active_spans: Vec<ActiveSpan>,
+    /// At most one prior state per position and local day, saved on a later-day edit.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub position_day_snapshots: Vec<PositionDaySnapshot>,
+}
+
+#[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize)]
+pub struct TypingPosition {
+    pub index: usize,
+    pub expected: char,
+    pub attempted_at_ms: i64,
+    pub attempted_date: String,
+    /// Local date of the latest mutation, used to choose historical snapshots.
+    #[serde(default)]
+    pub updated_date: String,
+    pub completed: bool,
+    pub error: bool,
+    #[serde(default)]
+    pub error_date: Option<String>,
+    pub attempts: u64,
+    pub completed_at_ms: i64,
+    pub completed_date: String,
+    pub latency_ms: u64,
+    pub speed_sample_valid: bool,
+}
+
+/// Final speed state of one target position on a prior local day. Repeated
+/// same-day edits remain in the current position and never add event history.
+#[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize)]
+pub struct PositionDaySnapshot {
+    pub index: usize,
+    pub date: String,
+    pub completed: bool,
+    pub completed_at_ms: i64,
+    pub completed_date: String,
+    pub latency_ms: u64,
+    pub speed_sample_valid: bool,
+}
+
+#[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize)]
+pub struct ActiveSpan {
+    pub date: String,
+    pub duration_ms: u64,
+}
+
+#[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize)]
+pub struct CharLatencySample {
+    pub timestamp_ms: i64,
+    pub date: String,
+    pub latency_ms: u64,
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -879,6 +952,8 @@ pub struct CharStat {
     pub avg_cpm: f64,
     pub accuracy: f64,
     pub history: Vec<CharSpeedPoint>,
+    #[serde(default)]
+    pub recent_latencies: Vec<CharLatencySample>,
 }
 
 /// 字符速度数据点
@@ -910,6 +985,41 @@ pub struct DailyStat {
     pub avg_accuracy: f64,
     #[serde(default)]
     pub wpm_sessions_count: u32,
+    #[serde(default)]
+    pub avg_cpm: f64,
+    #[serde(default)]
+    pub completed_chars: u64,
+    #[serde(default)]
+    pub attempted_positions: u64,
+    #[serde(default)]
+    pub error_positions: u64,
+    #[serde(default)]
+    pub accuracy_weight: u64,
+    #[serde(default)]
+    pub legacy_sessions_count: u32,
+    #[serde(default)]
+    pub entries: Vec<DailyEntry>,
+}
+
+#[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize)]
+pub struct DailyEntry {
+    pub mode: RecordMode,
+    pub sessions_count: u32,
+    pub completed_count: u32,
+    pub duration_ms: u64,
+    pub completed_chars: u64,
+    pub attempted_positions: u64,
+    pub error_positions: u64,
+    #[serde(default)]
+    pub avg_wpm: f64,
+    #[serde(default)]
+    pub avg_cpm: f64,
+    #[serde(default)]
+    pub avg_accuracy: f64,
+    #[serde(default)]
+    pub accuracy_weight: u64,
+    #[serde(default)]
+    pub legacy_sessions_count: u32,
 }
 
 /// 全局用户统计
@@ -928,6 +1038,20 @@ pub struct UserStats {
     pub char_stats: Vec<CharStat>,
     pub command_progress: Vec<CommandProgress>,
     pub daily_stats: Vec<DailyStat>,
+    #[serde(default)]
+    pub stats_version: u32,
+    #[serde(default)]
+    pub applied_record_ids: Vec<String>,
+    #[serde(default)]
+    pub completed_chars: u64,
+    #[serde(default)]
+    pub attempted_positions: u64,
+    #[serde(default)]
+    pub error_positions: u64,
+    #[serde(default)]
+    pub accuracy_weight: u64,
+    #[serde(default)]
+    pub legacy_sessions_count: u64,
 }
 
 /// 用户配置（v0.2 扩展 prompt_* 和 PromptStyle 字段）

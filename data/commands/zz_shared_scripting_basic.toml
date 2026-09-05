@@ -1,0 +1,117 @@
+
+[meta]
+category = "scripting"
+difficulty = "basic"
+description = "跨模块共用的规范命令（由内容归一化维护）"
+
+[[commands]]
+id = "shared-2085e94995af93cb"
+command = "docker run -d --name webserver -p 8080:80 nginx"
+summary = "后台运行 Nginx 容器并映射端口"
+simulated_output = "f3e2d1c0b9a847563412fedcba987654321012345678901234567890abcdef"
+
+[[commands.tokens]]
+text = "docker run -d --name webserver -p 8080:80 nginx"
+desc = "后台运行 Nginx 容器并映射端口"
+
+[commands.dictation]
+prompt = "后台运行 Nginx 容器并映射端口"
+answers = ["docker run -d --name webserver -p 8080:80 nginx"]
+
+[[commands]]
+id = "shared-4a9c21271f633202"
+command = "docker exec -it webserver bash"
+summary = "进入正在运行的 Nginx 容器的 shell"
+simulated_output = "root@f3e2d1c0b9a8:/# "
+
+[[commands.tokens]]
+text = "docker exec -it webserver bash"
+desc = "进入正在运行的 Nginx 容器的 shell"
+
+[commands.dictation]
+prompt = "进入正在运行的 Nginx 容器的 shell"
+answers = ["docker exec -it webserver bash"]
+
+[[commands]]
+id = "shared-e645e5c59a20f7ac"
+command = "docker build -t myapp:v1.0 ."
+summary = "在当前目录用 Dockerfile 构建镜像"
+simulated_output = "[+] Building 12.4s (8/8) FINISHED\n => [internal] load build definition from Dockerfile            0.1s\n => [1/4] FROM python:3.11-slim                                 5.2s\n => [2/4] WORKDIR /app                                          0.0s\n => [3/4] COPY requirements.txt .                               0.1s\n => [4/4] RUN pip install -r requirements.txt                   6.8s\n => exporting to image                                          0.2s\n => naming to docker.io/library/myapp:v1.0                      0.0s"
+
+[[commands.tokens]]
+text = "docker build -t myapp:v1.0 ."
+desc = "在当前目录用 Dockerfile 构建镜像"
+
+[commands.dictation]
+prompt = "在当前目录用 Dockerfile 构建镜像"
+answers = ["docker build -t myapp:v1.0 ."]
+
+[[commands]]
+id = "shared-598ff3d98b359469"
+command = "docker logs -f --tail 50 webserver"
+summary = "实时查看容器最后 50 行日志"
+simulated_output = "203.0.113.42 - - [09/Mar/2024:10:30:01 +0000] \"GET / HTTP/1.1\" 200 615\n10.0.0.5 - - [09/Mar/2024:10:30:02 +0000] \"GET /api/health HTTP/1.1\" 200 17\n203.0.113.42 - - [09/Mar/2024:10:30:15 +0000] \"POST /api/login HTTP/1.1\" 200 128"
+
+[[commands.tokens]]
+text = "docker logs -f --tail 50 webserver"
+desc = "实时查看容器最后 50 行日志"
+
+[commands.dictation]
+prompt = "实时查看容器最后 50 行日志"
+answers = ["docker logs -f --tail 50 webserver"]
+
+[[commands]]
+id = "shared-90f3dc561d1588ed"
+command = "git checkout -b feature/user-auth"
+summary = "创建并切换到新的功能分支"
+simulated_output = "Switched to a new branch 'feature/user-auth'"
+
+[[commands.tokens]]
+text = "git checkout -b feature/user-auth"
+desc = "创建并切换到新的功能分支"
+
+[commands.dictation]
+prompt = "创建并切换到新的功能分支"
+answers = ["git checkout -b feature/user-auth"]
+
+[[commands]]
+id = "shared-79b4da370c9513e3"
+command = "git add src/ && git commit -m '实现用户认证模块'"
+summary = "暂存 src 目录并提交（工作流示例）"
+simulated_output = "[feature/user-auth 7c3d891] 实现用户认证模块\n 4 files changed, 128 insertions(+), 12 deletions(-)\n create mode 100644 src/auth/mod.rs"
+
+[[commands.tokens]]
+text = "git add src/ && git commit -m '实现用户认证模块'"
+desc = "暂存 src 目录并提交（工作流示例）"
+
+[commands.dictation]
+prompt = "暂存 src 目录并提交（工作流示例）"
+answers = ["git add src/ && git commit -m '实现用户认证模块'"]
+
+[[commands]]
+id = "shared-677844c400ed521f"
+command = "git stash && git checkout main && git pull"
+summary = "储藏当前修改、切换主分支并更新"
+simulated_output = "Saved working directory and index state WIP on feature/user-auth: 7c3d891\nSwitched to branch 'main'\nAlready up to date."
+
+[[commands.tokens]]
+text = "git stash && git checkout main && git pull"
+desc = "储藏当前修改、切换主分支并更新"
+
+[commands.dictation]
+prompt = "储藏当前修改、切换主分支并更新"
+answers = ["git stash && git checkout main && git pull"]
+
+[[commands]]
+id = "shared-e21b4a9fd32b9f50"
+command = "git log --oneline --graph --all"
+summary = "用图形化方式查看所有分支的提交历史"
+simulated_output = "* a3f8c12 (HEAD -> main, origin/main) 修复用户登录验证失败的问题\n| * 2b4d789 (feature/user-auth) 实现用户认证模块\n|/\n* b1d7e89 添加密码重置功能\n* c4a2f01 优化数据库查询性能"
+
+[[commands.tokens]]
+text = "git log --oneline --graph --all"
+desc = "用图形化方式查看所有分支的提交历史"
+
+[commands.dictation]
+prompt = "用图形化方式查看所有分支的提交历史"
+answers = ["git log --oneline --graph --all"]

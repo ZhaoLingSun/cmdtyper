@@ -64,6 +64,11 @@ pub fn render_overview(
     let visible_height = content_area.height as usize;
 
     let mut lines: Vec<Line> = Vec::new();
+    let (usages, exercises, completed) = app.practice_counts("lesson", &lesson.meta.command);
+    lines.push(Line::styled(
+        format!("基础用法 {usages} · 练习 {completed}/{exercises} · P 进入三题训练"),
+        Style::default().fg(ACCENT),
+    ));
 
     // Summary
     lines.push(Line::from(Span::styled(
@@ -152,6 +157,7 @@ pub fn render_overview(
 
     // Hints
     let hints = hint_line(&[
+        ("P", "三题练习"),
         ("\u{2191}\u{2193}", "\u{4e0a}\u{4e0b}\u{547d}\u{4ee4}"),
         ("PgUp/PgDn", "\u{6eda}\u{52a8}"),
         ("Enter/\u{2192}", "\u{8fdb}\u{5165}\u{8bad}\u{7ec3}"),
@@ -243,9 +249,11 @@ pub fn render_practice(
             Style::default().fg(DIM),
         )),
         Line::from(""),
-        Line::from(spans),
+        Line::from(""),
         Line::from(""),
     ];
+
+    lines.extend(crate::ui::widgets::typing_lines("$ ", engine));
 
     // 三级 fallback: lesson token_details > lexicon > command tokens
     let cmd_name = example.command.split_whitespace().next().unwrap_or("");

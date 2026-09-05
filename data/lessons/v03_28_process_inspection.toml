@@ -1,3 +1,4 @@
+
 [meta]
 command = "ps / pgrep / ss / lsof（进程与监听检查）"
 full_name = "read-only process and listening-port inspection"
@@ -7,19 +8,23 @@ importance = "core"
 
 [overview]
 summary = "先只读建立系统、进程、PID 与监听端口证据链，再考虑任何控制动作"
-explanation = """进程与端口排查不应从 kill 开始。先用 uptime -p 了解系统是否刚重启；用 ps 查看瞬时进程快照、按用户或 PID精确选择，并自定义所有者、父进程、状态、运行时长和命令行；用 pgrep -af 按完整命令行发现候选；用 ss 查看监听套接字，用 lsof 从端口反查打开套接字的进程。端口、PID、进程名与命令行是不同维度，任何单一线索都不足以证明身份。PID 会被回收复用，因此从端口得到 PID 后，发送信号前必须立即再次用 ps 核对所有者和命令行。普通用户还可能因权限不足看不到其他用户的进程详情，空白 Process 列不等于无人监听。"""
+explanation = "进程与端口排查不应从 kill 开始。先用 uptime -p 了解系统是否刚重启；用 ps 查看瞬时进程快照、按用户或 PID精确选择，并自定义所有者、父进程、状态、运行时长和命令行；用 pgrep -af 按完整命令行发现候选；用 ss 查看监听套接字，用 lsof 从端口反查打开套接字的进程。端口、PID、进程名与命令行是不同维度，任何单一线索都不足以证明身份。PID 会被回收复用，因此从端口得到 PID 后，发送信号前必须立即再次用 ps 核对所有者和命令行。普通用户还可能因权限不足看不到其他用户的进程详情，空白 Process 列不等于无人监听。"
 
 [syntax]
 basic = "uptime -p | ps [选择条件] -o 字段 | pgrep [条件] 模式 | ss [套接字条件] | lsof -i:端口"
+
 [[syntax.parts]]
 name = "系统上下文"
 desc = "uptime -p 只显示持续运行时长，帮助判断异常是否可能与最近重启有关"
+
 [[syntax.parts]]
 name = "进程选择"
 desc = "ps aux 看全局快照，ps -u USER 按有效用户选择，ps -p PID 按具体 PID 复核"
+
 [[syntax.parts]]
 name = "名称发现"
 desc = "pgrep -f 匹配完整命令行，-a 同时显示 PID 与命令行；宽匹配只能作为候选发现"
+
 [[syntax.parts]]
 name = "端口证据"
 desc = "ss 从套接字视角看监听状态，lsof 从进程打开的文件描述符视角反查端口"

@@ -1,3 +1,4 @@
+
 [meta]
 command = "awk"
 full_name = "Aho, Weinberger, Kernighan"
@@ -7,20 +8,15 @@ importance = "core"
 
 [overview]
 summary = "强大的文本处理和数据提取工具"
-explanation = """awk 是 Linux 中最强大的文本处理工具之一，以三位发明者的姓氏命名。\
-它将每一行输入自动分割成字段（默认按空白分隔），\
-通过 $1、$2 ... 引用各个字段（$0 代表整行），\
-可以对数据进行提取、过滤、计算和格式化输出。\
-awk 本质上是一个小型编程语言，支持变量、条件、循环、数组和函数。\
-它的工作模式是"模式 { 动作 }"——对每一行，如果匹配模式就执行动作。\
-特殊的 BEGIN 块在处理任何输入前执行，END 块在所有输入处理完后执行。\
-在一行式命令中，awk 常用于提取特定列的数据。"""
+explanation = "awk 是 Linux 中最强大的文本处理工具之一，以三位发明者的姓氏命名。它将每一行输入自动分割成字段（默认按空白分隔），通过 $1、$2 ... 引用各个字段（$0 代表整行），可以对数据进行提取、过滤、计算和格式化输出。awk 本质上是一个小型编程语言，支持变量、条件、循环、数组和函数。它的工作模式是\"模式 { 动作 }\"——对每一行，如果匹配模式就执行动作。特殊的 BEGIN 块在处理任何输入前执行，END 块在所有输入处理完后执行。在一行式命令中，awk 常用于提取特定列的数据。"
 
 [syntax]
 basic = "awk '模式 { 动作 }' [文件]"
+
 [[syntax.parts]]
 name = "模式"
 desc = "匹配条件（正则表达式、比较表达式等），省略则匹配所有行"
+
 [[syntax.parts]]
 name = "动作"
 desc = "对匹配行执行的操作，如 print、计算等"
@@ -63,15 +59,12 @@ note = "BEGIN 在处理前执行，END 在处理后执行"
 
 [[examples]]
 level = 1
-command = "awk '{print $1}' access.log"
 summary = "提取日志文件中每行的第一个字段（IP 地址）"
-simulated_output = """192.168.1.50
-10.0.0.5
-192.168.1.105
-172.16.0.20
-192.168.1.200"""
-
+simulated_output = "192.168.1.50\n10.0.0.5\n192.168.1.105\n172.16.0.20\n192.168.1.200"
 output_explanation = "这是 awk 的筛选/字段处理结果：它按给定规则对输入文本逐行处理，只输出匹配或计算后的内容。可重点关注字段分隔符、条件表达式和 END 统计是否符合预期。"
+id = "example-001"
+command_id = "awk-print-first-field"
+
 [[examples.token_details]]
 token = "{print $1}"
 explanation = "awk 程序：打印每一行的第 1 列。对于 access.log，这一列通常是客户端 IP 地址。"
@@ -82,15 +75,12 @@ explanation = "HTTP 访问日志文件。"
 
 [[examples]]
 level = 2
-command = "awk -F: '{print $1, $3}' /etc/passwd | head -5"
 summary = "以冒号为分隔符，提取用户名和 UID"
-simulated_output = """root 0
-daemon 1
-bin 2
-sys 3
-sync 4"""
-
+simulated_output = "root 0\ndaemon 1\nbin 2\nsys 3\nsync 4"
 output_explanation = "这是 awk 的筛选/字段处理结果：它按给定规则对输入文本逐行处理，只输出匹配或计算后的内容。可重点关注字段分隔符、条件表达式和 END 统计是否符合预期。"
+id = "example-002"
+command_id = "shared-47a354b3f5759197"
+
 [[examples.token_details]]
 token = "awk"
 explanation = "按字段处理文本的命令。"
@@ -117,12 +107,12 @@ explanation = "head 的旧式写法，表示只显示前 5 行。"
 
 [[examples]]
 level = 2
-command = "awk '$3 > 1000' /etc/passwd"
 summary = "过滤出 UID 大于 1000 的用户（模式匹配）"
-simulated_output = """nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
-ace:x:1000:1000:ace:/home/ace:/bin/bash"""
-
+simulated_output = "nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin\nace:x:1000:1000:ace:/home/ace:/bin/bash"
 output_explanation = "这是 awk 的筛选/字段处理结果：它按给定规则对输入文本逐行处理，只输出匹配或计算后的内容。可重点关注字段分隔符、条件表达式和 END 统计是否符合预期。"
+id = "example-003"
+command_id = "shared-eb098a6ad6c4363f"
+
 [[examples.token_details]]
 token = "awk"
 explanation = "按字段处理文本的命令。"
@@ -137,12 +127,13 @@ explanation = "输入文件：系统用户账户信息。"
 
 [[examples]]
 level = 3
-command = "awk '/ERROR/ {count++} END {print \"Total errors:\", count}' app.log"
 summary = "统计日志中 ERROR 出现的次数"
 display = "awk '/ERROR/ {count++} \\\n  END {print \"Total errors:\", count}' app.log"
-simulated_output = """Total errors: 42"""
-
+simulated_output = "Total errors: 42"
 output_explanation = "这是 awk 的筛选/字段处理结果：它按给定规则对输入文本逐行处理，只输出匹配或计算后的内容。可重点关注字段分隔符、条件表达式和 END 统计是否符合预期。"
+id = "example-004"
+command_id = "shared-dc37b333c111341b"
+
 [[examples.token_details]]
 token = "/ERROR/ {count++} END {print \"Total errors:\", count}"
 explanation = "awk 程序：对每一行，若匹配 /ERROR/ 则计数器加一；处理完所有行后（END）打印总计数。"
@@ -153,13 +144,13 @@ explanation = "应用程序日志文件。"
 
 [[examples]]
 level = 3
-command = "df -h | awk 'NR>1 && $5+0 > 80 {print $6, $5}'"
 summary = "找出磁盘使用率超过 80% 的分区"
 display = "df -h | awk 'NR>1 && $5+0 > 80 \\\n  {print $6, $5}'"
-simulated_output = """/var 85%
-/home 92%"""
-
+simulated_output = "/var 85%\n/home 92%"
 output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
+id = "example-005"
+command_id = "shared-ab32c9fe4d028552"
+
 [[examples.token_details]]
 token = "df"
 explanation = "查看磁盘空间使用情况的命令。"
@@ -182,16 +173,13 @@ explanation = "跳过表头（NR>1），把第 5 列使用率转成数值后筛�
 
 [[examples]]
 level = 4
-command = "awk -F: 'BEGIN {print \"User\\tUID\\tShell\"} $3>=1000 && $3<65534 {print $1\"\\t\"$3\"\\t\"$7}' /etc/passwd"
 summary = "格式化输出普通用户信息（带表头）"
 display = "awk -F: 'BEGIN {print \"User\\tUID\\tShell\"} \\\n  $3>=1000 && $3<65534 \\\n  {print $1\"\\t\"$3\"\\t\"$7}' /etc/passwd"
-simulated_output = """User	UID	Shell
-ace	1000	/bin/bash
-alice	1001	/bin/bash
-bob	1002	/bin/zsh
-deploy	1003	/bin/bash"""
-
+simulated_output = "User\tUID\tShell\nace\t1000\t/bin/bash\nalice\t1001\t/bin/bash\nbob\t1002\t/bin/zsh\ndeploy\t1003\t/bin/bash"
 output_explanation = "这是 awk 的筛选/字段处理结果：它按给定规则对输入文本逐行处理，只输出匹配或计算后的内容。可重点关注字段分隔符、条件表达式和 END 统计是否符合预期。"
+id = "example-006"
+command_id = "shared-13c677f0ab6ef8c0"
+
 [[examples.token_details]]
 token = "-F:"
 explanation = "将字段分隔符设为冒号 :，适合处理 /etc/passwd 这类冒号分隔文件。"
@@ -206,12 +194,13 @@ explanation = "系统用户账户信息文件。"
 
 [[examples]]
 level = 4
-command = "awk '{sum+=$1; count++} END {printf \"Average: %.2f\\n\", sum/count}' numbers.txt"
 summary = "计算文件中数字的平均值"
 display = "awk '{sum+=$1; count++} \\\n  END {printf \"Average: %.2f\\n\", sum/count}' \\\n  numbers.txt"
-simulated_output = """Average: 78.35"""
-
+simulated_output = "Average: 78.35"
 output_explanation = "这是 awk 的筛选/字段处理结果：它按给定规则对输入文本逐行处理，只输出匹配或计算后的内容。可重点关注字段分隔符、条件表达式和 END 统计是否符合预期。"
+id = "example-007"
+command_id = "shared-2a2161d58c1a1b85"
+
 [[examples.token_details]]
 token = "{sum+=$1; count++} END {printf \"Average: %.2f\\n\", sum/count}"
 explanation = "awk 程序：对每行累加第 1 列（数值）并统计行数；END 块用 printf 格式化打印平均值，保留 2 位小数。"
@@ -222,25 +211,8 @@ explanation = "数字数据文件。"
 
 [[gotchas]]
 title = "awk 中 $0 与 $1 的区别"
-content = """awk 的字段引用：
-  $0  — 整行内容
-  $1  — 第 1 个字段
-  $2  — 第 2 个字段
-  $NF — 最后一个字段
-  $(NF-1) — 倒数第二个字段
-
-注意 $ 后面可以是表达式：
-  n=3; awk -v n=$n '{print $n}'  — 打印第 n 个字段
-
-另外，awk 的字段分隔默认是任意空白字符（空格和 Tab 的组合），
-多个连续空格算一个分隔符。要按单个字符分隔用 -F。"""
+content = "awk 的字段引用：\n  $0  — 整行内容\n  $1  — 第 1 个字段\n  $2  — 第 2 个字段\n  $NF — 最后一个字段\n  $(NF-1) — 倒数第二个字段\n\n注意 $ 后面可以是表达式：\n  n=3; awk -v n=$n '{print $n}'  — 打印第 n 个字段\n\n另外，awk 的字段分隔默认是任意空白字符（空格和 Tab 的组合），\n多个连续空格算一个分隔符。要按单个字符分隔用 -F。"
 
 [[gotchas]]
 title = "awk 与 Shell 引号冲突"
-content = """awk 程序通常用单引号包裹，避免 Shell 解析其中的 $ 符号：
-  awk '{print $1}'        ✓ 单引号，$1 是 awk 的字段引用
-  awk "{print $1}"        ✗ 双引号，$1 会被 Shell 替换为参数
-
-如果需要在 awk 中使用 Shell 变量，用 -v 传递：
-  awk -v name="$USER" '{print name, $1}' file
-  而不是：awk '{print "'$USER'", $1}'（容易出错且不安全）"""
+content = "awk 程序通常用单引号包裹，避免 Shell 解析其中的 $ 符号：\n  awk '{print $1}'        ✓ 单引号，$1 是 awk 的字段引用\n  awk \"{print $1}\"        ✗ 双引号，$1 会被 Shell 替换为参数\n\n如果需要在 awk 中使用 Shell 变量，用 -v 传递：\n  awk -v name=\"$USER\" '{print name, $1}' file\n  而不是：awk '{print \"'$USER'\", $1}'（容易出错且不安全）"

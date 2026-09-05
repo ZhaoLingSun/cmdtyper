@@ -1,3 +1,4 @@
+
 [meta]
 command = "systemctl"
 full_name = "System Control"
@@ -7,13 +8,15 @@ importance = "core"
 
 [overview]
 summary = "管理 systemd 系统服务的核心工具"
-explanation = """systemctl 是 systemd 系统的主要控制命令，用于管理系统服务（启动、停止、重启、查看状态）。systemd 是现代 Linux 发行版（Ubuntu 16+、CentOS 7+、Debian 8+）的标准 init 系统。每个系统服务对应一个 .service 文件，systemctl 可以控制这些服务的生命周期。enable/disable 控制服务是否开机自启；start/stop 控制当前运行状态。journalctl 是配合 systemctl 使用的日志查看工具，用于查看服务的运行日志。掌握 systemctl 是 Linux 服务器运维的基础技能。"""
+explanation = "systemctl 是 systemd 系统的主要控制命令，用于管理系统服务（启动、停止、重启、查看状态）。systemd 是现代 Linux 发行版（Ubuntu 16+、CentOS 7+、Debian 8+）的标准 init 系统。每个系统服务对应一个 .service 文件，systemctl 可以控制这些服务的生命周期。enable/disable 控制服务是否开机自启；start/stop 控制当前运行状态。journalctl 是配合 systemctl 使用的日志查看工具，用于查看服务的运行日志。掌握 systemctl 是 Linux 服务器运维的基础技能。"
 
 [syntax]
 basic = "systemctl <动作> [服务名]"
+
 [[syntax.parts]]
 name = "动作"
 desc = "start/stop/restart/status/enable/disable/list-units 等"
+
 [[syntax.parts]]
 name = "服务名"
 desc = "服务的名称，如 nginx、sshd、docker，通常省略 .service 后缀"
@@ -68,25 +71,12 @@ note = "返回 active 或 inactive，适合脚本中判断服务状态"
 
 [[examples]]
 level = 1
-command = "systemctl status nginx"
 summary = "查看 Nginx 服务的当前运行状态"
-simulated_output = """● nginx.service - A high performance web server and a reverse proxy server
-     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
-     Active: active (running) since Sat 2024-03-09 08:00:15 UTC; 2h 30min ago
-       Docs: man:nginx(8)
-    Process: 1234 ExecStartPre=/usr/sbin/nginx -t (code=exited, status=0/SUCCESS)
-   Main PID: 1235 (nginx)
-      Tasks: 3 (limit: 4915)
-     Memory: 8.2M
-        CPU: 234ms
-     CGroup: /system.slice/nginx.service
-             ├─1235 "nginx: master process /usr/sbin/nginx -g daemon on; master_process on;"
-             └─1236 "nginx: worker process"
-
-Mar 09 08:00:15 myhost nginx[1234]: nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
-Mar 09 08:00:15 myhost nginx[1235]: nginx: configuration file /etc/nginx/nginx.conf test is successful"""
-
+simulated_output = "● nginx.service - A high performance web server and a reverse proxy server\n     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)\n     Active: active (running) since Sat 2024-03-09 08:00:15 UTC; 2h 30min ago\n       Docs: man:nginx(8)\n    Process: 1234 ExecStartPre=/usr/sbin/nginx -t (code=exited, status=0/SUCCESS)\n   Main PID: 1235 (nginx)\n      Tasks: 3 (limit: 4915)\n     Memory: 8.2M\n        CPU: 234ms\n     CGroup: /system.slice/nginx.service\n             ├─1235 \"nginx: master process /usr/sbin/nginx -g daemon on; master_process on;\"\n             └─1236 \"nginx: worker process\"\n\nMar 09 08:00:15 myhost nginx[1234]: nginx: the configuration file /etc/nginx/nginx.conf syntax is ok\nMar 09 08:00:15 myhost nginx[1235]: nginx: configuration file /etc/nginx/nginx.conf test is successful"
 output_explanation = "该输出用于显示 systemd 服务状态或控制结果。重点关注 Active、Loaded、Main PID 以及近期日志中的报错。"
+id = "example-001"
+command_id = "systemctl-status-nginx"
+
 [[examples.token_details]]
 token = "status"
 explanation = "查看指定服务的运行状态。"
@@ -97,11 +87,12 @@ explanation = "目标服务：Nginx Web 服务器。"
 
 [[examples]]
 level = 1
-command = "systemctl start sshd"
 summary = "启动 SSH 服务"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-002"
+command_id = "v04-ref-3b33b876f2"
+
 [[examples.token_details]]
 token = "start"
 explanation = "启动指定的 systemd 服务。"
@@ -112,11 +103,12 @@ explanation = "目标服务：SSH 守护进程。"
 
 [[examples]]
 level = 2
-command = "systemctl enable --now docker"
 summary = "设置 Docker 开机自启并立即启动"
-simulated_output = """Created symlink /etc/systemd/system/multi-user.target.wants/docker.service → /lib/systemd/system/docker.service."""
-
+simulated_output = "Created symlink /etc/systemd/system/multi-user.target.wants/docker.service → /lib/systemd/system/docker.service."
 output_explanation = "该输出用于显示 systemd 服务状态或控制结果。重点关注 Active、Loaded、Main PID 以及近期日志中的报错。"
+id = "example-003"
+command_id = "shared-a4634e754b552870"
+
 [[examples.token_details]]
 token = "enable"
 explanation = "设置服务开机自动启动。"
@@ -131,16 +123,12 @@ explanation = "目标服务：Docker 守护进程，systemctl 将对其同时设
 
 [[examples]]
 level = 2
-command = "systemctl list-units --type=service --state=running"
 summary = "列出所有正在运行的系统服务"
-simulated_output = """  UNIT                        LOAD   ACTIVE SUB     DESCRIPTION
-  cron.service                loaded active running Regular background program processing daemon
-  docker.service              loaded active running Docker Application Container Engine
-  nginx.service               loaded active running A high performance web server
-  ssh.service                 loaded active running OpenBSD Secure Shell server
-  systemd-journald.service    loaded active running Journal Service"""
-
+simulated_output = "  UNIT                        LOAD   ACTIVE SUB     DESCRIPTION\n  cron.service                loaded active running Regular background program processing daemon\n  docker.service              loaded active running Docker Application Container Engine\n  nginx.service               loaded active running A high performance web server\n  ssh.service                 loaded active running OpenBSD Secure Shell server\n  systemd-journald.service    loaded active running Journal Service"
 output_explanation = "该输出用于显示 systemd 服务状态或控制结果。重点关注 Active、Loaded、Main PID 以及近期日志中的报错。"
+id = "example-004"
+command_id = "shared-5b79c2e375cdc273"
+
 [[examples.token_details]]
 token = "list-units"
 explanation = "列出当前加载的所有 systemd 单元（services、sockets、targets 等）。"
@@ -155,12 +143,12 @@ explanation = "仅显示运行中的单元。"
 
 [[examples]]
 level = 3
-command = "journalctl -u nginx -f --since '10 minutes ago'"
 summary = "实时查看 Nginx 服务近10分钟的日志"
-simulated_output = """Mar 09 10:28:01 myhost nginx[1235]: 203.0.113.42 - - [09/Mar/2024:10:28:01 +0000] "GET / HTTP/1.1" 200 615
-Mar 09 10:29:15 myhost nginx[1235]: 10.0.0.5 - - [09/Mar/2024:10:29:15 +0000] "POST /api/data HTTP/1.1" 201 89"""
-
+simulated_output = "Mar 09 10:28:01 myhost nginx[1235]: 203.0.113.42 - - [09/Mar/2024:10:28:01 +0000] \"GET / HTTP/1.1\" 200 615\nMar 09 10:29:15 myhost nginx[1235]: 10.0.0.5 - - [09/Mar/2024:10:29:15 +0000] \"POST /api/data HTTP/1.1\" 201 89"
 output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
+id = "example-005"
+command_id = "shared-1a0fb6b4dc194bb5"
+
 [[examples.token_details]]
 token = "-u"
 explanation = "指定要查看的 systemd 服务单元名称（unit），只显示该服务的日志。"
@@ -183,8 +171,8 @@ explanation = "日志起始时间，只显示该时间之后的记录。"
 
 [[gotchas]]
 title = "start 和 enable 是独立的操作"
-content = """systemctl start 只影响当前运行状态，重启系统后不会自动启动。systemctl enable 只设置开机自启，不会立即启动服务。如果想同时启动并设为自启，使用 systemctl enable --now 服务名。同样，disable --now 可以同时停止并取消自启。"""
+content = "systemctl start 只影响当前运行状态，重启系统后不会自动启动。systemctl enable 只设置开机自启，不会立即启动服务。如果想同时启动并设为自启，使用 systemctl enable --now 服务名。同样，disable --now 可以同时停止并取消自启。"
 
 [[gotchas]]
 title = "修改配置后需要 reload 或 restart"
-content = """修改服务的配置文件后，服务不会自动应用新配置。对于支持 reload 的服务（如 nginx），用 systemctl reload 比 restart 更平滑，因为 reload 不会中断现有连接。修改了 .service 文件本身后，还需要运行 systemctl daemon-reload 重新加载 unit 文件。"""
+content = "修改服务的配置文件后，服务不会自动应用新配置。对于支持 reload 的服务（如 nginx），用 systemctl reload 比 restart 更平滑，因为 reload 不会中断现有连接。修改了 .service 文件本身后，还需要运行 systemctl daemon-reload 重新加载 unit 文件。"

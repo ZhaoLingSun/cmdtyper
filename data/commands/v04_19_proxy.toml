@@ -1,0 +1,314 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "比较代理与直连、HTTP CONNECT 与 SOCKS 解析位置；代理环境变量可能影响 curl。"
+
+[meta.topic]
+id = "v04_proxy"
+title = "代理环境与直连对照"
+icon = "🌐"
+order = 119
+
+[[commands]]
+id = "v04-proxy-fed1e2f17d"
+command = "printenv http_proxy"
+summary = "读取小写 HTTP 代理变量，值可能含凭据所以真实环境应谨慎分享输出"
+
+[[commands.tokens]]
+text = "printenv"
+desc = "读取小写 HTTP 代理变量，值可能含凭据所以真实环境应谨慎分享输出"
+
+[[commands.tokens]]
+text = " http_proxy"
+desc = "读取小写 HTTP 代理变量，值可能含凭据所以真实环境应谨慎分享输出；指定 http_proxy"
+
+[commands.dictation]
+prompt = "读取小写 HTTP 代理变量，值可能含凭据所以真实环境应谨慎分享输出"
+answers = ["printenv http_proxy"]
+
+[[commands]]
+id = "v04-proxy-997947b619"
+command = "printenv https_proxy"
+summary = "读取 HTTPS 请求使用的代理变量"
+
+[[commands.tokens]]
+text = "printenv"
+desc = "读取 HTTPS 请求使用的代理变量"
+
+[[commands.tokens]]
+text = " https_proxy"
+desc = "读取 HTTPS 请求使用的代理变量；指定 https_proxy"
+
+[commands.dictation]
+prompt = "读取 HTTPS 请求使用的代理变量"
+answers = ["printenv https_proxy"]
+
+[[commands]]
+id = "v04-proxy-984f6836c4"
+command = "printenv no_proxy"
+summary = "查看绕过代理的主机规则"
+
+[[commands.tokens]]
+text = "printenv"
+desc = "查看绕过代理的主机规则"
+
+[[commands.tokens]]
+text = " no_proxy"
+desc = "查看绕过代理的主机规则；指定 no_proxy"
+
+[commands.dictation]
+prompt = "查看绕过代理的主机规则"
+answers = ["printenv no_proxy"]
+
+[[commands]]
+id = "v04-proxy-890036d523"
+command = "curl --noproxy '*' --max-time 5 https://example.com/"
+summary = "对本次请求禁用代理，和正常路径对照"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " --noproxy"
+desc = "指定绕过代理的目标"
+
+[[commands.tokens]]
+text = " '*'"
+desc = "引号保护此参数中的空格或特殊符号；对本次请求禁用代理，和正常路径对照"
+
+[[commands.tokens]]
+text = " --max-time"
+desc = "限定整个请求总秒数"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "对本次请求禁用代理，和正常路径对照"
+answers = ["curl --noproxy '*' --max-time 5 https://example.com/"]
+
+[[commands]]
+id = "v04-proxy-1e22c94f58"
+command = "curl --proxy http://127.0.0.1:3128 --max-time 5 https://example.com/"
+summary = "显式经本机实验 HTTP 代理请求 HTTPS"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " --proxy"
+desc = "显式设置本次请求代理"
+
+[[commands.tokens]]
+text = " http://127.0.0.1:3128"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[[commands.tokens]]
+text = " --max-time"
+desc = "限定整个请求总秒数"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "显式经本机实验 HTTP 代理请求 HTTPS"
+answers = ["curl --proxy http://127.0.0.1:3128 --max-time 5 https://example.com/"]
+
+[[commands]]
+id = "v04-proxy-0fbef84d59"
+command = "curl --proxy http://192.0.2.30:3128 --max-time 5 http://example.com/"
+summary = "测试远端实验 HTTP 代理路径"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " --proxy"
+desc = "显式设置本次请求代理"
+
+[[commands.tokens]]
+text = " http://192.0.2.30:3128"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[[commands.tokens]]
+text = " --max-time"
+desc = "限定整个请求总秒数"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " http://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "测试远端实验 HTTP 代理路径"
+answers = ["curl --proxy http://192.0.2.30:3128 --max-time 5 http://example.com/"]
+
+[[commands]]
+id = "v04-proxy-a3b313be2c"
+command = "curl --socks5-hostname 127.0.0.1:1080 https://example.com/"
+summary = "由 SOCKS5 代理解析目标域名，和本地 DNS 路径区别"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " --socks5-hostname"
+desc = "由 SOCKS5 代理解析目标域名，和本地 DNS 路径区别；此处使用 --socks5-hostname 选项"
+
+[[commands.tokens]]
+text = " 127.0.0.1:1080"
+desc = "由 SOCKS5 代理解析目标域名，和本地 DNS 路径区别；指定 127.0.0.1:1080"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "由 SOCKS5 代理解析目标域名，和本地 DNS 路径区别"
+answers = ["curl --socks5-hostname 127.0.0.1:1080 https://example.com/"]
+
+[[commands]]
+id = "v04-proxy-dd8f5bd30c"
+command = "curl --socks5 127.0.0.1:1080 https://example.com/"
+summary = "使用 SOCKS5 代理但在本地解析目标域名"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " --socks5"
+desc = "使用 SOCKS5 代理但在本地解析目标域名；此处使用 --socks5 选项"
+
+[[commands.tokens]]
+text = " 127.0.0.1:1080"
+desc = "使用 SOCKS5 代理但在本地解析目标域名；指定 127.0.0.1:1080"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "使用 SOCKS5 代理但在本地解析目标域名"
+answers = ["curl --socks5 127.0.0.1:1080 https://example.com/"]
+
+[[commands]]
+id = "v04-proxy-ff503ad7fb"
+command = "curl -v --proxy http://127.0.0.1:3128 --max-time 5 https://example.com/"
+summary = "观察 CONNECT 隧道和代理响应状态"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " -v"
+desc = "显示连接和协议交互诊断"
+
+[[commands.tokens]]
+text = " --proxy"
+desc = "显式设置本次请求代理"
+
+[[commands.tokens]]
+text = " http://127.0.0.1:3128"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[[commands.tokens]]
+text = " --max-time"
+desc = "限定整个请求总秒数"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "观察 CONNECT 隧道和代理响应状态"
+answers = ["curl -v --proxy http://127.0.0.1:3128 --max-time 5 https://example.com/"]
+
+[[commands]]
+id = "v04-proxy-a0f5e30721"
+command = "ss -ltn 'sport = :3128'"
+summary = "检查本机实验 HTTP 代理监听"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -ltn"
+desc = "只看监听 TCP，并使用数字地址与端口"
+
+[[commands.tokens]]
+text = " 'sport = :3128'"
+desc = "引号保护此参数中的空格或特殊符号；检查本机实验 HTTP 代理监听"
+
+[commands.dictation]
+prompt = "检查本机实验 HTTP 代理监听"
+answers = ["ss -ltn 'sport = :3128'"]
+
+[[commands]]
+id = "v04-proxy-f76c10742a"
+command = "ss -ltn 'sport = :1080'"
+summary = "检查本机实验 SOCKS 代理监听"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -ltn"
+desc = "只看监听 TCP，并使用数字地址与端口"
+
+[[commands.tokens]]
+text = " 'sport = :1080'"
+desc = "引号保护此参数中的空格或特殊符号；检查本机实验 SOCKS 代理监听"
+
+[commands.dictation]
+prompt = "检查本机实验 SOCKS 代理监听"
+answers = ["ss -ltn 'sport = :1080'"]
+
+[[commands]]
+id = "v04-proxy-2893c60cc1"
+command = "curl --noproxy localhost,127.0.0.1 http://127.0.0.1:8000/health"
+summary = "显式让回环后端请求绕过代理"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " --noproxy"
+desc = "指定绕过代理的目标"
+
+[[commands.tokens]]
+text = " localhost,127.0.0.1"
+desc = "显式让回环后端请求绕过代理；指定 localhost,127.0.0.1"
+
+[[commands.tokens]]
+text = " http://127.0.0.1:8000/health"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "显式让回环后端请求绕过代理"
+answers = ["curl --noproxy localhost,127.0.0.1 http://127.0.0.1:8000/health"]

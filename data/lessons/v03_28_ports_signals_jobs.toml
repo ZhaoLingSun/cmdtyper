@@ -1,3 +1,4 @@
+
 [meta]
 command = "kill / pkill / jobs（信号与作业控制）"
 full_name = "safe signals and shell job control"
@@ -7,19 +8,23 @@ importance = "core"
 
 [overview]
 summary = "先精确核对目标，再以 TERM 请求退出；仅在确认无效并再次核对后才把 KILL 作为最后手段"
-explanation = """进程控制的核心不是记住 -9，而是建立安全顺序。单个 PID 来自端口或进程调查后，先用 ps 立即复核所有者、运行时长和命令行，再用默认 SIGTERM 请求程序清理并退出；批量目标则先用 pgrep -a -x -u USER NAME 只读列清单，逐项确认后，让 pkill 使用完全相同的 -x 与 -u 选择器发送 TERM。等待并验证退出后，只有目标仍存在、TERM 确认无效且 PID 身份再次核对无误，才考虑 SIGKILL。作业控制是另一层：nohup 处理终端挂断，& 才让命令后台运行；jobs、bg、fg 只管理当前 shell 的作业编号，%2 不是系统 PID。所有命令仍受进程所有权和权限约束。"""
+explanation = "进程控制的核心不是记住 -9，而是建立安全顺序。单个 PID 来自端口或进程调查后，先用 ps 立即复核所有者、运行时长和命令行，再用默认 SIGTERM 请求程序清理并退出；批量目标则先用 pgrep -a -x -u USER NAME 只读列清单，逐项确认后，让 pkill 使用完全相同的 -x 与 -u 选择器发送 TERM。等待并验证退出后，只有目标仍存在、TERM 确认无效且 PID 身份再次核对无误，才考虑 SIGKILL。作业控制是另一层：nohup 处理终端挂断，& 才让命令后台运行；jobs、bg、fg 只管理当前 shell 的作业编号，%2 不是系统 PID。所有命令仍受进程所有权和权限约束。"
 
 [syntax]
 basic = "核对目标 -> kill [-TERM] PID | pgrep 精确条件 -> pkill -TERM 相同条件 | jobs/bg/fg 管理当前 shell 作业"
+
 [[syntax.parts]]
 name = "单 PID 信号"
 desc = "kill PID 默认发送 SIGTERM；PID 必须来自刚刚完成的身份复核，而不是陈旧记录"
+
 [[syntax.parts]]
 name = "批量选择"
 desc = "pgrep 先只读预览，pkill 再复用同一组 -x、-u 与名称条件，防止选择范围漂移"
+
 [[syntax.parts]]
 name = "升级信号"
 desc = "SIGKILL 无法捕获或忽略，不给清理机会；仅在 TERM 无效并再次复核身份后使用"
+
 [[syntax.parts]]
 name = "作业控制"
 desc = "jobs/bg/fg 操作当前交互 shell 的作业表；%N 是作业号，与全系统 PID 不同"

@@ -2926,4 +2926,3 @@ prompt = "键入: last -10"
 difficulty = "basic"
 type = "typing"
 answer = "last -10"
-

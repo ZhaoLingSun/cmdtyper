@@ -1,0 +1,125 @@
+id = "http_gateway"
+title = "502 与 504：沿反向代理定位上游"
+category = "网络与后端"
+difficulty = "basic"
+background = "Nginx 返回 502。API 监听 8000，但一次配置修改把 proxy_pass 写成了 8001；同时学习区分超时型 504。"
+objective = "关联 HTTP 状态、代理错误日志与上游监听，修正端口后复核。"
+environment = "Ubuntu 24.04 LTS 教学主机 web-01（192.0.2.10），客户端 ops-01（192.0.2.50），网关 192.0.2.1。文档保留地址与 example.test 域名只用于模拟；每例独立还原起始状态，全部输出预置。"
+recap = "先辨别连接失败与读取超时，沿代理日志中的地址找上游。配置测试后重载，使用原访问路径验收。"
+sources = ["https://nginx.org/en/docs/http/ngx_http_proxy_module.html", "https://man7.org/linux/man-pages/man8/ss.8.html", "https://man7.org/linux/man-pages/man8/tcpdump.8.html"]
+
+[[steps]]
+title = "获取响应头"
+output = "HTTP/1.1 502 Bad Gateway\nServer: nginx"
+explanation = "请求已到达代理，但代理没有拿到可用的上游响应。"
+instruction = "请跟打，获取响应头。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_01"
+command_id = "shared-d6ec6e0333f7f13e"
+
+[[steps]]
+title = "查看代理最近错误"
+output = "connect() failed (111: Connection refused) while connecting to upstream, upstream: \"http://127.0.0.1:8001/health\""
+explanation = "连接拒绝发生在建立上游 TCP 阶段；不是已经连接后的读取超时。"
+instruction = "请跟打，查看代理最近错误。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_02"
+command_id = "shared-76b1b8bb97a9c8b1"
+
+[[steps]]
+title = "检查实际 API 监听"
+output = "LISTEN 0 128 127.0.0.1:8000 0.0.0.0:* users:((\"uvicorn\",pid=1420,fd=6))"
+explanation = "API 运行在 8000，错误日志却指向 8001。"
+instruction = "请跟打，检查实际 API 监听。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_03"
+command_id = "shared-c657f9cb16384e9b"
+
+[steps.decision]
+question = "哪个修复有直接证据支持？"
+
+[[steps.decision.choices]]
+text = "将代理上游端口改回 8000"
+correct = true
+feedback = "对，端口不一致导致连接根本没建立。"
+
+[[steps.decision.choices]]
+text = "增加 proxy_read_timeout 到一小时"
+correct = false
+feedback = "延长读取超时无法修复连接到无监听端口的问题。"
+
+[[steps]]
+title = "直接检查上游"
+output = "{\"status\":\"ok\"}"
+explanation = "绕过代理后 API 正常，故障范围收敛到代理配置。"
+instruction = "请跟打，直接检查上游。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_04"
+command_id = "shared-e2281a98a4b26251"
+
+[[steps]]
+title = "查看站点配置"
+output = "location / {\n    proxy_pass http://127.0.0.1:8001;\n}"
+explanation = "确认活动配置里的具体位置；现场也可用 nginx -T 检查 Include 后的完整配置。"
+instruction = "请跟打，查看站点配置。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_05"
+command_id = "shared-9717099ef9d8d902"
+
+[[steps]]
+title = "备份站点配置"
+output = "[模拟：备份成功]"
+explanation = "sites-enabled 中的 symlink 指向 sites-available 文件；备份留在未启用目录。"
+instruction = "请跟打，备份站点配置。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_06"
+command_id = "shared-e00cc531a01015ef"
+
+[[steps]]
+title = "修正上游端口"
+output = "[模拟：已改为 8000]"
+explanation = "针对确认的端口做最小修改。"
+instruction = "请跟打，修正上游端口。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_07"
+command_id = "shared-088f2718b9e2e18d"
+
+[[steps]]
+title = "校验 Nginx 配置"
+output = "nginx: configuration file /etc/nginx/nginx.conf test is successful"
+explanation = "当前 502 的根因已处理。另一种日志 upstream timed out while reading response header 对应已连接但响应未及时返回。"
+instruction = "请跟打，校验 Nginx 配置。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_08"
+command_id = "systemctl-restart-nginx"
+
+[steps.decision]
+question = "若将来出现上游读取超时，应优先查什么？"
+
+[[steps.decision.choices]]
+text = "照抄这次端口修复"
+correct = false
+feedback = "端口错误与响应迟缓不是同一种证据，请区分连接失败和读取超时。"
+
+[[steps.decision.choices]]
+text = "API 慢请求与数据库等待"
+correct = true
+feedback = "对，同是网关错误，也要根据连接阶段分别诊断。"
+
+[[steps]]
+title = "应用配置"
+output = "[模拟：重载成功]"
+explanation = "测试通过后应用修改。"
+instruction = "请跟打，应用配置。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_09"
+command_id = "shared-829d54cda3c37ae6"
+
+[[steps]]
+title = "验证用户路径"
+output = "{\"status\":\"ok\"}"
+explanation = "通过原站点而非仅直连 API 验证修复。"
+instruction = "请跟打，验证用户路径。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_10"
+command_id = "shared-afd3fff90b2c0097"

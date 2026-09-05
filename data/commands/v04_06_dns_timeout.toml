@@ -1,0 +1,326 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "比较系统解析、直接查询和 TCP DNS，避免把 DNS 问题误当作 HTTP 故障。"
+
+[meta.topic]
+id = "v04_dns_timeout"
+title = "DNS 超时与解析路径"
+icon = "🌐"
+order = 106
+
+[[commands]]
+id = "v04-dns_timeout-ef0c61d2f6"
+command = "dig @192.0.2.53 example.com +time=2 +tries=1"
+summary = "限制 DNS 单次等待为两秒且只尝试一次"
+
+[[commands.tokens]]
+text = "dig"
+desc = "使用 BIND DNS 查询工具检查服务器应答"
+
+[[commands.tokens]]
+text = " @192.0.2.53"
+desc = "限制 DNS 单次等待为两秒且只尝试一次；指定 @192.0.2.53"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "限制 DNS 单次等待为两秒且只尝试一次；指定 example.com"
+
+[[commands.tokens]]
+text = " +time=2"
+desc = "限制 DNS 单次等待为两秒且只尝试一次；此处使用 +time=2 选项"
+
+[[commands.tokens]]
+text = " +tries=1"
+desc = "限制 DNS 单次等待为两秒且只尝试一次；此处使用 +tries=1 选项"
+
+[commands.dictation]
+prompt = "限制 DNS 单次等待为两秒且只尝试一次"
+answers = ["dig @192.0.2.53 example.com +time=2 +tries=1"]
+
+[[commands]]
+id = "v04-dns_timeout-6ba0e92f81"
+command = "dig @192.0.2.53 example.com +tcp +time=2 +tries=1"
+summary = "改用 TCP 查询同一 DNS 服务器，比较 UDP 路径"
+
+[[commands.tokens]]
+text = "dig"
+desc = "使用 BIND DNS 查询工具检查服务器应答"
+
+[[commands.tokens]]
+text = " @192.0.2.53"
+desc = "改用 TCP 查询同一 DNS 服务器，比较 UDP 路径；指定 @192.0.2.53"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "改用 TCP 查询同一 DNS 服务器，比较 UDP 路径；指定 example.com"
+
+[[commands.tokens]]
+text = " +tcp"
+desc = "改用 TCP 查询同一 DNS 服务器，比较 UDP 路径；此处使用 +tcp 选项"
+
+[[commands.tokens]]
+text = " +time=2"
+desc = "改用 TCP 查询同一 DNS 服务器，比较 UDP 路径；此处使用 +time=2 选项"
+
+[[commands.tokens]]
+text = " +tries=1"
+desc = "改用 TCP 查询同一 DNS 服务器，比较 UDP 路径；此处使用 +tries=1 选项"
+
+[commands.dictation]
+prompt = "改用 TCP 查询同一 DNS 服务器，比较 UDP 路径"
+answers = ["dig @192.0.2.53 example.com +tcp +time=2 +tries=1"]
+
+[[commands]]
+id = "v04-dns_timeout-35a2e8e384"
+command = "dig @192.0.2.53 example.com +notcp +time=2 +tries=1"
+summary = "显式用 UDP 查询，观察是否仅 UDP 53 超时"
+
+[[commands.tokens]]
+text = "dig"
+desc = "使用 BIND DNS 查询工具检查服务器应答"
+
+[[commands.tokens]]
+text = " @192.0.2.53"
+desc = "显式用 UDP 查询，观察是否仅 UDP 53 超时；指定 @192.0.2.53"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "显式用 UDP 查询，观察是否仅 UDP 53 超时；指定 example.com"
+
+[[commands.tokens]]
+text = " +notcp"
+desc = "显式用 UDP 查询，观察是否仅 UDP 53 超时；此处使用 +notcp 选项"
+
+[[commands.tokens]]
+text = " +time=2"
+desc = "显式用 UDP 查询，观察是否仅 UDP 53 超时；此处使用 +time=2 选项"
+
+[[commands.tokens]]
+text = " +tries=1"
+desc = "显式用 UDP 查询，观察是否仅 UDP 53 超时；此处使用 +tries=1 选项"
+
+[commands.dictation]
+prompt = "显式用 UDP 查询，观察是否仅 UDP 53 超时"
+answers = ["dig @192.0.2.53 example.com +notcp +time=2 +tries=1"]
+
+[[commands]]
+id = "v04-dns_timeout-b8762bbb6a"
+command = "dig @192.0.2.54 example.com +time=2 +tries=1"
+summary = "向实验备用 DNS 查询，区分单服务器故障"
+
+[[commands.tokens]]
+text = "dig"
+desc = "使用 BIND DNS 查询工具检查服务器应答"
+
+[[commands.tokens]]
+text = " @192.0.2.54"
+desc = "向实验备用 DNS 查询，区分单服务器故障；指定 @192.0.2.54"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "向实验备用 DNS 查询，区分单服务器故障；指定 example.com"
+
+[[commands.tokens]]
+text = " +time=2"
+desc = "向实验备用 DNS 查询，区分单服务器故障；此处使用 +time=2 选项"
+
+[[commands.tokens]]
+text = " +tries=1"
+desc = "向实验备用 DNS 查询，区分单服务器故障；此处使用 +tries=1 选项"
+
+[commands.dictation]
+prompt = "向实验备用 DNS 查询，区分单服务器故障"
+answers = ["dig @192.0.2.54 example.com +time=2 +tries=1"]
+
+[[commands]]
+id = "v04-dns_timeout-2bc0068637"
+command = "dig example.com +stats"
+summary = "显示查询耗时和应答服务器，核对实际解析路径"
+
+[[commands.tokens]]
+text = "dig"
+desc = "使用 BIND DNS 查询工具检查服务器应答"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "显示查询耗时和应答服务器，核对实际解析路径；指定 example.com"
+
+[[commands.tokens]]
+text = " +stats"
+desc = "显示查询耗时和应答服务器，核对实际解析路径；此处使用 +stats 选项"
+
+[commands.dictation]
+prompt = "显示查询耗时和应答服务器，核对实际解析路径"
+answers = ["dig example.com +stats"]
+
+[[commands]]
+id = "v04-dns_timeout-d1d940fd2d"
+command = "dig example.com +trace"
+summary = "逐层迭代跟踪 DNS 委派；需要能访问外部权威 DNS"
+
+[[commands.tokens]]
+text = "dig"
+desc = "使用 BIND DNS 查询工具检查服务器应答"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "逐层迭代跟踪 DNS 委派；需要能访问外部权威 DNS；指定 example.com"
+
+[[commands.tokens]]
+text = " +trace"
+desc = "逐层迭代跟踪 DNS 委派；需要能访问外部权威 DNS；此处使用 +trace 选项"
+
+[commands.dictation]
+prompt = "逐层迭代跟踪 DNS 委派；需要能访问外部权威 DNS"
+answers = ["dig example.com +trace"]
+
+[[commands]]
+id = "v04-dns_timeout-f4bd72baf2"
+command = "resolvectl status"
+summary = "查看 resolved 的接口、DNS 和搜索域状态"
+
+[[commands.tokens]]
+text = "resolvectl"
+desc = "查看 resolved 的接口、DNS 和搜索域状态"
+
+[[commands.tokens]]
+text = " status"
+desc = "查看 resolved 的接口、DNS 和搜索域状态；指定 status"
+
+[commands.dictation]
+prompt = "查看 resolved 的接口、DNS 和搜索域状态"
+answers = ["resolvectl status"]
+
+[[commands]]
+id = "v04-dns_timeout-79c3957e3f"
+command = "resolvectl statistics"
+summary = "查看本机 DNS 缓存与事务统计，不能代替网络抓包"
+
+[[commands.tokens]]
+text = "resolvectl"
+desc = "查看本机 DNS 缓存与事务统计，不能代替网络抓包"
+
+[[commands.tokens]]
+text = " statistics"
+desc = "查看本机 DNS 缓存与事务统计，不能代替网络抓包；指定 statistics"
+
+[commands.dictation]
+prompt = "查看本机 DNS 缓存与事务统计，不能代替网络抓包"
+answers = ["resolvectl statistics"]
+
+[[commands]]
+id = "v04-dns_timeout-3eee62a244"
+command = "readlink -f /etc/resolv.conf"
+summary = "确认 resolv.conf 是否由 systemd-resolved 等服务生成"
+
+[[commands.tokens]]
+text = "readlink"
+desc = "读取或解析符号链接目标"
+
+[[commands.tokens]]
+text = " -f"
+desc = "确认 resolv.conf 是否由 systemd-resolved 等服务生成；此处使用 -f 选项"
+
+[[commands.tokens]]
+text = " /etc/resolv.conf"
+desc = "本次操作指定的路径：/etc/resolv.conf"
+
+[commands.dictation]
+prompt = "确认 resolv.conf 是否由 systemd-resolved 等服务生成"
+answers = ["readlink -f /etc/resolv.conf"]
+
+[[commands]]
+id = "v04-dns_timeout-d1f80ecc50"
+command = "grep '^hosts:' /etc/nsswitch.conf"
+summary = "查看系统主机名解析顺序，排查 hosts 或 NSS 来源差异"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " '^hosts:'"
+desc = "引号保护此参数中的空格或特殊符号；查看系统主机名解析顺序，排查 hosts 或 NSS 来源差异"
+
+[[commands.tokens]]
+text = " /etc/nsswitch.conf"
+desc = "本次操作指定的路径：/etc/nsswitch.conf"
+
+[commands.dictation]
+prompt = "查看系统主机名解析顺序，排查 hosts 或 NSS 来源差异"
+answers = ["grep '^hosts:' /etc/nsswitch.conf"]
+
+[[commands]]
+id = "v04-dns_timeout-e6b5ecb301"
+command = "sudo tcpdump -ni any -c 20 port 53"
+summary = "捕获有限数量 DNS 请求与应答，比较重传及响应时间"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " any"
+desc = "捕获有限数量 DNS 请求与应答，比较重传及响应时间；指定 any"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " port"
+desc = "捕获有限数量 DNS 请求与应答，比较重传及响应时间；指定 port"
+
+[[commands.tokens]]
+text = " 53"
+desc = "本次练习的数值参数 53；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "捕获有限数量 DNS 请求与应答，比较重传及响应时间"
+answers = ["sudo tcpdump -ni any -c 20 port 53"]
+
+[[commands]]
+id = "v04-dns_timeout-ce46d71a1f"
+command = "journalctl -u systemd-resolved --since '-15 min' --no-pager"
+summary = "查看最近十五分钟解析服务日志"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " -u"
+desc = "只读取指定 systemd 单元的日志"
+
+[[commands.tokens]]
+text = " systemd-resolved"
+desc = "查看最近十五分钟解析服务日志；指定 systemd-resolved"
+
+[[commands.tokens]]
+text = " --since"
+desc = "设置包含的起始时间"
+
+[[commands.tokens]]
+text = " '-15 min'"
+desc = "引号保护此参数中的空格或特殊符号；查看最近十五分钟解析服务日志"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "直接输出，不启动分页器"
+
+[commands.dictation]
+prompt = "查看最近十五分钟解析服务日志"
+answers = ["journalctl -u systemd-resolved --since '-15 min' --no-pager"]

@@ -1,3 +1,4 @@
+
 [meta]
 category = "permission"
 difficulty = "basic"
@@ -103,66 +104,113 @@ answers = ["chmod -R u+rwX,go-rwx training_lab/private"]
 
 [[commands]]
 id = "chmod-777-risk-training"
-command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && mkdir \"$practice_dir/training-share\" && chmod 770 \"$practice_dir/training-share\")"
-summary = "在唯一私有练习区演示受控组共享模式"
+command = "umask 077\npractice_dir=$(mktemp -d)\nchmod 700 \"$practice_dir\"\nmkdir \"$practice_dir/training-share\"\nchmod 770 \"$practice_dir/training-share\""
+summary = "在唯一私有练习区演示受控组共享模式；逐条回车，确认成功再继续"
 simulated_output = ""
 
 [[commands.tokens]]
-text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
-desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+text = "umask 077\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 
 [[commands.tokens]]
-text = " && mkdir \"$practice_dir/training-share\" && chmod 770 \"$practice_dir/training-share\""
-desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+text = "practice_dir=$(mktemp -d)\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 
 [[commands.tokens]]
-text = ")"
-desc = "结束子 shell，避免 umask 和变量影响后续命令"
+text = "chmod 700 \"$practice_dir\"\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+
+[[commands.tokens]]
+text = "mkdir \"$practice_dir/training-share\"\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+
+[[commands.tokens]]
+text = "chmod 770 \"$practice_dir/training-share\""
+desc = "在唯一私有练习区演示受控组共享模式"
+
 [commands.dictation]
 prompt = "新建当前用户拥有的唯一 0700 练习目录，在其中创建 training-share 并设为 770；父目录保持私有，避免固定 /tmp 名称碰撞"
-answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && mkdir \"$practice_dir/training-share\" && chmod 770 \"$practice_dir/training-share\")"]
+answers = ["umask 077\npractice_dir=$(mktemp -d)\nchmod 700 \"$practice_dir\"\nmkdir \"$practice_dir/training-share\"\nchmod 770 \"$practice_dir/training-share\""]
 
 [[commands]]
 id = "ownership-notes-audit"
-command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir ownership && printf 'notes\\n' > ownership/notes.txt && stat -c '%U:%G %n' ownership/notes.txt)"
-summary = "在私有夹具中只读核对文件所有者和组"
+command = "umask 077\npractice_dir=$(mktemp -d)\nchmod 700 \"$practice_dir\"\ncd \"$practice_dir\"\nmkdir ownership\nprintf 'notes\\n' > ownership/notes.txt\nstat -c '%U:%G %n' ownership/notes.txt"
+summary = "在私有夹具中只读核对文件所有者和组；逐条回车，确认成功再继续"
 simulated_output = "ace:ace ownership/notes.txt"
 
 [[commands.tokens]]
-text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
-desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+text = "umask 077\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 
 [[commands.tokens]]
-text = " && cd \"$practice_dir\" && mkdir ownership && printf 'notes\\n' > ownership/notes.txt && stat -c '%U:%G %n' ownership/notes.txt"
-desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+text = "practice_dir=$(mktemp -d)\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 
 [[commands.tokens]]
-text = ")"
-desc = "结束子 shell，避免 umask 和变量影响后续命令"
+text = "chmod 700 \"$practice_dir\"\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+
+[[commands.tokens]]
+text = "cd \"$practice_dir\"\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+
+[[commands.tokens]]
+text = "mkdir ownership\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+
+[[commands.tokens]]
+text = "printf 'notes\\n' > ownership/notes.txt\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+
+[[commands.tokens]]
+text = "stat -c '%U:%G %n' ownership/notes.txt"
+desc = "在私有夹具中只读核对文件所有者和组"
+
 [commands.dictation]
 prompt = "新建唯一 0700 练习目录和 ownership/notes.txt，再只读显示其所有者、所属组和相对路径"
-answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir ownership && printf 'notes\\n' > ownership/notes.txt && stat -c '%U:%G %n' ownership/notes.txt)"]
+answers = ["umask 077\npractice_dir=$(mktemp -d)\nchmod 700 \"$practice_dir\"\ncd \"$practice_dir\"\nmkdir ownership\nprintf 'notes\\n' > ownership/notes.txt\nstat -c '%U:%G %n' ownership/notes.txt"]
 
 [[commands]]
 id = "ownership-project-tree-audit"
-command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir -p ownership/project/config && printf 'MODE=demo\\n' > ownership/project/.env && printf 'port=8080\\n' > ownership/project/config/app.conf && find ownership/project -maxdepth 2 -printf '%M %u:%g %p\\n' | sort)"
-summary = "在私有夹具中预览递归范围、隐藏项和归属"
+command = "umask 077\npractice_dir=$(mktemp -d)\nchmod 700 \"$practice_dir\"\ncd \"$practice_dir\"\nmkdir -p ownership/project/config\nprintf 'MODE=demo\\n' > ownership/project/.env\nprintf 'port=8080\\n' > ownership/project/config/app.conf\nfind ownership/project -maxdepth 2 -printf '%M %u:%g %p\\n' | sort"
+summary = "在私有夹具中预览递归范围、隐藏项和归属；逐条回车，确认成功再继续"
 simulated_output = "-rw------- ace:ace ownership/project/.env\n-rw------- ace:ace ownership/project/config/app.conf\ndrwx------ ace:ace ownership/project\ndrwx------ ace:ace ownership/project/config"
 
 [[commands.tokens]]
-text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
-desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+text = "umask 077\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 
 [[commands.tokens]]
-text = " && cd \"$practice_dir\" && mkdir -p ownership/project/config && printf 'MODE=demo\\n' > ownership/project/.env && printf 'port=8080\\n' > ownership/project/config/app.conf && find ownership/project -maxdepth 2 -printf '%M %u:%g %p\\n' | sort"
-desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+text = "practice_dir=$(mktemp -d)\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 
 [[commands.tokens]]
-text = ")"
-desc = "结束子 shell，避免 umask 和变量影响后续命令"
+text = "chmod 700 \"$practice_dir\"\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+
+[[commands.tokens]]
+text = "cd \"$practice_dir\"\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+
+[[commands.tokens]]
+text = "mkdir -p ownership/project/config\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+
+[[commands.tokens]]
+text = "printf 'MODE=demo\\n' > ownership/project/.env\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+
+[[commands.tokens]]
+text = "printf 'port=8080\\n' > ownership/project/config/app.conf\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+
+[[commands.tokens]]
+text = "find ownership/project -maxdepth 2 -printf '%M %u:%g %p\\n' | sort"
+desc = "在私有夹具中预览递归范围、隐藏项和归属"
+
 [commands.dictation]
 prompt = "新建唯一 0700 练习目录和小型 project 树，再只读列出两层内的权限、所有者、组、隐藏项和路径"
-answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir -p ownership/project/config && printf 'MODE=demo\\n' > ownership/project/.env && printf 'port=8080\\n' > ownership/project/config/app.conf && find ownership/project -maxdepth 2 -printf '%M %u:%g %p\\n' | sort)"]
+answers = ["umask 077\npractice_dir=$(mktemp -d)\nchmod 700 \"$practice_dir\"\ncd \"$practice_dir\"\nmkdir -p ownership/project/config\nprintf 'MODE=demo\\n' > ownership/project/.env\nprintf 'port=8080\\n' > ownership/project/config/app.conf\nfind ownership/project -maxdepth 2 -printf '%M %u:%g %p\\n' | sort"]
 
 [[commands]]
 id = "umask-training-027"
@@ -229,7 +277,7 @@ answers = ["getent group sudo"]
 [[commands]]
 id = "passwd-training-status-audit"
 command = "sudo passwd -S training"
-summary = "经已有授权只读检查 training 的密码状态"
+summary = "在已授权的管理员账号下，经已有授权只读检查 training 的密码状态"
 simulated_output = "training L 2026-07-20 0 99999 7 -1"
 
 [[commands.tokens]]
@@ -249,14 +297,14 @@ text = " training"
 desc = "要审计密码状态的现有练习账号"
 
 [commands.dictation]
-prompt = "不设置或重置密码，经已有管理员授权只读查看 training 的密码锁定状态"
+prompt = "在已授权的管理员账号下，经已有授权只读检查 training 的密码状态"
 answers = ["sudo passwd -S training"]
 
 [[commands]]
 id = "sudo-training-rules-audit"
 command = "sudo -l -U training"
-summary = "只读核对 training 当前获准使用的 sudo 规则"
-simulated_output = """User training is not allowed to run sudo on lab."""
+summary = "在已授权的管理员账号下，只读核对 training 当前获准使用的 sudo 规则"
+simulated_output = "User training is not allowed to run sudo on lab."
 
 [[commands.tokens]]
 text = "sudo"
@@ -275,7 +323,7 @@ text = " training"
 desc = "要核对现有 sudo 规则的练习账号"
 
 [commands.dictation]
-prompt = "不授予权限，经已有管理员授权只读核对 training 当前能使用哪些 sudo 规则"
+prompt = "在已授权的管理员账号下，只读核对 training 当前获准使用的 sudo 规则"
 answers = ["sudo -l -U training"]
 
 [[commands]]
@@ -316,24 +364,41 @@ answers = ["id training"]
 
 [[commands]]
 id = "ownership-path-permissions-audit"
-command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir ownership && printf 'notes\\n' > ownership/notes.txt && namei -l ownership/notes.txt)"
-summary = "在私有夹具中逐层检查相对路径权限"
+command = "umask 077\npractice_dir=$(mktemp -d)\nchmod 700 \"$practice_dir\"\ncd \"$practice_dir\"\nmkdir ownership\nprintf 'notes\\n' > ownership/notes.txt\nnamei -l ownership/notes.txt"
+summary = "在私有夹具中逐层检查相对路径权限；逐条回车，确认成功再继续"
 simulated_output = "f: ownership/notes.txt\ndrwx------ ace ace ownership\n-rw------- ace ace notes.txt"
 
 [[commands.tokens]]
-text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
-desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+text = "umask 077\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 
 [[commands.tokens]]
-text = " && cd \"$practice_dir\" && mkdir ownership && printf 'notes\\n' > ownership/notes.txt && namei -l ownership/notes.txt"
-desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+text = "practice_dir=$(mktemp -d)\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 
 [[commands.tokens]]
-text = ")"
-desc = "结束子 shell，避免 umask 和变量影响后续命令"
+text = "chmod 700 \"$practice_dir\"\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+
+[[commands.tokens]]
+text = "cd \"$practice_dir\"\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+
+[[commands.tokens]]
+text = "mkdir ownership\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+
+[[commands.tokens]]
+text = "printf 'notes\\n' > ownership/notes.txt\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+
+[[commands.tokens]]
+text = "namei -l ownership/notes.txt"
+desc = "在私有夹具中逐层检查相对路径权限"
+
 [commands.dictation]
 prompt = "新建唯一 0700 练习目录和 ownership/notes.txt，再用 namei -l 只读逐层检查相对路径权限、所有者和组"
-answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir ownership && printf 'notes\\n' > ownership/notes.txt && namei -l ownership/notes.txt)"]
+answers = ["umask 077\npractice_dir=$(mktemp -d)\nchmod 700 \"$practice_dir\"\ncd \"$practice_dir\"\nmkdir ownership\nprintf 'notes\\n' > ownership/notes.txt\nnamei -l ownership/notes.txt"]
 
 [[commands]]
 id = "getent-training-group"
@@ -361,8 +426,7 @@ answers = ["getent group training"]
 id = "sudo-current-rules-audit"
 command = "sudo -l"
 summary = "只读查看当前账号获准执行的管理员命令"
-simulated_output = """User chen may run the following commands on lab:
-    (root) /usr/bin/systemctl status *"""
+simulated_output = "User chen may run the following commands on lab:\n    (root) /usr/bin/systemctl status *"
 
 [[commands.tokens]]
 text = "sudo"

@@ -34,6 +34,12 @@ pub fn render_overview(frame: &mut Frame, app: &App, topic_index: usize) {
     frame.render_widget(title, chunks[0]);
 
     let mut lines: Vec<Line> = Vec::new();
+    let (usages, exercises, completed) = app.practice_counts("system", &topic.meta.id);
+    lines.push(Line::styled(
+        format!("基础用法 {usages} · 练习 {completed}/{exercises} · P 进入三题训练"),
+        Style::default().fg(ACCENT),
+    ));
+
     lines.push(Line::from(Span::styled(
         topic.meta.description.clone(),
         Style::default().fg(Color::White),
@@ -64,7 +70,7 @@ pub fn render_overview(frame: &mut Frame, app: &App, topic_index: usize) {
     let content = Paragraph::new(lines).wrap(Wrap { trim: false });
     frame.render_widget(content, chunks[1]);
 
-    let hints = hint_line(&[("Enter/→", "进入章节"), ("Esc", "返回")]);
+    let hints = hint_line(&[("Enter/→", "进入章节"), ("P", "三题练习"), ("Esc", "返回")]);
     frame.render_widget(
         Paragraph::new(hints).alignment(Alignment::Center),
         chunks[2],
@@ -203,7 +209,7 @@ pub fn render_typing_practice(
                 .add_modifier(Modifier::BOLD),
         )),
         Line::from(""),
-        render_typing_line("$ ", &app.typing_engine),
+        Line::from(""),
         Line::from(""),
         Line::from(Span::styled(
             format!(
@@ -218,6 +224,7 @@ pub fn render_typing_practice(
         )),
     ];
 
+    lines.extend(crate::ui::widgets::typing_lines("$ ", &app.typing_engine));
     if app.typing_engine.is_complete() && app.system_typing_showing_output {
         lines.push(Line::from(""));
         lines.push(Line::from(Span::styled(
@@ -383,30 +390,4 @@ pub fn render_config_file(
 
 fn clamp_scroll(scroll: usize, total_lines: usize, visible_height: usize) -> usize {
     scroll.min(total_lines.saturating_sub(visible_height))
-}
-
-fn render_typing_line<'a>(prompt: &str, engine: &crate::core::engine::TypingEngine) -> Line<'a> {
-    let mut spans = Vec::new();
-    spans.push(Span::styled(
-        prompt.to_string(),
-        Style::default().fg(PROMPT_COLOR),
-    ));
-
-    let is_flashing = engine.is_error_flashing();
-    for (idx, ch) in engine.target.iter().enumerate() {
-        let style = if idx < engine.cursor {
-            Style::default().fg(TYPED_CORRECT)
-        } else if idx == engine.cursor {
-            if is_flashing {
-                Style::default().fg(ERROR_FLASH).bg(ERROR_FLASH_BG)
-            } else {
-                Style::default().fg(CURSOR).bg(CURSOR_BG)
-            }
-        } else {
-            Style::default().fg(PENDING).bg(PENDING_BG)
-        };
-        spans.push(Span::styled(ch.to_string(), style));
-    }
-
-    Line::from(spans)
 }

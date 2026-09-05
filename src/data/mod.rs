@@ -1,8 +1,12 @@
+pub mod aliases;
 pub mod catalog;
 pub mod command_loader;
 pub mod lesson_loader;
 pub mod lexicon;
 pub mod models;
+pub mod practice_loader;
 pub mod progress;
+pub mod scenario_loader;
+pub mod sequence_loader;
 pub mod symbol_loader;
 pub mod system_loader;

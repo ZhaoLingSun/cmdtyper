@@ -1,0 +1,145 @@
+
+[meta]
+category = "text_process"
+difficulty = "beginner"
+description = "跨模块共用的规范命令（由内容归一化维护）"
+
+[[commands]]
+id = "shared-17326c2e2d06dabe"
+command = "head -n 1 *.csv"
+summary = "查看所有 CSV 文件的表头行"
+simulated_output = "==> users.csv <==\nid,name,email,role\n\n==> orders.csv <==\norder_id,user_id,amount,date\n\n==> products.csv <==\nproduct_id,name,price,category"
+
+[[commands.tokens]]
+text = "head -n 1 *.csv"
+desc = "查看所有 CSV 文件的表头行"
+
+[commands.dictation]
+prompt = "查看所有 CSV 文件的表头行"
+answers = ["head -n 1 *.csv"]
+
+[[commands]]
+id = "shared-1ff07d0050bddee7"
+command = "ls -lt | head -6"
+summary = "通过管道查看最近修改的 5 个文件（第1行是 total）"
+simulated_output = "total 128\n-rw-r--r-- 1 ace ace  4520 Mar  9 14:30 app.log\n-rw-r--r-- 1 ace ace  2048 Mar  9 14:25 config.yml\ndrwxr-xr-x 3 ace ace  4096 Mar  9 14:20 src\n-rw-r--r-- 1 ace ace  1280 Mar  9 13:50 Cargo.toml\n-rw-r--r-- 1 ace ace   890 Mar  8 22:15 README.md"
+
+[[commands.tokens]]
+text = "ls -lt | head -6"
+desc = "通过管道查看最近修改的 5 个文件（第1行是 total）"
+
+[commands.dictation]
+prompt = "通过管道查看最近修改的 5 个文件（第1行是 total）"
+answers = ["ls -lt | head -6"]
+
+[[commands]]
+id = "shared-943139c584b92c87"
+command = "head -c 16 /dev/urandom | xxd"
+summary = "从随机设备读取 16 字节并用十六进制显示"
+simulated_output = "00000000: 4a8f 2c71 b3e5 19d4 07a6 c8f2 5d3b 0e91  J.,q........];.."
+
+[[commands.tokens]]
+text = "head -c 16 /dev/urandom | xxd"
+desc = "从随机设备读取 16 字节并用十六进制显示"
+
+[commands.dictation]
+prompt = "从随机设备读取 16 字节并用十六进制显示"
+answers = ["head -c 16 /dev/urandom | xxd"]
+
+[[commands]]
+id = "shared-30d2947ac7993091"
+command = "tail -n +2 data.csv"
+summary = "跳过 CSV 文件第一行（表头），从第 2 行开始显示"
+simulated_output = "1,Alice,alice@example.com,admin\n2,Bob,bob@example.com,user\n3,Charlie,charlie@example.com,user\n4,Diana,diana@example.com,moderator"
+
+[[commands.tokens]]
+text = "tail -n +2 data.csv"
+desc = "跳过 CSV 文件第一行（表头），从第 2 行开始显示"
+
+[commands.dictation]
+prompt = "跳过 CSV 文件第一行（表头），从第 2 行开始显示"
+answers = ["tail -n +2 data.csv"]
+
+[[commands]]
+id = "shared-f296f7c2d10fb232"
+command = "tail -f /var/log/syslog | grep --line-buffered ERROR"
+summary = "实时跟踪日志并过滤只显示错误信息"
+simulated_output = "Mar  9 14:40:12 ubuntu app[5678]: [ERROR] Database connection timeout\nMar  9 14:42:55 ubuntu app[5678]: [ERROR] Failed to process request #12345"
+
+[[commands.tokens]]
+text = "tail -f /var/log/syslog | grep --line-buffered ERROR"
+desc = "实时跟踪日志并过滤只显示错误信息"
+
+[commands.dictation]
+prompt = "实时跟踪日志并过滤只显示错误信息"
+answers = ["tail -f /var/log/syslog | grep --line-buffered ERROR"]
+
+[[commands]]
+id = "shared-ed76ce099cc49229"
+command = "tail -f access.log error.log"
+summary = "同时跟踪多个日志文件"
+simulated_output = "==> access.log <==\n192.168.1.50 - - [09/Mar/2026:14:45:01 +0800] \"GET / HTTP/1.1\" 200 612\n\n==> error.log <==\n2026/03/09 14:45:03 [warn] 1205#0: conflicting server name \"localhost\"\n\n==> access.log <==\n192.168.1.51 - - [09/Mar/2026:14:45:05 +0800] \"POST /api/data HTTP/1.1\" 201 48"
+
+[[commands.tokens]]
+text = "tail -f access.log error.log"
+desc = "同时跟踪多个日志文件"
+
+[commands.dictation]
+prompt = "同时跟踪多个日志文件"
+answers = ["tail -f access.log error.log"]
+
+[[commands]]
+id = "shared-5ea1131aae0745aa"
+command = "find . -name '*.rs' | wc -l"
+summary = "统计当前项目中有多少个 Rust 源文件"
+simulated_output = "18"
+
+[[commands.tokens]]
+text = "find . -name '*.rs' | wc -l"
+desc = "统计当前项目中有多少个 Rust 源文件"
+
+[commands.dictation]
+prompt = "统计当前项目中有多少个 Rust 源文件"
+answers = ["find . -name '*.rs' | wc -l"]
+
+[[commands]]
+id = "shared-2b96d567ecf1682f"
+command = "wc -l src/*.rs"
+summary = "分别统计每个 Rust 源文件的行数"
+simulated_output = "   45 src/main.rs\n  128 src/app.rs\n   89 src/event.rs\n  234 src/lib.rs\n  496 total"
+
+[[commands.tokens]]
+text = "wc -l src/*.rs"
+desc = "分别统计每个 Rust 源文件的行数"
+
+[commands.dictation]
+prompt = "分别统计每个 Rust 源文件的行数"
+answers = ["wc -l src/*.rs"]
+
+[[commands]]
+id = "shared-6f7702acbfa38510"
+command = "cat access.log | grep '404' | wc -l"
+summary = "统计访问日志中 404 错误的数量"
+simulated_output = "237"
+
+[[commands.tokens]]
+text = "cat access.log | grep '404' | wc -l"
+desc = "统计访问日志中 404 错误的数量"
+
+[commands.dictation]
+prompt = "统计访问日志中 404 错误的数量"
+answers = ["cat access.log | grep '404' | wc -l"]
+
+[[commands]]
+id = "shared-8f8e5e71fb057c16"
+command = "find . -name '*.rs' -exec cat {} + | wc -l"
+summary = "统计项目中所有 Rust 源文件的总行数"
+simulated_output = "3847"
+
+[[commands.tokens]]
+text = "find . -name '*.rs' -exec cat {} + | wc -l"
+desc = "统计项目中所有 Rust 源文件的总行数"
+
+[commands.dictation]
+prompt = "统计项目中所有 Rust 源文件的总行数"
+answers = ["find . -name '*.rs' -exec cat {} + | wc -l"]

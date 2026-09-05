@@ -1,0 +1,47 @@
+
+[meta]
+category = "network"
+difficulty = "beginner"
+description = "跨模块共用的规范命令（由内容归一化维护）"
+
+[[commands]]
+id = "shared-1080438ca26361b2"
+command = "ping -c 4 192.168.1.1"
+summary = "测试网关是否可达"
+simulated_output = "PING 192.168.1.1 (192.168.1.1) 56(84) bytes of data.\n64 bytes from 192.168.1.1: icmp_seq=1 ttl=64 time=0.523 ms\n64 bytes from 192.168.1.1: icmp_seq=2 ttl=64 time=0.481 ms\n64 bytes from 192.168.1.1: icmp_seq=3 ttl=64 time=0.614 ms\n64 bytes from 192.168.1.1: icmp_seq=4 ttl=64 time=0.498 ms\n\n--- 192.168.1.1 ping statistics ---\n4 packets transmitted, 4 received, 0% packet loss, time 3004ms\nrtt min/avg/max/mdev = 0.481/0.529/0.614/0.051 ms"
+
+[[commands.tokens]]
+text = "ping -c 4 192.168.1.1"
+desc = "测试网关是否可达"
+
+[commands.dictation]
+prompt = "测试网关是否可达"
+answers = ["ping -c 4 192.168.1.1"]
+
+[[commands]]
+id = "shared-6ce6f1b98f10118c"
+command = "ping -qc 100 server.example.com"
+summary = "发送 100 个包只看统计摘要（用于丢包率测试）"
+simulated_output = "PING server.example.com (203.0.113.42) 56(84) bytes of data.\n\n--- server.example.com ping statistics ---\n100 packets transmitted, 97 received, 3% packet loss, time 99132ms\nrtt min/avg/max/mdev = 10.234/15.678/89.432/8.901 ms"
+
+[[commands.tokens]]
+text = "ping -qc 100 server.example.com"
+desc = "发送 100 个包只看统计摘要（用于丢包率测试）"
+
+[commands.dictation]
+prompt = "发送 100 个包只看统计摘要（用于丢包率测试）"
+answers = ["ping -qc 100 server.example.com"]
+
+[[commands]]
+id = "shared-5aadebaac26ac867"
+command = "ping -c 4 -s 1400 10.0.0.1"
+summary = "发送大包测试 MTU（最大传输单元）"
+simulated_output = "PING 10.0.0.1 (10.0.0.1) 1400(1428) bytes of data.\n1408 bytes from 10.0.0.1: icmp_seq=1 ttl=64 time=0.892 ms\n1408 bytes from 10.0.0.1: icmp_seq=2 ttl=64 time=0.845 ms\n1408 bytes from 10.0.0.1: icmp_seq=3 ttl=64 time=0.901 ms\n1408 bytes from 10.0.0.1: icmp_seq=4 ttl=64 time=0.867 ms\n\n--- 10.0.0.1 ping statistics ---\n4 packets transmitted, 4 received, 0% packet loss, time 3004ms\nrtt min/avg/max/mdev = 0.845/0.876/0.901/0.021 ms"
+
+[[commands.tokens]]
+text = "ping -c 4 -s 1400 10.0.0.1"
+desc = "发送大包测试 MTU（最大传输单元）"
+
+[commands.dictation]
+prompt = "发送大包测试 MTU（最大传输单元）"
+answers = ["ping -c 4 -s 1400 10.0.0.1"]

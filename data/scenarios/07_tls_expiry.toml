@@ -1,0 +1,125 @@
+id = "tls_expiry"
+title = "HTTPS 证书过期：校验、续期与重载"
+category = "网络与网站"
+difficulty = "basic"
+background = "api.example.test HTTPS 报证书过期。域名已经指向本机，Nginx 使用 Certbot 管理的证书，HTTP 验证路径可达。"
+objective = "分离服务器时间、证书有效期和证书链，演练续期与重载并验证客户端信任。"
+environment = "Ubuntu 24.04 LTS 教学主机 web-01（192.0.2.10），客户端 ops-01（192.0.2.50），网关 192.0.2.1。文档保留地址与 example.test 域名只用于模拟；每例独立还原起始状态，全部输出预置。"
+recap = "证书问题先检查时间和实际 SNI 证书；续期、配置测试、服务重载、外部校验形成完整闭环。"
+sources = ["https://docs.openssl.org/master/man1/openssl-s_client/", "https://eff-certbot.readthedocs.io/en/stable/using.html"]
+
+[[steps]]
+title = "重现客户端证书错误"
+output = "curl: (60) SSL certificate problem: certificate has expired"
+explanation = "TLS 校验失败发生在 HTTP 响应之前，不应以 -k 掩盖问题。"
+instruction = "请跟打，重现客户端证书错误。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_01"
+command_id = "shared-e73a602f4f6bdb57"
+
+[[steps]]
+title = "核对系统时间"
+output = "Universal time: Sun 2026-09-06 09:20:00 UTC\nSystem clock synchronized: yes"
+explanation = "错误的本机时间也会导致有效期校验失败；本例时间正常。"
+instruction = "请跟打，核对系统时间。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_02"
+command_id = "v04-tls-87bcf3ae7e"
+
+[[steps]]
+title = "读取实际提供的叶子证书"
+output = "notBefore=Jun 6 00:00:00 2026 GMT\nnotAfter=Sep 4 23:59:59 2026 GMT\nsubject=CN = api.example.test"
+explanation = "SNI 选择目标站点，notAfter 比当前时间早两天。"
+instruction = "请跟打，读取实际提供的叶子证书。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_03"
+command_id = "shared-89e036b6d8a3b4cb"
+
+[steps.decision]
+question = "应采取什么修复？"
+
+[[steps.decision.choices]]
+text = "续期匹配域名的证书并让 Nginx 重新加载"
+correct = true
+feedback = "对，恢复有效证书才修复信任链路。"
+
+[[steps.decision.choices]]
+text = "关闭所有客户端证书校验"
+correct = false
+feedback = "忽略校验只是隐藏故障，证书仍然过期。"
+
+[[steps]]
+title = "检查 Certbot 管理记录"
+output = "Certificate Name: api.example.test\nDomains: api.example.test\nExpiry Date: 2026-09-04 (INVALID: EXPIRED)\nCertificate Path: /etc/letsencrypt/live/api.example.test/fullchain.pem"
+explanation = "确认部署路径与 Certbot 管理项一致。"
+instruction = "请跟打，检查 Certbot 管理记录。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_04"
+command_id = "shared-036b4d6b887d3d3a"
+
+[[steps]]
+title = "测试续期流程"
+output = "Congratulations, all simulated renewals succeeded"
+explanation = "dry-run 验证续期机制但不替换正式证书。"
+instruction = "请跟打，测试续期流程。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_05"
+command_id = "shared-592fd86d68a49b9d"
+
+[[steps]]
+title = "执行目标证书续期"
+output = "Successfully renewed certificate api.example.test"
+explanation = "磁盘证书已更新，但长驻服务可能仍使用旧证书。"
+instruction = "请跟打，执行目标证书续期。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_06"
+command_id = "shared-4b9c34a5ab548519"
+
+[steps.decision]
+question = "下一步如何让请求使用新证书？"
+
+[[steps.decision.choices]]
+text = "只刷新浏览器缓存"
+correct = false
+feedback = "服务器仍可能在内存中持有旧证书，客户端缓存不是关键。"
+
+[[steps.decision.choices]]
+text = "校验 Nginx 配置后重载"
+correct = true
+feedback = "对，服务需要读取新证书文件。"
+
+[[steps]]
+title = "校验代理配置"
+output = "nginx: configuration file /etc/nginx/nginx.conf test is successful"
+explanation = "只有配置测试成功再重载，避免引入第二个故障。"
+instruction = "请跟打，校验代理配置。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_07"
+command_id = "systemctl-restart-nginx"
+
+[[steps]]
+title = "重载 Nginx"
+output = "[模拟：Nginx 已重载]"
+explanation = "平滑重载使新连接使用更新证书。"
+instruction = "请跟打，重载 Nginx。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_08"
+command_id = "shared-829d54cda3c37ae6"
+
+[[steps]]
+title = "从外部重新验证"
+output = "HTTP/2 200\nserver: nginx"
+explanation = "保留证书校验的 curl 成功才证明原始问题恢复。"
+instruction = "请跟打，从外部重新验证。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_09"
+command_id = "shared-e73a602f4f6bdb57"
+
+[[steps]]
+title = "确认自动续期定时器"
+output = "NEXT 2026-09-06 17:20 UTC  UNIT certbot.timer"
+explanation = "还应配置续期成功后的 Nginx reload deploy hook，并监控剩余有效期，避免故障重复。"
+instruction = "请跟打，确认自动续期定时器。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_10"
+command_id = "shared-db240f8530405d3b"

@@ -1,0 +1,125 @@
+id = "database_restore"
+title = "数据库备份恢复：从导出到恢复验收"
+category = "数据库"
+difficulty = "basic"
+background = "上线前需要验证订单库可恢复。已有 app 库包含订单 42，本例导出 custom 归档并恢复到隔离数据库 app_restore。"
+objective = "备份、校验、列出内容、隔离恢复、验证行数和关键记录，认识逻辑备份边界。"
+environment = "Ubuntu 24.04 LTS 教学主机 web-01（192.0.2.10），客户端 ops-01（192.0.2.50），网关 192.0.2.1。文档保留地址与 example.test 域名只用于模拟；每例独立还原起始状态，全部输出预置。"
+recap = "pg_dump 获得单库一致性逻辑快照；角色等集群对象、连续恢复所需 WAL、外部文件需额外备份。校验值和隔离恢复验证解决不同问题。"
+sources = ["https://www.postgresql.org/docs/current/app-pgdump.html", "https://www.postgresql.org/docs/current/tutorial-transactions.html", "https://www.postgresql.org/docs/current/app-pgrestore.html"]
+
+[[steps]]
+title = "准备备份目录"
+output = "[模拟：backups 目录就绪]"
+explanation = "项目 .gitignore 已排除 backups；备份还需要独立主机副本及保留策略。"
+instruction = "请跟打，准备备份目录。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_01"
+command_id = "shared-2971265edc5c9d0b"
+
+[[steps]]
+title = "限制备份目录权限"
+output = "[模拟：仅当前用户可访问]"
+explanation = "数据库归档可能包含业务数据，访问权限与原始数据一样重要。"
+instruction = "请跟打，限制备份目录权限。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_02"
+command_id = "shared-601f99ecfd02f65f"
+
+[[steps]]
+title = "导出 custom 格式数据库"
+output = "[退出状态 0，备份写入 backups/app.dump]"
+explanation = "-T 关闭 TTY，避免二进制归档经过伪终端；-Fc 支持用 pg_restore 查看及恢复。"
+instruction = "请跟打，导出 custom 格式数据库。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_03"
+command_id = "shared-75c2c60707dde354"
+
+[[steps]]
+title = "记录备份校验值"
+output = "[模拟：SHA256 清单已保存]"
+explanation = "校验值可以发现后续复制损坏，但不能证明归档能成功恢复。"
+instruction = "请跟打，记录备份校验值。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_04"
+command_id = "shared-8ff78fad4a9bfcdc"
+
+[steps.decision]
+question = "备份是否已充分验收？"
+
+[[steps.decision.choices]]
+text = "文件存在就算恢复成功"
+correct = false
+feedback = "有文件不保证内容完整、角色兼容或恢复流程可用。"
+
+[[steps.decision.choices]]
+text = "还需要实际恢复到隔离库并查询"
+correct = true
+feedback = "对，可恢复性必须通过还原演练验证。"
+
+[[steps]]
+title = "检查归档目录"
+output = "TABLE public orders app\nTABLE DATA public orders app\nCONSTRAINT public orders orders_pkey app"
+explanation = "能读出目录说明归档结构可解析，但仍未完成数据恢复。"
+instruction = "请跟打，检查归档目录。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_05"
+command_id = "shared-39e6e249be6c70a1"
+
+[[steps]]
+title = "创建独立恢复库"
+output = "[模拟：app_restore 已创建]"
+explanation = "本教学 app 角色拥有建库权限；实际应由授权恢复角色创建，业务应用角色不必拥有此权限。"
+instruction = "请跟打，创建独立恢复库。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_06"
+command_id = "shared-f043b5902bc9d8d9"
+
+[[steps]]
+title = "恢复到隔离数据库"
+output = "[退出状态 0：恢复完成]"
+explanation = "明确指定 app_restore，避免覆盖正在服务的 app；--exit-on-error 避免忽略错误继续。"
+instruction = "请跟打，恢复到隔离数据库。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_07"
+command_id = "shared-1b37c6bd0a6e74e3"
+
+[[steps]]
+title = "比较恢复库记录数"
+output = "count\n1"
+explanation = "数量与备份前课程基线一致，但还需抽查关键字段和约束。"
+instruction = "请跟打，比较恢复库记录数。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_08"
+command_id = "shared-e04ef273166e4d29"
+
+[steps.decision]
+question = "下一步如何进一步验证？"
+
+[[steps.decision.choices]]
+text = "直接将隔离库替换生产库"
+correct = false
+feedback = "本需求是演练，未经切换计划不应替换当前服务库。"
+
+[[steps.decision.choices]]
+text = "查询关键订单并验证业务约束"
+correct = true
+feedback = "对，恢复演练先证明数据正确，不自动切换业务。"
+
+[[steps]]
+title = "查询恢复的关键记录"
+output = "42 | pending"
+explanation = "记录值与本案例独立起始状态一致；与事务案例的 reviewed 状态不共享运行状态。"
+instruction = "请跟打，查询恢复的关键记录。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_09"
+command_id = "shared-e08a18b5873d8c63"
+
+[[steps]]
+title = "验证复制后的校验值"
+output = "backups/app.dump: OK"
+explanation = "归档未改变；记录备份时间、数据库版本、命令和恢复耗时，形成可重复的恢复手册。"
+instruction = "请跟打，验证复制后的校验值。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_10"
+command_id = "shared-5ccfe2ec508188c2"

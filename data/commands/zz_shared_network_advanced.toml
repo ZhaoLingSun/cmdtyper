@@ -1,0 +1,61 @@
+
+[meta]
+category = "network"
+difficulty = "advanced"
+description = "跨模块共用的规范命令（由内容归一化维护）"
+
+[[commands]]
+id = "shared-6952b25fc005e1e8"
+command = "cat /etc/nginx/sites-available/mysite.conf"
+summary = "查看静态文件服务的 server block 配置"
+simulated_output = "server {\n    listen 80;\n    server_name mysite.com www.mysite.com;\n\n    root /var/www/mysite;\n    index index.html;\n\n    location / {\n        try_files $uri $uri/ =404;\n    }\n\n    access_log /var/log/nginx/mysite_access.log;\n    error_log  /var/log/nginx/mysite_error.log;\n}"
+
+[[commands.tokens]]
+text = "cat /etc/nginx/sites-available/mysite.conf"
+desc = "查看静态文件服务的 server block 配置"
+
+[commands.dictation]
+prompt = "查看静态文件服务的 server block 配置"
+answers = ["cat /etc/nginx/sites-available/mysite.conf"]
+
+[[commands]]
+id = "shared-56f5054e13be0d85"
+command = "cat /etc/nginx/sites-available/api-proxy.conf"
+summary = "查看反向代理配置示例"
+simulated_output = "server {\n    listen 80;\n    server_name api.example.com;\n\n    location / {\n        proxy_pass http://127.0.0.1:3000;\n        proxy_set_header Host $host;\n        proxy_set_header X-Real-IP $remote_addr;\n        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\n    }\n}"
+
+[[commands.tokens]]
+text = "cat /etc/nginx/sites-available/api-proxy.conf"
+desc = "查看反向代理配置示例"
+
+[commands.dictation]
+prompt = "查看反向代理配置示例"
+answers = ["cat /etc/nginx/sites-available/api-proxy.conf"]
+
+[[commands]]
+id = "shared-4d4e3ac572208a4a"
+command = "ln -s /etc/nginx/sites-available/mysite.conf /etc/nginx/sites-enabled/ && nginx -t && systemctl reload nginx"
+summary = "启用站点配置、测试语法并重载服务"
+simulated_output = "nginx: the configuration file /etc/nginx/nginx.conf syntax is ok\nnginx: configuration file /etc/nginx/nginx.conf test is successful"
+
+[[commands.tokens]]
+text = "ln -s /etc/nginx/sites-available/mysite.conf /etc/nginx/sites-enabled/ && nginx -t && systemctl reload nginx"
+desc = "启用站点配置、测试语法并重载服务"
+
+[commands.dictation]
+prompt = "启用站点配置、测试语法并重载服务"
+answers = ["ln -s /etc/nginx/sites-available/mysite.conf /etc/nginx/sites-enabled/ && nginx -t && systemctl reload nginx"]
+
+[[commands]]
+id = "shared-66369571855e66b6"
+command = "tail -f /var/log/nginx/access.log"
+summary = "实时监控 Nginx 访问日志"
+simulated_output = "203.0.113.42 - - [09/Mar/2024:10:30:01 +0000] \"GET / HTTP/1.1\" 200 4821 \"https://google.com/\" \"Mozilla/5.0\"\n10.0.0.5 - - [09/Mar/2024:10:30:02 +0000] \"GET /api/status HTTP/1.1\" 200 42 \"-\" \"curl/7.88.1\"\n203.0.113.99 - - [09/Mar/2024:10:30:18 +0000] \"POST /api/login HTTP/1.1\" 200 128 \"-\" \"python-requests/2.31\""
+
+[[commands.tokens]]
+text = "tail -f /var/log/nginx/access.log"
+desc = "实时监控 Nginx 访问日志"
+
+[commands.dictation]
+prompt = "实时监控 Nginx 访问日志"
+answers = ["tail -f /var/log/nginx/access.log"]

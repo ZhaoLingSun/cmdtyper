@@ -49,10 +49,7 @@ answers = ["curl -u admin:secret https://api.example.com/status"]
 id = "curl-cookie-save"
 command = "curl -c cookies.txt https://example.com/login"
 summary = "把服务端返回的 cookie 保存到 cookies.txt"
-simulated_output = """
-<!doctype html>
-<html><body>Login page</body></html>
-"""
+simulated_output = "<!doctype html>\n<html><body>Login page</body></html>\n"
 [[commands.tokens]]
 text = "curl"
 desc = "命令行 HTTP 客户端：发送请求并获取响应"
@@ -73,10 +70,7 @@ answers = ["curl -c cookies.txt https://example.com/login"]
 id = "curl-cookie-send"
 command = "curl -b cookies.txt https://example.com/dashboard"
 summary = "使用保存的 cookie 访问需要认证的页面"
-simulated_output = """
-<!doctype html>
-<html><body>Welcome back, alice</body></html>
-"""
+simulated_output = "<!doctype html>\n<html><body>Welcome back, alice</body></html>\n"
 [[commands.tokens]]
 text = "curl"
 desc = "命令行 HTTP 客户端：发送请求并获取响应"
@@ -121,12 +115,7 @@ answers = ["curl -sSfL -o app.tar.gz https://github.com/user/repo/releases/downl
 id = "pip-install-requirements"
 command = "pip install -r requirements.txt"
 summary = "安装 requirements.txt 中列出的所有 Python 依赖"
-simulated_output = """
-Collecting fastapi
-Collecting uvicorn
-Installing collected packages: fastapi, uvicorn
-Successfully installed fastapi-0.116.0 uvicorn-0.35.0
-"""
+simulated_output = "Collecting fastapi\nCollecting uvicorn\nInstalling collected packages: fastapi, uvicorn\nSuccessfully installed fastapi-0.116.0 uvicorn-0.35.0\n"
 [[commands.tokens]]
 text = "pip"
 desc = "Python 包管理工具"
@@ -183,11 +172,7 @@ answers = ["source .venv/bin/activate", ". .venv/bin/activate"]
 id = "npm-install-basic"
 command = "npm install"
 summary = "安装 package.json 中列出的所有 Node.js 依赖"
-simulated_output = """
-added 312 packages, and audited 313 packages in 7s
-42 packages are looking for funding
-found 0 vulnerabilities
-"""
+simulated_output = "added 312 packages, and audited 313 packages in 7s\n42 packages are looking for funding\nfound 0 vulnerabilities\n"
 [[commands.tokens]]
 text = "npm"
 desc = "Node.js 包管理工具"
@@ -202,13 +187,7 @@ answers = ["npm install", "npm i"]
 id = "npm-run-dev"
 command = "npm run dev"
 summary = "运行 package.json 中定义的 dev 脚本"
-simulated_output = """
-> app@1.0.0 dev
-> vite
-
-VITE v5.4.1  ready in 420 ms
-➜  Local:   http://localhost:5173/
-"""
+simulated_output = "> app@1.0.0 dev\n> vite\n\nVITE v5.4.1  ready in 420 ms\n➜  Local:   http://localhost:5173/\n"
 [[commands.tokens]]
 text = "npm"
 desc = "Node.js 包管理工具"
@@ -226,10 +205,7 @@ answers = ["npm run dev"]
 id = "cargo-build-release"
 command = "cargo build --release"
 summary = "以 release 模式编译 Rust 项目"
-simulated_output = """
-Compiling cmdtyper v0.1.0 (/home/ace/workspaces/cmdtyper)
-Finished release [optimized] target(s) in 6.42s
-"""
+simulated_output = "Compiling cmdtyper v0.1.0 (/home/ace/workspaces/cmdtyper)\nFinished release [optimized] target(s) in 6.42s\n"
 [[commands.tokens]]
 text = "cargo"
 desc = "Rust 的构建和包管理工具"
@@ -245,42 +221,24 @@ answers = ["cargo build --release"]
 
 [[commands]]
 id = "make-clean-build"
-command = "make clean && make -j$(nproc)"
-summary = "清理构建产物后用全部 CPU 核心重新编译"
-simulated_output = """
-rm -f *.o app
-cc -O2 -c main.c
-cc -O2 -c util.c
-cc -O2 -o app main.o util.o
-"""
+command = "make clean\nmake -j$(nproc)"
+summary = "清理构建产物后用全部 CPU 核心重新编译；逐条回车，确认成功再继续"
+simulated_output = "rm -f *.o app\ncc -O2 -c main.c\ncc -O2 -c util.c\ncc -O2 -o app main.o util.o\n"
 [[commands.tokens]]
-text = "make"
-desc = "执行 Makefile 构建任务"
+text = "make clean\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 [[commands.tokens]]
-text = " clean"
-desc = "清理之前的构建产物"
-[[commands.tokens]]
-text = " &&"
-desc = "前一步成功后才执行后一步"
-[[commands.tokens]]
-text = " make"
-desc = "再次执行构建"
-[[commands.tokens]]
-text = " -j$(nproc)"
-desc = "用所有 CPU 核心并行编译"
+text = "make -j$(nproc)"
+desc = "清理构建产物后用全部 CPU 核心重新编译"
 [commands.dictation]
 prompt = "清理构建产物后用全部 CPU 核心重新编译"
-answers = ["make clean && make -j$(nproc)"]
+answers = ["make clean\nmake -j$(nproc)"]
 
 [[commands]]
 id = "strace-pid"
 command = "strace -p 12345 -f"
 summary = "跟踪 PID 12345 的系统调用（包含子进程）"
-simulated_output = """
-strace: Process 12345 attached
-[pid 12345] epoll_wait(7, [], 1024, 1000) = 0
-[pid 12345] recvfrom(12, 0x7ffd..., 4096, 0, NULL, NULL) = -1 EAGAIN
-"""
+simulated_output = "strace: Process 12345 attached\n[pid 12345] epoll_wait(7, [], 1024, 1000) = 0\n[pid 12345] recvfrom(12, 0x7ffd..., 4096, 0, NULL, NULL) = -1 EAGAIN\n"
 [[commands.tokens]]
 text = "strace"
 desc = "跟踪进程系统调用的调试工具"

@@ -1,0 +1,1124 @@
+[meta]
+category = "file_ops"
+difficulty = "beginner"
+description = "基础用法的短练习：目标已在隔离实验环境中准备，按提示完成单一任务。"
+
+[[commands]]
+id = "v04-ex-7afa748b58"
+command = "cat /etc/os-release"
+summary = "读取系统发行版标识文件"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /etc/os-release"
+desc = "本次操作指定的路径：/etc/os-release"
+
+[commands.dictation]
+prompt = "读取系统发行版标识文件"
+answers = ["cat /etc/os-release"]
+
+[[commands]]
+id = "v04-ex-6ba478139f"
+command = "cat /etc/shells"
+summary = "读取系统允许的登录 shell 列表"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /etc/shells"
+desc = "本次操作指定的路径：/etc/shells"
+
+[commands.dictation]
+prompt = "读取系统允许的登录 shell 列表"
+answers = ["cat /etc/shells"]
+
+[[commands]]
+id = "v04-ex-35c62a319b"
+command = "cat -n ~/ops-lab/settings.ini"
+summary = "带行号读取实验配置，方便交流具体位置"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " -n"
+desc = "带行号读取实验配置，方便交流具体位置；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "本次操作指定的路径：~/ops-lab/settings.ini"
+
+[commands.dictation]
+prompt = "带行号读取实验配置，方便交流具体位置"
+answers = ["cat -n ~/ops-lab/settings.ini"]
+
+[[commands]]
+id = "v04-ex-d66d7372f6"
+command = "cd /var/log"
+summary = "切换到日志目录，再执行后续日志查看"
+
+[[commands.tokens]]
+text = "cd"
+desc = "切换到日志目录，再执行后续日志查看"
+
+[[commands.tokens]]
+text = " /var/log"
+desc = "本次操作指定的路径：/var/log"
+
+[commands.dictation]
+prompt = "切换到日志目录，再执行后续日志查看"
+answers = ["cd /var/log"]
+
+[[commands]]
+id = "v04-ex-f825514e96"
+command = "cd ~/ops-lab"
+summary = "进入自己的隔离实验目录"
+
+[[commands.tokens]]
+text = "cd"
+desc = "进入自己的隔离实验目录"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作指定的路径：~/ops-lab"
+
+[commands.dictation]
+prompt = "进入自己的隔离实验目录"
+answers = ["cd ~/ops-lab"]
+
+[[commands]]
+id = "v04-ex-b0c44d9e4d"
+command = "cd ../backup"
+summary = "从当前目录切换到父目录下的 backup"
+
+[[commands.tokens]]
+text = "cd"
+desc = "从当前目录切换到父目录下的 backup"
+
+[[commands.tokens]]
+text = " ../backup"
+desc = "从当前目录切换到父目录下的 backup；指定 ../backup"
+
+[commands.dictation]
+prompt = "从当前目录切换到父目录下的 backup"
+answers = ["cd ../backup"]
+
+[[commands]]
+id = "v04-ex-4883a52904"
+command = "cp ~/ops-lab/input/report.txt ~/ops-lab/backup/report.txt"
+summary = "把实验报告复制到已准备的备份目录"
+
+[[commands.tokens]]
+text = "cp"
+desc = "把实验报告复制到已准备的备份目录"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input/report.txt"
+desc = "本次操作指定的路径：~/ops-lab/input/report.txt"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backup/report.txt"
+desc = "本次操作指定的路径：~/ops-lab/backup/report.txt"
+
+[commands.dictation]
+prompt = "把实验报告复制到已准备的备份目录"
+answers = ["cp ~/ops-lab/input/report.txt ~/ops-lab/backup/report.txt"]
+
+[[commands]]
+id = "v04-ex-008fd01613"
+command = "cp -v ~/ops-lab/input/settings.ini ~/ops-lab/backup/"
+summary = "复制实验配置并显示源和目标"
+
+[[commands.tokens]]
+text = "cp"
+desc = "复制实验配置并显示源和目标"
+
+[[commands.tokens]]
+text = " -v"
+desc = "复制实验配置并显示源和目标；此处使用 -v 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input/settings.ini"
+desc = "本次操作指定的路径：~/ops-lab/input/settings.ini"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backup/"
+desc = "本次操作指定的路径：~/ops-lab/backup/"
+
+[commands.dictation]
+prompt = "复制实验配置并显示源和目标"
+answers = ["cp -v ~/ops-lab/input/settings.ini ~/ops-lab/backup/"]
+
+[[commands]]
+id = "v04-ex-ecbbb3eb06"
+command = "cp -i ~/ops-lab/input/notes.txt ~/ops-lab/backup/notes.txt"
+summary = "复制实验笔记，覆盖目标前请求确认"
+
+[[commands.tokens]]
+text = "cp"
+desc = "复制实验笔记，覆盖目标前请求确认"
+
+[[commands.tokens]]
+text = " -i"
+desc = "复制实验笔记，覆盖目标前请求确认；此处使用 -i 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input/notes.txt"
+desc = "本次操作指定的路径：~/ops-lab/input/notes.txt"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backup/notes.txt"
+desc = "本次操作指定的路径：~/ops-lab/backup/notes.txt"
+
+[commands.dictation]
+prompt = "复制实验笔记，覆盖目标前请求确认"
+answers = ["cp -i ~/ops-lab/input/notes.txt ~/ops-lab/backup/notes.txt"]
+
+[[commands]]
+id = "v04-ex-53c2ff6498"
+command = "ls /var/log"
+summary = "列出日志目录条目"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " /var/log"
+desc = "本次操作指定的路径：/var/log"
+
+[commands.dictation]
+prompt = "列出日志目录条目"
+answers = ["ls /var/log"]
+
+[[commands]]
+id = "v04-ex-2799a21fb8"
+command = "ls -l ~/ops-lab"
+summary = "长格式查看实验目录权限与元数据"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " -l"
+desc = "长格式查看实验目录权限与元数据；此处使用 -l 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作指定的路径：~/ops-lab"
+
+[commands.dictation]
+prompt = "长格式查看实验目录权限与元数据"
+answers = ["ls -l ~/ops-lab"]
+
+[[commands]]
+id = "v04-ex-fe24719e74"
+command = "ls -a ~/ops-lab"
+summary = "包含隐藏文件地列出实验目录"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " -a"
+desc = "包含隐藏文件地列出实验目录；此处使用 -a 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作指定的路径：~/ops-lab"
+
+[commands.dictation]
+prompt = "包含隐藏文件地列出实验目录"
+answers = ["ls -a ~/ops-lab"]
+
+[[commands]]
+id = "v04-ex-a106b4112f"
+command = "mkdir ~/ops-lab/reports"
+summary = "在已存在的实验目录内创建 reports 子目录"
+
+[[commands.tokens]]
+text = "mkdir"
+desc = "在已存在的实验目录内创建 reports 子目录"
+
+[[commands.tokens]]
+text = " ~/ops-lab/reports"
+desc = "本次操作指定的路径：~/ops-lab/reports"
+
+[commands.dictation]
+prompt = "在已存在的实验目录内创建 reports 子目录"
+answers = ["mkdir ~/ops-lab/reports"]
+
+[[commands]]
+id = "v04-ex-c254f37873"
+command = "mkdir -p ~/ops-lab/cache/tmp"
+summary = "逐层创建实验缓存目录，父目录已存在也可继续"
+
+[[commands.tokens]]
+text = "mkdir"
+desc = "逐层创建实验缓存目录，父目录已存在也可继续"
+
+[[commands.tokens]]
+text = " -p"
+desc = "逐层创建实验缓存目录，父目录已存在也可继续；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/cache/tmp"
+desc = "本次操作指定的路径：~/ops-lab/cache/tmp"
+
+[commands.dictation]
+prompt = "逐层创建实验缓存目录，父目录已存在也可继续"
+answers = ["mkdir -p ~/ops-lab/cache/tmp"]
+
+[[commands]]
+id = "v04-ex-f2a5b489c9"
+command = "mkdir -p ~/ops-lab/{logs,config}"
+summary = "用花括号展开准备实验日志和配置目录"
+
+[[commands.tokens]]
+text = "mkdir"
+desc = "用花括号展开准备实验日志和配置目录"
+
+[[commands.tokens]]
+text = " -p"
+desc = "用花括号展开准备实验日志和配置目录；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/{logs,config}"
+desc = "本次操作指定的路径：~/ops-lab/{logs,config}"
+
+[commands.dictation]
+prompt = "用花括号展开准备实验日志和配置目录"
+answers = ["mkdir -p ~/ops-lab/{logs,config}"]
+
+[[commands]]
+id = "v04-ex-db464f39e6"
+command = "mv ~/ops-lab/draft.txt ~/ops-lab/final.txt"
+summary = "在实验目录把草稿重命名为 final.txt"
+
+[[commands.tokens]]
+text = "mv"
+desc = "在实验目录把草稿重命名为 final.txt"
+
+[[commands.tokens]]
+text = " ~/ops-lab/draft.txt"
+desc = "本次操作指定的路径：~/ops-lab/draft.txt"
+
+[[commands.tokens]]
+text = " ~/ops-lab/final.txt"
+desc = "本次操作指定的路径：~/ops-lab/final.txt"
+
+[commands.dictation]
+prompt = "在实验目录把草稿重命名为 final.txt"
+answers = ["mv ~/ops-lab/draft.txt ~/ops-lab/final.txt"]
+
+[[commands]]
+id = "v04-ex-e8aba067f3"
+command = "mv -i ~/ops-lab/report.txt ~/ops-lab/backup/"
+summary = "移动实验报告，覆盖前确认"
+
+[[commands.tokens]]
+text = "mv"
+desc = "移动实验报告，覆盖前确认"
+
+[[commands.tokens]]
+text = " -i"
+desc = "移动实验报告，覆盖前确认；此处使用 -i 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/report.txt"
+desc = "本次操作指定的路径：~/ops-lab/report.txt"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backup/"
+desc = "本次操作指定的路径：~/ops-lab/backup/"
+
+[commands.dictation]
+prompt = "移动实验报告，覆盖前确认"
+answers = ["mv -i ~/ops-lab/report.txt ~/ops-lab/backup/"]
+
+[[commands]]
+id = "v04-ex-902072d104"
+command = "mv -v ~/ops-lab/old.log ~/ops-lab/archive.log"
+summary = "重命名实验日志并显示结果"
+
+[[commands.tokens]]
+text = "mv"
+desc = "重命名实验日志并显示结果"
+
+[[commands.tokens]]
+text = " -v"
+desc = "重命名实验日志并显示结果；此处使用 -v 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/old.log"
+desc = "本次操作指定的路径：~/ops-lab/old.log"
+
+[[commands.tokens]]
+text = " ~/ops-lab/archive.log"
+desc = "本次操作指定的路径：~/ops-lab/archive.log"
+
+[commands.dictation]
+prompt = "重命名实验日志并显示结果"
+answers = ["mv -v ~/ops-lab/old.log ~/ops-lab/archive.log"]
+
+[[commands]]
+id = "v04-ex-e8b57ddf4c"
+command = "rm -i ~/ops-lab/obsolete.txt"
+summary = "交互确认后移除实验过期文件"
+
+[[commands.tokens]]
+text = "rm"
+desc = "交互确认后移除实验过期文件"
+
+[[commands.tokens]]
+text = " -i"
+desc = "交互确认后移除实验过期文件；此处使用 -i 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/obsolete.txt"
+desc = "本次操作指定的路径：~/ops-lab/obsolete.txt"
+
+[commands.dictation]
+prompt = "交互确认后移除实验过期文件"
+answers = ["rm -i ~/ops-lab/obsolete.txt"]
+
+[[commands]]
+id = "v04-ex-0be6b78ec6"
+command = "rm -v ~/ops-lab/cache.tmp"
+summary = "移除已确认的实验临时文件并打印名称"
+
+[[commands.tokens]]
+text = "rm"
+desc = "移除已确认的实验临时文件并打印名称"
+
+[[commands.tokens]]
+text = " -v"
+desc = "移除已确认的实验临时文件并打印名称；此处使用 -v 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/cache.tmp"
+desc = "本次操作指定的路径：~/ops-lab/cache.tmp"
+
+[commands.dictation]
+prompt = "移除已确认的实验临时文件并打印名称"
+answers = ["rm -v ~/ops-lab/cache.tmp"]
+
+[[commands]]
+id = "v04-ex-4c89985535"
+command = "rmdir ~/ops-lab/empty"
+summary = "仅删除空的实验目录，非空时会失败"
+
+[[commands.tokens]]
+text = "rmdir"
+desc = "仅删除空的实验目录，非空时会失败"
+
+[[commands.tokens]]
+text = " ~/ops-lab/empty"
+desc = "本次操作指定的路径：~/ops-lab/empty"
+
+[commands.dictation]
+prompt = "仅删除空的实验目录，非空时会失败"
+answers = ["rmdir ~/ops-lab/empty"]
+
+[[commands]]
+id = "v04-ex-fd29ffe6ae"
+command = "tree -L 1 ~/ops-lab"
+summary = "先查看实验目录的第一层结构"
+
+[[commands.tokens]]
+text = "tree"
+desc = "先查看实验目录的第一层结构"
+
+[[commands.tokens]]
+text = " -L"
+desc = "先查看实验目录的第一层结构；此处使用 -L 选项"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次练习的数值参数 1；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作指定的路径：~/ops-lab"
+
+[commands.dictation]
+prompt = "先查看实验目录的第一层结构"
+answers = ["tree -L 1 ~/ops-lab"]
+
+[[commands]]
+id = "v04-ex-3142b4f9e1"
+command = "tree -L 2 ~/ops-lab/input"
+summary = "展开两层实验输入目录"
+
+[[commands.tokens]]
+text = "tree"
+desc = "展开两层实验输入目录"
+
+[[commands.tokens]]
+text = " -L"
+desc = "展开两层实验输入目录；此处使用 -L 选项"
+
+[[commands.tokens]]
+text = " 2"
+desc = "本次练习的数值参数 2；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input"
+desc = "本次操作指定的路径：~/ops-lab/input"
+
+[commands.dictation]
+prompt = "展开两层实验输入目录"
+answers = ["tree -L 2 ~/ops-lab/input"]
+
+[[commands]]
+id = "v04-ex-d8f18b0787"
+command = "tree -a -L 2 ~/ops-lab"
+summary = "包含隐藏文件观察实验目录结构"
+
+[[commands.tokens]]
+text = "tree"
+desc = "包含隐藏文件观察实验目录结构"
+
+[[commands.tokens]]
+text = " -a"
+desc = "包含隐藏文件观察实验目录结构；此处使用 -a 选项"
+
+[[commands.tokens]]
+text = " -L"
+desc = "包含隐藏文件观察实验目录结构；此处使用 -L 选项"
+
+[[commands.tokens]]
+text = " 2"
+desc = "本次练习的数值参数 2；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作指定的路径：~/ops-lab"
+
+[commands.dictation]
+prompt = "包含隐藏文件观察实验目录结构"
+answers = ["tree -a -L 2 ~/ops-lab"]
+
+[[commands]]
+id = "v04-ex-f582d82a98"
+command = "rmdir -v ~/ops-lab/old-empty"
+summary = "删除空目录并打印处理路径"
+
+[[commands.tokens]]
+text = "rmdir"
+desc = "删除空目录并打印处理路径"
+
+[[commands.tokens]]
+text = " -v"
+desc = "删除空目录并打印处理路径；此处使用 -v 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/old-empty"
+desc = "本次操作指定的路径：~/ops-lab/old-empty"
+
+[commands.dictation]
+prompt = "删除空目录并打印处理路径"
+answers = ["rmdir -v ~/ops-lab/old-empty"]
+
+[[commands]]
+id = "v04-ex-56b3c56f33"
+command = "rmdir ~/ops-lab/cache/empty"
+summary = "清理已确认没有内容的实验缓存子目录"
+
+[[commands.tokens]]
+text = "rmdir"
+desc = "清理已确认没有内容的实验缓存子目录"
+
+[[commands.tokens]]
+text = " ~/ops-lab/cache/empty"
+desc = "本次操作指定的路径：~/ops-lab/cache/empty"
+
+[commands.dictation]
+prompt = "清理已确认没有内容的实验缓存子目录"
+answers = ["rmdir ~/ops-lab/cache/empty"]
+
+[[commands]]
+id = "v04-ex-6fe23b26c4"
+command = "touch ~/ops-lab/notes.txt"
+summary = "创建空实验笔记，若已存在则更新时间"
+
+[[commands.tokens]]
+text = "touch"
+desc = "创建空实验笔记，若已存在则更新时间"
+
+[[commands.tokens]]
+text = " ~/ops-lab/notes.txt"
+desc = "本次操作指定的路径：~/ops-lab/notes.txt"
+
+[commands.dictation]
+prompt = "创建空实验笔记，若已存在则更新时间"
+answers = ["touch ~/ops-lab/notes.txt"]
+
+[[commands]]
+id = "v04-ex-b32e7d23b8"
+command = "touch ~/ops-lab/todo.txt ~/ops-lab/done.txt"
+summary = "一次准备两份实验文本文件"
+
+[[commands.tokens]]
+text = "touch"
+desc = "一次准备两份实验文本文件"
+
+[[commands.tokens]]
+text = " ~/ops-lab/todo.txt"
+desc = "本次操作指定的路径：~/ops-lab/todo.txt"
+
+[[commands.tokens]]
+text = " ~/ops-lab/done.txt"
+desc = "本次操作指定的路径：~/ops-lab/done.txt"
+
+[commands.dictation]
+prompt = "一次准备两份实验文本文件"
+answers = ["touch ~/ops-lab/todo.txt ~/ops-lab/done.txt"]
+
+[[commands]]
+id = "v04-ex-e79168f61e"
+command = "touch -r ~/ops-lab/notes.txt ~/ops-lab/notes.copy"
+summary = "将实验副本时间戳对齐到参考文件"
+
+[[commands.tokens]]
+text = "touch"
+desc = "将实验副本时间戳对齐到参考文件"
+
+[[commands.tokens]]
+text = " -r"
+desc = "将实验副本时间戳对齐到参考文件；此处使用 -r 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/notes.txt"
+desc = "本次操作指定的路径：~/ops-lab/notes.txt"
+
+[[commands.tokens]]
+text = " ~/ops-lab/notes.copy"
+desc = "本次操作指定的路径：~/ops-lab/notes.copy"
+
+[commands.dictation]
+prompt = "将实验副本时间戳对齐到参考文件"
+answers = ["touch -r ~/ops-lab/notes.txt ~/ops-lab/notes.copy"]
+
+[[commands]]
+id = "v04-ex-24795b2b95"
+command = "ln -s releases/v1 ~/ops-lab/current"
+summary = "创建实验发布符号链接，相对目标以链接所在目录解释"
+
+[[commands.tokens]]
+text = "ln"
+desc = "创建实验发布符号链接，相对目标以链接所在目录解释"
+
+[[commands.tokens]]
+text = " -s"
+desc = "创建实验发布符号链接，相对目标以链接所在目录解释；此处使用 -s 选项"
+
+[[commands.tokens]]
+text = " releases/v1"
+desc = "创建实验发布符号链接，相对目标以链接所在目录解释；指定 releases/v1"
+
+[[commands.tokens]]
+text = " ~/ops-lab/current"
+desc = "本次操作指定的路径：~/ops-lab/current"
+
+[commands.dictation]
+prompt = "创建实验发布符号链接，相对目标以链接所在目录解释"
+answers = ["ln -s releases/v1 ~/ops-lab/current"]
+
+[[commands]]
+id = "v04-ex-ba9a992713"
+command = "readlink ~/ops-lab/current"
+summary = "查看实验链接保存的目标文本"
+
+[[commands.tokens]]
+text = "readlink"
+desc = "读取或解析符号链接目标"
+
+[[commands.tokens]]
+text = " ~/ops-lab/current"
+desc = "本次操作指定的路径：~/ops-lab/current"
+
+[commands.dictation]
+prompt = "查看实验链接保存的目标文本"
+answers = ["readlink ~/ops-lab/current"]
+
+[[commands]]
+id = "v04-ex-d4b1bd697b"
+command = "readlink -f ~/ops-lab/current"
+summary = "解析实验链接最终绝对路径"
+
+[[commands.tokens]]
+text = "readlink"
+desc = "读取或解析符号链接目标"
+
+[[commands.tokens]]
+text = " -f"
+desc = "解析实验链接最终绝对路径；此处使用 -f 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/current"
+desc = "本次操作指定的路径：~/ops-lab/current"
+
+[commands.dictation]
+prompt = "解析实验链接最终绝对路径"
+answers = ["readlink -f ~/ops-lab/current"]
+
+[[commands]]
+id = "v04-ex-fd53d00d98"
+command = "stat ~/ops-lab/report.txt"
+summary = "查看实验报告详细元数据"
+
+[[commands.tokens]]
+text = "stat"
+desc = "读取文件详细元数据"
+
+[[commands.tokens]]
+text = " ~/ops-lab/report.txt"
+desc = "本次操作指定的路径：~/ops-lab/report.txt"
+
+[commands.dictation]
+prompt = "查看实验报告详细元数据"
+answers = ["stat ~/ops-lab/report.txt"]
+
+[[commands]]
+id = "v04-ex-863aa6e539"
+command = "stat -c '%n %s' ~/ops-lab/report.txt"
+summary = "只读文件名与字节大小"
+
+[[commands.tokens]]
+text = "stat"
+desc = "读取文件详细元数据"
+
+[[commands.tokens]]
+text = " -c"
+desc = "只读文件名与字节大小；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " '%n %s'"
+desc = "引号保护此参数中的空格或特殊符号；只读文件名与字节大小"
+
+[[commands.tokens]]
+text = " ~/ops-lab/report.txt"
+desc = "本次操作指定的路径：~/ops-lab/report.txt"
+
+[commands.dictation]
+prompt = "只读文件名与字节大小"
+answers = ["stat -c '%n %s' ~/ops-lab/report.txt"]
+
+[[commands]]
+id = "v04-ex-ab4b512e02"
+command = "stat -c '%U:%G %a' ~/ops-lab/settings.ini"
+summary = "检查实验配置所有者、组与数字权限"
+
+[[commands.tokens]]
+text = "stat"
+desc = "读取文件详细元数据"
+
+[[commands.tokens]]
+text = " -c"
+desc = "检查实验配置所有者、组与数字权限；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " '%U:%G %a'"
+desc = "引号保护此参数中的空格或特殊符号；检查实验配置所有者、组与数字权限"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "本次操作指定的路径：~/ops-lab/settings.ini"
+
+[commands.dictation]
+prompt = "检查实验配置所有者、组与数字权限"
+answers = ["stat -c '%U:%G %a' ~/ops-lab/settings.ini"]
+
+[[commands]]
+id = "v04-ex-c6f257a216"
+command = "file ~/ops-lab/check.sh"
+summary = "按内容识别实验脚本类型"
+
+[[commands.tokens]]
+text = "file"
+desc = "按内容识别实验脚本类型"
+
+[[commands.tokens]]
+text = " ~/ops-lab/check.sh"
+desc = "本次操作指定的路径：~/ops-lab/check.sh"
+
+[commands.dictation]
+prompt = "按内容识别实验脚本类型"
+answers = ["file ~/ops-lab/check.sh"]
+
+[[commands]]
+id = "v04-ex-1b1b980e12"
+command = "file ~/ops-lab/download"
+summary = "识别没有扩展名的实验下载文件"
+
+[[commands.tokens]]
+text = "file"
+desc = "识别没有扩展名的实验下载文件"
+
+[[commands.tokens]]
+text = " ~/ops-lab/download"
+desc = "本次操作指定的路径：~/ops-lab/download"
+
+[commands.dictation]
+prompt = "识别没有扩展名的实验下载文件"
+answers = ["file ~/ops-lab/download"]
+
+[[commands]]
+id = "v04-ex-819664314a"
+command = "file -bi ~/ops-lab/report.txt"
+summary = "查看实验文本 MIME 类型和猜测的编码"
+
+[[commands.tokens]]
+text = "file"
+desc = "查看实验文本 MIME 类型和猜测的编码"
+
+[[commands.tokens]]
+text = " -bi"
+desc = "查看实验文本 MIME 类型和猜测的编码；此处使用 -bi 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/report.txt"
+desc = "本次操作指定的路径：~/ops-lab/report.txt"
+
+[commands.dictation]
+prompt = "查看实验文本 MIME 类型和猜测的编码"
+answers = ["file -bi ~/ops-lab/report.txt"]
+
+[[commands]]
+id = "v04-ex-fd3ccaa781"
+command = "nano ~/ops-lab/notes.txt"
+summary = "打开实验笔记，学习编辑后保存与退出"
+
+[[commands.tokens]]
+text = "nano"
+desc = "打开实验笔记，学习编辑后保存与退出"
+
+[[commands.tokens]]
+text = " ~/ops-lab/notes.txt"
+desc = "本次操作指定的路径：~/ops-lab/notes.txt"
+
+[commands.dictation]
+prompt = "打开实验笔记，学习编辑后保存与退出"
+answers = ["nano ~/ops-lab/notes.txt"]
+
+[[commands]]
+id = "v04-ex-62335f6af9"
+command = "nano -l ~/ops-lab/check.sh"
+summary = "带行号编辑实验脚本"
+
+[[commands.tokens]]
+text = "nano"
+desc = "带行号编辑实验脚本"
+
+[[commands.tokens]]
+text = " -l"
+desc = "带行号编辑实验脚本；此处使用 -l 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/check.sh"
+desc = "本次操作指定的路径：~/ops-lab/check.sh"
+
+[commands.dictation]
+prompt = "带行号编辑实验脚本"
+answers = ["nano -l ~/ops-lab/check.sh"]
+
+[[commands]]
+id = "v04-ex-3028f1a41a"
+command = "nano --view ~/ops-lab/settings.ini"
+summary = "用只读查看模式检查实验配置"
+
+[[commands.tokens]]
+text = "nano"
+desc = "用只读查看模式检查实验配置"
+
+[[commands.tokens]]
+text = " --view"
+desc = "用只读查看模式检查实验配置；此处使用 --view 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "本次操作指定的路径：~/ops-lab/settings.ini"
+
+[commands.dictation]
+prompt = "用只读查看模式检查实验配置"
+answers = ["nano --view ~/ops-lab/settings.ini"]
+
+[[commands]]
+id = "v04-ex-59953f47b3"
+command = "vim ~/ops-lab/notes.txt"
+summary = "打开实验文本文件，使用 :q 退出或 :wq 保存退出"
+
+[[commands.tokens]]
+text = "vim"
+desc = "打开实验文本文件，使用 :q 退出或 :wq 保存退出"
+
+[[commands.tokens]]
+text = " ~/ops-lab/notes.txt"
+desc = "本次操作指定的路径：~/ops-lab/notes.txt"
+
+[commands.dictation]
+prompt = "打开实验文本文件，使用 :q 退出或 :wq 保存退出"
+answers = ["vim ~/ops-lab/notes.txt"]
+
+[[commands]]
+id = "v04-ex-69bfedaaab"
+command = "vim +12 ~/ops-lab/check.sh"
+summary = "打开实验脚本并定位第十二行"
+
+[[commands.tokens]]
+text = "vim"
+desc = "打开实验脚本并定位第十二行"
+
+[[commands.tokens]]
+text = " +12"
+desc = "打开实验脚本并定位第十二行；此处使用 +12 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/check.sh"
+desc = "本次操作指定的路径：~/ops-lab/check.sh"
+
+[commands.dictation]
+prompt = "打开实验脚本并定位第十二行"
+answers = ["vim +12 ~/ops-lab/check.sh"]
+
+[[commands]]
+id = "v04-ex-14bbbabd9a"
+command = "view ~/ops-lab/settings.ini"
+summary = "以只读模式查看实验配置，仍需了解强制写入可绕过只读标志"
+
+[[commands.tokens]]
+text = "view"
+desc = "以只读模式查看实验配置，仍需了解强制写入可绕过只读标志"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "本次操作指定的路径：~/ops-lab/settings.ini"
+
+[commands.dictation]
+prompt = "以只读模式查看实验配置，仍需了解强制写入可绕过只读标志"
+answers = ["view ~/ops-lab/settings.ini"]
+
+[[commands]]
+id = "v04-ex-6ed66b670a"
+command = "less -N ~/ops-lab/check.sh"
+summary = "带行号阅读实验脚本，q 退出"
+
+[[commands.tokens]]
+text = "less"
+desc = "带行号阅读实验脚本，q 退出"
+
+[[commands.tokens]]
+text = " -N"
+desc = "带行号阅读实验脚本，q 退出；此处使用 -N 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/check.sh"
+desc = "本次操作指定的路径：~/ops-lab/check.sh"
+
+[commands.dictation]
+prompt = "带行号阅读实验脚本，q 退出"
+answers = ["less -N ~/ops-lab/check.sh"]
+
+[[commands]]
+id = "v04-ex-6d5847c37d"
+command = "less ~/ops-lab/backend.log"
+summary = "分页阅读实验后端日志"
+
+[[commands.tokens]]
+text = "less"
+desc = "分页阅读实验后端日志"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backend.log"
+desc = "本次操作指定的路径：~/ops-lab/backend.log"
+
+[commands.dictation]
+prompt = "分页阅读实验后端日志"
+answers = ["less ~/ops-lab/backend.log"]
+
+[[commands]]
+id = "v04-ex-ce20ad9540"
+command = "less +G ~/ops-lab/backend.log"
+summary = "打开实验日志并先跳到末尾"
+
+[[commands.tokens]]
+text = "less"
+desc = "打开实验日志并先跳到末尾"
+
+[[commands.tokens]]
+text = " +G"
+desc = "打开实验日志并先跳到末尾；此处使用 +G 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backend.log"
+desc = "本次操作指定的路径：~/ops-lab/backend.log"
+
+[commands.dictation]
+prompt = "打开实验日志并先跳到末尾"
+answers = ["less +G ~/ops-lab/backend.log"]
+
+[[commands]]
+id = "v04-ex-1085bff8a4"
+command = "ls ~/ops-lab/*.log"
+summary = "由 shell 展开实验目录中所有 .log 文件"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " ~/ops-lab/*.log"
+desc = "本次操作指定的路径：~/ops-lab/*.log"
+
+[commands.dictation]
+prompt = "由 shell 展开实验目录中所有 .log 文件"
+answers = ["ls ~/ops-lab/*.log"]
+
+[[commands]]
+id = "v04-ex-6138e082c8"
+command = "ls ~/ops-lab/report*"
+summary = "匹配实验报告名前缀，星号可匹配零个字符"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " ~/ops-lab/report*"
+desc = "本次操作指定的路径：~/ops-lab/report*"
+
+[commands.dictation]
+prompt = "匹配实验报告名前缀，星号可匹配零个字符"
+answers = ["ls ~/ops-lab/report*"]
+
+[[commands]]
+id = "v04-ex-9f8bd65a75"
+command = "cp ~/ops-lab/input/*.txt ~/ops-lab/backup/"
+summary = "把匹配的实验文本文件复制到备份目录"
+
+[[commands.tokens]]
+text = "cp"
+desc = "把匹配的实验文本文件复制到备份目录"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input/*.txt"
+desc = "本次操作指定的路径：~/ops-lab/input/*.txt"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backup/"
+desc = "本次操作指定的路径：~/ops-lab/backup/"
+
+[commands.dictation]
+prompt = "把匹配的实验文本文件复制到备份目录"
+answers = ["cp ~/ops-lab/input/*.txt ~/ops-lab/backup/"]
+
+[[commands]]
+id = "v04-ex-c7b2b5b949"
+command = "ls ~/ops-lab/log?.txt"
+summary = "问号匹配实验文件名中恰好一个字符"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " ~/ops-lab/log?.txt"
+desc = "本次操作指定的路径：~/ops-lab/log?.txt"
+
+[commands.dictation]
+prompt = "问号匹配实验文件名中恰好一个字符"
+answers = ["ls ~/ops-lab/log?.txt"]
+
+[[commands]]
+id = "v04-ex-7ebfb48be5"
+command = "ls ~/ops-lab/log??.txt"
+summary = "两个问号要求两个字符位置"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " ~/ops-lab/log??.txt"
+desc = "本次操作指定的路径：~/ops-lab/log??.txt"
+
+[commands.dictation]
+prompt = "两个问号要求两个字符位置"
+answers = ["ls ~/ops-lab/log??.txt"]
+
+[[commands]]
+id = "v04-ex-f8e71d8d81"
+command = "ls ~/ops-lab/day?.csv"
+summary = "匹配一位日期标记的实验 CSV"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " ~/ops-lab/day?.csv"
+desc = "本次操作指定的路径：~/ops-lab/day?.csv"
+
+[commands.dictation]
+prompt = "匹配一位日期标记的实验 CSV"
+answers = ["ls ~/ops-lab/day?.csv"]
+
+[[commands]]
+id = "v04-ex-02b960f984"
+command = "ls ~/ops-lab/log[0-9].txt"
+summary = "方括号只匹配一个数字位置"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " ~/ops-lab/log[0-9].txt"
+desc = "本次操作指定的路径：~/ops-lab/log[0-9].txt"
+
+[commands.dictation]
+prompt = "方括号只匹配一个数字位置"
+answers = ["ls ~/ops-lab/log[0-9].txt"]
+
+[[commands]]
+id = "v04-ex-0de5a54460"
+command = "ls ~/ops-lab/[Rr]eport.txt"
+summary = "匹配实验报告首字母的两种大小写"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " ~/ops-lab/[Rr]eport.txt"
+desc = "本次操作指定的路径：~/ops-lab/[Rr]eport.txt"
+
+[commands.dictation]
+prompt = "匹配实验报告首字母的两种大小写"
+answers = ["ls ~/ops-lab/[Rr]eport.txt"]
+
+[[commands]]
+id = "v04-ex-5950bb8a27"
+command = "ls ~/ops-lab/*.[ch]"
+summary = "匹配实验 C 源文件或头文件扩展名"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " ~/ops-lab/*.[ch]"
+desc = "本次操作指定的路径：~/ops-lab/*.[ch]"
+
+[commands.dictation]
+prompt = "匹配实验 C 源文件或头文件扩展名"
+answers = ["ls ~/ops-lab/*.[ch]"]

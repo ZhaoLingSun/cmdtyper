@@ -1,0 +1,386 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "按时间区间重复采样，比较终点丢包和网卡统计增量。"
+
+[meta.topic]
+id = "v04_loss"
+title = "丢包、抖动与接口负载"
+icon = "🌐"
+order = 115
+
+[[commands]]
+id = "v04-loss-d8675443ff"
+command = "ping -n -c 20 -i 0.5 192.0.2.1"
+summary = "以半秒间隔采样实验网关，观察 RTT 分布和丢包"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -n"
+desc = "不执行地址名称解析"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -i"
+desc = "设置发包间隔秒数"
+
+[[commands.tokens]]
+text = " 0.5"
+desc = "以半秒间隔采样实验网关，观察 RTT 分布和丢包；指定 0.5"
+
+[[commands.tokens]]
+text = " 192.0.2.1"
+desc = "以半秒间隔采样实验网关，观察 RTT 分布和丢包；指定 192.0.2.1"
+
+[commands.dictation]
+prompt = "以半秒间隔采样实验网关，观察 RTT 分布和丢包"
+answers = ["ping -n -c 20 -i 0.5 192.0.2.1"]
+
+[[commands]]
+id = "v04-loss-6f9a6f8d90"
+command = "ping -n -c 20 -i 0.5 198.51.100.20"
+summary = "用相同采样方法测远端，和本地网关对比"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -n"
+desc = "不执行地址名称解析"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -i"
+desc = "设置发包间隔秒数"
+
+[[commands.tokens]]
+text = " 0.5"
+desc = "用相同采样方法测远端，和本地网关对比；指定 0.5"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "用相同采样方法测远端，和本地网关对比；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "用相同采样方法测远端，和本地网关对比"
+answers = ["ping -n -c 20 -i 0.5 198.51.100.20"]
+
+[[commands]]
+id = "v04-loss-5508871268"
+command = "ping -n -q -c 30 198.51.100.20"
+summary = "仅输出三十次采样汇总，查看 min/avg/max/mdev"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -n"
+desc = "不执行地址名称解析"
+
+[[commands.tokens]]
+text = " -q"
+desc = "只显示最终汇总"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 30"
+desc = "本次练习的数值参数 30；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "仅输出三十次采样汇总，查看 min/avg/max/mdev；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "仅输出三十次采样汇总，查看 min/avg/max/mdev"
+answers = ["ping -n -q -c 30 198.51.100.20"]
+
+[[commands]]
+id = "v04-loss-748897f34a"
+command = "ping -n -D -c 10 -i 1 198.51.100.20"
+summary = "为远端回显添加时间戳，关联故障时段"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -n"
+desc = "不执行地址名称解析"
+
+[[commands.tokens]]
+text = " -D"
+desc = "每条输出附加时间戳"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 10"
+desc = "本次练习的数值参数 10；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -i"
+desc = "设置发包间隔秒数"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次练习的数值参数 1；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "为远端回显添加时间戳，关联故障时段；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "为远端回显添加时间戳，关联故障时段"
+answers = ["ping -n -D -c 10 -i 1 198.51.100.20"]
+
+[[commands]]
+id = "v04-loss-a03de46704"
+command = "ip -s link show dev lo"
+summary = "读取回环接口计数，识别本机通信是否也有异常"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -s"
+desc = "显示统计计数"
+
+[[commands.tokens]]
+text = " link"
+desc = "读取回环接口计数，识别本机通信是否也有异常；指定 link"
+
+[[commands.tokens]]
+text = " show"
+desc = "读取回环接口计数，识别本机通信是否也有异常；指定 show"
+
+[[commands.tokens]]
+text = " dev"
+desc = "读取回环接口计数，识别本机通信是否也有异常；指定 dev"
+
+[[commands.tokens]]
+text = " lo"
+desc = "读取回环接口计数，识别本机通信是否也有异常；指定 lo"
+
+[commands.dictation]
+prompt = "读取回环接口计数，识别本机通信是否也有异常"
+answers = ["ip -s link show dev lo"]
+
+[[commands]]
+id = "v04-loss-99ec73ae69"
+command = "sar -n DEV 1 5"
+summary = "使用 sysstat 连续五秒采样各网卡吞吐"
+
+[[commands.tokens]]
+text = "sar"
+desc = "使用 sysstat 连续五秒采样各网卡吞吐"
+
+[[commands.tokens]]
+text = " -n"
+desc = "使用 sysstat 连续五秒采样各网卡吞吐；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " DEV"
+desc = "使用 sysstat 连续五秒采样各网卡吞吐；指定 DEV"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次练习的数值参数 1；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "使用 sysstat 连续五秒采样各网卡吞吐"
+answers = ["sar -n DEV 1 5"]
+
+[[commands]]
+id = "v04-loss-4ac156c12c"
+command = "sar -n EDEV 1 5"
+summary = "采样网络接口错误与丢弃速率"
+
+[[commands.tokens]]
+text = "sar"
+desc = "采样网络接口错误与丢弃速率"
+
+[[commands.tokens]]
+text = " -n"
+desc = "采样网络接口错误与丢弃速率；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " EDEV"
+desc = "采样网络接口错误与丢弃速率；指定 EDEV"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次练习的数值参数 1；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "采样网络接口错误与丢弃速率"
+answers = ["sar -n EDEV 1 5"]
+
+[[commands]]
+id = "v04-loss-d3359834f1"
+command = "sar -n TCP,ETCP 1 5"
+summary = "采样 TCP 建连与重传速率"
+
+[[commands.tokens]]
+text = "sar"
+desc = "采样 TCP 建连与重传速率"
+
+[[commands.tokens]]
+text = " -n"
+desc = "采样 TCP 建连与重传速率；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " TCP,ETCP"
+desc = "采样 TCP 建连与重传速率；指定 TCP,ETCP"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次练习的数值参数 1；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "采样 TCP 建连与重传速率"
+answers = ["sar -n TCP,ETCP 1 5"]
+
+[[commands]]
+id = "v04-loss-a4371b007b"
+command = "nstat -az TcpRetransSegs TcpExtTCPLostRetransmit"
+summary = "读取重传相关累计计数，不能仅凭累计非零判断当前故障"
+
+[[commands.tokens]]
+text = "nstat"
+desc = "读取重传相关累计计数，不能仅凭累计非零判断当前故障"
+
+[[commands.tokens]]
+text = " -az"
+desc = "读取重传相关累计计数，不能仅凭累计非零判断当前故障；此处使用 -az 选项"
+
+[[commands.tokens]]
+text = " TcpRetransSegs"
+desc = "读取重传相关累计计数，不能仅凭累计非零判断当前故障；指定 TcpRetransSegs"
+
+[[commands.tokens]]
+text = " TcpExtTCPLostRetransmit"
+desc = "读取重传相关累计计数，不能仅凭累计非零判断当前故障；指定 TcpExtTCPLostRetransmit"
+
+[commands.dictation]
+prompt = "读取重传相关累计计数，不能仅凭累计非零判断当前故障"
+answers = ["nstat -az TcpRetransSegs TcpExtTCPLostRetransmit"]
+
+[[commands]]
+id = "v04-loss-19ea272380"
+command = "tc -s qdisc show dev ens33"
+summary = "查看出口队列统计，关联排队丢弃与拥塞"
+
+[[commands.tokens]]
+text = "tc"
+desc = "查看出口队列统计，关联排队丢弃与拥塞"
+
+[[commands.tokens]]
+text = " -s"
+desc = "查看出口队列统计，关联排队丢弃与拥塞；此处使用 -s 选项"
+
+[[commands.tokens]]
+text = " qdisc"
+desc = "查看出口队列统计，关联排队丢弃与拥塞；指定 qdisc"
+
+[[commands.tokens]]
+text = " show"
+desc = "查看出口队列统计，关联排队丢弃与拥塞；指定 show"
+
+[[commands.tokens]]
+text = " dev"
+desc = "查看出口队列统计，关联排队丢弃与拥塞；指定 dev"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "查看出口队列统计，关联排队丢弃与拥塞；指定 ens33"
+
+[commands.dictation]
+prompt = "查看出口队列统计，关联排队丢弃与拥塞"
+answers = ["tc -s qdisc show dev ens33"]
+
+[[commands]]
+id = "v04-loss-b672aa428e"
+command = "sudo ethtool -g ens33"
+summary = "查看驱动支持的环形缓冲大小，仅做诊断读取"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ethtool"
+desc = "查看驱动支持的环形缓冲大小，仅做诊断读取"
+
+[[commands.tokens]]
+text = " -g"
+desc = "查看驱动支持的环形缓冲大小，仅做诊断读取；此处使用 -g 选项"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "查看驱动支持的环形缓冲大小，仅做诊断读取；指定 ens33"
+
+[commands.dictation]
+prompt = "查看驱动支持的环形缓冲大小，仅做诊断读取"
+answers = ["sudo ethtool -g ens33"]
+
+[[commands]]
+id = "v04-loss-cde5a74073"
+command = "ss -tin dst 198.51.100.20"
+summary = "检查目标连接的 RTT、拥塞窗口和重传等 TCP 信息"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -tin"
+desc = "检查目标连接的 RTT、拥塞窗口和重传等 TCP 信息；此处使用 -tin 选项"
+
+[[commands.tokens]]
+text = " dst"
+desc = "检查目标连接的 RTT、拥塞窗口和重传等 TCP 信息；指定 dst"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "检查目标连接的 RTT、拥塞窗口和重传等 TCP 信息；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "检查目标连接的 RTT、拥塞窗口和重传等 TCP 信息"
+answers = ["ss -tin dst 198.51.100.20"]

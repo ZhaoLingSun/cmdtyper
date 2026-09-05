@@ -1,0 +1,2661 @@
+[meta]
+category = "scripting"
+difficulty = "beginner"
+description = "基础用法的短练习：目标已在隔离实验环境中准备，按提示完成单一任务。"
+
+[[commands]]
+id = "v04-ex-73b033718d"
+command = "git diff --name-only"
+summary = "仅查看尚未暂存的变更文件名"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " diff"
+desc = "仅查看尚未暂存的变更文件名；指定 diff"
+
+[[commands.tokens]]
+text = " --name-only"
+desc = "仅查看尚未暂存的变更文件名；此处使用 --name-only 选项"
+
+[commands.dictation]
+prompt = "仅查看尚未暂存的变更文件名"
+answers = ["git diff --name-only"]
+
+[[commands]]
+id = "v04-ex-5c125330d5"
+command = "git diff --cached --stat"
+summary = "查看将进入提交的文件级变更统计"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " diff"
+desc = "查看将进入提交的文件级变更统计；指定 diff"
+
+[[commands.tokens]]
+text = " --cached"
+desc = "比较暂存区和当前提交"
+
+[[commands.tokens]]
+text = " --stat"
+desc = "输出文件级变更数量摘要"
+
+[commands.dictation]
+prompt = "查看将进入提交的文件级变更统计"
+answers = ["git diff --cached --stat"]
+
+[[commands]]
+id = "v04-ex-6c6c91e46e"
+command = "git log --oneline -3"
+summary = "阅读最近三条提交的一行摘要"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " log"
+desc = "阅读最近三条提交的一行摘要；指定 log"
+
+[[commands.tokens]]
+text = " --oneline"
+desc = "每个提交显示为一行"
+
+[[commands.tokens]]
+text = " -3"
+desc = "阅读最近三条提交的一行摘要；此处使用 -3 选项"
+
+[commands.dictation]
+prompt = "阅读最近三条提交的一行摘要"
+answers = ["git log --oneline -3"]
+
+[[commands]]
+id = "v04-ex-2bc8bc7190"
+command = "git log --oneline -8"
+summary = "扩大历史观察窗口到八条提交"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " log"
+desc = "扩大历史观察窗口到八条提交；指定 log"
+
+[[commands.tokens]]
+text = " --oneline"
+desc = "每个提交显示为一行"
+
+[[commands.tokens]]
+text = " -8"
+desc = "扩大历史观察窗口到八条提交；此处使用 -8 选项"
+
+[commands.dictation]
+prompt = "扩大历史观察窗口到八条提交"
+answers = ["git log --oneline -8"]
+
+[[commands]]
+id = "v04-ex-d003d603a9"
+command = "git log --oneline -- compose.yaml"
+summary = "只观察部署配置文件的提交历史"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " log"
+desc = "只观察部署配置文件的提交历史；指定 log"
+
+[[commands.tokens]]
+text = " --oneline"
+desc = "每个提交显示为一行"
+
+[[commands.tokens]]
+text = " --"
+desc = "只观察部署配置文件的提交历史；此处使用 -- 选项"
+
+[[commands.tokens]]
+text = " compose.yaml"
+desc = "只观察部署配置文件的提交历史；指定 compose.yaml"
+
+[commands.dictation]
+prompt = "只观察部署配置文件的提交历史"
+answers = ["git log --oneline -- compose.yaml"]
+
+[[commands]]
+id = "v04-ex-cb1138050f"
+command = "printf 'exit=%s\\n' \"$?\""
+summary = "读取最近命令的退出状态，后续命令会更新该状态"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'exit=%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；读取最近命令的退出状态，后续命令会更新该状态"
+
+[[commands.tokens]]
+text = " \"$?\""
+desc = "引号保护此参数中的空格或特殊符号；读取最近命令的退出状态，后续命令会更新该状态"
+
+[commands.dictation]
+prompt = "读取最近命令的退出状态，后续命令会更新该状态"
+answers = ["printf 'exit=%s\\n' \"$?\""]
+
+[[commands]]
+id = "v04-ex-5d895cdb5d"
+command = "true; printf 'exit=%s\\n' \"$?\""
+summary = "观察成功命令的退出状态 0"
+simulated_output = "exit=0"
+
+[[commands.tokens]]
+text = "true;"
+desc = "观察成功命令的退出状态 0"
+
+[[commands.tokens]]
+text = " printf"
+desc = "观察成功命令的退出状态 0；指定 printf"
+
+[[commands.tokens]]
+text = " 'exit=%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；观察成功命令的退出状态 0"
+
+[[commands.tokens]]
+text = " \"$?\""
+desc = "引号保护此参数中的空格或特殊符号；观察成功命令的退出状态 0"
+
+[commands.dictation]
+prompt = "观察成功命令的退出状态 0"
+answers = ["true; printf 'exit=%s\\n' \"$?\""]
+
+[[commands]]
+id = "v04-ex-ae416042ae"
+command = "false; printf 'exit=%s\\n' \"$?\""
+summary = "观察 false 的退出状态 1"
+simulated_output = "exit=1"
+
+[[commands.tokens]]
+text = "false;"
+desc = "观察 false 的退出状态 1"
+
+[[commands.tokens]]
+text = " printf"
+desc = "观察 false 的退出状态 1；指定 printf"
+
+[[commands.tokens]]
+text = " 'exit=%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；观察 false 的退出状态 1"
+
+[[commands.tokens]]
+text = " \"$?\""
+desc = "引号保护此参数中的空格或特殊符号；观察 false 的退出状态 1"
+
+[commands.dictation]
+prompt = "观察 false 的退出状态 1"
+answers = ["false; printf 'exit=%s\\n' \"$?\""]
+
+[[commands]]
+id = "v04-ex-318ddfad50"
+command = "printf '%s\\n' \"$0\""
+summary = "在当前 shell 显示启动名称，值不一定是可执行文件路径"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；在当前 shell 显示启动名称，值不一定是可执行文件路径"
+
+[[commands.tokens]]
+text = " \"$0\""
+desc = "引号保护此参数中的空格或特殊符号；在当前 shell 显示启动名称，值不一定是可执行文件路径"
+
+[commands.dictation]
+prompt = "在当前 shell 显示启动名称，值不一定是可执行文件路径"
+answers = ["printf '%s\\n' \"$0\""]
+
+[[commands]]
+id = "v04-ex-2d75b6172b"
+command = "bash -c 'printf \"%s\\n\" \"$0\"' demo"
+summary = "给 bash -c 提供明确的零号参数"
+simulated_output = "demo"
+
+[[commands.tokens]]
+text = "bash"
+desc = "给 bash -c 提供明确的零号参数"
+
+[[commands.tokens]]
+text = " -c"
+desc = "给 bash -c 提供明确的零号参数；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 'printf \"%s\\n\" \"$0\"'"
+desc = "引号保护此参数中的空格或特殊符号；给 bash -c 提供明确的零号参数"
+
+[[commands.tokens]]
+text = " demo"
+desc = "给 bash -c 提供明确的零号参数；指定 demo"
+
+[commands.dictation]
+prompt = "给 bash -c 提供明确的零号参数"
+answers = ["bash -c 'printf \"%s\\n\" \"$0\"' demo"]
+
+[[commands]]
+id = "v04-ex-ffd1250c68"
+command = "bash -c 'printf \"%s\\n\" \"$0\"' health-check"
+summary = "用另一实验脚本标识理解 $0"
+simulated_output = "health-check"
+
+[[commands.tokens]]
+text = "bash"
+desc = "用另一实验脚本标识理解 $0"
+
+[[commands.tokens]]
+text = " -c"
+desc = "用另一实验脚本标识理解 $0；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 'printf \"%s\\n\" \"$0\"'"
+desc = "引号保护此参数中的空格或特殊符号；用另一实验脚本标识理解 $0"
+
+[[commands.tokens]]
+text = " health-check"
+desc = "用另一实验脚本标识理解 $0；指定 health-check"
+
+[commands.dictation]
+prompt = "用另一实验脚本标识理解 $0"
+answers = ["bash -c 'printf \"%s\\n\" \"$0\"' health-check"]
+
+[[commands]]
+id = "v04-ex-44020291a2"
+command = "bash --help"
+summary = "查看 Bash 启动方式和选项"
+
+[[commands.tokens]]
+text = "bash"
+desc = "查看 Bash 启动方式和选项"
+
+[[commands.tokens]]
+text = " --help"
+desc = "查看 Bash 启动方式和选项；此处使用 --help 选项"
+
+[commands.dictation]
+prompt = "查看 Bash 启动方式和选项"
+answers = ["bash --help"]
+
+[[commands]]
+id = "v04-ex-6723f01b6d"
+command = "printf '%s\\n' \"$BASH_VERSION\""
+summary = "在 Bash 中读取版本变量"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；在 Bash 中读取版本变量"
+
+[[commands.tokens]]
+text = " \"$BASH_VERSION\""
+desc = "引号保护此参数中的空格或特殊符号；在 Bash 中读取版本变量"
+
+[commands.dictation]
+prompt = "在 Bash 中读取版本变量"
+answers = ["printf '%s\\n' \"$BASH_VERSION\""]
+
+[[commands]]
+id = "v04-ex-080d85ba59"
+command = "command -v bash"
+summary = "确认当前 PATH 解析到的 Bash 程序位置"
+
+[[commands.tokens]]
+text = "command"
+desc = "确认当前 PATH 解析到的 Bash 程序位置"
+
+[[commands.tokens]]
+text = " -v"
+desc = "确认当前 PATH 解析到的 Bash 程序位置；此处使用 -v 选项"
+
+[[commands.tokens]]
+text = " bash"
+desc = "确认当前 PATH 解析到的 Bash 程序位置；指定 bash"
+
+[commands.dictation]
+prompt = "确认当前 PATH 解析到的 Bash 程序位置"
+answers = ["command -v bash"]
+
+[[commands]]
+id = "v04-ex-ab2ab69fa8"
+command = "printf '%s\\n' \"$HOME\""
+summary = "用双引号保留 HOME 展开后的整体参数"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；用双引号保留 HOME 展开后的整体参数"
+
+[[commands.tokens]]
+text = " \"$HOME\""
+desc = "引号保护此参数中的空格或特殊符号；用双引号保留 HOME 展开后的整体参数"
+
+[commands.dictation]
+prompt = "用双引号保留 HOME 展开后的整体参数"
+answers = ["printf '%s\\n' \"$HOME\""]
+
+[[commands]]
+id = "v04-ex-ec14e37d5c"
+command = "printf '%s\\n' \"$USER\""
+summary = "输出当前 USER 环境值"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；输出当前 USER 环境值"
+
+[[commands.tokens]]
+text = " \"$USER\""
+desc = "引号保护此参数中的空格或特殊符号；输出当前 USER 环境值"
+
+[commands.dictation]
+prompt = "输出当前 USER 环境值"
+answers = ["printf '%s\\n' \"$USER\""]
+
+[[commands]]
+id = "v04-ex-386bc09cb3"
+command = "printf '%s\\n' \"$SHELL\""
+summary = "输出登录 shell 环境值，它不一定是当前解释器"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；输出登录 shell 环境值，它不一定是当前解释器"
+
+[[commands.tokens]]
+text = " \"$SHELL\""
+desc = "引号保护此参数中的空格或特殊符号；输出登录 shell 环境值，它不一定是当前解释器"
+
+[commands.dictation]
+prompt = "输出登录 shell 环境值，它不一定是当前解释器"
+answers = ["printf '%s\\n' \"$SHELL\""]
+
+[[commands]]
+id = "v04-ex-23705e2379"
+command = "echo '$USER'"
+summary = "用单引号阻止用户变量展开"
+simulated_output = "$USER"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出参数文本；引号控制 shell 展开"
+
+[[commands.tokens]]
+text = " '$USER'"
+desc = "引号保护此参数中的空格或特殊符号；用单引号阻止用户变量展开"
+
+[commands.dictation]
+prompt = "用单引号阻止用户变量展开"
+answers = ["echo '$USER'"]
+
+[[commands]]
+id = "v04-ex-d04b7a67aa"
+command = "echo '$SHELL'"
+summary = "打印变量名文本而不求值"
+simulated_output = "$SHELL"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出参数文本；引号控制 shell 展开"
+
+[[commands.tokens]]
+text = " '$SHELL'"
+desc = "引号保护此参数中的空格或特殊符号；打印变量名文本而不求值"
+
+[commands.dictation]
+prompt = "打印变量名文本而不求值"
+answers = ["echo '$SHELL'"]
+
+[[commands]]
+id = "v04-ex-5d0b5db0f7"
+command = "printf '%s\\n' '$PATH'"
+summary = "把 PATH 变量名作为字面字符串输出"
+simulated_output = "$PATH"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；把 PATH 变量名作为字面字符串输出"
+
+[[commands.tokens]]
+text = " '$PATH'"
+desc = "引号保护此参数中的空格或特殊符号；把 PATH 变量名作为字面字符串输出"
+
+[commands.dictation]
+prompt = "把 PATH 变量名作为字面字符串输出"
+answers = ["printf '%s\\n' '$PATH'"]
+
+[[commands]]
+id = "v04-ex-6ecf1aa7fb"
+command = "printf '%s\\n' '30 * * * * /usr/local/bin/health-check'"
+summary = "只打印每小时第 30 分执行的实验条目，不安装任务"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；只打印每小时第 30 分执行的实验条目，不安装任务"
+
+[[commands.tokens]]
+text = " '30 * * * * /usr/local/bin/health-check'"
+desc = "引号保护此参数中的空格或特殊符号；只打印每小时第 30 分执行的实验条目，不安装任务"
+
+[commands.dictation]
+prompt = "只打印每小时第 30 分执行的实验条目，不安装任务"
+answers = ["printf '%s\\n' '30 * * * * /usr/local/bin/health-check'"]
+
+[[commands]]
+id = "v04-ex-8360802656"
+command = "printf '%s\\n' '0 2 * * * /usr/local/bin/backup'"
+summary = "只打印每天 02:00 的实验备份条目"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；只打印每天 02:00 的实验备份条目"
+
+[[commands.tokens]]
+text = " '0 2 * * * /usr/local/bin/backup'"
+desc = "引号保护此参数中的空格或特殊符号；只打印每天 02:00 的实验备份条目"
+
+[commands.dictation]
+prompt = "只打印每天 02:00 的实验备份条目"
+answers = ["printf '%s\\n' '0 2 * * * /usr/local/bin/backup'"]
+
+[[commands]]
+id = "v04-ex-771fd31f70"
+command = "printf '%s\\n' '*/5 * * * * /usr/local/bin/health-check'"
+summary = "只打印每五分钟检查的条目，理解分钟字段步长"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；只打印每五分钟检查的条目，理解分钟字段步长"
+
+[[commands.tokens]]
+text = " '*/5 * * * * /usr/local/bin/health-check'"
+desc = "引号保护此参数中的空格或特殊符号；只打印每五分钟检查的条目，理解分钟字段步长"
+
+[commands.dictation]
+prompt = "只打印每五分钟检查的条目，理解分钟字段步长"
+answers = ["printf '%s\\n' '*/5 * * * * /usr/local/bin/health-check'"]
+
+[[commands]]
+id = "v04-ex-de98b2c736"
+command = "printf '%s\\n' '$USER'"
+summary = "单引号保护美元符，输出变量名文本"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；单引号保护美元符，输出变量名文本"
+
+[[commands.tokens]]
+text = " '$USER'"
+desc = "引号保护此参数中的空格或特殊符号；单引号保护美元符，输出变量名文本"
+
+[commands.dictation]
+prompt = "单引号保护美元符，输出变量名文本"
+answers = ["printf '%s\\n' '$USER'"]
+
+[[commands]]
+id = "v04-ex-96384ca2eb"
+command = "printf '%s\\n' 'cost=$20'"
+summary = "单引号让价格文本不发生变量展开"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；单引号让价格文本不发生变量展开"
+
+[[commands.tokens]]
+text = " 'cost=$20'"
+desc = "引号保护此参数中的空格或特殊符号；单引号让价格文本不发生变量展开"
+
+[commands.dictation]
+prompt = "单引号让价格文本不发生变量展开"
+answers = ["printf '%s\\n' 'cost=$20'"]
+
+[[commands]]
+id = "v04-ex-0c5536b445"
+command = "printf '%s\\n' 'hello ops team'"
+summary = "单引号把有空格的文本作为一个参数"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；单引号把有空格的文本作为一个参数"
+
+[[commands.tokens]]
+text = " 'hello ops team'"
+desc = "引号保护此参数中的空格或特殊符号；单引号把有空格的文本作为一个参数"
+
+[commands.dictation]
+prompt = "单引号把有空格的文本作为一个参数"
+answers = ["printf '%s\\n' 'hello ops team'"]
+
+[[commands]]
+id = "v04-ex-c0f5316362"
+command = "printf '%s\\n' \"home=$HOME\""
+summary = "把固定前缀与变量内容组合为一个参数"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；把固定前缀与变量内容组合为一个参数"
+
+[[commands.tokens]]
+text = " \"home=$HOME\""
+desc = "引号保护此参数中的空格或特殊符号；把固定前缀与变量内容组合为一个参数"
+
+[commands.dictation]
+prompt = "把固定前缀与变量内容组合为一个参数"
+answers = ["printf '%s\\n' \"home=$HOME\""]
+
+[[commands]]
+id = "v04-ex-217052f69b"
+command = "printf '%s\\n' \"kernel=$(uname -r)\""
+summary = "双引号内允许命令替换，并保持结果整体"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；双引号内允许命令替换，并保持结果整体"
+
+[[commands.tokens]]
+text = " \"kernel=$(uname -r)\""
+desc = "引号保护此参数中的空格或特殊符号；双引号内允许命令替换，并保持结果整体"
+
+[commands.dictation]
+prompt = "双引号内允许命令替换，并保持结果整体"
+answers = ["printf '%s\\n' \"kernel=$(uname -r)\""]
+
+[[commands]]
+id = "v04-ex-a20982d7ac"
+command = "printf '%s\\n' cost=\\$20"
+summary = "用反斜杠保护美元符，避免参数展开"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；用反斜杠保护美元符，避免参数展开"
+
+[[commands.tokens]]
+text = " cost=\\$20"
+desc = "用反斜杠保护美元符，避免参数展开；指定 cost=\\$20"
+
+[commands.dictation]
+prompt = "用反斜杠保护美元符，避免参数展开"
+answers = ["printf '%s\\n' cost=\\$20"]
+
+[[commands]]
+id = "v04-ex-b0f5c3af44"
+command = "ls ~/ops-lab/file\\ with\\ spaces.txt"
+summary = "用反斜杠保护路径中的空格"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " ~/ops-lab/file\\ with\\ spaces.txt"
+desc = "本次操作指定的路径：~/ops-lab/file\\ with\\ spaces.txt"
+
+[commands.dictation]
+prompt = "用反斜杠保护路径中的空格"
+answers = ["ls ~/ops-lab/file\\ with\\ spaces.txt"]
+
+[[commands]]
+id = "v04-ex-780b45bd10"
+command = "printf '%s\\n' \"she said \\\"hello\\\"\""
+summary = "在双引号中用反斜杠保留字面双引号"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；在双引号中用反斜杠保留字面双引号"
+
+[[commands.tokens]]
+text = " \"she said \\\"hello\\\"\""
+desc = "引号保护此参数中的空格或特殊符号；在双引号中用反斜杠保留字面双引号"
+
+[commands.dictation]
+prompt = "在双引号中用反斜杠保留字面双引号"
+answers = ["printf '%s\\n' \"she said \\\"hello\\\"\""]
+
+[[commands]]
+id = "v04-ex-c4f70af948"
+command = "printf '%s\\n' `whoami`"
+summary = "读取传统反引号命令替换结果，新脚本通常优先用 $()"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；读取传统反引号命令替换结果，新脚本通常优先用 $()"
+
+[[commands.tokens]]
+text = " `whoami`"
+desc = "读取传统反引号命令替换结果，新脚本通常优先用 $()；指定 `whoami`"
+
+[commands.dictation]
+prompt = "读取传统反引号命令替换结果，新脚本通常优先用 $()"
+answers = ["printf '%s\\n' `whoami`"]
+
+[[commands]]
+id = "v04-ex-c0b8d9734a"
+command = "printf '%s\\n' \"date=`date +%F`\""
+summary = "在双引号中使用传统日期命令替换"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；在双引号中使用传统日期命令替换"
+
+[[commands.tokens]]
+text = " \"date=`date +%F`\""
+desc = "引号保护此参数中的空格或特殊符号；在双引号中使用传统日期命令替换"
+
+[commands.dictation]
+prompt = "在双引号中使用传统日期命令替换"
+answers = ["printf '%s\\n' \"date=`date +%F`\""]
+
+[[commands]]
+id = "v04-ex-887e84689b"
+command = "printf '%s\\n' \"host=`hostname`\""
+summary = "把传统命令替换和固定文本组合"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；把传统命令替换和固定文本组合"
+
+[[commands.tokens]]
+text = " \"host=`hostname`\""
+desc = "引号保护此参数中的空格或特殊符号；把传统命令替换和固定文本组合"
+
+[commands.dictation]
+prompt = "把传统命令替换和固定文本组合"
+answers = ["printf '%s\\n' \"host=`hostname`\""]
+
+[[commands]]
+id = "v04-ex-d642bff2fd"
+command = "printf '%s\\n' \"$(hostname)\""
+summary = "通过命令替换获取主机名，并用双引号保护"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；通过命令替换获取主机名，并用双引号保护"
+
+[[commands.tokens]]
+text = " \"$(hostname)\""
+desc = "引号保护此参数中的空格或特殊符号；通过命令替换获取主机名，并用双引号保护"
+
+[commands.dictation]
+prompt = "通过命令替换获取主机名，并用双引号保护"
+answers = ["printf '%s\\n' \"$(hostname)\""]
+
+[[commands]]
+id = "v04-ex-7cb8b2be1d"
+command = "printf '%s\\n' \"today=$(date +%F)\""
+summary = "把日期命令输出嵌入实验提示"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；把日期命令输出嵌入实验提示"
+
+[[commands.tokens]]
+text = " \"today=$(date +%F)\""
+desc = "引号保护此参数中的空格或特殊符号；把日期命令输出嵌入实验提示"
+
+[commands.dictation]
+prompt = "把日期命令输出嵌入实验提示"
+answers = ["printf '%s\\n' \"today=$(date +%F)\""]
+
+[[commands]]
+id = "v04-ex-cdd904723c"
+command = "printf '%s\\n' \"cpus=$(nproc)\""
+summary = "把可用 CPU 数嵌入状态文本"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；把可用 CPU 数嵌入状态文本"
+
+[[commands.tokens]]
+text = " \"cpus=$(nproc)\""
+desc = "引号保护此参数中的空格或特殊符号；把可用 CPU 数嵌入状态文本"
+
+[commands.dictation]
+prompt = "把可用 CPU 数嵌入状态文本"
+answers = ["printf '%s\\n' \"cpus=$(nproc)\""]
+
+[[commands]]
+id = "v04-ex-3fd803dc4f"
+command = "printf 'one\\n'; printf 'two\\n'"
+summary = "分号顺序运行两个独立输出动作"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'one\\n';"
+desc = "引号保护此参数中的空格或特殊符号；分号顺序运行两个独立输出动作"
+
+[[commands.tokens]]
+text = " printf"
+desc = "分号顺序运行两个独立输出动作；指定 printf"
+
+[[commands.tokens]]
+text = " 'two\\n'"
+desc = "引号保护此参数中的空格或特殊符号；分号顺序运行两个独立输出动作"
+
+[commands.dictation]
+prompt = "分号顺序运行两个独立输出动作"
+answers = ["printf 'one\\n'; printf 'two\\n'"]
+
+[[commands]]
+id = "v04-ex-c2a91b44e4"
+command = "false; printf 'still runs\\n'"
+summary = "观察前一命令失败也不阻止分号后的动作"
+
+[[commands.tokens]]
+text = "false;"
+desc = "观察前一命令失败也不阻止分号后的动作"
+
+[[commands.tokens]]
+text = " printf"
+desc = "观察前一命令失败也不阻止分号后的动作；指定 printf"
+
+[[commands.tokens]]
+text = " 'still runs\\n'"
+desc = "引号保护此参数中的空格或特殊符号；观察前一命令失败也不阻止分号后的动作"
+
+[commands.dictation]
+prompt = "观察前一命令失败也不阻止分号后的动作"
+answers = ["false; printf 'still runs\\n'"]
+
+[[commands]]
+id = "v04-ex-4a444808b5"
+command = "pwd; date -u"
+summary = "顺序观察当前目录和 UTC 时间"
+
+[[commands.tokens]]
+text = "pwd;"
+desc = "顺序观察当前目录和 UTC 时间"
+
+[[commands.tokens]]
+text = " date"
+desc = "顺序观察当前目录和 UTC 时间；指定 date"
+
+[[commands.tokens]]
+text = " -u"
+desc = "顺序观察当前目录和 UTC 时间；此处使用 -u 选项"
+
+[commands.dictation]
+prompt = "顺序观察当前目录和 UTC 时间"
+answers = ["pwd; date -u"]
+
+[[commands]]
+id = "v04-ex-a8162d0d06"
+command = "test -f ~/ops-lab/settings.ini && cat ~/ops-lab/settings.ini"
+summary = "只有文件存在时才读取实验配置"
+
+[[commands.tokens]]
+text = "test"
+desc = "只有文件存在时才读取实验配置"
+
+[[commands.tokens]]
+text = " -f"
+desc = "只有文件存在时才读取实验配置；此处使用 -f 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "本次操作指定的路径：~/ops-lab/settings.ini"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " cat"
+desc = "只有文件存在时才读取实验配置；指定 cat"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "本次操作指定的路径：~/ops-lab/settings.ini"
+
+[commands.dictation]
+prompt = "只有文件存在时才读取实验配置"
+answers = ["test -f ~/ops-lab/settings.ini && cat ~/ops-lab/settings.ini"]
+
+[[commands]]
+id = "v04-ex-be40630fc4"
+command = "true && printf 'success\\n'"
+summary = "成功状态触发与操作符后的动作"
+
+[[commands.tokens]]
+text = "true"
+desc = "成功状态触发与操作符后的动作"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "成功状态触发与操作符后的动作；指定 printf"
+
+[[commands.tokens]]
+text = " 'success\\n'"
+desc = "引号保护此参数中的空格或特殊符号；成功状态触发与操作符后的动作"
+
+[commands.dictation]
+prompt = "成功状态触发与操作符后的动作"
+answers = ["true && printf 'success\\n'"]
+
+[[commands]]
+id = "v04-ex-1f67961bd3"
+command = "test -d ~/ops-lab && ls ~/ops-lab"
+summary = "仅当实验目录存在时列出内容"
+
+[[commands.tokens]]
+text = "test"
+desc = "仅当实验目录存在时列出内容"
+
+[[commands.tokens]]
+text = " -d"
+desc = "仅当实验目录存在时列出内容；此处使用 -d 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作指定的路径：~/ops-lab"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " ls"
+desc = "仅当实验目录存在时列出内容；指定 ls"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作指定的路径：~/ops-lab"
+
+[commands.dictation]
+prompt = "仅当实验目录存在时列出内容"
+answers = ["test -d ~/ops-lab && ls ~/ops-lab"]
+
+[[commands]]
+id = "v04-ex-22cbcfe716"
+command = "test -f ~/ops-lab/settings.ini || printf 'missing config\\n'"
+summary = "文件不存在时输出诊断提示"
+
+[[commands.tokens]]
+text = "test"
+desc = "文件不存在时输出诊断提示"
+
+[[commands.tokens]]
+text = " -f"
+desc = "文件不存在时输出诊断提示；此处使用 -f 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "本次操作指定的路径：~/ops-lab/settings.ini"
+
+[[commands.tokens]]
+text = " ||"
+desc = "仅当前一命令失败时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "文件不存在时输出诊断提示；指定 printf"
+
+[[commands.tokens]]
+text = " 'missing config\\n'"
+desc = "引号保护此参数中的空格或特殊符号；文件不存在时输出诊断提示"
+
+[commands.dictation]
+prompt = "文件不存在时输出诊断提示"
+answers = ["test -f ~/ops-lab/settings.ini || printf 'missing config\\n'"]
+
+[[commands]]
+id = "v04-ex-be6816b359"
+command = "false || printf 'fallback\\n'"
+summary = "失败状态触发或操作符后的后备动作"
+
+[[commands.tokens]]
+text = "false"
+desc = "失败状态触发或操作符后的后备动作"
+
+[[commands.tokens]]
+text = " ||"
+desc = "仅当前一命令失败时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "失败状态触发或操作符后的后备动作；指定 printf"
+
+[[commands.tokens]]
+text = " 'fallback\\n'"
+desc = "引号保护此参数中的空格或特殊符号；失败状态触发或操作符后的后备动作"
+
+[commands.dictation]
+prompt = "失败状态触发或操作符后的后备动作"
+answers = ["false || printf 'fallback\\n'"]
+
+[[commands]]
+id = "v04-ex-48578f223b"
+command = "command -v tcpdump || printf 'install tcpdump first\\n'"
+summary = "缺少实验抓包工具时给出明确提示"
+
+[[commands.tokens]]
+text = "command"
+desc = "缺少实验抓包工具时给出明确提示"
+
+[[commands.tokens]]
+text = " -v"
+desc = "缺少实验抓包工具时给出明确提示；此处使用 -v 选项"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "缺少实验抓包工具时给出明确提示；指定 tcpdump"
+
+[[commands.tokens]]
+text = " ||"
+desc = "仅当前一命令失败时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "缺少实验抓包工具时给出明确提示；指定 printf"
+
+[[commands.tokens]]
+text = " 'install tcpdump first\\n'"
+desc = "引号保护此参数中的空格或特殊符号；缺少实验抓包工具时给出明确提示"
+
+[commands.dictation]
+prompt = "缺少实验抓包工具时给出明确提示"
+answers = ["command -v tcpdump || printf 'install tcpdump first\\n'"]
+
+[[commands]]
+id = "v04-ex-46fdca23b7"
+command = "! true"
+summary = "逻辑非把成功状态转换为失败状态"
+
+[[commands.tokens]]
+text = "!"
+desc = "逻辑非把成功状态转换为失败状态"
+
+[[commands.tokens]]
+text = " true"
+desc = "逻辑非把成功状态转换为失败状态；指定 true"
+
+[commands.dictation]
+prompt = "逻辑非把成功状态转换为失败状态"
+answers = ["! true"]
+
+[[commands]]
+id = "v04-ex-e0f7283282"
+command = "! false"
+summary = "逻辑非把失败状态转换为成功状态"
+
+[[commands.tokens]]
+text = "!"
+desc = "逻辑非把失败状态转换为成功状态"
+
+[[commands.tokens]]
+text = " false"
+desc = "逻辑非把失败状态转换为成功状态；指定 false"
+
+[commands.dictation]
+prompt = "逻辑非把失败状态转换为成功状态"
+answers = ["! false"]
+
+[[commands]]
+id = "v04-ex-ecd895caa5"
+command = "! test -f ~/ops-lab/missing"
+summary = "对实验文件存在测试取反，和历史展开的感叹号区别"
+
+[[commands.tokens]]
+text = "!"
+desc = "对实验文件存在测试取反，和历史展开的感叹号区别"
+
+[[commands.tokens]]
+text = " test"
+desc = "对实验文件存在测试取反，和历史展开的感叹号区别；指定 test"
+
+[[commands.tokens]]
+text = " -f"
+desc = "对实验文件存在测试取反，和历史展开的感叹号区别；此处使用 -f 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/missing"
+desc = "本次操作指定的路径：~/ops-lab/missing"
+
+[commands.dictation]
+prompt = "对实验文件存在测试取反，和历史展开的感叹号区别"
+answers = ["! test -f ~/ops-lab/missing"]
+
+[[commands]]
+id = "v04-ex-cba79acf21"
+command = "printf 'ready\\n' # readiness marker"
+summary = "命令后的未引用井号引入注释"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'ready\\n'"
+desc = "引号保护此参数中的空格或特殊符号；命令后的未引用井号引入注释"
+
+[[commands.tokens]]
+text = " #"
+desc = "命令后的未引用井号引入注释；指定 #"
+
+[[commands.tokens]]
+text = " readiness"
+desc = "命令后的未引用井号引入注释；指定 readiness"
+
+[[commands.tokens]]
+text = " marker"
+desc = "命令后的未引用井号引入注释；指定 marker"
+
+[commands.dictation]
+prompt = "命令后的未引用井号引入注释"
+answers = ["printf 'ready\\n' # readiness marker"]
+
+[[commands]]
+id = "v04-ex-8d539a4559"
+command = "# inspect the service before restarting"
+summary = "整行注释用于描述检查目的，shell 不执行这一行"
+
+[[commands.tokens]]
+text = "#"
+desc = "整行注释用于描述检查目的，shell 不执行这一行"
+
+[[commands.tokens]]
+text = " inspect"
+desc = "整行注释用于描述检查目的，shell 不执行这一行；指定 inspect"
+
+[[commands.tokens]]
+text = " the"
+desc = "整行注释用于描述检查目的，shell 不执行这一行；指定 the"
+
+[[commands.tokens]]
+text = " service"
+desc = "整行注释用于描述检查目的，shell 不执行这一行；指定 service"
+
+[[commands.tokens]]
+text = " before"
+desc = "整行注释用于描述检查目的，shell 不执行这一行；指定 before"
+
+[[commands.tokens]]
+text = " restarting"
+desc = "整行注释用于描述检查目的，shell 不执行这一行；指定 restarting"
+
+[commands.dictation]
+prompt = "整行注释用于描述检查目的，shell 不执行这一行"
+answers = ["# inspect the service before restarting"]
+
+[[commands]]
+id = "v04-ex-0ebcea8dc9"
+command = "printf '%s\\n' '# literal text'"
+summary = "引号中的井号是普通数据，不是注释起点"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；引号中的井号是普通数据，不是注释起点"
+
+[[commands.tokens]]
+text = " '# literal text'"
+desc = "引号保护此参数中的空格或特殊符号；引号中的井号是普通数据，不是注释起点"
+
+[commands.dictation]
+prompt = "引号中的井号是普通数据，不是注释起点"
+answers = ["printf '%s\\n' '# literal text'"]
+
+[[commands]]
+id = "v04-ex-f51f4bd9dc"
+command = "ls ~/ops-lab"
+summary = "未引用的波浪号在词首展开为当前用户家目录"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作指定的路径：~/ops-lab"
+
+[commands.dictation]
+prompt = "未引用的波浪号在词首展开为当前用户家目录"
+answers = ["ls ~/ops-lab"]
+
+[[commands]]
+id = "v04-ex-fb51c1b98e"
+command = "cd ~/ops-lab/input"
+summary = "通过家目录展开进入实验输入目录"
+
+[[commands.tokens]]
+text = "cd"
+desc = "通过家目录展开进入实验输入目录"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input"
+desc = "本次操作指定的路径：~/ops-lab/input"
+
+[commands.dictation]
+prompt = "通过家目录展开进入实验输入目录"
+answers = ["cd ~/ops-lab/input"]
+
+[[commands]]
+id = "v04-ex-5c21decd75"
+command = "printf '%s\\n' ~"
+summary = "把波浪号展开结果打印出来"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；把波浪号展开结果打印出来"
+
+[[commands.tokens]]
+text = " ~"
+desc = "把波浪号展开结果打印出来；指定 ~"
+
+[commands.dictation]
+prompt = "把波浪号展开结果打印出来"
+answers = ["printf '%s\\n' ~"]
+
+[[commands]]
+id = "v04-ex-080596411e"
+command = ". ~/ops-lab/env.sh"
+summary = "在当前 shell 读取可信实验脚本，使其变量在当前会话生效"
+
+[[commands.tokens]]
+text = "."
+desc = "在当前 shell 读取可信实验脚本，使其变量在当前会话生效"
+
+[[commands.tokens]]
+text = " ~/ops-lab/env.sh"
+desc = "本次操作指定的路径：~/ops-lab/env.sh"
+
+[commands.dictation]
+prompt = "在当前 shell 读取可信实验脚本，使其变量在当前会话生效"
+answers = [". ~/ops-lab/env.sh"]
+
+[[commands]]
+id = "v04-ex-37dbb2aa65"
+command = "source ~/ops-lab/env.sh"
+summary = "使用 Bash source 写法读取同一实验环境脚本"
+
+[[commands.tokens]]
+text = "source"
+desc = "使用 Bash source 写法读取同一实验环境脚本"
+
+[[commands.tokens]]
+text = " ~/ops-lab/env.sh"
+desc = "本次操作指定的路径：~/ops-lab/env.sh"
+
+[commands.dictation]
+prompt = "使用 Bash source 写法读取同一实验环境脚本"
+answers = ["source ~/ops-lab/env.sh"]
+
+[[commands]]
+id = "v04-ex-bc3702c77d"
+command = "printf '%s\\n' \"$PATH\""
+summary = "读取命令搜索路径变量"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；读取命令搜索路径变量"
+
+[[commands.tokens]]
+text = " \"$PATH\""
+desc = "引号保护此参数中的空格或特殊符号；读取命令搜索路径变量"
+
+[commands.dictation]
+prompt = "读取命令搜索路径变量"
+answers = ["printf '%s\\n' \"$PATH\""]
+
+[[commands]]
+id = "v04-ex-d7e72cc5ef"
+command = "printf '%s\\n' \"${USER}_logs\""
+summary = "使用花括号分隔变量名与后缀"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；使用花括号分隔变量名与后缀"
+
+[[commands.tokens]]
+text = " \"${USER}_logs\""
+desc = "引号保护此参数中的空格或特殊符号；使用花括号分隔变量名与后缀"
+
+[commands.dictation]
+prompt = "使用花括号分隔变量名与后缀"
+answers = ["printf '%s\\n' \"${USER}_logs\""]
+
+[[commands]]
+id = "v04-ex-bda258255e"
+command = "printf '%s\\n' \"${HOME}/ops-lab\""
+summary = "把家目录变量和实验子路径组合"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；把家目录变量和实验子路径组合"
+
+[[commands.tokens]]
+text = " \"${HOME}/ops-lab\""
+desc = "引号保护此参数中的空格或特殊符号；把家目录变量和实验子路径组合"
+
+[commands.dictation]
+prompt = "把家目录变量和实验子路径组合"
+answers = ["printf '%s\\n' \"${HOME}/ops-lab\""]
+
+[[commands]]
+id = "v04-ex-52a8862405"
+command = "printf '%s\\n' \"${LANG}:encoding\""
+summary = "使用花括号标识变量展开边界"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；使用花括号标识变量展开边界"
+
+[[commands.tokens]]
+text = " \"${LANG}:encoding\""
+desc = "引号保护此参数中的空格或特殊符号；使用花括号标识变量展开边界"
+
+[commands.dictation]
+prompt = "使用花括号标识变量展开边界"
+answers = ["printf '%s\\n' \"${LANG}:encoding\""]
+
+[[commands]]
+id = "v04-ex-e72d3b8059"
+command = "true; printf '%s\\n' \"$?\""
+summary = "观察成功命令退出状态"
+
+[[commands.tokens]]
+text = "true;"
+desc = "观察成功命令退出状态"
+
+[[commands.tokens]]
+text = " printf"
+desc = "观察成功命令退出状态；指定 printf"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；观察成功命令退出状态"
+
+[[commands.tokens]]
+text = " \"$?\""
+desc = "引号保护此参数中的空格或特殊符号；观察成功命令退出状态"
+
+[commands.dictation]
+prompt = "观察成功命令退出状态"
+answers = ["true; printf '%s\\n' \"$?\""]
+
+[[commands]]
+id = "v04-ex-2cc809b680"
+command = "false; printf '%s\\n' \"$?\""
+summary = "观察失败命令退出状态"
+
+[[commands.tokens]]
+text = "false;"
+desc = "观察失败命令退出状态"
+
+[[commands.tokens]]
+text = " printf"
+desc = "观察失败命令退出状态；指定 printf"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；观察失败命令退出状态"
+
+[[commands.tokens]]
+text = " \"$?\""
+desc = "引号保护此参数中的空格或特殊符号；观察失败命令退出状态"
+
+[commands.dictation]
+prompt = "观察失败命令退出状态"
+answers = ["false; printf '%s\\n' \"$?\""]
+
+[[commands]]
+id = "v04-ex-0dd88601dd"
+command = "test -f ~/ops-lab/settings.ini; printf '%s\\n' \"$?\""
+summary = "读取实验文件测试的状态，打印前不要插入其他命令"
+
+[[commands.tokens]]
+text = "test"
+desc = "读取实验文件测试的状态，打印前不要插入其他命令"
+
+[[commands.tokens]]
+text = " -f"
+desc = "读取实验文件测试的状态，打印前不要插入其他命令；此处使用 -f 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini;"
+desc = "本次操作指定的路径：~/ops-lab/settings.ini;"
+
+[[commands.tokens]]
+text = " printf"
+desc = "读取实验文件测试的状态，打印前不要插入其他命令；指定 printf"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；读取实验文件测试的状态，打印前不要插入其他命令"
+
+[[commands.tokens]]
+text = " \"$?\""
+desc = "引号保护此参数中的空格或特殊符号；读取实验文件测试的状态，打印前不要插入其他命令"
+
+[commands.dictation]
+prompt = "读取实验文件测试的状态，打印前不要插入其他命令"
+answers = ["test -f ~/ops-lab/settings.ini; printf '%s\\n' \"$?\""]
+
+[[commands]]
+id = "v04-ex-4ddf3d4a34"
+command = "bash -c 'printf \"%s\\n\" \"$0\"' monitor"
+summary = "把 monitor 作为 Bash -c 的零号参数"
+
+[[commands.tokens]]
+text = "bash"
+desc = "把 monitor 作为 Bash -c 的零号参数"
+
+[[commands.tokens]]
+text = " -c"
+desc = "把 monitor 作为 Bash -c 的零号参数；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 'printf \"%s\\n\" \"$0\"'"
+desc = "引号保护此参数中的空格或特殊符号；把 monitor 作为 Bash -c 的零号参数"
+
+[[commands.tokens]]
+text = " monitor"
+desc = "把 monitor 作为 Bash -c 的零号参数；指定 monitor"
+
+[commands.dictation]
+prompt = "把 monitor 作为 Bash -c 的零号参数"
+answers = ["bash -c 'printf \"%s\\n\" \"$0\"' monitor"]
+
+[[commands]]
+id = "v04-ex-ddba9e5131"
+command = "bash -c 'printf \"%s\\n\" \"$0\"' backup"
+summary = "比较另一个实验脚本标识"
+
+[[commands.tokens]]
+text = "bash"
+desc = "比较另一个实验脚本标识"
+
+[[commands.tokens]]
+text = " -c"
+desc = "比较另一个实验脚本标识；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 'printf \"%s\\n\" \"$0\"'"
+desc = "引号保护此参数中的空格或特殊符号；比较另一个实验脚本标识"
+
+[[commands.tokens]]
+text = " backup"
+desc = "比较另一个实验脚本标识；指定 backup"
+
+[commands.dictation]
+prompt = "比较另一个实验脚本标识"
+answers = ["bash -c 'printf \"%s\\n\" \"$0\"' backup"]
+
+[[commands]]
+id = "v04-ex-721fc66ac5"
+command = "printf 'shell=%s\\n' \"$0\""
+summary = "观察当前 shell 的启动名称"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'shell=%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；观察当前 shell 的启动名称"
+
+[[commands.tokens]]
+text = " \"$0\""
+desc = "引号保护此参数中的空格或特殊符号；观察当前 shell 的启动名称"
+
+[commands.dictation]
+prompt = "观察当前 shell 的启动名称"
+answers = ["printf 'shell=%s\\n' \"$0\""]
+
+[[commands]]
+id = "v04-ex-53a0cfb64e"
+command = "bash -c 'printf \"%s\\n\" \"$#\"' demo one"
+summary = "计算一个位置参数，demo 被用作 $0"
+
+[[commands.tokens]]
+text = "bash"
+desc = "计算一个位置参数，demo 被用作 $0"
+
+[[commands.tokens]]
+text = " -c"
+desc = "计算一个位置参数，demo 被用作 $0；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 'printf \"%s\\n\" \"$#\"'"
+desc = "引号保护此参数中的空格或特殊符号；计算一个位置参数，demo 被用作 $0"
+
+[[commands.tokens]]
+text = " demo"
+desc = "计算一个位置参数，demo 被用作 $0；指定 demo"
+
+[[commands.tokens]]
+text = " one"
+desc = "计算一个位置参数，demo 被用作 $0；指定 one"
+
+[commands.dictation]
+prompt = "计算一个位置参数，demo 被用作 $0"
+answers = ["bash -c 'printf \"%s\\n\" \"$#\"' demo one"]
+
+[[commands]]
+id = "v04-ex-b4eba42af8"
+command = "bash -c 'printf \"%s\\n\" \"$#\"' demo one two"
+summary = "计算两个位置参数"
+
+[[commands.tokens]]
+text = "bash"
+desc = "计算两个位置参数"
+
+[[commands.tokens]]
+text = " -c"
+desc = "计算两个位置参数；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 'printf \"%s\\n\" \"$#\"'"
+desc = "引号保护此参数中的空格或特殊符号；计算两个位置参数"
+
+[[commands.tokens]]
+text = " demo"
+desc = "计算两个位置参数；指定 demo"
+
+[[commands.tokens]]
+text = " one"
+desc = "计算两个位置参数；指定 one"
+
+[[commands.tokens]]
+text = " two"
+desc = "计算两个位置参数；指定 two"
+
+[commands.dictation]
+prompt = "计算两个位置参数"
+answers = ["bash -c 'printf \"%s\\n\" \"$#\"' demo one two"]
+
+[[commands]]
+id = "v04-ex-736d5de44c"
+command = "bash -c 'printf \"%s\\n\" \"$#\"' demo 'one two'"
+summary = "引号中的空格不把参数拆成两个"
+
+[[commands.tokens]]
+text = "bash"
+desc = "引号中的空格不把参数拆成两个"
+
+[[commands.tokens]]
+text = " -c"
+desc = "引号中的空格不把参数拆成两个；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 'printf \"%s\\n\" \"$#\"'"
+desc = "引号保护此参数中的空格或特殊符号；引号中的空格不把参数拆成两个"
+
+[[commands.tokens]]
+text = " demo"
+desc = "引号中的空格不把参数拆成两个；指定 demo"
+
+[[commands.tokens]]
+text = " 'one two'"
+desc = "引号保护此参数中的空格或特殊符号；引号中的空格不把参数拆成两个"
+
+[commands.dictation]
+prompt = "引号中的空格不把参数拆成两个"
+answers = ["bash -c 'printf \"%s\\n\" \"$#\"' demo 'one two'"]
+
+[[commands]]
+id = "v04-ex-33b52f18a0"
+command = "bash -c 'printf \"<%s>\\n\" \"$@\"' demo alpha beta"
+summary = "逐项保留两个位置参数"
+
+[[commands.tokens]]
+text = "bash"
+desc = "逐项保留两个位置参数"
+
+[[commands.tokens]]
+text = " -c"
+desc = "逐项保留两个位置参数；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 'printf \"<%s>\\n\" \"$@\"'"
+desc = "引号保护此参数中的空格或特殊符号；逐项保留两个位置参数"
+
+[[commands.tokens]]
+text = " demo"
+desc = "逐项保留两个位置参数；指定 demo"
+
+[[commands.tokens]]
+text = " alpha"
+desc = "逐项保留两个位置参数；指定 alpha"
+
+[[commands.tokens]]
+text = " beta"
+desc = "逐项保留两个位置参数；指定 beta"
+
+[commands.dictation]
+prompt = "逐项保留两个位置参数"
+answers = ["bash -c 'printf \"<%s>\\n\" \"$@\"' demo alpha beta"]
+
+[[commands]]
+id = "v04-ex-aa76a0bb03"
+command = "bash -c 'printf \"<%s>\\n\" \"$@\"' demo 'alpha beta' gamma"
+summary = "观察双引号 $@ 保留参数中的空格"
+
+[[commands.tokens]]
+text = "bash"
+desc = "观察双引号 $@ 保留参数中的空格"
+
+[[commands.tokens]]
+text = " -c"
+desc = "观察双引号 $@ 保留参数中的空格；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 'printf \"<%s>\\n\" \"$@\"'"
+desc = "引号保护此参数中的空格或特殊符号；观察双引号 $@ 保留参数中的空格"
+
+[[commands.tokens]]
+text = " demo"
+desc = "观察双引号 $@ 保留参数中的空格；指定 demo"
+
+[[commands.tokens]]
+text = " 'alpha beta'"
+desc = "引号保护此参数中的空格或特殊符号；观察双引号 $@ 保留参数中的空格"
+
+[[commands.tokens]]
+text = " gamma"
+desc = "观察双引号 $@ 保留参数中的空格；指定 gamma"
+
+[commands.dictation]
+prompt = "观察双引号 $@ 保留参数中的空格"
+answers = ["bash -c 'printf \"<%s>\\n\" \"$@\"' demo 'alpha beta' gamma"]
+
+[[commands]]
+id = "v04-ex-da8ebc41a9"
+command = "bash -c 'for item in \"$@\"; do printf \"%s\\n\" \"$item\"; done' demo one two"
+summary = "安全遍历实验位置参数"
+
+[[commands.tokens]]
+text = "bash"
+desc = "安全遍历实验位置参数"
+
+[[commands.tokens]]
+text = " -c"
+desc = "安全遍历实验位置参数；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 'for item in \"$@\"; do printf \"%s\\n\" \"$item\"; done'"
+desc = "引号保护此参数中的空格或特殊符号；安全遍历实验位置参数"
+
+[[commands.tokens]]
+text = " demo"
+desc = "安全遍历实验位置参数；指定 demo"
+
+[[commands.tokens]]
+text = " one"
+desc = "安全遍历实验位置参数；指定 one"
+
+[[commands.tokens]]
+text = " two"
+desc = "安全遍历实验位置参数；指定 two"
+
+[commands.dictation]
+prompt = "安全遍历实验位置参数"
+answers = ["bash -c 'for item in \"$@\"; do printf \"%s\\n\" \"$item\"; done' demo one two"]
+
+[[commands]]
+id = "v04-ex-eb6f819559"
+command = "printf '%s\\n' log-{1..3}.txt"
+summary = "花括号在命令运行前生成三个实验文件名"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；花括号在命令运行前生成三个实验文件名"
+
+[[commands.tokens]]
+text = " log-{1..3}.txt"
+desc = "花括号在命令运行前生成三个实验文件名；指定 log-{1..3}.txt"
+
+[commands.dictation]
+prompt = "花括号在命令运行前生成三个实验文件名"
+answers = ["printf '%s\\n' log-{1..3}.txt"]
+
+[[commands]]
+id = "v04-ex-d4e6550575"
+command = "mkdir -p ~/ops-lab/{logs,cache,reports}"
+summary = "用列表展开创建三个实验目录"
+
+[[commands.tokens]]
+text = "mkdir"
+desc = "用列表展开创建三个实验目录"
+
+[[commands.tokens]]
+text = " -p"
+desc = "用列表展开创建三个实验目录；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/{logs,cache,reports}"
+desc = "本次操作指定的路径：~/ops-lab/{logs,cache,reports}"
+
+[commands.dictation]
+prompt = "用列表展开创建三个实验目录"
+answers = ["mkdir -p ~/ops-lab/{logs,cache,reports}"]
+
+[[commands]]
+id = "v04-ex-0a33308cee"
+command = "printf '%s\\n' report.{csv,json}"
+summary = "用后缀列表生成两种实验报告名称"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；用后缀列表生成两种实验报告名称"
+
+[[commands.tokens]]
+text = " report.{csv,json}"
+desc = "用后缀列表生成两种实验报告名称；指定 report.{csv,json}"
+
+[commands.dictation]
+prompt = "用后缀列表生成两种实验报告名称"
+answers = ["printf '%s\\n' report.{csv,json}"]
+
+[[commands]]
+id = "v04-ex-26605bea0b"
+command = "[ -d ~/ops-lab ] && printf 'directory exists\\n'"
+summary = "方括号命令的各参数需要空格，成功时显示提示"
+
+[[commands.tokens]]
+text = "["
+desc = "方括号命令的各参数需要空格，成功时显示提示"
+
+[[commands.tokens]]
+text = " -d"
+desc = "方括号命令的各参数需要空格，成功时显示提示；此处使用 -d 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作指定的路径：~/ops-lab"
+
+[[commands.tokens]]
+text = " ]"
+desc = "方括号命令的各参数需要空格，成功时显示提示；指定 ]"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "方括号命令的各参数需要空格，成功时显示提示；指定 printf"
+
+[[commands.tokens]]
+text = " 'directory exists\\n'"
+desc = "引号保护此参数中的空格或特殊符号；方括号命令的各参数需要空格，成功时显示提示"
+
+[commands.dictation]
+prompt = "方括号命令的各参数需要空格，成功时显示提示"
+answers = ["[ -d ~/ops-lab ] && printf 'directory exists\\n'"]
+
+[[commands]]
+id = "v04-ex-57337042d3"
+command = "[ -r ~/ops-lab/settings.ini ] && printf 'readable\\n'"
+summary = "检查实验配置对当前用户是否可读"
+
+[[commands.tokens]]
+text = "["
+desc = "检查实验配置对当前用户是否可读"
+
+[[commands.tokens]]
+text = " -r"
+desc = "检查实验配置对当前用户是否可读；此处使用 -r 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "本次操作指定的路径：~/ops-lab/settings.ini"
+
+[[commands.tokens]]
+text = " ]"
+desc = "检查实验配置对当前用户是否可读；指定 ]"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "检查实验配置对当前用户是否可读；指定 printf"
+
+[[commands.tokens]]
+text = " 'readable\\n'"
+desc = "引号保护此参数中的空格或特殊符号；检查实验配置对当前用户是否可读"
+
+[commands.dictation]
+prompt = "检查实验配置对当前用户是否可读"
+answers = ["[ -r ~/ops-lab/settings.ini ] && printf 'readable\\n'"]
+
+[[commands]]
+id = "v04-ex-652f336d6e"
+command = "[ -n \"$USER\" ] && printf 'user is set\\n'"
+summary = "双引号保护变量，再测试字符串非空"
+
+[[commands.tokens]]
+text = "["
+desc = "双引号保护变量，再测试字符串非空"
+
+[[commands.tokens]]
+text = " -n"
+desc = "双引号保护变量，再测试字符串非空；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " \"$USER\""
+desc = "引号保护此参数中的空格或特殊符号；双引号保护变量，再测试字符串非空"
+
+[[commands.tokens]]
+text = " ]"
+desc = "双引号保护变量，再测试字符串非空；指定 ]"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "双引号保护变量，再测试字符串非空；指定 printf"
+
+[[commands.tokens]]
+text = " 'user is set\\n'"
+desc = "引号保护此参数中的空格或特殊符号；双引号保护变量，再测试字符串非空"
+
+[commands.dictation]
+prompt = "双引号保护变量，再测试字符串非空"
+answers = ["[ -n \"$USER\" ] && printf 'user is set\\n'"]
+
+[[commands]]
+id = "v04-ex-632d405599"
+command = "[[ report.log == *.log ]] && printf 'log suffix\\n'"
+summary = "Bash 双括号右侧未引用模式用于通配匹配"
+
+[[commands.tokens]]
+text = "[["
+desc = "Bash 双括号右侧未引用模式用于通配匹配"
+
+[[commands.tokens]]
+text = " report.log"
+desc = "Bash 双括号右侧未引用模式用于通配匹配；指定 report.log"
+
+[[commands.tokens]]
+text = " =="
+desc = "Bash 双括号右侧未引用模式用于通配匹配；指定 =="
+
+[[commands.tokens]]
+text = " *.log"
+desc = "Bash 双括号右侧未引用模式用于通配匹配；指定 *.log"
+
+[[commands.tokens]]
+text = " ]]"
+desc = "Bash 双括号右侧未引用模式用于通配匹配；指定 ]]"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "Bash 双括号右侧未引用模式用于通配匹配；指定 printf"
+
+[[commands.tokens]]
+text = " 'log suffix\\n'"
+desc = "引号保护此参数中的空格或特殊符号；Bash 双括号右侧未引用模式用于通配匹配"
+
+[commands.dictation]
+prompt = "Bash 双括号右侧未引用模式用于通配匹配"
+answers = ["[[ report.log == *.log ]] && printf 'log suffix\\n'"]
+
+[[commands]]
+id = "v04-ex-266e6e5fe1"
+command = "[[ 8080 =~ ^[0-9]+$ ]] && printf 'numeric\\n'"
+summary = "Bash 正则测试检查实验端口文本格式"
+
+[[commands.tokens]]
+text = "[["
+desc = "Bash 正则测试检查实验端口文本格式"
+
+[[commands.tokens]]
+text = " 8080"
+desc = "本次练习的数值参数 8080；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " =~"
+desc = "Bash 正则测试检查实验端口文本格式；指定 =~"
+
+[[commands.tokens]]
+text = " ^[0-9]+$"
+desc = "Bash 正则测试检查实验端口文本格式；指定 ^[0-9]+$"
+
+[[commands.tokens]]
+text = " ]]"
+desc = "Bash 正则测试检查实验端口文本格式；指定 ]]"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "Bash 正则测试检查实验端口文本格式；指定 printf"
+
+[[commands.tokens]]
+text = " 'numeric\\n'"
+desc = "引号保护此参数中的空格或特殊符号；Bash 正则测试检查实验端口文本格式"
+
+[commands.dictation]
+prompt = "Bash 正则测试检查实验端口文本格式"
+answers = ["[[ 8080 =~ ^[0-9]+$ ]] && printf 'numeric\\n'"]
+
+[[commands]]
+id = "v04-ex-2ca02b061a"
+command = "[[ -d ~/ops-lab && -r ~/ops-lab/settings.ini ]] && printf 'ready\\n'"
+summary = "双括号内组合两个检查，满足后才提示"
+
+[[commands.tokens]]
+text = "[["
+desc = "双括号内组合两个检查，满足后才提示"
+
+[[commands.tokens]]
+text = " -d"
+desc = "双括号内组合两个检查，满足后才提示；此处使用 -d 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作指定的路径：~/ops-lab"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " -r"
+desc = "双括号内组合两个检查，满足后才提示；此处使用 -r 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "本次操作指定的路径：~/ops-lab/settings.ini"
+
+[[commands.tokens]]
+text = " ]]"
+desc = "双括号内组合两个检查，满足后才提示；指定 ]]"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "双括号内组合两个检查，满足后才提示；指定 printf"
+
+[[commands.tokens]]
+text = " 'ready\\n'"
+desc = "引号保护此参数中的空格或特殊符号；双括号内组合两个检查，满足后才提示"
+
+[commands.dictation]
+prompt = "双括号内组合两个检查，满足后才提示"
+answers = ["[[ -d ~/ops-lab && -r ~/ops-lab/settings.ini ]] && printf 'ready\\n'"]
+
+[[commands]]
+id = "v04-ex-b7177e06b2"
+command = "test -f ~/ops-lab/report.txt && printf 'regular file\\n'"
+summary = "确认实验报告是普通文件"
+
+[[commands.tokens]]
+text = "test"
+desc = "确认实验报告是普通文件"
+
+[[commands.tokens]]
+text = " -f"
+desc = "确认实验报告是普通文件；此处使用 -f 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/report.txt"
+desc = "本次操作指定的路径：~/ops-lab/report.txt"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "确认实验报告是普通文件；指定 printf"
+
+[[commands.tokens]]
+text = " 'regular file\\n'"
+desc = "引号保护此参数中的空格或特殊符号；确认实验报告是普通文件"
+
+[commands.dictation]
+prompt = "确认实验报告是普通文件"
+answers = ["test -f ~/ops-lab/report.txt && printf 'regular file\\n'"]
+
+[[commands]]
+id = "v04-ex-e81c0403fc"
+command = "test -d ~/ops-lab/backup && printf 'backup directory\\n'"
+summary = "确认实验备份目录存在"
+
+[[commands.tokens]]
+text = "test"
+desc = "确认实验备份目录存在"
+
+[[commands.tokens]]
+text = " -d"
+desc = "确认实验备份目录存在；此处使用 -d 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backup"
+desc = "本次操作指定的路径：~/ops-lab/backup"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "确认实验备份目录存在；指定 printf"
+
+[[commands.tokens]]
+text = " 'backup directory\\n'"
+desc = "引号保护此参数中的空格或特殊符号；确认实验备份目录存在"
+
+[commands.dictation]
+prompt = "确认实验备份目录存在"
+answers = ["test -d ~/ops-lab/backup && printf 'backup directory\\n'"]
+
+[[commands]]
+id = "v04-ex-15c3c1b0d8"
+command = "test -x ~/ops-lab/check.sh && printf 'executable\\n'"
+summary = "确认实验脚本对当前用户可执行"
+
+[[commands.tokens]]
+text = "test"
+desc = "确认实验脚本对当前用户可执行"
+
+[[commands.tokens]]
+text = " -x"
+desc = "确认实验脚本对当前用户可执行；此处使用 -x 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/check.sh"
+desc = "本次操作指定的路径：~/ops-lab/check.sh"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "确认实验脚本对当前用户可执行；指定 printf"
+
+[[commands.tokens]]
+text = " 'executable\\n'"
+desc = "引号保护此参数中的空格或特殊符号；确认实验脚本对当前用户可执行"
+
+[commands.dictation]
+prompt = "确认实验脚本对当前用户可执行"
+answers = ["test -x ~/ops-lab/check.sh && printf 'executable\\n'"]
+
+[[commands]]
+id = "v04-ex-d520bb895f"
+command = "[ -z \"$optional_label\" ] && printf 'label missing\\n'"
+summary = "测试可选实验标签是否为空"
+
+[[commands.tokens]]
+text = "["
+desc = "测试可选实验标签是否为空"
+
+[[commands.tokens]]
+text = " -z"
+desc = "测试可选实验标签是否为空；此处使用 -z 选项"
+
+[[commands.tokens]]
+text = " \"$optional_label\""
+desc = "引号保护此参数中的空格或特殊符号；测试可选实验标签是否为空"
+
+[[commands.tokens]]
+text = " ]"
+desc = "测试可选实验标签是否为空；指定 ]"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "测试可选实验标签是否为空；指定 printf"
+
+[[commands.tokens]]
+text = " 'label missing\\n'"
+desc = "引号保护此参数中的空格或特殊符号；测试可选实验标签是否为空"
+
+[commands.dictation]
+prompt = "测试可选实验标签是否为空"
+answers = ["[ -z \"$optional_label\" ] && printf 'label missing\\n'"]
+
+[[commands]]
+id = "v04-ex-296f18a421"
+command = "[ -n \"$HOME\" ] && printf 'home present\\n'"
+summary = "测试 HOME 是否为非空字符串"
+
+[[commands.tokens]]
+text = "["
+desc = "测试 HOME 是否为非空字符串"
+
+[[commands.tokens]]
+text = " -n"
+desc = "测试 HOME 是否为非空字符串；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " \"$HOME\""
+desc = "引号保护此参数中的空格或特殊符号；测试 HOME 是否为非空字符串"
+
+[[commands.tokens]]
+text = " ]"
+desc = "测试 HOME 是否为非空字符串；指定 ]"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "测试 HOME 是否为非空字符串；指定 printf"
+
+[[commands.tokens]]
+text = " 'home present\\n'"
+desc = "引号保护此参数中的空格或特殊符号；测试 HOME 是否为非空字符串"
+
+[commands.dictation]
+prompt = "测试 HOME 是否为非空字符串"
+answers = ["[ -n \"$HOME\" ] && printf 'home present\\n'"]
+
+[[commands]]
+id = "v04-ex-d59d07af72"
+command = "[ \"$USER\" = ace ] && printf 'lab user\\n'"
+summary = "按字符串比较当前用户变量与实验账号名"
+
+[[commands.tokens]]
+text = "["
+desc = "按字符串比较当前用户变量与实验账号名"
+
+[[commands.tokens]]
+text = " \"$USER\""
+desc = "引号保护此参数中的空格或特殊符号；按字符串比较当前用户变量与实验账号名"
+
+[[commands.tokens]]
+text = " ="
+desc = "按字符串比较当前用户变量与实验账号名；指定 ="
+
+[[commands.tokens]]
+text = " ace"
+desc = "按字符串比较当前用户变量与实验账号名；指定 ace"
+
+[[commands.tokens]]
+text = " ]"
+desc = "按字符串比较当前用户变量与实验账号名；指定 ]"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "按字符串比较当前用户变量与实验账号名；指定 printf"
+
+[[commands.tokens]]
+text = " 'lab user\\n'"
+desc = "引号保护此参数中的空格或特殊符号；按字符串比较当前用户变量与实验账号名"
+
+[commands.dictation]
+prompt = "按字符串比较当前用户变量与实验账号名"
+answers = ["[ \"$USER\" = ace ] && printf 'lab user\\n'"]
+
+[[commands]]
+id = "v04-ex-fcc3cc2c13"
+command = "[ 3 -gt 1 ] && printf 'greater\\n'"
+summary = "用整数比较运算测试 3 大于 1"
+
+[[commands.tokens]]
+text = "["
+desc = "用整数比较运算测试 3 大于 1"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -gt"
+desc = "用整数比较运算测试 3 大于 1；此处使用 -gt 选项"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次练习的数值参数 1；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ]"
+desc = "用整数比较运算测试 3 大于 1；指定 ]"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "用整数比较运算测试 3 大于 1；指定 printf"
+
+[[commands.tokens]]
+text = " 'greater\\n'"
+desc = "引号保护此参数中的空格或特殊符号；用整数比较运算测试 3 大于 1"
+
+[commands.dictation]
+prompt = "用整数比较运算测试 3 大于 1"
+answers = ["[ 3 -gt 1 ] && printf 'greater\\n'"]
+
+[[commands]]
+id = "v04-ex-376c5ce4d0"
+command = "[ 8080 -le 65535 ] && printf 'below upper bound\\n'"
+summary = "检查实验端口不超过上限，完整验证还要检查下限"
+
+[[commands.tokens]]
+text = "["
+desc = "检查实验端口不超过上限，完整验证还要检查下限"
+
+[[commands.tokens]]
+text = " 8080"
+desc = "本次练习的数值参数 8080；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -le"
+desc = "检查实验端口不超过上限，完整验证还要检查下限；此处使用 -le 选项"
+
+[[commands.tokens]]
+text = " 65535"
+desc = "本次练习的数值参数 65535；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ]"
+desc = "检查实验端口不超过上限，完整验证还要检查下限；指定 ]"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "检查实验端口不超过上限，完整验证还要检查下限；指定 printf"
+
+[[commands.tokens]]
+text = " 'below upper bound\\n'"
+desc = "引号保护此参数中的空格或特殊符号；检查实验端口不超过上限，完整验证还要检查下限"
+
+[commands.dictation]
+prompt = "检查实验端口不超过上限，完整验证还要检查下限"
+answers = ["[ 8080 -le 65535 ] && printf 'below upper bound\\n'"]
+
+[[commands]]
+id = "v04-ex-7a4d7547f0"
+command = "[ 0 -eq 0 ] && printf 'equal\\n'"
+summary = "用 -eq 比较整数相等"
+
+[[commands.tokens]]
+text = "["
+desc = "用 -eq 比较整数相等"
+
+[[commands.tokens]]
+text = " 0"
+desc = "本次练习的数值参数 0；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -eq"
+desc = "用 -eq 比较整数相等；此处使用 -eq 选项"
+
+[[commands.tokens]]
+text = " 0"
+desc = "本次练习的数值参数 0；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ]"
+desc = "用 -eq 比较整数相等；指定 ]"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "用 -eq 比较整数相等；指定 printf"
+
+[[commands.tokens]]
+text = " 'equal\\n'"
+desc = "引号保护此参数中的空格或特殊符号；用 -eq 比较整数相等"
+
+[commands.dictation]
+prompt = "用 -eq 比较整数相等"
+answers = ["[ 0 -eq 0 ] && printf 'equal\\n'"]
+
+[[commands]]
+id = "v04-ex-3a125659dd"
+command = "( cd /tmp; pwd )"
+summary = "在子 shell 内切换目录，返回后不改变父 shell 工作目录"
+
+[[commands.tokens]]
+text = "("
+desc = "在子 shell 内切换目录，返回后不改变父 shell 工作目录"
+
+[[commands.tokens]]
+text = " cd"
+desc = "在子 shell 内切换目录，返回后不改变父 shell 工作目录；指定 cd"
+
+[[commands.tokens]]
+text = " /tmp;"
+desc = "本次操作指定的路径：/tmp;"
+
+[[commands.tokens]]
+text = " pwd"
+desc = "在子 shell 内切换目录，返回后不改变父 shell 工作目录；指定 pwd"
+
+[[commands.tokens]]
+text = " )"
+desc = "在子 shell 内切换目录，返回后不改变父 shell 工作目录；指定 )"
+
+[commands.dictation]
+prompt = "在子 shell 内切换目录，返回后不改变父 shell 工作目录"
+answers = ["( cd /tmp; pwd )"]
+
+[[commands]]
+id = "v04-ex-a77ae676d7"
+command = "( printf 'one\\n'; printf 'two\\n' )"
+summary = "在同一个子 shell 分组中执行两个输出动作"
+
+[[commands.tokens]]
+text = "("
+desc = "在同一个子 shell 分组中执行两个输出动作"
+
+[[commands.tokens]]
+text = " printf"
+desc = "在同一个子 shell 分组中执行两个输出动作；指定 printf"
+
+[[commands.tokens]]
+text = " 'one\\n';"
+desc = "引号保护此参数中的空格或特殊符号；在同一个子 shell 分组中执行两个输出动作"
+
+[[commands.tokens]]
+text = " printf"
+desc = "在同一个子 shell 分组中执行两个输出动作；指定 printf"
+
+[[commands.tokens]]
+text = " 'two\\n'"
+desc = "引号保护此参数中的空格或特殊符号；在同一个子 shell 分组中执行两个输出动作"
+
+[[commands.tokens]]
+text = " )"
+desc = "在同一个子 shell 分组中执行两个输出动作；指定 )"
+
+[commands.dictation]
+prompt = "在同一个子 shell 分组中执行两个输出动作"
+answers = ["( printf 'one\\n'; printf 'two\\n' )"]
+
+[[commands]]
+id = "v04-ex-2bfbe9f0a0"
+command = "( umask 077; umask )"
+summary = "仅在子 shell 中调整并读取掩码，父 shell 不受影响"
+
+[[commands.tokens]]
+text = "("
+desc = "仅在子 shell 中调整并读取掩码，父 shell 不受影响"
+
+[[commands.tokens]]
+text = " umask"
+desc = "仅在子 shell 中调整并读取掩码，父 shell 不受影响；指定 umask"
+
+[[commands.tokens]]
+text = " 077;"
+desc = "仅在子 shell 中调整并读取掩码，父 shell 不受影响；指定 077;"
+
+[[commands.tokens]]
+text = " umask"
+desc = "仅在子 shell 中调整并读取掩码，父 shell 不受影响；指定 umask"
+
+[[commands.tokens]]
+text = " )"
+desc = "仅在子 shell 中调整并读取掩码，父 shell 不受影响；指定 )"
+
+[commands.dictation]
+prompt = "仅在子 shell 中调整并读取掩码，父 shell 不受影响"
+answers = ["( umask 077; umask )"]
+
+[[commands]]
+id = "v04-ex-6c134d5c22"
+command = "{ printf 'one\\n'; printf 'two\\n'; }"
+summary = "花括号在当前 shell 分组，结束前需要分号和空格"
+
+[[commands.tokens]]
+text = "{"
+desc = "花括号在当前 shell 分组，结束前需要分号和空格"
+
+[[commands.tokens]]
+text = " printf"
+desc = "花括号在当前 shell 分组，结束前需要分号和空格；指定 printf"
+
+[[commands.tokens]]
+text = " 'one\\n';"
+desc = "引号保护此参数中的空格或特殊符号；花括号在当前 shell 分组，结束前需要分号和空格"
+
+[[commands.tokens]]
+text = " printf"
+desc = "花括号在当前 shell 分组，结束前需要分号和空格；指定 printf"
+
+[[commands.tokens]]
+text = " 'two\\n';"
+desc = "引号保护此参数中的空格或特殊符号；花括号在当前 shell 分组，结束前需要分号和空格"
+
+[[commands.tokens]]
+text = " }"
+desc = "花括号在当前 shell 分组，结束前需要分号和空格；指定 }"
+
+[commands.dictation]
+prompt = "花括号在当前 shell 分组，结束前需要分号和空格"
+answers = ["{ printf 'one\\n'; printf 'two\\n'; }"]
+
+[[commands]]
+id = "v04-ex-8b28868429"
+command = "{ pwd; date -u; }"
+summary = "在当前 shell 顺序输出目录与时间"
+
+[[commands.tokens]]
+text = "{"
+desc = "在当前 shell 顺序输出目录与时间"
+
+[[commands.tokens]]
+text = " pwd;"
+desc = "在当前 shell 顺序输出目录与时间；指定 pwd;"
+
+[[commands.tokens]]
+text = " date"
+desc = "在当前 shell 顺序输出目录与时间；指定 date"
+
+[[commands.tokens]]
+text = " -u;"
+desc = "在当前 shell 顺序输出目录与时间；此处使用 -u; 选项"
+
+[[commands.tokens]]
+text = " }"
+desc = "在当前 shell 顺序输出目录与时间；指定 }"
+
+[commands.dictation]
+prompt = "在当前 shell 顺序输出目录与时间"
+answers = ["{ pwd; date -u; }"]
+
+[[commands]]
+id = "v04-ex-6a10620014"
+command = "{ printf 'ready\\n'; } > ~/ops-lab/group.log"
+summary = "把整个当前 shell 分组的输出重定向到实验文件"
+
+[[commands.tokens]]
+text = "{"
+desc = "把整个当前 shell 分组的输出重定向到实验文件"
+
+[[commands.tokens]]
+text = " printf"
+desc = "把整个当前 shell 分组的输出重定向到实验文件；指定 printf"
+
+[[commands.tokens]]
+text = " 'ready\\n';"
+desc = "引号保护此参数中的空格或特殊符号；把整个当前 shell 分组的输出重定向到实验文件"
+
+[[commands.tokens]]
+text = " }"
+desc = "把整个当前 shell 分组的输出重定向到实验文件；指定 }"
+
+[[commands.tokens]]
+text = " >"
+desc = "将标准输出写入目标并覆盖现有内容"
+
+[[commands.tokens]]
+text = " ~/ops-lab/group.log"
+desc = "本次操作指定的路径：~/ops-lab/group.log"
+
+[commands.dictation]
+prompt = "把整个当前 shell 分组的输出重定向到实验文件"
+answers = ["{ printf 'ready\\n'; } > ~/ops-lab/group.log"]
+
+[[commands]]
+id = "v04-ex-7454990844"
+command = "printf '%s\\n' \"${APP_PORT:-8000}\""
+summary = "变量未设置或为空时使用实验默认端口，不修改变量"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；变量未设置或为空时使用实验默认端口，不修改变量"
+
+[[commands.tokens]]
+text = " \"${APP_PORT:-8000}\""
+desc = "引号保护此参数中的空格或特殊符号；变量未设置或为空时使用实验默认端口，不修改变量"
+
+[commands.dictation]
+prompt = "变量未设置或为空时使用实验默认端口，不修改变量"
+answers = ["printf '%s\\n' \"${APP_PORT:-8000}\""]
+
+[[commands]]
+id = "v04-ex-bd598314af"
+command = "printf '%s\\n' \"${LOG_LEVEL:-info}\""
+summary = "为实验日志等级提供缺省值"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；为实验日志等级提供缺省值"
+
+[[commands.tokens]]
+text = " \"${LOG_LEVEL:-info}\""
+desc = "引号保护此参数中的空格或特殊符号；为实验日志等级提供缺省值"
+
+[commands.dictation]
+prompt = "为实验日志等级提供缺省值"
+answers = ["printf '%s\\n' \"${LOG_LEVEL:-info}\""]
+
+[[commands]]
+id = "v04-ex-e8513242e6"
+command = "file=report.csv; printf '%s\\n' \"${file%.csv}.json\""
+summary = "删除匹配的短后缀并组合新扩展名"
+
+[[commands.tokens]]
+text = "file=report.csv;"
+desc = "删除匹配的短后缀并组合新扩展名"
+
+[[commands.tokens]]
+text = " printf"
+desc = "删除匹配的短后缀并组合新扩展名；指定 printf"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；删除匹配的短后缀并组合新扩展名"
+
+[[commands.tokens]]
+text = " \"${file%.csv}.json\""
+desc = "引号保护此参数中的空格或特殊符号；删除匹配的短后缀并组合新扩展名"
+
+[commands.dictation]
+prompt = "删除匹配的短后缀并组合新扩展名"
+answers = ["file=report.csv; printf '%s\\n' \"${file%.csv}.json\""]
+
+[[commands]]
+id = "v04-ex-d02d122c43"
+command = "words='one two'; printf '<%s>\\n' \"$words\""
+summary = "双引号保护展开结果，保留一个包含空格的参数"
+
+[[commands.tokens]]
+text = "words='one two';"
+desc = "双引号保护展开结果，保留一个包含空格的参数"
+
+[[commands.tokens]]
+text = " printf"
+desc = "双引号保护展开结果，保留一个包含空格的参数；指定 printf"
+
+[[commands.tokens]]
+text = " '<%s>\\n'"
+desc = "引号保护此参数中的空格或特殊符号；双引号保护展开结果，保留一个包含空格的参数"
+
+[[commands.tokens]]
+text = " \"$words\""
+desc = "引号保护此参数中的空格或特殊符号；双引号保护展开结果，保留一个包含空格的参数"
+
+[commands.dictation]
+prompt = "双引号保护展开结果，保留一个包含空格的参数"
+answers = ["words='one two'; printf '<%s>\\n' \"$words\""]
+
+[[commands]]
+id = "v04-ex-4f3a6c2768"
+command = "words='one two'; printf '<%s>\\n' $words"
+summary = "未引用展开经历分词，本例变成两个参数"
+
+[[commands.tokens]]
+text = "words='one two';"
+desc = "未引用展开经历分词，本例变成两个参数"
+
+[[commands.tokens]]
+text = " printf"
+desc = "未引用展开经历分词，本例变成两个参数；指定 printf"
+
+[[commands.tokens]]
+text = " '<%s>\\n'"
+desc = "引号保护此参数中的空格或特殊符号；未引用展开经历分词，本例变成两个参数"
+
+[[commands.tokens]]
+text = " $words"
+desc = "未引用展开经历分词，本例变成两个参数；指定 $words"
+
+[commands.dictation]
+prompt = "未引用展开经历分词，本例变成两个参数"
+answers = ["words='one two'; printf '<%s>\\n' $words"]

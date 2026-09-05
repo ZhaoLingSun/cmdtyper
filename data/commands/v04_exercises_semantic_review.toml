@@ -1,0 +1,231 @@
+[meta]
+category = "system"
+difficulty = "beginner"
+description = "基础知识点语义复核补题；历史展开练习要求交互式 Bash。"
+
+[[commands]]
+id = "v04-ex-ad14bb38b6"
+command = "ping -c 2 api.example.test"
+summary = "先解析实验 API 域名，再发送两次 ICMP 请求；回显失败不等于解析失败"
+
+[[commands.tokens]]
+text = "ping"
+desc = "解析目标名称并发送 ICMP 回显请求"
+
+[[commands.tokens]]
+text = " -c 2"
+desc = "发送两次后停止"
+
+[[commands.tokens]]
+text = " api.example.test"
+desc = "课程预置的 API 域名，先经名称解析得到目标地址"
+
+[commands.dictation]
+prompt = "先解析实验 API 域名，再发送两次 ICMP 请求；回显失败不等于解析失败"
+answers = ["ping -c 2 api.example.test"]
+
+[[commands]]
+id = "v04-ex-ee196f0280"
+command = "ping -c 3 -W 1 db.example.test"
+summary = "解析数据库实验域名并进行三次有限等待的连通性采样"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过域名查找目标并测试 ICMP 响应"
+
+[[commands.tokens]]
+text = " -c 3"
+desc = "最多发送三次回显请求"
+
+[[commands.tokens]]
+text = " -W 1"
+desc = "限制每次等待回复的时间"
+
+[[commands.tokens]]
+text = " db.example.test"
+desc = "课程预置数据库域名；注意输出中的解析地址"
+
+[commands.dictation]
+prompt = "解析数据库实验域名并进行三次有限等待的连通性采样"
+answers = ["ping -c 3 -W 1 db.example.test"]
+
+[[commands]]
+id = "v04-ex-02a963d48b"
+command = "ping -4 -c 2 example.test"
+summary = "使用实验域名解析到的 IPv4 地址进行两次连通性测试"
+
+[[commands.tokens]]
+text = "ping"
+desc = "解析目标域名并发送 ICMP 请求"
+
+[[commands.tokens]]
+text = " -4"
+desc = "只使用 IPv4"
+
+[[commands.tokens]]
+text = " -c 2"
+desc = "发送两次后退出"
+
+[[commands.tokens]]
+text = " example.test"
+desc = "课程 DNS 中存在 A 记录的目标域名"
+
+[commands.dictation]
+prompt = "使用实验域名解析到的 IPv4 地址进行两次连通性测试"
+answers = ["ping -4 -c 2 example.test"]
+
+[[commands]]
+id = "v04-ex-de41c67b93"
+command = "printenv -- PATH"
+summary = "查看子进程可继承的 PATH 搜索路径"
+
+[[commands.tokens]]
+text = "printenv"
+desc = "读取已导出的环境变量"
+
+[[commands.tokens]]
+text = " --"
+desc = "结束命令选项"
+
+[[commands.tokens]]
+text = " PATH"
+desc = "按顺序列出 shell 查找外部命令的目录"
+
+[commands.dictation]
+prompt = "查看子进程可继承的 PATH 搜索路径"
+answers = ["printenv -- PATH"]
+
+[[commands]]
+id = "v04-ex-e583c617a1"
+command = "printenv PATH | tr ':' '\\n'"
+summary = "将已导出的 PATH 按冒号拆为每行一个搜索目录"
+
+[[commands.tokens]]
+text = "printenv PATH"
+desc = "输出当前环境中的命令搜索路径"
+
+[[commands.tokens]]
+text = " | "
+desc = "把路径交给下一个程序"
+
+[[commands.tokens]]
+text = "tr ':' '\\n'"
+desc = "将冒号分隔符换成换行以便逐项检查"
+
+[commands.dictation]
+prompt = "将已导出的 PATH 按冒号拆为每行一个搜索目录"
+answers = ["printenv PATH | tr ':' '\\n'"]
+
+[[commands]]
+id = "v04-ex-dd352f6604"
+command = "env | grep '^PATH='"
+summary = "从导出的环境变量中精确筛出 PATH 项"
+
+[[commands.tokens]]
+text = "env"
+desc = "输出当前导出的环境变量"
+
+[[commands.tokens]]
+text = " | "
+desc = "传递变量列表"
+
+[[commands.tokens]]
+text = "grep '^PATH='"
+desc = "只保留以 PATH= 开头的行，避免匹配其他变量名"
+
+[commands.dictation]
+prompt = "从导出的环境变量中精确筛出 PATH 项"
+answers = ["env | grep '^PATH='"]
+
+[[commands]]
+id = "v04-ex-1865ea49e4"
+command = "readlink -f /usr/bin/vi"
+summary = "解析通用 vi 入口的链接链并显示实际编辑器路径"
+
+[[commands.tokens]]
+text = "readlink"
+desc = "读取符号链接目标"
+
+[[commands.tokens]]
+text = " -f"
+desc = "递归解析链接并输出规范绝对路径"
+
+[[commands.tokens]]
+text = " /usr/bin/vi"
+desc = "课程中已安装的通用 vi 命令入口"
+
+[commands.dictation]
+prompt = "解析通用 vi 入口的链接链并显示实际编辑器路径"
+answers = ["readlink -f /usr/bin/vi"]
+
+[[commands]]
+id = "v04-ex-0bcc7803d1"
+command = "readlink -f /usr/bin/ex"
+summary = "确认 ex 兼容编辑器入口最终指向哪个程序"
+
+[[commands.tokens]]
+text = "readlink"
+desc = "查询符号链接"
+
+[[commands.tokens]]
+text = " -f"
+desc = "解析整条链接链"
+
+[[commands.tokens]]
+text = " /usr/bin/ex"
+desc = "课程中已安装的 ex 编辑器入口"
+
+[commands.dictation]
+prompt = "确认 ex 兼容编辑器入口最终指向哪个程序"
+answers = ["readlink -f /usr/bin/ex"]
+
+[[commands]]
+id = "v04-ex-cfe5da70f9"
+command = "readlink -f \"$(command -v editor)\""
+summary = "先定位 editor 入口，再解析为真正的编辑器程序"
+
+[[commands.tokens]]
+text = "readlink -f"
+desc = "规范化路径并解析其中的符号链接"
+
+[[commands.tokens]]
+text = " \"$(command -v editor)\""
+desc = "将已安装 editor 的查找结果作为一个路径参数"
+
+[commands.dictation]
+prompt = "先定位 editor 入口，再解析为真正的编辑器程序"
+answers = ["readlink -f \"$(command -v editor)\""]
+
+[[commands]]
+id = "v04-ex-2954a894d9"
+command = "!!:p"
+summary = "在启用历史展开的交互式 Bash 中只显示上一条历史命令，不执行"
+
+[[commands.tokens]]
+text = "!!"
+desc = "引用上一条历史命令，要求交互式 Bash 已启用历史展开且存在上一条记录"
+
+[[commands.tokens]]
+text = ":p"
+desc = "只打印展开结果，不执行这条历史命令"
+
+[commands.dictation]
+prompt = "在启用历史展开的交互式 Bash 中只显示上一条历史命令，不执行"
+answers = ["!!:p"]
+
+[[commands]]
+id = "v04-ex-f5f6026eef"
+command = "!-2:p"
+summary = "在交互式 Bash 中只查看倒数第二条历史命令的展开结果"
+
+[[commands.tokens]]
+text = "!-2"
+desc = "引用倒数第二条历史记录，要求至少有两条历史命令"
+
+[[commands.tokens]]
+text = ":p"
+desc = "仅打印选中的历史命令，不执行"
+
+[commands.dictation]
+prompt = "在交互式 Bash 中只查看倒数第二条历史命令的展开结果"
+answers = ["!-2:p"]

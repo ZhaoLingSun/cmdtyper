@@ -1,0 +1,125 @@
+id = "dns_resolution"
+title = "域名打不开：定位 DNS 记录错误"
+category = "网络"
+difficulty = "basic"
+background = "网站服务器可通过 IP 访问，但 api.example.test 解析到旧机器 192.0.2.99。实验内部 DNS 已提供待发布修正记录。"
+objective = "把名称解析与 HTTP 分开验证，定位旧 A 记录，刷新缓存后验证业务。"
+environment = "Ubuntu 24.04 LTS 教学主机 web-01（192.0.2.10），客户端 ops-01（192.0.2.50），网关 192.0.2.1。文档保留地址与 example.test 域名只用于模拟；每例独立还原起始状态，全部输出预置。"
+recap = "用 getent、指定 DNS 查询及 curl --resolve 分离解析链路和服务链路；先修源记录，再处理缓存。"
+sources = ["https://man7.org/linux/man-pages/man8/ss.8.html", "https://man7.org/linux/man-pages/man8/tcpdump.8.html", "https://bind9.readthedocs.io/en/latest/manpages.html"]
+
+[[steps]]
+title = "观察系统名称解析"
+output = "192.0.2.99 STREAM api.example.test"
+explanation = "getent 遵循系统 NSS，可受 /etc/hosts 和 DNS 共同影响。"
+instruction = "请跟打，观察系统名称解析。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_01"
+command_id = "shared-087aab6f07516b77"
+
+[[steps]]
+title = "检查解析器状态"
+output = "DNS Servers: 192.0.2.53\nDNS Domain: example.test"
+explanation = "查询使用内部 DNS；不要随意改成无法解析内部域名的公共 DNS。"
+instruction = "请跟打，检查解析器状态。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_02"
+command_id = "shared-ab01ff7fc2c8d61f"
+
+[[steps]]
+title = "查询指定解析服务器"
+output = "api.example.test. 300 IN A 192.0.2.99"
+explanation = "解析器明确返回了旧地址，不是没有 DNS 响应。"
+instruction = "请跟打，查询指定解析服务器。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_03"
+command_id = "shared-419c2f59d447e4d4"
+
+[steps.decision]
+question = "首先应查什么？"
+
+[[steps.decision.choices]]
+text = "核对权威 DNS 中的 A 记录及发布变更"
+correct = true
+feedback = "对，返回内容错误应沿记录来源排查。"
+
+[[steps.decision.choices]]
+text = "重装浏览器"
+correct = false
+feedback = "系统工具已经重现旧地址，浏览器不是首要排查点。"
+
+[[steps]]
+title = "绕过 DNS 测试目标服务"
+output = "{\"status\":\"ok\"}"
+explanation = "--resolve 同时保留 Host，适合验证基于域名的虚拟主机。"
+instruction = "请跟打，绕过 DNS 测试目标服务。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_04"
+command_id = "shared-f5f3bdc5f970b784"
+
+[[steps]]
+title = "检查本地静态解析"
+output = "[无匹配，退出状态 1]"
+explanation = "本地 hosts 没有覆盖项。此时退出状态 1 表示没有匹配，不是命令故障。"
+instruction = "请跟打，检查本地静态解析。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_05"
+command_id = "shared-82228b8ca3b8be7e"
+
+[[steps]]
+title = "在 DNS 管理节点查看修订差异"
+output = "-api 300 IN A 192.0.2.99\n+api 300 IN A 192.0.2.10\n-2026090601\n+2026090602"
+explanation = "教学 DNS 仓库已准备修订，包含递增的 SOA 序列号；发布必须在 DNS 节点进行。"
+instruction = "请跟打，在 DNS 管理节点查看修订差异。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_06"
+command_id = "shared-a2cd1bc5162f32e5"
+
+[[steps]]
+title = "在 DNS 节点检查区域文件"
+output = "zone example.test/IN: loaded serial 2026090602\nOK"
+explanation = "校验通过；记录指向刚刚验证可用的 192.0.2.10。"
+instruction = "请跟打，在 DNS 节点检查区域文件。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_07"
+command_id = "shared-26b130a6099e082f"
+
+[steps.decision]
+question = "可以如何发布？"
+
+[[steps.decision.choices]]
+text = "重载这个区域并在客户端验证"
+correct = true
+feedback = "对，必须先应用正确的权威记录。"
+
+[[steps.decision.choices]]
+text = "清空所有 DNS 缓存即可修正权威记录"
+correct = false
+feedback = "缓存清空后仍会获取旧权威记录，需要先修正并发布源记录。"
+
+[[steps]]
+title = "在 DNS 节点重载区域"
+output = "zone reload queued"
+explanation = "只重载目标区域，减小发布范围。"
+instruction = "请跟打，在 DNS 节点重载区域。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_08"
+command_id = "shared-3b1fed5b6ce86f55"
+
+[[steps]]
+title = "在客户端刷新本机缓存"
+output = "[模拟：本机缓存已刷新]"
+explanation = "这不清除中间递归服务器缓存；本例 192.0.2.53 同时提供权威答案。"
+instruction = "请跟打，在客户端刷新本机缓存。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_09"
+command_id = "shared-5ec8692f512be5af"
+
+[[steps]]
+title = "验证解析和 HTTP"
+output = "{\"status\":\"ok\"}"
+explanation = "现在使用正常系统解析路径成功访问服务；仍可复查 dig 确认新地址。"
+instruction = "请跟打，验证解析和 HTTP。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_10"
+command_id = "shared-afd3fff90b2c0097"

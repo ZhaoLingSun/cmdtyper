@@ -80,6 +80,7 @@ fn render_topic_menu(frame: &mut Frame, app: &App, area: Rect) {
     let mut lines = Vec::with_capacity(window.len());
     for topic_index in window.clone() {
         let topic = &app.symbol_topics[topic_index];
+        let (_, exercise_count, completed) = app.practice_counts("symbol", &topic.meta.id);
         let is_selected = topic_index == selected;
         let prefix = if is_selected { " ▶ " } else { "   " };
         let icon = topic.meta.icon.as_deref().unwrap_or("⌨️");
@@ -100,7 +101,10 @@ fn render_topic_menu(frame: &mut Frame, app: &App, area: Rect) {
                 Style::default().fg(WARNING),
             ),
             Span::styled(
-                format!("  {}个符号", topic.symbols.len()),
+                format!(
+                    "  {}个符号 · {completed}/{exercise_count}题",
+                    topic.symbols.len()
+                ),
                 Style::default().fg(DIM),
             ),
         ]));

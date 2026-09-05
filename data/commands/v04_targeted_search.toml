@@ -1,0 +1,366 @@
+
+[meta]
+category = "search"
+difficulty = "basic"
+description = "针对基础用法具体操作、方向和选项的三题练习；只在模拟实验环境中输入。"
+
+[[commands]]
+id = "v04-ex-qa-011acafe10"
+command = "grep -r 'listen' ~/ops-lab/config"
+summary = "递归查找实验配置中的监听设置"
+
+[[commands.tokens]]
+text = "grep"
+desc = "递归查找实验配置中的监听设置"
+
+[[commands.tokens]]
+text = " -r"
+desc = "本次操作参数：-r。递归查找实验配置中的监听设置"
+
+[[commands.tokens]]
+text = " 'listen'"
+desc = "本次操作参数：'listen'。递归查找实验配置中的监听设置"
+
+[[commands.tokens]]
+text = " ~/ops-lab/config"
+desc = "本次操作参数：~/ops-lab/config。递归查找实验配置中的监听设置"
+
+[commands.dictation]
+prompt = "递归查找实验配置中的监听设置"
+answers = ["grep -r 'listen' ~/ops-lab/config"]
+
+[[commands]]
+id = "v04-ex-qa-96e9993f81"
+command = "grep -rn 'timeout' ~/ops-lab/config"
+summary = "递归匹配实验超时设置并附带行号"
+
+[[commands.tokens]]
+text = "grep"
+desc = "递归匹配实验超时设置并附带行号"
+
+[[commands.tokens]]
+text = " -rn"
+desc = "本次操作参数：-rn。递归匹配实验超时设置并附带行号"
+
+[[commands.tokens]]
+text = " 'timeout'"
+desc = "本次操作参数：'timeout'。递归匹配实验超时设置并附带行号"
+
+[[commands.tokens]]
+text = " ~/ops-lab/config"
+desc = "本次操作参数：~/ops-lab/config。递归匹配实验超时设置并附带行号"
+
+[commands.dictation]
+prompt = "递归匹配实验超时设置并附带行号"
+answers = ["grep -rn 'timeout' ~/ops-lab/config"]
+
+[[commands]]
+id = "v04-ex-qa-d8f10da76d"
+command = "grep -r 'database_url' ~/ops-lab/config"
+summary = "在配置目录树中查找实验数据库连接设置"
+
+[[commands.tokens]]
+text = "grep"
+desc = "在配置目录树中查找实验数据库连接设置"
+
+[[commands.tokens]]
+text = " -r"
+desc = "本次操作参数：-r。在配置目录树中查找实验数据库连接设置"
+
+[[commands.tokens]]
+text = " 'database_url'"
+desc = "本次操作参数：'database_url'。在配置目录树中查找实验数据库连接设置"
+
+[[commands.tokens]]
+text = " ~/ops-lab/config"
+desc = "本次操作参数：~/ops-lab/config。在配置目录树中查找实验数据库连接设置"
+
+[commands.dictation]
+prompt = "在配置目录树中查找实验数据库连接设置"
+answers = ["grep -r 'database_url' ~/ops-lab/config"]
+
+[[commands]]
+id = "v04-ex-qa-155ff632cc"
+command = "grep -n 'WARN' backend.log"
+summary = "显示实验警告记录及行号"
+
+[[commands.tokens]]
+text = "grep"
+desc = "显示实验警告记录及行号"
+
+[[commands.tokens]]
+text = " -n"
+desc = "本次操作参数：-n。显示实验警告记录及行号"
+
+[[commands.tokens]]
+text = " 'WARN'"
+desc = "本次操作参数：'WARN'。显示实验警告记录及行号"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "本次操作参数：backend.log。显示实验警告记录及行号"
+
+[commands.dictation]
+prompt = "显示实验警告记录及行号"
+answers = ["grep -n 'WARN' backend.log"]
+
+[[commands]]
+id = "v04-ex-qa-00b4f95320"
+command = "grep -n -F 'request_id=abc123' backend.log"
+summary = "用固定字符串定位实验请求，并保留行号"
+
+[[commands.tokens]]
+text = "grep"
+desc = "用固定字符串定位实验请求，并保留行号"
+
+[[commands.tokens]]
+text = " -n"
+desc = "本次操作参数：-n。用固定字符串定位实验请求，并保留行号"
+
+[[commands.tokens]]
+text = " -F"
+desc = "本次操作参数：-F。用固定字符串定位实验请求，并保留行号"
+
+[[commands.tokens]]
+text = " 'request_id=abc123'"
+desc = "本次操作参数：'request_id=abc123'。用固定字符串定位实验请求，并保留行号"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "本次操作参数：backend.log。用固定字符串定位实验请求，并保留行号"
+
+[commands.dictation]
+prompt = "用固定字符串定位实验请求，并保留行号"
+answers = ["grep -n -F 'request_id=abc123' backend.log"]
+
+[[commands]]
+id = "v04-ex-qa-c9dfe4cf13"
+command = "grep -in 'warning' backend.log"
+summary = "忽略大小写匹配警告并显示行号"
+
+[[commands.tokens]]
+text = "grep"
+desc = "忽略大小写匹配警告并显示行号"
+
+[[commands.tokens]]
+text = " -in"
+desc = "本次操作参数：-in。忽略大小写匹配警告并显示行号"
+
+[[commands.tokens]]
+text = " 'warning'"
+desc = "本次操作参数：'warning'。忽略大小写匹配警告并显示行号"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "本次操作参数：backend.log。忽略大小写匹配警告并显示行号"
+
+[commands.dictation]
+prompt = "忽略大小写匹配警告并显示行号"
+answers = ["grep -in 'warning' backend.log"]
+
+[[commands]]
+id = "v04-ex-qa-12a5273168"
+command = "grep -i 'connection refused' backend.log"
+summary = "大小写不敏感地筛选实验连接被拒绝日志"
+
+[[commands.tokens]]
+text = "grep"
+desc = "大小写不敏感地筛选实验连接被拒绝日志"
+
+[[commands.tokens]]
+text = " -i"
+desc = "本次操作参数：-i。大小写不敏感地筛选实验连接被拒绝日志"
+
+[[commands.tokens]]
+text = " 'connection refused'"
+desc = "本次操作参数：'connection refused'。大小写不敏感地筛选实验连接被拒绝日志"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "本次操作参数：backend.log。大小写不敏感地筛选实验连接被拒绝日志"
+
+[commands.dictation]
+prompt = "大小写不敏感地筛选实验连接被拒绝日志"
+answers = ["grep -i 'connection refused' backend.log"]
+
+[[commands]]
+id = "v04-ex-qa-cb56443ff0"
+command = "find ~/ops-lab -type f -iname '*.ZIP'"
+summary = "忽略扩展名大小写查找实验压缩包"
+
+[[commands.tokens]]
+text = "find"
+desc = "忽略扩展名大小写查找实验压缩包"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作参数：~/ops-lab。忽略扩展名大小写查找实验压缩包"
+
+[[commands.tokens]]
+text = " -type"
+desc = "本次操作参数：-type。忽略扩展名大小写查找实验压缩包"
+
+[[commands.tokens]]
+text = " f"
+desc = "本次操作参数：f。忽略扩展名大小写查找实验压缩包"
+
+[[commands.tokens]]
+text = " -iname"
+desc = "本次操作参数：-iname。忽略扩展名大小写查找实验压缩包"
+
+[[commands.tokens]]
+text = " '*.ZIP'"
+desc = "本次操作参数：'*.ZIP'。忽略扩展名大小写查找实验压缩包"
+
+[commands.dictation]
+prompt = "忽略扩展名大小写查找实验压缩包"
+answers = ["find ~/ops-lab -type f -iname '*.ZIP'"]
+
+[[commands]]
+id = "v04-ex-qa-3cc6866575"
+command = "find ~/ops-lab -type f -iname 'readme*'"
+summary = "大小写不敏感地匹配实验说明文件前缀"
+
+[[commands.tokens]]
+text = "find"
+desc = "大小写不敏感地匹配实验说明文件前缀"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作参数：~/ops-lab。大小写不敏感地匹配实验说明文件前缀"
+
+[[commands.tokens]]
+text = " -type"
+desc = "本次操作参数：-type。大小写不敏感地匹配实验说明文件前缀"
+
+[[commands.tokens]]
+text = " f"
+desc = "本次操作参数：f。大小写不敏感地匹配实验说明文件前缀"
+
+[[commands.tokens]]
+text = " -iname"
+desc = "本次操作参数：-iname。大小写不敏感地匹配实验说明文件前缀"
+
+[[commands.tokens]]
+text = " 'readme*'"
+desc = "本次操作参数：'readme*'。大小写不敏感地匹配实验说明文件前缀"
+
+[commands.dictation]
+prompt = "大小写不敏感地匹配实验说明文件前缀"
+answers = ["find ~/ops-lab -type f -iname 'readme*'"]
+
+[[commands]]
+id = "v04-ex-qa-ae1955f18a"
+command = "find ~/ops-lab/input -type f -iname '*.PDF'"
+summary = "在实验输入目录查找各种大小写的 PDF 扩展名"
+
+[[commands.tokens]]
+text = "find"
+desc = "在实验输入目录查找各种大小写的 PDF 扩展名"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input"
+desc = "本次操作参数：~/ops-lab/input。在实验输入目录查找各种大小写的 PDF 扩展名"
+
+[[commands.tokens]]
+text = " -type"
+desc = "本次操作参数：-type。在实验输入目录查找各种大小写的 PDF 扩展名"
+
+[[commands.tokens]]
+text = " f"
+desc = "本次操作参数：f。在实验输入目录查找各种大小写的 PDF 扩展名"
+
+[[commands.tokens]]
+text = " -iname"
+desc = "本次操作参数：-iname。在实验输入目录查找各种大小写的 PDF 扩展名"
+
+[[commands.tokens]]
+text = " '*.PDF'"
+desc = "本次操作参数：'*.PDF'。在实验输入目录查找各种大小写的 PDF 扩展名"
+
+[commands.dictation]
+prompt = "在实验输入目录查找各种大小写的 PDF 扩展名"
+answers = ["find ~/ops-lab/input -type f -iname '*.PDF'"]
+
+[[commands]]
+id = "v04-ex-qa-0c92d9f551"
+command = "find ~/ops-lab/input -type f"
+summary = "列出实验输入目录中的普通文件"
+
+[[commands.tokens]]
+text = "find"
+desc = "列出实验输入目录中的普通文件"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input"
+desc = "本次操作参数：~/ops-lab/input。列出实验输入目录中的普通文件"
+
+[[commands.tokens]]
+text = " -type"
+desc = "本次操作参数：-type。列出实验输入目录中的普通文件"
+
+[[commands.tokens]]
+text = " f"
+desc = "本次操作参数：f。列出实验输入目录中的普通文件"
+
+[commands.dictation]
+prompt = "列出实验输入目录中的普通文件"
+answers = ["find ~/ops-lab/input -type f"]
+
+[[commands]]
+id = "v04-ex-qa-fadb44e220"
+command = "find ~/ops-lab/backup -type f"
+summary = "列出实验备份目录中的普通文件"
+
+[[commands.tokens]]
+text = "find"
+desc = "列出实验备份目录中的普通文件"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backup"
+desc = "本次操作参数：~/ops-lab/backup。列出实验备份目录中的普通文件"
+
+[[commands.tokens]]
+text = " -type"
+desc = "本次操作参数：-type。列出实验备份目录中的普通文件"
+
+[[commands.tokens]]
+text = " f"
+desc = "本次操作参数：f。列出实验备份目录中的普通文件"
+
+[commands.dictation]
+prompt = "列出实验备份目录中的普通文件"
+answers = ["find ~/ops-lab/backup -type f"]
+
+[[commands]]
+id = "v04-ex-qa-b101807c0f"
+command = "find ~/ops-lab -maxdepth 2 -type f"
+summary = "限制深度为两层，只选择普通文件"
+
+[[commands.tokens]]
+text = "find"
+desc = "限制深度为两层，只选择普通文件"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作参数：~/ops-lab。限制深度为两层，只选择普通文件"
+
+[[commands.tokens]]
+text = " -maxdepth"
+desc = "本次操作参数：-maxdepth。限制深度为两层，只选择普通文件"
+
+[[commands.tokens]]
+text = " 2"
+desc = "本次操作参数：2。限制深度为两层，只选择普通文件"
+
+[[commands.tokens]]
+text = " -type"
+desc = "本次操作参数：-type。限制深度为两层，只选择普通文件"
+
+[[commands.tokens]]
+text = " f"
+desc = "本次操作参数：f。限制深度为两层，只选择普通文件"
+
+[commands.dictation]
+prompt = "限制深度为两层，只选择普通文件"
+answers = ["find ~/ops-lab -maxdepth 2 -type f"]

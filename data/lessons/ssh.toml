@@ -1,3 +1,4 @@
+
 [meta]
 command = "ssh"
 full_name = "Secure Shell"
@@ -7,26 +8,19 @@ importance = "core"
 
 [overview]
 summary = "通过加密通道安全远程登录和管理 Linux 服务器"
-explanation = """SSH（Secure Shell）是 Linux 系统管理中最核心的远程访问工具。它通过加密隧道在\
-客户端和服务器之间建立安全连接，替代了早期不安全的 telnet 和 rsh 协议。
-
-SSH 的主要用途包括：
-- 远程登录服务器执行命令
-- 通过 SCP/SFTP 安全传输文件
-- 端口转发（隧道）实现安全的网络服务访问
-- 密钥认证实现免密码登录
-
-SSH 默认使用 22 端口，支持密码认证和更安全的公钥认证。在生产环境中，\
-强烈建议禁用密码登录，仅使用密钥认证。"""
+explanation = "SSH（Secure Shell）是 Linux 系统管理中最核心的远程访问工具。它通过加密隧道在客户端和服务器之间建立安全连接，替代了早期不安全的 telnet 和 rsh 协议。\n\nSSH 的主要用途包括：\n- 远程登录服务器执行命令\n- 通过 SCP/SFTP 安全传输文件\n- 端口转发（隧道）实现安全的网络服务访问\n- 密钥认证实现免密码登录\n\nSSH 默认使用 22 端口，支持密码认证和更安全的公钥认证。在生产环境中，强烈建议禁用密码登录，仅使用密钥认证。"
 
 [syntax]
 basic = "ssh [选项] [用户名@]主机名 [命令]"
+
 [[syntax.parts]]
 name = "用户名"
 desc = "远程服务器的登录用户名，省略则使用当前本地用户名"
+
 [[syntax.parts]]
 name = "主机名"
 desc = "远程服务器的 IP 地址或域名"
+
 [[syntax.parts]]
 name = "命令"
 desc = "可选，登录后直接执行的命令，执行完毕自动断开"
@@ -73,57 +67,38 @@ name = "启用 X11 转发"
 example = "ssh -X user@server"
 note = "允许在本地显示远程服务器的图形界面程序"
 
-# ── 示例 ──
-
 [[examples]]
 level = 1
-command = "ssh user@192.168.1.100"
 summary = "最基本的 SSH 登录"
-simulated_output = """The authenticity of host '192.168.1.100 (192.168.1.100)' can't be established.
-ED25519 key fingerprint is SHA256:AbCdEfGhIjKlMnOpQrStUvWxYz1234567890abcd.
-This key is not known by any other names.
-Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added '192.168.1.100' (ED25519) to the list of known hosts.
-user@192.168.1.100's password:
-Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)
-
- * Documentation:  https://help.ubuntu.com
- * Management:     https://landscape.canonical.com
- * Support:        https://ubuntu.com/advantage
-
-Last login: Mon Mar  9 10:23:45 2026 from 192.168.1.50
-user@server:~$"""
-
+simulated_output = "The authenticity of host '192.168.1.100 (192.168.1.100)' can't be established.\nED25519 key fingerprint is SHA256:AbCdEfGhIjKlMnOpQrStUvWxYz1234567890abcd.\nThis key is not known by any other names.\nAre you sure you want to continue connecting (yes/no/[fingerprint])? yes\nWarning: Permanently added '192.168.1.100' (ED25519) to the list of known hosts.\nuser@192.168.1.100's password:\nWelcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)\n\n * Documentation:  https://help.ubuntu.com\n * Management:     https://landscape.canonical.com\n * Support:        https://ubuntu.com/advantage\n\nLast login: Mon Mar  9 10:23:45 2026 from 192.168.1.50\nuser@server:~$"
 output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
+id = "example-001"
+command_id = "v04-ref-845362d24c"
+
 [[examples.token_details]]
 token = "user@192.168.1.100"
 explanation = "远程登录目标，格式为 用户名@主机。"
 
 [[examples]]
 level = 1
-command = "ssh root@myserver.com"
 summary = "使用域名和指定用户登录"
-simulated_output = """root@myserver.com's password:
-Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)
-
-Last login: Sun Mar  8 18:30:22 2026 from 203.0.113.50
-root@myserver:~#"""
-
+simulated_output = "root@myserver.com's password:\nWelcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)\n\nLast login: Sun Mar  8 18:30:22 2026 from 203.0.113.50\nroot@myserver:~#"
 output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
+id = "example-002"
+command_id = "v04-ref-9f56c2cc95"
+
 [[examples.token_details]]
 token = "root@myserver.com"
 explanation = "远程登录目标，格式为 用户名@主机。"
 
 [[examples]]
 level = 2
-command = "ssh -i ~/.ssh/id_ed25519 deploy@10.0.0.5"
 summary = "使用指定私钥文件登录"
-simulated_output = """Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)
-
-Last login: Mon Mar  9 08:15:30 2026 from 10.0.0.1
-deploy@prod-web-01:~$"""
-
+simulated_output = "Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)\n\nLast login: Mon Mar  9 08:15:30 2026 from 10.0.0.1\ndeploy@prod-web-01:~$"
 output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
+id = "example-003"
+command_id = "shared-02481f37989ae2f7"
+
 [[examples.token_details]]
 token = "-i"
 explanation = "指定身份密钥文件（identity file），用于 SSH 认证。"
@@ -138,15 +113,12 @@ explanation = "远程登录目标，格式为 用户名@主机。"
 
 [[examples]]
 level = 2
-command = "ssh -p 2222 admin@192.168.1.200"
 summary = "连接非标准端口的 SSH 服务"
-simulated_output = """admin@192.168.1.200's password:
-Welcome to Debian GNU/Linux 12 (bookworm)
-
-Last login: Sat Mar  7 22:10:05 2026 from 192.168.1.50
-admin@firewall:~$"""
-
+simulated_output = "admin@192.168.1.200's password:\nWelcome to Debian GNU/Linux 12 (bookworm)\n\nLast login: Sat Mar  7 22:10:05 2026 from 192.168.1.50\nadmin@firewall:~$"
 output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
+id = "example-004"
+command_id = "shared-2c18fc063bc17b54"
+
 [[examples.token_details]]
 token = "-p"
 explanation = "指定 SSH 连接的远程端口号（默认为 22）。"
@@ -161,11 +133,12 @@ explanation = "远程登录目标，格式为 用户名@主机。"
 
 [[examples]]
 level = 2
-command = "ssh user@server uptime"
 summary = "远程执行单条命令后自动断开"
-simulated_output = """ 14:23:45 up 127 days,  3:42,  2 users,  load average: 0.15, 0.10, 0.08"""
-
+simulated_output = " 14:23:45 up 127 days,  3:42,  2 users,  load average: 0.15, 0.10, 0.08"
 output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
+id = "example-005"
+command_id = "shared-f9861bfcebcc4252"
+
 [[examples.token_details]]
 token = "user@server"
 explanation = "远程登录目标，格式为 用户名@主机。"
@@ -176,16 +149,12 @@ explanation = "在远端服务器上执行的命令；SSH 执行后自动断开�
 
 [[examples]]
 level = 3
-command = "ssh -L 8080:localhost:80 user@webserver"
 summary = "本地端口转发 —— 通过 SSH 隧道访问远程 Web 服务"
-simulated_output = """user@webserver's password:
-Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)
-
-Last login: Mon Mar  9 09:00:12 2026 from 192.168.1.50
-user@webserver:~$
-# 现在访问本地 http://localhost:8080 即可安全访问远程 80 端口"""
-
+simulated_output = "user@webserver's password:\nWelcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)\n\nLast login: Mon Mar  9 09:00:12 2026 from 192.168.1.50\nuser@webserver:~$\n# 现在访问本地 http://localhost:8080 即可安全访问远程 80 端口"
 output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
+id = "example-006"
+command_id = "shared-346b77862446f1f8"
+
 [[examples.token_details]]
 token = "-L"
 explanation = "本地端口转发，把本地端口映射到远端目标。"
@@ -200,12 +169,12 @@ explanation = "远程登录目标，格式为 用户名@主机。"
 
 [[examples]]
 level = 3
-command = "ssh -N -L 5433:db-internal:5432 user@jumphost"
 summary = "通过跳板机建立到内网数据库的隧道"
-simulated_output = """# 终端无输出（-N 不开启 shell），隧道已建立
-# 现在可以用 psql -h localhost -p 5433 连接内网数据库"""
-
+simulated_output = "# 终端无输出（-N 不开启 shell），隧道已建立\n# 现在可以用 psql -h localhost -p 5433 连接内网数据库"
 output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
+id = "example-007"
+command_id = "shared-ec2926776c0cf81a"
+
 [[examples.token_details]]
 token = "-N"
 explanation = "不执行远端命令，只建立通道（常用于隧道）。"
@@ -224,27 +193,12 @@ explanation = "远程登录目标，格式为 用户名@主机。"
 
 [[examples]]
 level = 3
-command = "ssh -v user@192.168.1.100"
 summary = "开启调试模式排查连接问题"
-simulated_output = """OpenSSH_9.6p1 Ubuntu-3ubuntu1, OpenSSL 3.0.13 30 Jan 2024
-debug1: Reading configuration data /home/user/.ssh/config
-debug1: Reading configuration data /etc/ssh/ssh_config
-debug1: Connecting to 192.168.1.100 [192.168.1.100] port 22.
-debug1: Connection established.
-debug1: identity file /home/user/.ssh/id_ed25519 type 3
-debug1: Local version string SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu1
-debug1: Remote protocol version 2.0, remote software version OpenSSH_8.9p1
-debug1: Authenticating to 192.168.1.100:22 as 'user'
-debug1: SSH2_MSG_KEX_ECDH_INIT sent
-debug1: expecting SSH2_MSG_KEX_ECDH_REPLY
-debug1: Server host key: ssh-ed25519 SHA256:AbCdEfGhIjKlMnOpQrStUvWxYz
-debug1: Host '192.168.1.100' is known and matches the ED25519 host key.
-debug1: Found key in /home/user/.ssh/known_hosts:5
-debug1: Authentication succeeded (publickey).
-Authenticated to 192.168.1.100 ([192.168.1.100]:22) using "publickey".
-user@server:~$"""
-
+simulated_output = "OpenSSH_9.6p1 Ubuntu-3ubuntu1, OpenSSL 3.0.13 30 Jan 2024\ndebug1: Reading configuration data /home/user/.ssh/config\ndebug1: Reading configuration data /etc/ssh/ssh_config\ndebug1: Connecting to 192.168.1.100 [192.168.1.100] port 22.\ndebug1: Connection established.\ndebug1: identity file /home/user/.ssh/id_ed25519 type 3\ndebug1: Local version string SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu1\ndebug1: Remote protocol version 2.0, remote software version OpenSSH_8.9p1\ndebug1: Authenticating to 192.168.1.100:22 as 'user'\ndebug1: SSH2_MSG_KEX_ECDH_INIT sent\ndebug1: expecting SSH2_MSG_KEX_ECDH_REPLY\ndebug1: Server host key: ssh-ed25519 SHA256:AbCdEfGhIjKlMnOpQrStUvWxYz\ndebug1: Host '192.168.1.100' is known and matches the ED25519 host key.\ndebug1: Found key in /home/user/.ssh/known_hosts:5\ndebug1: Authentication succeeded (publickey).\nAuthenticated to 192.168.1.100 ([192.168.1.100]:22) using \"publickey\".\nuser@server:~$"
 output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
+id = "example-008"
+command_id = "shared-e43ce3186cd61450"
+
 [[examples.token_details]]
 token = "-v"
 explanation = "显示详细执行过程，便于观察发生了什么。"
@@ -255,30 +209,12 @@ explanation = "远程登录目标，格式为 用户名@主机。"
 
 [[examples]]
 level = 4
-command = "ssh-keygen -t ed25519 -C \"user@workstation\""
 summary = "生成 Ed25519 密钥对（推荐算法）"
-simulated_output = """Generating public/private ed25519 key pair.
-Enter file in which to save the key (/home/user/.ssh/id_ed25519):
-Enter passphrase (empty for no passphrase):
-Enter same passphrase again:
-Your identification has been saved in /home/user/.ssh/id_ed25519
-Your public key has been saved in /home/user/.ssh/id_ed25519.pub
-The key fingerprint is:
-SHA256:xK9m3pQrStUvWxYz1234567890AbCdEfGhIjKlMnOp user@workstation
-The key's randomart image is:
-+--[ED25519 256]--+
-|        .oo=+o   |
-|       . o.=.+   |
-|      . + o =    |
-|     . = + . .   |
-|    . = S .   .  |
-|   . + = o     . |
-|    + + + .   .  |
-|   . = . o  E  . |
-|    +.o.. .o .o. |
-+----[SHA256]-----+"""
-
+simulated_output = "Generating public/private ed25519 key pair.\nEnter file in which to save the key (/home/user/.ssh/id_ed25519):\nEnter passphrase (empty for no passphrase):\nEnter same passphrase again:\nYour identification has been saved in /home/user/.ssh/id_ed25519\nYour public key has been saved in /home/user/.ssh/id_ed25519.pub\nThe key fingerprint is:\nSHA256:xK9m3pQrStUvWxYz1234567890AbCdEfGhIjKlMnOp user@workstation\nThe key's randomart image is:\n+--[ED25519 256]--+\n|        .oo=+o   |\n|       . o.=.+   |\n|      . + o =    |\n|     . = + . .   |\n|    . = S .   .  |\n|   . + = o     . |\n|    + + + .   .  |\n|   . = . o  E  . |\n|    +.o.. .o .o. |\n+----[SHA256]-----+"
 output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
+id = "example-009"
+command_id = "shared-893f7384bb26d769"
+
 [[examples.token_details]]
 token = "-t"
 explanation = "指定要生成的密钥算法类型（type）。"
@@ -297,19 +233,12 @@ explanation = "密钥注释内容，嵌入公钥文件末尾，用于标识这�
 
 [[examples]]
 level = 4
-command = "ssh-copy-id -i ~/.ssh/id_ed25519.pub user@192.168.1.100"
 summary = "将公钥复制到远程服务器，实现免密码登录"
-simulated_output = """/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/user/.ssh/id_ed25519.pub"
-/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
-/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
-user@192.168.1.100's password:
-
-Number of key(s) added: 1
-
-Now try logging into the machine, with:   "ssh 'user@192.168.1.100'"
-and check to make sure that only the key(s) you wanted were added."""
-
+simulated_output = "/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: \"/home/user/.ssh/id_ed25519.pub\"\n/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed\n/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys\nuser@192.168.1.100's password:\n\nNumber of key(s) added: 1\n\nNow try logging into the machine, with:   \"ssh 'user@192.168.1.100'\"\nand check to make sure that only the key(s) you wanted were added."
 output_explanation = "该输出是该命令的示例执行结果。阅读时可重点关注关键字段、状态码或路径信息，以确认命令是否按预期生效。"
+id = "example-010"
+command_id = "shared-e079343f5faaf4af"
+
 [[examples.token_details]]
 token = "-i"
 explanation = "指定身份密钥文件（identity file），用于 SSH 认证。"
@@ -324,17 +253,12 @@ explanation = "远程登录目标，格式为 用户名@主机。"
 
 [[examples]]
 level = 4
-command = "ssh -R 8080:localhost:3000 user@public-server"
 summary = "远程端口转发 —— 将内网开发服务器暴露到公网"
-simulated_output = """Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)
-
-Last login: Mon Mar  9 11:45:00 2026 from 203.0.113.10
-user@public-server:~$
-# 外部用户访问 public-server:8080 即可到达你本地的 localhost:3000"""
-
-# ── 易错点 ──
-
+simulated_output = "Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)\n\nLast login: Mon Mar  9 11:45:00 2026 from 203.0.113.10\nuser@public-server:~$\n# 外部用户访问 public-server:8080 即可到达你本地的 localhost:3000"
 output_explanation = "输出展示了 SSH 连接建立、远程命令执行或隧道行为。若开启 `-v`，可看到握手与认证细节，便于排查连接失败原因。"
+id = "example-011"
+command_id = "shared-27bba3f08e46ddf0"
+
 [[examples.token_details]]
 token = "-R"
 explanation = "建立远程端口转发（Remote forwarding）：将远端服务器的端口映射到本地服务，实现内网穿透。"
@@ -349,46 +273,12 @@ explanation = "远程登录目标，格式为 用户名@主机。"
 
 [[gotchas]]
 title = "私钥文件权限必须严格限制"
-content = """SSH 对密钥文件权限要求非常严格：
-- 私钥文件（如 id_ed25519）权限必须是 600（仅所有者可读写）
-- .ssh 目录权限必须是 700（仅所有者可读写执行）
-- authorized_keys 文件权限必须是 600
-
-如果权限过于宽松，SSH 会直接拒绝使用该密钥：
-  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-  @         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
-  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-  Permissions 0644 for '/home/user/.ssh/id_ed25519' are too open.
-
-修复方法：
-  chmod 700 ~/.ssh
-  chmod 600 ~/.ssh/id_ed25519
-  chmod 600 ~/.ssh/authorized_keys"""
+content = "SSH 对密钥文件权限要求非常严格：\n- 私钥文件（如 id_ed25519）权限必须是 600（仅所有者可读写）\n- .ssh 目录权限必须是 700（仅所有者可读写执行）\n- authorized_keys 文件权限必须是 600\n\n如果权限过于宽松，SSH 会直接拒绝使用该密钥：\n  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n  @         WARNING: UNPROTECTED PRIVATE KEY FILE!          @\n  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n  Permissions 0644 for '/home/user/.ssh/id_ed25519' are too open.\n\n修复方法：\n  chmod 700 ~/.ssh\n  chmod 600 ~/.ssh/id_ed25519\n  chmod 600 ~/.ssh/authorized_keys"
 
 [[gotchas]]
 title = "首次连接的主机密钥验证"
-content = """首次连接新服务器时，SSH 会提示确认主机指纹：
-  The authenticity of host 'server (1.2.3.4)' can't be established.
-  ED25519 key fingerprint is SHA256:xxxxx
-  Are you sure you want to continue connecting?
-
-这是正常安全机制，不是报错！但如果之前连接过的服务器突然又出现此提示，\
-可能意味着：
-- 服务器重装了系统
-- 遭受中间人攻击（Man-in-the-Middle）
-
-遇到 "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!" 时需要谨慎确认，\
-确认安全后可用以下命令清除旧指纹：
-  ssh-keygen -R 服务器地址"""
+content = "首次连接新服务器时，SSH 会提示确认主机指纹：\n  The authenticity of host 'server (1.2.3.4)' can't be established.\n  ED25519 key fingerprint is SHA256:xxxxx\n  Are you sure you want to continue connecting?\n\n这是正常安全机制，不是报错！但如果之前连接过的服务器突然又出现此提示，可能意味着：\n- 服务器重装了系统\n- 遭受中间人攻击（Man-in-the-Middle）\n\n遇到 \"WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!\" 时需要谨慎确认，确认安全后可用以下命令清除旧指纹：\n  ssh-keygen -R 服务器地址"
 
 [[gotchas]]
 title = "本地端口转发与远程端口转发的区别"
-content = """-L（Local）本地转发：将本地端口转到远程网络
-  ssh -L 本地端口:目标主机:目标端口 跳板机
-  场景：通过跳板机访问内网数据库
-
--R（Remote）远程转发：将远程端口转到本地网络
-  ssh -R 远程端口:目标主机:目标端口 远程服务器
-  场景：将本地开发服务暴露到公网
-
-记忆技巧：L = 我要访问那边的服务，R = 让那边访问我的服务"""
+content = "-L（Local）本地转发：将本地端口转到远程网络\n  ssh -L 本地端口:目标主机:目标端口 跳板机\n  场景：通过跳板机访问内网数据库\n\n-R（Remote）远程转发：将远程端口转到本地网络\n  ssh -R 远程端口:目标主机:目标端口 远程服务器\n  场景：将本地开发服务暴露到公网\n\n记忆技巧：L = 我要访问那边的服务，R = 让那边访问我的服务"

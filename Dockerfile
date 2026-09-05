@@ -23,6 +23,12 @@ COPY data/commands/ /usr/local/share/cmdtyper/data/commands/
 COPY data/lessons/ /usr/local/share/cmdtyper/data/lessons/
 COPY data/symbols/ /usr/local/share/cmdtyper/data/symbols/
 COPY data/system/ /usr/local/share/cmdtyper/data/system/
+COPY data/practice/ /usr/local/share/cmdtyper/data/practice/
+COPY data/scenarios/ /usr/local/share/cmdtyper/data/scenarios/
+COPY data/sequences/ /usr/local/share/cmdtyper/data/sequences/
+COPY data/command_aliases.toml /usr/local/share/cmdtyper/data/command_aliases.toml
+
+COPY data/command_contexts.toml /usr/local/share/cmdtyper/data/command_contexts.toml
 
 # User data volume
 VOLUME /userdata

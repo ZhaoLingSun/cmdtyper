@@ -1,0 +1,327 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "区分回环、链路本地和全局地址，先读配置再考虑变更。"
+
+[meta.topic]
+id = "v04_address"
+title = "IP 地址与子网核对"
+icon = "🌐"
+order = 102
+
+[[commands]]
+id = "v04-address-28d5716edc"
+command = "ip -4 -br address show"
+summary = "只查看 IPv4 地址，快速核对接口与前缀长度"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -4"
+desc = "限制为 IPv4"
+
+[[commands.tokens]]
+text = " -br"
+desc = "使用紧凑单行格式"
+
+[[commands.tokens]]
+text = " address"
+desc = "只查看 IPv4 地址，快速核对接口与前缀长度；指定 address"
+
+[[commands.tokens]]
+text = " show"
+desc = "只查看 IPv4 地址，快速核对接口与前缀长度；指定 show"
+
+[commands.dictation]
+prompt = "只查看 IPv4 地址，快速核对接口与前缀长度"
+answers = ["ip -4 -br address show"]
+
+[[commands]]
+id = "v04-address-a78e78068d"
+command = "ip -6 -br address show"
+summary = "只查看 IPv6 地址，区分全局地址和链路本地地址"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -6"
+desc = "限制为 IPv6"
+
+[[commands.tokens]]
+text = " -br"
+desc = "使用紧凑单行格式"
+
+[[commands.tokens]]
+text = " address"
+desc = "只查看 IPv6 地址，区分全局地址和链路本地地址；指定 address"
+
+[[commands.tokens]]
+text = " show"
+desc = "只查看 IPv6 地址，区分全局地址和链路本地地址；指定 show"
+
+[commands.dictation]
+prompt = "只查看 IPv6 地址，区分全局地址和链路本地地址"
+answers = ["ip -6 -br address show"]
+
+[[commands]]
+id = "v04-address-bbe3bdae12"
+command = "ip address show dev ens33"
+summary = "查看 ens33 的地址、前缀和有效期"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " address"
+desc = "查看 ens33 的地址、前缀和有效期；指定 address"
+
+[[commands.tokens]]
+text = " show"
+desc = "查看 ens33 的地址、前缀和有效期；指定 show"
+
+[[commands.tokens]]
+text = " dev"
+desc = "查看 ens33 的地址、前缀和有效期；指定 dev"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "查看 ens33 的地址、前缀和有效期；指定 ens33"
+
+[commands.dictation]
+prompt = "查看 ens33 的地址、前缀和有效期"
+answers = ["ip address show dev ens33"]
+
+[[commands]]
+id = "v04-address-9718753a4d"
+command = "ip -4 address show scope global"
+summary = "查看全局作用域 IPv4 地址，排除回环和链路本地项"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -4"
+desc = "限制为 IPv4"
+
+[[commands.tokens]]
+text = " address"
+desc = "查看全局作用域 IPv4 地址，排除回环和链路本地项；指定 address"
+
+[[commands.tokens]]
+text = " show"
+desc = "查看全局作用域 IPv4 地址，排除回环和链路本地项；指定 show"
+
+[[commands.tokens]]
+text = " scope"
+desc = "查看全局作用域 IPv4 地址，排除回环和链路本地项；指定 scope"
+
+[[commands.tokens]]
+text = " global"
+desc = "查看全局作用域 IPv4 地址，排除回环和链路本地项；指定 global"
+
+[commands.dictation]
+prompt = "查看全局作用域 IPv4 地址，排除回环和链路本地项"
+answers = ["ip -4 address show scope global"]
+
+[[commands]]
+id = "v04-address-8f016d3467"
+command = "ip -6 address show scope link"
+summary = "查看 IPv6 链路本地地址，后续通信还需要指定接口"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -6"
+desc = "限制为 IPv6"
+
+[[commands.tokens]]
+text = " address"
+desc = "查看 IPv6 链路本地地址，后续通信还需要指定接口；指定 address"
+
+[[commands.tokens]]
+text = " show"
+desc = "查看 IPv6 链路本地地址，后续通信还需要指定接口；指定 show"
+
+[[commands.tokens]]
+text = " scope"
+desc = "查看 IPv6 链路本地地址，后续通信还需要指定接口；指定 scope"
+
+[[commands.tokens]]
+text = " link"
+desc = "查看 IPv6 链路本地地址，后续通信还需要指定接口；指定 link"
+
+[commands.dictation]
+prompt = "查看 IPv6 链路本地地址，后续通信还需要指定接口"
+answers = ["ip -6 address show scope link"]
+
+[[commands]]
+id = "v04-address-46a4a719e0"
+command = "ip -o -4 address show"
+summary = "每个 IPv4 地址一行，便于人工比较多地址配置"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -o"
+desc = "每个记录输出一行"
+
+[[commands.tokens]]
+text = " -4"
+desc = "限制为 IPv4"
+
+[[commands.tokens]]
+text = " address"
+desc = "每个 IPv4 地址一行，便于人工比较多地址配置；指定 address"
+
+[[commands.tokens]]
+text = " show"
+desc = "每个 IPv4 地址一行，便于人工比较多地址配置；指定 show"
+
+[commands.dictation]
+prompt = "每个 IPv4 地址一行，便于人工比较多地址配置"
+answers = ["ip -o -4 address show"]
+
+[[commands]]
+id = "v04-address-cc1c6464e1"
+command = "hostname -I"
+summary = "列出主机非回环地址；多地址时不能据第一项判断出口"
+
+[[commands.tokens]]
+text = "hostname"
+desc = "列出主机非回环地址；多地址时不能据第一项判断出口"
+
+[[commands.tokens]]
+text = " -I"
+desc = "列出主机非回环地址；多地址时不能据第一项判断出口；此处使用 -I 选项"
+
+[commands.dictation]
+prompt = "列出主机非回环地址；多地址时不能据第一项判断出口"
+answers = ["hostname -I"]
+
+[[commands]]
+id = "v04-address-07379dab59"
+command = "networkctl status ens33"
+summary = "在 systemd-networkd 环境检查接口配置和获取地址状态"
+
+[[commands.tokens]]
+text = "networkctl"
+desc = "在 systemd-networkd 环境检查接口配置和获取地址状态"
+
+[[commands.tokens]]
+text = " status"
+desc = "在 systemd-networkd 环境检查接口配置和获取地址状态；指定 status"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "在 systemd-networkd 环境检查接口配置和获取地址状态；指定 ens33"
+
+[commands.dictation]
+prompt = "在 systemd-networkd 环境检查接口配置和获取地址状态"
+answers = ["networkctl status ens33"]
+
+[[commands]]
+id = "v04-address-1f6c4402cd"
+command = "networkctl list --no-pager"
+summary = "查看网络接口管理状态，不使用分页器"
+
+[[commands.tokens]]
+text = "networkctl"
+desc = "查看网络接口管理状态，不使用分页器"
+
+[[commands.tokens]]
+text = " list"
+desc = "查看网络接口管理状态，不使用分页器；指定 list"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "禁用分页器，直接输出便于查看的结果"
+
+[commands.dictation]
+prompt = "查看网络接口管理状态，不使用分页器"
+answers = ["networkctl list --no-pager"]
+
+[[commands]]
+id = "v04-address-cf9fcd5186"
+command = "nmcli device status"
+summary = "在 NetworkManager 环境核对设备连接状态"
+
+[[commands.tokens]]
+text = "nmcli"
+desc = "在 NetworkManager 环境核对设备连接状态"
+
+[[commands.tokens]]
+text = " device"
+desc = "在 NetworkManager 环境核对设备连接状态；指定 device"
+
+[[commands.tokens]]
+text = " status"
+desc = "在 NetworkManager 环境核对设备连接状态；指定 status"
+
+[commands.dictation]
+prompt = "在 NetworkManager 环境核对设备连接状态"
+answers = ["nmcli device status"]
+
+[[commands]]
+id = "v04-address-eab52c0607"
+command = "nmcli -f GENERAL,IP4,IP6 device show ens33"
+summary = "显示 NetworkManager 中 ens33 的地址和网关"
+
+[[commands.tokens]]
+text = "nmcli"
+desc = "显示 NetworkManager 中 ens33 的地址和网关"
+
+[[commands.tokens]]
+text = " -f"
+desc = "显示 NetworkManager 中 ens33 的地址和网关；此处使用 -f 选项"
+
+[[commands.tokens]]
+text = " GENERAL,IP4,IP6"
+desc = "显示 NetworkManager 中 ens33 的地址和网关；指定 GENERAL,IP4,IP6"
+
+[[commands.tokens]]
+text = " device"
+desc = "显示 NetworkManager 中 ens33 的地址和网关；指定 device"
+
+[[commands.tokens]]
+text = " show"
+desc = "显示 NetworkManager 中 ens33 的地址和网关；指定 show"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "显示 NetworkManager 中 ens33 的地址和网关；指定 ens33"
+
+[commands.dictation]
+prompt = "显示 NetworkManager 中 ens33 的地址和网关"
+answers = ["nmcli -f GENERAL,IP4,IP6 device show ens33"]
+
+[[commands]]
+id = "v04-address-acb2f2198d"
+command = "python3 -c 'import ipaddress; print(ipaddress.ip_interface(\"192.0.2.10/24\").network)'"
+summary = "用 Python 标准库计算接口所属网络，不发起网络连接"
+simulated_output = "192.0.2.0/24"
+
+[[commands.tokens]]
+text = "python3"
+desc = "运行 Python 3 解释器或标准库工具"
+
+[[commands.tokens]]
+text = " -c"
+desc = "执行随后的 Python 代码字符串"
+
+[[commands.tokens]]
+text = " 'import ipaddress; print(ipaddress.ip_interface(\"192.0.2.10/24\").network)'"
+desc = "引号保护此参数中的空格或特殊符号；用 Python 标准库计算接口所属网络，不发起网络连接"
+
+[commands.dictation]
+prompt = "用 Python 标准库计算接口所属网络，不发起网络连接"
+answers = ["python3 -c 'import ipaddress; print(ipaddress.ip_interface(\"192.0.2.10/24\").network)'"]

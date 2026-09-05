@@ -1,0 +1,377 @@
+[meta]
+category = "file_ops"
+difficulty = "basic"
+description = "在 ~/ops-lab 准备实验文件；先清点元数据，再选择复制或移动的保护选项。"
+
+[meta.topic]
+id = "v04_files"
+title = "文件清点与可靠复制"
+icon = "🧰"
+order = 125
+
+[[commands]]
+id = "v04-files-5b82a8ed5e"
+command = "ls -lah /srv/app"
+summary = "查看部署目录的隐藏文件与可读大小"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " -lah"
+desc = "查看部署目录的隐藏文件与可读大小；此处使用 -lah 选项"
+
+[[commands.tokens]]
+text = " /srv/app"
+desc = "本次操作指定的路径：/srv/app"
+
+[commands.dictation]
+prompt = "查看部署目录的隐藏文件与可读大小"
+answers = ["ls -lah /srv/app"]
+
+[[commands]]
+id = "v04-files-67c7de2ea1"
+command = "ls -ld /srv/app /srv/app/releases"
+summary = "只显示目录本身的权限和所有者"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " -ld"
+desc = "只显示目录本身的权限和所有者；此处使用 -ld 选项"
+
+[[commands.tokens]]
+text = " /srv/app"
+desc = "本次操作指定的路径：/srv/app"
+
+[[commands.tokens]]
+text = " /srv/app/releases"
+desc = "本次操作指定的路径：/srv/app/releases"
+
+[commands.dictation]
+prompt = "只显示目录本身的权限和所有者"
+answers = ["ls -ld /srv/app /srv/app/releases"]
+
+[[commands]]
+id = "v04-files-f244e668f0"
+command = "ls -ltr /var/log/nginx"
+summary = "按修改时间从旧到新排列 nginx 日志"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " -ltr"
+desc = "按修改时间从旧到新排列 nginx 日志；此处使用 -ltr 选项"
+
+[[commands.tokens]]
+text = " /var/log/nginx"
+desc = "本次操作指定的路径：/var/log/nginx"
+
+[commands.dictation]
+prompt = "按修改时间从旧到新排列 nginx 日志"
+answers = ["ls -ltr /var/log/nginx"]
+
+[[commands]]
+id = "v04-files-c3330b1800"
+command = "stat -c '%n %s %y' /srv/app/config.yml"
+summary = "读取配置文件名称、字节大小和修改时间"
+
+[[commands.tokens]]
+text = "stat"
+desc = "读取文件详细元数据"
+
+[[commands.tokens]]
+text = " -c"
+desc = "读取配置文件名称、字节大小和修改时间；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " '%n %s %y'"
+desc = "引号保护此参数中的空格或特殊符号；读取配置文件名称、字节大小和修改时间"
+
+[[commands.tokens]]
+text = " /srv/app/config.yml"
+desc = "本次操作指定的路径：/srv/app/config.yml"
+
+[commands.dictation]
+prompt = "读取配置文件名称、字节大小和修改时间"
+answers = ["stat -c '%n %s %y' /srv/app/config.yml"]
+
+[[commands]]
+id = "v04-files-1adf86f107"
+command = "stat -c '%a %U:%G %n' /srv/app/config.yml"
+summary = "核对配置文件数字权限及所有者"
+
+[[commands.tokens]]
+text = "stat"
+desc = "读取文件详细元数据"
+
+[[commands.tokens]]
+text = " -c"
+desc = "核对配置文件数字权限及所有者；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " '%a %U:%G %n'"
+desc = "引号保护此参数中的空格或特殊符号；核对配置文件数字权限及所有者"
+
+[[commands.tokens]]
+text = " /srv/app/config.yml"
+desc = "本次操作指定的路径：/srv/app/config.yml"
+
+[commands.dictation]
+prompt = "核对配置文件数字权限及所有者"
+answers = ["stat -c '%a %U:%G %n' /srv/app/config.yml"]
+
+[[commands]]
+id = "v04-files-55d915b971"
+command = "file --mime-type report.csv"
+summary = "识别实验文件 MIME 类型，不仅依赖扩展名"
+
+[[commands.tokens]]
+text = "file"
+desc = "识别实验文件 MIME 类型，不仅依赖扩展名"
+
+[[commands.tokens]]
+text = " --mime-type"
+desc = "识别实验文件 MIME 类型，不仅依赖扩展名；此处使用 --mime-type 选项"
+
+[[commands.tokens]]
+text = " report.csv"
+desc = "识别实验文件 MIME 类型，不仅依赖扩展名；指定 report.csv"
+
+[commands.dictation]
+prompt = "识别实验文件 MIME 类型，不仅依赖扩展名"
+answers = ["file --mime-type report.csv"]
+
+[[commands]]
+id = "v04-files-a583ae7f71"
+command = "readlink -f /srv/app/current"
+summary = "解析部署 current 符号链接的最终路径"
+
+[[commands.tokens]]
+text = "readlink"
+desc = "读取或解析符号链接目标"
+
+[[commands.tokens]]
+text = " -f"
+desc = "解析部署 current 符号链接的最终路径；此处使用 -f 选项"
+
+[[commands.tokens]]
+text = " /srv/app/current"
+desc = "本次操作指定的路径：/srv/app/current"
+
+[commands.dictation]
+prompt = "解析部署 current 符号链接的最终路径"
+answers = ["readlink -f /srv/app/current"]
+
+[[commands]]
+id = "v04-files-de0fe05bba"
+command = "realpath --relative-to=/srv/app /srv/app/releases/v1"
+summary = "计算部署目录内的相对路径"
+
+[[commands.tokens]]
+text = "realpath"
+desc = "计算部署目录内的相对路径"
+
+[[commands.tokens]]
+text = " --relative-to=/srv/app"
+desc = "计算部署目录内的相对路径；此处使用 --relative-to=/srv/app 选项"
+
+[[commands.tokens]]
+text = " /srv/app/releases/v1"
+desc = "本次操作指定的路径：/srv/app/releases/v1"
+
+[commands.dictation]
+prompt = "计算部署目录内的相对路径"
+answers = ["realpath --relative-to=/srv/app /srv/app/releases/v1"]
+
+[[commands]]
+id = "v04-files-0c135e995f"
+command = "mkdir -p ~/ops-lab/{input,output,backup}"
+summary = "一次准备三个隔离实验目录，练习花括号展开"
+
+[[commands.tokens]]
+text = "mkdir"
+desc = "一次准备三个隔离实验目录，练习花括号展开"
+
+[[commands.tokens]]
+text = " -p"
+desc = "一次准备三个隔离实验目录，练习花括号展开；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/{input,output,backup}"
+desc = "本次操作指定的路径：~/ops-lab/{input,output,backup}"
+
+[commands.dictation]
+prompt = "一次准备三个隔离实验目录，练习花括号展开"
+answers = ["mkdir -p ~/ops-lab/{input,output,backup}"]
+
+[[commands]]
+id = "v04-files-a5520dc001"
+command = "cp -a ~/ops-lab/input/. ~/ops-lab/backup/"
+summary = "复制实验目录内容并尽量保留属性，包含隐藏文件"
+
+[[commands.tokens]]
+text = "cp"
+desc = "复制实验目录内容并尽量保留属性，包含隐藏文件"
+
+[[commands.tokens]]
+text = " -a"
+desc = "复制实验目录内容并尽量保留属性，包含隐藏文件；此处使用 -a 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input/."
+desc = "本次操作指定的路径：~/ops-lab/input/."
+
+[[commands.tokens]]
+text = " ~/ops-lab/backup/"
+desc = "本次操作指定的路径：~/ops-lab/backup/"
+
+[commands.dictation]
+prompt = "复制实验目录内容并尽量保留属性，包含隐藏文件"
+answers = ["cp -a ~/ops-lab/input/. ~/ops-lab/backup/"]
+
+[[commands]]
+id = "v04-files-42b06544b3"
+command = "cp --backup=numbered config.yml config.yml.saved"
+summary = "在实验目录复制配置并使用编号备份保护已有目标"
+
+[[commands.tokens]]
+text = "cp"
+desc = "在实验目录复制配置并使用编号备份保护已有目标"
+
+[[commands.tokens]]
+text = " --backup=numbered"
+desc = "在实验目录复制配置并使用编号备份保护已有目标；此处使用 --backup=numbered 选项"
+
+[[commands.tokens]]
+text = " config.yml"
+desc = "在实验目录复制配置并使用编号备份保护已有目标；指定 config.yml"
+
+[[commands.tokens]]
+text = " config.yml.saved"
+desc = "在实验目录复制配置并使用编号备份保护已有目标；指定 config.yml.saved"
+
+[commands.dictation]
+prompt = "在实验目录复制配置并使用编号备份保护已有目标"
+answers = ["cp --backup=numbered config.yml config.yml.saved"]
+
+[[commands]]
+id = "v04-files-6bfec4894a"
+command = "mv -i draft.txt report.txt"
+summary = "交互确认覆盖目标，避免误覆盖实验报告"
+
+[[commands.tokens]]
+text = "mv"
+desc = "交互确认覆盖目标，避免误覆盖实验报告"
+
+[[commands.tokens]]
+text = " -i"
+desc = "交互确认覆盖目标，避免误覆盖实验报告；此处使用 -i 选项"
+
+[[commands.tokens]]
+text = " draft.txt"
+desc = "交互确认覆盖目标，避免误覆盖实验报告；指定 draft.txt"
+
+[[commands.tokens]]
+text = " report.txt"
+desc = "交互确认覆盖目标，避免误覆盖实验报告；指定 report.txt"
+
+[commands.dictation]
+prompt = "交互确认覆盖目标，避免误覆盖实验报告"
+answers = ["mv -i draft.txt report.txt"]
+
+[[commands]]
+id = "v04-files-1797bb355b"
+command = "install -m 640 settings.ini ~/ops-lab/output/settings.ini"
+summary = "复制实验配置并直接设置目标权限为 640"
+
+[[commands.tokens]]
+text = "install"
+desc = "复制实验配置并直接设置目标权限为 640"
+
+[[commands.tokens]]
+text = " -m"
+desc = "复制实验配置并直接设置目标权限为 640；此处使用 -m 选项"
+
+[[commands.tokens]]
+text = " 640"
+desc = "本次练习的数值参数 640；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " settings.ini"
+desc = "复制实验配置并直接设置目标权限为 640；指定 settings.ini"
+
+[[commands.tokens]]
+text = " ~/ops-lab/output/settings.ini"
+desc = "本次操作指定的路径：~/ops-lab/output/settings.ini"
+
+[commands.dictation]
+prompt = "复制实验配置并直接设置目标权限为 640"
+answers = ["install -m 640 settings.ini ~/ops-lab/output/settings.ini"]
+
+[[commands]]
+id = "v04-files-d7a94ab8fb"
+command = "find ~/ops-lab -maxdepth 2 -type f -print"
+summary = "只清点实验目录两层以内的普通文件"
+
+[[commands.tokens]]
+text = "find"
+desc = "按路径、类型或属性筛选文件"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作指定的路径：~/ops-lab"
+
+[[commands.tokens]]
+text = " -maxdepth"
+desc = "只清点实验目录两层以内的普通文件；此处使用 -maxdepth 选项"
+
+[[commands.tokens]]
+text = " 2"
+desc = "本次练习的数值参数 2；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -type"
+desc = "只清点实验目录两层以内的普通文件；此处使用 -type 选项"
+
+[[commands.tokens]]
+text = " f"
+desc = "只清点实验目录两层以内的普通文件；指定 f"
+
+[[commands.tokens]]
+text = " -print"
+desc = "只清点实验目录两层以内的普通文件；此处使用 -print 选项"
+
+[commands.dictation]
+prompt = "只清点实验目录两层以内的普通文件"
+answers = ["find ~/ops-lab -maxdepth 2 -type f -print"]
+
+[[commands]]
+id = "v04-files-574b65a290"
+command = "du -sh ~/ops-lab/input ~/ops-lab/backup"
+summary = "比较实验输入与备份目录总用量"
+
+[[commands.tokens]]
+text = "du"
+desc = "比较实验输入与备份目录总用量"
+
+[[commands.tokens]]
+text = " -sh"
+desc = "比较实验输入与备份目录总用量；此处使用 -sh 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input"
+desc = "本次操作指定的路径：~/ops-lab/input"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backup"
+desc = "本次操作指定的路径：~/ops-lab/backup"
+
+[commands.dictation]
+prompt = "比较实验输入与备份目录总用量"
+answers = ["du -sh ~/ops-lab/input ~/ops-lab/backup"]

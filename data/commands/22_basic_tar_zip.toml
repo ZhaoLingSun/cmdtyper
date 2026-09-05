@@ -1,3 +1,4 @@
+
 [meta]
 category = "archive"
 difficulty = "basic"
@@ -33,18 +34,13 @@ desc = "要打包的源目录"
 
 [commands.dictation]
 prompt = "已确认当前目录不存在 website.tar.gz；将 public 目录打包并用 gzip 压缩为该归档"
-answers = [
-    "tar -czf website.tar.gz public",
-]
+answers = ["tar -czf website.tar.gz public"]
 
 [[commands]]
 id = "tar-tzf-website"
 command = "tar -tzf website.tar.gz"
 summary = "不解压，先检查 gzip 归档内容"
-simulated_output = """public/
-public/index.html
-public/assets/
-public/assets/app.css"""
+simulated_output = "public/\npublic/index.html\npublic/assets/\npublic/assets/app.css"
 
 [[commands.tokens]]
 text = "tar"
@@ -60,38 +56,33 @@ desc = "只查看而不提取的归档"
 
 [commands.dictation]
 prompt = "不解压，列出 gzip 归档 website.tar.gz 的内容"
-answers = [
-    "tar -tzf website.tar.gz",
-]
+answers = ["tar -tzf website.tar.gz"]
 
 [[commands]]
 id = "tar-xzf-website"
-command = "(tar -tzf website.tar.gz && printf '清单确认安全后输入 yes: ' && read -r ok && [ \"$ok\" = yes ] && umask 077 && dest=$(mktemp -d) && chmod 700 \"$dest\" && tar --extract --gzip --no-same-owner --no-same-permissions --file website.tar.gz --directory \"$dest\" && printf '提取目录：%s\\n' \"$dest\")"
-summary = "先检查归档清单并确认，再以普通用户提取到新建的私有空目录"
+command = "tar -tzf website.tar.gz\ndest=$(mktemp -d)\ntar --extract --gzip --no-same-owner --no-same-permissions --file website.tar.gz --directory \"$dest\"\nfind \"$dest\" -maxdepth 2 -type f"
+summary = "先检查归档清单并确认，再以普通用户提取到新建的私有空目录；逐条回车，确认成功再继续"
 simulated_output = "public/\npublic/index.html\npublic/assets/\npublic/assets/app.css\n清单确认安全后输入 yes: yes\n提取目录：/tmp/tmp.Q7m2Xa"
 
 [[commands.tokens]]
-text = "(tar -tzf website.tar.gz"
-desc = "先只读列出全部成员，让用户检查绝对路径、..、异常顶层布局和可疑名称"
+text = "tar -tzf website.tar.gz\n"
+desc = "先阅读压缩包清单，人工确认路径安全后再继续"
 
 [[commands.tokens]]
-text = " && printf '清单确认安全后输入 yes: ' && read -r ok && [ \"$ok\" = yes ]"
-desc = "只有人工确认清单可接受后才继续，其他输入都会停止"
+text = "dest=$(mktemp -d)\n"
+desc = "创建一个新的提取目录，命令替换保存目录路径"
 
 [[commands.tokens]]
-text = " && umask 077 && dest=$(mktemp -d) && chmod 700 \"$dest\""
-desc = "创建当前用户拥有的唯一 0700 空目录，避免覆盖现有 public/ 或跟随共享临时树"
+text = "tar --extract --gzip --no-same-owner --no-same-permissions --file website.tar.gz --directory \"$dest\"\n"
+desc = "提取到指定目录，不恢复归档中保存的所有者或宽松权限"
 
 [[commands.tokens]]
-text = " && tar --extract --gzip --no-same-owner --no-same-permissions --file website.tar.gz --directory \"$dest\""
-desc = "以普通用户在隔离目录中提取，并拒绝恢复归档中的所有者和宽松权限"
+text = "find \"$dest\" -maxdepth 2 -type f"
+desc = "检查解压后的文件层级和文件名"
 
-[[commands.tokens]]
-text = " && printf '提取目录：%s\\n' \"$dest\")"
-desc = "成功后报告本次随机提取目录，供继续检查文件类型、链接和内容"
 [commands.dictation]
-prompt = "先只读列出 website.tar.gz 的成员；确认没有绝对路径、.. 或异常布局后输入 yes，再以当前普通用户提取到 mktemp -d 新建的唯一 0700 空目录，忽略归档所有者和宽松权限，最后输出实际目录"
-answers = ["(tar -tzf website.tar.gz && printf '清单确认安全后输入 yes: ' && read -r ok && [ \"$ok\" = yes ] && umask 077 && dest=$(mktemp -d) && chmod 700 \"$dest\" && tar --extract --gzip --no-same-owner --no-same-permissions --file website.tar.gz --directory \"$dest\" && printf '提取目录：%s\\n' \"$dest\")"]
+prompt = "先查看 website.tar.gz 清单，确认没有绝对路径和 .. 越界路径后，将其提取到新建目录并检查文件。逐条按 Enter 继续。"
+answers = ["tar -tzf website.tar.gz\ndest=$(mktemp -d)\ntar --extract --gzip --no-same-owner --no-same-permissions --file website.tar.gz --directory \"$dest\"\nfind \"$dest\" -maxdepth 2 -type f"]
 
 [[commands]]
 id = "tar-xzf-to-restore"
@@ -121,17 +112,13 @@ desc = "已存在且为空的提取目标目录，避免与现有路径碰撞"
 
 [commands.dictation]
 prompt = "已检查归档清单，且 restore 目录存在并为空；将 website.tar.gz 还原到该目录"
-answers = [
-    "tar -xzf website.tar.gz -C restore",
-]
+answers = ["tar -xzf website.tar.gz -C restore"]
 
 [[commands]]
 id = "tar-xvf-logs"
 command = "tar -xvf logs.tar"
 summary = "确认目标路径不存在后，详细显示归档提取过程"
-simulated_output = """logs/
-logs/app.log
-logs/error.log"""
+simulated_output = "logs/\nlogs/app.log\nlogs/error.log"
 
 [[commands.tokens]]
 text = "tar"
@@ -147,17 +134,13 @@ desc = "已检查内容清单的未压缩归档；提取会创建清单中的路
 
 [commands.dictation]
 prompt = "已确认当前目录不存在归档清单中的 logs 路径；详细显示从 logs.tar 取出的每个路径"
-answers = [
-    "tar -xvf logs.tar",
-]
+answers = ["tar -xvf logs.tar"]
 
 [[commands]]
 id = "zip-r-src"
 command = "zip -r source-code.zip src"
 summary = "确认压缩包不存在后，递归压缩 src 目录"
-simulated_output = """  adding: src/ (stored 0%)
-  adding: src/main.rs (deflated 54%)
-  adding: src/lib.rs (deflated 48%)"""
+simulated_output = "  adding: src/ (stored 0%)\n  adding: src/main.rs (deflated 54%)\n  adding: src/lib.rs (deflated 48%)"
 
 [[commands.tokens]]
 text = "zip"
@@ -177,16 +160,13 @@ desc = "要递归压缩的源目录"
 
 [commands.dictation]
 prompt = "已确认当前目录不存在 source-code.zip；递归压缩 src 目录及其全部内容为该压缩包"
-answers = [
-    "zip -r source-code.zip src",
-]
+answers = ["zip -r source-code.zip src"]
 
 [[commands]]
 id = "zip-documents"
 command = "zip documents.zip report.pdf notes.txt"
 summary = "确认压缩包不存在后，把两个文件放入新 ZIP"
-simulated_output = """  adding: report.pdf (deflated 8%)
-  adding: notes.txt (deflated 39%)"""
+simulated_output = "  adding: report.pdf (deflated 8%)\n  adding: notes.txt (deflated 39%)"
 
 [[commands.tokens]]
 text = "zip"
@@ -206,22 +186,13 @@ desc = "第二个要加入压缩包的文件"
 
 [commands.dictation]
 prompt = "已确认当前目录不存在 documents.zip；把 report.pdf 和 notes.txt 一起压缩到这个新 ZIP 中"
-answers = [
-    "zip documents.zip report.pdf notes.txt",
-]
+answers = ["zip documents.zip report.pdf notes.txt"]
 
 [[commands]]
 id = "unzip-list-source-code"
 command = "unzip -l source-code.zip"
 summary = "不展开文件，查看 ZIP 内容清单"
-simulated_output = """Archive:  source-code.zip
-  Length      Date    Time    Name
----------  ---------- -----   ----
-        0  2026-07-26 10:00   src/
-      428  2026-07-26 10:00   src/main.rs
-      195  2026-07-26 10:00   src/lib.rs
----------                     -------
-      623                     3 files"""
+simulated_output = "Archive:  source-code.zip\n  Length      Date    Time    Name\n---------  ---------- -----   ----\n        0  2026-07-26 10:00   src/\n      428  2026-07-26 10:00   src/main.rs\n      195  2026-07-26 10:00   src/lib.rs\n---------                     -------\n      623                     3 files"
 
 [[commands.tokens]]
 text = "unzip"
@@ -237,18 +208,13 @@ desc = "要查看的 ZIP 压缩包"
 
 [commands.dictation]
 prompt = "不展开文件，查看 source-code.zip 的内容清单"
-answers = [
-    "unzip -l source-code.zip",
-]
+answers = ["unzip -l source-code.zip"]
 
 [[commands]]
 id = "unzip-source-to-restored"
 command = "unzip source-code.zip -d restored"
 summary = "把 ZIP 内容展开到指定目录"
-simulated_output = """Archive:  source-code.zip
-   creating: restored/src/
-  inflating: restored/src/main.rs
-  inflating: restored/src/lib.rs"""
+simulated_output = "Archive:  source-code.zip\n   creating: restored/src/\n  inflating: restored/src/main.rs\n  inflating: restored/src/lib.rs"
 
 [[commands.tokens]]
 text = "unzip"
@@ -268,19 +234,13 @@ desc = "存放解压内容的目录"
 
 [commands.dictation]
 prompt = "将 source-code.zip 的内容展开到 restored 目录"
-answers = [
-    "unzip source-code.zip -d restored",
-]
+answers = ["unzip source-code.zip -d restored"]
 
 [[commands]]
 id = "unzip-test-source-code"
 command = "unzip -t source-code.zip"
 summary = "不写出文件，检查 ZIP 数据完整性"
-simulated_output = """Archive:  source-code.zip
-    testing: src/                     OK
-    testing: src/main.rs              OK
-    testing: src/lib.rs               OK
-No errors detected in compressed data of source-code.zip."""
+simulated_output = "Archive:  source-code.zip\n    testing: src/                     OK\n    testing: src/main.rs              OK\n    testing: src/lib.rs               OK\nNo errors detected in compressed data of source-code.zip."
 
 [[commands.tokens]]
 text = "unzip"
@@ -296,9 +256,7 @@ desc = "要检查完整性的 ZIP 压缩包"
 
 [commands.dictation]
 prompt = "在不写出文件的情况下校验 source-code.zip 的 CRC"
-answers = [
-    "unzip -t source-code.zip",
-]
+answers = ["unzip -t source-code.zip"]
 
 [[commands]]
 id = "unzip-cp936-legacy"
@@ -328,9 +286,7 @@ desc = "要收入归档的目录及其内容"
 
 [commands.dictation]
 prompt = "已确认当前目录不存在 logs.tar；把 logs 目录及其内容打包为这个未压缩归档"
-answers = [
-    "tar -cf logs.tar logs",
-]
+answers = ["tar -cf logs.tar logs"]
 
 [[commands]]
 id = "gzip-server-log"
@@ -348,9 +304,7 @@ desc = "要压缩的日志；成功后默认移除原文件"
 
 [commands.dictation]
 prompt = "将 server.log 压缩为 server.log.gz，并用默认行为移除原文件"
-answers = [
-    "gzip server.log",
-]
+answers = ["gzip server.log"]
 
 [[commands]]
 id = "gzip-keep-audit-log"
@@ -372,9 +326,7 @@ desc = "要压缩且保留的日志文件"
 
 [commands.dictation]
 prompt = "将 audit.log 压缩为 audit.log.gz，同时保留原文件"
-answers = [
-    "gzip -k audit.log",
-]
+answers = ["gzip -k audit.log"]
 
 [[commands]]
 id = "gunzip-database-sql"
@@ -392,18 +344,13 @@ desc = "要还原为 database.sql 的压缩文件"
 
 [commands.dictation]
 prompt = "将 database.sql.gz 解压还原为 database.sql，并按默认行为移除原压缩文件"
-answers = [
-    "gunzip database.sql.gz",
-    "gzip -d database.sql.gz",
-]
+answers = ["gunzip database.sql.gz", "gzip -d database.sql.gz"]
 
 [[commands]]
 id = "zcat-service-log"
 command = "zcat service.log.gz"
 summary = "直接查看 .gz 文本且不落盘"
-simulated_output = """2026-07-26T10:14:22Z INFO api listening on :8080
-2026-07-26T10:14:27Z INFO GET /health 200 2ms
-2026-07-26T10:15:03Z WARN cache response delayed 184ms"""
+simulated_output = "2026-07-26T10:14:22Z INFO api listening on :8080\n2026-07-26T10:14:27Z INFO GET /health 200 2ms\n2026-07-26T10:15:03Z WARN cache response delayed 184ms"
 
 [[commands.tokens]]
 text = "zcat"
@@ -415,17 +362,13 @@ desc = "要在终端中查看的压缩日志"
 
 [commands.dictation]
 prompt = "不创建解压文件，直接在终端查看 service.log.gz 内容"
-answers = [
-    "zcat service.log.gz",
-    "gunzip -c service.log.gz",
-]
+answers = ["zcat service.log.gz", "gunzip -c service.log.gz"]
 
 [[commands]]
 id = "gzip-list-service-log"
 command = "gzip -l service.log.gz"
 summary = "查看 .gz 文件的大小与压缩率"
-simulated_output = """         compressed        uncompressed  ratio uncompressed_name
-                123                8800  98.9% service.log"""
+simulated_output = "         compressed        uncompressed  ratio uncompressed_name\n                123                8800  98.9% service.log"
 
 [[commands.tokens]]
 text = "gzip"
@@ -441,9 +384,7 @@ desc = "要检查压缩信息的文件"
 
 [commands.dictation]
 prompt = "查看 service.log.gz 的压缩前后大小与压缩率"
-answers = [
-    "gzip -l service.log.gz",
-]
+answers = ["gzip -l service.log.gz"]
 
 [[commands]]
 id = "xz-disk-image"
@@ -461,9 +402,7 @@ desc = "要压缩的镜像；成功后默认移除原文件"
 
 [commands.dictation]
 prompt = "将 disk.img 压缩为 disk.img.xz，并用默认行为移除原文件"
-answers = [
-    "xz disk.img",
-]
+answers = ["xz disk.img"]
 
 [[commands]]
 id = "unxz-disk-image"
@@ -481,17 +420,13 @@ desc = "要还原为 disk.img 的压缩镜像"
 
 [commands.dictation]
 prompt = "将 disk.img.xz 解压还原为 disk.img，并按默认行为移除原压缩文件"
-answers = [
-    "unxz disk.img.xz",
-    "xz -d disk.img.xz",
-]
+answers = ["unxz disk.img.xz", "xz -d disk.img.xz"]
 
 [[commands]]
 id = "xz-list-release"
 command = "xz -l release.tar.xz"
 summary = "不解压，查看 .xz 文件压缩信息"
-simulated_output = """Strms  Blocks   Compressed Uncompressed  Ratio  Check   Filename
-    1       1        132 B     10.3 KiB  0.013  CRC64   release.tar.xz"""
+simulated_output = "Strms  Blocks   Compressed Uncompressed  Ratio  Check   Filename\n    1       1        132 B     10.3 KiB  0.013  CRC64   release.tar.xz"
 
 [[commands.tokens]]
 text = "xz"
@@ -507,6 +442,4 @@ desc = "要检查而不解压的 .xz 文件"
 
 [commands.dictation]
 prompt = "不解压，查看 release.tar.xz 的流数、大小和压缩率"
-answers = [
-    "xz -l release.tar.xz",
-]
+answers = ["xz -l release.tar.xz"]

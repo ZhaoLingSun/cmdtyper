@@ -1,0 +1,306 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "使用管理权限查看进程归属，再用 ps 和 systemctl 确认服务来源。"
+
+[meta.topic]
+id = "v04_port_process"
+title = "从端口找到进程"
+icon = "🌐"
+order = 108
+
+[[commands]]
+id = "v04-port_process-a0859e9a3e"
+command = "sudo ss -ltnp 'sport = :22'"
+summary = "定位 SSH 监听进程和 PID"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -ltnp"
+desc = "查看 TCP 监听及进程，禁用名称解析"
+
+[[commands.tokens]]
+text = " 'sport = :22'"
+desc = "引号保护此参数中的空格或特殊符号；定位 SSH 监听进程和 PID"
+
+[commands.dictation]
+prompt = "定位 SSH 监听进程和 PID"
+answers = ["sudo ss -ltnp 'sport = :22'"]
+
+[[commands]]
+id = "v04-port_process-e42fd0d61b"
+command = "sudo ss -ltnp 'sport = :80'"
+summary = "定位占用 HTTP 端口的进程"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -ltnp"
+desc = "查看 TCP 监听及进程，禁用名称解析"
+
+[[commands.tokens]]
+text = " 'sport = :80'"
+desc = "引号保护此参数中的空格或特殊符号；定位占用 HTTP 端口的进程"
+
+[commands.dictation]
+prompt = "定位占用 HTTP 端口的进程"
+answers = ["sudo ss -ltnp 'sport = :80'"]
+
+[[commands]]
+id = "v04-port_process-f04d731e74"
+command = "sudo ss -ltnp 'sport = :443'"
+summary = "定位占用 HTTPS 端口的进程"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -ltnp"
+desc = "查看 TCP 监听及进程，禁用名称解析"
+
+[[commands.tokens]]
+text = " 'sport = :443'"
+desc = "引号保护此参数中的空格或特殊符号；定位占用 HTTPS 端口的进程"
+
+[commands.dictation]
+prompt = "定位占用 HTTPS 端口的进程"
+answers = ["sudo ss -ltnp 'sport = :443'"]
+
+[[commands]]
+id = "v04-port_process-9ce57cabdf"
+command = "sudo ss -ltnp 'sport = :5432'"
+summary = "定位 PostgreSQL 端口占用者"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -ltnp"
+desc = "查看 TCP 监听及进程，禁用名称解析"
+
+[[commands.tokens]]
+text = " 'sport = :5432'"
+desc = "引号保护此参数中的空格或特殊符号；定位 PostgreSQL 端口占用者"
+
+[commands.dictation]
+prompt = "定位 PostgreSQL 端口占用者"
+answers = ["sudo ss -ltnp 'sport = :5432'"]
+
+[[commands]]
+id = "v04-port_process-84205b4dd3"
+command = "sudo ss -ltnp 'sport = :8000'"
+summary = "定位后端端口进程，后续核对其命令行"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -ltnp"
+desc = "查看 TCP 监听及进程，禁用名称解析"
+
+[[commands.tokens]]
+text = " 'sport = :8000'"
+desc = "引号保护此参数中的空格或特殊符号；定位后端端口进程，后续核对其命令行"
+
+[commands.dictation]
+prompt = "定位后端端口进程，后续核对其命令行"
+answers = ["sudo ss -ltnp 'sport = :8000'"]
+
+[[commands]]
+id = "v04-port_process-f55425c80b"
+command = "sudo lsof -nP -iTCP:8080 -sTCP:LISTEN"
+summary = "只列出监听 8080 的进程，不做 DNS 和服务名解析"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " lsof"
+desc = "只列出监听 8080 的进程，不做 DNS 和服务名解析"
+
+[[commands.tokens]]
+text = " -nP"
+desc = "只列出监听 8080 的进程，不做 DNS 和服务名解析；此处使用 -nP 选项"
+
+[[commands.tokens]]
+text = " -iTCP:8080"
+desc = "只列出监听 8080 的进程，不做 DNS 和服务名解析；此处使用 -iTCP:8080 选项"
+
+[[commands.tokens]]
+text = " -sTCP:LISTEN"
+desc = "只列出监听 8080 的进程，不做 DNS 和服务名解析；此处使用 -sTCP:LISTEN 选项"
+
+[commands.dictation]
+prompt = "只列出监听 8080 的进程，不做 DNS 和服务名解析"
+answers = ["sudo lsof -nP -iTCP:8080 -sTCP:LISTEN"]
+
+[[commands]]
+id = "v04-port_process-f733760b75"
+command = "sudo lsof -nP -iTCP:443 -sTCP:LISTEN"
+summary = "用 lsof 交叉验证 HTTPS 监听进程"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " lsof"
+desc = "用 lsof 交叉验证 HTTPS 监听进程"
+
+[[commands.tokens]]
+text = " -nP"
+desc = "用 lsof 交叉验证 HTTPS 监听进程；此处使用 -nP 选项"
+
+[[commands.tokens]]
+text = " -iTCP:443"
+desc = "用 lsof 交叉验证 HTTPS 监听进程；此处使用 -iTCP:443 选项"
+
+[[commands.tokens]]
+text = " -sTCP:LISTEN"
+desc = "用 lsof 交叉验证 HTTPS 监听进程；此处使用 -sTCP:LISTEN 选项"
+
+[commands.dictation]
+prompt = "用 lsof 交叉验证 HTTPS 监听进程"
+answers = ["sudo lsof -nP -iTCP:443 -sTCP:LISTEN"]
+
+[[commands]]
+id = "v04-port_process-55d413c5dd"
+command = "sudo fuser -v 8080/tcp"
+summary = "只读显示使用 TCP 8080 的 PID 和访问类型"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " fuser"
+desc = "只读显示使用 TCP 8080 的 PID 和访问类型"
+
+[[commands.tokens]]
+text = " -v"
+desc = "只读显示使用 TCP 8080 的 PID 和访问类型；此处使用 -v 选项"
+
+[[commands.tokens]]
+text = " 8080/tcp"
+desc = "只读显示使用 TCP 8080 的 PID 和访问类型；指定 8080/tcp"
+
+[commands.dictation]
+prompt = "只读显示使用 TCP 8080 的 PID 和访问类型"
+answers = ["sudo fuser -v 8080/tcp"]
+
+[[commands]]
+id = "v04-port_process-5f7f6b1e5a"
+command = "ps -p 4242 -o pid,ppid,user,lstart,args"
+summary = "对实验 PID 核对父进程、账号、启动时间和完整命令"
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示进程快照及所选字段"
+
+[[commands.tokens]]
+text = " -p"
+desc = "对实验 PID 核对父进程、账号、启动时间和完整命令；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " 4242"
+desc = "本次练习的数值参数 4242；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -o"
+desc = "对实验 PID 核对父进程、账号、启动时间和完整命令；此处使用 -o 选项"
+
+[[commands.tokens]]
+text = " pid,ppid,user,lstart,args"
+desc = "对实验 PID 核对父进程、账号、启动时间和完整命令；指定 pid,ppid,user,lstart,args"
+
+[commands.dictation]
+prompt = "对实验 PID 核对父进程、账号、启动时间和完整命令"
+answers = ["ps -p 4242 -o pid,ppid,user,lstart,args"]
+
+[[commands]]
+id = "v04-port_process-b7288769bf"
+command = "readlink /proc/4242/exe"
+summary = "查看实验进程实际运行的可执行文件"
+
+[[commands.tokens]]
+text = "readlink"
+desc = "读取或解析符号链接目标"
+
+[[commands.tokens]]
+text = " /proc/4242/exe"
+desc = "本次操作指定的路径：/proc/4242/exe"
+
+[commands.dictation]
+prompt = "查看实验进程实际运行的可执行文件"
+answers = ["readlink /proc/4242/exe"]
+
+[[commands]]
+id = "v04-port_process-cbf59d7054"
+command = "cat /proc/4242/cgroup"
+summary = "查看实验进程所属控制组，关联 systemd 单元或容器"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /proc/4242/cgroup"
+desc = "本次操作指定的路径：/proc/4242/cgroup"
+
+[commands.dictation]
+prompt = "查看实验进程所属控制组，关联 systemd 单元或容器"
+answers = ["cat /proc/4242/cgroup"]
+
+[[commands]]
+id = "v04-port_process-441c7bce89"
+command = "systemctl status 4242 --no-pager"
+summary = "根据实验 PID 查找所属 systemd 服务状态"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " status"
+desc = "根据实验 PID 查找所属 systemd 服务状态；指定 status"
+
+[[commands.tokens]]
+text = " 4242"
+desc = "本次练习的数值参数 4242；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "禁用分页器，直接输出便于查看的结果"
+
+[commands.dictation]
+prompt = "根据实验 PID 查找所属 systemd 服务状态"
+answers = ["systemctl status 4242 --no-pager"]

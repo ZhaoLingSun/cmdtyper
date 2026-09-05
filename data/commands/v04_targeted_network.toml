@@ -1,0 +1,122 @@
+
+[meta]
+category = "network"
+difficulty = "basic"
+description = "针对基础用法具体操作、方向和选项的三题练习；只在模拟实验环境中输入。"
+
+[[commands]]
+id = "v04-ex-qa-52a1663e5c"
+command = "curl -I https://www.kernel.org/"
+summary = "对另一官方站点只读取 HTTP 响应头"
+
+[[commands.tokens]]
+text = "curl"
+desc = "对另一官方站点只读取 HTTP 响应头"
+
+[[commands.tokens]]
+text = " -I"
+desc = "本次操作参数：-I。对另一官方站点只读取 HTTP 响应头"
+
+[[commands.tokens]]
+text = " https://www.kernel.org/"
+desc = "本次操作参数：https://www.kernel.org/。对另一官方站点只读取 HTTP 响应头"
+
+[commands.dictation]
+prompt = "对另一官方站点只读取 HTTP 响应头"
+answers = ["curl -I https://www.kernel.org/"]
+
+[[commands]]
+id = "v04-ex-qa-c34a45b2fc"
+command = "scp ~/ops-lab/notes.txt alice@server.example.com:/home/alice/notes.txt"
+summary = "以域名指定服务器并上传本地实验笔记"
+
+[[commands.tokens]]
+text = "scp"
+desc = "以域名指定服务器并上传本地实验笔记"
+
+[[commands.tokens]]
+text = " ~/ops-lab/notes.txt"
+desc = "本次操作参数：~/ops-lab/notes.txt。以域名指定服务器并上传本地实验笔记"
+
+[[commands.tokens]]
+text = " alice@server.example.com:/home/alice/notes.txt"
+desc = "本次操作参数：alice@server.example.com:/home/alice/notes.txt。以域名指定服务器并上传本地实验笔记"
+
+[commands.dictation]
+prompt = "以域名指定服务器并上传本地实验笔记"
+answers = ["scp ~/ops-lab/notes.txt alice@server.example.com:/home/alice/notes.txt"]
+
+[[commands]]
+id = "v04-ex-qa-e4a993d13f"
+command = "scp -P 2222 ops@192.0.2.20:/tmp/settings.ini ~/ops-lab/input/"
+summary = "通过指定 SSH 端口下载实验配置"
+
+[[commands.tokens]]
+text = "scp"
+desc = "通过指定 SSH 端口下载实验配置"
+
+[[commands.tokens]]
+text = " -P"
+desc = "本次操作参数：-P。通过指定 SSH 端口下载实验配置"
+
+[[commands.tokens]]
+text = " 2222"
+desc = "本次操作参数：2222。通过指定 SSH 端口下载实验配置"
+
+[[commands.tokens]]
+text = " ops@192.0.2.20:/tmp/settings.ini"
+desc = "本次操作参数：ops@192.0.2.20:/tmp/settings.ini。通过指定 SSH 端口下载实验配置"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input/"
+desc = "本次操作参数：~/ops-lab/input/。通过指定 SSH 端口下载实验配置"
+
+[commands.dictation]
+prompt = "通过指定 SSH 端口下载实验配置"
+answers = ["scp -P 2222 ops@192.0.2.20:/tmp/settings.ini ~/ops-lab/input/"]
+
+[[commands]]
+id = "v04-ex-qa-96857c6727"
+command = "scp alice@server.example.com:/home/alice/notes.txt ~/ops-lab/input/"
+summary = "从域名指定的服务器下载实验笔记"
+
+[[commands.tokens]]
+text = "scp"
+desc = "从域名指定的服务器下载实验笔记"
+
+[[commands.tokens]]
+text = " alice@server.example.com:/home/alice/notes.txt"
+desc = "本次操作参数：alice@server.example.com:/home/alice/notes.txt。从域名指定的服务器下载实验笔记"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input/"
+desc = "本次操作参数：~/ops-lab/input/。从域名指定的服务器下载实验笔记"
+
+[commands.dictation]
+prompt = "从域名指定的服务器下载实验笔记"
+answers = ["scp alice@server.example.com:/home/alice/notes.txt ~/ops-lab/input/"]
+
+[[commands]]
+id = "v04-ex-qa-c0647edaca"
+command = "wget -O hello.tar.gz https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz"
+summary = "从 GNU 官方站点下载实验归档并指定本地名称"
+
+[[commands.tokens]]
+text = "wget"
+desc = "从 GNU 官方站点下载实验归档并指定本地名称"
+
+[[commands.tokens]]
+text = " -O"
+desc = "本次操作参数：-O。从 GNU 官方站点下载实验归档并指定本地名称"
+
+[[commands.tokens]]
+text = " hello.tar.gz"
+desc = "本次操作参数：hello.tar.gz。从 GNU 官方站点下载实验归档并指定本地名称"
+
+[[commands.tokens]]
+text = " https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz"
+desc = "本次操作参数：https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz。从 GNU 官方站点下载实验归档并指定本地名称"
+
+[commands.dictation]
+prompt = "从 GNU 官方站点下载实验归档并指定本地名称"
+answers = ["wget -O hello.tar.gz https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz"]

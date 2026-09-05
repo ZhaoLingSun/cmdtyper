@@ -70,6 +70,12 @@ pub fn render(frame: &mut Frame, app: &App) {
                 })
                 .count();
 
+            let exercise_count: usize = app
+                .lessons
+                .iter()
+                .filter(|l| l.meta.category == *cat)
+                .map(|l| app.practice_counts("lesson", &l.meta.command).1)
+                .sum();
             let style = if is_selected {
                 Style::default()
                     .fg(ACCENT)
@@ -95,7 +101,7 @@ pub fn render(frame: &mut Frame, app: &App) {
                     Style::default().fg(WARNING),
                 ),
                 Span::styled(
-                    format!("  {}/{}", practiced, lesson_count),
+                    format!("  {}/{} · {}题", practiced, lesson_count, exercise_count),
                     Style::default().fg(DIM),
                 ),
             ]));

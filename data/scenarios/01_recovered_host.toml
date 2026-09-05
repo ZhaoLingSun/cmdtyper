@@ -1,0 +1,134 @@
+id = "recovered_host"
+title = "远程机器中断恢复后的完整排查"
+category = "网络与系统"
+difficulty = "basic"
+background = "09:12 到 09:17 SSH 与网站同时中断，机器现已恢复。先收集时间线，避免一上来重启服务破坏证据。"
+objective = "区分重启、物理链路、路由与应用故障；核对系统资源并形成有证据的故障结论。"
+environment = "Ubuntu 24.04 LTS 教学主机 web-01（192.0.2.10），客户端 ops-01（192.0.2.50），网关 192.0.2.1。文档保留地址与 example.test 域名只用于模拟；每例独立还原起始状态，全部输出预置。"
+recap = "先对齐故障时间，再区分主机重启与链路事件；最后验证网关、服务和业务。物理故障点需结合交换机、宿主机或带外记录确认。"
+sources = ["https://man7.org/linux/man-pages/man8/ss.8.html", "https://man7.org/linux/man-pages/man8/tcpdump.8.html", "https://www.freedesktop.org/software/systemd/man/255/journalctl.html"]
+
+[[steps]]
+title = "确认机器与操作系统"
+output = "Static hostname: web-01\nOperating System: Ubuntu 24.04.3 LTS"
+explanation = "先确认连接到哪台机器。后续所有时间来自这台主机的日志；客户端时间不一定与它一致。"
+instruction = "请跟打，确认机器与操作系统。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_01"
+command_id = "shared-54ef1dd5d38b4a65"
+
+[[steps]]
+title = "检查是否刚刚启动"
+output = "2026-09-01 08:00:00"
+explanation = "启动时间早于故障五天；短暂断联没有造成操作系统重启。"
+instruction = "请跟打，检查是否刚刚启动。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_02"
+command_id = "v04-ex-34b1c2f2d6"
+
+[[steps]]
+title = "查看启动边界"
+output = "-1 a1b2 2026-08-20 08:00:00 UTC—2026-09-01 07:59:40 UTC\n 0 c3d4 2026-09-01 08:00:00 UTC—2026-09-06 09:20:00 UTC"
+explanation = "boot 0 横跨故障时刻；没有 09:12 附近的新启动。"
+instruction = "请跟打，查看启动边界。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_03"
+command_id = "shared-91e1e4831ce6aa00"
+
+[steps.decision]
+question = "下一步优先验证哪一层？"
+
+[[steps.decision.choices]]
+text = "核对网卡载波和内核链路日志"
+correct = true
+feedback = "对，当前证据支持先检查链路时间线。"
+
+[[steps.decision.choices]]
+text = "直接认定机器重启并重启应用"
+correct = false
+feedback = "启动记录没有故障时刻的重启。请回看时间范围，避免把断联等同于重启。"
+
+[[steps]]
+title = "检查网卡和载波"
+output = "ens3 UP 52:54:00:12:34:56 <BROADCAST,MULTICAST,UP,LOWER_UP>"
+explanation = "UP 是管理状态，LOWER_UP 表示当前底层链路可用；它不证明故障时刻也正常。"
+instruction = "请跟打，检查网卡和载波。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_04"
+command_id = "shared-d2b554728d3a3f2d"
+
+[[steps]]
+title = "查看故障窗口的内核事件"
+output = "09:12:02 web-01 kernel: virtio_net ens3: Link is Down\n09:17:11 web-01 kernel: virtio_net ens3: Link is Up"
+explanation = "链路下线和恢复与断联时间一致。虚拟机还需宿主机或交换机记录确认，不能仅据此断言网线坏了。"
+instruction = "请跟打，查看故障窗口的内核事件。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_05"
+command_id = "shared-3d1baa03ca36ebed"
+
+[[steps]]
+title = "验证网关路径"
+output = "192.0.2.1 dev ens3 src 192.0.2.10 uid 1000"
+explanation = "目的网关应通过 ens3；来源地址是 192.0.2.10。"
+instruction = "请跟打，验证网关路径。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_06"
+command_id = "shared-452860517a52e4e2"
+
+[[steps]]
+title = "检查邻居解析"
+output = "192.0.2.1 lladdr 52:54:00:aa:bb:cc REACHABLE"
+explanation = "邻居可达只能说明当前本地链路通信正常；它不是整个互联网连通的保证。"
+instruction = "请跟打，检查邻居解析。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_07"
+command_id = "shared-9e45dfdaa9e27230"
+
+[[steps]]
+title = "验证网关响应"
+output = "3 packets transmitted, 3 received, 0% packet loss"
+explanation = "三次探测支持当前已恢复，长期稳定性还需要后续持续观测。"
+instruction = "请跟打，验证网关响应。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_08"
+command_id = "v04-ping-df0ae68ffa"
+
+[[steps]]
+title = "查看内存与交换空间"
+output = "Mem: 3.8Gi total 1.2Gi used 2.3Gi available\nSwap: 2.0Gi total 0B used"
+explanation = "available 更接近可供新应用使用的内存；当前没有明显内存压力。"
+instruction = "请跟打，查看内存与交换空间。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_09"
+command_id = "free-human"
+
+[[steps]]
+title = "定位主要 CPU 使用者"
+output = "PID COMMAND %CPU %MEM\n1420 uvicorn 3.0 4.2\n820 nginx 0.2 0.5"
+explanation = "取样没有持续高负载迹象；一个快照不能排除过去的峰值。"
+instruction = "请跟打，定位主要 CPU 使用者。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_10"
+command_id = "shared-8242e3d2fab247ce"
+
+[[steps]]
+title = "确认应用已恢复"
+output = "{\"status\":\"ok\",\"database\":\"ok\"}"
+explanation = "健康接口同时检查应用与数据库，补足只有 ping 的验证。"
+instruction = "请跟打，确认应用已恢复。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_11"
+command_id = "shared-e2281a98a4b26251"
+
+[steps.decision]
+question = "如何向故障记录写结论？"
+
+[[steps.decision.choices]]
+text = "链路事件与断联吻合，应用已恢复，补查宿主机/交换机记录"
+correct = true
+feedback = "对，区分已观察事实与待确认原因，并留下时间范围。"
+
+[[steps.decision.choices]]
+text = "确定为 CPU 过载，立即扩容"
+correct = false
+feedback = "进程快照与日志都没有 CPU 过载证据；请按已观察事实下结论。"

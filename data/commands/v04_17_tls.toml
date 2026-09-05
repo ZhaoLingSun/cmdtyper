@@ -1,0 +1,422 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "先验证时间、域名、证书链和有效期；不要把关闭证书验证当成修复。"
+
+[meta.topic]
+id = "v04_tls"
+title = "TLS 证书与握手"
+icon = "🌐"
+order = 117
+
+[[commands]]
+id = "v04-tls-af9d2b4e19"
+command = "openssl s_client -connect example.com:443 -servername example.com </dev/null"
+summary = "带 SNI 查看 TLS 握手和证书链，输入 EOF 避免持续等待"
+
+[[commands.tokens]]
+text = "openssl"
+desc = "使用 OpenSSL 工具检查 TLS 或证书"
+
+[[commands.tokens]]
+text = " s_client"
+desc = "带 SNI 查看 TLS 握手和证书链，输入 EOF 避免持续等待；指定 s_client"
+
+[[commands.tokens]]
+text = " -connect"
+desc = "带 SNI 查看 TLS 握手和证书链，输入 EOF 避免持续等待；此处使用 -connect 选项"
+
+[[commands.tokens]]
+text = " example.com:443"
+desc = "带 SNI 查看 TLS 握手和证书链，输入 EOF 避免持续等待；指定 example.com:443"
+
+[[commands.tokens]]
+text = " -servername"
+desc = "带 SNI 查看 TLS 握手和证书链，输入 EOF 避免持续等待；此处使用 -servername 选项"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "带 SNI 查看 TLS 握手和证书链，输入 EOF 避免持续等待；指定 example.com"
+
+[[commands.tokens]]
+text = " </dev/null"
+desc = "带 SNI 查看 TLS 握手和证书链，输入 EOF 避免持续等待；指定 </dev/null"
+
+[commands.dictation]
+prompt = "带 SNI 查看 TLS 握手和证书链，输入 EOF 避免持续等待"
+answers = ["openssl s_client -connect example.com:443 -servername example.com </dev/null"]
+
+[[commands]]
+id = "v04-tls-1e44de3fbe"
+command = "openssl s_client -connect 192.0.2.20:443 -servername example.com </dev/null"
+summary = "连接实验 IP 但保留域名 SNI，区分 DNS 与 TLS 配置"
+
+[[commands.tokens]]
+text = "openssl"
+desc = "使用 OpenSSL 工具检查 TLS 或证书"
+
+[[commands.tokens]]
+text = " s_client"
+desc = "连接实验 IP 但保留域名 SNI，区分 DNS 与 TLS 配置；指定 s_client"
+
+[[commands.tokens]]
+text = " -connect"
+desc = "连接实验 IP 但保留域名 SNI，区分 DNS 与 TLS 配置；此处使用 -connect 选项"
+
+[[commands.tokens]]
+text = " 192.0.2.20:443"
+desc = "连接实验 IP 但保留域名 SNI，区分 DNS 与 TLS 配置；指定 192.0.2.20:443"
+
+[[commands.tokens]]
+text = " -servername"
+desc = "连接实验 IP 但保留域名 SNI，区分 DNS 与 TLS 配置；此处使用 -servername 选项"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "连接实验 IP 但保留域名 SNI，区分 DNS 与 TLS 配置；指定 example.com"
+
+[[commands.tokens]]
+text = " </dev/null"
+desc = "连接实验 IP 但保留域名 SNI，区分 DNS 与 TLS 配置；指定 </dev/null"
+
+[commands.dictation]
+prompt = "连接实验 IP 但保留域名 SNI，区分 DNS 与 TLS 配置"
+answers = ["openssl s_client -connect 192.0.2.20:443 -servername example.com </dev/null"]
+
+[[commands]]
+id = "v04-tls-a37188ebb3"
+command = "openssl s_client -connect example.com:443 -servername example.com -verify_return_error </dev/null"
+summary = "证书链校验错误时返回失败，不忽略校验问题"
+
+[[commands.tokens]]
+text = "openssl"
+desc = "使用 OpenSSL 工具检查 TLS 或证书"
+
+[[commands.tokens]]
+text = " s_client"
+desc = "证书链校验错误时返回失败，不忽略校验问题；指定 s_client"
+
+[[commands.tokens]]
+text = " -connect"
+desc = "证书链校验错误时返回失败，不忽略校验问题；此处使用 -connect 选项"
+
+[[commands.tokens]]
+text = " example.com:443"
+desc = "证书链校验错误时返回失败，不忽略校验问题；指定 example.com:443"
+
+[[commands.tokens]]
+text = " -servername"
+desc = "证书链校验错误时返回失败，不忽略校验问题；此处使用 -servername 选项"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "证书链校验错误时返回失败，不忽略校验问题；指定 example.com"
+
+[[commands.tokens]]
+text = " -verify_return_error"
+desc = "证书链校验错误时返回失败，不忽略校验问题；此处使用 -verify_return_error 选项"
+
+[[commands.tokens]]
+text = " </dev/null"
+desc = "证书链校验错误时返回失败，不忽略校验问题；指定 </dev/null"
+
+[commands.dictation]
+prompt = "证书链校验错误时返回失败，不忽略校验问题"
+answers = ["openssl s_client -connect example.com:443 -servername example.com -verify_return_error </dev/null"]
+
+[[commands]]
+id = "v04-tls-079ae3ac2d"
+command = "openssl x509 -in server.crt -noout -dates"
+summary = "读取实验 PEM 证书生效时间与到期时间"
+
+[[commands.tokens]]
+text = "openssl"
+desc = "使用 OpenSSL 工具检查 TLS 或证书"
+
+[[commands.tokens]]
+text = " x509"
+desc = "读取实验 PEM 证书生效时间与到期时间；指定 x509"
+
+[[commands.tokens]]
+text = " -in"
+desc = "读取实验 PEM 证书生效时间与到期时间；此处使用 -in 选项"
+
+[[commands.tokens]]
+text = " server.crt"
+desc = "读取实验 PEM 证书生效时间与到期时间；指定 server.crt"
+
+[[commands.tokens]]
+text = " -noout"
+desc = "读取实验 PEM 证书生效时间与到期时间；此处使用 -noout 选项"
+
+[[commands.tokens]]
+text = " -dates"
+desc = "读取实验 PEM 证书生效时间与到期时间；此处使用 -dates 选项"
+
+[commands.dictation]
+prompt = "读取实验 PEM 证书生效时间与到期时间"
+answers = ["openssl x509 -in server.crt -noout -dates"]
+
+[[commands]]
+id = "v04-tls-7cd1ee84ff"
+command = "openssl x509 -in server.crt -noout -subject -issuer"
+summary = "检查证书主题和颁发者"
+
+[[commands.tokens]]
+text = "openssl"
+desc = "使用 OpenSSL 工具检查 TLS 或证书"
+
+[[commands.tokens]]
+text = " x509"
+desc = "检查证书主题和颁发者；指定 x509"
+
+[[commands.tokens]]
+text = " -in"
+desc = "检查证书主题和颁发者；此处使用 -in 选项"
+
+[[commands.tokens]]
+text = " server.crt"
+desc = "检查证书主题和颁发者；指定 server.crt"
+
+[[commands.tokens]]
+text = " -noout"
+desc = "检查证书主题和颁发者；此处使用 -noout 选项"
+
+[[commands.tokens]]
+text = " -subject"
+desc = "检查证书主题和颁发者；此处使用 -subject 选项"
+
+[[commands.tokens]]
+text = " -issuer"
+desc = "检查证书主题和颁发者；此处使用 -issuer 选项"
+
+[commands.dictation]
+prompt = "检查证书主题和颁发者"
+answers = ["openssl x509 -in server.crt -noout -subject -issuer"]
+
+[[commands]]
+id = "v04-tls-caad07f562"
+command = "openssl x509 -in server.crt -noout -ext subjectAltName"
+summary = "核对 SAN 域名覆盖范围，不能只看 CN"
+
+[[commands.tokens]]
+text = "openssl"
+desc = "使用 OpenSSL 工具检查 TLS 或证书"
+
+[[commands.tokens]]
+text = " x509"
+desc = "核对 SAN 域名覆盖范围，不能只看 CN；指定 x509"
+
+[[commands.tokens]]
+text = " -in"
+desc = "核对 SAN 域名覆盖范围，不能只看 CN；此处使用 -in 选项"
+
+[[commands.tokens]]
+text = " server.crt"
+desc = "核对 SAN 域名覆盖范围，不能只看 CN；指定 server.crt"
+
+[[commands.tokens]]
+text = " -noout"
+desc = "核对 SAN 域名覆盖范围，不能只看 CN；此处使用 -noout 选项"
+
+[[commands.tokens]]
+text = " -ext"
+desc = "核对 SAN 域名覆盖范围，不能只看 CN；此处使用 -ext 选项"
+
+[[commands.tokens]]
+text = " subjectAltName"
+desc = "核对 SAN 域名覆盖范围，不能只看 CN；指定 subjectAltName"
+
+[commands.dictation]
+prompt = "核对 SAN 域名覆盖范围，不能只看 CN"
+answers = ["openssl x509 -in server.crt -noout -ext subjectAltName"]
+
+[[commands]]
+id = "v04-tls-95f96042e8"
+command = "openssl x509 -in server.crt -noout -checkend 604800"
+summary = "检查证书未来七天内是否到期，结合退出状态判断"
+
+[[commands.tokens]]
+text = "openssl"
+desc = "使用 OpenSSL 工具检查 TLS 或证书"
+
+[[commands.tokens]]
+text = " x509"
+desc = "检查证书未来七天内是否到期，结合退出状态判断；指定 x509"
+
+[[commands.tokens]]
+text = " -in"
+desc = "检查证书未来七天内是否到期，结合退出状态判断；此处使用 -in 选项"
+
+[[commands.tokens]]
+text = " server.crt"
+desc = "检查证书未来七天内是否到期，结合退出状态判断；指定 server.crt"
+
+[[commands.tokens]]
+text = " -noout"
+desc = "检查证书未来七天内是否到期，结合退出状态判断；此处使用 -noout 选项"
+
+[[commands.tokens]]
+text = " -checkend"
+desc = "检查证书未来七天内是否到期，结合退出状态判断；此处使用 -checkend 选项"
+
+[[commands.tokens]]
+text = " 604800"
+desc = "本次练习的数值参数 604800；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "检查证书未来七天内是否到期，结合退出状态判断"
+answers = ["openssl x509 -in server.crt -noout -checkend 604800"]
+
+[[commands]]
+id = "v04-tls-bf884baf26"
+command = "openssl x509 -in server.crt -noout -fingerprint -sha256"
+summary = "计算证书 SHA-256 指纹用于部署前后对照"
+
+[[commands.tokens]]
+text = "openssl"
+desc = "使用 OpenSSL 工具检查 TLS 或证书"
+
+[[commands.tokens]]
+text = " x509"
+desc = "计算证书 SHA-256 指纹用于部署前后对照；指定 x509"
+
+[[commands.tokens]]
+text = " -in"
+desc = "计算证书 SHA-256 指纹用于部署前后对照；此处使用 -in 选项"
+
+[[commands.tokens]]
+text = " server.crt"
+desc = "计算证书 SHA-256 指纹用于部署前后对照；指定 server.crt"
+
+[[commands.tokens]]
+text = " -noout"
+desc = "计算证书 SHA-256 指纹用于部署前后对照；此处使用 -noout 选项"
+
+[[commands.tokens]]
+text = " -fingerprint"
+desc = "计算证书 SHA-256 指纹用于部署前后对照；此处使用 -fingerprint 选项"
+
+[[commands.tokens]]
+text = " -sha256"
+desc = "计算证书 SHA-256 指纹用于部署前后对照；此处使用 -sha256 选项"
+
+[commands.dictation]
+prompt = "计算证书 SHA-256 指纹用于部署前后对照"
+answers = ["openssl x509 -in server.crt -noout -fingerprint -sha256"]
+
+[[commands]]
+id = "v04-tls-0e09e612ec"
+command = "openssl verify -CAfile ca.pem server.crt"
+summary = "使用指定实验 CA 验证本地证书链"
+
+[[commands.tokens]]
+text = "openssl"
+desc = "使用 OpenSSL 工具检查 TLS 或证书"
+
+[[commands.tokens]]
+text = " verify"
+desc = "使用指定实验 CA 验证本地证书链；指定 verify"
+
+[[commands.tokens]]
+text = " -CAfile"
+desc = "使用指定实验 CA 验证本地证书链；此处使用 -CAfile 选项"
+
+[[commands.tokens]]
+text = " ca.pem"
+desc = "使用指定实验 CA 验证本地证书链；指定 ca.pem"
+
+[[commands.tokens]]
+text = " server.crt"
+desc = "使用指定实验 CA 验证本地证书链；指定 server.crt"
+
+[commands.dictation]
+prompt = "使用指定实验 CA 验证本地证书链"
+answers = ["openssl verify -CAfile ca.pem server.crt"]
+
+[[commands]]
+id = "v04-tls-5fb70c837f"
+command = "curl -Iv --max-time 10 https://example.com/"
+summary = "观察 TLS 校验与 HTTP 响应头，限制总耗时"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " -Iv"
+desc = "读取响应头并输出连接诊断细节"
+
+[[commands.tokens]]
+text = " --max-time"
+desc = "限定整个请求总秒数"
+
+[[commands.tokens]]
+text = " 10"
+desc = "本次练习的数值参数 10；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "观察 TLS 校验与 HTTP 响应头，限制总耗时"
+answers = ["curl -Iv --max-time 10 https://example.com/"]
+
+[[commands]]
+id = "v04-tls-87bcf3ae7e"
+command = "timedatectl status"
+summary = "核对系统时间与同步状态，错误时钟可造成证书校验失败"
+
+[[commands.tokens]]
+text = "timedatectl"
+desc = "核对系统时间与同步状态，错误时钟可造成证书校验失败"
+
+[[commands.tokens]]
+text = " status"
+desc = "核对系统时间与同步状态，错误时钟可造成证书校验失败；指定 status"
+
+[commands.dictation]
+prompt = "核对系统时间与同步状态，错误时钟可造成证书校验失败"
+answers = ["timedatectl status"]
+
+[[commands]]
+id = "v04-tls-97f95fe30b"
+command = "openssl s_client -connect example.com:443 -servername example.com -tls1_2 </dev/null"
+summary = "限定 TLS 1.2 比较协议兼容性，不改变服务端配置"
+
+[[commands.tokens]]
+text = "openssl"
+desc = "使用 OpenSSL 工具检查 TLS 或证书"
+
+[[commands.tokens]]
+text = " s_client"
+desc = "限定 TLS 1.2 比较协议兼容性，不改变服务端配置；指定 s_client"
+
+[[commands.tokens]]
+text = " -connect"
+desc = "限定 TLS 1.2 比较协议兼容性，不改变服务端配置；此处使用 -connect 选项"
+
+[[commands.tokens]]
+text = " example.com:443"
+desc = "限定 TLS 1.2 比较协议兼容性，不改变服务端配置；指定 example.com:443"
+
+[[commands.tokens]]
+text = " -servername"
+desc = "限定 TLS 1.2 比较协议兼容性，不改变服务端配置；此处使用 -servername 选项"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "限定 TLS 1.2 比较协议兼容性，不改变服务端配置；指定 example.com"
+
+[[commands.tokens]]
+text = " -tls1_2"
+desc = "限定 TLS 1.2 比较协议兼容性，不改变服务端配置；此处使用 -tls1_2 选项"
+
+[[commands.tokens]]
+text = " </dev/null"
+desc = "限定 TLS 1.2 比较协议兼容性，不改变服务端配置；指定 </dev/null"
+
+[commands.dictation]
+prompt = "限定 TLS 1.2 比较协议兼容性，不改变服务端配置"
+answers = ["openssl s_client -connect example.com:443 -servername example.com -tls1_2 </dev/null"]

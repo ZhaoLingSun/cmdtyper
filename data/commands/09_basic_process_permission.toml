@@ -1,3 +1,4 @@
+
 [meta]
 category = "process"
 difficulty = "basic"
@@ -15,9 +16,7 @@ desc = "显示当前有效用户名的命令"
 
 [commands.dictation]
 prompt = "显示当前登录的用户名"
-answers = [
-    "whoami",
-]
+answers = ["whoami"]
 
 [[commands]]
 id = "id-basic"
@@ -31,9 +30,7 @@ desc = "查看用户身份和所属组信息的命令"
 
 [commands.dictation]
 prompt = "显示当前用户的 UID、GID 和所属组信息"
-answers = [
-    "id",
-]
+answers = ["id"]
 
 [[commands]]
 id = "groups-basic"
@@ -47,9 +44,7 @@ desc = "显示当前用户所属用户组的命令"
 
 [commands.dictation]
 prompt = "显示当前用户所属的所有用户组"
-answers = [
-    "groups",
-]
+answers = ["groups"]
 
 [[commands]]
 id = "chmod-symbolic-user"
@@ -71,9 +66,7 @@ desc = "要修改权限的脚本文件"
 
 [commands.dictation]
 prompt = "给 deploy.sh 的所有者增加执行权限"
-answers = [
-    "chmod u+x deploy.sh",
-]
+answers = ["chmod u+x deploy.sh"]
 
 [[commands]]
 id = "chgrp-www-data"
@@ -95,9 +88,7 @@ desc = "要修改所属组的文件"
 
 [commands.dictation]
 prompt = "把 /srv/www/index.html 的所属组改为 www-data"
-answers = [
-    "chgrp www-data /srv/www/index.html",
-]
+answers = ["chgrp www-data /srv/www/index.html"]
 
 [[commands]]
 id = "umask-show"
@@ -111,9 +102,7 @@ desc = "查看或设置默认权限掩码的 shell 命令"
 
 [commands.dictation]
 prompt = "查看当前 shell 的默认权限掩码"
-answers = [
-    "umask",
-]
+answers = ["umask"]
 
 [[commands]]
 id = "export-editor-vim"
@@ -131,9 +120,7 @@ desc = "把 EDITOR 环境变量设置为 vim"
 
 [commands.dictation]
 prompt = "把环境变量 EDITOR 设置为 vim"
-answers = [
-    "export EDITOR=vim",
-]
+answers = ["export EDITOR=vim"]
 
 [[commands]]
 id = "env-grep-path"
@@ -159,21 +146,13 @@ desc = "只匹配以 PATH= 开头的那一行"
 
 [commands.dictation]
 prompt = "查看当前环境变量中的 PATH 这一项"
-answers = [
-    "env | grep ^PATH=",
-    "env | grep \"^PATH=\"",
-]
+answers = ["env | grep ^PATH=", "env | grep \"^PATH=\""]
 
 [[commands]]
 id = "ps-ef-basic"
 command = "ps -ef"
 summary = "以完整格式查看系统中的所有进程"
-simulated_output = """
-UID          PID    PPID  C STIME TTY          TIME CMD
-root           1       0  0 Mar13 ?        00:00:03 /sbin/init
-ace         1482    1450  0 08:30 ?        00:00:00 sshd: ace@pts/1
-ace         2561    1482  0 08:44 pts/1    00:00:00 bash
-"""
+simulated_output = "UID          PID    PPID  C STIME TTY          TIME CMD\nroot           1       0  0 Mar13 ?        00:00:03 /sbin/init\nace         1482    1450  0 08:30 ?        00:00:00 sshd: ace@pts/1\nace         2561    1482  0 08:44 pts/1    00:00:00 bash\n"
 
 [[commands.tokens]]
 text = "ps"
@@ -185,18 +164,13 @@ desc = "显示所有进程并使用完整格式输出"
 
 [commands.dictation]
 prompt = "以完整格式查看系统中的所有进程"
-answers = [
-    "ps -ef",
-]
+answers = ["ps -ef"]
 
 [[commands]]
 id = "pgrep-sshd"
 command = "pgrep sshd"
 summary = "查找名为 sshd 的进程 PID"
-simulated_output = """
-842
-1482
-"""
+simulated_output = "842\n1482\n"
 
 [[commands.tokens]]
 text = "pgrep"
@@ -208,9 +182,7 @@ desc = "要查找的进程名"
 
 [commands.dictation]
 prompt = "查找 sshd 进程的 PID"
-answers = [
-    "pgrep sshd",
-]
+answers = ["pgrep sshd"]
 
 [[commands]]
 id = "pkill-nginx"
@@ -244,9 +216,7 @@ desc = "已通过相同 -x 与 -u 条件逐项核对的进程名"
 
 [commands.dictation]
 prompt = "已先用 pgrep -a -x -u \"$USER\" nginx 逐项核对目标；使用完全相同的精确名称和当前用户范围，只发送 SIGTERM"
-answers = [
-    "pkill -TERM -x -u \"$USER\" nginx",
-]
+answers = ["pkill -TERM -x -u \"$USER\" nginx"]
 
 [[commands]]
 id = "kill-sigkill"
@@ -268,10 +238,7 @@ desc = "教学用虚构 PID；真实 PID 可能复用，不能依赖旧记录"
 
 [commands.dictation]
 prompt = "已用最新进程信息确认 PID 12345 的所有者和完整命令行；先发送 SIGTERM 请求正常退出"
-answers = [
-    "kill -TERM 12345",
-    "kill 12345",
-]
+answers = ["kill -TERM 12345", "kill 12345"]
 
 [[commands]]
 id = "killall-node"
@@ -309,18 +276,13 @@ desc = "已通过只读清单逐项核对的进程名；同名进程仍可能有
 
 [commands.dictation]
 prompt = "已先只读列出当前用户名下所有名为 node 的进程；用 killall 保留当前用户范围，并在逐项发送 SIGTERM 前询问确认"
-answers = [
-    "killall -i -u \"$USER\" -s TERM node",
-]
+answers = ["killall -i -u \"$USER\" -s TERM node"]
 
 [[commands]]
 id = "jobs-basic"
 command = "jobs"
 summary = "查看当前 shell 的后台作业列表"
-simulated_output = """
-[1]-  Running                 tail -f app.log &
-[2]+  Stopped                 vim notes.txt
-"""
+simulated_output = "[1]-  Stopped                 tail -f app.log &\n[2]+  Stopped                 vim notes.txt"
 
 [[commands.tokens]]
 text = "jobs"
@@ -328,9 +290,7 @@ desc = "查看当前 shell 作业列表的命令"
 
 [commands.dictation]
 prompt = "查看当前 shell 的后台作业列表"
-answers = [
-    "jobs",
-]
+answers = ["jobs"]
 
 [[commands]]
 id = "bg-job-one"
@@ -348,9 +308,7 @@ desc = "作业号 1"
 
 [commands.dictation]
 prompt = "让作业号 1 在后台继续运行"
-answers = [
-    "bg %1",
-]
+answers = ["bg %1"]
 
 [[commands]]
 id = "fg-job-one"
@@ -368,9 +326,7 @@ desc = "作业号 1"
 
 [commands.dictation]
 prompt = "把作业号 1 切回前台运行"
-answers = [
-    "fg %1",
-]
+answers = ["fg %1"]
 
 [[commands]]
 id = "nohup-python-server"
@@ -436,6 +392,4 @@ desc = "放到后台运行；shell 返回的作业 PID 是提前停止时应复�
 
 [commands.dictation]
 prompt = "只在 127.0.0.1:8000 后台提供已审核的 ./public 目录，把日志写入 http-server.log，并在 300 秒后自动停止"
-answers = [
-    "nohup timeout 300s python3 -m http.server 8000 --bind 127.0.0.1 --directory ./public >http-server.log 2>&1 &",
-]
+answers = ["nohup timeout 300s python3 -m http.server 8000 --bind 127.0.0.1 --directory ./public >http-server.log 2>&1 &"]

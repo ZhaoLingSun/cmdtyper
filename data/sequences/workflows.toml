@@ -1,0 +1,1456 @@
+
+[[sequences]]
+id = "tar-create-gzip"
+command_ids = ["shared-af0ddb3670ba0dc1", "shared-030f8805afa2932c", "shared-f45fd14eb1aa89fd", "shared-b915cf3a54538c59"]
+
+[[sequences.steps]]
+command_id = "shared-af0ddb3670ba0dc1"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。起始 project/ 包含 README.md 和 src/app.py，当前目录可写。\n\nmktemp 在当前目录预留空文件；命令替换把 ./backup-a1B2c3.tar.gz 保存到 archive，因此终端没有输出。后续步骤在同一 shell 使用这个变量。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-030f8805afa2932c"
+output = ""
+explanation = "project 预置含 README.md 与 src/app.py；tar 把这两个文件及其目录写入归档。未指定 -v，成功时终端静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-f45fd14eb1aa89fd"
+output = "已创建并检查：./backup-a1B2c3.tar.gz\n"
+explanation = "printf 只报告路径；文本中的“已检查”不是验证证据，实际归档列表由下一步 tar -t 检查。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-b915cf3a54538c59"
+output = "project/\nproject/README.md\nproject/src/\nproject/src/app.py\n"
+explanation = "-t 仅查看成员而不解压。列表应与预置 project 目录一致；此检查不等于完整的恢复演练。"
+prompt = "$ "
+
+[[sequences]]
+id = "tar-backup-etc"
+command_ids = ["shared-f1fb58c8bea57911", "shared-625a10fca678fe8a", "shared-3b431a169335ab45"]
+
+[[sequences.steps]]
+command_id = "shared-f1fb58c8bea57911"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。当前备份目录受限且可写，sudo 认证已完成，/etc 在本快照保持稳定。\n\n本快照返回 ./etc-backup-d4E5f6.tar.gz 并保存到 archive；变量赋值不显示 mktemp 的标准输出。文件位于当前练习目录而不在 /etc 内。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-625a10fca678fe8a"
+output = ""
+explanation = "本快照 sudo 已完成认证，且 /etc 内容在备份期间保持不变。-C / 使成员名以 etc/ 开头；未指定 -v，成功时没有输出。备份可能含口令与私钥，归档所在目录必须受限。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-3b431a169335ab45"
+output = "./etc-backup-d4E5f6.tar.gz\n"
+explanation = "展开当前 shell 中的 archive；实际路径取决于本流程此前的 mktemp，不能沿用其他流程的变量值。本流程显示 ./etc-backup-d4E5f6.tar.gz。"
+prompt = "$ "
+
+[[sequences]]
+id = "wget-output-file"
+command_ids = ["shared-8b02cc88fea0e809", "shared-3218cba4f9f5b014", "shared-d775942f9f051913"]
+
+[[sequences.steps]]
+command_id = "shared-8b02cc88fea0e809"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\n本快照选择 ./index-g7H8i9.html；命令替换接收 mktemp 输出，所以赋值本身不打印文件名。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-3218cba4f9f5b014"
+output = ""
+explanation = "-q 关闭进度信息，-O 将响应写入已有临时文件。课程预置 HTTPS 请求成功并返回后续显示的 HTML；真实下载须检查退出状态，空文件不代表成功。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-d775942f9f051913"
+output = "<!doctype html>\n<html lang=\"en\">\n<head>\n    <title>Example Domain</title>\n    <meta charset=\"utf-8\">\n"
+explanation = "这是本课程固定的 HTML 响应片段，不是对 example.com 当前内容的实时请求。head 只能检查开头，不能证明完整下载或文件真实性。"
+prompt = "$ "
+
+[[sequences]]
+id = "tar-exclude-vcs"
+command_ids = ["shared-0ccdda4c86bbcc81", "shared-afb5020c245284ab", "shared-3b431a169335ab45"]
+
+[[sequences.steps]]
+command_id = "shared-0ccdda4c86bbcc81"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。project/ 内预置源码、.git/ 与 node_modules/，归档位置在 project 之外。\n\n本快照将 ./release-j1K2l3.tar.gz 保存到 archive，后续 tar 将填充这个预留文件。赋值静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-afb5020c245284ab"
+output = ""
+explanation = "project 快照含 .git、node_modules 与应用源码。两个 --exclude 只影响归档成员，源目录不被修改；未指定 -v，因此成功时静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-3b431a169335ab45"
+output = "./release-j1K2l3.tar.gz\n"
+explanation = "展开当前 shell 中的 archive；实际路径取决于本流程此前的 mktemp，不能沿用其他流程的变量值。本流程显示 ./release-j1K2l3.tar.gz。"
+prompt = "$ "
+
+[[sequences]]
+id = "make-clean-build"
+command_ids = ["shared-3eb737ac04c0fa7e", "shared-77053513dbdeb2fc"]
+
+[[sequences.steps]]
+command_id = "shared-3eb737ac04c0fa7e"
+output = "rm -f hello\n"
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。初始目录含已审核 Makefile、hello.c 和旧 hello 产物，make 与 C 编译器已安装。\n\n当前练习目录预置 hello.c 和 Makefile；clean 配方为 rm -f hello，且声明为 .PHONY。make 默认回显执行的配方，清理成功后原二进制不存在。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-77053513dbdeb2fc"
+output = "cc -O2 -Wall -o hello hello.c\n"
+explanation = "本快照 nproc 返回 2，Makefile 默认目标从 hello.c 生成 hello，使用显示的编译命令。-j 指定最多并行任务数，不保证每个项目都能安全并行。"
+prompt = "$ "
+
+[[sequences]]
+id = "ssh-keygen-ed25519"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7565efb68ccc3aa0", "shared-1674d6da012a8e63", "shared-792e30445839a14d", "shared-6f5eb8ccaba69d32", "shared-772ced97fdc47c86"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7565efb68ccc3aa0"
+output = ""
+explanation = "TMPDIR 在本快照未设置，因此目录取 /tmp/cmdtyper-deploy-key.A1b2C3。路径保存到 key_dir，不会打印；练习目录不同于 ~/.ssh，不会覆盖已有登录密钥。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-1674d6da012a8e63"
+output = ""
+explanation = "key_dir 必须来自本流程已成功完成的 mktemp。700 允许所有者读写和遍历，其他用户没有访问权限；成功静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-792e30445839a14d"
+output = ""
+explanation = "把 key 设为 /tmp/cmdtyper-deploy-key.A1b2C3/id_ed25519_deploy。赋值只建立路径字符串，此时密钥文件尚未生成。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-6f5eb8ccaba69d32"
+output = "Generating public/private ed25519 key pair.\nEnter passphrase (empty for no passphrase): \nEnter same passphrase again: \nYour identification has been saved in /tmp/cmdtyper-deploy-key.A1b2C3/id_ed25519_deploy\nYour public key has been saved in /tmp/cmdtyper-deploy-key.A1b2C3/id_ed25519_deploy.pub\n"
+explanation = "这是交互命令；课程预置已在两次提示中输入相同的保护口令，且目标文件原先不存在。输出节选只展示提示和保存路径，随机指纹与图案省略；口令不回显，后续 printf 只显示路径。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-772ced97fdc47c86"
+output = "Key directory: /tmp/cmdtyper-deploy-key.A1b2C3\nPrivate key: /tmp/cmdtyper-deploy-key.A1b2C3/id_ed25519_deploy\nPublic key: /tmp/cmdtyper-deploy-key.A1b2C3/id_ed25519_deploy.pub\n"
+explanation = "printf 展开同一流程的 key_dir 和 key 变量；只显示文件位置，不读取密钥内容。真正部署时应将私钥保存在长期受限目录，临时目录不能当作持久密钥存储。"
+prompt = "$ "
+
+[[sequences]]
+id = "ssh-copy-id"
+command_ids = ["shared-47616f5854c6d03e", "shared-2188450906e46d6c", "shared-4137255ee0660d50"]
+
+[[sequences.steps]]
+command_id = "shared-47616f5854c6d03e"
+output = "256 SHA256:bbXpuKG6zhzdmnxq256TlqzFBzRl2f6OOg722cYNbU8 deploy@server (ED25519)\n"
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。~/.ssh/id_ed25519_deploy.pub 与对应私钥已由课程单独准备；当前步骤不继承临时密钥生成流程。\n\n本独立快照预先在 /home/ace/.ssh/id_ed25519_deploy.pub 放置教学公钥；不依赖另一个流程的 /tmp 密钥。输出指纹属于公开测试数据，只用于辨认本地待安装密钥。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-2188450906e46d6c"
+output = "example.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINdamAGCsQq31Uv+08lkBzoO4XLz2qYjJa8CGmj3B1Ea\n"
+explanation = "example.com 在此 SSH 教学快照代表已授权测试服务器，并非对公共网站发起 SSH 操作。扫描不会认证服务器；必须通过独立可信资产记录核对这份主机公钥，不能仅凭扫描输出接受首次信任。这里输出为公开测试向量，不能用于真实服务器核验。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-4137255ee0660d50"
+output = "Number of key(s) added: 1\n"
+explanation = "课程前提：管理员已独立核验主机公钥并录入 known_hosts；admin 账号允许此次首次密码认证。模拟中完成密码提示后安装一个新公钥，未传输私钥；下次应另用 ssh 验证公钥登录。输出节选为工具完成提示。"
+prompt = "$ "
+
+[[sequences]]
+id = "tar-incremental-backup"
+command_ids = ["shared-569695b0533a207c", "shared-a17968f115b004cd", "shared-3b431a169335ab45"]
+
+[[sequences.steps]]
+command_id = "shared-569695b0533a207c"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。模拟 UTC 时间为 2026-09-06 09:20；/srv/data 可读且预置最近修改的 changed.txt。\n\n本快照日期为 2026-09-06；archive 保存 ./backup-2026-09-06-m4N5o6.tar.gz。内层 date 生成日期，外层 mktemp 创建唯一文件，两层输出均由命令替换捕获。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-a17968f115b004cd"
+output = "tar: Removing leading `/' from member names\n"
+explanation = "教学 /srv/data 可由 ace 读取，最近修改的文件为 changed.txt。GNU tar 去除绝对路径开头的 / 并在标准错误给出提示；--newer-mtime 仅按修改时间过滤，不记录删除项，不能替代具有快照链的完整增量备份方案。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-3b431a169335ab45"
+output = "./backup-2026-09-06-m4N5o6.tar.gz\n"
+explanation = "展开当前 shell 中的 archive；实际路径取决于本流程此前的 mktemp，不能沿用其他流程的变量值。本流程显示 ./backup-2026-09-06-m4N5o6.tar.gz。"
+prompt = "$ "
+
+[[sequences]]
+id = "tar-xzf-website"
+command_ids = ["tar-tzf-website", "shared-865fab195d9620e0", "shared-8995b0a9da991f09", "shared-084be21ed445ccc6"]
+
+[[sequences.steps]]
+command_id = "tar-tzf-website"
+output = "website/\nwebsite/index.html\nwebsite/config.json\n"
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。当前目录存在来源已核验的 website.tar.gz。\n\n当前目录预置可信的 website.tar.gz，包含下列成员。先检查是否存在绝对路径、.. 或异常链接；仅列表不能证明来源可信，本流程已由课程预先确认归档来源。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-865fab195d9620e0"
+output = ""
+explanation = "本快照分配 /tmp/tmp.D4e5F6，目录原先不存在且创建成功。命令替换把路径留在 dest，所以终端静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-8995b0a9da991f09"
+output = ""
+explanation = "归档中的 website 子目录被恢复到 /tmp/tmp.D4e5F6/website。两个 --no-same 选项避免恢复归档声明的所有者和完整权限；当前 ace 身份不提权，成功无输出。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-084be21ed445ccc6"
+output = "/tmp/tmp.D4e5F6/website/index.html\n/tmp/tmp.D4e5F6/website/config.json\n"
+explanation = "此前归档成员位于 website/ 下，因此 -maxdepth 2 能看到这两个普通文件。输出只检查路径，业务内容和恢复后的可用性仍需另外验证。"
+prompt = "$ "
+
+[[sequences]]
+id = "fileops-mkdir-work-parents"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-48b9f12d8ec7b107"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-48b9f12d8ec7b107"
+output = ""
+explanation = "-p 同时创建缺失的 work 和 docs 父子目录；已有目录不会报错。受 umask 077 影响，新目录为 700，成功时静默。"
+prompt = "$ "
+
+[[sequences]]
+id = "fileops-touch-batch-notes"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-672d02fef33ec6fb"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-672d02fef33ec6fb"
+output = ""
+explanation = "两个文件原先不存在，因此 touch 创建长度为 0 的文件；若它们已存在，touch 只更新时间戳，不清空内容。当前新文件权限为 600。"
+prompt = "$ "
+
+[[sequences]]
+id = "fileops-cp-assets-recursive"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-ca27305e6faf230a", "shared-14bc1febabde2795", "shared-84dc466223fd16e7"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-ca27305e6faf230a"
+output = ""
+explanation = "assets 和 icons 在新练习目录内创建，后续用它们观察递归复制。-p 和成功的 mkdir 均不会产生目录列表。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-14bc1febabde2795"
+output = ""
+explanation = "此文件仅借用 .png 名称，是 0 字节占位文件，不包含 PNG 图像数据；touch 成功静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-84dc466223fd16e7"
+output = ""
+explanation = "目标原先不存在，因此得到 assets-backup/icons/ 与 assets-backup/logo.png；源 assets 保留。-r 复制目录树，但不等于保留全部 ACL、扩展属性或所有权。"
+prompt = "$ "
+
+[[sequences]]
+id = "fileops-cp-config-interactive"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-d77f078fe125f857", "shared-0bf30e7a65393b4f", "shared-3b05f2d7df78d65e", "shared-594d17a0e12cbe24"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-d77f078fe125f857"
+output = ""
+explanation = "当前工作目录是本流程新建的临时目录，backup 原先不存在；成功后目录权限为 700，无终端输出。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-0bf30e7a65393b4f"
+output = ""
+explanation = "重定向 > 创建 settings.ini 并写入 new 加换行，共 4 字节。标准输出进入文件，终端没有显示；目标若已存在会先截断。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-3b05f2d7df78d65e"
+output = ""
+explanation = "backup/settings.ini 写入 old 加换行，共 4 字节，与源 settings.ini 内容不同；后续 cp -i 因此会询问是否覆盖。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-594d17a0e12cbe24"
+output = "cp: overwrite 'backup/settings.ini'? "
+explanation = "-i 发现 backup/settings.ini 已存在，产生下面的确认提示。本模拟预置回答 n，所以备份仍为 old，源文件仍为 new；真实终端需要用户输入，回车空答也不会覆盖。"
+prompt = "$ "
+
+[[sequences]]
+id = "fileops-mv-rename-interactive"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-e153ae4867ec6f40", "shared-dd30501d7aec8dfd"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e153ae4867ec6f40"
+output = ""
+explanation = "draft.md 与 final.md 原先不存在，touch 创建二者且长度均为 0；后续重命名会遇到已存在的目标。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-dd30501d7aec8dfd"
+output = "mv: overwrite 'final.md'? "
+explanation = "-i 询问目标是否可覆盖。本模拟已预置回答 y；完成后 draft.md 不存在，final.md 是原 draft.md 对象。命令不会在成功覆盖后额外打印成功信息。"
+prompt = "$ "
+
+[[sequences]]
+id = "fileops-mv-archive-interactive"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-c96f6dbdef5efc4c", "shared-33cb67fb9465285e", "shared-8716eacdf69ce64b"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-c96f6dbdef5efc4c"
+output = ""
+explanation = "archive 位于本流程临时目录；它原先不存在且受 umask 077 限制为 700。成功静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-33cb67fb9465285e"
+output = ""
+explanation = "report.csv 与 archive/report.csv 均为新建空文件；同名目标确保下一步展示覆盖询问。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-8716eacdf69ce64b"
+output = "mv: overwrite 'archive/report.csv'? "
+explanation = "archive/ 是目录目标，最终目标为 archive/report.csv。本模拟预置回答 n，因此两个文件均保留；真实终端未回答前命令会等待。"
+prompt = "$ "
+
+[[sequences]]
+id = "fileops-ln-shared-directory"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-7ca7c58cfa7a2d41", "shared-f0c9824a14e3f44a"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7ca7c58cfa7a2d41"
+output = ""
+explanation = "shared 是当前临时目录内的普通目录，权限 700；先创建目标让下一步链接可正常解析。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-f0c9824a14e3f44a"
+output = ""
+explanation = "current 保存的链接文本为 shared。相对链接从链接所在目录解析，所以此处指向同一临时目录内的 shared；ln 不复制目录内容，成功静默。"
+prompt = "$ "
+
+[[sequences]]
+id = "fileops-ln-guide-file"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-7ca7c58cfa7a2d41", "shared-f0c9824a14e3f44a", "shared-53a4a77e2d35886d"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7ca7c58cfa7a2d41"
+output = ""
+explanation = "shared 是当前临时目录内的普通目录，权限 700；先创建目标让下一步链接可正常解析。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-f0c9824a14e3f44a"
+output = ""
+explanation = "current 保存的链接文本为 shared。相对链接从链接所在目录解析，所以此处指向同一临时目录内的 shared；ln 不复制目录内容，成功静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-53a4a77e2d35886d"
+output = "current -> shared\n"
+explanation = "内层 readlink 返回 shared；外层 printf 显示标签。它读取的是链接文本，不是 readlink -f 的规范绝对路径。"
+prompt = "$ "
+
+[[sequences]]
+id = "fileops-readlink-current-canonical"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-7ca7c58cfa7a2d41", "shared-f0c9824a14e3f44a", "shared-11cee6104286ed60", "shared-497c7e48567638b2"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7ca7c58cfa7a2d41"
+output = ""
+explanation = "shared 是当前临时目录内的普通目录，权限 700；先创建目标让下一步链接可正常解析。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-f0c9824a14e3f44a"
+output = ""
+explanation = "current 保存的链接文本为 shared。相对链接从链接所在目录解析，所以此处指向同一临时目录内的 shared；ln 不复制目录内容，成功静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-11cee6104286ed60"
+output = ""
+explanation = "readlink -f 解析链接链，结果 /tmp/tmp.P7q8R9/shared 被命令替换捕获并保存；赋值本身不打印路径。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-497c7e48567638b2"
+output = "shared\n"
+explanation = "参数展开 # 仅移除匹配的 practice_dir 加斜杠前缀；resolved 当前为 /tmp/tmp.P7q8R9/shared，所以显示 shared。变量值本身不被更改。"
+prompt = "$ "
+
+[[sequences]]
+id = "fileops-readlink-normalize-path"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-7ca7c58cfa7a2d41", "shared-f0c9824a14e3f44a", "shared-246355136e1b03ab"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7ca7c58cfa7a2d41"
+output = ""
+explanation = "shared 是当前临时目录内的普通目录，权限 700；先创建目标让下一步链接可正常解析。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-f0c9824a14e3f44a"
+output = ""
+explanation = "current 保存的链接文本为 shared。相对链接从链接所在目录解析，所以此处指向同一临时目录内的 shared；ln 不复制目录内容，成功静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-246355136e1b03ab"
+output = "rm: remove symbolic link 'current'? "
+explanation = "本模拟预置回答 y，只删除 current 这个链接；真实目标 shared/ 保留，命令不递归进入它。提示中的 symbolic link 明确标识删除对象类型。"
+prompt = "$ "
+
+[[sequences]]
+id = "fileops-stat-settings-metadata"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-9555262d7c69c071", "shared-bdc8f8c9c385aa38"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-9555262d7c69c071"
+output = ""
+explanation = "文件内容为 mode=safe 加换行，总计 10 字节。重定向使终端静默，umask 077 使新文件权限为 600。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-bdc8f8c9c385aa38"
+output = "regular file 600 10 settings.ini\n"
+explanation = "在 LC_ALL=C 的 GNU stat 下，刚创建文件类型为 regular file、权限 600、长度 10。字节数包含末尾换行。"
+prompt = "$ "
+
+[[sequences]]
+id = "fileops-stat-report-size"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-0ab6ecdeadb5b45b", "shared-20c43d6d354e457d"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-0ab6ecdeadb5b45b"
+output = ""
+explanation = "truncate 将 report.csv 逻辑长度设为 24576 字节；它不写入 CSV 行，实际磁盘块占用可能远小于逻辑长度。成功时无输出。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-20c43d6d354e457d"
+output = "report.csv 24576 bytes\n"
+explanation = "%s 是逻辑文件长度，因此显示 24×1024=24576；不能将这个值直接当作实际占用磁盘块的大小。"
+prompt = "$ "
+
+[[sequences]]
+id = "fileops-file-shell-script"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-dafa9930940c1617", "shared-7e8b68d500644b8d", "shared-bdc2387893812b7e"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-dafa9930940c1617"
+output = ""
+explanation = "run.sh 包含 #!/bin/sh 和 exit 0 两行，共 17 字节。当前刚创建权限为 600，还没有执行位；重定向后终端静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7e8b68d500644b8d"
+output = ""
+explanation = "把脚本权限从 600 改为 700，其他用户仍没有访问权限；此命令只设置权限，不执行脚本。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-bdc2387893812b7e"
+output = "run.sh: POSIX shell script, ASCII text executable\n"
+explanation = "file 根据 shebang 和文本内容识别 POSIX shell 脚本；executable 在此指可识别的脚本类别，执行是否允许仍需核对权限和解释器。"
+prompt = "$ "
+
+[[sequences]]
+id = "fileops-file-extensionless-image"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-771aef82862c4e95", "shared-78f0b7a92c6fb885"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-771aef82862c4e95"
+output = ""
+explanation = "写入 sample 加换行，共 7 字节；没有文件扩展名不会使文本内容变成图片。标准输出被重定向，终端静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-78f0b7a92c6fb885"
+output = "download: ASCII text\n"
+explanation = "file 读取内容特征，本样例为 ASCII 文本。文件名是否有扩展名不决定真实数据格式。"
+prompt = "$ "
+
+[[sequences]]
+id = "fileops-tree-temp-depth-two"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-3c8ce716e15c790d", "shared-c694a8ba5125c633", "shared-f0c9824a14e3f44a", "shared-749e4ab1dcadb716"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-3c8ce716e15c790d"
+output = ""
+explanation = "创建 archive、assets/icons、backup、shared、work/docs 这些目录；-p 补齐父目录。所有目录都在本流程的新临时目录内，成功静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-c694a8ba5125c633"
+output = ""
+explanation = "创建 archive/report.csv、assets/logo.png、backup/settings.ini 和顶层 settings.ini；它们均为 0 字节练习文件，不含报表、图片或配置正文。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-f0c9824a14e3f44a"
+output = ""
+explanation = "current 保存的链接文本为 shared。相对链接从链接所在目录解析，所以此处指向同一临时目录内的 shared；ln 不复制目录内容，成功静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-749e4ab1dcadb716"
+output = ".\n|-- archive\n|   `-- report.csv\n|-- assets\n|   |-- icons\n|   `-- logo.png\n|-- backup\n|   `-- settings.ini\n|-- current -> shared\n|-- settings.ini\n|-- shared\n`-- work\n    `-- docs\n\n9 directories, 4 files\n"
+explanation = "LC_ALL=C 下 tree 使用 ASCII 连线。-L 2 限制深度，current 显示为指向 shared 的链接；tree 默认不沿链接展开。统计的 9 个目录含起点目录和指向目录的 current 链接，普通文件为 4 个。"
+prompt = "$ "
+
+[[sequences]]
+id = "fileops-rmdir-empty-temp"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-62350cef90e361c1", "shared-fe6a61ccc6675062"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-62350cef90e361c1"
+output = ""
+explanation = "empty 在全新临时目录中创建，里面没有文件或子目录；mkdir 成功无输出。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-fe6a61ccc6675062"
+output = ""
+explanation = "rmdir 只删除空目录；本例成功后 empty 不存在，终端静默。如果里面有文件，命令会失败而不会递归删除。"
+prompt = "$ "
+
+[[sequences]]
+id = "fileops-rm-recursive-interactive"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-12974c1cb37bc78a", "shared-8e14878a3cdc216c", "shared-1099d76e2420945d"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-12974c1cb37bc78a"
+output = ""
+explanation = "目录仅供本流程演示，原先不存在。成功后目录权限为 700，无输出。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-8e14878a3cdc216c"
+output = ""
+explanation = "old.log 是本流程新建的 0 字节样例，不是系统日志。这个文件让下一步递归删除包含目录与文件两类确认。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-1099d76e2420945d"
+output = "rm: descend into directory 'trash-review'? \nrm: remove regular empty file 'trash-review/old.log'? \nrm: remove directory 'trash-review'? "
+explanation = "GNU rm -ri 分别询问进入目录、删除文件、删除目录。本模拟对三次提示均预置回答 y，结束后 trash-review 和 old.log 均不存在；输出节选不展示用户输入的 y。"
+prompt = "$ "
+
+[[sequences]]
+id = "fileops-rm-force-recursive-warning"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-ab48712f566e6c31", "shared-2728f55d64edee48", "shared-d2f132ef5c4a30c8"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-ab48712f566e6c31"
+output = ""
+explanation = "disposable-cache/thumbnails 位于新的临时练习目录中。此步仅准备目录，尚未删除任何对象；成功无输出。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-2728f55d64edee48"
+output = ""
+explanation = "以点开头的文件通常不会被普通 * 展开匹配，但 find 会看到它。这里 .keep 为 0 字节样例。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-d2f132ef5c4a30c8"
+output = ".keep\nthumbnails\n"
+explanation = "-mindepth 1 排除起点目录，-maxdepth 1 限制第一层，%f 只输出名称。此命令只列出内容，没有 -delete 或 rm，因此所有对象都保留。"
+prompt = "$ "
+
+[[sequences]]
+id = "redirect-overwrite-config"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-35a65ecfba87449c"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-35a65ecfba87449c"
+output = ""
+explanation = "echo 生成 mode=production 和换行，> 将其写入 practice_dir/app.conf。当前文件原先不存在；已有文件则会被先截断。终端无输出，不能因此认为 echo 没有生成内容。"
+prompt = "$ "
+
+[[sequences]]
+id = "redirect-append-date"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-c3de20e77a2afe0b", "shared-8e16c4a94f2fea47"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-c3de20e77a2afe0b"
+output = ""
+explanation = "把 deployment started 和换行写到 practice_dir/deploy.log。> 为创建或覆盖，下一步再演示 >> 追加。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-8e16c4a94f2fea47"
+output = ""
+explanation = "本快照时间为 Sun Sep 6 09:20:00 UTC 2026；date 的整行结果写入 deploy.log 原有内容之后。>> 不截断旧日志，终端静默。"
+prompt = "$ "
+
+[[sequences]]
+id = "redirect-silence-stderr"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-de2a69f07312c60d"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-de2a69f07312c60d"
+output = ""
+explanation = "本流程中 missing.log 不存在。grep 的错误文本写入 grep-errors.log，终端无输出且退出状态为 2；静默不代表匹配成功，也不是仅“没有 ERROR”这一正常未匹配状态。"
+prompt = "$ "
+
+[[sequences]]
+id = "tee-display-and-save"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-f8c5ecd34df4e0d0"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-f8c5ecd34df4e0d0"
+output = "build complete\n"
+explanation = "tee 从管道读取文本，写入 practice_dir/build.status 的同时复制到终端。未加 -a，若目标存在会覆盖。"
+prompt = "$ "
+
+[[sequences]]
+id = "tee-append-monitor-log"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-215359a018b304f2", "shared-34ec130d999d8fc3"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-215359a018b304f2"
+output = ""
+explanation = "monitor.log 当前仅含 previous check 加换行。重定向 > 把这行写入文件，终端没有输出。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-34ec130d999d8fc3"
+output = "health check passed\n"
+explanation = "tee -a 在 previous check 后追加 health check passed，同时原样输出这条新行；不会重新显示已有日志正文。"
+prompt = "$ "
+
+[[sequences]]
+id = "redirect-both-after-stdout"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-c66a154b850116d1"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-c66a154b850116d1"
+output = ""
+explanation = "missing 不存在；shell 先把 stdout 指向 listing.log，再让 stderr 复制这个目标。错误文本因此在日志中，终端静默，ls 退出状态为 2；此处没有成功列出目录。"
+prompt = "$ "
+
+[[sequences]]
+id = "redirect-order-stderr-terminal"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-cda055c0aeebd1ae"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-cda055c0aeebd1ae"
+output = "ls: cannot access 'missing': No such file or directory\n"
+explanation = "shell 先把 stderr 复制为当时仍指向终端的 stdout，再把 stdout 重定向到 listing.log。missing 不存在，所以终端显示错误，listing.log 为空，ls 退出状态为 2。"
+prompt = "$ "
+
+[[sequences]]
+id = "ssh-keygen-ed25519-basic"
+command_ids = ["shared-07a719971dbc2f2d", "shared-feaa92ceae7e7117", "shared-1674d6da012a8e63", "shared-27471c486ad059dc", "shared-f679af1d6083d234", "shared-772ced97fdc47c86"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-feaa92ceae7e7117"
+output = ""
+explanation = "本快照 TMPDIR 未设置，生成 /tmp/cmdtyper-work-key.G7h8I9 并存入 key_dir。命令替换捕获路径，终端静默；它不是另一个部署密钥流程的目录。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-1674d6da012a8e63"
+output = ""
+explanation = "key_dir 必须来自本流程已成功完成的 mktemp。700 允许所有者读写和遍历，其他用户没有访问权限；成功静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-27471c486ad059dc"
+output = ""
+explanation = "把 key 设为 /tmp/cmdtyper-work-key.G7h8I9/work_ed25519。此时仅赋值，密钥文件由后续 ssh-keygen 创建。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-f679af1d6083d234"
+output = "Generating public/private ed25519 key pair.\nEnter passphrase (empty for no passphrase): \nEnter same passphrase again: \nYour identification has been saved in /tmp/cmdtyper-work-key.G7h8I9/work_ed25519\nYour public key has been saved in /tmp/cmdtyper-work-key.G7h8I9/work_ed25519.pub\n"
+explanation = "课程预置目标不存在，并已在两次口令提示中输入同一保护口令。输出节选展示提示和保存路径，指纹及随机图案省略；口令输入不回显。注释 alice@laptop 是用途标签，不会改变当前 ace 身份。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-772ced97fdc47c86"
+output = "Key directory: /tmp/cmdtyper-work-key.G7h8I9\nPrivate key: /tmp/cmdtyper-work-key.G7h8I9/work_ed25519\nPublic key: /tmp/cmdtyper-work-key.G7h8I9/work_ed25519.pub\n"
+explanation = "printf 展开同一流程的 key_dir 和 key 变量；只显示文件位置，不读取密钥内容。真正部署时应将私钥保存在长期受限目录，临时目录不能当作持久密钥存储。"
+prompt = "$ "
+
+[[sequences]]
+id = "ssh-copy-id-basic"
+command_ids = ["shared-3b34ca0d1c276085", "shared-3c939f45d0d5a0cb", "shared-449f31dd03dc4066"]
+
+[[sequences.steps]]
+command_id = "shared-3b34ca0d1c276085"
+output = "256 SHA256:bbXpuKG6zhzdmnxq256TlqzFBzRl2f6OOg722cYNbU8 alice@laptop (ED25519)\n"
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。~/.ssh/work_ed25519.pub 与对应私钥已由课程单独准备；教学服务器 alice 账号已授权这次安装。\n\n本独立快照已在 /home/ace/.ssh/work_ed25519.pub 准备教学公钥；它与另一个流程临时生成的路径分开。SHA256 指纹来自公开测试数据，用于确认待安装的是哪个公钥。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-3c939f45d0d5a0cb"
+output = "server.example.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINdamAGCsQq31Uv+08lkBzoO4XLz2qYjJa8CGmj3B1Ea\n"
+explanation = "server.example.com 在本快照指向授权的模拟 SSH 主机。ssh-keyscan 只是取回公钥，尚未验证服务器身份；需通过可信记录独立核对，不能把输出直接当作信任证明。此处为公开测试公钥。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-449f31dd03dc4066"
+output = "Number of key(s) added: 1\n"
+explanation = "课程前提：已从可信资产记录核对主机公钥，并配置 known_hosts；alice 账号允许本次密码登录。模拟中密码认证成功后安装一个新公钥；输出节选为完成提示，不包含任何密码或私钥。"
+prompt = "$ "
+
+[[sequences]]
+id = "chmod-777-risk-training"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-548786783e50359c", "shared-93fc080a51b8e417"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-548786783e50359c"
+output = ""
+explanation = "新目录位于权限 700 的临时目录下，初始本身也是 700；它只是权限位演示，并非已经能让其他组成员实际访问的共享目录。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-93fc080a51b8e417"
+output = ""
+explanation = "770 赋予所有者和组 rwx，其他人无权限。本流程父目录仍为 700，因此组成员仍不能经过父目录访问；真正共享还需合适的组归属和父目录遍历权限。成功无输出。"
+prompt = "$ "
+
+[[sequences]]
+id = "ownership-notes-audit"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-1a12f949bc73eca0", "shared-df37de5cfb530889", "shared-76ae12b974997ed5"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-1a12f949bc73eca0"
+output = ""
+explanation = "ownership 是当前临时目录中的新目录，所有者及组为 ace:ace，权限受 umask 077 限制为 700。命令成功静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-df37de5cfb530889"
+output = ""
+explanation = "文件写入 notes 加换行，共 6 字节，当前身份 ace 的主组为 ace，所以新文件归属 ace:ace、权限 600。重定向使终端静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-76ae12b974997ed5"
+output = "ace:ace ownership/notes.txt\n"
+explanation = "%U:%G 显示所有者和组，%n 显示输入路径。本步只读元数据，不执行 chown。"
+prompt = "$ "
+
+[[sequences]]
+id = "ownership-project-tree-audit"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-09467d15ff93dd44", "shared-fcda13e6653fed9c", "shared-e130ae03ab009c81", "shared-2307254bbd6554a7"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-09467d15ff93dd44"
+output = ""
+explanation = "ownership、project 与 config 均为新目录，归属 ace:ace 且权限 700；-p 按需创建整个父子路径。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-fcda13e6653fed9c"
+output = ""
+explanation = "ownership/project/.env 内容为 MODE=demo 加换行，归属 ace:ace、权限 600。点文件同样会被后续 find 列出。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e130ae03ab009c81"
+output = ""
+explanation = "ownership/project/config/app.conf 内容为 port=8080 加换行，文件权限 600；路径的每一层目录仍为 700。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-2307254bbd6554a7"
+output = "-rw------- ace:ace ownership/project/.env\n-rw------- ace:ace ownership/project/config/app.conf\ndrwx------ ace:ace ownership/project\ndrwx------ ace:ace ownership/project/config\n"
+explanation = "find 包含起始目录和 .env 隐藏文件；%M 为符号权限，%u:%g 为归属。LC_ALL=C 的 sort 先列 - 开头的文件权限行，再列 d 开头的目录权限行。"
+prompt = "$ "
+
+[[sequences]]
+id = "ownership-path-permissions-audit"
+command_ids = ["shared-07a719971dbc2f2d", "shared-7496e4b814530db2", "shared-e09414932f8ea894", "shared-259a60aec2d8f075", "shared-1a12f949bc73eca0", "shared-df37de5cfb530889", "shared-ee9e47ce0ac8aa2f"]
+
+[[sequences.steps]]
+command_id = "shared-07a719971dbc2f2d"
+output = ""
+explanation = "本流程是独立还原的教学快照，命令不会真实执行；模拟 GNU/Linux、交互式 Bash、LC_ALL=C、用户/主组 ace:ace，初始目录 /home/ace/lab。变量、目录和文件变更在本流程各步间共享，不跨流程继承。\n\numask 077 影响此后新建的对象：通常文件为 600、目录为 700；它不会修改已有对象。该设置在本流程余下的 shell 步骤中保持，命令本身不打印内容。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-7496e4b814530db2"
+output = ""
+explanation = "本独立快照分配 /tmp/tmp.P7q8R9，并把绝对路径保存在 practice_dir。命令替换捕获输出，所以本步静默；之后引用带双引号，避免路径被拆成多个参数。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-e09414932f8ea894"
+output = ""
+explanation = "practice_dir 已由前一步创建。只有 ace 能列出、修改和进入目录；chmod 成功时不打印“成功”字样。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-259a60aec2d8f075"
+output = ""
+explanation = "后续相对路径均相对于 /tmp/tmp.P7q8R9；cd 成功不会打印新路径。此目录变更仅保留在当前流程的模拟 shell 中。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-1a12f949bc73eca0"
+output = ""
+explanation = "ownership 是当前临时目录中的新目录，所有者及组为 ace:ace，权限受 umask 077 限制为 700。命令成功静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-df37de5cfb530889"
+output = ""
+explanation = "文件写入 notes 加换行，共 6 字节，当前身份 ace 的主组为 ace，所以新文件归属 ace:ace、权限 600。重定向使终端静默。"
+prompt = "$ "
+
+[[sequences.steps]]
+command_id = "shared-ee9e47ce0ac8aa2f"
+output = "f: ownership/notes.txt\ndrwx------ ace ace ownership\n-rw------- ace ace notes.txt\n"
+explanation = "namei -l 展示相对路径中的目录和最终文件。访问文件既需要父目录的 x 遍历权限，也需要文件相应权限；本步只检查而不修改。"
+prompt = "$ "

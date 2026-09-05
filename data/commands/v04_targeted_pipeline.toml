@@ -1,0 +1,261 @@
+
+[meta]
+category = "pipeline"
+difficulty = "basic"
+description = "针对基础用法具体操作、方向和选项的三题练习；只在模拟实验环境中输入。"
+
+[[commands]]
+id = "v04-ex-qa-9d034c2fb8"
+command = "ps -ef | less"
+summary = "把完整进程表交给 less 分页阅读"
+
+[[commands.tokens]]
+text = "ps"
+desc = "把完整进程表交给 less 分页阅读"
+
+[[commands.tokens]]
+text = " -ef"
+desc = "本次操作参数：-ef。把完整进程表交给 less 分页阅读"
+
+[[commands.tokens]]
+text = " |"
+desc = "本次操作参数：|。把完整进程表交给 less 分页阅读"
+
+[[commands.tokens]]
+text = " less"
+desc = "本次操作参数：less。把完整进程表交给 less 分页阅读"
+
+[commands.dictation]
+prompt = "把完整进程表交给 less 分页阅读"
+answers = ["ps -ef | less"]
+
+[[commands]]
+id = "v04-ex-qa-89ed840aa9"
+command = "ls -la /etc | less"
+summary = "分页检查配置目录条目，使用 q 退出"
+
+[[commands.tokens]]
+text = "ls"
+desc = "分页检查配置目录条目，使用 q 退出"
+
+[[commands.tokens]]
+text = " -la"
+desc = "本次操作参数：-la。分页检查配置目录条目，使用 q 退出"
+
+[[commands.tokens]]
+text = " /etc"
+desc = "本次操作参数：/etc。分页检查配置目录条目，使用 q 退出"
+
+[[commands.tokens]]
+text = " |"
+desc = "本次操作参数：|。分页检查配置目录条目，使用 q 退出"
+
+[[commands.tokens]]
+text = " less"
+desc = "本次操作参数：less。分页检查配置目录条目，使用 q 退出"
+
+[commands.dictation]
+prompt = "分页检查配置目录条目，使用 q 退出"
+answers = ["ls -la /etc | less"]
+
+[[commands]]
+id = "v04-ex-qa-d8ab1604cd"
+command = "journalctl -u nginx --no-pager | less"
+summary = "关闭 journalctl 自带分页后，把日志显式交给 less"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "关闭 journalctl 自带分页后，把日志显式交给 less"
+
+[[commands.tokens]]
+text = " -u"
+desc = "本次操作参数：-u。关闭 journalctl 自带分页后，把日志显式交给 less"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "本次操作参数：nginx。关闭 journalctl 自带分页后，把日志显式交给 less"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "本次操作参数：--no-pager。关闭 journalctl 自带分页后，把日志显式交给 less"
+
+[[commands.tokens]]
+text = " |"
+desc = "本次操作参数：|。关闭 journalctl 自带分页后，把日志显式交给 less"
+
+[[commands.tokens]]
+text = " less"
+desc = "本次操作参数：less。关闭 journalctl 自带分页后，把日志显式交给 less"
+
+[commands.dictation]
+prompt = "关闭 journalctl 自带分页后，把日志显式交给 less"
+answers = ["journalctl -u nginx --no-pager | less"]
+
+[[commands]]
+id = "v04-ex-qa-d4fa4154a1"
+command = "ls -lt /var/log | head -n 8"
+summary = "截取修改时间排序后的日志列表前八行"
+
+[[commands.tokens]]
+text = "ls"
+desc = "截取修改时间排序后的日志列表前八行"
+
+[[commands.tokens]]
+text = " -lt"
+desc = "本次操作参数：-lt。截取修改时间排序后的日志列表前八行"
+
+[[commands.tokens]]
+text = " /var/log"
+desc = "本次操作参数：/var/log。截取修改时间排序后的日志列表前八行"
+
+[[commands.tokens]]
+text = " |"
+desc = "本次操作参数：|。截取修改时间排序后的日志列表前八行"
+
+[[commands.tokens]]
+text = " head"
+desc = "本次操作参数：head。截取修改时间排序后的日志列表前八行"
+
+[[commands.tokens]]
+text = " -n"
+desc = "本次操作参数：-n。截取修改时间排序后的日志列表前八行"
+
+[[commands.tokens]]
+text = " 8"
+desc = "本次操作参数：8。截取修改时间排序后的日志列表前八行"
+
+[commands.dictation]
+prompt = "截取修改时间排序后的日志列表前八行"
+answers = ["ls -lt /var/log | head -n 8"]
+
+[[commands]]
+id = "v04-ex-qa-5410ab9c26"
+command = "sort -n latency_ms.txt | head -n 3"
+summary = "从实验耗时排序结果取最小的三项"
+
+[[commands.tokens]]
+text = "sort"
+desc = "从实验耗时排序结果取最小的三项"
+
+[[commands.tokens]]
+text = " -n"
+desc = "本次操作参数：-n。从实验耗时排序结果取最小的三项"
+
+[[commands.tokens]]
+text = " latency_ms.txt"
+desc = "本次操作参数：latency_ms.txt。从实验耗时排序结果取最小的三项"
+
+[[commands.tokens]]
+text = " |"
+desc = "本次操作参数：|。从实验耗时排序结果取最小的三项"
+
+[[commands.tokens]]
+text = " head"
+desc = "本次操作参数：head。从实验耗时排序结果取最小的三项"
+
+[[commands.tokens]]
+text = " -n"
+desc = "本次操作参数：-n。从实验耗时排序结果取最小的三项"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次操作参数：3。从实验耗时排序结果取最小的三项"
+
+[commands.dictation]
+prompt = "从实验耗时排序结果取最小的三项"
+answers = ["sort -n latency_ms.txt | head -n 3"]
+
+[[commands]]
+id = "v04-ex-qa-b37fc0e74b"
+command = "grep -i 'timeout' backend.log | wc -l"
+summary = "忽略大小写筛选超时记录并统计行数"
+
+[[commands.tokens]]
+text = "grep"
+desc = "忽略大小写筛选超时记录并统计行数"
+
+[[commands.tokens]]
+text = " -i"
+desc = "本次操作参数：-i。忽略大小写筛选超时记录并统计行数"
+
+[[commands.tokens]]
+text = " 'timeout'"
+desc = "本次操作参数：'timeout'。忽略大小写筛选超时记录并统计行数"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "本次操作参数：backend.log。忽略大小写筛选超时记录并统计行数"
+
+[[commands.tokens]]
+text = " |"
+desc = "本次操作参数：|。忽略大小写筛选超时记录并统计行数"
+
+[[commands.tokens]]
+text = " wc"
+desc = "本次操作参数：wc。忽略大小写筛选超时记录并统计行数"
+
+[[commands.tokens]]
+text = " -l"
+desc = "本次操作参数：-l。忽略大小写筛选超时记录并统计行数"
+
+[commands.dictation]
+prompt = "忽略大小写筛选超时记录并统计行数"
+answers = ["grep -i 'timeout' backend.log | wc -l"]
+
+[[commands]]
+id = "v04-ex-qa-fc679913f3"
+command = "printf 'port=8000\\n' > ~/ops-lab/port.conf"
+summary = "使用覆盖重定向写入另一项实验配置"
+
+[[commands.tokens]]
+text = "printf"
+desc = "使用覆盖重定向写入另一项实验配置"
+
+[[commands.tokens]]
+text = " 'port=8000\\n'"
+desc = "本次操作参数：'port=8000\\n'。使用覆盖重定向写入另一项实验配置"
+
+[[commands.tokens]]
+text = " >"
+desc = "本次操作参数：>。使用覆盖重定向写入另一项实验配置"
+
+[[commands.tokens]]
+text = " ~/ops-lab/port.conf"
+desc = "本次操作参数：~/ops-lab/port.conf。使用覆盖重定向写入另一项实验配置"
+
+[commands.dictation]
+prompt = "使用覆盖重定向写入另一项实验配置"
+answers = ["printf 'port=8000\\n' > ~/ops-lab/port.conf"]
+
+[[commands]]
+id = "v04-ex-qa-65ce188c94"
+command = "ls /srv/missing 2>/dev/null; printf 'exit=%s\\n' \"$?\""
+summary = "隐藏错误文本后仍用退出状态判断前一步是否失败"
+
+[[commands.tokens]]
+text = "ls"
+desc = "隐藏错误文本后仍用退出状态判断前一步是否失败"
+
+[[commands.tokens]]
+text = " /srv/missing"
+desc = "本次操作参数：/srv/missing。隐藏错误文本后仍用退出状态判断前一步是否失败"
+
+[[commands.tokens]]
+text = " 2>/dev/null;"
+desc = "本次操作参数：2>/dev/null;。隐藏错误文本后仍用退出状态判断前一步是否失败"
+
+[[commands.tokens]]
+text = " printf"
+desc = "本次操作参数：printf。隐藏错误文本后仍用退出状态判断前一步是否失败"
+
+[[commands.tokens]]
+text = " 'exit=%s\\n'"
+desc = "本次操作参数：'exit=%s\\n'。隐藏错误文本后仍用退出状态判断前一步是否失败"
+
+[[commands.tokens]]
+text = " \"$?\""
+desc = "本次操作参数：\"$?\"。隐藏错误文本后仍用退出状态判断前一步是否失败"
+
+[commands.dictation]
+prompt = "隐藏错误文本后仍用退出状态判断前一步是否失败"
+answers = ["ls /srv/missing 2>/dev/null; printf 'exit=%s\\n' \"$?\""]

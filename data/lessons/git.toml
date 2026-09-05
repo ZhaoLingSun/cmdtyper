@@ -1,3 +1,4 @@
+
 [meta]
 command = "git"
 full_name = "Git Version Control"
@@ -7,13 +8,15 @@ importance = "core"
 
 [overview]
 summary = "分布式版本控制系统，用于跟踪代码变更和团队协作"
-explanation = """git 是当今最流行的分布式版本控制系统，由 Linux 内核创始人 Linus Torvalds 于 2005 年创建。版本控制让你可以记录文件的变更历史，随时回退到之前的状态，并与他人协作开发。git 的核心概念：仓库（repository）、提交（commit）、分支（branch）、合并（merge）。典型工作流：git add 暂存修改 → git commit 提交记录 → git push 推送到远程仓库。git 几乎是所有软件开发项目的基础工具，掌握它是现代开发者的必备技能。"""
+explanation = "git 是当今最流行的分布式版本控制系统，由 Linux 内核创始人 Linus Torvalds 于 2005 年创建。版本控制让你可以记录文件的变更历史，随时回退到之前的状态，并与他人协作开发。git 的核心概念：仓库（repository）、提交（commit）、分支（branch）、合并（merge）。典型工作流：git add 暂存修改 → git commit 提交记录 → git push 推送到远程仓库。git 几乎是所有软件开发项目的基础工具，掌握它是现代开发者的必备技能。"
 
 [syntax]
 basic = "git <子命令> [选项] [参数]"
+
 [[syntax.parts]]
 name = "子命令"
 desc = "具体操作：add、commit、push、pull、branch、merge、log、diff 等"
+
 [[syntax.parts]]
 name = "参数"
 desc = "根据子命令不同，可以是文件路径、分支名、提交 ID 等"
@@ -74,35 +77,24 @@ note = "临时保存未提交的修改，以便切换分支"
 
 [[examples]]
 level = 1
-command = "git status"
 summary = "查看当前仓库的工作区和暂存区状态"
-simulated_output = """On branch main
-Your branch is up to date with 'origin/main'.
-
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-        modified:   src/main.rs
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-        notes.txt"""
-
+simulated_output = "On branch main\nYour branch is up to date with 'origin/main'.\n\nChanges not staged for commit:\n  (use \"git add <file>...\" to update what will be committed)\n        modified:   src/main.rs\n\nUntracked files:\n  (use \"git add <file>...\" to include in what will be committed)\n        notes.txt"
 output_explanation = "输出体现了 Git 仓库当前状态或历史操作结果。可根据分支名、提交哈希、变更文件列表判断是否处于预期的开发流程。"
+id = "example-001"
+command_id = "v04-ref-f2a29f2b35"
+
 [[examples.token_details]]
 token = "status"
 explanation = "显示工作区和暂存区的文件变更状态。"
 
 [[examples]]
 level = 1
-command = "git log --oneline -5"
 summary = "查看最近5条提交历史（简洁格式）"
-simulated_output = """a3f8c12 修复用户登录验证失败的问题
-b1d7e89 添加密码重置功能
-c4a2f01 优化数据库查询性能
-d8e3b56 更新依赖库版本
-e5f9c23 初始化项目结构"""
-
+simulated_output = "a3f8c12 修复用户登录验证失败的问题\nb1d7e89 添加密码重置功能\nc4a2f01 优化数据库查询性能\nd8e3b56 更新依赖库版本\ne5f9c23 初始化项目结构"
 output_explanation = "输出体现了 Git 仓库当前状态或历史操作结果。可根据分支名、提交哈希、变更文件列表判断是否处于预期的开发流程。"
+id = "example-002"
+command_id = "v04-ref-148a36a58a"
+
 [[examples.token_details]]
 token = "log"
 explanation = "查看提交历史记录。"
@@ -117,11 +109,12 @@ explanation = "限制 git log 只显示最近 5 条提交记录。"
 
 [[examples]]
 level = 2
-command = "git checkout -b feature/user-auth"
 summary = "创建并切换到新的功能分支"
 simulated_output = "Switched to a new branch 'feature/user-auth'"
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-003"
+command_id = "shared-90f3dc561d1588ed"
+
 [[examples.token_details]]
 token = "checkout"
 explanation = "切换分支（或检出文件）；这里配合 -b 一起创建并切换到新分支。"
@@ -136,13 +129,12 @@ explanation = "新分支的名称，用 feature/ 前缀表示这是一个功能�
 
 [[examples]]
 level = 2
-command = "git add src/ && git commit -m '实现用户认证模块'"
 summary = "暂存 src 目录并提交（工作流示例）"
-simulated_output = """[feature/user-auth 7c3d891] 实现用户认证模块
- 4 files changed, 128 insertions(+), 12 deletions(-)
- create mode 100644 src/auth/mod.rs"""
-
+simulated_output = "[feature/user-auth 7c3d891] 实现用户认证模块\n 4 files changed, 128 insertions(+), 12 deletions(-)\n create mode 100644 src/auth/mod.rs"
 output_explanation = "输出体现了 Git 仓库当前状态或历史操作结果。可根据分支名、提交哈希、变更文件列表判断是否处于预期的开发流程。"
+id = "example-004"
+command_id = "shared-79b4da370c9513e3"
+
 [[examples.token_details]]
 token = "add"
 explanation = "将指定路径（src/）下的所有变更文件添加到 Git 暂存区。"
@@ -169,13 +161,12 @@ explanation = "本次提交的说明文字，描述这次提交做了什么。"
 
 [[examples]]
 level = 3
-command = "git stash && git checkout main && git pull"
 summary = "储藏当前修改、切换主分支并更新"
-simulated_output = """Saved working directory and index state WIP on feature/user-auth: 7c3d891
-Switched to branch 'main'
-Already up to date."""
-
+simulated_output = "Saved working directory and index state WIP on feature/user-auth: 7c3d891\nSwitched to branch 'main'\nAlready up to date."
 output_explanation = "输出体现了 Git 仓库当前状态或历史操作结果。可根据分支名、提交哈希、变更文件列表判断是否处于预期的开发流程。"
+id = "example-005"
+command_id = "shared-677844c400ed521f"
+
 [[examples.token_details]]
 token = "stash"
 explanation = "将当前工作区未提交的修改临时储藏起来，使工作区变干净。"
@@ -198,15 +189,12 @@ explanation = "从远程仓库拉取最新提交并合并到当前分支。"
 
 [[examples]]
 level = 3
-command = "git log --oneline --graph --all"
 summary = "用图形化方式查看所有分支的提交历史"
-simulated_output = """* a3f8c12 (HEAD -> main, origin/main) 修复用户登录验证失败的问题
-| * 2b4d789 (feature/user-auth) 实现用户认证模块
-|/
-* b1d7e89 添加密码重置功能
-* c4a2f01 优化数据库查询性能"""
-
+simulated_output = "* a3f8c12 (HEAD -> main, origin/main) 修复用户登录验证失败的问题\n| * 2b4d789 (feature/user-auth) 实现用户认证模块\n|/\n* b1d7e89 添加密码重置功能\n* c4a2f01 优化数据库查询性能"
 output_explanation = "输出体现了 Git 仓库当前状态或历史操作结果。可根据分支名、提交哈希、变更文件列表判断是否处于预期的开发流程。"
+id = "example-006"
+command_id = "shared-e21b4a9fd32b9f50"
+
 [[examples.token_details]]
 token = "log"
 explanation = "查看提交历史记录。"
@@ -225,8 +213,8 @@ explanation = "显示所有分支（包括远程跟踪分支）的提交历史�
 
 [[gotchas]]
 title = "git add . 会暂存所有修改包括不需要的文件"
-content = """git add . 会暂存当前目录（含子目录）中所有修改过的文件。在提交前务必用 git status 确认暂存了正确的文件。应该使用 .gitignore 文件排除不需要跟踪的文件，如 node_modules/、target/、*.pyc、.env 等。"""
+content = "git add . 会暂存当前目录（含子目录）中所有修改过的文件。在提交前务必用 git status 确认暂存了正确的文件。应该使用 .gitignore 文件排除不需要跟踪的文件，如 node_modules/、target/、*.pyc、.env 等。"
 
 [[gotchas]]
 title = "push 前先 pull，避免冲突"
-content = """在团队协作中，push 前应先 pull 获取最新改动，再推送自己的提交。如果直接 push 遇到 "rejected" 错误，说明远程有新提交需要先合并。可以用 git pull --rebase 代替 git pull，历史记录更加整洁。强制推送（git push -f）会覆盖他人的提交，在共享分支上应避免使用！"""
+content = "在团队协作中，push 前应先 pull 获取最新改动，再推送自己的提交。如果直接 push 遇到 \"rejected\" 错误，说明远程有新提交需要先合并。可以用 git pull --rebase 代替 git pull，历史记录更加整洁。强制推送（git push -f）会覆盖他人的提交，在共享分支上应避免使用！"

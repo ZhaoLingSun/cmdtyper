@@ -1,3 +1,4 @@
+
 [meta]
 command = "cron 定时任务观察与编辑"
 full_name = "Cron schedule reading, editor selection, and guarded changes"
@@ -7,19 +8,23 @@ importance = "core"
 
 [overview]
 summary = "先只读核对任务表与守护进程，再理解五段时间字段，最后才进入受控编辑"
-explanation = """cron 学习要区分三层：crontab 内容描述“计划做什么”，cron.service 状态描述“调度守护进程是否运行”，实际脚本及其环境决定“任务是否成功”。crontab -l 是只读观察，管道给 less 只分页标准输出，错误诊断仍留在终端。systemctl status、is-active 和 is-enabled 分别观察详情、当前活动状态和开机启用策略，均不修改服务。五段 cron 时间从左到右是分钟、小时、日、月、星期，字段后才是命令；echo 示例只打印文本，不安装任务。crontab -e 会在保存退出后安装新任务表，是实际变更；临时设置 VISUAL 与 EDITOR 为 nano 只影响这一次编辑器选择。crontab -i -r 即使有确认仍会删除整张个人任务表，必须视为破坏性操作，先备份和复核，不能把交互提示当作充分保护。"""
+explanation = "cron 学习要区分三层：crontab 内容描述“计划做什么”，cron.service 状态描述“调度守护进程是否运行”，实际脚本及其环境决定“任务是否成功”。crontab -l 是只读观察，管道给 less 只分页标准输出，错误诊断仍留在终端。systemctl status、is-active 和 is-enabled 分别观察详情、当前活动状态和开机启用策略，均不修改服务。五段 cron 时间从左到右是分钟、小时、日、月、星期，字段后才是命令；echo 示例只打印文本，不安装任务。crontab -e 会在保存退出后安装新任务表，是实际变更；临时设置 VISUAL 与 EDITOR 为 nano 只影响这一次编辑器选择。crontab -i -r 即使有确认仍会删除整张个人任务表，必须视为破坏性操作，先备份和复核，不能把交互提示当作充分保护。"
 
 [syntax]
 basic = "分 时 日 月 周 命令；crontab -l|-e；systemctl status|is-active|is-enabled cron.service"
+
 [[syntax.parts]]
 name = "分钟与小时"
 desc = "第 1 段是 0-59 分钟，第 2 段是 0-23 小时；0 8 表示本地时间 08:00"
+
 [[syntax.parts]]
 name = "日、月、星期"
 desc = "第 3 至 5 段限制每月日期、月份和星期；星号表示该字段不限制"
+
 [[syntax.parts]]
 name = "计划命令"
 desc = "五段之后才是实际任务；cron 的 PATH、工作目录、shell 和环境通常比交互终端更精简"
+
 [[syntax.parts]]
 name = "观察与变更"
 desc = "-l 和 systemctl 查询只读；-e 保存后安装新表；-r 删除整张表"

@@ -1,0 +1,187 @@
+
+[meta]
+category = "process"
+difficulty = "basic"
+description = "跨模块共用的规范命令（由内容归一化维护）"
+
+[[commands]]
+id = "shared-821b82395651cbff"
+command = "systemctl show -p MainPID --value nginx"
+summary = "只读取得 systemd 当前记录的 nginx 主进程 PID，作为任何信号操作前的核对线索"
+simulated_output = "1205"
+
+[[commands.tokens]]
+text = "systemctl show -p MainPID --value nginx"
+desc = "只读取得 systemd 当前记录的 nginx 主进程 PID，作为任何信号操作前的核对线索"
+
+[commands.dictation]
+prompt = "只读取得 systemd 当前记录的 nginx 主进程 PID，作为任何信号操作前的核对线索"
+answers = ["systemctl show -p MainPID --value nginx"]
+
+[[commands]]
+id = "shared-ef959ef853f91d23"
+command = "killall -i -u \"$USER\" -s TERM python3"
+summary = "把范围限制为当前用户，并在向每个 python3 进程发送 TERM 前逐项确认"
+simulated_output = "Kill python3(12345) ? (y/N)"
+
+[[commands.tokens]]
+text = "killall -i -u \"$USER\" -s TERM python3"
+desc = "把范围限制为当前用户，并在向每个 python3 进程发送 TERM 前逐项确认"
+
+[commands.dictation]
+prompt = "把范围限制为当前用户，并在向每个 python3 进程发送 TERM 前逐项确认"
+answers = ["killall -i -u \"$USER\" -s TERM python3"]
+
+[[commands]]
+id = "shared-4900cf6b55bfae57"
+command = "pgrep -a -u \"$USER\" -f '^/usr/bin/gunicorn --config /etc/myapp/gunicorn\\.conf myapp:wsgi$'"
+summary = "只读预览当前用户下完整命令行精确符合锚定正则的 gunicorn 进程"
+simulated_output = "24810 /usr/bin/gunicorn --config /etc/myapp/gunicorn.conf myapp:wsgi"
+
+[[commands.tokens]]
+text = "pgrep -a -u \"$USER\" -f '^/usr/bin/gunicorn --config /etc/myapp/gunicorn\\.conf myapp:wsgi$'"
+desc = "只读预览当前用户下完整命令行精确符合锚定正则的 gunicorn 进程"
+
+[commands.dictation]
+prompt = "只读预览当前用户下完整命令行精确符合锚定正则的 gunicorn 进程"
+answers = ["pgrep -a -u \"$USER\" -f '^/usr/bin/gunicorn --config /etc/myapp/gunicorn\\.conf myapp:wsgi$'"]
+
+[[commands]]
+id = "shared-a5762fb688afdf84"
+command = "ps aux | grep nginx"
+summary = "查找所有与 nginx 相关的进程"
+simulated_output = "root        1180  0.0  0.1  55276  8432 ?        Ss   Mar02   0:00 nginx: master process /usr/sbin/nginx\nwww-data    1205  0.1  0.5 456780 42360 ?        S    Mar02   1:24 nginx: worker process\nwww-data    1206  0.1  0.4 456780 38920 ?        S    Mar02   1:18 nginx: worker process\nwww-data    1207  0.0  0.4 456780 37480 ?        S    Mar02   1:15 nginx: worker process\nwww-data    1208  0.1  0.5 456780 41280 ?        S    Mar02   1:22 nginx: worker process\nace         3955  0.0  0.0   6480  2176 pts/0    S+   10:38   0:00 grep --color=auto nginx"
+
+[[commands.tokens]]
+text = "ps aux | grep nginx"
+desc = "查找所有与 nginx 相关的进程"
+
+[commands.dictation]
+prompt = "查找所有与 nginx 相关的进程"
+answers = ["ps aux | grep nginx"]
+
+[[commands]]
+id = "shared-464271da00b65eae"
+command = "ps aux --sort=-%mem"
+summary = "按内存使用率降序排列所有进程"
+simulated_output = "USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\nmysql       1342  0.3  2.1 1843200 172032 ?      Ssl  Mar01   5:47 /usr/sbin/mysqld\nwww-data    1205  0.1  0.5 456780 42360 ?        S    Mar02   1:24 nginx: worker process\nwww-data    1206  0.1  0.4 456780 38920 ?        S    Mar02   1:18 nginx: worker process\nroot         873  0.0  0.2 274452 18924 ?        Ssl  Mar01   0:03 /usr/lib/accountsservice/accounts-daemon\nroot           1  0.0  0.1 169436 13260 ?        Ss   Mar01   0:08 /sbin/init\nroot         934  0.0  0.1  15420  9440 ?        Ss   Mar01   0:00 /usr/sbin/sshd -D\nace         2156  0.0  0.1  10692  5888 pts/0    Ss   09:12   0:00 -bash\nace         4012  0.0  0.0  10072  3456 pts/0    R+   10:39   0:00 ps aux --sort=-%mem"
+
+[[commands.tokens]]
+text = "ps aux --sort=-%mem"
+desc = "按内存使用率降序排列所有进程"
+
+[commands.dictation]
+prompt = "按内存使用率降序排列所有进程"
+answers = ["ps aux --sort=-%mem"]
+
+[[commands]]
+id = "shared-a61dec63c0daad1d"
+command = "ps -eo pid,user,%cpu,%mem,comm --sort=-%cpu | head -10"
+summary = "自定义列并按 CPU 使用率排序，显示前 10 条"
+simulated_output = "    PID USER     %CPU %MEM COMMAND\n   1342 mysql     0.3  2.1 mysqld\n   1205 www-data  0.1  0.5 nginx\n   1206 www-data  0.1  0.4 nginx\n   1208 www-data  0.1  0.5 nginx\n    873 root      0.0  0.2 accounts-daemon\n    921 syslog    0.0  0.0 rsyslogd\n    934 root      0.0  0.1 sshd\n      1 root      0.0  0.1 init\n   2156 ace       0.0  0.1 bash"
+
+[[commands.tokens]]
+text = "ps -eo pid,user,%cpu,%mem,comm --sort=-%cpu | head -10"
+desc = "自定义列并按 CPU 使用率排序，显示前 10 条"
+
+[commands.dictation]
+prompt = "自定义列并按 CPU 使用率排序，显示前 10 条"
+answers = ["ps -eo pid,user,%cpu,%mem,comm --sort=-%cpu | head -10"]
+
+[[commands]]
+id = "shared-de43ce1b8ac55c1a"
+command = "ps -ef --forest"
+summary = "以树形结构查看进程父子关系"
+simulated_output = "UID          PID    PPID  C STIME TTY          TIME CMD\nroot           1       0  0 Mar01 ?        00:00:08 /sbin/init\nroot         873       1  0 Mar01 ?        00:00:03  \\_ accounts-daemon\nsyslog       921       1  0 Mar01 ?        00:00:01  \\_ rsyslogd\nroot         934       1  0 Mar01 ?        00:00:00  \\_ sshd\nroot        2150     934  0 09:12 ?        00:00:00      \\_ sshd: ace [priv]\nace         2155    2150  0 09:12 ?        00:00:00          \\_ sshd: ace@pts/0\nace         2156    2155  0 09:12 pts/0    00:00:00              \\_ -bash\nace         4100    2156  0 10:41 pts/0    00:00:00                  \\_ ps -ef --forest\nroot        1180       1  0 Mar02 ?        00:00:00  \\_ nginx: master process\nwww-data    1205    1180  0 Mar02 ?        00:01:24      \\_ nginx: worker process\nwww-data    1206    1180  0 Mar02 ?        00:01:18      \\_ nginx: worker process\nmysql       1342       1  0 Mar01 ?        00:05:47  \\_ mysqld"
+
+[[commands.tokens]]
+text = "ps -ef --forest"
+desc = "以树形结构查看进程父子关系"
+
+[commands.dictation]
+prompt = "以树形结构查看进程父子关系"
+answers = ["ps -ef --forest"]
+
+[[commands]]
+id = "shared-b41e66d4575f150e"
+command = "ps -p 1342 -o pid,user,%cpu,%mem,etime,args"
+summary = "查看指定 PID 进程的详细资源使用情况"
+simulated_output = "    PID USER     %CPU %MEM     ELAPSED COMMAND\n   1342 mysql     0.3  2.1  1-23:47:12 /usr/sbin/mysqld --defaults-file=/etc/mysql/mysql.conf.d/mysqld.cnf"
+
+[[commands.tokens]]
+text = "ps -p 1342 -o pid,user,%cpu,%mem,etime,args"
+desc = "查看指定 PID 进程的详细资源使用情况"
+
+[commands.dictation]
+prompt = "查看指定 PID 进程的详细资源使用情况"
+answers = ["ps -p 1342 -o pid,user,%cpu,%mem,etime,args"]
+
+[[commands]]
+id = "shared-e4613278462c9f29"
+command = "ps aux --sort=-%mem | awk 'NR==1 || $4>1.0'"
+summary = "找出内存占用超过 1% 的进程"
+simulated_output = "USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\nmysql       1342  0.3  2.1 1843200 172032 ?      Ssl  Mar01   5:47 /usr/sbin/mysqld"
+
+[[commands.tokens]]
+text = "ps aux --sort=-%mem | awk 'NR==1 || $4>1.0'"
+desc = "找出内存占用超过 1% 的进程"
+
+[commands.dictation]
+prompt = "找出内存占用超过 1% 的进程"
+answers = ["ps aux --sort=-%mem | awk 'NR==1 || $4>1.0'"]
+
+[[commands]]
+id = "shared-3c5791c2bbb4bbca"
+command = "top -u ace"
+summary = "只查看用户 ace 的进程"
+simulated_output = "top - 14:31:05 up 12 days,  3:43,  2 users,  load average: 0.48, 0.37, 0.31\nTasks: 234 total,   1 running, 232 sleeping,   0 stopped,   1 zombie\n%Cpu(s):  4.8 us,  1.5 sy,  0.0 ni, 93.0 id,  0.5 wa,  0.0 hi,  0.2 si,  0.0 st\nMiB Mem :   7953.4 total,   2156.8 free,   3245.6 used,   2551.0 buff/cache\nMiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   4380.2 avail Mem\n\n    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND\n  15234 ace       20   0  987654 234560  45678 S   1.3   2.9   0:45.32 node\n  12345 ace       20   0  234560  48320  12800 S   0.7   0.6   0:15.67 python3\n  12890 ace       20   0  187240  32100  15360 S   0.3   0.4   0:03.21 python3\n  15456 ace       20   0   12340   4096   3072 S   0.0   0.1   0:00.05 bash"
+
+[[commands.tokens]]
+text = "top -u ace"
+desc = "只查看用户 ace 的进程"
+
+[commands.dictation]
+prompt = "只查看用户 ace 的进程"
+answers = ["top -u ace"]
+
+[[commands]]
+id = "shared-a0cf1f2f3494deb3"
+command = "top -bn1 | head -20"
+summary = "以批处理模式获取 top 快照（适合脚本使用）"
+simulated_output = "top - 14:32:00 up 12 days,  3:44,  2 users,  load average: 0.45, 0.36, 0.30\nTasks: 234 total,   1 running, 232 sleeping,   0 stopped,   1 zombie\n%Cpu(s):  4.5 us,  1.4 sy,  0.0 ni, 93.4 id,  0.5 wa,  0.0 hi,  0.2 si,  0.0 st\nMiB Mem :   7953.4 total,   2156.8 free,   3245.6 used,   2551.0 buff/cache\nMiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   4380.2 avail Mem\n\n    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND\n   1342 mysql     20   0 1824560 524288  36864 S   3.3   6.4  25:12.45 mysqld\n   1205 www-data  20   0   65896   6144   3072 S   1.7   0.1   8:34.21 nginx\n  15234 ace       20   0  987654 234560  45678 S   1.3   2.9   0:45.32 node"
+
+[[commands.tokens]]
+text = "top -bn1 | head -20"
+desc = "以批处理模式获取 top 快照（适合脚本使用）"
+
+[commands.dictation]
+prompt = "以批处理模式获取 top 快照（适合脚本使用）"
+answers = ["top -bn1 | head -20"]
+
+[[commands]]
+id = "shared-312f0695eb5f822a"
+command = "top -d 1 -p $(pgrep -d, nginx)"
+summary = "每秒刷新一次，只监控所有 nginx 进程"
+simulated_output = "top - 14:33:10 up 12 days,  3:45,  2 users,  load average: 0.42, 0.35, 0.30\nTasks:   3 total,   0 running,   3 sleeping,   0 stopped,   0 zombie\n%Cpu(s):  2.1 us,  0.8 sy,  0.0 ni, 96.8 id,  0.2 wa,  0.0 hi,  0.1 si,  0.0 st\nMiB Mem :   7953.4 total,   2156.8 free,   3245.6 used,   2551.0 buff/cache\n\n    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND\n   1205 root      20   0   65432   2048   1536 S   0.0   0.0   0:01.23 nginx\n   1206 www-data  20   0   65896   6144   3072 S   1.0   0.1   4:17.45 nginx\n   1207 www-data  20   0   65896   6080   3008 S   0.7   0.1   4:16.89 nginx"
+
+[[commands.tokens]]
+text = "top -d 1 -p $(pgrep -d, nginx)"
+desc = "每秒刷新一次，只监控所有 nginx 进程"
+
+[commands.dictation]
+prompt = "每秒刷新一次，只监控所有 nginx 进程"
+answers = ["top -d 1 -p $(pgrep -d, nginx)"]
+
+[[commands]]
+id = "shared-886b6774345b81d4"
+command = "top -bn1 -o %MEM | head -17 | tail -10"
+summary = "按内存使用排序获取前 10 个进程"
+simulated_output = "    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND\n   1342 mysql     20   0 1824560 524288  36864 S   3.3   6.4  25:12.45 mysqld\n  15234 ace       20   0  987654 234560  45678 S   1.3   2.9   0:45.32 node\n   2567 postgres  20   0  456789 189012  23456 S   0.3   2.3  12:34.56 postgres\n  12345 ace       20   0  234560  48320  12800 S   0.7   0.6   0:15.67 python3\n  12890 ace       20   0  187240  32100  15360 S   0.3   0.4   0:03.21 python3\n   3456 redis     20   0   89012  28672   4096 S   0.0   0.4   5:43.21 redis-server\n    924 root      20   0   15432  12288   8192 S   0.0   0.2   0:12.34 sshd\n   1205 www-data  20   0   65896   6144   3072 S   1.7   0.1   8:34.21 nginx\n      1 root      20   0  168960  11264   7680 S   0.0   0.1  10:23.45 systemd"
+
+[[commands.tokens]]
+text = "top -bn1 -o %MEM | head -17 | tail -10"
+desc = "按内存使用排序获取前 10 个进程"
+
+[commands.dictation]
+prompt = "按内存使用排序获取前 10 个进程"
+answers = ["top -bn1 -o %MEM | head -17 | tail -10"]

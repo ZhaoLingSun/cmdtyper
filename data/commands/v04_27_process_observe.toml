@@ -1,0 +1,361 @@
+[meta]
+category = "process"
+difficulty = "basic"
+description = "先定位进程身份与父子关系，再分析 CPU、内存和文件句柄。"
+
+[meta.topic]
+id = "v04_process_observe"
+title = "进程、资源与 OOM 证据"
+icon = "🧰"
+order = 127
+command_ids = ["free-human"]
+
+[[commands]]
+id = "v04-process_observe-41f5c85ee4"
+command = "ps -eo pid,ppid,user,%cpu,%mem,args --sort=-%cpu"
+summary = "按 CPU 使用率排列所有进程，保留父 PID 和命令行"
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示进程快照及所选字段"
+
+[[commands.tokens]]
+text = " -eo"
+desc = "按 CPU 使用率排列所有进程，保留父 PID 和命令行；此处使用 -eo 选项"
+
+[[commands.tokens]]
+text = " pid,ppid,user,%cpu,%mem,args"
+desc = "按 CPU 使用率排列所有进程，保留父 PID 和命令行；指定 pid,ppid,user,%cpu,%mem,args"
+
+[[commands.tokens]]
+text = " --sort=-%cpu"
+desc = "按 CPU 使用率排列所有进程，保留父 PID 和命令行；此处使用 --sort=-%cpu 选项"
+
+[commands.dictation]
+prompt = "按 CPU 使用率排列所有进程，保留父 PID 和命令行"
+answers = ["ps -eo pid,ppid,user,%cpu,%mem,args --sort=-%cpu"]
+
+[[commands]]
+id = "v04-process_observe-7c56f9678d"
+command = "ps -eo pid,ppid,rss,vsz,args --sort=-rss"
+summary = "按常驻内存排序，区分 RSS 与虚拟地址空间 VSZ"
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示进程快照及所选字段"
+
+[[commands.tokens]]
+text = " -eo"
+desc = "按常驻内存排序，区分 RSS 与虚拟地址空间 VSZ；此处使用 -eo 选项"
+
+[[commands.tokens]]
+text = " pid,ppid,rss,vsz,args"
+desc = "按常驻内存排序，区分 RSS 与虚拟地址空间 VSZ；指定 pid,ppid,rss,vsz,args"
+
+[[commands.tokens]]
+text = " --sort=-rss"
+desc = "按常驻内存排序，区分 RSS 与虚拟地址空间 VSZ；此处使用 --sort=-rss 选项"
+
+[commands.dictation]
+prompt = "按常驻内存排序，区分 RSS 与虚拟地址空间 VSZ"
+answers = ["ps -eo pid,ppid,rss,vsz,args --sort=-rss"]
+
+[[commands]]
+id = "v04-process_observe-dd71d6f6a2"
+command = "ps -p 4242 -o pid,stat,etime,time,args"
+summary = "查看实验进程状态、运行时长和累计 CPU 时间"
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示进程快照及所选字段"
+
+[[commands.tokens]]
+text = " -p"
+desc = "查看实验进程状态、运行时长和累计 CPU 时间；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " 4242"
+desc = "本次练习的数值参数 4242；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -o"
+desc = "查看实验进程状态、运行时长和累计 CPU 时间；此处使用 -o 选项"
+
+[[commands.tokens]]
+text = " pid,stat,etime,time,args"
+desc = "查看实验进程状态、运行时长和累计 CPU 时间；指定 pid,stat,etime,time,args"
+
+[commands.dictation]
+prompt = "查看实验进程状态、运行时长和累计 CPU 时间"
+answers = ["ps -p 4242 -o pid,stat,etime,time,args"]
+
+[[commands]]
+id = "v04-process_observe-860e0c44cb"
+command = "ps -L -p 4242 -o pid,tid,psr,pcpu,comm"
+summary = "展开实验进程线程，定位高 CPU 线程"
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示进程快照及所选字段"
+
+[[commands.tokens]]
+text = " -L"
+desc = "展开实验进程线程，定位高 CPU 线程；此处使用 -L 选项"
+
+[[commands.tokens]]
+text = " -p"
+desc = "展开实验进程线程，定位高 CPU 线程；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " 4242"
+desc = "本次练习的数值参数 4242；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -o"
+desc = "展开实验进程线程，定位高 CPU 线程；此处使用 -o 选项"
+
+[[commands.tokens]]
+text = " pid,tid,psr,pcpu,comm"
+desc = "展开实验进程线程，定位高 CPU 线程；指定 pid,tid,psr,pcpu,comm"
+
+[commands.dictation]
+prompt = "展开实验进程线程，定位高 CPU 线程"
+answers = ["ps -L -p 4242 -o pid,tid,psr,pcpu,comm"]
+
+[[commands]]
+id = "v04-process_observe-21630b427d"
+command = "pgrep -af 'uvicorn'"
+summary = "按完整命令行匹配实验 Python 后端"
+
+[[commands.tokens]]
+text = "pgrep"
+desc = "按完整命令行匹配实验 Python 后端"
+
+[[commands.tokens]]
+text = " -af"
+desc = "按完整命令行匹配实验 Python 后端；此处使用 -af 选项"
+
+[[commands.tokens]]
+text = " 'uvicorn'"
+desc = "引号保护此参数中的空格或特殊符号；按完整命令行匹配实验 Python 后端"
+
+[commands.dictation]
+prompt = "按完整命令行匹配实验 Python 后端"
+answers = ["pgrep -af 'uvicorn'"]
+
+[[commands]]
+id = "v04-process_observe-75609dde45"
+command = "pgrep -a -u www-data"
+summary = "列出 Web 账号所属进程及命令行"
+
+[[commands.tokens]]
+text = "pgrep"
+desc = "列出 Web 账号所属进程及命令行"
+
+[[commands.tokens]]
+text = " -a"
+desc = "列出 Web 账号所属进程及命令行；此处使用 -a 选项"
+
+[[commands.tokens]]
+text = " -u"
+desc = "列出 Web 账号所属进程及命令行；此处使用 -u 选项"
+
+[[commands.tokens]]
+text = " www-data"
+desc = "列出 Web 账号所属进程及命令行；指定 www-data"
+
+[commands.dictation]
+prompt = "列出 Web 账号所属进程及命令行"
+answers = ["pgrep -a -u www-data"]
+
+[[commands]]
+id = "v04-process_observe-adec51c00d"
+command = "pstree -aps 4242"
+summary = "查看实验 PID 的父进程链和启动参数"
+
+[[commands.tokens]]
+text = "pstree"
+desc = "查看实验 PID 的父进程链和启动参数"
+
+[[commands.tokens]]
+text = " -aps"
+desc = "查看实验 PID 的父进程链和启动参数；此处使用 -aps 选项"
+
+[[commands.tokens]]
+text = " 4242"
+desc = "本次练习的数值参数 4242；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "查看实验 PID 的父进程链和启动参数"
+answers = ["pstree -aps 4242"]
+
+[[commands]]
+id = "v04-process_observe-89d00941bc"
+command = "top -b -n 1 -p 4242"
+summary = "以批处理模式采样一次实验进程资源"
+
+[[commands.tokens]]
+text = "top"
+desc = "以批处理模式采样一次实验进程资源"
+
+[[commands.tokens]]
+text = " -b"
+desc = "以批处理模式采样一次实验进程资源；此处使用 -b 选项"
+
+[[commands.tokens]]
+text = " -n"
+desc = "以批处理模式采样一次实验进程资源；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次练习的数值参数 1；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -p"
+desc = "以批处理模式采样一次实验进程资源；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " 4242"
+desc = "本次练习的数值参数 4242；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "以批处理模式采样一次实验进程资源"
+answers = ["top -b -n 1 -p 4242"]
+
+[[commands]]
+id = "v04-process_observe-c1a3bc4e6e"
+command = "pidstat -u -r -p 4242 1 5"
+summary = "使用 sysstat 五次采样实验进程 CPU 与内存"
+
+[[commands.tokens]]
+text = "pidstat"
+desc = "使用 sysstat 五次采样实验进程 CPU 与内存"
+
+[[commands.tokens]]
+text = " -u"
+desc = "使用 sysstat 五次采样实验进程 CPU 与内存；此处使用 -u 选项"
+
+[[commands.tokens]]
+text = " -r"
+desc = "使用 sysstat 五次采样实验进程 CPU 与内存；此处使用 -r 选项"
+
+[[commands.tokens]]
+text = " -p"
+desc = "使用 sysstat 五次采样实验进程 CPU 与内存；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " 4242"
+desc = "本次练习的数值参数 4242；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次练习的数值参数 1；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "使用 sysstat 五次采样实验进程 CPU 与内存"
+answers = ["pidstat -u -r -p 4242 1 5"]
+
+[[commands]]
+id = "v04-process_observe-9e4381abf3"
+command = "vmstat 1 5"
+summary = "采样运行队列、换页和 CPU 等待，首行通常是启动以来均值"
+
+[[commands.tokens]]
+text = "vmstat"
+desc = "采样运行队列、换页和 CPU 等待，首行通常是启动以来均值"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次练习的数值参数 1；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "采样运行队列、换页和 CPU 等待，首行通常是启动以来均值"
+answers = ["vmstat 1 5"]
+
+[[commands]]
+id = "v04-process_observe-2499846b5a"
+command = "journalctl -k --grep='oom|Out of memory|Killed process' --no-pager"
+summary = "从内核日志定位 OOM 及被终止的进程"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " -k"
+desc = "只读取内核消息"
+
+[[commands.tokens]]
+text = " --grep='oom|Out of memory|Killed process'"
+desc = "从内核日志定位 OOM 及被终止的进程；此处使用 --grep='oom|Out of memory|Killed process' 选项"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "直接输出，不启动分页器"
+
+[commands.dictation]
+prompt = "从内核日志定位 OOM 及被终止的进程"
+answers = ["journalctl -k --grep='oom|Out of memory|Killed process' --no-pager"]
+
+[[commands]]
+id = "v04-process_observe-45248c6d3f"
+command = "cat /proc/4242/limits"
+summary = "读取实验进程的资源上限"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /proc/4242/limits"
+desc = "本次操作指定的路径：/proc/4242/limits"
+
+[commands.dictation]
+prompt = "读取实验进程的资源上限"
+answers = ["cat /proc/4242/limits"]
+
+[[commands]]
+id = "v04-process_observe-b07df18c1f"
+command = "ls -l /proc/4242/fd"
+summary = "查看实验进程打开的文件描述符目标"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " -l"
+desc = "查看实验进程打开的文件描述符目标；此处使用 -l 选项"
+
+[[commands.tokens]]
+text = " /proc/4242/fd"
+desc = "本次操作指定的路径：/proc/4242/fd"
+
+[commands.dictation]
+prompt = "查看实验进程打开的文件描述符目标"
+answers = ["ls -l /proc/4242/fd"]
+
+[[commands]]
+id = "v04-process_observe-0b507418a1"
+command = "cat /proc/pressure/memory"
+summary = "读取 Linux PSI 内存压力，关注 some 与 full 的含义"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /proc/pressure/memory"
+desc = "本次操作指定的路径：/proc/pressure/memory"
+
+[commands.dictation]
+prompt = "读取 Linux PSI 内存压力，关注 some 与 full 的含义"
+answers = ["cat /proc/pressure/memory"]

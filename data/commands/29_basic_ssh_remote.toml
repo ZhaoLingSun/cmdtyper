@@ -13,18 +13,13 @@ order = 10
 id = "ssh-login-basic"
 command = "ssh alice@server.example.com"
 summary = "首次登录先通过可信渠道核验主机指纹"
-simulated_output = """The authenticity of host 'server.example.com (192.0.2.24)' can't be established.
-ED25519 key fingerprint is SHA256:RrYw7q1QXJH1dH0s0M4jVj6ZK8Yq2cP9YxQe4uWn7nI.
-Are you sure you want to continue connecting (yes/no/[fingerprint])?"""
-
+simulated_output = "The authenticity of host 'server.example.com (192.0.2.24)' can't be established.\nED25519 key fingerprint is SHA256:RrYw7q1QXJH1dH0s0M4jVj6ZK8Yq2cP9YxQe4uWn7nI.\nAre you sure you want to continue connecting (yes/no/[fingerprint])?"
 [[commands.tokens]]
 text = "ssh"
 desc = "通过加密连接登录远程主机；首次连接时不要直接输入 yes，应先独立核验指纹"
-
 [[commands.tokens]]
 text = " alice@server.example.com"
 desc = "远程用户名与主机名；显示的 SHA256 指纹必须与管理员或主机控制台提供的值一致"
-
 [commands.dictation]
 prompt = "以 alice 身份首次连接 server.example.com；停在主机密钥提示，通过管理员或主机控制台核对 SHA256 指纹，未核验前不要接受"
 answers = ["ssh alice@server.example.com"]
@@ -33,26 +28,19 @@ answers = ["ssh alice@server.example.com"]
 id = "ssh-login-custom-port"
 command = "ssh -p 2222 alice@server.example.com"
 summary = "通过 2222 端口登录远程主机"
-simulated_output = """alice@server.example.com's password:
-Last login: Sun Jul 26 09:18:42 2026 from 198.51.100.17
-"""
-
+simulated_output = "alice@server.example.com's password:\nLast login: Sun Jul 26 09:18:42 2026 from 198.51.100.17\n"
 [[commands.tokens]]
 text = "ssh"
 desc = "通过加密连接登录远程主机"
-
 [[commands.tokens]]
 text = " -p"
 desc = "指定服务端口；这里必须使用小写 p"
-
 [[commands.tokens]]
 text = " 2222"
 desc = "远程服务监听的非默认端口"
-
 [[commands.tokens]]
 text = " alice@server.example.com"
 desc = "远程用户名与主机名"
-
 [commands.dictation]
 prompt = "已通过可信渠道核验该主机指纹后，以 alice 身份通过 2222 端口登录 server.example.com"
 answers = ["ssh -p 2222 alice@server.example.com"]
@@ -61,102 +49,82 @@ answers = ["ssh -p 2222 alice@server.example.com"]
 id = "ssh-identity-file"
 command = "ssh -i ~/.ssh/work_ed25519 alice@server.example.com"
 summary = "使用指定私钥登录远程主机"
-simulated_output = """Enter passphrase for key '/home/alice/.ssh/work_ed25519':
-Last login: Sun Jul 26 09:24:08 2026 from 198.51.100.17
-"""
-
+simulated_output = "Enter passphrase for key '/home/alice/.ssh/work_ed25519':\nLast login: Sun Jul 26 09:24:08 2026 from 198.51.100.17\n"
 [[commands.tokens]]
 text = "ssh"
 desc = "通过加密连接登录远程主机"
-
 [[commands.tokens]]
 text = " -i"
 desc = "指定用于公钥认证的身份文件"
-
 [[commands.tokens]]
 text = " ~/.ssh/work_ed25519"
 desc = "本地私钥文件路径，不要泄露其内容"
-
 [[commands.tokens]]
 text = " alice@server.example.com"
 desc = "远程用户名与主机名"
-
 [commands.dictation]
 prompt = "已通过可信渠道核验该主机指纹后，使用 ~/.ssh/work_ed25519 私钥以 alice 身份登录 server.example.com"
 answers = ["ssh -i ~/.ssh/work_ed25519 alice@server.example.com"]
 
 [[commands]]
 id = "ssh-keygen-ed25519-basic"
-command = "(umask 077; key_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-work-key.XXXXXX\") && chmod 700 \"$key_dir\" && key=\"$key_dir/work_ed25519\" && ssh-keygen -t ed25519 -f \"$key\" -C 'alice@laptop' && printf 'Key directory: %s\\nPrivate key: %s\\nPublic key: %s\\n' \"$key_dir\" \"$key\" \"$key.pub\")"
-summary = "在新建的私有临时目录中交互生成 Ed25519 密钥，并报告实际路径"
+command = "umask 077\nkey_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-work-key.XXXXXX\")\nchmod 700 \"$key_dir\"\nkey=\"$key_dir/work_ed25519\"\nssh-keygen -t ed25519 -f \"$key\" -C 'alice@laptop'\nprintf 'Key directory: %s\\nPrivate key: %s\\nPublic key: %s\\n' \"$key_dir\" \"$key\" \"$key.pub\""
+summary = "在新建的私有临时目录中交互生成 Ed25519 密钥，并报告实际路径；逐条回车，确认成功再继续"
 simulated_output = "Generating public/private ed25519 key pair.\nEnter passphrase (empty for no passphrase):\nEnter same passphrase again:\nYour identification has been saved in /tmp/cmdtyper-work-key.Q7m2Xa/work_ed25519\nYour public key has been saved in /tmp/cmdtyper-work-key.Q7m2Xa/work_ed25519.pub\nThe key fingerprint is:\nSHA256:Q1sM9rX2kF6nV8cD4wJ7pL0zH3bY5tA6uE9iN2oG4xU alice@laptop\nKey directory: /tmp/cmdtyper-work-key.Q7m2Xa\nPrivate key: /tmp/cmdtyper-work-key.Q7m2Xa/work_ed25519\nPublic key: /tmp/cmdtyper-work-key.Q7m2Xa/work_ed25519.pub"
-
 [[commands.tokens]]
-text = "(umask 077; key_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-work-key.XXXXXX\") && chmod 700 \"$key_dir\""
-desc = "在子 shell 中建立原子分配、当前用户拥有的唯一 0700 私有目录，不检查或复用固定路径"
-
+text = "umask 077\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 [[commands.tokens]]
-text = " && key=\"$key_dir/work_ed25519\""
-desc = "把固定用途名放在刚创建的唯一目录内，因此不会遇到旧文件或悬空符号链接"
-
+text = "key_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-work-key.XXXXXX\")\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 [[commands.tokens]]
-text = " && ssh-keygen -t ed25519 -f \"$key\" -C 'alice@laptop'"
-desc = "交互生成 Ed25519 密钥；未使用 -N，保留口令输入与确认提示"
-
+text = "chmod 700 \"$key_dir\"\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 [[commands.tokens]]
-text = " && printf 'Key directory: %s\\nPrivate key: %s\\nPublic key: %s\\n' \"$key_dir\" \"$key\" \"$key.pub\")"
-desc = "成功后报告目录、私钥和对应 .pub 公钥的实际随机路径"
+text = "key=\"$key_dir/work_ed25519\"\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+[[commands.tokens]]
+text = "ssh-keygen -t ed25519 -f \"$key\" -C 'alice@laptop'\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+[[commands.tokens]]
+text = "printf 'Key directory: %s\\nPrivate key: %s\\nPublic key: %s\\n' \"$key_dir\" \"$key\" \"$key.pub\""
+desc = "在新建的私有临时目录中交互生成 Ed25519 密钥，并报告实际路径"
 [commands.dictation]
 prompt = "用 umask 077 和 mktemp -d 新建唯一 0700 私有目录，在其中交互生成 work_ed25519 Ed25519 密钥并设置口令；不得使用固定目标或覆盖提示，成功后输出目录、私钥和 .pub 公钥的实际路径"
-answers = ["(umask 077; key_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-work-key.XXXXXX\") && chmod 700 \"$key_dir\" && key=\"$key_dir/work_ed25519\" && ssh-keygen -t ed25519 -f \"$key\" -C 'alice@laptop' && printf 'Key directory: %s\\nPrivate key: %s\\nPublic key: %s\\n' \"$key_dir\" \"$key\" \"$key.pub\")"]
+answers = ["umask 077\nkey_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-work-key.XXXXXX\")\nchmod 700 \"$key_dir\"\nkey=\"$key_dir/work_ed25519\"\nssh-keygen -t ed25519 -f \"$key\" -C 'alice@laptop'\nprintf 'Key directory: %s\\nPrivate key: %s\\nPublic key: %s\\n' \"$key_dir\" \"$key\" \"$key.pub\""]
 
 [[commands]]
 id = "ssh-copy-id-basic"
-command = "(umask 077; printf 'Private key path printed by ssh-keygen: ' && IFS= read -r key && [ -f \"$key.pub\" ] && [ ! -L \"$key.pub\" ] && printf 'Expected ED25519 SHA256 host fingerprint from an independent trusted source: ' && IFS= read -r expected && host=server.example.com && kh=$(mktemp) && trap 'rm -f -- \"$kh\"' EXIT HUP INT TERM && ssh-keyscan -t ed25519 \"$host\" >\"$kh\" 2>/dev/null && actual=$(ssh-keygen -lf \"$kh\" -E sha256 | awk '{print $2}' | sort -u) && [ \"$actual\" = \"$expected\" ] && ssh-copy-id -i \"$key.pub\" -o HostKeyAlgorithms=ssh-ed25519 -o UserKnownHostsFile=\"$kh\" -o GlobalKnownHostsFile=/dev/null -o StrictHostKeyChecking=yes \"alice@$host\")"
-summary = "核对独立取得的主机指纹后，只安装上一题实际生成的专用公钥"
-simulated_output = "Private key path printed by ssh-keygen: /tmp/cmdtyper-work-key.Q7m2Xa/work_ed25519\nExpected ED25519 SHA256 host fingerprint from an independent trusted source: SHA256:RrYw7q1QXJH1dH0s0M4jVj6ZK8Yq2cP9YxQe4uWn7nI\n/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: \"/tmp/cmdtyper-work-key.Q7m2Xa/work_ed25519.pub\"\nalice@server.example.com's password:\nNumber of key(s) added: 1"
-
+command = "ssh-keygen -lf ~/.ssh/work_ed25519.pub\nssh-keyscan -t ed25519 server.example.com\nssh-copy-id -i ~/.ssh/work_ed25519.pub alice@server.example.com"
+summary = "查看公钥指纹、检查服务器主机密钥并安装公钥（分步模拟）；逐条回车，确认成功再继续"
+simulated_output = "Number of key(s) added: 1"
 [[commands.tokens]]
-text = "(umask 077; printf 'Private key path printed by ssh-keygen: ' && IFS= read -r key && [ -f \"$key.pub\" ] && [ ! -L \"$key.pub\" ]"
-desc = "在本命令内读取上一题报告的实际私钥路径，并确认对应 .pub 是普通文件而非符号链接"
-
+text = "ssh-keygen -lf ~/.ssh/work_ed25519.pub\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 [[commands.tokens]]
-text = " && printf 'Expected ED25519 SHA256 host fingerprint from an independent trusted source: ' && IFS= read -r expected"
-desc = "要求从管理员、主机控制台或受保护资产记录独立取得预期指纹"
-
+text = "ssh-keyscan -t ed25519 server.example.com\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 [[commands.tokens]]
-text = " && host=server.example.com && kh=$(mktemp) && trap 'rm -f -- \"$kh\"' EXIT HUP INT TERM && ssh-keyscan -t ed25519 \"$host\" >\"$kh\" 2>/dev/null"
-desc = "把远端当前提供的 Ed25519 主机密钥写入私有随机 known_hosts 临时文件"
-
-[[commands.tokens]]
-text = " && actual=$(ssh-keygen -lf \"$kh\" -E sha256 | awk '{print $2}' | sort -u) && [ \"$actual\" = \"$expected\" ]"
-desc = "计算实际指纹并与独立可信值完全比较，不信任 ssh-keyscan 自身"
-
-[[commands.tokens]]
-text = " && ssh-copy-id -i \"$key.pub\" -o HostKeyAlgorithms=ssh-ed25519 -o UserKnownHostsFile=\"$kh\" -o GlobalKnownHostsFile=/dev/null -o StrictHostKeyChecking=yes \"alice@$host\")"
-desc = "只用 -i 安装该随机目录中的专用 .pub，并把连接固定到刚核验的主机密钥"
+text = "ssh-copy-id -i ~/.ssh/work_ed25519.pub alice@server.example.com"
+desc = "查看公钥指纹、检查服务器主机密钥并安装公钥（分步模拟）"
 [commands.dictation]
-prompt = "输入上一题输出的实际私钥路径；再输入从独立可信渠道取得的 server.example.com Ed25519 SHA256 主机指纹。只有对应 .pub 为普通文件且扫描指纹完全匹配时，才用 -i \"$key.pub\" 安装到 alice，并用私有 known_hosts 固定已核验主机密钥"
-answers = ["(umask 077; printf 'Private key path printed by ssh-keygen: ' && IFS= read -r key && [ -f \"$key.pub\" ] && [ ! -L \"$key.pub\" ] && printf 'Expected ED25519 SHA256 host fingerprint from an independent trusted source: ' && IFS= read -r expected && host=server.example.com && kh=$(mktemp) && trap 'rm -f -- \"$kh\"' EXIT HUP INT TERM && ssh-keyscan -t ed25519 \"$host\" >\"$kh\" 2>/dev/null && actual=$(ssh-keygen -lf \"$kh\" -E sha256 | awk '{print $2}' | sort -u) && [ \"$actual\" = \"$expected\" ] && ssh-copy-id -i \"$key.pub\" -o HostKeyAlgorithms=ssh-ed25519 -o UserKnownHostsFile=\"$kh\" -o GlobalKnownHostsFile=/dev/null -o StrictHostKeyChecking=yes \"alice@$host\")"]
+prompt = "已创建对应公钥。逐步查看公钥指纹与服务器主机密钥；通过独立可信渠道核对服务器指纹后，再安装公钥。ssh-keyscan 本身不证明服务器身份。"
+answers = ["ssh-keygen -lf ~/.ssh/work_ed25519.pub\nssh-keyscan -t ed25519 server.example.com\nssh-copy-id -i ~/.ssh/work_ed25519.pub alice@server.example.com"]
 
 [[commands]]
 id = "scp-upload-file"
 command = "scp report.pdf alice@server.example.com:/home/alice/"
 summary = "确认远端无同名文件后上传本地报告"
 simulated_output = "report.pdf                                    100%  842KB   4.1MB/s   00:00"
-
 [[commands.tokens]]
 text = "scp"
 desc = "通过加密连接复制文件"
-
 [[commands.tokens]]
 text = " report.pdf"
 desc = "要上传的本地文件"
-
 [[commands.tokens]]
 text = " alice@server.example.com:/home/alice/"
 desc = "远程账户、主机和目标目录；scp 会替换目标端已有的同名文件"
-
 [commands.dictation]
 prompt = "已确认 alice@server.example.com 上的 /home/alice/report.pdf 不存在后，把本地 report.pdf 上传到 /home/alice/ 目录"
 answers = ["scp report.pdf alice@server.example.com:/home/alice/"]
@@ -166,19 +134,15 @@ id = "scp-download-file"
 command = "scp alice@server.example.com:/home/alice/report.csv ."
 summary = "确认本地无同名文件后下载远程报表"
 simulated_output = "report.csv                                    100%   96KB   1.8MB/s   00:00"
-
 [[commands.tokens]]
 text = "scp"
 desc = "通过加密连接复制文件"
-
 [[commands.tokens]]
 text = " alice@server.example.com:/home/alice/report.csv"
 desc = "远程账户、主机和源文件路径"
-
 [[commands.tokens]]
 text = " ."
 desc = "保存到本地当前目录；scp 会替换已经存在的同名文件"
-
 [commands.dictation]
 prompt = "已确认当前目录没有 report.csv 后，从 alice@server.example.com 下载 /home/alice/report.csv"
 answers = ["scp alice@server.example.com:/home/alice/report.csv ."]
@@ -187,27 +151,19 @@ answers = ["scp alice@server.example.com:/home/alice/report.csv ."]
 id = "scp-upload-directory"
 command = "scp -r website/ alice@server.example.com:/home/alice/backups/"
 summary = "确认目标范围后递归上传整个网站目录"
-simulated_output = """index.html                                    100%  3184   412.7KB/s   00:00
-app.css                                       100%  9210     1.1MB/s   00:00
-logo.png                                      100%   84KB    3.0MB/s   00:00
-"""
-
+simulated_output = "index.html                                    100%  3184   412.7KB/s   00:00\napp.css                                       100%  9210     1.1MB/s   00:00\nlogo.png                                      100%   84KB    3.0MB/s   00:00\n"
 [[commands.tokens]]
 text = "scp"
 desc = "通过加密连接复制文件"
-
 [[commands.tokens]]
 text = " -r"
 desc = "递归复制目录及其全部内容"
-
 [[commands.tokens]]
 text = " website/"
 desc = "要上传的本地目录"
-
 [[commands.tokens]]
 text = " alice@server.example.com:/home/alice/backups/"
 desc = "远程备份目录；若同名路径已存在，内容可能被合并并替换同名文件"
-
 [commands.dictation]
 prompt = "已确认 alice@server.example.com 的 /home/alice/backups/ 中没有同名 website 路径后，递归上传本地 website/ 目录"
 answers = ["scp -r website/ alice@server.example.com:/home/alice/backups/"]
@@ -217,27 +173,21 @@ id = "scp-custom-port-upload"
 command = "scp -P 2222 backup.tar.gz alice@server.example.com:/home/alice/backups/"
 summary = "确认远端无同名文件后经 2222 端口上传备份包"
 simulated_output = "backup.tar.gz                                 100%   48MB  11.6MB/s   00:04"
-
 [[commands.tokens]]
 text = "scp"
 desc = "通过加密连接复制文件"
-
 [[commands.tokens]]
 text = " -P"
 desc = "指定远程端口；与远程登录不同，这里必须使用大写 P"
-
 [[commands.tokens]]
 text = " 2222"
 desc = "远程服务监听的非默认端口"
-
 [[commands.tokens]]
 text = " backup.tar.gz"
 desc = "要上传的本地备份包"
-
 [[commands.tokens]]
 text = " alice@server.example.com:/home/alice/backups/"
 desc = "远程备份目录；已有同名备份包会被替换"
-
 [commands.dictation]
 prompt = "已确认 alice@server.example.com 的 /home/alice/backups/ 没有 backup.tar.gz 后，经 2222 端口上传本地同名备份包"
 answers = ["scp -P 2222 backup.tar.gz alice@server.example.com:/home/alice/backups/"]
@@ -246,31 +196,19 @@ answers = ["scp -P 2222 backup.tar.gz alice@server.example.com:/home/alice/backu
 id = "rsync-archive-compress"
 command = "rsync -av photos/ alice@server.example.com:/home/alice/photos/"
 summary = "以归档模式增量同步照片，并更新目标端同名文件"
-simulated_output = """sending incremental file list
-./
-beach.jpg
-team.jpg
-
-sent 4,318,522 bytes  received 57 bytes  2,879,052.67 bytes/sec
-total size is 6,104,832  speedup is 1.41
-"""
-
+simulated_output = "sending incremental file list\n./\nbeach.jpg\nteam.jpg\n\nsent 4,318,522 bytes  received 57 bytes  2,879,052.67 bytes/sec\ntotal size is 6,104,832  speedup is 1.41\n"
 [[commands.tokens]]
 text = "rsync"
 desc = "按差异高效同步本地与远程文件"
-
 [[commands.tokens]]
 text = " -av"
 desc = "归档递归同步并显示详情；JPEG、PNG 等照片通常已压缩，不额外使用 -z"
-
 [[commands.tokens]]
 text = " photos/"
 desc = "同步此目录中的内容，末尾斜杠很重要"
-
 [[commands.tokens]]
 text = " alice@server.example.com:/home/alice/photos/"
 desc = "远程目标目录；同名文件内容不同时会按源端更新"
-
 [commands.dictation]
 prompt = "已核对 alice@server.example.com:/home/alice/photos/ 后，以归档模式显示详情并增量同步本地 photos/ 内容；允许更新目标端同名文件"
 answers = ["rsync -av photos/ alice@server.example.com:/home/alice/photos/"]
@@ -279,36 +217,22 @@ answers = ["rsync -av photos/ alice@server.example.com:/home/alice/photos/"]
 id = "rsync-delete-remote-extra"
 command = "rsync -avzn --delete website/ alice@server.example.com:/home/alice/staging-site/"
 summary = "只预演测试站点镜像，核对将更新和删除的文件"
-simulated_output = """sending incremental file list
-deleting old-bundle.js
-./
-index.html
-assets/app.css
-
-sent 38,421 bytes  received 92 bytes  77,026.00 bytes/sec
-total size is 125,308  speedup is 3.25 (DRY RUN)
-"""
-
+simulated_output = "sending incremental file list\ndeleting old-bundle.js\n./\nindex.html\nassets/app.css\n\nsent 38,421 bytes  received 92 bytes  77,026.00 bytes/sec\ntotal size is 125,308  speedup is 3.25 (DRY RUN)\n"
 [[commands.tokens]]
 text = "rsync"
 desc = "按差异高效同步本地与远程文件"
-
 [[commands.tokens]]
 text = " -avzn"
 desc = "归档递归比较、显示详情并压缩传输数据；n 表示只预演，不写入或删除"
-
 [[commands.tokens]]
 text = " --delete"
 desc = "把目标端多余文件列入删除计划；本题因含 n 只显示计划，不实际删除"
-
 [[commands.tokens]]
 text = " website/"
 desc = "作为基准的本地目录内容"
-
 [[commands.tokens]]
 text = " alice@server.example.com:/home/alice/staging-site/"
 desc = "远程测试目录；必须逐项核对预演清单，真正执行时去掉 n 才会改写和删除"
-
 [commands.dictation]
 prompt = "只预演本地 website/ 到 alice@server.example.com:/home/alice/staging-site/ 的镜像同步，显示将更新及删除的项目但不实际改动"
 answers = ["rsync -avzn --delete website/ alice@server.example.com:/home/alice/staging-site/"]
@@ -317,24 +241,13 @@ answers = ["rsync -avzn --delete website/ alice@server.example.com:/home/alice/s
 id = "wget-download-file"
 command = "wget https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz"
 summary = "从网址下载源码归档到当前目录"
-simulated_output = """--2026-07-26 10:05:13--  https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz
-Resolving ftp.gnu.org (ftp.gnu.org)... 209.51.188.20, 2001:470:142:3::b
-Connecting to ftp.gnu.org (ftp.gnu.org)|209.51.188.20|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 1168515 (1.1M) [application/x-gzip]
-Saving to: 'hello-2.12.2.tar.gz'
-
-hello-2.12.2.tar.gz 100%[===================>]   1.11M  2.18MB/s    in 0.5s
-"""
-
+simulated_output = "--2026-07-26 10:05:13--  https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz\nResolving ftp.gnu.org (ftp.gnu.org)... 209.51.188.20, 2001:470:142:3::b\nConnecting to ftp.gnu.org (ftp.gnu.org)|209.51.188.20|:443... connected.\nHTTP request sent, awaiting response... 200 OK\nLength: 1168515 (1.1M) [application/x-gzip]\nSaving to: 'hello-2.12.2.tar.gz'\n\nhello-2.12.2.tar.gz 100%[===================>]   1.11M  2.18MB/s    in 0.5s\n"
 [[commands.tokens]]
 text = "wget"
 desc = "从网络下载文件的工具"
-
 [[commands.tokens]]
 text = " https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz"
 desc = "源码归档的下载地址"
-
 [commands.dictation]
 prompt = "使用 wget 从 https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz 下载同名源码归档到当前目录"
 answers = ["wget https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz"]
@@ -343,28 +256,16 @@ answers = ["wget https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz"]
 id = "wget-resume-kernel"
 command = "wget -c https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.12.1.tar.xz"
 summary = "从上次中断位置继续下载内核源码"
-simulated_output = """--2026-07-26 10:11:40--  https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.12.1.tar.xz
-Resolving cdn.kernel.org (cdn.kernel.org)... 151.101.1.176, 2a04:4e42::432
-Connecting to cdn.kernel.org (cdn.kernel.org)|151.101.1.176|:443... connected.
-HTTP request sent, awaiting response... 206 Partial Content
-Length: 147912528 (141M), 95485728 (91M) remaining [application/x-xz]
-Saving to: 'linux-6.12.1.tar.xz'
-
-linux-6.12.1.tar.xz  63%[+++++++++===>        ]  89.21M  8.74MB/s    eta 6s
-"""
-
+simulated_output = "--2026-07-26 10:11:40--  https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.12.1.tar.xz\nResolving cdn.kernel.org (cdn.kernel.org)... 151.101.1.176, 2a04:4e42::432\nConnecting to cdn.kernel.org (cdn.kernel.org)|151.101.1.176|:443... connected.\nHTTP request sent, awaiting response... 206 Partial Content\nLength: 147912528 (141M), 95485728 (91M) remaining [application/x-xz]\nSaving to: 'linux-6.12.1.tar.xz'\n\nlinux-6.12.1.tar.xz  63%[+++++++++===>        ]  89.21M  8.74MB/s    eta 6s\n"
 [[commands.tokens]]
 text = "wget"
 desc = "从网络下载文件的工具"
-
 [[commands.tokens]]
 text = " -c"
 desc = "保留已有部分，从中断位置继续下载"
-
 [[commands.tokens]]
 text = " https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.12.1.tar.xz"
 desc = "要继续下载的内核源码地址"
-
 [commands.dictation]
 prompt = "使用 wget 从 https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.12.1.tar.xz 继续中断的下载，并保留本地已有部分"
 answers = ["wget -c https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.12.1.tar.xz"]
@@ -373,23 +274,16 @@ answers = ["wget -c https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.12.1.ta
 id = "curl-remote-name-download"
 command = "curl -O https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz"
 summary = "确认同名文件不存在后，按远程文件名保存下载内容"
-simulated_output = """  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100 1141k  100 1141k    0     0  2214k      0 --:--:-- --:--:-- --:--:-- 2218k
-"""
-
+simulated_output = "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n100 1141k  100 1141k    0     0  2214k      0 --:--:-- --:--:-- --:--:-- 2218k\n"
 [[commands.tokens]]
 text = "curl"
 desc = "传输 URL 数据的命令行工具"
-
 [[commands.tokens]]
 text = " -O"
 desc = "使用 URL 末尾的远程文件名保存；默认会覆盖同名本地文件，因此本题要求先确认文件不存在"
-
 [[commands.tokens]]
 text = " https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz"
 desc = "要下载的源码归档地址"
-
 [commands.dictation]
 prompt = "已确认当前目录不存在 hello-2.12.2.tar.gz；使用 curl 下载完整网址，并沿用网址中的原始文件名保存"
 answers = ["curl -O https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz"]
@@ -398,26 +292,16 @@ answers = ["curl -O https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz"]
 id = "curl-headers-only"
 command = "curl -I https://www.kernel.org"
 summary = "只查看网站的 HTTP 响应头"
-simulated_output = """HTTP/2 200
-server: nginx
-content-type: text/html; charset=utf-8
-content-length: 18134
-last-modified: Sat, 25 Jul 2026 06:20:20 GMT
-strict-transport-security: max-age=31557600
-"""
-
+simulated_output = "HTTP/2 200\nserver: nginx\ncontent-type: text/html; charset=utf-8\ncontent-length: 18134\nlast-modified: Sat, 25 Jul 2026 06:20:20 GMT\nstrict-transport-security: max-age=31557600\n"
 [[commands.tokens]]
 text = "curl"
 desc = "传输 URL 数据的命令行工具"
-
 [[commands.tokens]]
 text = " -I"
 desc = "获取 HTTP 响应头，不下载响应正文"
-
 [[commands.tokens]]
 text = " https://www.kernel.org"
 desc = "要检查响应头的网站地址"
-
 [commands.dictation]
 prompt = "只查看 https://www.kernel.org 的 HTTP 响应头，不下载正文"
 answers = ["curl -I https://www.kernel.org"]
@@ -426,33 +310,19 @@ answers = ["curl -I https://www.kernel.org"]
 id = "ping-four-packets"
 command = "ping -c 4 1.1.1.1"
 summary = "发送四次请求检查网络连通与时延"
-simulated_output = """PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.
-64 bytes from 1.1.1.1: icmp_seq=1 ttl=57 time=10.8 ms
-64 bytes from 1.1.1.1: icmp_seq=2 ttl=57 time=11.1 ms
-64 bytes from 1.1.1.1: icmp_seq=3 ttl=57 time=10.6 ms
-64 bytes from 1.1.1.1: icmp_seq=4 ttl=57 time=10.9 ms
-
---- 1.1.1.1 ping statistics ---
-4 packets transmitted, 4 received, 0% packet loss, time 3004ms
-rtt min/avg/max/mdev = 10.612/10.850/11.103/0.178 ms
-"""
-
+simulated_output = "PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.\n64 bytes from 1.1.1.1: icmp_seq=1 ttl=57 time=10.8 ms\n64 bytes from 1.1.1.1: icmp_seq=2 ttl=57 time=11.1 ms\n64 bytes from 1.1.1.1: icmp_seq=3 ttl=57 time=10.6 ms\n64 bytes from 1.1.1.1: icmp_seq=4 ttl=57 time=10.9 ms\n\n--- 1.1.1.1 ping statistics ---\n4 packets transmitted, 4 received, 0% packet loss, time 3004ms\nrtt min/avg/max/mdev = 10.612/10.850/11.103/0.178 ms\n"
 [[commands.tokens]]
 text = "ping"
 desc = "发送 ICMP 回显请求来测试网络连通性"
-
 [[commands.tokens]]
 text = " -c"
 desc = "发送指定数量的请求后停止"
-
 [[commands.tokens]]
 text = " 4"
 desc = "总共发送四次请求"
-
 [[commands.tokens]]
 text = " 1.1.1.1"
 desc = "要测试的目标地址"
-
 [commands.dictation]
 prompt = "向 1.1.1.1 发送四次回显请求后停止，检查连通性与时延"
 answers = ["ping -c 4 1.1.1.1"]
@@ -461,24 +331,13 @@ answers = ["ping -c 4 1.1.1.1"]
 id = "ip-address-short"
 command = "ip a"
 summary = "查看所有网络接口及其地址"
-simulated_output = """1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-    inet 127.0.0.1/8 scope host lo
-       valid_lft forever preferred_lft forever
-2: enp3s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
-    link/ether 52:54:00:7a:31:9c brd ff:ff:ff:ff:ff:ff
-    inet 192.168.1.42/24 brd 192.168.1.255 scope global dynamic enp3s0
-       valid_lft 84612sec preferred_lft 84612sec
-"""
-
+simulated_output = "1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000\n    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00\n    inet 127.0.0.1/8 scope host lo\n       valid_lft forever preferred_lft forever\n2: enp3s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000\n    link/ether 52:54:00:7a:31:9c brd ff:ff:ff:ff:ff:ff\n    inet 192.168.1.42/24 brd 192.168.1.255 scope global dynamic enp3s0\n       valid_lft 84612sec preferred_lft 84612sec\n"
 [[commands.tokens]]
 text = "ip"
 desc = "查看和管理 Linux 网络配置"
-
 [[commands.tokens]]
 text = " a"
 desc = "address 的简写，显示所有网络接口地址"
-
 [commands.dictation]
 prompt = "用简写形式列出所有网络接口及其 IPv4、IPv6 地址"
 answers = ["ip a"]

@@ -1,0 +1,347 @@
+
+[meta]
+category = "system"
+difficulty = "beginner"
+description = "跨模块共用的规范命令（由内容归一化维护）"
+
+[[commands]]
+id = "shared-e47a70bd8a22ac77"
+command = "rm -i temp_*"
+summary = "删除所有以 temp_ 开头的文件（加 -i 交互确认，防止误删）"
+simulated_output = "rm: remove regular file 'temp_data.csv'? y\nrm: remove regular file 'temp_output.log'? y\nrm: remove regular file 'temp_results.json'? y"
+
+[[commands.tokens]]
+text = "rm -i temp_*"
+desc = "删除所有以 temp_ 开头的文件（加 -i 交互确认，防止误删）"
+
+[commands.dictation]
+prompt = "删除所有以 temp_ 开头的文件（加 -i 交互确认，防止误删）"
+answers = ["rm -i temp_*"]
+
+[[commands]]
+id = "shared-828716ab2557169f"
+command = "cp /etc/*.conf ~/backup/"
+summary = "将 /etc 目录下所有 .conf 配置文件复制到家目录的 backup 文件夹"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "cp /etc/*.conf ~/backup/"
+desc = "将 /etc 目录下所有 .conf 配置文件复制到家目录的 backup 文件夹"
+
+[commands.dictation]
+prompt = "将 /etc 目录下所有 .conf 配置文件复制到家目录的 backup 文件夹"
+answers = ["cp /etc/*.conf ~/backup/"]
+
+[[commands]]
+id = "shared-cd8512052ebbd251"
+command = "ls /dev/sd?"
+summary = "列出所有单字母的 SCSI 磁盘设备（如 sda、sdb 等）"
+simulated_output = "/dev/sda  /dev/sdb"
+
+[[commands.tokens]]
+text = "ls /dev/sd?"
+desc = "列出所有单字母的 SCSI 磁盘设备（如 sda、sdb 等）"
+
+[commands.dictation]
+prompt = "列出所有单字母的 SCSI 磁盘设备（如 sda、sdb 等）"
+answers = ["ls /dev/sd?"]
+
+[[commands]]
+id = "shared-7fcfb8851dc14610"
+command = "ls image_???.png"
+summary = "列出 image_ 后面恰好跟三个字符的 PNG 文件（如编号 001-999）"
+simulated_output = "image_001.png  image_042.png  image_100.png"
+
+[[commands.tokens]]
+text = "ls image_???.png"
+desc = "列出 image_ 后面恰好跟三个字符的 PNG 文件（如编号 001-999）"
+
+[commands.dictation]
+prompt = "列出 image_ 后面恰好跟三个字符的 PNG 文件（如编号 001-999）"
+answers = ["ls image_???.png"]
+
+[[commands]]
+id = "shared-85a8629ce3a52fa6"
+command = "ls [Mm]akefile"
+summary = "同时匹配 Makefile 和 makefile（兼容不同命名习惯）"
+simulated_output = "Makefile"
+
+[[commands.tokens]]
+text = "ls [Mm]akefile"
+desc = "同时匹配 Makefile 和 makefile（兼容不同命名习惯）"
+
+[commands.dictation]
+prompt = "同时匹配 Makefile 和 makefile（兼容不同命名习惯）"
+answers = ["ls [Mm]akefile"]
+
+[[commands]]
+id = "shared-9d84e405281dd77c"
+command = "ls *.[ch]"
+summary = "列出所有 C 语言源文件（.c）和头文件（.h）"
+simulated_output = "main.c  utils.c  config.h  types.h"
+
+[[commands.tokens]]
+text = "ls *.[ch]"
+desc = "列出所有 C 语言源文件（.c）和头文件（.h）"
+
+[commands.dictation]
+prompt = "列出所有 C 语言源文件（.c）和头文件（.h）"
+answers = ["ls *.[ch]"]
+
+[[commands]]
+id = "shared-6ecdd30281449cc4"
+command = "mkdir -p project/{src,tests,docs}"
+summary = "一次性创建项目的三个子目录：src、tests、docs"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "mkdir -p project/{src,tests,docs}"
+desc = "一次性创建项目的三个子目录：src、tests、docs"
+
+[commands.dictation]
+prompt = "一次性创建项目的三个子目录：src、tests、docs"
+answers = ["mkdir -p project/{src,tests,docs}"]
+
+[[commands]]
+id = "shared-b8e84e4fa6d3508c"
+command = "cp config.yml{,.bak}"
+summary = "快速备份文件——展开为 cp config.yml config.yml.bak"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "cp config.yml{,.bak}"
+desc = "快速备份文件——展开为 cp config.yml config.yml.bak"
+
+[commands.dictation]
+prompt = "快速备份文件——展开为 cp config.yml config.yml.bak"
+answers = ["cp config.yml{,.bak}"]
+
+[[commands]]
+id = "shared-d799355ef5d4e574"
+command = "ls *.log"
+summary = "列出当前目录下所有 .log 文件"
+
+[[commands.tokens]]
+text = "ls *.log"
+desc = "列出当前目录下所有 .log 文件"
+
+[commands.dictation]
+prompt = "列出当前目录下所有 .log 文件"
+answers = ["ls *.log"]
+
+[[commands]]
+id = "shared-716234037b4f7af0"
+command = "rm backup_*.tar.gz"
+summary = "删除所有以 backup_ 开头、以 .tar.gz 结尾的文件"
+
+[[commands.tokens]]
+text = "rm backup_*.tar.gz"
+desc = "删除所有以 backup_ 开头、以 .tar.gz 结尾的文件"
+
+[commands.dictation]
+prompt = "删除所有以 backup_ 开头、以 .tar.gz 结尾的文件"
+answers = ["rm backup_*.tar.gz"]
+
+[[commands]]
+id = "shared-94baa330e33bbc9c"
+command = "mkdir chapter{01..05}"
+summary = "一次性创建 chapter01 到 chapter05 五个目录"
+
+[[commands.tokens]]
+text = "mkdir chapter{01..05}"
+desc = "一次性创建 chapter01 到 chapter05 五个目录"
+
+[commands.dictation]
+prompt = "一次性创建 chapter01 到 chapter05 五个目录"
+answers = ["mkdir chapter{01..05}"]
+
+[[commands]]
+id = "shared-c8e57826d9586472"
+command = "ls data[1-9].csv"
+summary = "列出 data1.csv 到 data9.csv 中存在的文件"
+
+[[commands.tokens]]
+text = "ls data[1-9].csv"
+desc = "列出 data1.csv 到 data9.csv 中存在的文件"
+
+[commands.dictation]
+prompt = "列出 data1.csv 到 data9.csv 中存在的文件"
+answers = ["ls data[1-9].csv"]
+
+[[commands]]
+id = "shared-eb1aad1021e39d6e"
+command = "ls src/*.rs"
+summary = "列出 src 目录下所有 .rs 文件"
+simulated_output = "src/app.rs\nsrc/main.rs\nsrc/lib.rs"
+
+[[commands.tokens]]
+text = "ls src/*.rs"
+desc = "列出 src 目录下所有 .rs 文件"
+
+[commands.dictation]
+prompt = "列出 src 目录下所有 .rs 文件"
+answers = ["ls src/*.rs"]
+
+[[commands]]
+id = "shared-b12a136d7f18cd2a"
+command = "rm -f *.tmp"
+summary = "删除所有 .tmp 文件"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "rm -f *.tmp"
+desc = "删除所有 .tmp 文件"
+
+[commands.dictation]
+prompt = "删除所有 .tmp 文件"
+answers = ["rm -f *.tmp"]
+
+[[commands]]
+id = "shared-7a06cf9411786e09"
+command = "ls file[1-9].txt"
+summary = "匹配 file1.txt 到 file9.txt"
+simulated_output = "file1.txt\nfile2.txt\nfile9.txt"
+
+[[commands.tokens]]
+text = "ls file[1-9].txt"
+desc = "匹配 file1.txt 到 file9.txt"
+
+[commands.dictation]
+prompt = "匹配 file1.txt 到 file9.txt"
+answers = ["ls file[1-9].txt"]
+
+[[commands]]
+id = "shared-285031d43f69dbd0"
+command = "ls ?.log"
+summary = "列出单字符扩展名日志，如 a.log"
+simulated_output = "a.log\nb.log"
+
+[[commands.tokens]]
+text = "ls ?.log"
+desc = "列出单字符扩展名日志，如 a.log"
+
+[commands.dictation]
+prompt = "列出单字符扩展名日志，如 a.log"
+answers = ["ls ?.log"]
+
+[[commands]]
+id = "shared-c9a1efa02ff91af7"
+command = "mkdir -p day{01..07}"
+summary = "批量创建 day01 到 day07 目录"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "mkdir -p day{01..07}"
+desc = "批量创建 day01 到 day07 目录"
+
+[commands.dictation]
+prompt = "批量创建 day01 到 day07 目录"
+answers = ["mkdir -p day{01..07}"]
+
+[[commands]]
+id = "shared-d1a6997c5ec331ff"
+command = "cp settings.json{,.bak}"
+summary = "快速备份 settings.json 为 settings.json.bak"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "cp settings.json{,.bak}"
+desc = "快速备份 settings.json 为 settings.json.bak"
+
+[commands.dictation]
+prompt = "快速备份 settings.json 为 settings.json.bak"
+answers = ["cp settings.json{,.bak}"]
+
+[[commands]]
+id = "shared-6f12cf5161103fb8"
+command = "rm *.log.1"
+summary = "删除所有 .log.1 轮转日志"
+
+[[commands.tokens]]
+text = "rm *.log.1"
+desc = "删除所有 .log.1 轮转日志"
+
+[commands.dictation]
+prompt = "删除所有 .log.1 轮转日志"
+answers = ["rm *.log.1"]
+
+[[commands]]
+id = "shared-480449c3469d47d2"
+command = "ls image_[0-9][0-9][0-9].png"
+summary = "列出 image_001.png 到 image_099.png"
+
+[[commands.tokens]]
+text = "ls image_[0-9][0-9][0-9].png"
+desc = "列出 image_001.png 到 image_099.png"
+
+[commands.dictation]
+prompt = "列出 image_001.png 到 image_099.png"
+answers = ["ls image_[0-9][0-9][0-9].png"]
+
+[[commands]]
+id = "shared-3cb02864b9c49fc8"
+command = "mkdir -p {api,worker,web}"
+summary = "一次创建目录 api、worker、web"
+
+[[commands.tokens]]
+text = "mkdir -p {api,worker,web}"
+desc = "一次创建目录 api、worker、web"
+
+[commands.dictation]
+prompt = "一次创建目录 api、worker、web"
+answers = ["mkdir -p {api,worker,web}"]
+
+[[commands]]
+id = "shared-249712d6e004fdbb"
+command = "ls report[A-Z].txt"
+summary = "列出 reportA.txt 到 reportZ.txt"
+
+[[commands.tokens]]
+text = "ls report[A-Z].txt"
+desc = "列出 reportA.txt 到 reportZ.txt"
+
+[commands.dictation]
+prompt = "列出 reportA.txt 到 reportZ.txt"
+answers = ["ls report[A-Z].txt"]
+
+[[commands]]
+id = "shared-e14e44ec40e81aac"
+command = "TZ=Asia/Shanghai date '+shanghai: %Y-%m-%d %H:%M:%S %z'; TZ=UTC date '+utc: %Y-%m-%d %H:%M:%S %z'"
+summary = "步骤 5：用显式时区和纯数字格式并列观察上海时间与 UTC"
+simulated_output = "shanghai: 2026-07-26 18:15:00 +0800\nutc: 2026-07-26 10:15:00 +0000"
+
+[[commands.tokens]]
+text = "TZ=Asia/Shanghai date '+shanghai: %Y-%m-%d %H:%M:%S %z'; TZ=UTC date '+utc: %Y-%m-%d %H:%M:%S %z'"
+desc = "步骤 5：用显式时区和纯数字格式并列观察上海时间与 UTC"
+
+[commands.dictation]
+prompt = "步骤 5：用显式时区和纯数字格式并列观察上海时间与 UTC"
+answers = ["TZ=Asia/Shanghai date '+shanghai: %Y-%m-%d %H:%M:%S %z'; TZ=UTC date '+utc: %Y-%m-%d %H:%M:%S %z'"]
+
+[[commands]]
+id = "shared-0e251095f829bab9"
+command = "printf 'encoding=UTF-8 timestamp=RFC3339 timezone=explicit\\n'"
+summary = "步骤 6：核对应用日志契约应明确编码和时区"
+simulated_output = "encoding=UTF-8 timestamp=RFC3339 timezone=explicit"
+
+[[commands.tokens]]
+text = "printf 'encoding=UTF-8 timestamp=RFC3339 timezone=explicit\\n'"
+desc = "步骤 6：核对应用日志契约应明确编码和时区"
+
+[commands.dictation]
+prompt = "步骤 6：核对应用日志契约应明确编码和时区"
+answers = ["printf 'encoding=UTF-8 timestamp=RFC3339 timezone=explicit\\n'"]
+
+[[commands]]
+id = "shared-14fb829cde1f944a"
+command = "printf 'keep original -> convert a copy -> set explicit locale/timezone -> restart controlled process -> verify\\n'"
+summary = "步骤 7：输出安全修复顺序"
+simulated_output = "keep original -> convert a copy -> set explicit locale/timezone -> restart controlled process -> verify"
+
+[[commands.tokens]]
+text = "printf 'keep original -> convert a copy -> set explicit locale/timezone -> restart controlled process -> verify\\n'"
+desc = "步骤 7：输出安全修复顺序"
+
+[commands.dictation]
+prompt = "步骤 7：输出安全修复顺序"
+answers = ["printf 'keep original -> convert a copy -> set explicit locale/timezone -> restart controlled process -> verify\\n'"]

@@ -1,0 +1,346 @@
+[meta]
+category = "archive"
+difficulty = "beginner"
+description = "基础用法的短练习：目标已在隔离实验环境中准备，按提示完成单一任务。"
+
+[[commands]]
+id = "v04-ex-a174a468c0"
+command = "tar -cf notes.tar notes"
+summary = "将实验 notes 目录打成未压缩归档"
+
+[[commands.tokens]]
+text = "tar"
+desc = "创建、列出或提取 tar 归档"
+
+[[commands.tokens]]
+text = " -cf"
+desc = "将实验 notes 目录打成未压缩归档；此处使用 -cf 选项"
+
+[[commands.tokens]]
+text = " notes.tar"
+desc = "将实验 notes 目录打成未压缩归档；指定 notes.tar"
+
+[[commands.tokens]]
+text = " notes"
+desc = "将实验 notes 目录打成未压缩归档；指定 notes"
+
+[commands.dictation]
+prompt = "将实验 notes 目录打成未压缩归档"
+answers = ["tar -cf notes.tar notes"]
+
+[[commands]]
+id = "v04-ex-cad6ec6077"
+command = "tar -czf reports.tar.gz reports"
+summary = "为实验 reports 目录创建 gzip 归档"
+
+[[commands.tokens]]
+text = "tar"
+desc = "创建、列出或提取 tar 归档"
+
+[[commands.tokens]]
+text = " -czf"
+desc = "创建 gzip 归档并指定文件名"
+
+[[commands.tokens]]
+text = " reports.tar.gz"
+desc = "为实验 reports 目录创建 gzip 归档；指定 reports.tar.gz"
+
+[[commands.tokens]]
+text = " reports"
+desc = "为实验 reports 目录创建 gzip 归档；指定 reports"
+
+[commands.dictation]
+prompt = "为实验 reports 目录创建 gzip 归档"
+answers = ["tar -czf reports.tar.gz reports"]
+
+[[commands]]
+id = "v04-ex-1dc93fcbf4"
+command = "tar -czf settings.tar.gz -C ~/ops-lab config"
+summary = "从实验根目录归档 config 子目录，避免绝对路径"
+
+[[commands.tokens]]
+text = "tar"
+desc = "创建、列出或提取 tar 归档"
+
+[[commands.tokens]]
+text = " -czf"
+desc = "创建 gzip 归档并指定文件名"
+
+[[commands.tokens]]
+text = " settings.tar.gz"
+desc = "从实验根目录归档 config 子目录，避免绝对路径；指定 settings.tar.gz"
+
+[[commands.tokens]]
+text = " -C"
+desc = "先切到指定目录再处理成员路径"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作指定的路径：~/ops-lab"
+
+[[commands.tokens]]
+text = " config"
+desc = "从实验根目录归档 config 子目录，避免绝对路径；指定 config"
+
+[commands.dictation]
+prompt = "从实验根目录归档 config 子目录，避免绝对路径"
+answers = ["tar -czf settings.tar.gz -C ~/ops-lab config"]
+
+[[commands]]
+id = "v04-ex-4cbac03c98"
+command = "tar -tzf reports.tar.gz"
+summary = "先查看实验 gzip 归档成员路径"
+
+[[commands.tokens]]
+text = "tar"
+desc = "创建、列出或提取 tar 归档"
+
+[[commands.tokens]]
+text = " -tzf"
+desc = "列出 gzip 归档成员"
+
+[[commands.tokens]]
+text = " reports.tar.gz"
+desc = "先查看实验 gzip 归档成员路径；指定 reports.tar.gz"
+
+[commands.dictation]
+prompt = "先查看实验 gzip 归档成员路径"
+answers = ["tar -tzf reports.tar.gz"]
+
+[[commands]]
+id = "v04-ex-8e8beef327"
+command = "tar -xzf reports.tar.gz -C ~/ops-lab/output"
+summary = "解压到已准备的隔离实验目录"
+
+[[commands.tokens]]
+text = "tar"
+desc = "创建、列出或提取 tar 归档"
+
+[[commands.tokens]]
+text = " -xzf"
+desc = "提取 gzip 归档"
+
+[[commands.tokens]]
+text = " reports.tar.gz"
+desc = "解压到已准备的隔离实验目录；指定 reports.tar.gz"
+
+[[commands.tokens]]
+text = " -C"
+desc = "先切到指定目录再处理成员路径"
+
+[[commands.tokens]]
+text = " ~/ops-lab/output"
+desc = "本次操作指定的路径：~/ops-lab/output"
+
+[commands.dictation]
+prompt = "解压到已准备的隔离实验目录"
+answers = ["tar -xzf reports.tar.gz -C ~/ops-lab/output"]
+
+[[commands]]
+id = "v04-ex-6aa9b507c8"
+command = "tar -xf notes.tar -C ~/ops-lab/output"
+summary = "提取未压缩的实验 tar 归档"
+
+[[commands.tokens]]
+text = "tar"
+desc = "创建、列出或提取 tar 归档"
+
+[[commands.tokens]]
+text = " -xf"
+desc = "提取 tar 归档成员"
+
+[[commands.tokens]]
+text = " notes.tar"
+desc = "提取未压缩的实验 tar 归档；指定 notes.tar"
+
+[[commands.tokens]]
+text = " -C"
+desc = "先切到指定目录再处理成员路径"
+
+[[commands.tokens]]
+text = " ~/ops-lab/output"
+desc = "本次操作指定的路径：~/ops-lab/output"
+
+[commands.dictation]
+prompt = "提取未压缩的实验 tar 归档"
+answers = ["tar -xf notes.tar -C ~/ops-lab/output"]
+
+[[commands]]
+id = "v04-ex-2e563baffb"
+command = "unzip -l reports.zip"
+summary = "先查看实验报告压缩包清单"
+
+[[commands.tokens]]
+text = "unzip"
+desc = "先查看实验报告压缩包清单"
+
+[[commands.tokens]]
+text = " -l"
+desc = "先查看实验报告压缩包清单；此处使用 -l 选项"
+
+[[commands.tokens]]
+text = " reports.zip"
+desc = "先查看实验报告压缩包清单；指定 reports.zip"
+
+[commands.dictation]
+prompt = "先查看实验报告压缩包清单"
+answers = ["unzip -l reports.zip"]
+
+[[commands]]
+id = "v04-ex-b5b7eab4bf"
+command = "unzip -l config.zip"
+summary = "检查配置压缩包成员路径"
+
+[[commands.tokens]]
+text = "unzip"
+desc = "检查配置压缩包成员路径"
+
+[[commands.tokens]]
+text = " -l"
+desc = "检查配置压缩包成员路径；此处使用 -l 选项"
+
+[[commands.tokens]]
+text = " config.zip"
+desc = "检查配置压缩包成员路径；指定 config.zip"
+
+[commands.dictation]
+prompt = "检查配置压缩包成员路径"
+answers = ["unzip -l config.zip"]
+
+[[commands]]
+id = "v04-ex-3bfe3aeefe"
+command = "zipinfo -1 site.zip"
+summary = "每行只显示一个实验 ZIP 成员路径"
+
+[[commands.tokens]]
+text = "zipinfo"
+desc = "每行只显示一个实验 ZIP 成员路径"
+
+[[commands.tokens]]
+text = " -1"
+desc = "每行只显示一个实验 ZIP 成员路径；此处使用 -1 选项"
+
+[[commands.tokens]]
+text = " site.zip"
+desc = "每行只显示一个实验 ZIP 成员路径；指定 site.zip"
+
+[commands.dictation]
+prompt = "每行只显示一个实验 ZIP 成员路径"
+answers = ["zipinfo -1 site.zip"]
+
+[[commands]]
+id = "v04-ex-ccf5135b4b"
+command = "unzip -t reports.zip"
+summary = "检查实验报告 ZIP 各成员完整性"
+
+[[commands.tokens]]
+text = "unzip"
+desc = "检查实验报告 ZIP 各成员完整性"
+
+[[commands.tokens]]
+text = " -t"
+desc = "检查实验报告 ZIP 各成员完整性；此处使用 -t 选项"
+
+[[commands.tokens]]
+text = " reports.zip"
+desc = "检查实验报告 ZIP 各成员完整性；指定 reports.zip"
+
+[commands.dictation]
+prompt = "检查实验报告 ZIP 各成员完整性"
+answers = ["unzip -t reports.zip"]
+
+[[commands]]
+id = "v04-ex-42074ad9e1"
+command = "unzip -t config.zip"
+summary = "校验实验配置 ZIP 是否损坏"
+
+[[commands.tokens]]
+text = "unzip"
+desc = "校验实验配置 ZIP 是否损坏"
+
+[[commands.tokens]]
+text = " -t"
+desc = "校验实验配置 ZIP 是否损坏；此处使用 -t 选项"
+
+[[commands.tokens]]
+text = " config.zip"
+desc = "校验实验配置 ZIP 是否损坏；指定 config.zip"
+
+[commands.dictation]
+prompt = "校验实验配置 ZIP 是否损坏"
+answers = ["unzip -t config.zip"]
+
+[[commands]]
+id = "v04-ex-84b911f288"
+command = "zip notes.zip notes.txt todo.txt"
+summary = "将两份实验笔记压入 ZIP"
+
+[[commands.tokens]]
+text = "zip"
+desc = "将两份实验笔记压入 ZIP"
+
+[[commands.tokens]]
+text = " notes.zip"
+desc = "将两份实验笔记压入 ZIP；指定 notes.zip"
+
+[[commands.tokens]]
+text = " notes.txt"
+desc = "将两份实验笔记压入 ZIP；指定 notes.txt"
+
+[[commands.tokens]]
+text = " todo.txt"
+desc = "将两份实验笔记压入 ZIP；指定 todo.txt"
+
+[commands.dictation]
+prompt = "将两份实验笔记压入 ZIP"
+answers = ["zip notes.zip notes.txt todo.txt"]
+
+[[commands]]
+id = "v04-ex-a6b9a3a211"
+command = "zip -r reports.zip reports"
+summary = "递归压缩实验报告目录"
+
+[[commands.tokens]]
+text = "zip"
+desc = "递归压缩实验报告目录"
+
+[[commands.tokens]]
+text = " -r"
+desc = "递归压缩实验报告目录；此处使用 -r 选项"
+
+[[commands.tokens]]
+text = " reports.zip"
+desc = "递归压缩实验报告目录；指定 reports.zip"
+
+[[commands.tokens]]
+text = " reports"
+desc = "递归压缩实验报告目录；指定 reports"
+
+[commands.dictation]
+prompt = "递归压缩实验报告目录"
+answers = ["zip -r reports.zip reports"]
+
+[[commands]]
+id = "v04-ex-5588edfcc0"
+command = "zip -r config.zip config"
+summary = "归档实验配置目录，真实配置可能含凭据应控制备份访问"
+
+[[commands.tokens]]
+text = "zip"
+desc = "归档实验配置目录，真实配置可能含凭据应控制备份访问"
+
+[[commands.tokens]]
+text = " -r"
+desc = "归档实验配置目录，真实配置可能含凭据应控制备份访问；此处使用 -r 选项"
+
+[[commands.tokens]]
+text = " config.zip"
+desc = "归档实验配置目录，真实配置可能含凭据应控制备份访问；指定 config.zip"
+
+[[commands.tokens]]
+text = " config"
+desc = "归档实验配置目录，真实配置可能含凭据应控制备份访问；指定 config"
+
+[commands.dictation]
+prompt = "归档实验配置目录，真实配置可能含凭据应控制备份访问"
+answers = ["zip -r config.zip config"]

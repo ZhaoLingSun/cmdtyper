@@ -1,20 +1,16 @@
+
 [meta]
 id = "locale_time_encoding"
 topic = "Locale、时间与字符编码"
 description = "理解 LANG/LC_* 优先级、UTF-8 编码、时区与本地化输出，系统化排查乱码和时间偏差"
 difficulty = "beginner"
 icon = "UTF-8"
-
-overview = """Locale 决定语言、排序、日期格式和消息文本；字符编码决定字节如何解释为字符；时区决定同一时间点如何显示为本地时间。
-三者相互影响但不是同一概念。所有命令和输出均为静态教材，应用不会修改环境、时钟或文件。"""
+overview = "Locale 决定语言、排序、日期格式和消息文本；字符编码决定字节如何解释为字符；时区决定同一时间点如何显示为本地时间。\n三者相互影响但不是同一概念。所有命令和输出均为静态教材，应用不会修改环境、时钟或文件。"
 
 [[sections]]
 id = "locale-precedence"
 title = "LANG、LC_* 与 LC_ALL 的覆盖关系"
-description = """LANG 提供默认 Locale；LC_TIME、LC_MESSAGES、LC_COLLATE 等分类变量可以分别覆盖日期、消息和排序规则。
-LC_ALL 临时覆盖所有分类，优先级最高，适合诊断但不宜长期滥用，因为它会掩盖细粒度配置。
-变量名称与系统实际安装的 Locale 必须匹配。locale -a 展示可用名称；拼写相近不代表一定存在。
-排查时先完整观察 locale，再分别查看 LANG、LC_ALL 和相关 LC_*，不要只看界面语言。"""
+description = "LANG 提供默认 Locale；LC_TIME、LC_MESSAGES、LC_COLLATE 等分类变量可以分别覆盖日期、消息和排序规则。\nLC_ALL 临时覆盖所有分类，优先级最高，适合诊断但不宜长期滥用，因为它会掩盖细粒度配置。\n变量名称与系统实际安装的 Locale 必须匹配。locale -a 展示可用名称；拼写相近不代表一定存在。\n排查时先完整观察 locale，再分别查看 LANG、LC_ALL 和相关 LC_*，不要只看界面语言。"
 
 [[sections.commands]]
 id = "locale-current-all"
@@ -35,10 +31,7 @@ command_id = "locale-list-available"
 [[sections]]
 id = "encoding-and-text-bytes"
 title = "UTF-8 是编码，不是语言"
-description = """UTF-8 把 Unicode 字符编码成 1 到 4 个字节。中文、英文和符号都可使用 UTF-8，但 Locale 还包含排序、日期和消息规则。
-locale charmap 观察当前字符映射。文件本身没有强制携带编码标签，工具通常根据字节特征、协议元数据或用户指定来解释。
-乱码常见原因是“写入端编码”和“读取端解码”不一致；终端字体缺字则是另一问题，字节可能完全正确。
-转换前应保留原文件、确认来源编码并在副本上验证；不要对未知数据批量覆盖。"""
+description = "UTF-8 把 Unicode 字符编码成 1 到 4 个字节。中文、英文和符号都可使用 UTF-8，但 Locale 还包含排序、日期和消息规则。\nlocale charmap 观察当前字符映射。文件本身没有强制携带编码标签，工具通常根据字节特征、协议元数据或用户指定来解释。\n乱码常见原因是“写入端编码”和“读取端解码”不一致；终端字体缺字则是另一问题，字节可能完全正确。\n转换前应保留原文件、确认来源编码并在副本上验证；不要对未知数据批量覆盖。"
 
 [[sections.commands]]
 id = "locale-charmap"
@@ -46,30 +39,27 @@ command_id = "locale-current-charmap"
 
 [[sections.commands]]
 id = "encoding-file-observe"
-command = "file -bi report.txt"
 summary = "观察工具对文本 MIME 类型和字符集的静态判断"
 simulated_output = "text/plain; charset=utf-8"
+command_id = "v04-ref-21d1e955a2"
 
 [[sections.commands]]
 id = "encoding-hex-observe"
-command = "printf '中\\n' | od -An -tx1"
 summary = "观察 UTF-8 字符对应的字节序列"
 simulated_output = " e4 b8 ad 0a"
+command_id = "v04-ref-1db3107bc3"
 
 [[sections.commands]]
 id = "encoding-iconv-preview"
-command = "iconv -f GB18030 -t UTF-8 legacy.txt"
 summary = "把假定为 GB18030 的静态输入转换到 stdout 供预览"
 simulated_output = "项目状态：正常"
 deep_explanation = "真实转换前应验证源编码并重定向到新文件；不要覆盖唯一原件。"
+command_id = "v04-ref-ab461223c3"
 
 [[sections]]
 id = "time-zone-and-clock"
 title = "时间点、时区、系统时钟与显示格式"
-description = """Unix 时间戳表达相对于统一时间基准的时间点；时区规则把它转换为本地日期、时刻和缩写。
-date 默认显示本地时间，date -u 显示 UTC。+%F、+%Z 等格式控制输出形态，不会改变系统时钟。
-夏令时和历史规则来自时区数据库，固定写“UTC+8”无法表达所有地区的历史变化。
-系统时钟、硬件 RTC 和应用缓存可能不同步；本专题只观察，不提供改时钟命令。真实服务应优先统一存储 UTC，并在展示层转换。"""
+description = "Unix 时间戳表达相对于统一时间基准的时间点；时区规则把它转换为本地日期、时刻和缩写。\ndate 默认显示本地时间，date -u 显示 UTC。+%F、+%Z 等格式控制输出形态，不会改变系统时钟。\n夏令时和历史规则来自时区数据库，固定写“UTC+8”无法表达所有地区的历史变化。\n系统时钟、硬件 RTC 和应用缓存可能不同步；本专题只观察，不提供改时钟命令。真实服务应优先统一存储 UTC，并在展示层转换。"
 
 [[sections.commands]]
 id = "date-current-local"
@@ -94,14 +84,7 @@ command_id = "date-localized-weekday"
 [[sections]]
 id = "garbled-time-scenario"
 title = "七步场景：中文日志乱码且时间相差八小时"
-description = """按顺序排查：
-1. 观察完整 Locale，记录 LANG、LC_ALL、LC_TIME、LC_MESSAGES。
-2. 验证当前 charmap 是否为 UTF-8，并确认所需 Locale 已安装。
-3. 观察文件字节与工具判断，不把字体缺字误诊为编码损坏。
-4. 对源编码提出假设，在 stdout 或副本上预览转换，不覆盖原件。
-5. 同时观察本地时间、UTC 和时区缩写，确认“相差八小时”来自显示时区还是数据本身。
-6. 验证应用约定：时间戳是否带 Z/偏移、日志是否声明编码、进程是否继承旧环境。
-7. 选择安全动作：统一 UTF-8 与明确时区格式，重启受控进程以加载新环境；保留原日志并再次验证。"""
+description = "按顺序排查：\n1. 观察完整 Locale，记录 LANG、LC_ALL、LC_TIME、LC_MESSAGES。\n2. 验证当前 charmap 是否为 UTF-8，并确认所需 Locale 已安装。\n3. 观察文件字节与工具判断，不把字体缺字误诊为编码损坏。\n4. 对源编码提出假设，在 stdout 或副本上预览转换，不覆盖原件。\n5. 同时观察本地时间、UTC 和时区缩写，确认“相差八小时”来自显示时区还是数据本身。\n6. 验证应用约定：时间戳是否带 Z/偏移、日志是否声明编码、进程是否继承旧环境。\n7. 选择安全动作：统一 UTF-8 与明确时区格式，重启受控进程以加载新环境；保留原日志并再次验证。"
 
 [[sections.commands]]
 id = "scenario-step-1-observe-locale"
@@ -113,30 +96,30 @@ command_id = "locale-current-charmap"
 
 [[sections.commands]]
 id = "scenario-step-3-observe-file"
-command = "file -bi app.log"
 summary = "步骤 3：观察日志的 MIME 与字符集线索"
 simulated_output = "text/plain; charset=iso-8859-1"
+command_id = "v04-ref-b709db98a7"
 
 [[sections.commands]]
 id = "scenario-step-4-preview-conversion"
-command = "iconv -f GB18030 -t UTF-8 app.log"
 summary = "步骤 4：把转换结果写到 stdout 预览，不覆盖原日志"
 simulated_output = "2026-07-26 10:15:00 服务启动"
+command_id = "v04-ref-b0e6622162"
 
 [[sections.commands]]
 id = "scenario-step-5-compare-timezones"
-command = "TZ=Asia/Shanghai date '+shanghai: %Y-%m-%d %H:%M:%S %z'; TZ=UTC date '+utc: %Y-%m-%d %H:%M:%S %z'"
 summary = "步骤 5：用显式时区和纯数字格式并列观察上海时间与 UTC"
 simulated_output = "shanghai: 2026-07-26 18:15:00 +0800\nutc: 2026-07-26 10:15:00 +0000"
+command_id = "shared-e14e44ec40e81aac"
 
 [[sections.commands]]
 id = "scenario-step-6-verify-log-contract"
-command = "printf 'encoding=UTF-8 timestamp=RFC3339 timezone=explicit\\n'"
 summary = "步骤 6：核对应用日志契约应明确编码和时区"
 simulated_output = "encoding=UTF-8 timestamp=RFC3339 timezone=explicit"
+command_id = "shared-0e251095f829bab9"
 
 [[sections.commands]]
 id = "scenario-step-7-safe-plan"
-command = "printf 'keep original -> convert a copy -> set explicit locale/timezone -> restart controlled process -> verify\\n'"
 summary = "步骤 7：输出安全修复顺序"
 simulated_output = "keep original -> convert a copy -> set explicit locale/timezone -> restart controlled process -> verify"
+command_id = "shared-14fb829cde1f944a"

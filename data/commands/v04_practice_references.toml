@@ -1,0 +1,4835 @@
+
+[meta]
+category = "system"
+difficulty = "basic"
+description = "学习示例的规范引用；仅迁移已有教学文本，不计入新增命令指标。"
+
+[[commands]]
+id = "v04-ref-8536c102ab"
+command = "cat /etc/hostname"
+summary = "查看主机名文件"
+simulated_output = "ubuntu-server"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /etc/hostname"
+desc = "本次操作指定的路径：/etc/hostname"
+
+[commands.dictation]
+prompt = "查看主机名文件"
+answers = ["cat /etc/hostname"]
+
+[[commands]]
+id = "v04-ref-6aeb9da620"
+command = "cat ~/.bashrc"
+summary = "查看用户的 bash 配置文件"
+simulated_output = "# ~/.bashrc: executed by bash(1) for non-login shells.\n# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)\n# for examples\n\n# If not running interactively, don't do anything\ncase $- in\n    *i*) ;;\n      *) return;;\nesac\n\n# don't put duplicate lines or lines starting with space in the history.\nHISTCONTROL=ignoreboth\n\n# append to the history file, don't overwrite it\nshopt -s histappend\n\n# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)\nHISTSIZE=1000\nHISTFILESIZE=2000"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " ~/.bashrc"
+desc = "本次操作指定的路径：~/.bashrc"
+
+[commands.dictation]
+prompt = "查看用户的 bash 配置文件"
+answers = ["cat ~/.bashrc"]
+
+[[commands]]
+id = "v04-ref-2e30ad2885"
+command = "chmod 755 deploy.sh"
+summary = "给脚本设置可执行权限（所有者 rwx，其他人 rx）"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "chmod"
+desc = "调整实验文件的权限位"
+
+[[commands.tokens]]
+text = " 755"
+desc = "本次练习的数值参数 755；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " deploy.sh"
+desc = "给脚本设置可执行权限（所有者 rwx，其他人 rx）；指定 deploy.sh"
+
+[commands.dictation]
+prompt = "给脚本设置可执行权限（所有者 rwx，其他人 rx）"
+answers = ["chmod 755 deploy.sh"]
+
+[[commands]]
+id = "v04-ref-6a9b036623"
+command = "chmod u+x script.sh"
+summary = "用符号模式给文件所有者添加执行权限"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "chmod"
+desc = "调整实验文件的权限位"
+
+[[commands.tokens]]
+text = " u+x"
+desc = "用符号模式给文件所有者添加执行权限；指定 u+x"
+
+[[commands.tokens]]
+text = " script.sh"
+desc = "用符号模式给文件所有者添加执行权限；指定 script.sh"
+
+[commands.dictation]
+prompt = "用符号模式给文件所有者添加执行权限"
+answers = ["chmod u+x script.sh"]
+
+[[commands]]
+id = "v04-ref-a6e7ca7f38"
+command = "cp file.txt backup.txt"
+summary = "将 file.txt 复制为 backup.txt"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "cp"
+desc = "将 file.txt 复制为 backup.txt"
+
+[[commands.tokens]]
+text = " file.txt"
+desc = "将 file.txt 复制为 backup.txt；指定 file.txt"
+
+[[commands.tokens]]
+text = " backup.txt"
+desc = "将 file.txt 复制为 backup.txt；指定 backup.txt"
+
+[commands.dictation]
+prompt = "将 file.txt 复制为 backup.txt"
+answers = ["cp file.txt backup.txt"]
+
+[[commands]]
+id = "v04-ref-a637a1f19c"
+command = "cp -v report.pdf ~/Documents/"
+summary = "复制文件到 Documents 目录并显示详情"
+simulated_output = "'report.pdf' -> '/home/ace/Documents/report.pdf'"
+
+[[commands.tokens]]
+text = "cp"
+desc = "复制文件到 Documents 目录并显示详情"
+
+[[commands.tokens]]
+text = " -v"
+desc = "复制文件到 Documents 目录并显示详情；此处使用 -v 选项"
+
+[[commands.tokens]]
+text = " report.pdf"
+desc = "复制文件到 Documents 目录并显示详情；指定 report.pdf"
+
+[[commands.tokens]]
+text = " ~/Documents/"
+desc = "本次操作指定的路径：~/Documents/"
+
+[commands.dictation]
+prompt = "复制文件到 Documents 目录并显示详情"
+answers = ["cp -v report.pdf ~/Documents/"]
+
+[[commands]]
+id = "v04-ref-486cc76eb1"
+command = "curl https://api.github.com/zen"
+summary = "发送简单的 GET 请求"
+simulated_output = "Responsive is better than fast."
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " https://api.github.com/zen"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "发送简单的 GET 请求"
+answers = ["curl https://api.github.com/zen"]
+
+[[commands]]
+id = "v04-ref-30faf94a5c"
+command = "docker ps"
+summary = "列出所有正在运行的容器"
+simulated_output = "CONTAINER ID   IMAGE          COMMAND                  CREATED       STATUS       PORTS                  NAMES\na1b2c3d4e5f6   nginx:latest   \"/docker-entrypoint.…\"   2 hours ago   Up 2 hours   0.0.0.0:80->80/tcp     webserver\nb7c8d9e0f1a2   postgres:15    \"docker-entrypoint.s…\"   3 hours ago   Up 3 hours   5432/tcp               mydb"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " ps"
+desc = "列出所有正在运行的容器；指定 ps"
+
+[commands.dictation]
+prompt = "列出所有正在运行的容器"
+answers = ["docker ps"]
+
+[[commands]]
+id = "v04-ref-57e5029c4a"
+command = "docker images"
+summary = "列出本地所有 Docker 镜像"
+simulated_output = "REPOSITORY   TAG       IMAGE ID       CREATED        SIZE\nnginx        latest    61395b4c586d   3 days ago     187MB\npostgres     15        ceccf204404e   2 weeks ago    417MB\npython       3.11      a5d7930b60cc   3 weeks ago    1.01GB\nubuntu       22.04     3b418d7b466a   4 weeks ago    77.8MB"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " images"
+desc = "列出本地所有 Docker 镜像；指定 images"
+
+[commands.dictation]
+prompt = "列出本地所有 Docker 镜像"
+answers = ["docker images"]
+
+[[commands]]
+id = "v04-ref-124107e0b6"
+command = "find /home/alice -name '*.pdf'"
+summary = "在主目录下搜索所有 PDF 文件"
+simulated_output = "/home/alice/Documents/report-2026.pdf\n/home/alice/Documents/meeting-notes.pdf\n/home/alice/Downloads/user-manual.pdf\n/home/alice/Downloads/invoice-march.pdf\n/home/alice/Desktop/presentation.pdf"
+
+[[commands.tokens]]
+text = "find"
+desc = "按路径、类型或属性筛选文件"
+
+[[commands.tokens]]
+text = " /home/alice"
+desc = "本次操作指定的路径：/home/alice"
+
+[[commands.tokens]]
+text = " -name"
+desc = "在主目录下搜索所有 PDF 文件；此处使用 -name 选项"
+
+[[commands.tokens]]
+text = " '*.pdf'"
+desc = "引号保护此参数中的空格或特殊符号；在主目录下搜索所有 PDF 文件"
+
+[commands.dictation]
+prompt = "在主目录下搜索所有 PDF 文件"
+answers = ["find /home/alice -name '*.pdf'"]
+
+[[commands]]
+id = "v04-ref-f2a29f2b35"
+command = "git status"
+summary = "查看当前仓库的工作区和暂存区状态"
+simulated_output = "On branch main\nYour branch is up to date with 'origin/main'.\n\nChanges not staged for commit:\n  (use \"git add <file>...\" to update what will be committed)\n        modified:   src/main.rs\n\nUntracked files:\n  (use \"git add <file>...\" to include in what will be committed)\n        notes.txt"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " status"
+desc = "查看当前仓库的工作区和暂存区状态；指定 status"
+
+[commands.dictation]
+prompt = "查看当前仓库的工作区和暂存区状态"
+answers = ["git status"]
+
+[[commands]]
+id = "v04-ref-148a36a58a"
+command = "git log --oneline -5"
+summary = "查看最近5条提交历史（简洁格式）"
+simulated_output = "a3f8c12 修复用户登录验证失败的问题\nb1d7e89 添加密码重置功能\nc4a2f01 优化数据库查询性能\nd8e3b56 更新依赖库版本\ne5f9c23 初始化项目结构"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " log"
+desc = "查看最近5条提交历史（简洁格式）；指定 log"
+
+[[commands.tokens]]
+text = " --oneline"
+desc = "每个提交显示为一行"
+
+[[commands.tokens]]
+text = " -5"
+desc = "查看最近5条提交历史（简洁格式）；此处使用 -5 选项"
+
+[commands.dictation]
+prompt = "查看最近5条提交历史（简洁格式）"
+answers = ["git log --oneline -5"]
+
+[[commands]]
+id = "v04-ref-357e37d758"
+command = "grep 'error' /var/log/syslog"
+summary = "在系统日志中搜索包含 error 的行"
+simulated_output = "Mar  9 02:15:33 ubuntu kernel: [  2.451203] ACPI error: Method parse/execution failed\nMar  9 08:30:12 ubuntu systemd[1]: Failed to start error-report.service\nMar  9 09:45:07 ubuntu nginx[1523]: 2026/03/09 09:45:07 [error] 1523#0: *2847 open() failed\nMar  9 10:12:44 ubuntu postfix/smtp[8821]: connect to mail.example.com: connection error"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " 'error'"
+desc = "引号保护此参数中的空格或特殊符号；在系统日志中搜索包含 error 的行"
+
+[[commands.tokens]]
+text = " /var/log/syslog"
+desc = "本次操作指定的路径：/var/log/syslog"
+
+[commands.dictation]
+prompt = "在系统日志中搜索包含 error 的行"
+answers = ["grep 'error' /var/log/syslog"]
+
+[[commands]]
+id = "v04-ref-93e1a73afd"
+command = "head /etc/passwd"
+summary = "查看 /etc/passwd 文件的前 10 行（默认行数）"
+simulated_output = "root:x:0:0:root:/root:/bin/bash\ndaemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin\nbin:x:2:2:bin:/bin:/usr/sbin/nologin\nsys:x:3:3:sys:/dev:/usr/sbin/nologin\nsync:x:4:65534:sync:/bin:/bin/sync\ngames:x:5:60:games:/usr/games:/usr/sbin/nologin\nman:x:6:12:man:/var/cache/man:/usr/sbin/nologin\nlp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin\nmail:x:8:8:mail:/var/mail:/usr/sbin/nologin\nnews:x:9:9:news:/var/spool/news:/usr/sbin/nologin"
+
+[[commands.tokens]]
+text = "head"
+desc = "查看 /etc/passwd 文件的前 10 行（默认行数）"
+
+[[commands.tokens]]
+text = " /etc/passwd"
+desc = "本次操作指定的路径：/etc/passwd"
+
+[commands.dictation]
+prompt = "查看 /etc/passwd 文件的前 10 行（默认行数）"
+answers = ["head /etc/passwd"]
+
+[[commands]]
+id = "v04-ref-37303a7948"
+command = "head -n 5 README.md"
+summary = "查看 README 文件的前 5 行"
+simulated_output = "# My Project\n> A command-line tool for learning Linux commands\n\n## Installation\n\n```bash"
+
+[[commands.tokens]]
+text = "head"
+desc = "查看 README 文件的前 5 行"
+
+[[commands.tokens]]
+text = " -n"
+desc = "查看 README 文件的前 5 行；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " README.md"
+desc = "查看 README 文件的前 5 行；指定 README.md"
+
+[commands.dictation]
+prompt = "查看 README 文件的前 5 行"
+answers = ["head -n 5 README.md"]
+
+[[commands]]
+id = "v04-ref-bea94eec4d"
+command = "ip -br addr show"
+summary = "以简洁格式显示所有网络接口和 IP 地址"
+simulated_output = "lo               UNKNOWN        127.0.0.1/8 ::1/128\nens33            UP             192.168.1.100/24 fe80::20c:29ff:fe4a:5b6c/64\ndocker0          DOWN           172.17.0.1/16"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -br"
+desc = "使用紧凑单行格式"
+
+[[commands.tokens]]
+text = " addr"
+desc = "以简洁格式显示所有网络接口和 IP 地址；指定 addr"
+
+[[commands.tokens]]
+text = " show"
+desc = "以简洁格式显示所有网络接口和 IP 地址；指定 show"
+
+[commands.dictation]
+prompt = "以简洁格式显示所有网络接口和 IP 地址"
+answers = ["ip -br addr show"]
+
+[[commands]]
+id = "v04-ref-4fff3a0ec0"
+command = "kill 12345"
+summary = "向进程 12345 发送默认的 SIGTERM 信号"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "kill"
+desc = "向进程 12345 发送默认的 SIGTERM 信号"
+
+[[commands.tokens]]
+text = " 12345"
+desc = "本次练习的数值参数 12345；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "向进程 12345 发送默认的 SIGTERM 信号"
+answers = ["kill 12345"]
+
+[[commands]]
+id = "v04-ref-d00f56657a"
+command = "ls /etc"
+summary = "列出 /etc 目录的内容"
+simulated_output = "adduser.conf    bash.bashrc   crontab     fstab       hostname    hosts\nalternatives    ca-certificates  debconf.conf  group       hosts.allow  init.d\napt             cron.d        default     grub.d      hosts.deny   kernel"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " /etc"
+desc = "本次操作指定的路径：/etc"
+
+[commands.dictation]
+prompt = "列出 /etc 目录的内容"
+answers = ["ls /etc"]
+
+[[commands]]
+id = "v04-ref-15afb305aa"
+command = "mkdir projects"
+summary = "在当前目录创建 projects 目录"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "mkdir"
+desc = "在当前目录创建 projects 目录"
+
+[[commands.tokens]]
+text = " projects"
+desc = "在当前目录创建 projects 目录；指定 projects"
+
+[commands.dictation]
+prompt = "在当前目录创建 projects 目录"
+answers = ["mkdir projects"]
+
+[[commands]]
+id = "v04-ref-640b523034"
+command = "mkdir -p ~/code/python/scripts"
+summary = "一次性创建多级目录结构"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "mkdir"
+desc = "一次性创建多级目录结构"
+
+[[commands.tokens]]
+text = " -p"
+desc = "一次性创建多级目录结构；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " ~/code/python/scripts"
+desc = "本次操作指定的路径：~/code/python/scripts"
+
+[commands.dictation]
+prompt = "一次性创建多级目录结构"
+answers = ["mkdir -p ~/code/python/scripts"]
+
+[[commands]]
+id = "v04-ref-531acd0dbe"
+command = "mv report.pdf ~/Documents/"
+summary = "将文件移动到 Documents 目录"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "mv"
+desc = "将文件移动到 Documents 目录"
+
+[[commands.tokens]]
+text = " report.pdf"
+desc = "将文件移动到 Documents 目录；指定 report.pdf"
+
+[[commands.tokens]]
+text = " ~/Documents/"
+desc = "本次操作指定的路径：~/Documents/"
+
+[commands.dictation]
+prompt = "将文件移动到 Documents 目录"
+answers = ["mv report.pdf ~/Documents/"]
+
+[[commands]]
+id = "v04-ref-6b55fc52e0"
+command = "nginx -t"
+summary = "测试 Nginx 配置文件语法"
+simulated_output = "nginx: the configuration file /etc/nginx/nginx.conf syntax is ok\nnginx: configuration file /etc/nginx/nginx.conf test is successful"
+
+[[commands.tokens]]
+text = "nginx"
+desc = "测试 Nginx 配置文件语法"
+
+[[commands.tokens]]
+text = " -t"
+desc = "测试 Nginx 配置文件语法；此处使用 -t 选项"
+
+[commands.dictation]
+prompt = "测试 Nginx 配置文件语法"
+answers = ["nginx -t"]
+
+[[commands]]
+id = "v04-ref-b065e06d8b"
+command = "ping -c 3 google.com"
+summary = "测试域名解析和网络连通性"
+simulated_output = "PING google.com (142.250.185.14) 56(84) bytes of data.\n64 bytes from tsa01s11-in-f14.1e100.net (142.250.185.14): icmp_seq=1 ttl=118 time=8.42 ms\n64 bytes from tsa01s11-in-f14.1e100.net (142.250.185.14): icmp_seq=2 ttl=118 time=8.15 ms\n64 bytes from tsa01s11-in-f14.1e100.net (142.250.185.14): icmp_seq=3 ttl=118 time=8.28 ms\n\n--- google.com ping statistics ---\n3 packets transmitted, 3 received, 0% packet loss, time 2003ms\nrtt min/avg/max/mdev = 8.150/8.283/8.420/0.110 ms"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " google.com"
+desc = "测试域名解析和网络连通性；指定 google.com"
+
+[commands.dictation]
+prompt = "测试域名解析和网络连通性"
+answers = ["ping -c 3 google.com"]
+
+[[commands]]
+id = "v04-ref-48bcf8fb73"
+command = "rm -i important.doc"
+summary = "删除文件前确认"
+simulated_output = "rm: remove regular file 'important.doc'? y"
+
+[[commands.tokens]]
+text = "rm"
+desc = "删除文件前确认"
+
+[[commands.tokens]]
+text = " -i"
+desc = "删除文件前确认；此处使用 -i 选项"
+
+[[commands.tokens]]
+text = " important.doc"
+desc = "删除文件前确认；指定 important.doc"
+
+[commands.dictation]
+prompt = "删除文件前确认"
+answers = ["rm -i important.doc"]
+
+[[commands]]
+id = "v04-ref-3ccbc5f66c"
+command = "sed 's/error/ERROR/g' app.log"
+summary = "将日志中所有 error 替换为 ERROR"
+simulated_output = "[2026-03-09 14:30:12] INFO: Server started\n[2026-03-09 14:30:15] ERROR: Connection refused\n[2026-03-09 14:30:18] WARN: Retry attempt 1\n[2026-03-09 14:30:20] ERROR: Timeout exceeded"
+
+[[commands.tokens]]
+text = "sed"
+desc = "用编辑表达式转换或筛选输入文本"
+
+[[commands.tokens]]
+text = " 's/error/ERROR/g'"
+desc = "引号保护此参数中的空格或特殊符号；将日志中所有 error 替换为 ERROR"
+
+[[commands.tokens]]
+text = " app.log"
+desc = "将日志中所有 error 替换为 ERROR；指定 app.log"
+
+[commands.dictation]
+prompt = "将日志中所有 error 替换为 ERROR"
+answers = ["sed 's/error/ERROR/g' app.log"]
+
+[[commands]]
+id = "v04-ref-0d5b7ce191"
+command = "sort names.txt"
+summary = "按字母顺序排列文件中的名字"
+simulated_output = "Alice\nBob\nCharlie\nDiana\nEve\nFrank"
+
+[[commands.tokens]]
+text = "sort"
+desc = "按字母顺序排列文件中的名字"
+
+[[commands.tokens]]
+text = " names.txt"
+desc = "按字母顺序排列文件中的名字；指定 names.txt"
+
+[commands.dictation]
+prompt = "按字母顺序排列文件中的名字"
+answers = ["sort names.txt"]
+
+[[commands]]
+id = "v04-ref-845362d24c"
+command = "ssh user@192.168.1.100"
+summary = "最基本的 SSH 登录"
+simulated_output = "The authenticity of host '192.168.1.100 (192.168.1.100)' can't be established.\nED25519 key fingerprint is SHA256:AbCdEfGhIjKlMnOpQrStUvWxYz1234567890abcd.\nThis key is not known by any other names.\nAre you sure you want to continue connecting (yes/no/[fingerprint])? yes\nWarning: Permanently added '192.168.1.100' (ED25519) to the list of known hosts.\nuser@192.168.1.100's password:\nWelcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)\n\n * Documentation:  https://help.ubuntu.com\n * Management:     https://landscape.canonical.com\n * Support:        https://ubuntu.com/advantage\n\nLast login: Mon Mar  9 10:23:45 2026 from 192.168.1.50\nuser@server:~$"
+
+[[commands.tokens]]
+text = "ssh"
+desc = "以 SSH 协议连接实验目标或读取客户端配置"
+
+[[commands.tokens]]
+text = " user@192.168.1.100"
+desc = "最基本的 SSH 登录；指定 user@192.168.1.100"
+
+[commands.dictation]
+prompt = "最基本的 SSH 登录"
+answers = ["ssh user@192.168.1.100"]
+
+[[commands]]
+id = "v04-ref-9f56c2cc95"
+command = "ssh root@myserver.com"
+summary = "使用域名和指定用户登录"
+simulated_output = "root@myserver.com's password:\nWelcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)\n\nLast login: Sun Mar  8 18:30:22 2026 from 203.0.113.50\nroot@myserver:~#"
+
+[[commands.tokens]]
+text = "ssh"
+desc = "以 SSH 协议连接实验目标或读取客户端配置"
+
+[[commands.tokens]]
+text = " root@myserver.com"
+desc = "使用域名和指定用户登录；指定 root@myserver.com"
+
+[commands.dictation]
+prompt = "使用域名和指定用户登录"
+answers = ["ssh root@myserver.com"]
+
+[[commands]]
+id = "v04-ref-3b33b876f2"
+command = "systemctl start sshd"
+summary = "启动 SSH 服务"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " start"
+desc = "启动 SSH 服务；指定 start"
+
+[[commands.tokens]]
+text = " sshd"
+desc = "启动 SSH 服务；指定 sshd"
+
+[commands.dictation]
+prompt = "启动 SSH 服务"
+answers = ["systemctl start sshd"]
+
+[[commands]]
+id = "v04-ref-ac11355900"
+command = "tail /var/log/syslog"
+summary = "查看系统日志的最后 10 行"
+simulated_output = "Mar  9 14:20:01 ubuntu CRON[12345]: (root) CMD (test -x /usr/sbin/anacron)\nMar  9 14:22:33 ubuntu systemd[1]: Starting Daily apt upgrade and clean...\nMar  9 14:22:35 ubuntu systemd[1]: Started Daily apt upgrade and clean.\nMar  9 14:25:01 ubuntu CRON[12389]: (ace) CMD (/home/ace/scripts/backup.sh)\nMar  9 14:28:44 ubuntu kernel: [42156.892341] TCP: eth0: driver bug\nMar  9 14:30:01 ubuntu CRON[12412]: (root) CMD (test -x /usr/sbin/anacron)\nMar  9 14:31:18 ubuntu sshd[12450]: Accepted publickey for ace from 192.168.1.50 port 52341 ssh2\nMar  9 14:31:18 ubuntu systemd-logind[652]: New session 42 of user ace.\nMar  9 14:33:21 ubuntu nginx[1205]: 192.168.1.50 - - [09/Mar/2026:14:33:21 +0800] \"GET / HTTP/1.1\" 200 612\nMar  9 14:35:01 ubuntu CRON[12478]: (root) CMD (test -x /usr/sbin/anacron)"
+
+[[commands.tokens]]
+text = "tail"
+desc = "查看系统日志的最后 10 行"
+
+[[commands.tokens]]
+text = " /var/log/syslog"
+desc = "本次操作指定的路径：/var/log/syslog"
+
+[commands.dictation]
+prompt = "查看系统日志的最后 10 行"
+answers = ["tail /var/log/syslog"]
+
+[[commands]]
+id = "v04-ref-225add12f0"
+command = "tail -n 5 ~/.bash_history"
+summary = "查看最近执行的 5 条命令"
+simulated_output = "docker ps -a\ngit pull origin main\nnpm run build\ntail -f /var/log/nginx/access.log\nsudo systemctl restart nginx"
+
+[[commands.tokens]]
+text = "tail"
+desc = "查看最近执行的 5 条命令"
+
+[[commands.tokens]]
+text = " -n"
+desc = "查看最近执行的 5 条命令；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ~/.bash_history"
+desc = "本次操作指定的路径：~/.bash_history"
+
+[commands.dictation]
+prompt = "查看最近执行的 5 条命令"
+answers = ["tail -n 5 ~/.bash_history"]
+
+[[commands]]
+id = "v04-ref-1a7bc833f4"
+command = "tar -czf project.tar.gz project/"
+summary = "将 project 目录打包并用 gzip 压缩"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "tar"
+desc = "创建、列出或提取 tar 归档"
+
+[[commands.tokens]]
+text = " -czf"
+desc = "创建 gzip 归档并指定文件名"
+
+[[commands.tokens]]
+text = " project.tar.gz"
+desc = "将 project 目录打包并用 gzip 压缩；指定 project.tar.gz"
+
+[[commands.tokens]]
+text = " project/"
+desc = "将 project 目录打包并用 gzip 压缩；指定 project/"
+
+[commands.dictation]
+prompt = "将 project 目录打包并用 gzip 压缩"
+answers = ["tar -czf project.tar.gz project/"]
+
+[[commands]]
+id = "v04-ref-3b44e3e305"
+command = "tar -xzf project.tar.gz"
+summary = "解压 .tar.gz 归档文件"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "tar"
+desc = "创建、列出或提取 tar 归档"
+
+[[commands.tokens]]
+text = " -xzf"
+desc = "提取 gzip 归档"
+
+[[commands.tokens]]
+text = " project.tar.gz"
+desc = "解压 .tar.gz 归档文件；指定 project.tar.gz"
+
+[commands.dictation]
+prompt = "解压 .tar.gz 归档文件"
+answers = ["tar -xzf project.tar.gz"]
+
+[[commands]]
+id = "v04-ref-1fec1130c6"
+command = "wc /etc/passwd"
+summary = "统计 /etc/passwd 的行数、单词数和字节数"
+simulated_output = "  42  68 2456 /etc/passwd"
+
+[[commands.tokens]]
+text = "wc"
+desc = "统计 /etc/passwd 的行数、单词数和字节数"
+
+[[commands.tokens]]
+text = " /etc/passwd"
+desc = "本次操作指定的路径：/etc/passwd"
+
+[commands.dictation]
+prompt = "统计 /etc/passwd 的行数、单词数和字节数"
+answers = ["wc /etc/passwd"]
+
+[[commands]]
+id = "v04-ref-d17f38d48c"
+command = "wc -l /etc/passwd"
+summary = "统计系统中有多少个用户账户"
+simulated_output = "42 /etc/passwd"
+
+[[commands.tokens]]
+text = "wc"
+desc = "统计系统中有多少个用户账户"
+
+[[commands.tokens]]
+text = " -l"
+desc = "统计系统中有多少个用户账户；此处使用 -l 选项"
+
+[[commands.tokens]]
+text = " /etc/passwd"
+desc = "本次操作指定的路径：/etc/passwd"
+
+[commands.dictation]
+prompt = "统计系统中有多少个用户账户"
+answers = ["wc -l /etc/passwd"]
+
+[[commands]]
+id = "v04-ref-50d8acfa04"
+command = "wget -O hello-source.tar.gz https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz"
+summary = "从 GNU 官方发布目录下载 Hello 源码，保存为当前目录的 hello-source.tar.gz"
+simulated_output = "--2026-07-26 10:05:13--  https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz\nResolving ftp.gnu.org (ftp.gnu.org)... 209.51.188.20, 2001:470:142:3::b\nConnecting to ftp.gnu.org (ftp.gnu.org)|209.51.188.20|:443... connected.\nHTTP request sent, awaiting response... 200 OK\nLength: 1168515 (1.1M) [application/x-gzip]\nSaving to: 'hello-source.tar.gz'\n\nhello-source.tar.gz 100%[===================>]   1.11M  2.18MB/s    in 0.5s\n"
+
+[[commands.tokens]]
+text = "wget"
+desc = "从指定 URL 下载资源"
+
+[[commands.tokens]]
+text = " -O"
+desc = "明确设置输出文件名；已有同名目标会被覆盖"
+
+[[commands.tokens]]
+text = " hello-source.tar.gz"
+desc = "当前目录中保存源码归档的实验文件名"
+
+[[commands.tokens]]
+text = " https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz"
+desc = "GNU 官方 Hello 2.12.2 发布归档地址"
+
+[commands.dictation]
+prompt = "从 GNU 官方发布目录下载 Hello 源码，保存为当前目录的 hello-source.tar.gz"
+answers = ["wget -O hello-source.tar.gz https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz"]
+
+[[commands]]
+id = "v04-ref-0cc3054757"
+command = "find . -type f -name '*.tmp' -print0 | xargs -0 -r rm --"
+summary = "查找当前实验目录的 tmp 普通文件，用 NUL 分隔传给 rm；文件名含空格也安全，空结果不执行删除"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "find"
+desc = "查找实验目录中的文件"
+
+[[commands.tokens]]
+text = " ."
+desc = "从当前实验目录递归搜索"
+
+[[commands.tokens]]
+text = " -type"
+desc = "限定文件类型"
+
+[[commands.tokens]]
+text = " f"
+desc = "只选择普通文件"
+
+[[commands.tokens]]
+text = " -name"
+desc = "按名称模式匹配"
+
+[[commands.tokens]]
+text = " '*.tmp'"
+desc = "由 find 匹配临时文件扩展名"
+
+[[commands.tokens]]
+text = " -print0"
+desc = "每个路径用 NUL 字符分隔，保留空格和换行"
+
+[[commands.tokens]]
+text = " |"
+desc = "把路径流传给 xargs"
+
+[[commands.tokens]]
+text = " xargs"
+desc = "把输入路径组合为命令参数"
+
+[[commands.tokens]]
+text = " -0"
+desc = "按 NUL 分隔读取每一个路径"
+
+[[commands.tokens]]
+text = " -r"
+desc = "没有匹配路径时不运行 rm"
+
+[[commands.tokens]]
+text = " rm"
+desc = "删除筛选出的实验临时文件"
+
+[[commands.tokens]]
+text = " --"
+desc = "结束 rm 选项解析，避免文件名被当作选项"
+
+[commands.dictation]
+prompt = "查找当前实验目录的 tmp 普通文件，用 NUL 分隔传给 rm；文件名含空格也安全，空结果不执行删除"
+answers = ["find . -type f -name '*.tmp' -print0 | xargs -0 -r rm --"]
+
+[[commands]]
+id = "v04-ref-b3851cdafc"
+command = "ls -la /etc | head -5"
+summary = "列出 /etc 目录下所有文件的详细信息，通过管道只显示前 5 行"
+simulated_output = "total 1284\ndrwxr-xr-x 142 root root   12288 Mar  5 08:30 .\ndrwxr-xr-x  20 root root    4096 Jan 12 14:22 ..\n-rw-r--r--   1 root root    3028 Jan 12 14:22 adduser.conf\n-rw-r--r--   1 root root      44 Feb 20 09:15 adjtime"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " -la"
+desc = "列出 /etc 目录下所有文件的详细信息，通过管道只显示前 5 行；此处使用 -la 选项"
+
+[[commands.tokens]]
+text = " /etc"
+desc = "本次操作指定的路径：/etc"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "列出 /etc 目录下所有文件的详细信息，通过管道只显示前 5 行；指定 head"
+
+[[commands.tokens]]
+text = " -5"
+desc = "列出 /etc 目录下所有文件的详细信息，通过管道只显示前 5 行；此处使用 -5 选项"
+
+[commands.dictation]
+prompt = "列出 /etc 目录下所有文件的详细信息，通过管道只显示前 5 行"
+answers = ["ls -la /etc | head -5"]
+
+[[commands]]
+id = "v04-ref-5b5f79fc42"
+command = "echo \"Hello, Linux!\" > greeting.txt"
+summary = "将字符串写入 greeting.txt 文件。如果文件已存在，原内容被覆盖"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出参数文本；引号控制 shell 展开"
+
+[[commands.tokens]]
+text = " \"Hello, Linux!\""
+desc = "引号保护此参数中的空格或特殊符号；将字符串写入 greeting.txt 文件。如果文件已存在，原内容被覆盖"
+
+[[commands.tokens]]
+text = " >"
+desc = "将标准输出写入目标并覆盖现有内容"
+
+[[commands.tokens]]
+text = " greeting.txt"
+desc = "将字符串写入 greeting.txt 文件。如果文件已存在，原内容被覆盖；指定 greeting.txt"
+
+[commands.dictation]
+prompt = "将字符串写入 greeting.txt 文件。如果文件已存在，原内容被覆盖"
+answers = ["echo \"Hello, Linux!\" > greeting.txt"]
+
+[[commands]]
+id = "v04-ref-53347128cc"
+command = "echo \"第一行\" > notes.txt && echo \"第二行\" >> notes.txt && cat notes.txt"
+summary = "先用 > 创建文件写入第一行，再用 >> 追加第二行，最后查看完整内容"
+simulated_output = "第一行\n第二行"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出参数文本；引号控制 shell 展开"
+
+[[commands.tokens]]
+text = " \"第一行\""
+desc = "引号保护此参数中的空格或特殊符号；先用 > 创建文件写入第一行，再用 >> 追加第二行，最后查看完整内容"
+
+[[commands.tokens]]
+text = " >"
+desc = "将标准输出写入目标并覆盖现有内容"
+
+[[commands.tokens]]
+text = " notes.txt"
+desc = "先用 > 创建文件写入第一行，再用 >> 追加第二行，最后查看完整内容；指定 notes.txt"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " echo"
+desc = "先用 > 创建文件写入第一行，再用 >> 追加第二行，最后查看完整内容；指定 echo"
+
+[[commands.tokens]]
+text = " \"第二行\""
+desc = "引号保护此参数中的空格或特殊符号；先用 > 创建文件写入第一行，再用 >> 追加第二行，最后查看完整内容"
+
+[[commands.tokens]]
+text = " >>"
+desc = "向目标文件追加标准输出"
+
+[[commands.tokens]]
+text = " notes.txt"
+desc = "先用 > 创建文件写入第一行，再用 >> 追加第二行，最后查看完整内容；指定 notes.txt"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " cat"
+desc = "先用 > 创建文件写入第一行，再用 >> 追加第二行，最后查看完整内容；指定 cat"
+
+[[commands.tokens]]
+text = " notes.txt"
+desc = "先用 > 创建文件写入第一行，再用 >> 追加第二行，最后查看完整内容；指定 notes.txt"
+
+[commands.dictation]
+prompt = "先用 > 创建文件写入第一行，再用 >> 追加第二行，最后查看完整内容"
+answers = ["echo \"第一行\" > notes.txt && echo \"第二行\" >> notes.txt && cat notes.txt"]
+
+[[commands]]
+id = "v04-ref-8aee894088"
+command = "ls /nonexistent 2> errors.txt\ncat errors.txt"
+summary = "先把缺失路径的错误写入 errors.txt；回车后单独读取文件，前一步失败也继续检查"
+simulated_output = "ls: cannot access '/nonexistent': No such file or directory"
+
+[[commands.tokens]]
+text = "ls"
+desc = "尝试列出路径；示例目标不存在，会返回失败状态"
+
+[[commands.tokens]]
+text = " /nonexistent"
+desc = "故意使用不存在的示例路径"
+
+[[commands.tokens]]
+text = " 2>"
+desc = "将标准错误写入目标文件，屏幕暂不显示该错误"
+
+[[commands.tokens]]
+text = " errors.txt"
+desc = "保存错误信息的文件"
+
+[[commands.tokens]]
+text = "\n"
+desc = "回车开始下一条独立命令；不依赖上一条成功"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取刚才保存的诊断文件"
+
+[[commands.tokens]]
+text = " errors.txt"
+desc = "显示重定向到文件中的错误信息"
+
+[commands.dictation]
+prompt = "先把缺失路径的错误写入 errors.txt；回车后单独读取文件，前一步失败也继续检查"
+answers = ["ls /nonexistent 2> errors.txt\ncat errors.txt"]
+
+[[commands]]
+id = "v04-ref-3295d2a9d6"
+command = "ls /etc /nonexistent 2>&1 | grep -i \"cannot\""
+summary = "同时列出存在和不存在的路径，将 stderr 合并到 stdout 后过滤错误信息"
+simulated_output = "ls: cannot access '/nonexistent': No such file or directory"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " /etc"
+desc = "本次操作指定的路径：/etc"
+
+[[commands.tokens]]
+text = " /nonexistent"
+desc = "本次操作指定的路径：/nonexistent"
+
+[[commands.tokens]]
+text = " 2>&1"
+desc = "让标准错误复制当前标准输出的去向"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " grep"
+desc = "同时列出存在和不存在的路径，将 stderr 合并到 stdout 后过滤错误信息；指定 grep"
+
+[[commands.tokens]]
+text = " -i"
+desc = "同时列出存在和不存在的路径，将 stderr 合并到 stdout 后过滤错误信息；此处使用 -i 选项"
+
+[[commands.tokens]]
+text = " \"cannot\""
+desc = "引号保护此参数中的空格或特殊符号；同时列出存在和不存在的路径，将 stderr 合并到 stdout 后过滤错误信息"
+
+[commands.dictation]
+prompt = "同时列出存在和不存在的路径，将 stderr 合并到 stdout 后过滤错误信息"
+answers = ["ls /etc /nonexistent 2>&1 | grep -i \"cannot\""]
+
+[[commands]]
+id = "v04-ref-91000503b6"
+command = "wc -l < /etc/passwd"
+summary = "统计 /etc/passwd 文件的行数。与 wc -l /etc/passwd 不同的是，不会显示文件名"
+simulated_output = "42"
+
+[[commands.tokens]]
+text = "wc"
+desc = "统计 /etc/passwd 文件的行数。与 wc -l /etc/passwd 不同的是，不会显示文件名"
+
+[[commands.tokens]]
+text = " -l"
+desc = "统计 /etc/passwd 文件的行数。与 wc -l /etc/passwd 不同的是，不会显示文件名；此处使用 -l 选项"
+
+[[commands.tokens]]
+text = " <"
+desc = "从指定文件读取标准输入"
+
+[[commands.tokens]]
+text = " /etc/passwd"
+desc = "本次操作指定的路径：/etc/passwd"
+
+[commands.dictation]
+prompt = "统计 /etc/passwd 文件的行数。与 wc -l /etc/passwd 不同的是，不会显示文件名"
+answers = ["wc -l < /etc/passwd"]
+
+[[commands]]
+id = "v04-ref-023c24397c"
+command = "cat << EOF\nHello, $USER!\nToday is $(date +%A).\nEOF"
+summary = "使用 Here Document 创建包含变量和命令替换的多行文本"
+simulated_output = "Hello, ace!\nToday is Sunday."
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " <<"
+desc = "使用 Here Document 创建包含变量和命令替换的多行文本；指定 <<"
+
+[[commands.tokens]]
+text = " EOF"
+desc = "使用 Here Document 创建包含变量和命令替换的多行文本；指定 EOF"
+
+[[commands.tokens]]
+text = "\nHello,"
+desc = "使用 Here Document 创建包含变量和命令替换的多行文本；指定 Hello,"
+
+[[commands.tokens]]
+text = " $USER!"
+desc = "使用 Here Document 创建包含变量和命令替换的多行文本；指定 $USER!"
+
+[[commands.tokens]]
+text = "\nToday"
+desc = "使用 Here Document 创建包含变量和命令替换的多行文本；指定 Today"
+
+[[commands.tokens]]
+text = " is"
+desc = "使用 Here Document 创建包含变量和命令替换的多行文本；指定 is"
+
+[[commands.tokens]]
+text = " $(date"
+desc = "使用 Here Document 创建包含变量和命令替换的多行文本；指定 $(date"
+
+[[commands.tokens]]
+text = " +%A)."
+desc = "使用 Here Document 创建包含变量和命令替换的多行文本；此处使用 +%A). 选项"
+
+[[commands.tokens]]
+text = "\nEOF"
+desc = "使用 Here Document 创建包含变量和命令替换的多行文本；指定 EOF"
+
+[commands.dictation]
+prompt = "使用 Here Document 创建包含变量和命令替换的多行文本"
+answers = ["cat << EOF\nHello, $USER!\nToday is $(date +%A).\nEOF"]
+
+[[commands]]
+id = "v04-ref-bd05b158bd"
+command = "df -h | tee disk_usage.txt"
+summary = "查看磁盘使用情况，结果同时显示在终端并保存到文件"
+simulated_output = "Filesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        50G   32G   16G  67% /\ntmpfs           3.9G  1.2M  3.9G   1% /dev/shm\n/dev/sda2       200G  128G   62G  68% /home"
+
+[[commands.tokens]]
+text = "df"
+desc = "查看磁盘使用情况，结果同时显示在终端并保存到文件"
+
+[[commands.tokens]]
+text = " -h"
+desc = "查看磁盘使用情况，结果同时显示在终端并保存到文件；此处使用 -h 选项"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " tee"
+desc = "查看磁盘使用情况，结果同时显示在终端并保存到文件；指定 tee"
+
+[[commands.tokens]]
+text = " disk_usage.txt"
+desc = "查看磁盘使用情况，结果同时显示在终端并保存到文件；指定 disk_usage.txt"
+
+[commands.dictation]
+prompt = "查看磁盘使用情况，结果同时显示在终端并保存到文件"
+answers = ["df -h | tee disk_usage.txt"]
+
+[[commands]]
+id = "v04-ref-7b96a288ac"
+command = "echo \"price is \\$100\""
+summary = "在双引号内用 \\$ 阻止变量展开，输出字面量的美元符号"
+simulated_output = "price is $100"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出参数文本；引号控制 shell 展开"
+
+[[commands.tokens]]
+text = " \"price is \\$100\""
+desc = "引号保护此参数中的空格或特殊符号；在双引号内用 \\$ 阻止变量展开，输出字面量的美元符号"
+
+[commands.dictation]
+prompt = "在双引号内用 \\$ 阻止变量展开，输出字面量的美元符号"
+answers = ["echo \"price is \\$100\""]
+
+[[commands]]
+id = "v04-ref-72ea6fefa3"
+command = "echo `date`"
+summary = "反引号内的 date 命令被执行，其输出替换了反引号表达式"
+simulated_output = "Sun Mar  8 15:30:42 CST 2026"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出参数文本；引号控制 shell 展开"
+
+[[commands.tokens]]
+text = " `date`"
+desc = "反引号内的 date 命令被执行，其输出替换了反引号表达式；指定 `date`"
+
+[commands.dictation]
+prompt = "反引号内的 date 命令被执行，其输出替换了反引号表达式"
+answers = ["echo `date`"]
+
+[[commands]]
+id = "v04-ref-3a8a258d43"
+command = "echo $(whoami)"
+summary = "$(whoami) 执行 whoami 命令，输出被替换为当前用户名"
+simulated_output = "ace"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出参数文本；引号控制 shell 展开"
+
+[[commands.tokens]]
+text = " $(whoami)"
+desc = "$(whoami) 执行 whoami 命令，输出被替换为当前用户名；指定 $(whoami)"
+
+[commands.dictation]
+prompt = "$(whoami) 执行 whoami 命令，输出被替换为当前用户名"
+answers = ["echo $(whoami)"]
+
+[[commands]]
+id = "v04-ref-2b197f9615"
+command = "echo -e 'hat\\nhit\\nhot\\nhut\\nht' | grep 'h.t'"
+summary = "用点号匹配 h 和 t 之间的任意一个字符，ht 因为中间没有字符所以不匹配"
+simulated_output = "hat\nhit\nhot\nhut"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出参数文本；引号控制 shell 展开"
+
+[[commands.tokens]]
+text = " -e"
+desc = "用点号匹配 h 和 t 之间的任意一个字符，ht 因为中间没有字符所以不匹配；此处使用 -e 选项"
+
+[[commands.tokens]]
+text = " 'hat\\nhit\\nhot\\nhut\\nht'"
+desc = "引号保护此参数中的空格或特殊符号；用点号匹配 h 和 t 之间的任意一个字符，ht 因为中间没有字符所以不匹配"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " grep"
+desc = "用点号匹配 h 和 t 之间的任意一个字符，ht 因为中间没有字符所以不匹配；指定 grep"
+
+[[commands.tokens]]
+text = " 'h.t'"
+desc = "引号保护此参数中的空格或特殊符号；用点号匹配 h 和 t 之间的任意一个字符，ht 因为中间没有字符所以不匹配"
+
+[commands.dictation]
+prompt = "用点号匹配 h 和 t 之间的任意一个字符，ht 因为中间没有字符所以不匹配"
+answers = ["echo -e 'hat\\nhit\\nhot\\nhut\\nht' | grep 'h.t'"]
+
+[[commands]]
+id = "v04-ref-53eb9456ab"
+command = "echo -e 'ac\\nabc\\nabbc\\nabbbc' | grep 'ab*c'"
+summary = "星号使 b 可以出现零次或多次，因此 ac（零个 b）和 abc、abbc 等都匹配"
+simulated_output = "ac\nabc\nabbc\nabbbc"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出参数文本；引号控制 shell 展开"
+
+[[commands.tokens]]
+text = " -e"
+desc = "星号使 b 可以出现零次或多次，因此 ac（零个 b）和 abc、abbc 等都匹配；此处使用 -e 选项"
+
+[[commands.tokens]]
+text = " 'ac\\nabc\\nabbc\\nabbbc'"
+desc = "引号保护此参数中的空格或特殊符号；星号使 b 可以出现零次或多次，因此 ac（零个 b）和 abc、abbc 等都匹配"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " grep"
+desc = "星号使 b 可以出现零次或多次，因此 ac（零个 b）和 abc、abbc 等都匹配；指定 grep"
+
+[[commands.tokens]]
+text = " 'ab*c'"
+desc = "引号保护此参数中的空格或特殊符号；星号使 b 可以出现零次或多次，因此 ac（零个 b）和 abc、abbc 等都匹配"
+
+[commands.dictation]
+prompt = "星号使 b 可以出现零次或多次，因此 ac（零个 b）和 abc、abbc 等都匹配"
+answers = ["echo -e 'ac\\nabc\\nabbc\\nabbbc' | grep 'ab*c'"]
+
+[[commands]]
+id = "v04-ref-ccdc4ac912"
+command = "echo -e 'ggle\\ngogle\\ngoogle\\ngooogle' | grep -E 'go+gle'"
+summary = "加号要求 o 至少出现一次，所以 ggle（零个 o）不匹配，其余都匹配"
+simulated_output = "gogle\ngoogle\ngooogle"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出参数文本；引号控制 shell 展开"
+
+[[commands.tokens]]
+text = " -e"
+desc = "加号要求 o 至少出现一次，所以 ggle（零个 o）不匹配，其余都匹配；此处使用 -e 选项"
+
+[[commands.tokens]]
+text = " 'ggle\\ngogle\\ngoogle\\ngooogle'"
+desc = "引号保护此参数中的空格或特殊符号；加号要求 o 至少出现一次，所以 ggle（零个 o）不匹配，其余都匹配"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " grep"
+desc = "加号要求 o 至少出现一次，所以 ggle（零个 o）不匹配，其余都匹配；指定 grep"
+
+[[commands.tokens]]
+text = " -E"
+desc = "加号要求 o 至少出现一次，所以 ggle（零个 o）不匹配，其余都匹配；此处使用 -E 选项"
+
+[[commands.tokens]]
+text = " 'go+gle'"
+desc = "引号保护此参数中的空格或特殊符号；加号要求 o 至少出现一次，所以 ggle（零个 o）不匹配，其余都匹配"
+
+[commands.dictation]
+prompt = "加号要求 o 至少出现一次，所以 ggle（零个 o）不匹配，其余都匹配"
+answers = ["echo -e 'ggle\\ngogle\\ngoogle\\ngooogle' | grep -E 'go+gle'"]
+
+[[commands]]
+id = "v04-ref-03fd4156f8"
+command = "echo -e 'color\\ncolour\\ncolouur' | grep -E 'colou?r'"
+summary = "问号使 u 可选，color 和 colour 都匹配，但 colouur 有两个 u 所以不匹配整个模式"
+simulated_output = "color\ncolour"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出参数文本；引号控制 shell 展开"
+
+[[commands.tokens]]
+text = " -e"
+desc = "问号使 u 可选，color 和 colour 都匹配，但 colouur 有两个 u 所以不匹配整个模式；此处使用 -e 选项"
+
+[[commands.tokens]]
+text = " 'color\\ncolour\\ncolouur'"
+desc = "引号保护此参数中的空格或特殊符号；问号使 u 可选，color 和 colour 都匹配，但 colouur 有两个 u 所以不匹配整个模式"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " grep"
+desc = "问号使 u 可选，color 和 colour 都匹配，但 colouur 有两个 u 所以不匹配整个模式；指定 grep"
+
+[[commands.tokens]]
+text = " -E"
+desc = "问号使 u 可选，color 和 colour 都匹配，但 colouur 有两个 u 所以不匹配整个模式；此处使用 -E 选项"
+
+[[commands.tokens]]
+text = " 'colou?r'"
+desc = "引号保护此参数中的空格或特殊符号；问号使 u 可选，color 和 colour 都匹配，但 colouur 有两个 u 所以不匹配整个模式"
+
+[commands.dictation]
+prompt = "问号使 u 可选，color 和 colour 都匹配，但 colouur 有两个 u 所以不匹配整个模式"
+answers = ["echo -e 'color\\ncolour\\ncolouur' | grep -E 'colou?r'"]
+
+[[commands]]
+id = "v04-ref-80bca3c0cf"
+command = "grep '^root' /etc/passwd"
+summary = "查找 /etc/passwd 中以 root 开头的行，通常会匹配到 root 用户的条目"
+simulated_output = "root:x:0:0:root:/root:/bin/bash"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " '^root'"
+desc = "引号保护此参数中的空格或特殊符号；查找 /etc/passwd 中以 root 开头的行，通常会匹配到 root 用户的条目"
+
+[[commands.tokens]]
+text = " /etc/passwd"
+desc = "本次操作指定的路径：/etc/passwd"
+
+[commands.dictation]
+prompt = "查找 /etc/passwd 中以 root 开头的行，通常会匹配到 root 用户的条目"
+answers = ["grep '^root' /etc/passwd"]
+
+[[commands]]
+id = "v04-ref-8ac908ef45"
+command = "grep 'bash$' /etc/passwd"
+summary = "查找 /etc/passwd 中以 bash 结尾的行，即使用 bash 作为登录 Shell 的用户"
+simulated_output = "root:x:0:0:root:/root:/bin/bash\nace:x:1000:1000:Ace:/home/ace:/bin/bash"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " 'bash$'"
+desc = "引号保护此参数中的空格或特殊符号；查找 /etc/passwd 中以 bash 结尾的行，即使用 bash 作为登录 Shell 的用户"
+
+[[commands.tokens]]
+text = " /etc/passwd"
+desc = "本次操作指定的路径：/etc/passwd"
+
+[commands.dictation]
+prompt = "查找 /etc/passwd 中以 bash 结尾的行，即使用 bash 作为登录 Shell 的用户"
+answers = ["grep 'bash$' /etc/passwd"]
+
+[[commands]]
+id = "v04-ref-f66555e840"
+command = "echo -e 'apple\\nbanana\\norange\\numbrella' | grep '[aeiou]'"
+summary = "匹配包含至少一个元音字母的行（几乎所有英文单词都会匹配）"
+simulated_output = "apple\nbanana\norange\numbrella"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出参数文本；引号控制 shell 展开"
+
+[[commands.tokens]]
+text = " -e"
+desc = "匹配包含至少一个元音字母的行（几乎所有英文单词都会匹配）；此处使用 -e 选项"
+
+[[commands.tokens]]
+text = " 'apple\\nbanana\\norange\\numbrella'"
+desc = "引号保护此参数中的空格或特殊符号；匹配包含至少一个元音字母的行（几乎所有英文单词都会匹配）"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " grep"
+desc = "匹配包含至少一个元音字母的行（几乎所有英文单词都会匹配）；指定 grep"
+
+[[commands.tokens]]
+text = " '[aeiou]'"
+desc = "引号保护此参数中的空格或特殊符号；匹配包含至少一个元音字母的行（几乎所有英文单词都会匹配）"
+
+[commands.dictation]
+prompt = "匹配包含至少一个元音字母的行（几乎所有英文单词都会匹配）"
+answers = ["echo -e 'apple\\nbanana\\norange\\numbrella' | grep '[aeiou]'"]
+
+[[commands]]
+id = "v04-ref-7452f01c9c"
+command = "echo -e 'ab\\nabab\\nababab\\naabb' | grep -E '^(ab)+$'"
+summary = "用行首行尾锚点限制整行只由一个或多个 ab 分组组成，aabb 不匹配"
+simulated_output = "ab\nabab\nababab"
+
+[[commands.tokens]]
+text = "echo"
+desc = "用行首行尾锚点限制整行只由一个或多个 ab 分组组成，aabb 不匹配"
+
+[[commands.tokens]]
+text = " -e"
+desc = "用行首行尾锚点限制整行只由一个或多个 ab 分组组成，aabb 不匹配"
+
+[[commands.tokens]]
+text = " 'ab\\nabab\\nababab\\naabb'"
+desc = "用行首行尾锚点限制整行只由一个或多个 ab 分组组成，aabb 不匹配"
+
+[[commands.tokens]]
+text = " |"
+desc = "用行首行尾锚点限制整行只由一个或多个 ab 分组组成，aabb 不匹配"
+
+[[commands.tokens]]
+text = " grep"
+desc = "用行首行尾锚点限制整行只由一个或多个 ab 分组组成，aabb 不匹配"
+
+[[commands.tokens]]
+text = " -E"
+desc = "用行首行尾锚点限制整行只由一个或多个 ab 分组组成，aabb 不匹配"
+
+[[commands.tokens]]
+text = " '^(ab)+$'"
+desc = "用行首行尾锚点限制整行只由一个或多个 ab 分组组成，aabb 不匹配"
+
+[commands.dictation]
+prompt = "用行首行尾锚点限制整行只由一个或多个 ab 分组组成，aabb 不匹配"
+answers = ["echo -e 'ab\\nabab\\nababab\\naabb' | grep -E '^(ab)+$'"]
+
+[[commands]]
+id = "v04-ref-0cc404dda0"
+command = "echo \"hello\"; echo \"world\""
+summary = "依次输出两个字符串，无论第一条是否成功，第二条都会执行"
+simulated_output = "hello\nworld"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出参数文本；引号控制 shell 展开"
+
+[[commands.tokens]]
+text = " \"hello\";"
+desc = "引号保护此参数中的空格或特殊符号；依次输出两个字符串，无论第一条是否成功，第二条都会执行"
+
+[[commands.tokens]]
+text = " echo"
+desc = "依次输出两个字符串，无论第一条是否成功，第二条都会执行；指定 echo"
+
+[[commands.tokens]]
+text = " \"world\""
+desc = "引号保护此参数中的空格或特殊符号；依次输出两个字符串，无论第一条是否成功，第二条都会执行"
+
+[commands.dictation]
+prompt = "依次输出两个字符串，无论第一条是否成功，第二条都会执行"
+answers = ["echo \"hello\"; echo \"world\""]
+
+[[commands]]
+id = "v04-ref-1f031c60cf"
+command = "mkdir newdir && cd newdir && pwd"
+summary = "创建目录成功后才进入该目录，进入成功后才打印路径。任何一步失败就会停止"
+simulated_output = "/home/ace/newdir"
+
+[[commands.tokens]]
+text = "mkdir"
+desc = "创建目录成功后才进入该目录，进入成功后才打印路径。任何一步失败就会停止"
+
+[[commands.tokens]]
+text = " newdir"
+desc = "创建目录成功后才进入该目录，进入成功后才打印路径。任何一步失败就会停止；指定 newdir"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " cd"
+desc = "创建目录成功后才进入该目录，进入成功后才打印路径。任何一步失败就会停止；指定 cd"
+
+[[commands.tokens]]
+text = " newdir"
+desc = "创建目录成功后才进入该目录，进入成功后才打印路径。任何一步失败就会停止；指定 newdir"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " pwd"
+desc = "创建目录成功后才进入该目录，进入成功后才打印路径。任何一步失败就会停止；指定 pwd"
+
+[commands.dictation]
+prompt = "创建目录成功后才进入该目录，进入成功后才打印路径。任何一步失败就会停止"
+answers = ["mkdir newdir && cd newdir && pwd"]
+
+[[commands]]
+id = "v04-ref-f7b6ee0c8e"
+command = "cd /nonexistent || echo \"目录不存在\""
+summary = "尝试进入一个不存在的目录，失败后执行 echo 输出提示信息"
+simulated_output = "bash: cd: /nonexistent: No such file or directory\n目录不存在"
+
+[[commands.tokens]]
+text = "cd"
+desc = "尝试进入一个不存在的目录，失败后执行 echo 输出提示信息"
+
+[[commands.tokens]]
+text = " /nonexistent"
+desc = "本次操作指定的路径：/nonexistent"
+
+[[commands.tokens]]
+text = " ||"
+desc = "仅当前一命令失败时执行下一命令"
+
+[[commands.tokens]]
+text = " echo"
+desc = "尝试进入一个不存在的目录，失败后执行 echo 输出提示信息；指定 echo"
+
+[[commands.tokens]]
+text = " \"目录不存在\""
+desc = "引号保护此参数中的空格或特殊符号；尝试进入一个不存在的目录，失败后执行 echo 输出提示信息"
+
+[commands.dictation]
+prompt = "尝试进入一个不存在的目录，失败后执行 echo 输出提示信息"
+answers = ["cd /nonexistent || echo \"目录不存在\""]
+
+[[commands]]
+id = "v04-ref-7dcc710e11"
+command = "sleep 100 &"
+summary = "将 sleep 命令放到后台执行，终端立即可用"
+simulated_output = "[1] 28456"
+
+[[commands.tokens]]
+text = "sleep"
+desc = "将 sleep 命令放到后台执行，终端立即可用"
+
+[[commands.tokens]]
+text = " 100"
+desc = "本次练习的数值参数 100；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " &"
+desc = "让前一命令在后台运行"
+
+[commands.dictation]
+prompt = "将 sleep 命令放到后台执行，终端立即可用"
+answers = ["sleep 100 &"]
+
+[[commands]]
+id = "v04-ref-bc4e985372"
+command = "echo hello # 这是一条注释"
+summary = "Shell 只执行 echo hello，# 后面的文字被当作注释忽略"
+simulated_output = "hello"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出参数文本；引号控制 shell 展开"
+
+[[commands.tokens]]
+text = " hello"
+desc = "Shell 只执行 echo hello，# 后面的文字被当作注释忽略；指定 hello"
+
+[[commands.tokens]]
+text = " #"
+desc = "Shell 只执行 echo hello，# 后面的文字被当作注释忽略；指定 #"
+
+[[commands.tokens]]
+text = " 这是一条注释"
+desc = "Shell 只执行 echo hello，# 后面的文字被当作注释忽略；指定 这是一条注释"
+
+[commands.dictation]
+prompt = "Shell 只执行 echo hello，# 后面的文字被当作注释忽略"
+answers = ["echo hello # 这是一条注释"]
+
+[[commands]]
+id = "v04-ref-63eeb676b1"
+command = ". ~/.bashrc"
+summary = "在当前 Shell 中重新加载 .bashrc 配置文件，使修改立即生效"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "."
+desc = "在当前 Shell 中重新加载 .bashrc 配置文件，使修改立即生效"
+
+[[commands.tokens]]
+text = " ~/.bashrc"
+desc = "本次操作指定的路径：~/.bashrc"
+
+[commands.dictation]
+prompt = "在当前 Shell 中重新加载 .bashrc 配置文件，使修改立即生效"
+answers = [". ~/.bashrc"]
+
+[[commands]]
+id = "v04-ref-521aa3cf1e"
+command = "echo \"${HOME}/docs\""
+summary = "在变量后拼接路径，花括号确保 Shell 正确识别变量名为 HOME"
+simulated_output = "/home/ace/docs"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出参数文本；引号控制 shell 展开"
+
+[[commands.tokens]]
+text = " \"${HOME}/docs\""
+desc = "引号保护此参数中的空格或特殊符号；在变量后拼接路径，花括号确保 Shell 正确识别变量名为 HOME"
+
+[commands.dictation]
+prompt = "在变量后拼接路径，花括号确保 Shell 正确识别变量名为 HOME"
+answers = ["echo \"${HOME}/docs\""]
+
+[[commands]]
+id = "v04-ref-dcf61be114"
+command = "ls /etc > /dev/null && echo $?"
+summary = "列出 /etc 目录（输出丢弃），然后显示退出码。ls 成功则输出 0"
+simulated_output = "0"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " /etc"
+desc = "本次操作指定的路径：/etc"
+
+[[commands.tokens]]
+text = " >"
+desc = "将标准输出写入目标并覆盖现有内容"
+
+[[commands.tokens]]
+text = " /dev/null"
+desc = "本次操作指定的路径：/dev/null"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " echo"
+desc = "列出 /etc 目录（输出丢弃），然后显示退出码。ls 成功则输出 0；指定 echo"
+
+[[commands.tokens]]
+text = " $?"
+desc = "列出 /etc 目录（输出丢弃），然后显示退出码。ls 成功则输出 0；指定 $?"
+
+[commands.dictation]
+prompt = "列出 /etc 目录（输出丢弃），然后显示退出码。ls 成功则输出 0"
+answers = ["ls /etc > /dev/null && echo $?"]
+
+[[commands]]
+id = "v04-ref-8e83434495"
+command = "bash -c 'echo $#' _ a b c"
+summary = "传入 a、b、c 三个参数（_ 是 $0 的占位符），$# 显示参数个数为 3"
+simulated_output = "3"
+
+[[commands.tokens]]
+text = "bash"
+desc = "传入 a、b、c 三个参数（_ 是 $0 的占位符），$# 显示参数个数为 3"
+
+[[commands.tokens]]
+text = " -c"
+desc = "传入 a、b、c 三个参数（_ 是 $0 的占位符），$# 显示参数个数为 3；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 'echo $#'"
+desc = "引号保护此参数中的空格或特殊符号；传入 a、b、c 三个参数（_ 是 $0 的占位符），$# 显示参数个数为 3"
+
+[[commands.tokens]]
+text = " _"
+desc = "传入 a、b、c 三个参数（_ 是 $0 的占位符），$# 显示参数个数为 3；指定 _"
+
+[[commands.tokens]]
+text = " a"
+desc = "传入 a、b、c 三个参数（_ 是 $0 的占位符），$# 显示参数个数为 3；指定 a"
+
+[[commands.tokens]]
+text = " b"
+desc = "传入 a、b、c 三个参数（_ 是 $0 的占位符），$# 显示参数个数为 3；指定 b"
+
+[[commands.tokens]]
+text = " c"
+desc = "传入 a、b、c 三个参数（_ 是 $0 的占位符），$# 显示参数个数为 3；指定 c"
+
+[commands.dictation]
+prompt = "传入 a、b、c 三个参数（_ 是 $0 的占位符），$# 显示参数个数为 3"
+answers = ["bash -c 'echo $#' _ a b c"]
+
+[[commands]]
+id = "v04-ref-65def0ea7d"
+command = "bash -c 'echo \"$@\"' _ hello world"
+summary = "显示所有传入的位置参数，每个参数保持独立"
+simulated_output = "hello world"
+
+[[commands.tokens]]
+text = "bash"
+desc = "显示所有传入的位置参数，每个参数保持独立"
+
+[[commands.tokens]]
+text = " -c"
+desc = "显示所有传入的位置参数，每个参数保持独立；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 'echo \"$@\"'"
+desc = "引号保护此参数中的空格或特殊符号；显示所有传入的位置参数，每个参数保持独立"
+
+[[commands.tokens]]
+text = " _"
+desc = "显示所有传入的位置参数，每个参数保持独立；指定 _"
+
+[[commands.tokens]]
+text = " hello"
+desc = "显示所有传入的位置参数，每个参数保持独立；指定 hello"
+
+[[commands.tokens]]
+text = " world"
+desc = "显示所有传入的位置参数，每个参数保持独立；指定 world"
+
+[commands.dictation]
+prompt = "显示所有传入的位置参数，每个参数保持独立"
+answers = ["bash -c 'echo \"$@\"' _ hello world"]
+
+[[commands]]
+id = "v04-ref-a5f78a681e"
+command = "echo $$"
+summary = "显示当前 Shell 进程的 PID"
+simulated_output = "28450"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出参数文本；引号控制 shell 展开"
+
+[[commands.tokens]]
+text = " $$"
+desc = "显示当前 Shell 进程的 PID；指定 $$"
+
+[commands.dictation]
+prompt = "显示当前 Shell 进程的 PID"
+answers = ["echo $$"]
+
+[[commands]]
+id = "v04-ref-08aee02fbd"
+command = "sleep 100 & echo $!"
+summary = "将 sleep 命令放入后台运行，立即显示其 PID"
+simulated_output = "[1] 31592\n31592"
+
+[[commands.tokens]]
+text = "sleep"
+desc = "将 sleep 命令放入后台运行，立即显示其 PID"
+
+[[commands.tokens]]
+text = " 100"
+desc = "本次练习的数值参数 100；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " &"
+desc = "让前一命令在后台运行"
+
+[[commands.tokens]]
+text = " echo"
+desc = "将 sleep 命令放入后台运行，立即显示其 PID；指定 echo"
+
+[[commands.tokens]]
+text = " $!"
+desc = "将 sleep 命令放入后台运行，立即显示其 PID；指定 $!"
+
+[commands.dictation]
+prompt = "将 sleep 命令放入后台运行，立即显示其 PID"
+answers = ["sleep 100 & echo $!"]
+
+[[commands]]
+id = "v04-ref-0270db571e"
+command = "ls *.txt"
+summary = "列出当前目录下所有 .txt 文件"
+simulated_output = "notes.txt  readme.txt  todo.txt"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " *.txt"
+desc = "列出当前目录下所有 .txt 文件；指定 *.txt"
+
+[commands.dictation]
+prompt = "列出当前目录下所有 .txt 文件"
+answers = ["ls *.txt"]
+
+[[commands]]
+id = "v04-ref-2a70e392fd"
+command = "ls file?.txt"
+summary = "列出文件名为 file 加恰好一个字符再加 .txt 的文件"
+simulated_output = "file1.txt  file2.txt  fileA.txt"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " file?.txt"
+desc = "列出文件名为 file 加恰好一个字符再加 .txt 的文件；指定 file?.txt"
+
+[commands.dictation]
+prompt = "列出文件名为 file 加恰好一个字符再加 .txt 的文件"
+answers = ["ls file?.txt"]
+
+[[commands]]
+id = "v04-ref-91d8bd9a48"
+command = "ls file[0-9].txt"
+summary = "列出 file0.txt 到 file9.txt 之间存在的文件"
+simulated_output = "file1.txt  file3.txt  file7.txt"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " file[0-9].txt"
+desc = "列出 file0.txt 到 file9.txt 之间存在的文件；指定 file[0-9].txt"
+
+[commands.dictation]
+prompt = "列出 file0.txt 到 file9.txt 之间存在的文件"
+answers = ["ls file[0-9].txt"]
+
+[[commands]]
+id = "v04-ref-67301e1535"
+command = "echo {1..5}"
+summary = "使用序列表达式生成 1 到 5 的数字序列"
+simulated_output = "1 2 3 4 5"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出参数文本；引号控制 shell 展开"
+
+[[commands.tokens]]
+text = " {1..5}"
+desc = "使用序列表达式生成 1 到 5 的数字序列；指定 {1..5}"
+
+[commands.dictation]
+prompt = "使用序列表达式生成 1 到 5 的数字序列"
+answers = ["echo {1..5}"]
+
+[[commands]]
+id = "v04-ref-c3ffaf1554"
+command = "(mode=safe; [ \"$mode\" = \"safe\" ] && printf 'safe\\n')"
+summary = "在子 shell 中先把 mode 固定为 safe，再比较字符串；不依赖调用者环境"
+simulated_output = "safe"
+
+[[commands.tokens]]
+text = "(mode=safe;"
+desc = "在子 shell 中先把 mode 固定为 safe，再比较字符串；不依赖调用者环境"
+
+[[commands.tokens]]
+text = " ["
+desc = "在子 shell 中先把 mode 固定为 safe，再比较字符串；不依赖调用者环境；指定 ["
+
+[[commands.tokens]]
+text = " \"$mode\""
+desc = "引号保护此参数中的空格或特殊符号；在子 shell 中先把 mode 固定为 safe，再比较字符串；不依赖调用者环境"
+
+[[commands.tokens]]
+text = " ="
+desc = "在子 shell 中先把 mode 固定为 safe，再比较字符串；不依赖调用者环境；指定 ="
+
+[[commands.tokens]]
+text = " \"safe\""
+desc = "引号保护此参数中的空格或特殊符号；在子 shell 中先把 mode 固定为 safe，再比较字符串；不依赖调用者环境"
+
+[[commands.tokens]]
+text = " ]"
+desc = "在子 shell 中先把 mode 固定为 safe，再比较字符串；不依赖调用者环境；指定 ]"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "在子 shell 中先把 mode 固定为 safe，再比较字符串；不依赖调用者环境；指定 printf"
+
+[[commands.tokens]]
+text = " 'safe\\n')"
+desc = "引号保护此参数中的空格或特殊符号；在子 shell 中先把 mode 固定为 safe，再比较字符串；不依赖调用者环境"
+
+[commands.dictation]
+prompt = "在子 shell 中先把 mode 固定为 safe，再比较字符串；不依赖调用者环境"
+answers = ["(mode=safe; [ \"$mode\" = \"safe\" ] && printf 'safe\\n')"]
+
+[[commands]]
+id = "v04-ref-b8a48f9f4b"
+command = "(name=server.log; [[ $name == *.log ]] && printf 'log file\\n')"
+summary = "在子 shell 中先设置 server.log，再用未加引号的 *.log 模式匹配"
+simulated_output = "log file"
+
+[[commands.tokens]]
+text = "(name=server.log;"
+desc = "在子 shell 中先设置 server.log，再用未加引号的 *.log 模式匹配"
+
+[[commands.tokens]]
+text = " [["
+desc = "在子 shell 中先设置 server.log，再用未加引号的 *.log 模式匹配；指定 [["
+
+[[commands.tokens]]
+text = " $name"
+desc = "在子 shell 中先设置 server.log，再用未加引号的 *.log 模式匹配；指定 $name"
+
+[[commands.tokens]]
+text = " =="
+desc = "在子 shell 中先设置 server.log，再用未加引号的 *.log 模式匹配；指定 =="
+
+[[commands.tokens]]
+text = " *.log"
+desc = "在子 shell 中先设置 server.log，再用未加引号的 *.log 模式匹配；指定 *.log"
+
+[[commands.tokens]]
+text = " ]]"
+desc = "在子 shell 中先设置 server.log，再用未加引号的 *.log 模式匹配；指定 ]]"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "在子 shell 中先设置 server.log，再用未加引号的 *.log 模式匹配；指定 printf"
+
+[[commands.tokens]]
+text = " 'log file\\n')"
+desc = "引号保护此参数中的空格或特殊符号；在子 shell 中先设置 server.log，再用未加引号的 *.log 模式匹配"
+
+[commands.dictation]
+prompt = "在子 shell 中先设置 server.log，再用未加引号的 *.log 模式匹配"
+answers = ["(name=server.log; [[ $name == *.log ]] && printf 'log file\\n')"]
+
+[[commands]]
+id = "v04-ref-581d05315b"
+command = "[ -z \"$optional_tag\" ] && printf 'tag missing\\n'"
+summary = "变量为空时输出提示，不把空值误当成缺失参数"
+simulated_output = "tag missing"
+
+[[commands.tokens]]
+text = "["
+desc = "变量为空时输出提示，不把空值误当成缺失参数"
+
+[[commands.tokens]]
+text = " -z"
+desc = "变量为空时输出提示，不把空值误当成缺失参数；此处使用 -z 选项"
+
+[[commands.tokens]]
+text = " \"$optional_tag\""
+desc = "引号保护此参数中的空格或特殊符号；变量为空时输出提示，不把空值误当成缺失参数"
+
+[[commands.tokens]]
+text = " ]"
+desc = "变量为空时输出提示，不把空值误当成缺失参数；指定 ]"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "变量为空时输出提示，不把空值误当成缺失参数；指定 printf"
+
+[[commands.tokens]]
+text = " 'tag missing\\n'"
+desc = "引号保护此参数中的空格或特殊符号；变量为空时输出提示，不把空值误当成缺失参数"
+
+[commands.dictation]
+prompt = "变量为空时输出提示，不把空值误当成缺失参数"
+answers = ["[ -z \"$optional_tag\" ] && printf 'tag missing\\n'"]
+
+[[commands]]
+id = "v04-ref-501d51f219"
+command = "(retries=3; [ \"$retries\" -ge 3 ] && printf 'retry limit reached\\n')"
+summary = "在子 shell 中先设置整数 3，再判断是否达到重试上限"
+simulated_output = "retry limit reached"
+
+[[commands.tokens]]
+text = "(retries=3;"
+desc = "在子 shell 中先设置整数 3，再判断是否达到重试上限"
+
+[[commands.tokens]]
+text = " ["
+desc = "在子 shell 中先设置整数 3，再判断是否达到重试上限；指定 ["
+
+[[commands.tokens]]
+text = " \"$retries\""
+desc = "引号保护此参数中的空格或特殊符号；在子 shell 中先设置整数 3，再判断是否达到重试上限"
+
+[[commands.tokens]]
+text = " -ge"
+desc = "在子 shell 中先设置整数 3，再判断是否达到重试上限；此处使用 -ge 选项"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ]"
+desc = "在子 shell 中先设置整数 3，再判断是否达到重试上限；指定 ]"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "在子 shell 中先设置整数 3，再判断是否达到重试上限；指定 printf"
+
+[[commands.tokens]]
+text = " 'retry limit reached\\n')"
+desc = "引号保护此参数中的空格或特殊符号；在子 shell 中先设置整数 3，再判断是否达到重试上限"
+
+[commands.dictation]
+prompt = "在子 shell 中先设置整数 3，再判断是否达到重试上限"
+answers = ["(retries=3; [ \"$retries\" -ge 3 ] && printf 'retry limit reached\\n')"]
+
+[[commands]]
+id = "v04-ref-5086b97528"
+command = "test -f report.txt && test -r report.txt && printf 'ready to inspect\\n'"
+summary = "先验证普通文件，再验证可读，最后才输出安全观察提示"
+simulated_output = "ready to inspect"
+
+[[commands.tokens]]
+text = "test"
+desc = "先验证普通文件，再验证可读，最后才输出安全观察提示"
+
+[[commands.tokens]]
+text = " -f"
+desc = "先验证普通文件，再验证可读，最后才输出安全观察提示；此处使用 -f 选项"
+
+[[commands.tokens]]
+text = " report.txt"
+desc = "先验证普通文件，再验证可读，最后才输出安全观察提示；指定 report.txt"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " test"
+desc = "先验证普通文件，再验证可读，最后才输出安全观察提示；指定 test"
+
+[[commands.tokens]]
+text = " -r"
+desc = "先验证普通文件，再验证可读，最后才输出安全观察提示；此处使用 -r 选项"
+
+[[commands.tokens]]
+text = " report.txt"
+desc = "先验证普通文件，再验证可读，最后才输出安全观察提示；指定 report.txt"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "先验证普通文件，再验证可读，最后才输出安全观察提示；指定 printf"
+
+[[commands.tokens]]
+text = " 'ready to inspect\\n'"
+desc = "引号保护此参数中的空格或特殊符号；先验证普通文件，再验证可读，最后才输出安全观察提示"
+
+[commands.dictation]
+prompt = "先验证普通文件，再验证可读，最后才输出安全观察提示"
+answers = ["test -f report.txt && test -r report.txt && printf 'ready to inspect\\n'"]
+
+[[commands]]
+id = "v04-ref-3cc3178b14"
+command = "test -f settings.ini || printf 'settings missing\\n'"
+summary = "文件不存在时只报告状态，不创建或修改任何内容"
+simulated_output = "settings missing"
+
+[[commands.tokens]]
+text = "test"
+desc = "文件不存在时只报告状态，不创建或修改任何内容"
+
+[[commands.tokens]]
+text = " -f"
+desc = "文件不存在时只报告状态，不创建或修改任何内容；此处使用 -f 选项"
+
+[[commands.tokens]]
+text = " settings.ini"
+desc = "文件不存在时只报告状态，不创建或修改任何内容；指定 settings.ini"
+
+[[commands.tokens]]
+text = " ||"
+desc = "仅当前一命令失败时执行下一命令"
+
+[[commands.tokens]]
+text = " printf"
+desc = "文件不存在时只报告状态，不创建或修改任何内容；指定 printf"
+
+[[commands.tokens]]
+text = " 'settings missing\\n'"
+desc = "引号保护此参数中的空格或特殊符号；文件不存在时只报告状态，不创建或修改任何内容"
+
+[commands.dictation]
+prompt = "文件不存在时只报告状态，不创建或修改任何内容"
+answers = ["test -f settings.ini || printf 'settings missing\\n'"]
+
+[[commands]]
+id = "v04-ref-f94cc8e780"
+command = "( cd /srv/app && pwd ); pwd"
+summary = "括号内观察 /srv/app，离开子 Shell 后外层工作目录仍保持原值"
+simulated_output = "/srv/app\n/home/ace"
+
+[[commands.tokens]]
+text = "("
+desc = "括号内观察 /srv/app，离开子 Shell 后外层工作目录仍保持原值"
+
+[[commands.tokens]]
+text = " cd"
+desc = "括号内观察 /srv/app，离开子 Shell 后外层工作目录仍保持原值；指定 cd"
+
+[[commands.tokens]]
+text = " /srv/app"
+desc = "本次操作指定的路径：/srv/app"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " pwd"
+desc = "括号内观察 /srv/app，离开子 Shell 后外层工作目录仍保持原值；指定 pwd"
+
+[[commands.tokens]]
+text = " );"
+desc = "括号内观察 /srv/app，离开子 Shell 后外层工作目录仍保持原值；指定 );"
+
+[[commands.tokens]]
+text = " pwd"
+desc = "括号内观察 /srv/app，离开子 Shell 后外层工作目录仍保持原值；指定 pwd"
+
+[commands.dictation]
+prompt = "括号内观察 /srv/app，离开子 Shell 后外层工作目录仍保持原值"
+answers = ["( cd /srv/app && pwd ); pwd"]
+
+[[commands]]
+id = "v04-ref-413a44bd48"
+command = "{ printf 'alpha\\n'; printf 'beta\\n'; }"
+summary = "两条 printf 在当前 Shell 中组成一个逻辑单元"
+simulated_output = "alpha\nbeta"
+
+[[commands.tokens]]
+text = "{"
+desc = "两条 printf 在当前 Shell 中组成一个逻辑单元"
+
+[[commands.tokens]]
+text = " printf"
+desc = "两条 printf 在当前 Shell 中组成一个逻辑单元；指定 printf"
+
+[[commands.tokens]]
+text = " 'alpha\\n';"
+desc = "引号保护此参数中的空格或特殊符号；两条 printf 在当前 Shell 中组成一个逻辑单元"
+
+[[commands.tokens]]
+text = " printf"
+desc = "两条 printf 在当前 Shell 中组成一个逻辑单元；指定 printf"
+
+[[commands.tokens]]
+text = " 'beta\\n';"
+desc = "引号保护此参数中的空格或特殊符号；两条 printf 在当前 Shell 中组成一个逻辑单元"
+
+[[commands.tokens]]
+text = " }"
+desc = "两条 printf 在当前 Shell 中组成一个逻辑单元；指定 }"
+
+[commands.dictation]
+prompt = "两条 printf 在当前 Shell 中组成一个逻辑单元"
+answers = ["{ printf 'alpha\\n'; printf 'beta\\n'; }"]
+
+[[commands]]
+id = "v04-ref-f677d62425"
+command = "printf 'cpus=%s\\n' \"$(nproc)\""
+summary = "命令替换先得到 CPU 数量，双引号让结果保持为单个参数"
+simulated_output = "cpus=8"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'cpus=%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；命令替换先得到 CPU 数量，双引号让结果保持为单个参数"
+
+[[commands.tokens]]
+text = " \"$(nproc)\""
+desc = "引号保护此参数中的空格或特殊符号；命令替换先得到 CPU 数量，双引号让结果保持为单个参数"
+
+[commands.dictation]
+prompt = "命令替换先得到 CPU 数量，双引号让结果保持为单个参数"
+answers = ["printf 'cpus=%s\\n' \"$(nproc)\""]
+
+[[commands]]
+id = "v04-ref-86b9d22b16"
+command = "base=report; printf '%s\\n' \"${base}_old\""
+summary = "花括号明确变量名为 base，后缀 _old 保持字面含义"
+simulated_output = "report_old"
+
+[[commands.tokens]]
+text = "base=report;"
+desc = "花括号明确变量名为 base，后缀 _old 保持字面含义"
+
+[[commands.tokens]]
+text = " printf"
+desc = "花括号明确变量名为 base，后缀 _old 保持字面含义；指定 printf"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；花括号明确变量名为 base，后缀 _old 保持字面含义"
+
+[[commands.tokens]]
+text = " \"${base}_old\""
+desc = "引号保护此参数中的空格或特殊符号；花括号明确变量名为 base，后缀 _old 保持字面含义"
+
+[commands.dictation]
+prompt = "花括号明确变量名为 base，后缀 _old 保持字面含义"
+answers = ["base=report; printf '%s\\n' \"${base}_old\""]
+
+[[commands]]
+id = "v04-ref-23f5fea60a"
+command = "printf '%s\\n' \"${APP_MODE:-development}\""
+summary = "APP_MODE 缺失或为空时只使用默认文本 development"
+simulated_output = "development"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；APP_MODE 缺失或为空时只使用默认文本 development"
+
+[[commands.tokens]]
+text = " \"${APP_MODE:-development}\""
+desc = "引号保护此参数中的空格或特殊符号；APP_MODE 缺失或为空时只使用默认文本 development"
+
+[commands.dictation]
+prompt = "APP_MODE 缺失或为空时只使用默认文本 development"
+answers = ["printf '%s\\n' \"${APP_MODE:-development}\""]
+
+[[commands]]
+id = "v04-ref-2ad04d2200"
+command = "printf '%s\\n' report.{txt,csv}"
+summary = "先生成 report.txt 与 report.csv 两个参数"
+simulated_output = "report.txt\nreport.csv"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；先生成 report.txt 与 report.csv 两个参数"
+
+[[commands.tokens]]
+text = " report.{txt,csv}"
+desc = "先生成 report.txt 与 report.csv 两个参数；指定 report.{txt,csv}"
+
+[commands.dictation]
+prompt = "先生成 report.txt 与 report.csv 两个参数"
+answers = ["printf '%s\\n' report.{txt,csv}"]
+
+[[commands]]
+id = "v04-ref-ec57f57844"
+command = "items='alpha beta'; printf '<%s>\\n' \"$items\""
+summary = "双引号让包含空格的值作为一个参数传给 printf"
+simulated_output = "<alpha beta>"
+
+[[commands.tokens]]
+text = "items='alpha beta';"
+desc = "双引号让包含空格的值作为一个参数传给 printf"
+
+[[commands.tokens]]
+text = " printf"
+desc = "双引号让包含空格的值作为一个参数传给 printf；指定 printf"
+
+[[commands.tokens]]
+text = " '<%s>\\n'"
+desc = "引号保护此参数中的空格或特殊符号；双引号让包含空格的值作为一个参数传给 printf"
+
+[[commands.tokens]]
+text = " \"$items\""
+desc = "引号保护此参数中的空格或特殊符号；双引号让包含空格的值作为一个参数传给 printf"
+
+[commands.dictation]
+prompt = "双引号让包含空格的值作为一个参数传给 printf"
+answers = ["items='alpha beta'; printf '<%s>\\n' \"$items\""]
+
+[[commands]]
+id = "v04-ref-47bb0ffc73"
+command = "cat ~/.bashrc | head -20"
+summary = "查看 ~/.bashrc 前 20 行内容"
+simulated_output = "# ~/.bashrc: executed by bash(1) for non-login shells.\n# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)\n# for examples\n\n# If not running interactively, don't do anything\ncase $- in\n    *i*) ;;\n      *) return;;\nesac\n\n# don't put duplicate lines or lines starting with space in the history.\nHISTCONTROL=ignoreboth\n\n# append to the history file, don't overwrite it\nshopt -s histappend\n\n# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)\nHISTSIZE=1000\nHISTFILESIZE=2000"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " ~/.bashrc"
+desc = "本次操作指定的路径：~/.bashrc"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "查看 ~/.bashrc 前 20 行内容；指定 head"
+
+[[commands.tokens]]
+text = " -20"
+desc = "查看 ~/.bashrc 前 20 行内容；此处使用 -20 选项"
+
+[commands.dictation]
+prompt = "查看 ~/.bashrc 前 20 行内容"
+answers = ["cat ~/.bashrc | head -20"]
+
+[[commands]]
+id = "v04-ref-2fffdcd4d7"
+command = "echo $PS1"
+summary = "显示当前命令提示符格式字符串"
+simulated_output = "\\\\u@\\\\h:\\\\w\\\\$"
+
+[[commands.tokens]]
+text = "echo"
+desc = "输出参数文本；引号控制 shell 展开"
+
+[[commands.tokens]]
+text = " $PS1"
+desc = "显示当前命令提示符格式字符串；指定 $PS1"
+
+[commands.dictation]
+prompt = "显示当前命令提示符格式字符串"
+answers = ["echo $PS1"]
+
+[[commands]]
+id = "v04-ref-6c864869bf"
+command = "cat /etc/ssh/sshd_config | grep -v '^#' | grep -v '^$'"
+summary = "查看 SSH 主配置中非空且不以 # 开头的行；此过滤不解析 Include、Match、缩进注释或默认值"
+simulated_output = "Include /etc/ssh/sshd_config.d/*.conf\nPort 22\nAddressFamily any\nListenAddress 0.0.0.0\nPermitRootLogin yes\nMaxAuthTries 6\nPubkeyAuthentication yes\nPasswordAuthentication yes\nChallengeResponseAuthentication no\nUsePAM yes\nX11Forwarding yes\nPrintMotd no\nAcceptEnv LANG LC_*\nSubsystem sftp /usr/lib/openssh/sftp-server"
+
+[[commands.tokens]]
+text = "cat"
+desc = "查看 SSH 主配置中非空且不以 # 开头的行；此过滤不解析 Include、Match、缩进注释或默认值"
+
+[[commands.tokens]]
+text = " /etc/ssh/sshd_config"
+desc = "查看 SSH 主配置中非空且不以 # 开头的行；此过滤不解析 Include、Match、缩进注释或默认值"
+
+[[commands.tokens]]
+text = " |"
+desc = "查看 SSH 主配置中非空且不以 # 开头的行；此过滤不解析 Include、Match、缩进注释或默认值"
+
+[[commands.tokens]]
+text = " grep"
+desc = "查看 SSH 主配置中非空且不以 # 开头的行；此过滤不解析 Include、Match、缩进注释或默认值"
+
+[[commands.tokens]]
+text = " -v"
+desc = "查看 SSH 主配置中非空且不以 # 开头的行；此过滤不解析 Include、Match、缩进注释或默认值"
+
+[[commands.tokens]]
+text = " '^#'"
+desc = "查看 SSH 主配置中非空且不以 # 开头的行；此过滤不解析 Include、Match、缩进注释或默认值"
+
+[[commands.tokens]]
+text = " |"
+desc = "查看 SSH 主配置中非空且不以 # 开头的行；此过滤不解析 Include、Match、缩进注释或默认值"
+
+[[commands.tokens]]
+text = " grep"
+desc = "查看 SSH 主配置中非空且不以 # 开头的行；此过滤不解析 Include、Match、缩进注释或默认值"
+
+[[commands.tokens]]
+text = " -v"
+desc = "查看 SSH 主配置中非空且不以 # 开头的行；此过滤不解析 Include、Match、缩进注释或默认值"
+
+[[commands.tokens]]
+text = " '^$'"
+desc = "查看 SSH 主配置中非空且不以 # 开头的行；此过滤不解析 Include、Match、缩进注释或默认值"
+
+[commands.dictation]
+prompt = "查看 SSH 主配置中非空且不以 # 开头的行；此过滤不解析 Include、Match、缩进注释或默认值"
+answers = ["cat /etc/ssh/sshd_config | grep -v '^#' | grep -v '^$'"]
+
+[[commands]]
+id = "v04-ref-2a52697223"
+command = "sudo systemctl status sshd"
+summary = "查看 SSH 服务的运行状态"
+simulated_output = "● ssh.service - OpenBSD Secure Shell server\n     Loaded: loaded (/usr/lib/systemd/system/ssh.service; enabled; preset: enabled)\n     Active: active (running) since Mon 2026-03-09 08:15:32 CST; 6h ago\n       Docs: man:sshd(8)\n             man:sshd_config(5)\n   Main PID: 924 (sshd)\n      Tasks: 1 (limit: 4614)\n     Memory: 3.2M (peak: 4.8M)\n        CPU: 125ms\n     CGroup: /system.slice/ssh.service\n             └─924 \"sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups\" "
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " status"
+desc = "查看 SSH 服务的运行状态；指定 status"
+
+[[commands.tokens]]
+text = " sshd"
+desc = "查看 SSH 服务的运行状态；指定 sshd"
+
+[commands.dictation]
+prompt = "查看 SSH 服务的运行状态"
+answers = ["sudo systemctl status sshd"]
+
+[[commands]]
+id = "v04-ref-d526cdf4cc"
+command = "cat /etc/nginx/sites-available/default | head -30"
+summary = "查看默认站点配置前 30 行"
+simulated_output = "##\n# You should look at the following URL's in order to grasp a solid understanding\n# of Nginx configuration files in order to fully unleash the power of Nginx.\n# https://www.nginx.com/resources/wiki/start/\n##\n\nserver {\n    listen 80 default_server;\n    listen [::]:80 default_server;\n\n    root /var/www/html;\n\n    index index.html index.htm index.nginx-debian.html;\n\n    server_name _;\n\n    location / {\n        try_files $uri $uri/ =404;\n    }\n}"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /etc/nginx/sites-available/default"
+desc = "本次操作指定的路径：/etc/nginx/sites-available/default"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "查看默认站点配置前 30 行；指定 head"
+
+[[commands.tokens]]
+text = " -30"
+desc = "查看默认站点配置前 30 行；此处使用 -30 选项"
+
+[commands.dictation]
+prompt = "查看默认站点配置前 30 行"
+answers = ["cat /etc/nginx/sites-available/default | head -30"]
+
+[[commands]]
+id = "v04-ref-34415115a3"
+command = "cat /etc/fstab"
+summary = "查看当前文件系统挂载配置表"
+simulated_output = "# /etc/fstab: static file system information.\n#\n# Use 'blkid' to print the universally unique identifier for a\n# device; this may be used with UUID= as a more robust way to name devices\n# that works even if disks are added and removed. See fstab(5).\n#\n# <file system>                            <mount point>  <type>  <options>        <dump>  <pass>\nUUID=a1b2c3d4-e5f6-7890-abcd-ef1234567890 /              ext4    errors=remount-ro 0       1\nUUID=b2c3d4e5-f6a7-8901-bcde-f12345678901 /boot          ext4    defaults          0       2\nUUID=c3d4e5f6-a7b8-9012-cdef-123456789012 none           swap    sw                0       0\ntmpfs                                      /tmp           tmpfs   defaults,noatime  0       0"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /etc/fstab"
+desc = "本次操作指定的路径：/etc/fstab"
+
+[commands.dictation]
+prompt = "查看当前文件系统挂载配置表"
+answers = ["cat /etc/fstab"]
+
+[[commands]]
+id = "v04-ref-fd006d662d"
+command = "mount | head -10"
+summary = "查看当前已挂载的文件系统（前 10 行）"
+simulated_output = "sysfs on /sys type sysfs (rw,nosuid,nodev,noexec,relatime)\nproc on /proc type proc (rw,nosuid,nodev,noexec,relatime)\nudev on /dev type devtmpfs (rw,nosuid,relatime,size=1985400k,nr_inodes=496350,mode=755)\ndevpts on /dev/pts type devpts (rw,nosuid,noexec,relatime,gid=5,mode=620,ptmxmode=000)\ntmpfs on /run type tmpfs (rw,nosuid,nodev,noexec,relatime,size=401260k,mode=755)\n/dev/sda2 on / type ext4 (rw,relatime,errors=remount-ro)\n/dev/sda1 on /boot type ext4 (rw,relatime)\ntmpfs on /tmp type tmpfs (rw,noatime)\ntmpfs on /dev/shm type tmpfs (rw,nosuid,nodev)\ntmpfs on /run/lock type tmpfs (rw,nosuid,nodev,noexec,relatime,size=5120k)"
+
+[[commands.tokens]]
+text = "mount"
+desc = "查看当前已挂载的文件系统（前 10 行）"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "查看当前已挂载的文件系统（前 10 行）；指定 head"
+
+[[commands.tokens]]
+text = " -10"
+desc = "查看当前已挂载的文件系统（前 10 行）；此处使用 -10 选项"
+
+[commands.dictation]
+prompt = "查看当前已挂载的文件系统（前 10 行）"
+answers = ["mount | head -10"]
+
+[[commands]]
+id = "v04-ref-c8ae6b6b9a"
+command = "ls /etc/ | head -20"
+summary = "列出 /etc 目录下的前 20 个文件和子目录"
+simulated_output = "adduser.conf\nalternatives\napache2\napparmor\napparmor.d\napt\nbash.bashrc\nbash_completion.d\nbindresvport.blacklist\nca-certificates\nca-certificates.conf\ncron.d\ncron.daily\ncrontab\ndbus-1\ndefault\ndeluser.conf\ndhcp\ndpkg\nenvironment"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " /etc/"
+desc = "本次操作指定的路径：/etc/"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "列出 /etc 目录下的前 20 个文件和子目录；指定 head"
+
+[[commands.tokens]]
+text = " -20"
+desc = "列出 /etc 目录下的前 20 个文件和子目录；此处使用 -20 选项"
+
+[commands.dictation]
+prompt = "列出 /etc 目录下的前 20 个文件和子目录"
+answers = ["ls /etc/ | head -20"]
+
+[[commands]]
+id = "v04-ref-eb3714c8a8"
+command = "ls -la /etc/ssh/"
+summary = "查看 SSH 配置目录的详细内容"
+simulated_output = "total 620\ndrwxr-xr-x   4 root root   4096 Jan 15 10:23 .\ndrwxr-xr-x 135 root root  12288 Mar  8 09:15 ..\n-rw-r--r--   1 root root 535195 Dec 19 08:30 moduli\n-rw-r--r--   1 root root   1650 Dec 19 08:30 ssh_config\ndrwxr-xr-x   2 root root   4096 Dec 19 08:30 ssh_config.d\n-rw-------   1 root root   1381 Jan 15 10:23 ssh_host_ecdsa_key\n-rw-r--r--   1 root root    473 Jan 15 10:23 ssh_host_ecdsa_key.pub\n-rw-------   1 root root    411 Jan 15 10:23 ssh_host_ed25519_key\n-rw-r--r--   1 root root     93 Jan 15 10:23 ssh_host_ed25519_key.pub\n-rw-------   1 root root   2602 Jan 15 10:23 ssh_host_rsa_key\n-rw-r--r--   1 root root    565 Jan 15 10:23 ssh_host_rsa_key.pub\n-rw-r--r--   1 root root   3277 Dec 19 08:30 sshd_config\ndrwxr-xr-x   2 root root   4096 Dec 19 08:30 sshd_config.d"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " -la"
+desc = "查看 SSH 配置目录的详细内容；此处使用 -la 选项"
+
+[[commands.tokens]]
+text = " /etc/ssh/"
+desc = "本次操作指定的路径：/etc/ssh/"
+
+[commands.dictation]
+prompt = "查看 SSH 配置目录的详细内容"
+answers = ["ls -la /etc/ssh/"]
+
+[[commands]]
+id = "v04-ref-c8e8350489"
+command = "file /etc/hostname"
+summary = "查看 /etc/hostname 的文件类型"
+simulated_output = "/etc/hostname: ASCII text"
+
+[[commands.tokens]]
+text = "file"
+desc = "查看 /etc/hostname 的文件类型"
+
+[[commands.tokens]]
+text = " /etc/hostname"
+desc = "本次操作指定的路径：/etc/hostname"
+
+[commands.dictation]
+prompt = "查看 /etc/hostname 的文件类型"
+answers = ["file /etc/hostname"]
+
+[[commands]]
+id = "v04-ref-0bbda2194a"
+command = "ls /var/"
+summary = "列出 /var 目录下的所有子目录"
+simulated_output = "backups\ncache\ncrash\nlib\nlocal\nlock\nlog\nmail\nopt\nrun\nsnap\nspool\ntmp"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " /var/"
+desc = "本次操作指定的路径：/var/"
+
+[commands.dictation]
+prompt = "列出 /var 目录下的所有子目录"
+answers = ["ls /var/"]
+
+[[commands]]
+id = "v04-ref-caa407deeb"
+command = "du -sh /var/log/* | sort -rh | head -5"
+summary = "按大小排序显示 /var/log 下最大的 5 个日志文件或目录"
+simulated_output = "245M\t/var/log/journal\n 38M\t/var/log/syslog.1\n 22M\t/var/log/kern.log.1\n 15M\t/var/log/auth.log.1\n 12M\t/var/log/apt"
+
+[[commands.tokens]]
+text = "du"
+desc = "按大小排序显示 /var/log 下最大的 5 个日志文件或目录"
+
+[[commands.tokens]]
+text = " -sh"
+desc = "按大小排序显示 /var/log 下最大的 5 个日志文件或目录；此处使用 -sh 选项"
+
+[[commands.tokens]]
+text = " /var/log/*"
+desc = "本次操作指定的路径：/var/log/*"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " sort"
+desc = "按大小排序显示 /var/log 下最大的 5 个日志文件或目录；指定 sort"
+
+[[commands.tokens]]
+text = " -rh"
+desc = "按大小排序显示 /var/log 下最大的 5 个日志文件或目录；此处使用 -rh 选项"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "按大小排序显示 /var/log 下最大的 5 个日志文件或目录；指定 head"
+
+[[commands.tokens]]
+text = " -5"
+desc = "按大小排序显示 /var/log 下最大的 5 个日志文件或目录；此处使用 -5 选项"
+
+[commands.dictation]
+prompt = "按大小排序显示 /var/log 下最大的 5 个日志文件或目录"
+answers = ["du -sh /var/log/* | sort -rh | head -5"]
+
+[[commands]]
+id = "v04-ref-3f7d03fad0"
+command = "ls -lt /var/log/ | head -10"
+summary = "按修改时间排序显示最近更新的日志文件"
+simulated_output = "total 12648\n-rw-r-----  1 syslog adm    853624 Mar  9 14:30 syslog\n-rw-r-----  1 syslog adm    125847 Mar  9 14:30 auth.log\n-rw-r-----  1 syslog adm     98432 Mar  9 14:28 kern.log\n-rw-r--r--  1 root   root    64521 Mar  9 12:15 dpkg.log\n-rw-r--r--  1 root   root    32148 Mar  9 10:42 alternatives.log\ndrwxr-xr-x  2 root   root     4096 Mar  9 00:00 apt\n-rw-r-----  1 syslog adm   3982156 Mar  8 23:59 syslog.1\n-rw-r-----  1 syslog adm   2245871 Mar  8 23:59 auth.log.1\ndrwxr-x---  3 root   adm      4096 Mar  8 00:00 journal"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " -lt"
+desc = "按修改时间排序显示最近更新的日志文件；此处使用 -lt 选项"
+
+[[commands.tokens]]
+text = " /var/log/"
+desc = "本次操作指定的路径：/var/log/"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "按修改时间排序显示最近更新的日志文件；指定 head"
+
+[[commands.tokens]]
+text = " -10"
+desc = "按修改时间排序显示最近更新的日志文件；此处使用 -10 选项"
+
+[commands.dictation]
+prompt = "按修改时间排序显示最近更新的日志文件"
+answers = ["ls -lt /var/log/ | head -10"]
+
+[[commands]]
+id = "v04-ref-c8ed0da80d"
+command = "ls /usr/"
+summary = "列出 /usr 目录下的子目录"
+simulated_output = "bin\ngames\ninclude\nlib\nlib32\nlib64\nlibexec\nlibx32\nlocal\nsbin\nshare\nsrc"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " /usr/"
+desc = "本次操作指定的路径：/usr/"
+
+[commands.dictation]
+prompt = "列出 /usr 目录下的子目录"
+answers = ["ls /usr/"]
+
+[[commands]]
+id = "v04-ref-04c9f310e0"
+command = "ls /usr/bin/ | wc -l"
+summary = "统计 /usr/bin 下的命令数量"
+simulated_output = "2847"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " /usr/bin/"
+desc = "本次操作指定的路径：/usr/bin/"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " wc"
+desc = "统计 /usr/bin 下的命令数量；指定 wc"
+
+[[commands.tokens]]
+text = " -l"
+desc = "统计 /usr/bin 下的命令数量；此处使用 -l 选项"
+
+[commands.dictation]
+prompt = "统计 /usr/bin 下的命令数量"
+answers = ["ls /usr/bin/ | wc -l"]
+
+[[commands]]
+id = "v04-ref-d3da986856"
+command = "ls /usr/share/doc/ | head -10"
+summary = "列出 /usr/share/doc 下前 10 个软件包的文档目录"
+simulated_output = "adduser\napt\nbase-files\nbase-passwd\nbash\nbsdutils\nca-certificates\ncoreutils\ncpio\ncron"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " /usr/share/doc/"
+desc = "本次操作指定的路径：/usr/share/doc/"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "列出 /usr/share/doc 下前 10 个软件包的文档目录；指定 head"
+
+[[commands.tokens]]
+text = " -10"
+desc = "列出 /usr/share/doc 下前 10 个软件包的文档目录；此处使用 -10 选项"
+
+[commands.dictation]
+prompt = "列出 /usr/share/doc 下前 10 个软件包的文档目录"
+answers = ["ls /usr/share/doc/ | head -10"]
+
+[[commands]]
+id = "v04-ref-4421f2a4d1"
+command = "ls -la /home/"
+summary = "查看 /home 目录下的所有用户家目录"
+simulated_output = "total 16\ndrwxr-xr-x  4 root  root  4096 Jan 10 08:30 .\ndrwxr-xr-x 20 root  root  4096 Jan 15 10:23 ..\ndrwxr-x---  8 alice alice 4096 Mar  9 13:45 alice\ndrwxr-x--- 12 bob   bob   4096 Mar  8 17:22 bob"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " -la"
+desc = "查看 /home 目录下的所有用户家目录；此处使用 -la 选项"
+
+[[commands.tokens]]
+text = " /home/"
+desc = "本次操作指定的路径：/home/"
+
+[commands.dictation]
+prompt = "查看 /home 目录下的所有用户家目录"
+answers = ["ls -la /home/"]
+
+[[commands]]
+id = "v04-ref-e02e268493"
+command = "ls -la ~"
+summary = "查看当前用户家目录的所有文件（包括隐藏文件）"
+simulated_output = "total 112\ndrwxr-x---  8 alice alice  4096 Mar  9 13:45 .\ndrwxr-xr-x  4 root  root   4096 Jan 10 08:30 ..\n-rw-------  1 alice alice  8524 Mar  9 13:42 .bash_history\n-rw-r--r--  1 alice alice   220 Jan 10 08:30 .bash_logout\n-rw-r--r--  1 alice alice  3771 Jan 10 08:30 .bashrc\ndrwxrwxr-x  3 alice alice  4096 Feb 20 09:15 .cache\ndrwx------  5 alice alice  4096 Feb 20 09:15 .config\ndrwxr-xr-x  2 alice alice  4096 Feb 25 14:30 Desktop\ndrwxr-xr-x  3 alice alice  4096 Mar  5 16:20 Documents\ndrwxr-xr-x  2 alice alice  4096 Mar  8 11:10 Downloads\ndrwx------  3 alice alice  4096 Jan 12 10:45 .local\n-rw-r--r--  1 alice alice   807 Jan 10 08:30 .profile\ndrwx------  2 alice alice  4096 Jan 12 11:00 .ssh\n-rw-r--r--  1 alice alice     0 Jan 10 08:32 .sudo_as_admin_successful\n-rw-------  1 alice alice 12845 Mar  9 13:45 .viminfo"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " -la"
+desc = "查看当前用户家目录的所有文件（包括隐藏文件）；此处使用 -la 选项"
+
+[[commands.tokens]]
+text = " ~"
+desc = "查看当前用户家目录的所有文件（包括隐藏文件）；指定 ~"
+
+[commands.dictation]
+prompt = "查看当前用户家目录的所有文件（包括隐藏文件）"
+answers = ["ls -la ~"]
+
+[[commands]]
+id = "v04-ref-77ea660117"
+command = "du -sh /home/*"
+summary = "查看每个用户家目录的磁盘使用量"
+simulated_output = "2.4G\t/home/alice\n856M\t/home/bob"
+
+[[commands.tokens]]
+text = "du"
+desc = "查看每个用户家目录的磁盘使用量"
+
+[[commands.tokens]]
+text = " -sh"
+desc = "查看每个用户家目录的磁盘使用量；此处使用 -sh 选项"
+
+[[commands.tokens]]
+text = " /home/*"
+desc = "本次操作指定的路径：/home/*"
+
+[commands.dictation]
+prompt = "查看每个用户家目录的磁盘使用量"
+answers = ["du -sh /home/*"]
+
+[[commands]]
+id = "v04-ref-8640fd8ece"
+command = "ls -la /tmp/"
+summary = "列出 /tmp 目录下的所有临时文件"
+simulated_output = "total 52\ndrwxrwxrwt 12 root  root  4096 Mar  9 14:25 .\ndrwxr-xr-x 20 root  root  4096 Jan 15 10:23 ..\ndrwxrwxrwt  2 root  root  4096 Mar  9 00:00 .ICE-unix\ndrwxrwxrwt  2 root  root  4096 Mar  9 00:00 .X11-unix\ndrwxrwxrwt  2 root  root  4096 Mar  9 00:00 .XIM-unix\n-rw-------  1 alice alice 1245 Mar  9 13:30 config-alice-28471.tmp\n-rw-r--r--  1 bob   bob    528 Mar  9 10:15 data_export.csv\ndrwx------  3 root  root  4096 Mar  9 00:00 systemd-private-a1b2c3-nginx.service-xY4z5W\ndrwx------  3 root  root  4096 Mar  9 00:00 systemd-private-a1b2c3-systemd-resolved.service-Ab6c7D\n-rw-rw-r--  1 alice alice 8192 Mar  9 14:20 tmpfile.29481\ndrwx------  2 alice alice 4096 Mar  9 09:00 tracker-extract-3-files.1000"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " -la"
+desc = "列出 /tmp 目录下的所有临时文件；此处使用 -la 选项"
+
+[[commands.tokens]]
+text = " /tmp/"
+desc = "本次操作指定的路径：/tmp/"
+
+[commands.dictation]
+prompt = "列出 /tmp 目录下的所有临时文件"
+answers = ["ls -la /tmp/"]
+
+[[commands]]
+id = "v04-ref-39cb1cbabd"
+command = "stat /tmp"
+summary = "查看 /tmp 目录的详细元信息（注意 sticky bit 权限）"
+simulated_output = "  File: /tmp\n  Size: 4096      \tBlocks: 8          IO Block: 4096   directory\nDevice: 820h/2080d\tInode: 1048577     Links: 12\nAccess: (1777/drwxrwxrwt)  Uid: (    0/    root)   Gid: (    0/    root)\nAccess: 2026-03-09 14:25:01.234567890 +0800\nModify: 2026-03-09 14:25:01.234567890 +0800\nChange: 2026-03-09 14:25:01.234567890 +0800\n Birth: 2026-01-15 10:23:45.678901234 +0800"
+
+[[commands.tokens]]
+text = "stat"
+desc = "读取文件详细元数据"
+
+[[commands.tokens]]
+text = " /tmp"
+desc = "本次操作指定的路径：/tmp"
+
+[commands.dictation]
+prompt = "查看 /tmp 目录的详细元信息（注意 sticky bit 权限）"
+answers = ["stat /tmp"]
+
+[[commands]]
+id = "v04-ref-1cb130f268"
+command = "ls /dev/sd*"
+summary = "列出所有 SCSI/SATA 磁盘设备文件"
+simulated_output = "/dev/sda\n/dev/sda1\n/dev/sda2\n/dev/sda3\n/dev/sdb\n/dev/sdb1"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " /dev/sd*"
+desc = "本次操作指定的路径：/dev/sd*"
+
+[commands.dictation]
+prompt = "列出所有 SCSI/SATA 磁盘设备文件"
+answers = ["ls /dev/sd*"]
+
+[[commands]]
+id = "v04-ref-1879de6367"
+command = "ls -la /dev/null /dev/zero /dev/random"
+summary = "查看三个常用特殊设备文件的详细信息"
+simulated_output = "crw-rw-rw- 1 root root 1, 3 Mar  9 00:00 /dev/null\ncrw-rw-rw- 1 root root 1, 8 Mar  9 00:00 /dev/random\ncrw-rw-rw- 1 root root 1, 5 Mar  9 00:00 /dev/zero"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " -la"
+desc = "查看三个常用特殊设备文件的详细信息；此处使用 -la 选项"
+
+[[commands.tokens]]
+text = " /dev/null"
+desc = "本次操作指定的路径：/dev/null"
+
+[[commands.tokens]]
+text = " /dev/zero"
+desc = "本次操作指定的路径：/dev/zero"
+
+[[commands.tokens]]
+text = " /dev/random"
+desc = "本次操作指定的路径：/dev/random"
+
+[commands.dictation]
+prompt = "查看三个常用特殊设备文件的详细信息"
+answers = ["ls -la /dev/null /dev/zero /dev/random"]
+
+[[commands]]
+id = "v04-ref-49bc704d94"
+command = "ls /proc/ | head -20"
+summary = "列出 /proc 目录下的前 20 项（数字为进程 PID）"
+simulated_output = "1\n10\n1024\n1087\n11\n1205\n1342\n14\n15\n1523\n16\n17\n18\n19\n2\n20\n21\n22\n23\n24"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " /proc/"
+desc = "本次操作指定的路径：/proc/"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "列出 /proc 目录下的前 20 项（数字为进程 PID）；指定 head"
+
+[[commands.tokens]]
+text = " -20"
+desc = "列出 /proc 目录下的前 20 项（数字为进程 PID）；此处使用 -20 选项"
+
+[commands.dictation]
+prompt = "列出 /proc 目录下的前 20 项（数字为进程 PID）"
+answers = ["ls /proc/ | head -20"]
+
+[[commands]]
+id = "v04-ref-29d4c4d5ac"
+command = "cat /proc/cpuinfo | head -10"
+summary = "查看 CPU 信息的前 10 行"
+simulated_output = "processor\t: 0\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 142\nmodel name\t: Intel(R) Core(TM) i7-8550U CPU @ 1.80GHz\nstepping\t: 10\nmicrocode\t: 0xf4\ncpu MHz\t\t: 1992.002\ncache size\t: 8192 KB\nphysical id\t: 0"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /proc/cpuinfo"
+desc = "本次操作指定的路径：/proc/cpuinfo"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "查看 CPU 信息的前 10 行；指定 head"
+
+[[commands.tokens]]
+text = " -10"
+desc = "查看 CPU 信息的前 10 行；此处使用 -10 选项"
+
+[commands.dictation]
+prompt = "查看 CPU 信息的前 10 行"
+answers = ["cat /proc/cpuinfo | head -10"]
+
+[[commands]]
+id = "v04-ref-bcd39db8f0"
+command = "cat /proc/meminfo | head -5"
+summary = "查看内存使用信息的前 5 行"
+simulated_output = "MemTotal:        8148524 kB\nMemFree:         2345128 kB\nMemAvailable:    5432876 kB\nBuffers:          284532 kB\nCached:          2803216 kB"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /proc/meminfo"
+desc = "本次操作指定的路径：/proc/meminfo"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "查看内存使用信息的前 5 行；指定 head"
+
+[[commands.tokens]]
+text = " -5"
+desc = "查看内存使用信息的前 5 行；此处使用 -5 选项"
+
+[commands.dictation]
+prompt = "查看内存使用信息的前 5 行"
+answers = ["cat /proc/meminfo | head -5"]
+
+[[commands]]
+id = "v04-ref-a66995af0f"
+command = "cat /proc/version"
+summary = "查看当前 Linux 内核版本信息"
+simulated_output = "Linux version 6.8.0-101-generic (buildd@lcy02-amd64-040) (x86_64-linux-gnu-gcc-13 (Ubuntu 13.2.0-23ubuntu4) 13.2.0, GNU ld (GNU Binutils for Ubuntu) 2.42) #101-Ubuntu SMP PREEMPT_DYNAMIC Mon Jan 13 12:25:06 UTC 2025"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /proc/version"
+desc = "本次操作指定的路径：/proc/version"
+
+[commands.dictation]
+prompt = "查看当前 Linux 内核版本信息"
+answers = ["cat /proc/version"]
+
+[[commands]]
+id = "v04-ref-a5cbdb161a"
+command = "ls /sys/"
+summary = "列出 /sys 目录下的所有子目录"
+simulated_output = "block\nbus\nclass\ndev\ndevices\nfirmware\nfs\nhypervisor\nkernel\nmodule\npower"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " /sys/"
+desc = "本次操作指定的路径：/sys/"
+
+[commands.dictation]
+prompt = "列出 /sys 目录下的所有子目录"
+answers = ["ls /sys/"]
+
+[[commands]]
+id = "v04-ref-2330f8525b"
+command = "cat /sys/class/net/ens33/address"
+summary = "读取 ens33 网卡的 MAC 地址"
+simulated_output = "00:0c:29:4a:5b:6c"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /sys/class/net/ens33/address"
+desc = "本次操作指定的路径：/sys/class/net/ens33/address"
+
+[commands.dictation]
+prompt = "读取 ens33 网卡的 MAC 地址"
+answers = ["cat /sys/class/net/ens33/address"]
+
+[[commands]]
+id = "v04-ref-eb07f0ae8e"
+command = "stat -c '%A %a %U:%G %n' /etc/passwd"
+summary = "以数字和符号两种格式显示文件权限及所有者信息"
+simulated_output = "-rw-r--r-- 644 root:root /etc/passwd"
+
+[[commands.tokens]]
+text = "stat"
+desc = "读取文件详细元数据"
+
+[[commands.tokens]]
+text = " -c"
+desc = "以数字和符号两种格式显示文件权限及所有者信息；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " '%A %a %U:%G %n'"
+desc = "引号保护此参数中的空格或特殊符号；以数字和符号两种格式显示文件权限及所有者信息"
+
+[[commands.tokens]]
+text = " /etc/passwd"
+desc = "本次操作指定的路径：/etc/passwd"
+
+[commands.dictation]
+prompt = "以数字和符号两种格式显示文件权限及所有者信息"
+answers = ["stat -c '%A %a %U:%G %n' /etc/passwd"]
+
+[[commands]]
+id = "v04-ref-1cfa0bdc36"
+command = "ls -la /usr/bin/passwd"
+summary = "查看 passwd 命令的权限（注意 SUID 标志 s）"
+simulated_output = "-rwsr-xr-x 1 root root 68208 Mar 14 2025 /usr/bin/passwd"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " -la"
+desc = "查看 passwd 命令的权限（注意 SUID 标志 s）；此处使用 -la 选项"
+
+[[commands.tokens]]
+text = " /usr/bin/passwd"
+desc = "本次操作指定的路径：/usr/bin/passwd"
+
+[commands.dictation]
+prompt = "查看 passwd 命令的权限（注意 SUID 标志 s）"
+answers = ["ls -la /usr/bin/passwd"]
+
+[[commands]]
+id = "v04-ref-97cea508df"
+command = "chmod 755 script.sh && ls -la script.sh"
+summary = "将 script.sh 设为所有者可读写执行、其他人可读执行"
+simulated_output = "-rwxr-xr-x 1 alice developers 2048 Mar  9 10:15 script.sh"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "调整实验文件的权限位"
+
+[[commands.tokens]]
+text = " 755"
+desc = "本次练习的数值参数 755；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " script.sh"
+desc = "将 script.sh 设为所有者可读写执行、其他人可读执行；指定 script.sh"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " ls"
+desc = "将 script.sh 设为所有者可读写执行、其他人可读执行；指定 ls"
+
+[[commands.tokens]]
+text = " -la"
+desc = "将 script.sh 设为所有者可读写执行、其他人可读执行；此处使用 -la 选项"
+
+[[commands.tokens]]
+text = " script.sh"
+desc = "将 script.sh 设为所有者可读写执行、其他人可读执行；指定 script.sh"
+
+[commands.dictation]
+prompt = "将 script.sh 设为所有者可读写执行、其他人可读执行"
+answers = ["chmod 755 script.sh && ls -la script.sh"]
+
+[[commands]]
+id = "v04-ref-346bbb60aa"
+command = "chmod u+x deploy.sh && ls -la deploy.sh"
+summary = "给所有者添加执行权限"
+simulated_output = "-rwxr--r-- 1 alice developers 1536 Mar  8 16:20 deploy.sh"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "调整实验文件的权限位"
+
+[[commands.tokens]]
+text = " u+x"
+desc = "给所有者添加执行权限；指定 u+x"
+
+[[commands.tokens]]
+text = " deploy.sh"
+desc = "给所有者添加执行权限；指定 deploy.sh"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " ls"
+desc = "给所有者添加执行权限；指定 ls"
+
+[[commands.tokens]]
+text = " -la"
+desc = "给所有者添加执行权限；此处使用 -la 选项"
+
+[[commands.tokens]]
+text = " deploy.sh"
+desc = "给所有者添加执行权限；指定 deploy.sh"
+
+[commands.dictation]
+prompt = "给所有者添加执行权限"
+answers = ["chmod u+x deploy.sh && ls -la deploy.sh"]
+
+[[commands]]
+id = "v04-ref-b5741947d4"
+command = "chmod go-w config.ini && ls -la config.ini"
+summary = "移除组和其他用户的写权限，保护配置文件"
+simulated_output = "-rw-r--r-- 1 alice developers 512 Mar  7 09:45 config.ini"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "调整实验文件的权限位"
+
+[[commands.tokens]]
+text = " go-w"
+desc = "移除组和其他用户的写权限，保护配置文件；指定 go-w"
+
+[[commands.tokens]]
+text = " config.ini"
+desc = "移除组和其他用户的写权限，保护配置文件；指定 config.ini"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " ls"
+desc = "移除组和其他用户的写权限，保护配置文件；指定 ls"
+
+[[commands.tokens]]
+text = " -la"
+desc = "移除组和其他用户的写权限，保护配置文件；此处使用 -la 选项"
+
+[[commands.tokens]]
+text = " config.ini"
+desc = "移除组和其他用户的写权限，保护配置文件；指定 config.ini"
+
+[commands.dictation]
+prompt = "移除组和其他用户的写权限，保护配置文件"
+answers = ["chmod go-w config.ini && ls -la config.ini"]
+
+[[commands]]
+id = "v04-ref-eb870b3db3"
+command = "find docs/ -type f -exec chmod 644 {} +"
+summary = "仅把 docs/ 下普通文件设为 644，保留目录原有的搜索和遍历权限"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "find"
+desc = "递归查找符合条件的目录项"
+
+[[commands.tokens]]
+text = " docs/"
+desc = "从实验文档目录开始"
+
+[[commands.tokens]]
+text = " -type"
+desc = "按文件类型筛选"
+
+[[commands.tokens]]
+text = " f"
+desc = "仅选择普通文件，不选择目录"
+
+[[commands.tokens]]
+text = " -exec"
+desc = "把匹配的文件传给后续命令"
+
+[[commands.tokens]]
+text = " chmod"
+desc = "修改选中的普通文件权限"
+
+[[commands.tokens]]
+text = " 644"
+desc = "所有者读写、组和其他人只读"
+
+[[commands.tokens]]
+text = " {}"
+desc = "代表查找到的文件路径"
+
+[[commands.tokens]]
+text = " +"
+desc = "分批传入多个文件路径，支持含空格的文件名"
+
+[commands.dictation]
+prompt = "仅把 docs/ 下普通文件设为 644，保留目录原有的搜索和遍历权限"
+answers = ["find docs/ -type f -exec chmod 644 {} +"]
+
+[[commands]]
+id = "v04-ref-49507e74a4"
+command = "chown alice:developers project/ && ls -ld project/"
+summary = "将 project/ 目录的所有者改为 alice，所属组改为 developers"
+simulated_output = "drwxr-xr-x 5 alice developers 4096 Mar  9 11:00 project/"
+
+[[commands.tokens]]
+text = "chown"
+desc = "将 project/ 目录的所有者改为 alice，所属组改为 developers"
+
+[[commands.tokens]]
+text = " alice:developers"
+desc = "将 project/ 目录的所有者改为 alice，所属组改为 developers；指定 alice:developers"
+
+[[commands.tokens]]
+text = " project/"
+desc = "将 project/ 目录的所有者改为 alice，所属组改为 developers；指定 project/"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " ls"
+desc = "将 project/ 目录的所有者改为 alice，所属组改为 developers；指定 ls"
+
+[[commands.tokens]]
+text = " -ld"
+desc = "将 project/ 目录的所有者改为 alice，所属组改为 developers；此处使用 -ld 选项"
+
+[[commands.tokens]]
+text = " project/"
+desc = "将 project/ 目录的所有者改为 alice，所属组改为 developers；指定 project/"
+
+[commands.dictation]
+prompt = "将 project/ 目录的所有者改为 alice，所属组改为 developers"
+answers = ["chown alice:developers project/ && ls -ld project/"]
+
+[[commands]]
+id = "v04-ref-da5118d24f"
+command = "chown -R www-data:www-data /var/www/"
+summary = "递归修改 /var/www/ 的归属为 Web 服务器用户"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "chown"
+desc = "递归修改 /var/www/ 的归属为 Web 服务器用户"
+
+[[commands.tokens]]
+text = " -R"
+desc = "递归修改 /var/www/ 的归属为 Web 服务器用户；此处使用 -R 选项"
+
+[[commands.tokens]]
+text = " www-data:www-data"
+desc = "递归修改 /var/www/ 的归属为 Web 服务器用户；指定 www-data:www-data"
+
+[[commands.tokens]]
+text = " /var/www/"
+desc = "本次操作指定的路径：/var/www/"
+
+[commands.dictation]
+prompt = "递归修改 /var/www/ 的归属为 Web 服务器用户"
+answers = ["chown -R www-data:www-data /var/www/"]
+
+[[commands]]
+id = "v04-ref-5b875f039f"
+command = "chgrp docker /usr/local/bin/docker-compose && ls -la /usr/local/bin/docker-compose"
+summary = "将 docker-compose 的所属组改为 docker 组"
+simulated_output = "-rwxr-xr-x 1 root docker 12345678 Feb 10 14:30 /usr/local/bin/docker-compose"
+
+[[commands.tokens]]
+text = "chgrp"
+desc = "将 docker-compose 的所属组改为 docker 组"
+
+[[commands.tokens]]
+text = " docker"
+desc = "将 docker-compose 的所属组改为 docker 组；指定 docker"
+
+[[commands.tokens]]
+text = " /usr/local/bin/docker-compose"
+desc = "本次操作指定的路径：/usr/local/bin/docker-compose"
+
+[[commands.tokens]]
+text = " &&"
+desc = "仅当前一命令成功时执行下一命令"
+
+[[commands.tokens]]
+text = " ls"
+desc = "将 docker-compose 的所属组改为 docker 组；指定 ls"
+
+[[commands.tokens]]
+text = " -la"
+desc = "将 docker-compose 的所属组改为 docker 组；此处使用 -la 选项"
+
+[[commands.tokens]]
+text = " /usr/local/bin/docker-compose"
+desc = "本次操作指定的路径：/usr/local/bin/docker-compose"
+
+[commands.dictation]
+prompt = "将 docker-compose 的所属组改为 docker 组"
+answers = ["chgrp docker /usr/local/bin/docker-compose && ls -la /usr/local/bin/docker-compose"]
+
+[[commands]]
+id = "v04-ref-40182dbff1"
+command = "ls -la /usr/bin/wall"
+summary = "查看 SGID 程序 — 组执行位显示为 s"
+simulated_output = "-rwxr-sr-x 1 root tty 19024 Feb  8 2025 /usr/bin/wall"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " -la"
+desc = "查看 SGID 程序 — 组执行位显示为 s；此处使用 -la 选项"
+
+[[commands.tokens]]
+text = " /usr/bin/wall"
+desc = "本次操作指定的路径：/usr/bin/wall"
+
+[commands.dictation]
+prompt = "查看 SGID 程序 — 组执行位显示为 s"
+answers = ["ls -la /usr/bin/wall"]
+
+[[commands]]
+id = "v04-ref-b78c7c207e"
+command = "ls -ld /tmp"
+summary = "查看 Sticky Bit 目录 — 其他用户执行位显示为 t"
+simulated_output = "drwxrwxrwt 15 root root 4096 Mar  9 12:00 /tmp"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " -ld"
+desc = "查看 Sticky Bit 目录 — 其他用户执行位显示为 t；此处使用 -ld 选项"
+
+[[commands.tokens]]
+text = " /tmp"
+desc = "本次操作指定的路径：/tmp"
+
+[commands.dictation]
+prompt = "查看 Sticky Bit 目录 — 其他用户执行位显示为 t"
+answers = ["ls -ld /tmp"]
+
+[[commands]]
+id = "v04-ref-c507278d1c"
+command = "chmod 4755 program"
+summary = "设置 SUID 权限：程序运行时以所有者（通常是 root）身份执行"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "chmod"
+desc = "调整实验文件的权限位"
+
+[[commands.tokens]]
+text = " 4755"
+desc = "本次练习的数值参数 4755；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " program"
+desc = "设置 SUID 权限：程序运行时以所有者（通常是 root）身份执行；指定 program"
+
+[commands.dictation]
+prompt = "设置 SUID 权限：程序运行时以所有者（通常是 root）身份执行"
+answers = ["chmod 4755 program"]
+
+[[commands]]
+id = "v04-ref-1394aeac24"
+command = "ip addr"
+summary = "显示所有网络接口的 IP 地址信息"
+simulated_output = "1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000\n    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00\n    inet 127.0.0.1/8 scope host lo\n       valid_lft forever preferred_lft forever\n    inet6 ::1/128 scope host noprefixroute\n       valid_lft forever preferred_lft forever\n2: ens33: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000\n    link/ether 00:0c:29:4a:5b:6c brd ff:ff:ff:ff:ff:ff\n    altname enp2s1\n    inet 192.168.1.100/24 brd 192.168.1.255 scope global dynamic noprefixroute ens33\n       valid_lft 85432sec preferred_lft 85432sec\n    inet6 fe80::20c:29ff:fe4a:5b6c/64 scope link\n       valid_lft forever preferred_lft forever\n3: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default\n    link/ether 02:42:a1:b2:c3:d4 brd ff:ff:ff:ff:ff:ff\n    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0\n       valid_lft forever preferred_lft forever"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " addr"
+desc = "显示所有网络接口的 IP 地址信息；指定 addr"
+
+[commands.dictation]
+prompt = "显示所有网络接口的 IP 地址信息"
+answers = ["ip addr"]
+
+[[commands]]
+id = "v04-ref-88bfe9866c"
+command = "ip addr show ens33"
+summary = "仅显示 ens33 网卡的地址信息"
+simulated_output = "2: ens33: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000\n    link/ether 00:0c:29:4a:5b:6c brd ff:ff:ff:ff:ff:ff\n    altname enp2s1\n    inet 192.168.1.100/24 brd 192.168.1.255 scope global dynamic noprefixroute ens33\n       valid_lft 85432sec preferred_lft 85432sec\n    inet6 fe80::20c:29ff:fe4a:5b6c/64 scope link\n       valid_lft forever preferred_lft forever"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " addr"
+desc = "仅显示 ens33 网卡的地址信息；指定 addr"
+
+[[commands.tokens]]
+text = " show"
+desc = "仅显示 ens33 网卡的地址信息；指定 show"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "仅显示 ens33 网卡的地址信息；指定 ens33"
+
+[commands.dictation]
+prompt = "仅显示 ens33 网卡的地址信息"
+answers = ["ip addr show ens33"]
+
+[[commands]]
+id = "v04-ref-c9bdaf132e"
+command = "ip route"
+summary = "显示路由表"
+simulated_output = "default via 192.168.1.1 dev ens33 proto dhcp src 192.168.1.100 metric 100\n172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown\n192.168.1.0/24 dev ens33 proto kernel scope link src 192.168.1.100 metric 100"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " route"
+desc = "显示路由表；指定 route"
+
+[commands.dictation]
+prompt = "显示路由表"
+answers = ["ip route"]
+
+[[commands]]
+id = "v04-ref-80165fcc4b"
+command = "ip link show"
+summary = "显示所有网络接口的链路层状态"
+simulated_output = "1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000\n    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00\n2: ens33: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000\n    link/ether 00:0c:29:4a:5b:6c brd ff:ff:ff:ff:ff:ff\n    altname enp2s1\n3: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN mode DEFAULT group default\n    link/ether 02:42:a1:b2:c3:d4 brd ff:ff:ff:ff:ff:ff"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " link"
+desc = "显示所有网络接口的链路层状态；指定 link"
+
+[[commands.tokens]]
+text = " show"
+desc = "显示所有网络接口的链路层状态；指定 show"
+
+[commands.dictation]
+prompt = "显示所有网络接口的链路层状态"
+answers = ["ip link show"]
+
+[[commands]]
+id = "v04-ref-b472e9e666"
+command = "dig example.com"
+summary = "查询域名的 DNS 记录（详细输出）"
+simulated_output = "; <<>> DiG 9.18.28-0ubuntu0.24.04.1-Ubuntu <<>> example.com\n;; global options: +cmd\n;; Got answer:\n;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 43521\n;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 65494\n;; QUESTION SECTION:\n;example.com.\t\t\tIN\tA\n\n;; ANSWER SECTION:\nexample.com.\t\t3600\tIN\tA\t93.184.216.34\n\n;; Query time: 23 msec\n;; SERVER: 127.0.0.53#53(127.0.0.53) (UDP)\n;; WHEN: Mon Mar 09 14:23:15 CST 2026\n;; MSG SIZE  rcvd: 56"
+
+[[commands.tokens]]
+text = "dig"
+desc = "使用 BIND DNS 查询工具检查服务器应答"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "查询域名的 DNS 记录（详细输出）；指定 example.com"
+
+[commands.dictation]
+prompt = "查询域名的 DNS 记录（详细输出）"
+answers = ["dig example.com"]
+
+[[commands]]
+id = "v04-ref-00c72bba3f"
+command = "dig MX gmail.com"
+summary = "查询域名的邮件服务器记录"
+simulated_output = "; <<>> DiG 9.18.28-0ubuntu0.24.04.1-Ubuntu <<>> MX gmail.com\n;; global options: +cmd\n;; Got answer:\n;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 18742\n;; flags: qr rd ra; QUERY: 1, ANSWER: 5, AUTHORITY: 0, ADDITIONAL: 1\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 65494\n;; QUESTION SECTION:\n;gmail.com.\t\t\tIN\tMX\n\n;; ANSWER SECTION:\ngmail.com.\t\t3600\tIN\tMX\t5 gmail-smtp-in.l.google.com.\ngmail.com.\t\t3600\tIN\tMX\t10 alt1.gmail-smtp-in.l.google.com.\ngmail.com.\t\t3600\tIN\tMX\t20 alt2.gmail-smtp-in.l.google.com.\ngmail.com.\t\t3600\tIN\tMX\t30 alt3.gmail-smtp-in.l.google.com.\ngmail.com.\t\t3600\tIN\tMX\t40 alt4.gmail-smtp-in.l.google.com.\n\n;; Query time: 45 msec\n;; SERVER: 127.0.0.53#53(127.0.0.53) (UDP)\n;; WHEN: Mon Mar 09 14:24:02 CST 2026\n;; MSG SIZE  rcvd: 161"
+
+[[commands.tokens]]
+text = "dig"
+desc = "使用 BIND DNS 查询工具检查服务器应答"
+
+[[commands.tokens]]
+text = " MX"
+desc = "查询域名的邮件服务器记录；指定 MX"
+
+[[commands.tokens]]
+text = " gmail.com"
+desc = "查询域名的邮件服务器记录；指定 gmail.com"
+
+[commands.dictation]
+prompt = "查询域名的邮件服务器记录"
+answers = ["dig MX gmail.com"]
+
+[[commands]]
+id = "v04-ref-9ec875cb41"
+command = "nslookup example.com"
+summary = "使用 nslookup 查询域名解析"
+simulated_output = "Server:\t\t127.0.0.53\nAddress:\t127.0.0.53#53\n\nNon-authoritative answer:\nName:\texample.com\nAddress: 93.184.216.34\nName:\texample.com\nAddress: 2606:2800:21f:cb07:6820:80da:af6b:8b2c"
+
+[[commands.tokens]]
+text = "nslookup"
+desc = "使用 nslookup 查询域名解析"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "使用 nslookup 查询域名解析；指定 example.com"
+
+[commands.dictation]
+prompt = "使用 nslookup 查询域名解析"
+answers = ["nslookup example.com"]
+
+[[commands]]
+id = "v04-ref-ce919f47dd"
+command = "ss -tulnp"
+summary = "显示所有监听中的 TCP/UDP 端口及对应进程"
+simulated_output = "Netid  State   Recv-Q  Send-Q   Local Address:Port    Peer Address:Port  Process\nudp    UNCONN  0       0        127.0.0.53%lo:53           0.0.0.0:*      users:((\"systemd-resolve\",pid=652,fd=13))\nudp    UNCONN  0       0        0.0.0.0:68                 0.0.0.0:*      users:((\"dhclient\",pid=831,fd=9))\ntcp    LISTEN  0       4096     127.0.0.53%lo:53           0.0.0.0:*      users:((\"systemd-resolve\",pid=652,fd=14))\ntcp    LISTEN  0       128      0.0.0.0:22                 0.0.0.0:*      users:((\"sshd\",pid=924,fd=3))\ntcp    LISTEN  0       511      0.0.0.0:80                 0.0.0.0:*      users:((\"nginx\",pid=1205,fd=6))\ntcp    LISTEN  0       511      0.0.0.0:443                0.0.0.0:*      users:((\"nginx\",pid=1205,fd=7))\ntcp    LISTEN  0       128      127.0.0.1:3306             0.0.0.0:*      users:((\"mysqld\",pid=1342,fd=24))\ntcp    LISTEN  0       128      [::]:22                    [::]:*         users:((\"sshd\",pid=924,fd=4))"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -tulnp"
+desc = "显示所有监听中的 TCP/UDP 端口及对应进程；此处使用 -tulnp 选项"
+
+[commands.dictation]
+prompt = "显示所有监听中的 TCP/UDP 端口及对应进程"
+answers = ["ss -tulnp"]
+
+[[commands]]
+id = "v04-ref-9e60a9053e"
+command = "sudo ss -tulnp 'sport = :80'"
+summary = "使用精确本地端口条件查看 TCP/UDP 80 的监听进程，避免匹配到 8000 或 8080"
+simulated_output = "Netid  State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port  Process\ntcp    LISTEN  0       511     0.0.0.0:80          0.0.0.0:*          users:((\"nginx\",pid=1205,fd=6))"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "使用被授权的管理权限读取其他用户的进程信息"
+
+[[commands.tokens]]
+text = " ss"
+desc = "查询内核套接字"
+
+[[commands.tokens]]
+text = " -tulnp"
+desc = "查看 TCP/UDP 监听，使用数值地址端口并显示进程"
+
+[[commands.tokens]]
+text = " 'sport = :80'"
+desc = "ss 过滤表达式：本地源端口必须等于 80，完整表达式作为一个参数"
+
+[commands.dictation]
+prompt = "使用精确本地端口条件查看 TCP/UDP 80 的监听进程，避免匹配到 8000 或 8080"
+answers = ["sudo ss -tulnp 'sport = :80'"]
+
+[[commands]]
+id = "v04-ref-aaf6e0a612"
+command = "ss -s"
+summary = "显示网络连接的统计摘要"
+simulated_output = "Total: 187\nTCP:   15 (estab 3, closed 2, orphaned 0, timewait 1)\n\nTransport Total     IP        IPv6\nRAW\t  0         0         0\nUDP\t  2         2         0\nTCP\t  13        10        3\nINET\t  15        12        3\nFRAG\t  0         0         0"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -s"
+desc = "显示网络连接的统计摘要；此处使用 -s 选项"
+
+[commands.dictation]
+prompt = "显示网络连接的统计摘要"
+answers = ["ss -s"]
+
+[[commands]]
+id = "v04-ref-8242f087aa"
+command = "netstat -tulnp"
+summary = "使用 netstat 显示监听端口（传统方式）"
+simulated_output = "Active Internet connections (only servers)\nProto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name\ntcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      924/sshd\ntcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN      1342/mysqld\ntcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      1205/nginx\ntcp        0      0 0.0.0.0:443             0.0.0.0:*               LISTEN      1205/nginx\ntcp6       0      0 :::22                   :::*                    LISTEN      924/sshd\nudp        0      0 127.0.0.53:53           0.0.0.0:*                           652/systemd-resolve\nudp        0      0 0.0.0.0:68              0.0.0.0:*                           831/dhclient"
+
+[[commands.tokens]]
+text = "netstat"
+desc = "使用 netstat 显示监听端口（传统方式）"
+
+[[commands.tokens]]
+text = " -tulnp"
+desc = "使用 netstat 显示监听端口（传统方式）；此处使用 -tulnp 选项"
+
+[commands.dictation]
+prompt = "使用 netstat 显示监听端口（传统方式）"
+answers = ["netstat -tulnp"]
+
+[[commands]]
+id = "v04-ref-812878820a"
+command = "sudo ufw allow from 192.168.1.0/24 to any port 3306"
+summary = "仅允许局域网访问 MySQL 端口"
+simulated_output = "Rule added"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ufw"
+desc = "仅允许局域网访问 MySQL 端口"
+
+[[commands.tokens]]
+text = " allow"
+desc = "仅允许局域网访问 MySQL 端口；指定 allow"
+
+[[commands.tokens]]
+text = " from"
+desc = "仅允许局域网访问 MySQL 端口；指定 from"
+
+[[commands.tokens]]
+text = " 192.168.1.0/24"
+desc = "仅允许局域网访问 MySQL 端口；指定 192.168.1.0/24"
+
+[[commands.tokens]]
+text = " to"
+desc = "仅允许局域网访问 MySQL 端口；指定 to"
+
+[[commands.tokens]]
+text = " any"
+desc = "仅允许局域网访问 MySQL 端口；指定 any"
+
+[[commands.tokens]]
+text = " port"
+desc = "仅允许局域网访问 MySQL 端口；指定 port"
+
+[[commands.tokens]]
+text = " 3306"
+desc = "本次练习的数值参数 3306；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "仅允许局域网访问 MySQL 端口"
+answers = ["sudo ufw allow from 192.168.1.0/24 to any port 3306"]
+
+[[commands]]
+id = "v04-ref-703be84027"
+command = "sudo ufw deny 23"
+summary = "拒绝 Telnet 端口的入站连接"
+simulated_output = "Rule added\nRule added (v6)"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ufw"
+desc = "拒绝 Telnet 端口的入站连接"
+
+[[commands.tokens]]
+text = " deny"
+desc = "拒绝 Telnet 端口的入站连接；指定 deny"
+
+[[commands.tokens]]
+text = " 23"
+desc = "本次练习的数值参数 23；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "拒绝 Telnet 端口的入站连接"
+answers = ["sudo ufw deny 23"]
+
+[[commands]]
+id = "v04-ref-40c980ae51"
+command = "ping -c 4 google.com"
+summary = "测试域名解析和网络连通性"
+simulated_output = "PING google.com (142.250.185.14) 56(84) bytes of data.\n64 bytes from tsa01s11-in-f14.1e100.net (142.250.185.14): icmp_seq=1 ttl=118 time=8.42 ms\n64 bytes from tsa01s11-in-f14.1e100.net (142.250.185.14): icmp_seq=2 ttl=118 time=8.15 ms\n64 bytes from tsa01s11-in-f14.1e100.net (142.250.185.14): icmp_seq=3 ttl=118 time=8.28 ms\n64 bytes from tsa01s11-in-f14.1e100.net (142.250.185.14): icmp_seq=4 ttl=118 time=8.33 ms\n\n--- google.com ping statistics ---\n4 packets transmitted, 4 received, 0% packet loss, time 3004ms\nrtt min/avg/max/mdev = 8.150/8.295/8.420/0.096 ms"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 4"
+desc = "本次练习的数值参数 4；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " google.com"
+desc = "测试域名解析和网络连通性；指定 google.com"
+
+[commands.dictation]
+prompt = "测试域名解析和网络连通性"
+answers = ["ping -c 4 google.com"]
+
+[[commands]]
+id = "v04-ref-4db7c8a7ca"
+command = "traceroute google.com"
+summary = "追踪数据包到目标的路由路径"
+simulated_output = "traceroute to google.com (142.250.185.14), 30 hops max, 60 byte packets\n 1  _gateway (192.168.1.1)  0.523 ms  0.481 ms  0.614 ms\n 2  10.10.0.1 (10.10.0.1)  3.214 ms  3.185 ms  3.162 ms\n 3  172.16.32.1 (172.16.32.1)  5.426 ms  5.398 ms  5.501 ms\n 4  202.97.94.93 (202.97.94.93)  8.124 ms  8.097 ms  8.215 ms\n 5  202.97.12.34 (202.97.12.34)  9.832 ms  9.801 ms  9.912 ms\n 6  72.14.236.205 (72.14.236.205)  10.214 ms  10.185 ms  10.301 ms\n 7  142.250.46.243 (142.250.46.243)  9.524 ms  9.498 ms  9.612 ms\n 8  tsa01s11-in-f14.1e100.net (142.250.185.14)  8.425 ms  8.401 ms  8.518 ms"
+
+[[commands.tokens]]
+text = "traceroute"
+desc = "以递增 TTL 探测路径中的路由器"
+
+[[commands.tokens]]
+text = " google.com"
+desc = "追踪数据包到目标的路由路径；指定 google.com"
+
+[commands.dictation]
+prompt = "追踪数据包到目标的路由路径"
+answers = ["traceroute google.com"]
+
+[[commands]]
+id = "v04-ref-ee931fd010"
+command = "mtr -r -c 10 google.com"
+summary = "综合 ping + traceroute 的网络诊断工具"
+simulated_output = "Start: 2026-03-09T14:30:25+0800\nHOST: myserver                    Loss%   Snt   Last   Avg  Best  Wrst StDev\n  1.|-- _gateway                   0.0%    10    0.5   0.6   0.4   0.9   0.1\n  2.|-- 10.10.0.1                  0.0%    10    3.2   3.4   3.0   4.1   0.3\n  3.|-- 172.16.32.1                0.0%    10    5.4   5.6   5.2   6.3   0.3\n  4.|-- 202.97.94.93               0.0%    10    8.1   8.3   7.9   9.0   0.3\n  5.|-- 202.97.12.34              10.0%    10    9.8  10.1   9.5  11.2   0.5\n  6.|-- 72.14.236.205              0.0%    10   10.2  10.4   9.8  11.5   0.5\n  7.|-- 142.250.46.243             0.0%    10    9.5   9.7   9.2  10.4   0.3\n  8.|-- tsa01s11-in-f14.1e100.net  0.0%    10    8.4   8.6   8.1   9.3   0.3"
+
+[[commands.tokens]]
+text = "mtr"
+desc = "重复采样路由路径，汇总延迟与响应丢失"
+
+[[commands.tokens]]
+text = " -r"
+desc = "综合 ping + traceroute 的网络诊断工具；此处使用 -r 选项"
+
+[[commands.tokens]]
+text = " -c"
+desc = "综合 ping + traceroute 的网络诊断工具；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 10"
+desc = "本次练习的数值参数 10；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " google.com"
+desc = "综合 ping + traceroute 的网络诊断工具；指定 google.com"
+
+[commands.dictation]
+prompt = "综合 ping + traceroute 的网络诊断工具"
+answers = ["mtr -r -c 10 google.com"]
+
+[[commands]]
+id = "v04-ref-512a96d4b4"
+command = "sudo apt install nginx -y"
+summary = "安装 nginx 软件包（-y 自动确认）"
+simulated_output = "Reading package lists... Done\nBuilding dependency tree... Done\nReading state information... Done\nThe following additional packages will be installed:\n  libnginx-mod-http-geoip2 libnginx-mod-http-image-filter\n  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream\n  libnginx-mod-stream-geoip2 nginx-common nginx-core\nSuggested packages:\n  fcgiwrap nginx-doc\nThe following NEW packages will be installed:\n  libnginx-mod-http-geoip2 libnginx-mod-http-image-filter\n  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream\n  libnginx-mod-stream-geoip2 nginx nginx-common nginx-core\n0 upgraded, 9 newly installed, 0 to remove and 15 not upgraded.\nNeed to get 898 kB of archives.\nAfter this operation, 2,989 kB of additional disk space will be used.\nGet:1 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 nginx-common all 1.24.0-2ubuntu7 [31.2 kB]\nGet:2 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 nginx-core amd64 1.24.0-2ubuntu7 [496 kB]\nGet:3 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 libnginx-mod-http-geoip2 amd64 1.24.0-2ubuntu7 [12.8 kB]\nGet:4 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 libnginx-mod-http-image-filter amd64 1.24.0-2ubuntu7 [15.4 kB]\nGet:5 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 libnginx-mod-http-xslt-filter amd64 1.24.0-2ubuntu7 [13.1 kB]\nGet:6 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 libnginx-mod-mail amd64 1.24.0-2ubuntu7 [45.6 kB]\nGet:7 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 libnginx-mod-stream amd64 1.24.0-2ubuntu7 [72.3 kB]\nGet:8 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 libnginx-mod-stream-geoip2 amd64 1.24.0-2ubuntu7 [11.8 kB]\nGet:9 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 nginx all 1.24.0-2ubuntu7 [5,592 B]\nFetched 898 kB in 2s (512 kB/s)\nSelecting previously unselected package nginx-common.\n(Reading database ... 85432 files and directories currently installed.)\nPreparing to unpack .../nginx-common_1.24.0-2ubuntu7_all.deb ...\nUnpacking nginx-common (1.24.0-2ubuntu7) ...\nSelecting previously unselected package nginx-core.\nPreparing to unpack .../nginx-core_1.24.0-2ubuntu7_amd64.deb ...\nUnpacking nginx-core (1.24.0-2ubuntu7) ...\nSetting up nginx-common (1.24.0-2ubuntu7) ...\nSetting up nginx-core (1.24.0-2ubuntu7) ...\nSetting up nginx (1.24.0-2ubuntu7) ...\nProcessing triggers for man-db (2.12.0-4build2) ...\nProcessing triggers for ufw (0.36.2-6) ..."
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " apt"
+desc = "安装 nginx 软件包（-y 自动确认）"
+
+[[commands.tokens]]
+text = " install"
+desc = "安装 nginx 软件包（-y 自动确认）；指定 install"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "安装 nginx 软件包（-y 自动确认）；指定 nginx"
+
+[[commands.tokens]]
+text = " -y"
+desc = "安装 nginx 软件包（-y 自动确认）；此处使用 -y 选项"
+
+[commands.dictation]
+prompt = "安装 nginx 软件包（-y 自动确认）"
+answers = ["sudo apt install nginx -y"]
+
+[[commands]]
+id = "v04-ref-53d6b97554"
+command = "apt search nginx"
+summary = "搜索与 nginx 相关的软件包"
+simulated_output = "Sorting... Done\nFull Text Search... Done\nlibnginx-mod-http-auth-pam/noble 1.24.0-2ubuntu7 amd64\n  PAM authentication module for Nginx\n\nlibnginx-mod-http-geoip2/noble,now 1.24.0-2ubuntu7 amd64 [installed,automatic]\n  GeoIP2 module for Nginx\n\nlibnginx-mod-http-image-filter/noble,now 1.24.0-2ubuntu7 amd64 [installed,automatic]\n  HTTP image filter module for Nginx\n\nnginx/noble,now 1.24.0-2ubuntu7 all [installed]\n  small, powerful, scalable web/proxy server\n\nnginx-common/noble,now 1.24.0-2ubuntu7 all [installed,automatic]\n  small, powerful, scalable web/proxy server - common files\n\nnginx-core/noble,now 1.24.0-2ubuntu7 amd64 [installed,automatic]\n  nginx web/proxy server (standard version)\n\nnginx-doc/noble 1.24.0-2ubuntu7 all\n  small, powerful, scalable web/proxy server - documentation\n\nnginx-extras/noble 1.24.0-2ubuntu7 amd64\n  nginx web/proxy server (extended version)\n\nnginx-full/noble 1.24.0-2ubuntu7 amd64\n  nginx web/proxy server (standard version with 3rd party modules)"
+
+[[commands.tokens]]
+text = "apt"
+desc = "搜索与 nginx 相关的软件包"
+
+[[commands.tokens]]
+text = " search"
+desc = "搜索与 nginx 相关的软件包；指定 search"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "搜索与 nginx 相关的软件包；指定 nginx"
+
+[commands.dictation]
+prompt = "搜索与 nginx 相关的软件包"
+answers = ["apt search nginx"]
+
+[[commands]]
+id = "v04-ref-099669d1c0"
+command = "apt show nginx"
+summary = "显示软件包的详细信息"
+simulated_output = "Package: nginx\nVersion: 1.24.0-2ubuntu7\nPriority: optional\nSection: httpd\nMaintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>\nInstalled-Size: 48.1 kB\nDepends: nginx-core (<< 1.24.0-2ubuntu7.1~) | nginx-full (<< 1.24.0-2ubuntu7.1~) | nginx-light (<< 1.24.0-2ubuntu7.1~) | nginx-extras (<< 1.24.0-2ubuntu7.1~), nginx-core (>= 1.24.0-2ubuntu7) | nginx-full (>= 1.24.0-2ubuntu7) | nginx-light (>= 1.24.0-2ubuntu7) | nginx-extras (>= 1.24.0-2ubuntu7)\nHomepage: https://nginx.org\nDownload-Size: 5,592 B\nAPT-Sources: http://cn.archive.ubuntu.com/ubuntu noble/main amd64 Packages\nDescription: small, powerful, scalable web/proxy server\n Nginx (\"engine X\") is a high-performance web and reverse proxy server\n created by Igor Sysoev. It can be used both as a standalone web server\n and as a proxy to reduce the load on back-end HTTP or mail servers."
+
+[[commands.tokens]]
+text = "apt"
+desc = "显示软件包的详细信息"
+
+[[commands.tokens]]
+text = " show"
+desc = "显示软件包的详细信息；指定 show"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "显示软件包的详细信息；指定 nginx"
+
+[commands.dictation]
+prompt = "显示软件包的详细信息"
+answers = ["apt show nginx"]
+
+[[commands]]
+id = "v04-ref-f8ac6f09c8"
+command = "sudo yum install httpd -y"
+summary = "安装 Apache HTTP 服务器（-y 自动确认）"
+simulated_output = "Last metadata expiration check: 1:23:45 ago on Mon 09 Mar 2026 10:00:00 AM CST.\nDependencies resolved.\n================================================================================\n Package              Arch       Version                Repository         Size\n================================================================================\nInstalling:\n httpd                x86_64     2.4.57-8.el9           appstream         1.4 M\nInstalling dependencies:\n apr                  x86_64     1.7.2-2.el9            appstream         127 k\n apr-util             x86_64     1.6.3-1.el9            appstream          98 k\n httpd-core           x86_64     2.4.57-8.el9           appstream         3.7 M\n httpd-filesystem     noarch     2.4.57-8.el9           appstream          14 k\n httpd-tools          x86_64     2.4.57-8.el9           appstream          82 k\n mod_http2            x86_64     2.0.26-1.el9           appstream         163 k\n mod_lua              x86_64     2.4.57-8.el9           appstream          62 k\n\nTransaction Summary\n================================================================================\nInstall  8 Packages\n\nTotal download size: 5.6 M\nInstalled size: 16 M\nDownloading Packages:\n(1/8): apr-1.7.2-2.el9.x86_64.rpm                  512 kB/s | 127 kB     00:00\n(2/8): apr-util-1.6.3-1.el9.x86_64.rpm             398 kB/s |  98 kB     00:00\n(3/8): httpd-2.4.57-8.el9.x86_64.rpm               2.1 MB/s | 1.4 MB     00:00\n(4/8): httpd-core-2.4.57-8.el9.x86_64.rpm          3.8 MB/s | 3.7 MB     00:00\n(5/8): httpd-filesystem-2.4.57-8.el9.noarch.rpm      56 kB/s |  14 kB     00:00\n(6/8): httpd-tools-2.4.57-8.el9.x86_64.rpm         328 kB/s |  82 kB     00:00\n(7/8): mod_http2-2.0.26-1.el9.x86_64.rpm           652 kB/s | 163 kB     00:00\n(8/8): mod_lua-2.4.57-8.el9.x86_64.rpm             248 kB/s |  62 kB     00:00\n--------------------------------------------------------------------------------\nTotal                                               4.2 MB/s | 5.6 MB     00:01\nRunning transaction check\nTransaction check succeeded.\nRunning transaction test\nTransaction test succeeded.\nRunning transaction\n  Preparing        :                                                        1/1\n  Installing       : apr-1.7.2-2.el9.x86_64                                1/8\n  Installing       : apr-util-1.6.3-1.el9.x86_64                           2/8\n  Installing       : httpd-tools-2.4.57-8.el9.x86_64                       3/8\n  Installing       : httpd-filesystem-2.4.57-8.el9.noarch                   4/8\n  Installing       : httpd-core-2.4.57-8.el9.x86_64                        5/8\n  Installing       : mod_http2-2.0.26-1.el9.x86_64                         6/8\n  Installing       : mod_lua-2.4.57-8.el9.x86_64                           7/8\n  Installing       : httpd-2.4.57-8.el9.x86_64                             8/8\n  Running scriptlet: httpd-2.4.57-8.el9.x86_64                             8/8\n  Verifying        : httpd-2.4.57-8.el9.x86_64                             1/8\n  Verifying        : apr-1.7.2-2.el9.x86_64                                2/8\n  Verifying        : apr-util-1.6.3-1.el9.x86_64                           3/8\n  Verifying        : httpd-core-2.4.57-8.el9.x86_64                        4/8\n  Verifying        : httpd-filesystem-2.4.57-8.el9.noarch                   5/8\n  Verifying        : httpd-tools-2.4.57-8.el9.x86_64                       6/8\n  Verifying        : mod_http2-2.0.26-1.el9.x86_64                         7/8\n  Verifying        : mod_lua-2.4.57-8.el9.x86_64                           8/8\n\nInstalled:\n  apr-1.7.2-2.el9.x86_64                  apr-util-1.6.3-1.el9.x86_64\n  httpd-2.4.57-8.el9.x86_64               httpd-core-2.4.57-8.el9.x86_64\n  httpd-filesystem-2.4.57-8.el9.noarch     httpd-tools-2.4.57-8.el9.x86_64\n  mod_http2-2.0.26-1.el9.x86_64           mod_lua-2.4.57-8.el9.x86_64\n\nComplete!"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " yum"
+desc = "安装 Apache HTTP 服务器（-y 自动确认）"
+
+[[commands.tokens]]
+text = " install"
+desc = "安装 Apache HTTP 服务器（-y 自动确认）；指定 install"
+
+[[commands.tokens]]
+text = " httpd"
+desc = "安装 Apache HTTP 服务器（-y 自动确认）；指定 httpd"
+
+[[commands.tokens]]
+text = " -y"
+desc = "安装 Apache HTTP 服务器（-y 自动确认）；此处使用 -y 选项"
+
+[commands.dictation]
+prompt = "安装 Apache HTTP 服务器（-y 自动确认）"
+answers = ["sudo yum install httpd -y"]
+
+[[commands]]
+id = "v04-ref-7da4c11ab0"
+command = "yum search nginx"
+summary = "搜索与 nginx 相关的软件包"
+simulated_output = "Last metadata expiration check: 1:25:12 ago on Mon 09 Mar 2026 10:00:00 AM CST.\n========================= Name Exactly Matched: nginx ==========================\nnginx.x86_64 : A high performance web server and reverse proxy server\n======================== Name & Summary Matched: nginx =========================\nnginx-all-modules.noarch : A meta package that installs all available Nginx modules\nnginx-core.x86_64 : nginx minimal core\nnginx-filesystem.noarch : The basic directory layout for the Nginx server\nnginx-mod-http-image-filter.x86_64 : Nginx HTTP image filter module\nnginx-mod-http-perl.x86_64 : Nginx HTTP perl module\nnginx-mod-http-xslt-filter.x86_64 : Nginx XSLT module\nnginx-mod-mail.x86_64 : Nginx mail modules\nnginx-mod-stream.x86_64 : Nginx stream modules"
+
+[[commands.tokens]]
+text = "yum"
+desc = "搜索与 nginx 相关的软件包"
+
+[[commands.tokens]]
+text = " search"
+desc = "搜索与 nginx 相关的软件包；指定 search"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "搜索与 nginx 相关的软件包；指定 nginx"
+
+[commands.dictation]
+prompt = "搜索与 nginx 相关的软件包"
+answers = ["yum search nginx"]
+
+[[commands]]
+id = "v04-ref-689d20621b"
+command = "yum info nginx"
+summary = "显示 nginx 软件包的详细信息"
+simulated_output = "Last metadata expiration check: 1:26:30 ago on Mon 09 Mar 2026 10:00:00 AM CST.\nAvailable Packages\nName         : nginx\nEpoch        : 1\nVersion      : 1.24.0\nRelease      : 4.el9\nArchitecture : x86_64\nSize         : 38 k\nSource        : nginx-1.24.0-4.el9.src.rpm\nRepository   : appstream\nSummary      : A high performance web server and reverse proxy server\nURL          : https://nginx.org\nLicense      : BSD-2-Clause\nDescription  : Nginx is a web server and a reverse proxy server for HTTP, SMTP, POP3 and\n             : IMAP protocols, with a strong focus on high concurrency, performance and low\n             : memory usage."
+
+[[commands.tokens]]
+text = "yum"
+desc = "显示 nginx 软件包的详细信息"
+
+[[commands.tokens]]
+text = " info"
+desc = "显示 nginx 软件包的详细信息；指定 info"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "显示 nginx 软件包的详细信息；指定 nginx"
+
+[commands.dictation]
+prompt = "显示 nginx 软件包的详细信息"
+answers = ["yum info nginx"]
+
+[[commands]]
+id = "v04-ref-80ebe9049b"
+command = "sudo yum remove httpd"
+summary = "卸载 Apache HTTP 服务器"
+simulated_output = "Dependencies resolved.\n================================================================================\n Package              Arch       Version                Repository         Size\n================================================================================\nRemoving:\n httpd                x86_64     2.4.57-8.el9           @appstream        1.4 M\nRemoving dependent packages:\n mod_http2            x86_64     2.0.26-1.el9           @appstream        163 k\n mod_lua              x86_64     2.4.57-8.el9           @appstream         62 k\nRemoving unused dependencies:\n apr                  x86_64     1.7.2-2.el9            @appstream        127 k\n apr-util             x86_64     1.6.3-1.el9            @appstream         98 k\n httpd-core           x86_64     2.4.57-8.el9           @appstream        3.7 M\n httpd-filesystem     noarch     2.4.57-8.el9           @appstream         14 k\n httpd-tools          x86_64     2.4.57-8.el9           @appstream         82 k\n\nTransaction Summary\n================================================================================\nRemove  8 Packages\n\nFreed space: 5.6 M\nIs this ok [y/N]: y\nRunning transaction check\nTransaction check succeeded.\nRunning transaction test\nTransaction test succeeded.\nRunning transaction\n  Preparing        :                                                        1/1\n  Removing         : httpd-2.4.57-8.el9.x86_64                             1/8\n  Running scriptlet: httpd-2.4.57-8.el9.x86_64                             1/8\n  Removing         : mod_lua-2.4.57-8.el9.x86_64                           2/8\n  Removing         : mod_http2-2.0.26-1.el9.x86_64                         3/8\n  Removing         : httpd-core-2.4.57-8.el9.x86_64                        4/8\n  Removing         : httpd-tools-2.4.57-8.el9.x86_64                       5/8\n  Removing         : httpd-filesystem-2.4.57-8.el9.noarch                   6/8\n  Removing         : apr-util-1.6.3-1.el9.x86_64                           7/8\n  Removing         : apr-1.7.2-2.el9.x86_64                                8/8\n  Verifying        : httpd-2.4.57-8.el9.x86_64                             1/8\n  Verifying        : apr-1.7.2-2.el9.x86_64                                2/8\n  Verifying        : apr-util-1.6.3-1.el9.x86_64                           3/8\n  Verifying        : httpd-core-2.4.57-8.el9.x86_64                        4/8\n  Verifying        : httpd-filesystem-2.4.57-8.el9.noarch                   5/8\n  Verifying        : httpd-tools-2.4.57-8.el9.x86_64                       6/8\n  Verifying        : mod_http2-2.0.26-1.el9.x86_64                         7/8\n  Verifying        : mod_lua-2.4.57-8.el9.x86_64                           8/8\n\nRemoved:\n  apr-1.7.2-2.el9.x86_64                  apr-util-1.6.3-1.el9.x86_64\n  httpd-2.4.57-8.el9.x86_64               httpd-core-2.4.57-8.el9.x86_64\n  httpd-filesystem-2.4.57-8.el9.noarch     httpd-tools-2.4.57-8.el9.x86_64\n  mod_http2-2.0.26-1.el9.x86_64           mod_lua-2.4.57-8.el9.x86_64\n\nComplete!"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " yum"
+desc = "卸载 Apache HTTP 服务器"
+
+[[commands.tokens]]
+text = " remove"
+desc = "卸载 Apache HTTP 服务器；指定 remove"
+
+[[commands.tokens]]
+text = " httpd"
+desc = "卸载 Apache HTTP 服务器；指定 httpd"
+
+[commands.dictation]
+prompt = "卸载 Apache HTTP 服务器"
+answers = ["sudo yum remove httpd"]
+
+[[commands]]
+id = "v04-ref-175b0d58f3"
+command = "sudo pacman -S nginx"
+summary = "安装 nginx 软件包"
+simulated_output = "resolving dependencies...\nlooking for conflicting packages...\n\nPackages (1) nginx-1.24.0-2\n\nTotal Download Size:   0.48 MiB\nTotal Installed Size:  1.52 MiB\n\n:: Proceed with installation? [Y/n] Y\n:: Retrieving packages...\n nginx-1.24.0-2-x86_64                    492.3 KiB  1024 KiB/s 00:00 [####################################] 100%\n(1/1) checking keys in keyring                                         [####################################] 100%\n(1/1) checking package integrity                                       [####################################] 100%\n(1/1) loading package files                                            [####################################] 100%\n(1/1) checking for file conflicts                                      [####################################] 100%\n(1/1) checking available disk space                                    [####################################] 100%\n:: Processing package changes...\n(1/1) installing nginx                                                 [####################################] 100%\nOptional dependencies for nginx\n    geoip: GeoIP support for NGINX\n    gd: for image filter module\n:: Running post-transaction hooks...\n(1/2) Reloading system manager configuration...\n(2/2) Arming ConditionNeedsUpdate..."
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " pacman"
+desc = "安装 nginx 软件包"
+
+[[commands.tokens]]
+text = " -S"
+desc = "安装 nginx 软件包；此处使用 -S 选项"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "安装 nginx 软件包；指定 nginx"
+
+[commands.dictation]
+prompt = "安装 nginx 软件包"
+answers = ["sudo pacman -S nginx"]
+
+[[commands]]
+id = "v04-ref-ba2dd74c04"
+command = "pacman -Ss nginx"
+summary = "在仓库中搜索 nginx 相关的包"
+simulated_output = "extra/nginx 1.24.0-2 [installed]\n    Lightweight HTTP server and IMAP/POP3 proxy server\nextra/nginx-mod-auth-pam 3.0.2-4\n    PAM authentication module for nginx\nextra/nginx-mod-brotli 1:1.0.0rc-7\n    Brotli compression module for nginx\nextra/nginx-mod-geoip2 3.4-4\n    GeoIP2 module for nginx\nextra/nginx-mod-headers-more 0.37-1\n    Set and clear input and output headers for nginx\nextra/nginx-mod-njs 0.8.2-1\n    njs scripting language module for nginx\ncommunity/nginx-mainline 1.25.4-1\n    Lightweight HTTP server and IMAP/POP3 proxy server, mainline release"
+
+[[commands.tokens]]
+text = "pacman"
+desc = "在仓库中搜索 nginx 相关的包"
+
+[[commands.tokens]]
+text = " -Ss"
+desc = "在仓库中搜索 nginx 相关的包；此处使用 -Ss 选项"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "在仓库中搜索 nginx 相关的包；指定 nginx"
+
+[commands.dictation]
+prompt = "在仓库中搜索 nginx 相关的包"
+answers = ["pacman -Ss nginx"]
+
+[[commands]]
+id = "v04-ref-07cfb8c64a"
+command = "pacman -Qi nginx"
+summary = "查询已安装的 nginx 包详细信息"
+simulated_output = "Name            : nginx\nVersion         : 1.24.0-2\nDescription     : Lightweight HTTP server and IMAP/POP3 proxy server\nArchitecture    : x86_64\nURL             : https://nginx.org\nLicenses        : custom\nGroups          : None\nProvides        : None\nDepends On      : glibc  openssl  pcre2  zlib  mailcap\nOptional Deps   : geoip: GeoIP support for NGINX [installed]\n                  gd: for image filter module\nRequired By     : None\nOptional For    : None\nConflicts With  : None\nReplaces        : None\nInstalled Size  : 1.52 MiB\nPackager        : Arch Linux Package Maintainer <maintainer@archlinux.org>\nBuild Date      : Sat 15 Feb 2026 08:30:12 AM CST\nInstall Date    : Mon 09 Mar 2026 11:30:45 AM CST\nInstall Reason  : Explicitly installed\nValidated By    : Signature"
+
+[[commands.tokens]]
+text = "pacman"
+desc = "查询已安装的 nginx 包详细信息"
+
+[[commands.tokens]]
+text = " -Qi"
+desc = "查询已安装的 nginx 包详细信息；此处使用 -Qi 选项"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "查询已安装的 nginx 包详细信息；指定 nginx"
+
+[commands.dictation]
+prompt = "查询已安装的 nginx 包详细信息"
+answers = ["pacman -Qi nginx"]
+
+[[commands]]
+id = "v04-ref-878de0e31d"
+command = "sudo pacman -R nginx"
+summary = "卸载 nginx 软件包"
+simulated_output = "checking dependencies...\n\nPackages (1) nginx-1.24.0-2\n\nTotal Removed Size:  1.52 MiB\n\n:: Do you want to remove these packages? [Y/n] Y\n:: Processing package changes...\n(1/1) removing nginx                                                   [####################################] 100%\n:: Running post-transaction hooks...\n(1/2) Reloading system manager configuration...\n(2/2) Arming ConditionNeedsUpdate..."
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " pacman"
+desc = "卸载 nginx 软件包"
+
+[[commands.tokens]]
+text = " -R"
+desc = "卸载 nginx 软件包；此处使用 -R 选项"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "卸载 nginx 软件包；指定 nginx"
+
+[commands.dictation]
+prompt = "卸载 nginx 软件包"
+answers = ["sudo pacman -R nginx"]
+
+[[commands]]
+id = "v04-ref-f0ac6e8f47"
+command = "which nginx"
+summary = "查找已安装命令的可执行文件路径"
+simulated_output = "/usr/sbin/nginx"
+
+[[commands.tokens]]
+text = "which"
+desc = "查找已安装命令的可执行文件路径"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "查找已安装命令的可执行文件路径；指定 nginx"
+
+[commands.dictation]
+prompt = "查找已安装命令的可执行文件路径"
+answers = ["which nginx"]
+
+[[commands]]
+id = "v04-ref-72c3d3cc39"
+command = "dpkg -L nginx | head -10"
+summary = "列出某个已安装包包含的所有文件（前 10 条）"
+simulated_output = "/.\n/usr\n/usr/share\n/usr/share/doc\n/usr/share/doc/nginx\n/usr/share/doc/nginx/changelog.Debian.gz\n/usr/share/doc/nginx/copyright\n/usr/share/man\n/usr/share/man/man8\n/usr/share/man/man8/nginx.8.gz"
+
+[[commands.tokens]]
+text = "dpkg"
+desc = "列出某个已安装包包含的所有文件（前 10 条）"
+
+[[commands.tokens]]
+text = " -L"
+desc = "列出某个已安装包包含的所有文件（前 10 条）；此处使用 -L 选项"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "列出某个已安装包包含的所有文件（前 10 条）；指定 nginx"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "列出某个已安装包包含的所有文件（前 10 条）；指定 head"
+
+[[commands.tokens]]
+text = " -10"
+desc = "列出某个已安装包包含的所有文件（前 10 条）；此处使用 -10 选项"
+
+[commands.dictation]
+prompt = "列出某个已安装包包含的所有文件（前 10 条）"
+answers = ["dpkg -L nginx | head -10"]
+
+[[commands]]
+id = "v04-ref-865876ee9e"
+command = "apt-cache depends nginx"
+summary = "显示软件包的依赖关系"
+simulated_output = "nginx\n |Depends: nginx-core\n |Depends: nginx-full\n |Depends: nginx-light\n  Depends: nginx-extras\n |Depends: nginx-core\n |Depends: nginx-full\n |Depends: nginx-light\n  Depends: nginx-extras"
+
+[[commands.tokens]]
+text = "apt-cache"
+desc = "显示软件包的依赖关系"
+
+[[commands.tokens]]
+text = " depends"
+desc = "显示软件包的依赖关系；指定 depends"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "显示软件包的依赖关系；指定 nginx"
+
+[commands.dictation]
+prompt = "显示软件包的依赖关系"
+answers = ["apt-cache depends nginx"]
+
+[[commands]]
+id = "v04-ref-bb542eda71"
+command = "ps aux | head -10"
+summary = "显示系统所有进程的快照（前 10 行）"
+simulated_output = "USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\nroot           1  0.0  0.3 169436 13212 ?        Ss   09:15   0:02 /sbin/init\nroot           2  0.0  0.0      0     0 ?        S    09:15   0:00 [kthreadd]\nroot           3  0.0  0.0      0     0 ?        I<   09:15   0:00 [rcu_gp]\nroot           4  0.0  0.0      0     0 ?        I<   09:15   0:00 [rcu_par_gp]\nroot           5  0.0  0.0      0     0 ?        I<   09:15   0:00 [slub_flushwq]\nroot           6  0.0  0.0      0     0 ?        I<   09:15   0:00 [netns]\nroot          11  0.0  0.0      0     0 ?        I    09:15   0:00 [rcu_sched]\nroot          12  0.0  0.0      0     0 ?        S    09:15   0:00 [migration/0]\nroot          13  0.0  0.0      0     0 ?        S    09:15   0:01 [ksoftirqd/0]"
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示进程快照及所选字段"
+
+[[commands.tokens]]
+text = " aux"
+desc = "显示系统所有进程的快照（前 10 行）；指定 aux"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "显示系统所有进程的快照（前 10 行）；指定 head"
+
+[[commands.tokens]]
+text = " -10"
+desc = "显示系统所有进程的快照（前 10 行）；此处使用 -10 选项"
+
+[commands.dictation]
+prompt = "显示系统所有进程的快照（前 10 行）"
+answers = ["ps aux | head -10"]
+
+[[commands]]
+id = "v04-ref-746578f7f3"
+command = "ps aux --sort=-%mem | head -10"
+summary = "按内存占用降序排列进程（前 10 行）"
+simulated_output = "USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\nmysql       1342  0.5  8.2 1824560 332480 ?      Ssl  09:16   1:23 /usr/sbin/mysqld\nwww-data    1207  0.2  3.1 512340 126720 ?       S    09:16   0:18 nginx: worker process\nroot         924  0.0  1.5 225412  61440 ?       Ss   09:15   0:05 /usr/sbin/sshd -D\nroot         652  0.0  1.2 185632  48960 ?       Ss   09:15   0:03 /lib/systemd/systemd-journald\nroot           1  0.0  0.3 169436  13212 ?       Ss   09:15   0:02 /sbin/init\nroot         710  0.0  0.2 152408   9216 ?       Ssl  09:15   0:01 /usr/sbin/rsyslogd -n\nroot         831  0.0  0.1  18624   5120 ?       Ss   09:15   0:00 /sbin/dhclient -4 ens33\nroot         890  0.0  0.1  12340   4608 ?       Ss   09:15   0:00 /usr/sbin/cron -f\nnobody       653  0.0  0.1  16792   4096 ?       S    09:15   0:00 /lib/systemd/systemd-timesyncd"
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示进程快照及所选字段"
+
+[[commands.tokens]]
+text = " aux"
+desc = "按内存占用降序排列进程（前 10 行）；指定 aux"
+
+[[commands.tokens]]
+text = " --sort=-%mem"
+desc = "按内存占用降序排列进程（前 10 行）；此处使用 --sort=-%mem 选项"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "按内存占用降序排列进程（前 10 行）；指定 head"
+
+[[commands.tokens]]
+text = " -10"
+desc = "按内存占用降序排列进程（前 10 行）；此处使用 -10 选项"
+
+[commands.dictation]
+prompt = "按内存占用降序排列进程（前 10 行）"
+answers = ["ps aux --sort=-%mem | head -10"]
+
+[[commands]]
+id = "v04-ref-a05979f0c1"
+command = "pstree -p | head -20"
+summary = "以树形结构显示进程及其 PID"
+simulated_output = "systemd(1)─┬─ModemManager(748)─┬─{ModemManager}(771)\n           │                    └─{ModemManager}(779)\n           ├─cron(890)\n           ├─dbus-daemon(654)\n           ├─dhclient(831)\n           ├─mysqld(1342)─┬─{mysqld}(1350)\n           │              ├─{mysqld}(1351)\n           │              ├─{mysqld}(1352)\n           │              └─{mysqld}(1353)\n           ├─nginx(1205)───nginx(1207)\n           ├─rsyslogd(710)─┬─{rsyslogd}(720)\n           │               ├─{rsyslogd}(721)\n           │               └─{rsyslogd}(722)\n           ├─sshd(924)───sshd(2150)───sshd(2198)───bash(2199)───pstree(2456)\n           ├─systemd-journal(652)\n           ├─systemd-logind(715)\n           ├─systemd-resolve(660)\n           ├─systemd-timesyn(653)───{systemd-timesyn}(670)\n           ├─systemd-udevd(412)\n           └─agetty(895)"
+
+[[commands.tokens]]
+text = "pstree"
+desc = "以树形结构显示进程及其 PID"
+
+[[commands.tokens]]
+text = " -p"
+desc = "以树形结构显示进程及其 PID；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "以树形结构显示进程及其 PID；指定 head"
+
+[[commands.tokens]]
+text = " -20"
+desc = "以树形结构显示进程及其 PID；此处使用 -20 选项"
+
+[commands.dictation]
+prompt = "以树形结构显示进程及其 PID"
+answers = ["pstree -p | head -20"]
+
+[[commands]]
+id = "v04-ref-fdadf4b271"
+command = "ps -ef | head -10"
+summary = "以完整格式显示所有进程（包含 PPID）"
+simulated_output = "UID          PID    PPID  C STIME TTY          TIME CMD\nroot           1       0  0 09:15 ?        00:00:02 /sbin/init\nroot           2       0  0 09:15 ?        00:00:00 [kthreadd]\nroot           3       2  0 09:15 ?        00:00:00 [rcu_gp]\nroot           4       2  0 09:15 ?        00:00:00 [rcu_par_gp]\nroot           5       2  0 09:15 ?        00:00:00 [slub_flushwq]\nroot           6       2  0 09:15 ?        00:00:00 [netns]\nroot          11       2  0 09:15 ?        00:00:00 [rcu_sched]\nroot          12       2  0 09:15 ?        00:00:00 [migration/0]\nroot          13       2  0 09:15 ?        00:00:01 [ksoftirqd/0]"
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示进程快照及所选字段"
+
+[[commands.tokens]]
+text = " -ef"
+desc = "以完整格式显示所有进程（包含 PPID）；此处使用 -ef 选项"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "以完整格式显示所有进程（包含 PPID）；指定 head"
+
+[[commands.tokens]]
+text = " -10"
+desc = "以完整格式显示所有进程（包含 PPID）；此处使用 -10 选项"
+
+[commands.dictation]
+prompt = "以完整格式显示所有进程（包含 PPID）"
+answers = ["ps -ef | head -10"]
+
+[[commands]]
+id = "v04-ref-3be3b7d642"
+command = "kill -l"
+summary = "列出所有可用的信号名称和编号"
+simulated_output = " 1) SIGHUP\t 2) SIGINT\t 3) SIGQUIT\t 4) SIGILL\t 5) SIGTRAP\n 6) SIGABRT\t 7) SIGBUS\t 8) SIGFPE\t 9) SIGKILL\t10) SIGUSR1\n11) SIGSEGV\t12) SIGUSR2\t13) SIGPIPE\t14) SIGALRM\t15) SIGTERM\n16) SIGSTKFLT\t17) SIGCHLD\t18) SIGCONT\t19) SIGSTOP\t20) SIGTSTP\n21) SIGTTIN\t22) SIGTTOU\t23) SIGURG\t24) SIGXCPU\t25) SIGXFSZ\n26) SIGVTALRM\t27) SIGPROF\t28) SIGWINCH\t29) SIGIO\t30) SIGPWR\n31) SIGSYS\t34) SIGRTMIN\t35) SIGRTMIN+1\t36) SIGRTMIN+2\t37) SIGRTMIN+3\n38) SIGRTMIN+4\t39) SIGRTMIN+5\t40) SIGRTMIN+6\t41) SIGRTMIN+7\t42) SIGRTMIN+8\n43) SIGRTMIN+9\t44) SIGRTMIN+10\t45) SIGRTMIN+11\t46) SIGRTMIN+12\t47) SIGRTMIN+13\n48) SIGRTMIN+14\t49) SIGRTMIN+15\t50) SIGRTMAX-14\t51) SIGRTMAX-13\t52) SIGRTMAX-12\n53) SIGRTMAX-11\t54) SIGRTMAX-10\t55) SIGRTMAX-9\t56) SIGRTMAX-8\t57) SIGRTMAX-7\n58) SIGRTMAX-6\t59) SIGRTMAX-5\t60) SIGRTMAX-4\t61) SIGRTMAX-3\t62) SIGRTMAX-2\n63) SIGRTMAX-1\t64) SIGRTMAX"
+
+[[commands.tokens]]
+text = "kill"
+desc = "列出所有可用的信号名称和编号"
+
+[[commands.tokens]]
+text = " -l"
+desc = "列出所有可用的信号名称和编号；此处使用 -l 选项"
+
+[commands.dictation]
+prompt = "列出所有可用的信号名称和编号"
+answers = ["kill -l"]
+
+[[commands]]
+id = "v04-ref-22220b0c49"
+command = "kill 1234"
+summary = "向 PID 1234 发送 SIGTERM 信号（请求正常退出）"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "kill"
+desc = "向 PID 1234 发送 SIGTERM 信号（请求正常退出）"
+
+[[commands.tokens]]
+text = " 1234"
+desc = "本次练习的数值参数 1234；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "向 PID 1234 发送 SIGTERM 信号（请求正常退出）"
+answers = ["kill 1234"]
+
+[[commands]]
+id = "v04-ref-b4375f4fb0"
+command = "kill -9 5678"
+summary = "向 PID 5678 发送 SIGKILL 信号（强制终止）"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "kill"
+desc = "向 PID 5678 发送 SIGKILL 信号（强制终止）"
+
+[[commands.tokens]]
+text = " -9"
+desc = "向 PID 5678 发送 SIGKILL 信号（强制终止）；此处使用 -9 选项"
+
+[[commands.tokens]]
+text = " 5678"
+desc = "本次练习的数值参数 5678；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "向 PID 5678 发送 SIGKILL 信号（强制终止）"
+answers = ["kill -9 5678"]
+
+[[commands]]
+id = "v04-ref-c18302ba11"
+command = "killall nginx"
+summary = "向所有名为 nginx 的进程发送 SIGTERM 信号"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "killall"
+desc = "向所有名为 nginx 的进程发送 SIGTERM 信号"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "向所有名为 nginx 的进程发送 SIGTERM 信号；指定 nginx"
+
+[commands.dictation]
+prompt = "向所有名为 nginx 的进程发送 SIGTERM 信号"
+answers = ["killall nginx"]
+
+[[commands]]
+id = "v04-ref-ae516be39b"
+command = "nohup ./server.sh &"
+summary = "在后台启动 server.sh，忽略挂断信号（终端关闭后继续运行）"
+simulated_output = "[1] 28456\nnohup: ignoring input and appending output to 'nohup.out'"
+
+[[commands.tokens]]
+text = "nohup"
+desc = "在后台启动 server.sh，忽略挂断信号（终端关闭后继续运行）"
+
+[[commands.tokens]]
+text = " ./server.sh"
+desc = "本次操作指定的路径：./server.sh"
+
+[[commands.tokens]]
+text = " &"
+desc = "让前一命令在后台运行"
+
+[commands.dictation]
+prompt = "在后台启动 server.sh，忽略挂断信号（终端关闭后继续运行）"
+answers = ["nohup ./server.sh &"]
+
+[[commands]]
+id = "v04-ref-366be2c91e"
+command = "systemctl list-units --type=service --state=running | head -15"
+summary = "列出当前正在运行的服务"
+simulated_output = "  UNIT                        LOAD   ACTIVE SUB     DESCRIPTION\n  cron.service                loaded active running Regular background program processing daemon\n  dbus.service                loaded active running D-Bus System Message Bus\n  ModemManager.service        loaded active running Modem Manager\n  mysqld.service              loaded active running MySQL Community Server\n  networkd-dispatcher.service loaded active running Dispatcher daemon for systemd-networkd\n  nginx.service               loaded active running A high performance web server and a reverse proxy server\n  rsyslog.service             loaded active running System Logging Service\n  ssh.service                 loaded active running OpenBSD Secure Shell server\n  systemd-journald.service    loaded active running Journal Service\n  systemd-logind.service      loaded active running User Login Management\n  systemd-resolved.service    loaded active running Network Name Resolution\n  systemd-timesyncd.service   loaded active running Network Time Synchronization\n  systemd-udevd.service       loaded active running Rule-based Manager for Device Events and Files\n\nLOAD   = Reflects whether the unit definition was properly loaded.\nACTIVE = The high-level unit activation state, i.e. generalization of SUB."
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " list-units"
+desc = "列出当前正在运行的服务；指定 list-units"
+
+[[commands.tokens]]
+text = " --type=service"
+desc = "列出当前正在运行的服务；此处使用 --type=service 选项"
+
+[[commands.tokens]]
+text = " --state=running"
+desc = "列出当前正在运行的服务；此处使用 --state=running 选项"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "列出当前正在运行的服务；指定 head"
+
+[[commands.tokens]]
+text = " -15"
+desc = "列出当前正在运行的服务；此处使用 -15 选项"
+
+[commands.dictation]
+prompt = "列出当前正在运行的服务"
+answers = ["systemctl list-units --type=service --state=running | head -15"]
+
+[[commands]]
+id = "v04-ref-e6cab7cf2a"
+command = "sudo systemctl start nginx"
+summary = "启动 nginx 服务"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " start"
+desc = "启动 nginx 服务；指定 start"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "启动 nginx 服务；指定 nginx"
+
+[commands.dictation]
+prompt = "启动 nginx 服务"
+answers = ["sudo systemctl start nginx"]
+
+[[commands]]
+id = "v04-ref-22c52518ec"
+command = "sudo systemctl stop nginx"
+summary = "停止 nginx 服务"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " stop"
+desc = "停止 nginx 服务；指定 stop"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "停止 nginx 服务；指定 nginx"
+
+[commands.dictation]
+prompt = "停止 nginx 服务"
+answers = ["sudo systemctl stop nginx"]
+
+[[commands]]
+id = "v04-ref-b51d9f140d"
+command = "journalctl -u nginx -n 20"
+summary = "查看 nginx 服务最近 20 条日志"
+simulated_output = "-- Journal begins at Mon 2026-03-09 09:15:01 CST, ends at Mon 2026-03-09 14:46:32 CST. --\nMar 09 09:16:01 myserver systemd[1]: Starting A high performance web server and a reverse proxy server...\nMar 09 09:16:02 myserver systemd[1]: Started A high performance web server and a reverse proxy server.\nMar 09 10:23:15 myserver nginx[1205]: 192.168.1.50 - - [09/Mar/2026:10:23:15 +0800] \"GET / HTTP/1.1\" 200 612\nMar 09 10:23:15 myserver nginx[1205]: 192.168.1.50 - - [09/Mar/2026:10:23:15 +0800] \"GET /favicon.ico HTTP/1.1\" 404 153\nMar 09 11:05:42 myserver nginx[1205]: 192.168.1.105 - - [09/Mar/2026:11:05:42 +0800] \"GET /api/health HTTP/1.1\" 200 15\nMar 09 12:30:18 myserver nginx[1205]: 192.168.1.110 - - [09/Mar/2026:12:30:18 +0800] \"POST /api/login HTTP/1.1\" 200 256\nMar 09 13:15:03 myserver nginx[1205]: 10.0.0.50 - - [09/Mar/2026:13:15:03 +0800] \"GET /static/app.js HTTP/1.1\" 304 0\nMar 09 14:00:27 myserver nginx[1205]: 192.168.1.50 - - [09/Mar/2026:14:00:27 +0800] \"GET /dashboard HTTP/1.1\" 200 4523\nMar 09 14:46:32 myserver nginx[1205]: 192.168.1.105 - - [09/Mar/2026:14:46:32 +0800] \"GET / HTTP/1.1\" 200 612"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " -u"
+desc = "只读取指定 systemd 单元的日志"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "查看 nginx 服务最近 20 条日志；指定 nginx"
+
+[[commands.tokens]]
+text = " -n"
+desc = "显示末尾指定条数"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "查看 nginx 服务最近 20 条日志"
+answers = ["journalctl -u nginx -n 20"]
+
+[[commands]]
+id = "v04-ref-46a418a934"
+command = "journalctl -u sshd --since \"1 hour ago\""
+summary = "查看 sshd 服务最近一小时的日志"
+simulated_output = "-- Journal begins at Mon 2026-03-09 09:15:01 CST, ends at Mon 2026-03-09 14:46:55 CST. --\nMar 09 14:02:11 myserver sshd[2150]: Accepted publickey for ace from 192.168.1.50 port 52341 ssh2: RSA SHA256:xB3k...\nMar 09 14:02:11 myserver sshd[2150]: pam_unix(sshd:session): session opened for user ace(uid=1000) by (uid=0)\nMar 09 14:15:33 myserver sshd[2280]: Accepted password for deploy from 192.168.1.105 port 48923 ssh2\nMar 09 14:15:33 myserver sshd[2280]: pam_unix(sshd:session): session opened for user deploy(uid=1001) by (uid=0)\nMar 09 14:32:07 myserver sshd[2350]: Failed password for root from 10.0.0.99 port 39182 ssh2\nMar 09 14:32:09 myserver sshd[2350]: Failed password for root from 10.0.0.99 port 39182 ssh2\nMar 09 14:32:12 myserver sshd[2350]: Connection closed by authenticating user root 10.0.0.99 port 39182 [preauth]\nMar 09 14:40:55 myserver sshd[2280]: pam_unix(sshd:session): session closed for user deploy"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " -u"
+desc = "只读取指定 systemd 单元的日志"
+
+[[commands.tokens]]
+text = " sshd"
+desc = "查看 sshd 服务最近一小时的日志；指定 sshd"
+
+[[commands.tokens]]
+text = " --since"
+desc = "设置包含的起始时间"
+
+[[commands.tokens]]
+text = " \"1 hour ago\""
+desc = "引号保护此参数中的空格或特殊符号；查看 sshd 服务最近一小时的日志"
+
+[commands.dictation]
+prompt = "查看 sshd 服务最近一小时的日志"
+answers = ["journalctl -u sshd --since \"1 hour ago\""]
+
+[[commands]]
+id = "v04-ref-c7cab47e7a"
+command = "journalctl --disk-usage"
+summary = "显示日志占用的磁盘空间"
+simulated_output = "Archived and active journals take up 152.3M in the file system."
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " --disk-usage"
+desc = "显示日志占用的磁盘空间；此处使用 --disk-usage 选项"
+
+[commands.dictation]
+prompt = "显示日志占用的磁盘空间"
+answers = ["journalctl --disk-usage"]
+
+[[commands]]
+id = "v04-ref-4d727eaf56"
+command = "ps ww -o pid,ppid,sid,pgid,tpgid,tty,stat,args --forest -p 4242"
+summary = "以宽幅静态示例查看目标进程的父进程、会话、进程组、前台进程组和完整参数"
+simulated_output = "  PID  PPID   SID  PGID TPGID TT       STAT COMMAND\n 4242  4100  4100  4242  4242 pts/7    S+   python3 worker.py --queue demo"
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示进程快照及所选字段"
+
+[[commands.tokens]]
+text = " ww"
+desc = "以宽幅静态示例查看目标进程的父进程、会话、进程组、前台进程组和完整参数；指定 ww"
+
+[[commands.tokens]]
+text = " -o"
+desc = "以宽幅静态示例查看目标进程的父进程、会话、进程组、前台进程组和完整参数；此处使用 -o 选项"
+
+[[commands.tokens]]
+text = " pid,ppid,sid,pgid,tpgid,tty,stat,args"
+desc = "以宽幅静态示例查看目标进程的父进程、会话、进程组、前台进程组和完整参数；指定 pid,ppid,sid,pgid,tpgid,tty,stat,args"
+
+[[commands.tokens]]
+text = " --forest"
+desc = "以宽幅静态示例查看目标进程的父进程、会话、进程组、前台进程组和完整参数；此处使用 --forest 选项"
+
+[[commands.tokens]]
+text = " -p"
+desc = "以宽幅静态示例查看目标进程的父进程、会话、进程组、前台进程组和完整参数；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " 4242"
+desc = "本次练习的数值参数 4242；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "以宽幅静态示例查看目标进程的父进程、会话、进程组、前台进程组和完整参数"
+answers = ["ps ww -o pid,ppid,sid,pgid,tpgid,tty,stat,args --forest -p 4242"]
+
+[[commands]]
+id = "v04-ref-3808f4ab77"
+command = "printf '0 success\\n1 no-match\\n2 usage-error\\n'"
+summary = "展示静态退出状态解释表"
+simulated_output = "0 success\n1 no-match\n2 usage-error"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '0 success\\n1 no-match\\n2 usage-error\\n'"
+desc = "引号保护此参数中的空格或特殊符号；展示静态退出状态解释表"
+
+[commands.dictation]
+prompt = "展示静态退出状态解释表"
+answers = ["printf '0 success\\n1 no-match\\n2 usage-error\\n'"]
+
+[[commands]]
+id = "v04-ref-8114e17f6e"
+command = "ls /srv/missing"
+summary = "步骤 1：观察错误属于 stderr"
+simulated_output = "ls: cannot access '/srv/missing': No such file or directory"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " /srv/missing"
+desc = "本次操作指定的路径：/srv/missing"
+
+[commands.dictation]
+prompt = "步骤 1：观察错误属于 stderr"
+answers = ["ls /srv/missing"]
+
+[[commands]]
+id = "v04-ref-1c4bdd54eb"
+command = "printf 'stdout -> pipe; stderr -> terminal\\n'"
+summary = "步骤 3：用静态说明核对当前流向"
+simulated_output = "stdout -> pipe; stderr -> terminal"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'stdout -> pipe; stderr -> terminal\\n'"
+desc = "引号保护此参数中的空格或特殊符号；步骤 3：用静态说明核对当前流向"
+
+[commands.dictation]
+prompt = "步骤 3：用静态说明核对当前流向"
+answers = ["printf 'stdout -> pipe; stderr -> terminal\\n'"]
+
+[[commands]]
+id = "v04-ref-9993965839"
+command = "findmnt -o TARGET,SOURCE,FSTYPE,OPTIONS /"
+summary = "观察根挂载的目标、来源、文件系统与选项"
+simulated_output = "TARGET SOURCE         FSTYPE OPTIONS\n/      /dev/nvme0n1p2 ext4   rw,relatime"
+
+[[commands.tokens]]
+text = "findmnt"
+desc = "观察根挂载的目标、来源、文件系统与选项"
+
+[[commands.tokens]]
+text = " -o"
+desc = "观察根挂载的目标、来源、文件系统与选项；此处使用 -o 选项"
+
+[[commands.tokens]]
+text = " TARGET,SOURCE,FSTYPE,OPTIONS"
+desc = "观察根挂载的目标、来源、文件系统与选项；指定 TARGET,SOURCE,FSTYPE,OPTIONS"
+
+[[commands.tokens]]
+text = " /"
+desc = "本次操作指定的路径：/"
+
+[commands.dictation]
+prompt = "观察根挂载的目标、来源、文件系统与选项"
+answers = ["findmnt -o TARGET,SOURCE,FSTYPE,OPTIONS /"]
+
+[[commands]]
+id = "v04-ref-b7adf77905"
+command = "who"
+summary = "观察当前登录用户、终端、时间与来源"
+simulated_output = "ace      pts/0        2026-07-26 09:10 (192.0.2.10)\ntraining pts/2        2026-07-26 09:42 (192.0.2.25)"
+
+[[commands.tokens]]
+text = "who"
+desc = "观察当前登录用户、终端、时间与来源"
+
+[commands.dictation]
+prompt = "观察当前登录用户、终端、时间与来源"
+answers = ["who"]
+
+[[commands]]
+id = "v04-ref-e6802f6d72"
+command = "ps -o user,pid,ppid,tty,lstart,args -t pts/2"
+summary = "按终端观察 training 会话中的静态进程树线索"
+simulated_output = "USER       PID  PPID TT       STARTED                  COMMAND\ntraining  5200  5100 pts/2    Sun Jul 26 09:42:01 2026 -bash\ntraining  5312  5200 pts/2    Sun Jul 26 09:47:20 2026 python3 report.py"
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示进程快照及所选字段"
+
+[[commands.tokens]]
+text = " -o"
+desc = "按终端观察 training 会话中的静态进程树线索；此处使用 -o 选项"
+
+[[commands.tokens]]
+text = " user,pid,ppid,tty,lstart,args"
+desc = "按终端观察 training 会话中的静态进程树线索；指定 user,pid,ppid,tty,lstart,args"
+
+[[commands.tokens]]
+text = " -t"
+desc = "按终端观察 training 会话中的静态进程树线索；此处使用 -t 选项"
+
+[[commands.tokens]]
+text = " pts/2"
+desc = "按终端观察 training 会话中的静态进程树线索；指定 pts/2"
+
+[commands.dictation]
+prompt = "按终端观察 training 会话中的静态进程树线索"
+answers = ["ps -o user,pid,ppid,tty,lstart,args -t pts/2"]
+
+[[commands]]
+id = "v04-ref-21d1e955a2"
+command = "file -bi report.txt"
+summary = "观察工具对文本 MIME 类型和字符集的静态判断"
+simulated_output = "text/plain; charset=utf-8"
+
+[[commands.tokens]]
+text = "file"
+desc = "观察工具对文本 MIME 类型和字符集的静态判断"
+
+[[commands.tokens]]
+text = " -bi"
+desc = "观察工具对文本 MIME 类型和字符集的静态判断；此处使用 -bi 选项"
+
+[[commands.tokens]]
+text = " report.txt"
+desc = "观察工具对文本 MIME 类型和字符集的静态判断；指定 report.txt"
+
+[commands.dictation]
+prompt = "观察工具对文本 MIME 类型和字符集的静态判断"
+answers = ["file -bi report.txt"]
+
+[[commands]]
+id = "v04-ref-1db3107bc3"
+command = "printf '中\\n' | od -An -tx1"
+summary = "观察 UTF-8 字符对应的字节序列"
+simulated_output = " e4 b8 ad 0a"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '中\\n'"
+desc = "引号保护此参数中的空格或特殊符号；观察 UTF-8 字符对应的字节序列"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " od"
+desc = "观察 UTF-8 字符对应的字节序列；指定 od"
+
+[[commands.tokens]]
+text = " -An"
+desc = "观察 UTF-8 字符对应的字节序列；此处使用 -An 选项"
+
+[[commands.tokens]]
+text = " -tx1"
+desc = "观察 UTF-8 字符对应的字节序列；此处使用 -tx1 选项"
+
+[commands.dictation]
+prompt = "观察 UTF-8 字符对应的字节序列"
+answers = ["printf '中\\n' | od -An -tx1"]
+
+[[commands]]
+id = "v04-ref-ab461223c3"
+command = "iconv -f GB18030 -t UTF-8 legacy.txt"
+summary = "把假定为 GB18030 的静态输入转换到 stdout 供预览"
+simulated_output = "项目状态：正常"
+
+[[commands.tokens]]
+text = "iconv"
+desc = "把假定为 GB18030 的静态输入转换到 stdout 供预览"
+
+[[commands.tokens]]
+text = " -f"
+desc = "把假定为 GB18030 的静态输入转换到 stdout 供预览；此处使用 -f 选项"
+
+[[commands.tokens]]
+text = " GB18030"
+desc = "把假定为 GB18030 的静态输入转换到 stdout 供预览；指定 GB18030"
+
+[[commands.tokens]]
+text = " -t"
+desc = "把假定为 GB18030 的静态输入转换到 stdout 供预览；此处使用 -t 选项"
+
+[[commands.tokens]]
+text = " UTF-8"
+desc = "把假定为 GB18030 的静态输入转换到 stdout 供预览；指定 UTF-8"
+
+[[commands.tokens]]
+text = " legacy.txt"
+desc = "把假定为 GB18030 的静态输入转换到 stdout 供预览；指定 legacy.txt"
+
+[commands.dictation]
+prompt = "把假定为 GB18030 的静态输入转换到 stdout 供预览"
+answers = ["iconv -f GB18030 -t UTF-8 legacy.txt"]
+
+[[commands]]
+id = "v04-ref-b709db98a7"
+command = "file -bi app.log"
+summary = "步骤 3：观察日志的 MIME 与字符集线索"
+simulated_output = "text/plain; charset=iso-8859-1"
+
+[[commands.tokens]]
+text = "file"
+desc = "步骤 3：观察日志的 MIME 与字符集线索"
+
+[[commands.tokens]]
+text = " -bi"
+desc = "步骤 3：观察日志的 MIME 与字符集线索；此处使用 -bi 选项"
+
+[[commands.tokens]]
+text = " app.log"
+desc = "步骤 3：观察日志的 MIME 与字符集线索；指定 app.log"
+
+[commands.dictation]
+prompt = "步骤 3：观察日志的 MIME 与字符集线索"
+answers = ["file -bi app.log"]
+
+[[commands]]
+id = "v04-ref-b0e6622162"
+command = "iconv -f GB18030 -t UTF-8 app.log"
+summary = "步骤 4：把转换结果写到 stdout 预览，不覆盖原日志"
+simulated_output = "2026-07-26 10:15:00 服务启动"
+
+[[commands.tokens]]
+text = "iconv"
+desc = "步骤 4：把转换结果写到 stdout 预览，不覆盖原日志"
+
+[[commands.tokens]]
+text = " -f"
+desc = "步骤 4：把转换结果写到 stdout 预览，不覆盖原日志；此处使用 -f 选项"
+
+[[commands.tokens]]
+text = " GB18030"
+desc = "步骤 4：把转换结果写到 stdout 预览，不覆盖原日志；指定 GB18030"
+
+[[commands.tokens]]
+text = " -t"
+desc = "步骤 4：把转换结果写到 stdout 预览，不覆盖原日志；此处使用 -t 选项"
+
+[[commands.tokens]]
+text = " UTF-8"
+desc = "步骤 4：把转换结果写到 stdout 预览，不覆盖原日志；指定 UTF-8"
+
+[[commands.tokens]]
+text = " app.log"
+desc = "步骤 4：把转换结果写到 stdout 预览，不覆盖原日志；指定 app.log"
+
+[commands.dictation]
+prompt = "步骤 4：把转换结果写到 stdout 预览，不覆盖原日志"
+answers = ["iconv -f GB18030 -t UTF-8 app.log"]

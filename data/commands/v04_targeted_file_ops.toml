@@ -1,0 +1,280 @@
+
+[meta]
+category = "file_ops"
+difficulty = "basic"
+description = "针对基础用法具体操作、方向和选项的三题练习；只在模拟实验环境中输入。"
+
+[[commands]]
+id = "v04-ex-qa-4daab8fd68"
+command = "vim -R ~/ops-lab/check.sh"
+summary = "显式使用只读标志查看实验脚本"
+
+[[commands.tokens]]
+text = "vim"
+desc = "显式使用只读标志查看实验脚本"
+
+[[commands.tokens]]
+text = " -R"
+desc = "本次操作参数：-R。显式使用只读标志查看实验脚本"
+
+[[commands.tokens]]
+text = " ~/ops-lab/check.sh"
+desc = "本次操作参数：~/ops-lab/check.sh。显式使用只读标志查看实验脚本"
+
+[commands.dictation]
+prompt = "显式使用只读标志查看实验脚本"
+answers = ["vim -R ~/ops-lab/check.sh"]
+
+[[commands]]
+id = "v04-ex-qa-d768e8ef8d"
+command = "view +12 ~/ops-lab/backend.log"
+summary = "只读打开实验日志并先定位第十二行"
+
+[[commands.tokens]]
+text = "view"
+desc = "只读打开实验日志并先定位第十二行"
+
+[[commands.tokens]]
+text = " +12"
+desc = "本次操作参数：+12。只读打开实验日志并先定位第十二行"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backend.log"
+desc = "本次操作参数：~/ops-lab/backend.log。只读打开实验日志并先定位第十二行"
+
+[commands.dictation]
+prompt = "只读打开实验日志并先定位第十二行"
+answers = ["view +12 ~/ops-lab/backend.log"]
+
+[[commands]]
+id = "v04-ex-qa-9a557a87c5"
+command = "nano -l ~/ops-lab/settings.ini"
+summary = "带行号查看和编辑实验配置"
+
+[[commands.tokens]]
+text = "nano"
+desc = "带行号查看和编辑实验配置"
+
+[[commands.tokens]]
+text = " -l"
+desc = "本次操作参数：-l。带行号查看和编辑实验配置"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "本次操作参数：~/ops-lab/settings.ini。带行号查看和编辑实验配置"
+
+[commands.dictation]
+prompt = "带行号查看和编辑实验配置"
+answers = ["nano -l ~/ops-lab/settings.ini"]
+
+[[commands]]
+id = "v04-ex-qa-c20bea7350"
+command = "nano -l ~/ops-lab/notes.txt"
+summary = "使用行号在实验笔记中定位内容"
+
+[[commands.tokens]]
+text = "nano"
+desc = "使用行号在实验笔记中定位内容"
+
+[[commands.tokens]]
+text = " -l"
+desc = "本次操作参数：-l。使用行号在实验笔记中定位内容"
+
+[[commands.tokens]]
+text = " ~/ops-lab/notes.txt"
+desc = "本次操作参数：~/ops-lab/notes.txt。使用行号在实验笔记中定位内容"
+
+[commands.dictation]
+prompt = "使用行号在实验笔记中定位内容"
+answers = ["nano -l ~/ops-lab/notes.txt"]
+
+[[commands]]
+id = "v04-ex-qa-901119b876"
+command = "stat -c '%s' ~/ops-lab/settings.ini"
+summary = "只显示实验配置的精确字节数"
+
+[[commands.tokens]]
+text = "stat"
+desc = "只显示实验配置的精确字节数"
+
+[[commands.tokens]]
+text = " -c"
+desc = "本次操作参数：-c。只显示实验配置的精确字节数"
+
+[[commands.tokens]]
+text = " '%s'"
+desc = "本次操作参数：'%s'。只显示实验配置的精确字节数"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "本次操作参数：~/ops-lab/settings.ini。只显示实验配置的精确字节数"
+
+[commands.dictation]
+prompt = "只显示实验配置的精确字节数"
+answers = ["stat -c '%s' ~/ops-lab/settings.ini"]
+
+[[commands]]
+id = "v04-ex-qa-8296073944"
+command = "stat -c '%n %s bytes' ~/ops-lab/notes.txt"
+summary = "带单位标签读取实验笔记的精确大小"
+
+[[commands.tokens]]
+text = "stat"
+desc = "带单位标签读取实验笔记的精确大小"
+
+[[commands.tokens]]
+text = " -c"
+desc = "本次操作参数：-c。带单位标签读取实验笔记的精确大小"
+
+[[commands.tokens]]
+text = " '%n %s bytes'"
+desc = "本次操作参数：'%n %s bytes'。带单位标签读取实验笔记的精确大小"
+
+[[commands.tokens]]
+text = " ~/ops-lab/notes.txt"
+desc = "本次操作参数：~/ops-lab/notes.txt。带单位标签读取实验笔记的精确大小"
+
+[commands.dictation]
+prompt = "带单位标签读取实验笔记的精确大小"
+answers = ["stat -c '%n %s bytes' ~/ops-lab/notes.txt"]
+
+[[commands]]
+id = "v04-ex-qa-7fa8226c1b"
+command = "rm -- ~/ops-lab/old-report.txt"
+summary = "明确结束选项解析后删除已核对的实验报告"
+
+[[commands.tokens]]
+text = "rm"
+desc = "明确结束选项解析后删除已核对的实验报告"
+
+[[commands.tokens]]
+text = " --"
+desc = "本次操作参数：--。明确结束选项解析后删除已核对的实验报告"
+
+[[commands.tokens]]
+text = " ~/ops-lab/old-report.txt"
+desc = "本次操作参数：~/ops-lab/old-report.txt。明确结束选项解析后删除已核对的实验报告"
+
+[commands.dictation]
+prompt = "明确结束选项解析后删除已核对的实验报告"
+answers = ["rm -- ~/ops-lab/old-report.txt"]
+
+[[commands]]
+id = "v04-ex-qa-1b4a6e12da"
+command = "rm -i ~/ops-lab/old-report.txt"
+summary = "对另一份实验报告执行交互删除"
+
+[[commands.tokens]]
+text = "rm"
+desc = "对另一份实验报告执行交互删除"
+
+[[commands.tokens]]
+text = " -i"
+desc = "本次操作参数：-i。对另一份实验报告执行交互删除"
+
+[[commands.tokens]]
+text = " ~/ops-lab/old-report.txt"
+desc = "本次操作参数：~/ops-lab/old-report.txt。对另一份实验报告执行交互删除"
+
+[commands.dictation]
+prompt = "对另一份实验报告执行交互删除"
+answers = ["rm -i ~/ops-lab/old-report.txt"]
+
+[[commands]]
+id = "v04-ex-qa-a68d52590e"
+command = "rm -iv ~/ops-lab/cache.tmp"
+summary = "确认删除后再显示被处理的实验文件"
+
+[[commands.tokens]]
+text = "rm"
+desc = "确认删除后再显示被处理的实验文件"
+
+[[commands.tokens]]
+text = " -iv"
+desc = "本次操作参数：-iv。确认删除后再显示被处理的实验文件"
+
+[[commands.tokens]]
+text = " ~/ops-lab/cache.tmp"
+desc = "本次操作参数：~/ops-lab/cache.tmp。确认删除后再显示被处理的实验文件"
+
+[commands.dictation]
+prompt = "确认删除后再显示被处理的实验文件"
+answers = ["rm -iv ~/ops-lab/cache.tmp"]
+
+[[commands]]
+id = "v04-ex-qa-04cbe3e706"
+command = "head -c 16 /dev/urandom | od -An -tx1"
+summary = "有限读取十六字节随机设备数据并按十六进制显示"
+
+[[commands.tokens]]
+text = "head"
+desc = "有限读取十六字节随机设备数据并按十六进制显示"
+
+[[commands.tokens]]
+text = " -c"
+desc = "本次操作参数：-c。有限读取十六字节随机设备数据并按十六进制显示"
+
+[[commands.tokens]]
+text = " 16"
+desc = "本次操作参数：16。有限读取十六字节随机设备数据并按十六进制显示"
+
+[[commands.tokens]]
+text = " /dev/urandom"
+desc = "本次操作参数：/dev/urandom。有限读取十六字节随机设备数据并按十六进制显示"
+
+[[commands.tokens]]
+text = " |"
+desc = "本次操作参数：|。有限读取十六字节随机设备数据并按十六进制显示"
+
+[[commands.tokens]]
+text = " od"
+desc = "本次操作参数：od。有限读取十六字节随机设备数据并按十六进制显示"
+
+[[commands.tokens]]
+text = " -An"
+desc = "本次操作参数：-An。有限读取十六字节随机设备数据并按十六进制显示"
+
+[[commands.tokens]]
+text = " -tx1"
+desc = "本次操作参数：-tx1。有限读取十六字节随机设备数据并按十六进制显示"
+
+[commands.dictation]
+prompt = "有限读取十六字节随机设备数据并按十六进制显示"
+answers = ["head -c 16 /dev/urandom | od -An -tx1"]
+
+[[commands]]
+id = "v04-ex-qa-c23a2796a8"
+command = "find /tmp -maxdepth 1 -type d -print"
+summary = "只读清点临时目录第一层子目录，不执行清理"
+
+[[commands.tokens]]
+text = "find"
+desc = "只读清点临时目录第一层子目录，不执行清理"
+
+[[commands.tokens]]
+text = " /tmp"
+desc = "本次操作参数：/tmp。只读清点临时目录第一层子目录，不执行清理"
+
+[[commands.tokens]]
+text = " -maxdepth"
+desc = "本次操作参数：-maxdepth。只读清点临时目录第一层子目录，不执行清理"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次操作参数：1。只读清点临时目录第一层子目录，不执行清理"
+
+[[commands.tokens]]
+text = " -type"
+desc = "本次操作参数：-type。只读清点临时目录第一层子目录，不执行清理"
+
+[[commands.tokens]]
+text = " d"
+desc = "本次操作参数：d。只读清点临时目录第一层子目录，不执行清理"
+
+[[commands.tokens]]
+text = " -print"
+desc = "本次操作参数：-print。只读清点临时目录第一层子目录，不执行清理"
+
+[commands.dictation]
+prompt = "只读清点临时目录第一层子目录，不执行清理"
+answers = ["find /tmp -maxdepth 1 -type d -print"]

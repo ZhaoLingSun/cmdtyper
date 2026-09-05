@@ -1,3 +1,4 @@
+
 [meta]
 id = "variables"
 topic = "Shell 变量"
@@ -5,439 +6,308 @@ description = "学习 Shell 中的特殊变量与变量展开语法，掌握变�
 difficulty = "basic"
 icon = "📦"
 
-# ─────────────────────────────────────────────
-# 1. $VAR 变量引用
-# ─────────────────────────────────────────────
 [[symbols]]
 id = "var_reference"
 char_repr = "$VAR"
 name = "变量引用"
 summary = "通过 $ 前缀引用变量的值，Shell 会将其展开为变量的实际内容"
-explanation = """$ 是 Shell 中最基本的变量展开操作符。在变量名前加上 $ 符号，
-Shell 会在执行命令之前将其替换为该变量的实际值。
-
-常见的环境变量：
-  $HOME     当前用户的家目录（如 /home/ace）
-  $USER     当前登录的用户名
-  $PATH     可执行文件搜索路径列表
-  $SHELL    当前用户的默认 Shell 程序
-  $PWD      当前工作目录
-  $LANG     系统语言和编码设置
-
-注意事项：
-  - 引用未定义的变量会得到空字符串（不会报错）
-  - 变量名区分大小写：$HOME 和 $home 是不同的变量
-  - 在双引号内 $ 仍然会展开，在单引号内则不会"""
+explanation = "$ 是 Shell 中最基本的变量展开操作符。在变量名前加上 $ 符号，\nShell 会在执行命令之前将其替换为该变量的实际值。\n\n常见的环境变量：\n  $HOME     当前用户的家目录（如 /home/ace）\n  $USER     当前登录的用户名\n  $PATH     可执行文件搜索路径列表\n  $SHELL    当前用户的默认 Shell 程序\n  $PWD      当前工作目录\n  $LANG     系统语言和编码设置\n\n注意事项：\n  - 引用未定义的变量会得到空字符串（不会报错）\n  - 变量名区分大小写：$HOME 和 $home 是不同的变量\n  - 在双引号内 $ 仍然会展开，在单引号内则不会"
 
 [[symbols.examples]]
-command = "echo $HOME"
 explanation = "显示当前用户的家目录路径"
 simulated_output = "/home/ace"
+id = "var_reference-example-001"
+command_id = "echo-var-home"
 
 [[symbols.examples]]
-command = "echo $PATH"
 explanation = "显示系统的可执行文件搜索路径，各路径之间用冒号分隔"
 simulated_output = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+id = "var_reference-example-002"
+command_id = "shared-3c823467ea66ecb3"
 
 [[symbols.examples]]
-command = "echo $SHELL"
 explanation = "显示当前用户的默认 Shell 程序路径"
 simulated_output = "/bin/bash"
+id = "var_reference-example-003"
+command_id = "echo-var-shell"
 
-# ─────────────────────────────────────────────
-# 2. ${VAR} 花括号变量引用
-# ─────────────────────────────────────────────
 [[symbols]]
 id = "var_brace"
 char_repr = "${VAR}"
 name = "花括号变量引用"
 summary = "用花括号明确界定变量名的边界，避免与相邻字符混淆"
-explanation = """${VAR} 与 $VAR 的作用相同，但花括号明确标出了变量名的边界。
-当变量名紧跟其他字符时，必须使用花括号来消除歧义。
-
-对比示例：
-  $USERname    — Shell 会尝试找名为 USERname 的变量（通常未定义，返回空）
-  ${USER}name  — Shell 找到 USER 变量并在其值后拼接 name
-
-花括号形式还支持更高级的变量操作：
-  ${VAR:-默认值}    变量未定义时使用默认值
-  ${VAR:=默认值}    变量未定义时赋予默认值
-  ${#VAR}          返回变量值的字符长度
-  ${VAR%后缀}      删除最短匹配的后缀
-  ${VAR%%后缀}     删除最长匹配的后缀
-  ${VAR#前缀}      删除最短匹配的前缀
-  ${VAR##前缀}     删除最长匹配的前缀
-
-建议：在脚本中始终使用 ${VAR} 形式，可读性更好，也更不容易出错。"""
+explanation = "${VAR} 与 $VAR 的作用相同，但花括号明确标出了变量名的边界。\n当变量名紧跟其他字符时，必须使用花括号来消除歧义。\n\n对比示例：\n  $USERname    — Shell 会尝试找名为 USERname 的变量（通常未定义，返回空）\n  ${USER}name  — Shell 找到 USER 变量并在其值后拼接 name\n\n花括号形式还支持更高级的变量操作：\n  ${VAR:-默认值}    变量未定义时使用默认值\n  ${VAR:=默认值}    变量未定义时赋予默认值\n  ${#VAR}          返回变量值的字符长度\n  ${VAR%后缀}      删除最短匹配的后缀\n  ${VAR%%后缀}     删除最长匹配的后缀\n  ${VAR#前缀}      删除最短匹配的前缀\n  ${VAR##前缀}     删除最长匹配的前缀\n\n建议：在脚本中始终使用 ${VAR} 形式，可读性更好，也更不容易出错。"
 
 [[symbols.examples]]
-command = "echo \"${HOME}/docs\""
 explanation = "在变量后拼接路径，花括号确保 Shell 正确识别变量名为 HOME"
 simulated_output = "/home/ace/docs"
+id = "var_brace-example-001"
+command_id = "v04-ref-521aa3cf1e"
 
 [[symbols.examples]]
-command = "echo \"${USER}_backup\""
 explanation = "在用户名后拼接下划线和字符串，生成备份目录名"
 simulated_output = "ace_backup"
+id = "var_brace-example-002"
+command_id = "shared-57788f1b63ec9a4b"
 
 [[symbols.examples]]
-command = "echo \"file_${VERSION}.tar.gz\""
 explanation = "将版本号变量嵌入文件名中，如果 VERSION 未定义则该处为空"
 simulated_output = "file_2.1.0.tar.gz"
+id = "var_brace-example-003"
+command_id = "shared-17a42a385b5576b3"
 
-# ─────────────────────────────────────────────
-# 3. $? 退出状态
-# ─────────────────────────────────────────────
 [[symbols]]
 id = "exit_status"
 char_repr = "$?"
 name = "退出状态码"
 summary = "保存上一个命令的退出状态码，0 表示成功，非零表示失败"
-explanation = """$? 是一个特殊变量，保存最近一次执行的命令的退出状态码（exit code）。
-
-退出状态码约定：
-  0     命令执行成功
-  1     一般性错误
-  2     命令使用方式错误（如参数不对）
-  126   命令存在但不可执行（权限不足）
-  127   命令未找到
-  128+N 被信号 N 终止（如 130 = Ctrl+C 中断）
-
-$? 在脚本中非常重要，常用于条件判断：
-  if [ $? -eq 0 ]; then
-      echo "成功"
-  else
-      echo "失败"
-  fi
-
-注意：$? 的值在每次执行命令后都会更新，所以如果需要保存某个命令的退出码，
-应该立即将其赋值给变量：status=$?"""
+explanation = "$? 是一个特殊变量，保存最近一次执行的命令的退出状态码（exit code）。\n\n退出状态码约定：\n  0     命令执行成功\n  1     一般性错误\n  2     命令使用方式错误（如参数不对）\n  126   命令存在但不可执行（权限不足）\n  127   命令未找到\n  128+N 被信号 N 终止（如 130 = Ctrl+C 中断）\n\n$? 在脚本中非常重要，常用于条件判断：\n  if [ $? -eq 0 ]; then\n      echo \"成功\"\n  else\n      echo \"失败\"\n  fi\n\n注意：$? 的值在每次执行命令后都会更新，所以如果需要保存某个命令的退出码，\n应该立即将其赋值给变量：status=$?"
 
 [[symbols.examples]]
-command = "ls /etc > /dev/null && echo $?"
 explanation = "列出 /etc 目录（输出丢弃），然后显示退出码。ls 成功则输出 0"
 simulated_output = "0"
+id = "exit_status-example-001"
+command_id = "v04-ref-dcf61be114"
 
 [[symbols.examples]]
-command = "ls /nonexistent 2>/dev/null; echo $?"
 explanation = "尝试列出不存在的目录（错误信息丢弃），然后显示退出码。失败返回 2"
 simulated_output = "2"
+id = "exit_status-example-002"
+command_id = "shared-ed810cb663ca76f3"
 
 [[symbols.examples]]
-command = "true && echo $?"
 explanation = "true 命令总是返回成功（0），用于测试退出状态机制"
 simulated_output = "0"
+id = "exit_status-example-003"
+command_id = "shared-4445add24054b5e1"
 
-# ─────────────────────────────────────────────
-# 4. $0 脚本名称
-# ─────────────────────────────────────────────
 [[symbols]]
 id = "script_name"
 char_repr = "$0"
 name = "脚本/Shell 名称"
 summary = "保存当前脚本的名称或当前 Shell 的名称"
-explanation = """$0 是一个特殊的位置参数，保存当前正在运行的脚本名称或 Shell 名称。
-
-不同场景下的值：
-  - 在交互式 Shell 中：$0 通常是 bash、-bash 或 /bin/bash
-  - 在脚本中运行：$0 是脚本被调用时的名称（如 ./deploy.sh 或 /usr/local/bin/deploy.sh）
-  - 通过 bash -c 执行：$0 是 -c 后面紧跟的第一个非选项参数
-
-$0 的常见用途：
-  - 在脚本中显示使用帮助：echo "用法: $0 [选项] <参数>"
-  - 获取脚本所在目录：DIR=$(dirname "$0")
-  - 根据调用名称改变行为（类似 busybox 的多命令合一方式）
-
-注意：$0 不包含在 $# 的参数计数中，也不包含在 $@ 的参数列表中。"""
+explanation = "$0 是一个特殊的位置参数，保存当前正在运行的脚本名称或 Shell 名称。\n\n不同场景下的值：\n  - 在交互式 Shell 中：$0 通常是 bash、-bash 或 /bin/bash\n  - 在脚本中运行：$0 是脚本被调用时的名称（如 ./deploy.sh 或 /usr/local/bin/deploy.sh）\n  - 通过 bash -c 执行：$0 是 -c 后面紧跟的第一个非选项参数\n\n$0 的常见用途：\n  - 在脚本中显示使用帮助：echo \"用法: $0 [选项] <参数>\"\n  - 获取脚本所在目录：DIR=$(dirname \"$0\")\n  - 根据调用名称改变行为（类似 busybox 的多命令合一方式）\n\n注意：$0 不包含在 $# 的参数计数中，也不包含在 $@ 的参数列表中。"
 
 [[symbols.examples]]
-command = "echo $0"
 explanation = "在交互式终端中显示当前 Shell 的名称"
 simulated_output = "bash"
+id = "script_name-example-001"
+command_id = "shell-invocation-name"
 
 [[symbols.examples]]
-command = "bash -c 'echo $0' myscript"
 explanation = "通过 bash -c 执行时，紧跟在命令字符串后面的 myscript 会赋值给 $0"
 simulated_output = "myscript"
+id = "script_name-example-002"
+command_id = "shared-cd8af30682a37503"
 
-# ─────────────────────────────────────────────
-# 5. $# 参数个数
-# ─────────────────────────────────────────────
 [[symbols]]
 id = "arg_count"
 char_repr = "$#"
 name = "参数个数"
 summary = "返回传递给脚本或函数的位置参数个数"
-explanation = """$# 是一个特殊变量，保存传递给当前脚本或函数的位置参数总数。
-它不包含 $0（脚本名本身），只计算 $1、$2、$3... 等参数。
-
-常见用途：
-  - 检查参数个数是否正确：
-    if [ $# -lt 2 ]; then
-        echo "用法: $0 <源文件> <目标文件>"
-        exit 1
-    fi
-
-  - 判断是否有参数传入：
-    if [ $# -eq 0 ]; then
-        echo "未提供参数"
-    fi
-
-在函数内部，$# 返回的是传递给函数的参数个数，而不是脚本的参数个数。"""
+explanation = "$# 是一个特殊变量，保存传递给当前脚本或函数的位置参数总数。\n它不包含 $0（脚本名本身），只计算 $1、$2、$3... 等参数。\n\n常见用途：\n  - 检查参数个数是否正确：\n    if [ $# -lt 2 ]; then\n        echo \"用法: $0 <源文件> <目标文件>\"\n        exit 1\n    fi\n\n  - 判断是否有参数传入：\n    if [ $# -eq 0 ]; then\n        echo \"未提供参数\"\n    fi\n\n在函数内部，$# 返回的是传递给函数的参数个数，而不是脚本的参数个数。"
 
 [[symbols.examples]]
-command = "bash -c 'echo $#' _ a b c"
 explanation = "传入 a、b、c 三个参数（_ 是 $0 的占位符），$# 显示参数个数为 3"
 simulated_output = "3"
+id = "arg_count-example-001"
+command_id = "v04-ref-8e83434495"
 
 [[symbols.examples]]
-command = "bash -c 'echo $#' _"
 explanation = "不传入任何参数时，$# 为 0"
 simulated_output = "0"
+id = "arg_count-example-002"
+command_id = "shared-7af13b7ffc522c29"
 
 [[symbols.examples]]
-command = "bash -c 'echo \"共 $# 个参数\"' _ x y"
 explanation = "在字符串中嵌入参数个数，显示更友好的提示信息"
 simulated_output = "共 2 个参数"
+id = "arg_count-example-003"
+command_id = "shared-e3063a03f9d0e352"
 
-# ─────────────────────────────────────────────
-# 6. $@ 所有位置参数
-# ─────────────────────────────────────────────
 [[symbols]]
 id = "all_args"
 char_repr = "$@"
 name = "所有位置参数"
 summary = "展开为所有位置参数，每个参数作为独立的单词"
-explanation = """$@ 展开为传递给脚本或函数的所有位置参数（$1 $2 $3 ...）。
-
-$@ 与 $* 的关键区别：
-  - "$@" 将每个参数作为独立的字符串保留："$1" "$2" "$3" ...
-  - "$*" 将所有参数合并为一个字符串："$1 $2 $3 ..."
-
-这个区别在参数包含空格时尤为重要：
-  假设传入参数为 "hello world" 和 "foo"
-  "$@"  → "hello world" "foo"    （2 个参数，保持原样）
-  "$*"  → "hello world foo"      （1 个字符串，空格无法区分）
-
-最佳实践：
-  - 遍历参数时始终使用 "$@"：for arg in "$@"; do ... done
-  - 传递参数给其他命令时使用 "$@"：some_command "$@"
-  - 除非明确需要合并参数，否则不要使用 $*"""
+explanation = "$@ 展开为传递给脚本或函数的所有位置参数（$1 $2 $3 ...）。\n\n$@ 与 $* 的关键区别：\n  - \"$@\" 将每个参数作为独立的字符串保留：\"$1\" \"$2\" \"$3\" ...\n  - \"$*\" 将所有参数合并为一个字符串：\"$1 $2 $3 ...\"\n\n这个区别在参数包含空格时尤为重要：\n  假设传入参数为 \"hello world\" 和 \"foo\"\n  \"$@\"  → \"hello world\" \"foo\"    （2 个参数，保持原样）\n  \"$*\"  → \"hello world foo\"      （1 个字符串，空格无法区分）\n\n最佳实践：\n  - 遍历参数时始终使用 \"$@\"：for arg in \"$@\"; do ... done\n  - 传递参数给其他命令时使用 \"$@\"：some_command \"$@\"\n  - 除非明确需要合并参数，否则不要使用 $*"
 
 [[symbols.examples]]
-command = "bash -c 'echo \"$@\"' _ hello world"
 explanation = "显示所有传入的位置参数，每个参数保持独立"
 simulated_output = "hello world"
+id = "all_args-example-001"
+command_id = "v04-ref-65def0ea7d"
 
 [[symbols.examples]]
-command = "bash -c 'for arg in \"$@\"; do echo \"参数: $arg\"; done' _ foo bar baz"
 explanation = "使用 for 循环逐个遍历所有位置参数"
-simulated_output = """参数: foo
-参数: bar
-参数: baz"""
+simulated_output = "参数: foo\n参数: bar\n参数: baz"
+id = "all_args-example-002"
+command_id = "shared-3978f5df59ced153"
 
 [[symbols.examples]]
-command = "bash -c 'echo \"参数列表: $@\"' _ one two three"
 explanation = "将所有参数嵌入到提示字符串中一起显示"
 simulated_output = "参数列表: one two three"
+id = "all_args-example-003"
+command_id = "shared-78fddb678bd9fd52"
 
-# ─────────────────────────────────────────────
-# 7. $$ 当前进程 ID
-# ─────────────────────────────────────────────
 [[symbols]]
 id = "current_pid"
 char_repr = "$$"
 name = "当前进程 ID"
 summary = "返回当前 Shell 进程的 PID（进程标识符）"
-explanation = """$$ 是一个特殊变量，保存当前 Shell 进程的进程 ID（PID）。
-每个正在运行的进程都有一个唯一的 PID 编号。
-
-常见用途：
-  - 创建唯一的临时文件名：tmpfile="/tmp/myapp_$$.tmp"
-  - 在日志中记录进程信息：echo "[PID $$] 开始处理..."
-  - 创建锁文件防止脚本重复运行：
-    LOCKFILE="/var/run/myscript.lock"
-    echo $$ > "$LOCKFILE"
-
-注意事项：
-  - $$ 在子 Shell 中保持与父 Shell 相同的值（不会更新为子 Shell 的 PID）
-  - 如果需要子 Shell 的 PID，可以使用 $BASHPID（Bash 4.0+）
-  - PID 是由操作系统分配的，每次运行可能不同"""
+explanation = "$$ 是一个特殊变量，保存当前 Shell 进程的进程 ID（PID）。\n每个正在运行的进程都有一个唯一的 PID 编号。\n\n常见用途：\n  - 创建唯一的临时文件名：tmpfile=\"/tmp/myapp_$$.tmp\"\n  - 在日志中记录进程信息：echo \"[PID $$] 开始处理...\"\n  - 创建锁文件防止脚本重复运行：\n    LOCKFILE=\"/var/run/myscript.lock\"\n    echo $$ > \"$LOCKFILE\"\n\n注意事项：\n  - $$ 在子 Shell 中保持与父 Shell 相同的值（不会更新为子 Shell 的 PID）\n  - 如果需要子 Shell 的 PID，可以使用 $BASHPID（Bash 4.0+）\n  - PID 是由操作系统分配的，每次运行可能不同"
 
 [[symbols.examples]]
-command = "echo $$"
 explanation = "显示当前 Shell 进程的 PID"
 simulated_output = "28450"
+id = "current_pid-example-001"
+command_id = "v04-ref-a5f78a681e"
 
 [[symbols.examples]]
-command = "echo \"PID: $$\""
 explanation = "在字符串中嵌入当前进程 ID，可用于日志记录"
 simulated_output = "PID: 28450"
+id = "current_pid-example-002"
+command_id = "shared-afe7a8029387f1a2"
 
 [[symbols.examples]]
-command = "echo \"/tmp/work_$$.tmp\""
 explanation = "使用 PID 生成唯一的临时文件名，避免多个进程之间的文件冲突"
 simulated_output = "/tmp/work_28450.tmp"
+id = "current_pid-example-003"
+command_id = "shared-1c9356df2612b1c3"
 
-# ─────────────────────────────────────────────
-# 8. $! 后台进程 PID
-# ─────────────────────────────────────────────
 [[symbols]]
 id = "last_bg_pid"
 char_repr = "$!"
 name = "后台进程 PID"
 summary = "返回最近一个被放入后台运行的进程的 PID"
-explanation = """$! 保存最近一个被放入后台执行的进程的 PID（进程标识符）。
-
-当使用 & 符号将命令放入后台运行时，Shell 会立即返回控制权，
-同时将该后台进程的 PID 存入 $! 变量。
-
-常见用途：
-  - 记录后台进程以便稍后终止：
-    long_task &
-    BG_PID=$!
-    # ... 其他操作 ...
-    kill $BG_PID
-
-  - 等待特定后台进程完成：
-    some_command &
-    wait $!
-    echo "后台任务已完成"
-
-  - 监控后台进程是否仍在运行：
-    if kill -0 $! 2>/dev/null; then
-        echo "进程仍在运行"
-    fi
-
-注意：如果没有后台进程，$! 的值为空。"""
+explanation = "$! 保存最近一个被放入后台执行的进程的 PID（进程标识符）。\n\n当使用 & 符号将命令放入后台运行时，Shell 会立即返回控制权，\n同时将该后台进程的 PID 存入 $! 变量。\n\n常见用途：\n  - 记录后台进程以便稍后终止：\n    long_task &\n    BG_PID=$!\n    # ... 其他操作 ...\n    kill $BG_PID\n\n  - 等待特定后台进程完成：\n    some_command &\n    wait $!\n    echo \"后台任务已完成\"\n\n  - 监控后台进程是否仍在运行：\n    if kill -0 $! 2>/dev/null; then\n        echo \"进程仍在运行\"\n    fi\n\n注意：如果没有后台进程，$! 的值为空。"
 
 [[symbols.examples]]
-command = "sleep 100 & echo $!"
 explanation = "将 sleep 命令放入后台运行，立即显示其 PID"
-simulated_output = """[1] 31592
-31592"""
+simulated_output = "[1] 31592\n31592"
+id = "last_bg_pid-example-001"
+command_id = "v04-ref-08aee02fbd"
 
 [[symbols.examples]]
-command = "sleep 60 & BG_PID=$! && echo \"后台进程: $BG_PID\""
 explanation = "将后台进程的 PID 保存到变量中，以便后续管理该进程"
-simulated_output = """[1] 31605
-后台进程: 31605"""
+simulated_output = "[1] 31605\n后台进程: 31605"
+id = "last_bg_pid-example-002"
+command_id = "shared-6c48f7856f7367ee"
 
 [[symbols.examples]]
-command = "sleep 30 & wait $! && echo \"后台任务已完成\""
 explanation = "启动后台进程后使用 wait 等待其完成，再继续执行后续命令"
-simulated_output = """[1] 31620
-后台任务已完成"""
+simulated_output = "[1] 31620\n后台任务已完成"
+id = "last_bg_pid-example-003"
+command_id = "shared-f0a8fe7c6546ca09"
 
-# ─────────────────────────────────────────────
-# 练习题
-# ─────────────────────────────────────────────
 [[exercises]]
 prompt = "在终端中显示当前用户的家目录路径"
-answers = [
-    "echo $HOME",
-    "echo ${HOME}",
-    "echo \"$HOME\"",
-    "echo \"${HOME}\"",
-]
+answers = ["echo $HOME", "echo ${HOME}", "echo \"$HOME\"", "echo \"${HOME}\""]
+id = "exercise-001"
+command_id = "echo-var-home"
 
 [[exercises]]
 prompt = "显示上一个命令的退出状态码"
-answers = [
-    "echo $?",
-    "echo ${?}",
-    "echo \"$?\"",
-]
+answers = ["echo $?", "echo ${?}", "echo \"$?\""]
+id = "exercise-002"
+command_id = "shell-last-exit-status"
 
 [[exercises]]
 prompt = "查看当前 Shell 进程的 PID"
-answers = [
-    "echo $$",
-    "echo \"$$\"",
-    "echo ${$}",
-]
+answers = ["echo $$", "echo \"$$\"", "echo ${$}"]
+id = "exercise-003"
+command_id = "v04-ref-a5f78a681e"
 
 [[exercises]]
 prompt = "使用花括号形式将用户名和 _data 拼接在一起并显示"
-answers = [
-    "echo ${USER}_data",
-    "echo \"${USER}_data\"",
-]
+answers = ["echo ${USER}_data", "echo \"${USER}_data\""]
+id = "exercise-004"
+command_id = "shared-85a5e07830093edb"
 
 [[exercises]]
 prompt = "将 sleep 300 放入后台运行，并显示其进程 ID"
-answers = [
-    "sleep 300 & echo $!",
-    "sleep 300 & echo \"$!\"",
-]
+answers = ["sleep 300 & echo $!", "sleep 300 & echo \"$!\""]
+id = "exercise-005"
+command_id = "shared-e0200b3e38695b55"
 
 [[exercises]]
 prompt = "检查传入脚本的参数个数（使用 bash -c 模拟，传入参数 x y z）"
-answers = [
-    "bash -c 'echo $#' _ x y z",
-    "bash -c \"echo $#\" _ x y z",
-    "bash -c 'echo \"$#\"' _ x y z",
-]
+answers = ["bash -c 'echo $#' _ x y z", "bash -c \"echo $#\" _ x y z", "bash -c 'echo \"$#\"' _ x y z"]
+id = "exercise-006"
+command_id = "shared-20027ed5af9485f4"
 
-# Wave E 扩展练习（10）
 [[exercises]]
 kind = "typing"
 prompt = "输出 USER 和 HOME 两个变量"
 answers = ["echo \"$USER:$HOME\""]
-command = "echo \"$USER:$HOME\""
 simulated_output = "ace:/home/ace"
+id = "exercise-007"
+command_id = "shared-9e23184ccc002268"
 
 [[exercises]]
 kind = "typing"
 prompt = "设置临时变量 PORT=8080 并输出"
 answers = ["PORT=8080 && echo $PORT"]
-command = "PORT=8080 && echo $PORT"
 simulated_output = "8080"
+id = "exercise-008"
+command_id = "shared-dc0e772e803f5f5e"
 
 [[exercises]]
 kind = "typing"
 prompt = "用默认值展开变量 NAME"
 answers = ["echo \"${NAME:-guest}\""]
-command = "echo \"${NAME:-guest}\""
 simulated_output = "guest"
+id = "exercise-009"
+command_id = "shared-26abf832788d6f7e"
 
 [[exercises]]
 kind = "typing"
 prompt = "命令替换获取当前分支名"
 answers = ["echo \"branch=$(git branch --show-current)\""]
-command = "echo \"branch=$(git branch --show-current)\""
 simulated_output = "branch=main"
+id = "exercise-010"
+command_id = "shared-3160f095de0bafbb"
 
 [[exercises]]
 kind = "typing"
 prompt = "把 date +%F 保存到 TODAY 并输出"
 answers = ["TODAY=$(date +%F) && echo $TODAY"]
-command = "TODAY=$(date +%F) && echo $TODAY"
 simulated_output = "2026-03-14"
+id = "exercise-011"
+command_id = "shared-fdf18d7b666ea6af"
 
 [[exercises]]
 kind = "typing"
 prompt = "后台运行 sleep 并显示其 PID"
 answers = ["sleep 20 & echo $!"]
-command = "sleep 20 & echo $!"
 simulated_output = "53210"
+id = "exercise-012"
+command_id = "shared-523f26724b7d6cdd"
 
 [[exercises]]
 kind = "dictation"
 prompt = "输出当前脚本名（特殊变量）"
 answers = ["echo $0", "echo \"$0\""]
+id = "exercise-013"
+command_id = "shell-invocation-name"
 
 [[exercises]]
 kind = "dictation"
 prompt = "输出最近一个后台任务 PID"
 answers = ["echo $!", "echo \"$!\""]
+id = "exercise-014"
+command_id = "shared-f78badceab5bedff"
 
 [[exercises]]
 kind = "dictation"
 prompt = "输出参数总数"
 answers = ["echo $#", "echo \"$#\""]
+id = "exercise-015"
+command_id = "shared-aa3ebebf6a2ba3eb"
 
 [[exercises]]
 kind = "dictation"
 prompt = "打印变量 LOG_DIR，若未设置则使用 /var/log"
 answers = ["echo \"${LOG_DIR:-/var/log}\""]
+id = "exercise-016"
+command_id = "shared-eeab9a40292f0987"

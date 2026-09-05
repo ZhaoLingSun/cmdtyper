@@ -1,0 +1,589 @@
+[meta]
+category = "text_process"
+difficulty = "beginner"
+description = "基础用法的短练习：目标已在隔离实验环境中准备，按提示完成单一任务。"
+
+[[commands]]
+id = "v04-ex-92d1293413"
+command = "awk '{print $2}' access.log"
+summary = "从实验日志读取第二列，先确认字段分隔格式"
+
+[[commands.tokens]]
+text = "awk"
+desc = "按记录和字段处理文本"
+
+[[commands.tokens]]
+text = " '{print $2}'"
+desc = "引号保护此参数中的空格或特殊符号；从实验日志读取第二列，先确认字段分隔格式"
+
+[[commands.tokens]]
+text = " access.log"
+desc = "从实验日志读取第二列，先确认字段分隔格式；指定 access.log"
+
+[commands.dictation]
+prompt = "从实验日志读取第二列，先确认字段分隔格式"
+answers = ["awk '{print $2}' access.log"]
+
+[[commands]]
+id = "v04-ex-686f29e61e"
+command = "awk '{print $1, $3}' access.log"
+summary = "同时读取实验日志第一与第三列"
+
+[[commands.tokens]]
+text = "awk"
+desc = "按记录和字段处理文本"
+
+[[commands.tokens]]
+text = " '{print $1, $3}'"
+desc = "引号保护此参数中的空格或特殊符号；同时读取实验日志第一与第三列"
+
+[[commands.tokens]]
+text = " access.log"
+desc = "同时读取实验日志第一与第三列；指定 access.log"
+
+[commands.dictation]
+prompt = "同时读取实验日志第一与第三列"
+answers = ["awk '{print $1, $3}' access.log"]
+
+[[commands]]
+id = "v04-ex-eb1e92ac9e"
+command = "awk -F: '{print $1}' /etc/group"
+summary = "用冒号分隔提取组名"
+
+[[commands.tokens]]
+text = "awk"
+desc = "按记录和字段处理文本"
+
+[[commands.tokens]]
+text = " -F:"
+desc = "用冒号分隔提取组名；此处使用 -F: 选项"
+
+[[commands.tokens]]
+text = " '{print $1}'"
+desc = "引号保护此参数中的空格或特殊符号；用冒号分隔提取组名"
+
+[[commands.tokens]]
+text = " /etc/group"
+desc = "本次操作指定的路径：/etc/group"
+
+[commands.dictation]
+prompt = "用冒号分隔提取组名"
+answers = ["awk -F: '{print $1}' /etc/group"]
+
+[[commands]]
+id = "v04-ex-de896174d1"
+command = "head -n 3 /etc/passwd"
+summary = "只读账户文件前三行"
+
+[[commands.tokens]]
+text = "head"
+desc = "只读账户文件前三行"
+
+[[commands.tokens]]
+text = " -n"
+desc = "只读账户文件前三行；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " /etc/passwd"
+desc = "本次操作指定的路径：/etc/passwd"
+
+[commands.dictation]
+prompt = "只读账户文件前三行"
+answers = ["head -n 3 /etc/passwd"]
+
+[[commands]]
+id = "v04-ex-d779656be7"
+command = "head -n 8 ~/ops-lab/input/report.txt"
+summary = "读取实验报告前八行"
+
+[[commands.tokens]]
+text = "head"
+desc = "读取实验报告前八行"
+
+[[commands.tokens]]
+text = " -n"
+desc = "读取实验报告前八行；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 8"
+desc = "本次练习的数值参数 8；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input/report.txt"
+desc = "本次操作指定的路径：~/ops-lab/input/report.txt"
+
+[commands.dictation]
+prompt = "读取实验报告前八行"
+answers = ["head -n 8 ~/ops-lab/input/report.txt"]
+
+[[commands]]
+id = "v04-ex-2394304d05"
+command = "head -n 1 ~/ops-lab/input/report.csv"
+summary = "先查看实验 CSV 表头再分析字段"
+
+[[commands.tokens]]
+text = "head"
+desc = "先查看实验 CSV 表头再分析字段"
+
+[[commands.tokens]]
+text = " -n"
+desc = "先查看实验 CSV 表头再分析字段；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次练习的数值参数 1；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input/report.csv"
+desc = "本次操作指定的路径：~/ops-lab/input/report.csv"
+
+[commands.dictation]
+prompt = "先查看实验 CSV 表头再分析字段"
+answers = ["head -n 1 ~/ops-lab/input/report.csv"]
+
+[[commands]]
+id = "v04-ex-d69a5d8800"
+command = "sed 's/WARN/WARNING/g' backend.log"
+summary = "预览替换日志中的 WARN 文本，不修改原文件"
+
+[[commands.tokens]]
+text = "sed"
+desc = "用编辑表达式转换或筛选输入文本"
+
+[[commands.tokens]]
+text = " 's/WARN/WARNING/g'"
+desc = "引号保护此参数中的空格或特殊符号；预览替换日志中的 WARN 文本，不修改原文件"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "预览替换日志中的 WARN 文本，不修改原文件；指定 backend.log"
+
+[commands.dictation]
+prompt = "预览替换日志中的 WARN 文本，不修改原文件"
+answers = ["sed 's/WARN/WARNING/g' backend.log"]
+
+[[commands]]
+id = "v04-ex-9cbeb5dce7"
+command = "sed -n '1,5p' backend.log"
+summary = "只查看实验日志前五行"
+
+[[commands.tokens]]
+text = "sed"
+desc = "用编辑表达式转换或筛选输入文本"
+
+[[commands.tokens]]
+text = " -n"
+desc = "只查看实验日志前五行；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " '1,5p'"
+desc = "引号保护此参数中的空格或特殊符号；只查看实验日志前五行"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "只查看实验日志前五行；指定 backend.log"
+
+[commands.dictation]
+prompt = "只查看实验日志前五行"
+answers = ["sed -n '1,5p' backend.log"]
+
+[[commands]]
+id = "v04-ex-aa57caddf1"
+command = "sed 's/8080/8000/' config.example"
+summary = "预览每行首次端口文本替换，确认后再决定写入"
+
+[[commands.tokens]]
+text = "sed"
+desc = "用编辑表达式转换或筛选输入文本"
+
+[[commands.tokens]]
+text = " 's/8080/8000/'"
+desc = "引号保护此参数中的空格或特殊符号；预览每行首次端口文本替换，确认后再决定写入"
+
+[[commands.tokens]]
+text = " config.example"
+desc = "预览每行首次端口文本替换，确认后再决定写入；指定 config.example"
+
+[commands.dictation]
+prompt = "预览每行首次端口文本替换，确认后再决定写入"
+answers = ["sed 's/8080/8000/' config.example"]
+
+[[commands]]
+id = "v04-ex-5fdb6c35ff"
+command = "sort hosts.txt"
+summary = "按当前 locale 字典序排列实验主机名"
+
+[[commands.tokens]]
+text = "sort"
+desc = "按当前 locale 字典序排列实验主机名"
+
+[[commands.tokens]]
+text = " hosts.txt"
+desc = "按当前 locale 字典序排列实验主机名；指定 hosts.txt"
+
+[commands.dictation]
+prompt = "按当前 locale 字典序排列实验主机名"
+answers = ["sort hosts.txt"]
+
+[[commands]]
+id = "v04-ex-968daaeb7d"
+command = "sort -u users.txt"
+summary = "排序并去重实验账号列表"
+
+[[commands.tokens]]
+text = "sort"
+desc = "排序并去重实验账号列表"
+
+[[commands.tokens]]
+text = " -u"
+desc = "排序并去重实验账号列表；此处使用 -u 选项"
+
+[[commands.tokens]]
+text = " users.txt"
+desc = "排序并去重实验账号列表；指定 users.txt"
+
+[commands.dictation]
+prompt = "排序并去重实验账号列表"
+answers = ["sort -u users.txt"]
+
+[[commands]]
+id = "v04-ex-4c48c174cc"
+command = "tail -n 3 backend.log"
+summary = "查看实验后端日志最后三行"
+
+[[commands.tokens]]
+text = "tail"
+desc = "查看实验后端日志最后三行"
+
+[[commands.tokens]]
+text = " -n"
+desc = "查看实验后端日志最后三行；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "查看实验后端日志最后三行；指定 backend.log"
+
+[commands.dictation]
+prompt = "查看实验后端日志最后三行"
+answers = ["tail -n 3 backend.log"]
+
+[[commands]]
+id = "v04-ex-a004c0405b"
+command = "tail -n 12 backend.log"
+summary = "扩大末尾观察范围到十二行"
+
+[[commands.tokens]]
+text = "tail"
+desc = "扩大末尾观察范围到十二行"
+
+[[commands.tokens]]
+text = " -n"
+desc = "扩大末尾观察范围到十二行；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 12"
+desc = "本次练习的数值参数 12；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "扩大末尾观察范围到十二行；指定 backend.log"
+
+[commands.dictation]
+prompt = "扩大末尾观察范围到十二行"
+answers = ["tail -n 12 backend.log"]
+
+[[commands]]
+id = "v04-ex-aa930b5e3d"
+command = "tail -F backend.log"
+summary = "持续追踪实验日志文件名，适合轮转后继续观察；Ctrl-C 结束"
+
+[[commands.tokens]]
+text = "tail"
+desc = "持续追踪实验日志文件名，适合轮转后继续观察；Ctrl-C 结束"
+
+[[commands.tokens]]
+text = " -F"
+desc = "持续追踪实验日志文件名，适合轮转后继续观察；Ctrl-C 结束；此处使用 -F 选项"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "持续追踪实验日志文件名，适合轮转后继续观察；Ctrl-C 结束；指定 backend.log"
+
+[commands.dictation]
+prompt = "持续追踪实验日志文件名，适合轮转后继续观察；Ctrl-C 结束"
+answers = ["tail -F backend.log"]
+
+[[commands]]
+id = "v04-ex-cebcaac896"
+command = "uniq sorted-hosts.txt"
+summary = "合并实验文件中的相邻重复主机行"
+
+[[commands.tokens]]
+text = "uniq"
+desc = "合并实验文件中的相邻重复主机行"
+
+[[commands.tokens]]
+text = " sorted-hosts.txt"
+desc = "合并实验文件中的相邻重复主机行；指定 sorted-hosts.txt"
+
+[commands.dictation]
+prompt = "合并实验文件中的相邻重复主机行"
+answers = ["uniq sorted-hosts.txt"]
+
+[[commands]]
+id = "v04-ex-c1a8054504"
+command = "uniq -c sorted-hosts.txt"
+summary = "统计相邻重复行的出现次数"
+
+[[commands.tokens]]
+text = "uniq"
+desc = "统计相邻重复行的出现次数"
+
+[[commands.tokens]]
+text = " -c"
+desc = "统计相邻重复行的出现次数；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " sorted-hosts.txt"
+desc = "统计相邻重复行的出现次数；指定 sorted-hosts.txt"
+
+[commands.dictation]
+prompt = "统计相邻重复行的出现次数"
+answers = ["uniq -c sorted-hosts.txt"]
+
+[[commands]]
+id = "v04-ex-cfa926d189"
+command = "sort hosts.txt | uniq -c"
+summary = "先排序再计数，让不相邻的相同主机聚合"
+
+[[commands.tokens]]
+text = "sort"
+desc = "先排序再计数，让不相邻的相同主机聚合"
+
+[[commands.tokens]]
+text = " hosts.txt"
+desc = "先排序再计数，让不相邻的相同主机聚合；指定 hosts.txt"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " uniq"
+desc = "先排序再计数，让不相邻的相同主机聚合；指定 uniq"
+
+[[commands.tokens]]
+text = " -c"
+desc = "先排序再计数，让不相邻的相同主机聚合；此处使用 -c 选项"
+
+[commands.dictation]
+prompt = "先排序再计数，让不相邻的相同主机聚合"
+answers = ["sort hosts.txt | uniq -c"]
+
+[[commands]]
+id = "v04-ex-7868b4f159"
+command = "wc -l ~/ops-lab/report.txt"
+summary = "统计实验报告行数"
+
+[[commands.tokens]]
+text = "wc"
+desc = "统计实验报告行数"
+
+[[commands.tokens]]
+text = " -l"
+desc = "统计实验报告行数；此处使用 -l 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/report.txt"
+desc = "本次操作指定的路径：~/ops-lab/report.txt"
+
+[commands.dictation]
+prompt = "统计实验报告行数"
+answers = ["wc -l ~/ops-lab/report.txt"]
+
+[[commands]]
+id = "v04-ex-f8af650687"
+command = "wc -c ~/ops-lab/report.txt"
+summary = "统计实验报告字节数，和字符数区分"
+
+[[commands.tokens]]
+text = "wc"
+desc = "统计实验报告字节数，和字符数区分"
+
+[[commands.tokens]]
+text = " -c"
+desc = "统计实验报告字节数，和字符数区分；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/report.txt"
+desc = "本次操作指定的路径：~/ops-lab/report.txt"
+
+[commands.dictation]
+prompt = "统计实验报告字节数，和字符数区分"
+answers = ["wc -c ~/ops-lab/report.txt"]
+
+[[commands]]
+id = "v04-ex-83ce868296"
+command = "wc -w ~/ops-lab/notes.txt"
+summary = "按空白分隔统计实验笔记词数"
+
+[[commands.tokens]]
+text = "wc"
+desc = "按空白分隔统计实验笔记词数"
+
+[[commands.tokens]]
+text = " -w"
+desc = "按空白分隔统计实验笔记词数；此处使用 -w 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/notes.txt"
+desc = "本次操作指定的路径：~/ops-lab/notes.txt"
+
+[commands.dictation]
+prompt = "按空白分隔统计实验笔记词数"
+answers = ["wc -w ~/ops-lab/notes.txt"]
+
+[[commands]]
+id = "v04-ex-4ceda5ff51"
+command = "cut -d: -f1,3 /etc/group"
+summary = "同时提取组名与 GID"
+
+[[commands.tokens]]
+text = "cut"
+desc = "同时提取组名与 GID"
+
+[[commands.tokens]]
+text = " -d:"
+desc = "同时提取组名与 GID；此处使用 -d: 选项"
+
+[[commands.tokens]]
+text = " -f1,3"
+desc = "同时提取组名与 GID；此处使用 -f1,3 选项"
+
+[[commands.tokens]]
+text = " /etc/group"
+desc = "本次操作指定的路径：/etc/group"
+
+[commands.dictation]
+prompt = "同时提取组名与 GID"
+answers = ["cut -d: -f1,3 /etc/group"]
+
+[[commands]]
+id = "v04-ex-0e09d3118e"
+command = "cut -d, -f2 ~/ops-lab/report.csv"
+summary = "从无嵌套引号逗号的简单 CSV 提取第二列"
+
+[[commands.tokens]]
+text = "cut"
+desc = "从无嵌套引号逗号的简单 CSV 提取第二列"
+
+[[commands.tokens]]
+text = " -d,"
+desc = "从无嵌套引号逗号的简单 CSV 提取第二列；此处使用 -d, 选项"
+
+[[commands.tokens]]
+text = " -f2"
+desc = "从无嵌套引号逗号的简单 CSV 提取第二列；此处使用 -f2 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/report.csv"
+desc = "本次操作指定的路径：~/ops-lab/report.csv"
+
+[commands.dictation]
+prompt = "从无嵌套引号逗号的简单 CSV 提取第二列"
+answers = ["cut -d, -f2 ~/ops-lab/report.csv"]
+
+[[commands]]
+id = "v04-ex-34c1124256"
+command = "tr '[:lower:]' '[:upper:]' < ~/ops-lab/notes.txt"
+summary = "将实验文本小写转换成大写并输出"
+
+[[commands.tokens]]
+text = "tr"
+desc = "将实验文本小写转换成大写并输出"
+
+[[commands.tokens]]
+text = " '[:lower:]'"
+desc = "引号保护此参数中的空格或特殊符号；将实验文本小写转换成大写并输出"
+
+[[commands.tokens]]
+text = " '[:upper:]'"
+desc = "引号保护此参数中的空格或特殊符号；将实验文本小写转换成大写并输出"
+
+[[commands.tokens]]
+text = " <"
+desc = "从指定文件读取标准输入"
+
+[[commands.tokens]]
+text = " ~/ops-lab/notes.txt"
+desc = "本次操作指定的路径：~/ops-lab/notes.txt"
+
+[commands.dictation]
+prompt = "将实验文本小写转换成大写并输出"
+answers = ["tr '[:lower:]' '[:upper:]' < ~/ops-lab/notes.txt"]
+
+[[commands]]
+id = "v04-ex-d0b514a2bd"
+command = "tr '[:upper:]' '[:lower:]' < ~/ops-lab/notes.txt"
+summary = "将实验文本大写转换成小写"
+
+[[commands.tokens]]
+text = "tr"
+desc = "将实验文本大写转换成小写"
+
+[[commands.tokens]]
+text = " '[:upper:]'"
+desc = "引号保护此参数中的空格或特殊符号；将实验文本大写转换成小写"
+
+[[commands.tokens]]
+text = " '[:lower:]'"
+desc = "引号保护此参数中的空格或特殊符号；将实验文本大写转换成小写"
+
+[[commands.tokens]]
+text = " <"
+desc = "从指定文件读取标准输入"
+
+[[commands.tokens]]
+text = " ~/ops-lab/notes.txt"
+desc = "本次操作指定的路径：~/ops-lab/notes.txt"
+
+[commands.dictation]
+prompt = "将实验文本大写转换成小写"
+answers = ["tr '[:upper:]' '[:lower:]' < ~/ops-lab/notes.txt"]
+
+[[commands]]
+id = "v04-ex-3f38689f1d"
+command = "tr -d '\\r' < ~/ops-lab/windows.txt"
+summary = "删除实验 Windows 文本中的 CR 字符"
+
+[[commands.tokens]]
+text = "tr"
+desc = "删除实验 Windows 文本中的 CR 字符"
+
+[[commands.tokens]]
+text = " -d"
+desc = "删除实验 Windows 文本中的 CR 字符；此处使用 -d 选项"
+
+[[commands.tokens]]
+text = " '\\r'"
+desc = "引号保护此参数中的空格或特殊符号；删除实验 Windows 文本中的 CR 字符"
+
+[[commands.tokens]]
+text = " <"
+desc = "从指定文件读取标准输入"
+
+[[commands.tokens]]
+text = " ~/ops-lab/windows.txt"
+desc = "本次操作指定的路径：~/ops-lab/windows.txt"
+
+[commands.dictation]
+prompt = "删除实验 Windows 文本中的 CR 字符"
+answers = ["tr -d '\\r' < ~/ops-lab/windows.txt"]

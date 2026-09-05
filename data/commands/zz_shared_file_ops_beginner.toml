@@ -1,0 +1,341 @@
+
+[meta]
+category = "file_ops"
+difficulty = "beginner"
+description = "跨模块共用的规范命令（由内容归一化维护）"
+
+[[commands]]
+id = "shared-79e33fe9eb84909d"
+command = "cat -n /etc/passwd | head -5"
+summary = "显示 /etc/passwd 前 5 行并带行号"
+simulated_output = "     1\troot:x:0:0:root:/root:/bin/bash\n     2\tdaemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin\n     3\tbin:x:2:2:bin:/bin:/usr/sbin/nologin\n     4\tsys:x:3:3:sys:/dev:/usr/sbin/nologin\n     5\tsync:x:4:65534:sync:/bin:/bin/sync"
+
+[[commands.tokens]]
+text = "cat -n /etc/passwd | head -5"
+desc = "显示 /etc/passwd 前 5 行并带行号"
+
+[commands.dictation]
+prompt = "显示 /etc/passwd 前 5 行并带行号"
+answers = ["cat -n /etc/passwd | head -5"]
+
+[[commands]]
+id = "shared-e8cd30a17177e7ed"
+command = "cat file1.txt file2.txt file3.txt > combined.txt"
+summary = "将多个文件合并为一个文件"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "cat file1.txt file2.txt file3.txt > combined.txt"
+desc = "将多个文件合并为一个文件"
+
+[commands.dictation]
+prompt = "将多个文件合并为一个文件"
+answers = ["cat file1.txt file2.txt file3.txt > combined.txt"]
+
+[[commands]]
+id = "shared-ebb0e242ca74c0fd"
+command = "cat -A config.ini"
+summary = "显示不可见字符，调试文件格式"
+simulated_output = "[database]$\nhost = 127.0.0.1$\nport = 5432  $\nname = myapp$\n^I$\n[server]$\nhost = 0.0.0.0$\nport = 8080$"
+
+[[commands.tokens]]
+text = "cat -A config.ini"
+desc = "显示不可见字符，调试文件格式"
+
+[commands.dictation]
+prompt = "显示不可见字符，调试文件格式"
+answers = ["cat -A config.ini"]
+
+[[commands]]
+id = "shared-2cb3d49b9b09141c"
+command = "cat access.log | grep \"POST\" | awk '{print $7}' | sort | uniq -c | sort -rn | head -10"
+summary = "分析日志中 POST 请求最多的 URL"
+simulated_output = "    342 /api/login\n    218 /api/users\n    156 /api/orders\n     89 /api/upload\n     67 /api/comments\n     45 /api/search\n     34 /api/checkout\n     23 /api/register\n     12 /api/feedback\n      8 /api/logout"
+
+[[commands.tokens]]
+text = "cat access.log | grep \"POST\" | awk '{print $7}' | sort | uniq -c | sort -rn | head -10"
+desc = "分析日志中 POST 请求最多的 URL"
+
+[commands.dictation]
+prompt = "分析日志中 POST 请求最多的 URL"
+answers = ["cat access.log | grep \"POST\" | awk '{print $7}' | sort | uniq -c | sort -rn | head -10"]
+
+[[commands]]
+id = "shared-8f1ac0036797a71c"
+command = "cd ../../etc"
+summary = "使用相对路径向上两级再进入 etc 目录"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "cd ../../etc"
+desc = "使用相对路径向上两级再进入 etc 目录"
+
+[commands.dictation]
+prompt = "使用相对路径向上两级再进入 etc 目录"
+answers = ["cd ../../etc"]
+
+[[commands]]
+id = "shared-33a05cf58058adcc"
+command = "cd \"$(find /home -name projects -type d | head -1)\""
+summary = "结合命令替换，切换到找到的第一个 projects 目录"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "cd \"$(find /home -name projects -type d | head -1)\""
+desc = "结合命令替换，切换到找到的第一个 projects 目录"
+
+[commands.dictation]
+prompt = "结合命令替换，切换到找到的第一个 projects 目录"
+answers = ["cd \"$(find /home -name projects -type d | head -1)\""]
+
+[[commands]]
+id = "shared-aad9dc5075785c03"
+command = "cp -r project/ project-backup/"
+summary = "递归复制整个项目目录作为备份"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "cp -r project/ project-backup/"
+desc = "递归复制整个项目目录作为备份"
+
+[commands.dictation]
+prompt = "递归复制整个项目目录作为备份"
+answers = ["cp -r project/ project-backup/"]
+
+[[commands]]
+id = "shared-7cb9b6f17639bbb2"
+command = "cp -a /etc/nginx /backup/nginx-$(date +%Y%m%d)"
+summary = "归档模式备份 nginx 配置目录，目标目录名包含日期"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "cp -a /etc/nginx /backup/nginx-$(date +%Y%m%d)"
+desc = "归档模式备份 nginx 配置目录，目标目录名包含日期"
+
+[commands.dictation]
+prompt = "归档模式备份 nginx 配置目录，目标目录名包含日期"
+answers = ["cp -a /etc/nginx /backup/nginx-$(date +%Y%m%d)"]
+
+[[commands]]
+id = "shared-4150313229247253"
+command = "cp -iv *.conf /etc/app/"
+summary = "复制所有配置文件到目标目录，有冲突时交互确认"
+simulated_output = "'app.conf' -> '/etc/app/app.conf'\ncp: overwrite '/etc/app/db.conf'? y\n'db.conf' -> '/etc/app/db.conf'\n'log.conf' -> '/etc/app/log.conf'"
+
+[[commands.tokens]]
+text = "cp -iv *.conf /etc/app/"
+desc = "复制所有配置文件到目标目录，有冲突时交互确认"
+
+[commands.dictation]
+prompt = "复制所有配置文件到目标目录，有冲突时交互确认"
+answers = ["cp -iv *.conf /etc/app/"]
+
+[[commands]]
+id = "shared-d0aaade35719aec9"
+command = "cp -au /home/ace/projects/ /mnt/backup/projects/"
+summary = "增量备份：仅复制有更新的文件，保留所有属性"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "cp -au /home/ace/projects/ /mnt/backup/projects/"
+desc = "增量备份：仅复制有更新的文件，保留所有属性"
+
+[commands.dictation]
+prompt = "增量备份：仅复制有更新的文件，保留所有属性"
+answers = ["cp -au /home/ace/projects/ /mnt/backup/projects/"]
+
+[[commands]]
+id = "shared-1de700c29687cae3"
+command = "ls -la"
+summary = "以长格式显示所有文件（含隐藏文件）"
+simulated_output = "total 112\ndrwxr-xr-x 18 alice alice  4096 Mar  9 10:23 .\ndrwxr-xr-x  3 root  root   4096 Jan 15 09:00 ..\n-rw-------  1 alice alice  8923 Mar  9 09:45 .bash_history\n-rw-r--r--  1 alice alice   220 Jan 15 09:00 .bash_logout\n-rw-r--r--  1 alice alice  3771 Jan 15 09:00 .bashrc\ndrwxr-xr-x  8 alice alice  4096 Feb 20 14:30 .config\ndrwxr-xr-x  2 alice alice  4096 Feb 10 08:00 Desktop\ndrwxr-xr-x  5 alice alice  4096 Mar  8 16:42 Documents\ndrwxr-xr-x  2 alice alice  4096 Mar  7 11:20 Downloads\n-rw-r--r--  1 alice alice   807 Jan 15 09:00 .profile\ndrwx------  2 alice alice  4096 Jan 20 10:15 .ssh"
+
+[[commands.tokens]]
+text = "ls -la"
+desc = "以长格式显示所有文件（含隐藏文件）"
+
+[commands.dictation]
+prompt = "以长格式显示所有文件（含隐藏文件）"
+answers = ["ls -la"]
+
+[[commands]]
+id = "shared-4cb7a4e27cc6914f"
+command = "ls -lhS /var/log"
+summary = "按大小排序并以可读格式显示 /var/log 目录"
+simulated_output = "-rw-r-----  1 syslog adm    48M Mar  9 10:20 syslog\n-rw-r-----  1 syslog adm    12M Mar  8 23:59 syslog.1\n-rw-r-----  1 syslog adm   8.5M Mar  9 10:20 kern.log\n-rw-r-----  1 syslog adm   4.2M Mar  9 10:20 auth.log\n-rw-rw-r--  1 root   utmp  1.3M Mar  9 08:00 wtmp\n-rw-r-----  1 syslog adm   892K Mar  9 10:18 dpkg.log\n-rw-r--r--  1 root   root  256K Mar  5 03:10 alternatives.log\n-rw-r--r--  1 root   root   32K Feb 28 06:25 bootstrap.log\n-rw-rw-r--  1 root   utmp     0 Mar  1 00:00 btmp"
+
+[[commands.tokens]]
+text = "ls -lhS /var/log"
+desc = "按大小排序并以可读格式显示 /var/log 目录"
+
+[commands.dictation]
+prompt = "按大小排序并以可读格式显示 /var/log 目录"
+answers = ["ls -lhS /var/log"]
+
+[[commands]]
+id = "shared-9d70285470bf081f"
+command = "ls -la /etc | grep -i net"
+summary = "结合管道过滤 /etc 下与网络相关的文件"
+simulated_output = "-rw-r--r--  1 root root     92 Jan 15 09:00 networks\ndrwxr-xr-x  7 root root   4096 Feb 10 08:30 NetworkManager\n-rw-r--r--  1 root root    116 Jan 15 09:00 netconfig\ndrwxr-xr-x  2 root root   4096 Jan 20 11:00 netplan"
+
+[[commands.tokens]]
+text = "ls -la /etc | grep -i net"
+desc = "结合管道过滤 /etc 下与网络相关的文件"
+
+[commands.dictation]
+prompt = "结合管道过滤 /etc 下与网络相关的文件"
+answers = ["ls -la /etc | grep -i net"]
+
+[[commands]]
+id = "shared-4a48887cb0f94b5c"
+command = "mkdir -pv /opt/myapp/logs /opt/myapp/config /opt/myapp/data"
+summary = "同时创建三个子目录并显示详情"
+simulated_output = "mkdir: created directory '/opt/myapp'\nmkdir: created directory '/opt/myapp/logs'\nmkdir: created directory '/opt/myapp/config'\nmkdir: created directory '/opt/myapp/data'"
+
+[[commands.tokens]]
+text = "mkdir -pv /opt/myapp/logs /opt/myapp/config /opt/myapp/data"
+desc = "同时创建三个子目录并显示详情"
+
+[commands.dictation]
+prompt = "同时创建三个子目录并显示详情"
+answers = ["mkdir -pv /opt/myapp/logs /opt/myapp/config /opt/myapp/data"]
+
+[[commands]]
+id = "shared-669273fd98977e02"
+command = "mkdir -m 755 /var/www/newsite"
+summary = "创建 Web 目录并设置标准权限"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "mkdir -m 755 /var/www/newsite"
+desc = "创建 Web 目录并设置标准权限"
+
+[commands.dictation]
+prompt = "创建 Web 目录并设置标准权限"
+answers = ["mkdir -m 755 /var/www/newsite"]
+
+[[commands]]
+id = "shared-ad04ba0a5fc3cd90"
+command = "mkdir -p backups/2024-03-09"
+summary = "创建以日期命名的备份目录"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "mkdir -p backups/2024-03-09"
+desc = "创建以日期命名的备份目录"
+
+[commands.dictation]
+prompt = "创建以日期命名的备份目录"
+answers = ["mkdir -p backups/2024-03-09"]
+
+[[commands]]
+id = "shared-73a6c698a0632c2c"
+command = "mv -v *.log /var/log/archive/"
+summary = "将所有日志文件移动到归档目录并显示详情"
+simulated_output = "renamed 'access.log' -> '/var/log/archive/access.log'\nrenamed 'error.log' -> '/var/log/archive/error.log'\nrenamed 'app.log' -> '/var/log/archive/app.log'"
+
+[[commands.tokens]]
+text = "mv -v *.log /var/log/archive/"
+desc = "将所有日志文件移动到归档目录并显示详情"
+
+[commands.dictation]
+prompt = "将所有日志文件移动到归档目录并显示详情"
+answers = ["mv -v *.log /var/log/archive/"]
+
+[[commands]]
+id = "shared-4a46f337c696a4b7"
+command = "mv -i config.yml config.yml.bak"
+summary = "重命名配置文件为备份，覆盖前确认"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "mv -i config.yml config.yml.bak"
+desc = "重命名配置文件为备份，覆盖前确认"
+
+[commands.dictation]
+prompt = "重命名配置文件为备份，覆盖前确认"
+answers = ["mv -i config.yml config.yml.bak"]
+
+[[commands]]
+id = "shared-de44fe2597499cef"
+command = "mv project-v1/ project-v2/"
+summary = "重命名整个目录（无需 -r 选项）"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "mv project-v1/ project-v2/"
+desc = "重命名整个目录（无需 -r 选项）"
+
+[commands.dictation]
+prompt = "重命名整个目录（无需 -r 选项）"
+answers = ["mv project-v1/ project-v2/"]
+
+[[commands]]
+id = "shared-ae020ce671c49312"
+command = "find /tmp -name '*.tmp' -mtime +7 -exec mv {} /tmp/archive/ \\;"
+summary = "将 /tmp 下超过 7 天的临时文件移到归档目录"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "find /tmp -name '*.tmp' -mtime +7 -exec mv {} /tmp/archive/ \\;"
+desc = "将 /tmp 下超过 7 天的临时文件移到归档目录"
+
+[commands.dictation]
+prompt = "将 /tmp 下超过 7 天的临时文件移到归档目录"
+answers = ["find /tmp -name '*.tmp' -mtime +7 -exec mv {} /tmp/archive/ \\;"]
+
+[[commands]]
+id = "shared-b676e8f9e5dcf31a"
+command = "rm -rv old_project/"
+summary = "递归删除整个目录并显示详情"
+simulated_output = "removed 'old_project/src/main.rs'\nremoved 'old_project/src/lib.rs'\nremoved directory 'old_project/src/'\nremoved 'old_project/Cargo.toml'\nremoved 'old_project/README.md'\nremoved directory 'old_project/'"
+
+[[commands.tokens]]
+text = "rm -rv old_project/"
+desc = "递归删除整个目录并显示详情"
+
+[commands.dictation]
+prompt = "递归删除整个目录并显示详情"
+answers = ["rm -rv old_project/"]
+
+[[commands]]
+id = "shared-d442a6201242302f"
+command = "rm -v *.tmp *.bak"
+summary = "删除所有临时文件和备份文件"
+simulated_output = "removed 'data.tmp'\nremoved 'output.tmp'\nremoved 'config.bak'"
+
+[[commands.tokens]]
+text = "rm -v *.tmp *.bak"
+desc = "删除所有临时文件和备份文件"
+
+[commands.dictation]
+prompt = "删除所有临时文件和备份文件"
+answers = ["rm -v *.tmp *.bak"]
+
+[[commands]]
+id = "shared-9413c036aab6f176"
+command = "find /tmp -type f -mtime +30 -delete"
+summary = "删除 /tmp 下超过 30 天的文件（使用 find 更安全）"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "find /tmp -type f -mtime +30 -delete"
+desc = "删除 /tmp 下超过 30 天的文件（使用 find 更安全）"
+
+[commands.dictation]
+prompt = "删除 /tmp 下超过 30 天的文件（使用 find 更安全）"
+answers = ["find /tmp -type f -mtime +30 -delete"]
+
+[[commands]]
+id = "shared-1e2f213c95bf1b08"
+command = "find . -name '*.pyc' -type f -exec rm -v {} +"
+summary = "递归删除当前目录下所有 Python 字节码文件"
+simulated_output = "removed './app/__pycache__/main.cpython-312.pyc'\nremoved './app/__pycache__/utils.cpython-312.pyc'\nremoved './tests/__pycache__/test_main.cpython-312.pyc'"
+
+[[commands.tokens]]
+text = "find . -name '*.pyc' -type f -exec rm -v {} +"
+desc = "递归删除当前目录下所有 Python 字节码文件"
+
+[commands.dictation]
+prompt = "递归删除当前目录下所有 Python 字节码文件"
+answers = ["find . -name '*.pyc' -type f -exec rm -v {} +"]

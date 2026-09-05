@@ -1,644 +1,166 @@
+
 [meta]
 id = "package_management"
 topic = "软件包管理"
 description = "掌握 Linux 软件包管理：apt（Debian/Ubuntu）、yum/dnf（RHEL/CentOS）、pacman（Arch）"
 difficulty = "basic"
 icon = "📦"
+overview = "┌─────────────────────────────────────────────────┐\n│           Linux 软件包管理体系                     │\n│                                                 │\n│  ┌─────────────┐  ┌─────────────┐  ┌─────────┐ │\n│  │ Debian/Ubuntu│  │ RHEL/CentOS │  │  Arch   │ │\n│  │   apt/dpkg   │  │  yum/dnf    │  │ pacman  │ │\n│  │   .deb 包    │  │  .rpm 包    │  │ .pkg    │ │\n│  └─────────────┘  └─────────────┘  └─────────┘ │\n│         │                │               │      │\n│     sources.list    .repo files     mirrorlist  │\n│         │                │               │      │\n│     ┌────────────────────────────────────┐      │\n│     │        软件仓库 (Repository)         │      │\n│     │     镜像源 → 下载 → 验证 → 安装      │      │\n│     └────────────────────────────────────┘      │\n└─────────────────────────────────────────────────┘"
 
-overview = """
-┌─────────────────────────────────────────────────┐
-│           Linux 软件包管理体系                     │
-│                                                 │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────┐ │
-│  │ Debian/Ubuntu│  │ RHEL/CentOS │  │  Arch   │ │
-│  │   apt/dpkg   │  │  yum/dnf    │  │ pacman  │ │
-│  │   .deb 包    │  │  .rpm 包    │  │ .pkg    │ │
-│  └─────────────┘  └─────────────┘  └─────────┘ │
-│         │                │               │      │
-│     sources.list    .repo files     mirrorlist  │
-│         │                │               │      │
-│     ┌────────────────────────────────────┐      │
-│     │        软件仓库 (Repository)         │      │
-│     │     镜像源 → 下载 → 验证 → 安装      │      │
-│     └────────────────────────────────────┘      │
-└─────────────────────────────────────────────────┘"""
-
-# ============================================================
-# Section 1: APT 包管理（Debian/Ubuntu）
-# ============================================================
 [[sections]]
 id = "apt"
 title = "APT 包管理（Debian/Ubuntu）"
-description = """APT（Advanced Package Tool）是 Debian 及其衍生发行版（Ubuntu、Linux Mint 等）的包管理工具。
-它是日常 Linux 使用中最常接触的命令之一。
-
-APT 工具链：
-  apt       — 高级包管理前端（推荐日常使用）
-  apt-get   — 传统包管理命令（脚本中常用）
-  apt-cache — 包信息查询工具
-  dpkg      — 底层 .deb 包管理工具
-
-软件源配置文件：
-  /etc/apt/sources.list           — 主软件源列表
-  /etc/apt/sources.list.d/*.list  — 第三方软件源
-
-工作流程：apt update（更新索引）→ apt install（安装）→ apt upgrade（升级）"""
+description = "APT（Advanced Package Tool）是 Debian 及其衍生发行版（Ubuntu、Linux Mint 等）的包管理工具。\n它是日常 Linux 使用中最常接触的命令之一。\n\nAPT 工具链：\n  apt       — 高级包管理前端（推荐日常使用）\n  apt-get   — 传统包管理命令（脚本中常用）\n  apt-cache — 包信息查询工具\n  dpkg      — 底层 .deb 包管理工具\n\n软件源配置文件：\n  /etc/apt/sources.list           — 主软件源列表\n  /etc/apt/sources.list.d/*.list  — 第三方软件源\n\n工作流程：apt update（更新索引）→ apt install（安装）→ apt upgrade（升级）"
 
 [[sections.commands]]
-command = "sudo apt update"
 summary = "更新软件包索引（安装前必须执行）"
-simulated_output = """Hit:1 http://cn.archive.ubuntu.com/ubuntu noble InRelease
-Hit:2 http://cn.archive.ubuntu.com/ubuntu noble-updates InRelease
-Hit:3 http://cn.archive.ubuntu.com/ubuntu noble-backports InRelease
-Hit:4 http://security.ubuntu.com/ubuntu noble-security InRelease
-Hit:5 https://download.docker.com/linux/ubuntu noble InRelease
-Reading package lists... Done
-Building dependency tree... Done
-Reading state information... Done
-15 packages can be upgraded. Run 'apt list --upgradable' to see them."""
+simulated_output = "Hit:1 http://cn.archive.ubuntu.com/ubuntu noble InRelease\nHit:2 http://cn.archive.ubuntu.com/ubuntu noble-updates InRelease\nHit:3 http://cn.archive.ubuntu.com/ubuntu noble-backports InRelease\nHit:4 http://security.ubuntu.com/ubuntu noble-security InRelease\nHit:5 https://download.docker.com/linux/ubuntu noble InRelease\nReading package lists... Done\nBuilding dependency tree... Done\nReading state information... Done\n15 packages can be upgraded. Run 'apt list --upgradable' to see them."
+id = "command-001"
+command_id = "apt-update"
 
 [[sections.commands]]
-command = "sudo apt install nginx -y"
 summary = "安装 nginx 软件包（-y 自动确认）"
-simulated_output = """Reading package lists... Done
-Building dependency tree... Done
-Reading state information... Done
-The following additional packages will be installed:
-  libnginx-mod-http-geoip2 libnginx-mod-http-image-filter
-  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream
-  libnginx-mod-stream-geoip2 nginx-common nginx-core
-Suggested packages:
-  fcgiwrap nginx-doc
-The following NEW packages will be installed:
-  libnginx-mod-http-geoip2 libnginx-mod-http-image-filter
-  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream
-  libnginx-mod-stream-geoip2 nginx nginx-common nginx-core
-0 upgraded, 9 newly installed, 0 to remove and 15 not upgraded.
-Need to get 898 kB of archives.
-After this operation, 2,989 kB of additional disk space will be used.
-Get:1 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 nginx-common all 1.24.0-2ubuntu7 [31.2 kB]
-Get:2 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 nginx-core amd64 1.24.0-2ubuntu7 [496 kB]
-Get:3 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 libnginx-mod-http-geoip2 amd64 1.24.0-2ubuntu7 [12.8 kB]
-Get:4 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 libnginx-mod-http-image-filter amd64 1.24.0-2ubuntu7 [15.4 kB]
-Get:5 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 libnginx-mod-http-xslt-filter amd64 1.24.0-2ubuntu7 [13.1 kB]
-Get:6 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 libnginx-mod-mail amd64 1.24.0-2ubuntu7 [45.6 kB]
-Get:7 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 libnginx-mod-stream amd64 1.24.0-2ubuntu7 [72.3 kB]
-Get:8 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 libnginx-mod-stream-geoip2 amd64 1.24.0-2ubuntu7 [11.8 kB]
-Get:9 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 nginx all 1.24.0-2ubuntu7 [5,592 B]
-Fetched 898 kB in 2s (512 kB/s)
-Selecting previously unselected package nginx-common.
-(Reading database ... 85432 files and directories currently installed.)
-Preparing to unpack .../nginx-common_1.24.0-2ubuntu7_all.deb ...
-Unpacking nginx-common (1.24.0-2ubuntu7) ...
-Selecting previously unselected package nginx-core.
-Preparing to unpack .../nginx-core_1.24.0-2ubuntu7_amd64.deb ...
-Unpacking nginx-core (1.24.0-2ubuntu7) ...
-Setting up nginx-common (1.24.0-2ubuntu7) ...
-Setting up nginx-core (1.24.0-2ubuntu7) ...
-Setting up nginx (1.24.0-2ubuntu7) ...
-Processing triggers for man-db (2.12.0-4build2) ...
-Processing triggers for ufw (0.36.2-6) ..."""
+simulated_output = "Reading package lists... Done\nBuilding dependency tree... Done\nReading state information... Done\nThe following additional packages will be installed:\n  libnginx-mod-http-geoip2 libnginx-mod-http-image-filter\n  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream\n  libnginx-mod-stream-geoip2 nginx-common nginx-core\nSuggested packages:\n  fcgiwrap nginx-doc\nThe following NEW packages will be installed:\n  libnginx-mod-http-geoip2 libnginx-mod-http-image-filter\n  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream\n  libnginx-mod-stream-geoip2 nginx nginx-common nginx-core\n0 upgraded, 9 newly installed, 0 to remove and 15 not upgraded.\nNeed to get 898 kB of archives.\nAfter this operation, 2,989 kB of additional disk space will be used.\nGet:1 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 nginx-common all 1.24.0-2ubuntu7 [31.2 kB]\nGet:2 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 nginx-core amd64 1.24.0-2ubuntu7 [496 kB]\nGet:3 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 libnginx-mod-http-geoip2 amd64 1.24.0-2ubuntu7 [12.8 kB]\nGet:4 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 libnginx-mod-http-image-filter amd64 1.24.0-2ubuntu7 [15.4 kB]\nGet:5 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 libnginx-mod-http-xslt-filter amd64 1.24.0-2ubuntu7 [13.1 kB]\nGet:6 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 libnginx-mod-mail amd64 1.24.0-2ubuntu7 [45.6 kB]\nGet:7 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 libnginx-mod-stream amd64 1.24.0-2ubuntu7 [72.3 kB]\nGet:8 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 libnginx-mod-stream-geoip2 amd64 1.24.0-2ubuntu7 [11.8 kB]\nGet:9 http://cn.archive.ubuntu.com/ubuntu noble/main amd64 nginx all 1.24.0-2ubuntu7 [5,592 B]\nFetched 898 kB in 2s (512 kB/s)\nSelecting previously unselected package nginx-common.\n(Reading database ... 85432 files and directories currently installed.)\nPreparing to unpack .../nginx-common_1.24.0-2ubuntu7_all.deb ...\nUnpacking nginx-common (1.24.0-2ubuntu7) ...\nSelecting previously unselected package nginx-core.\nPreparing to unpack .../nginx-core_1.24.0-2ubuntu7_amd64.deb ...\nUnpacking nginx-core (1.24.0-2ubuntu7) ...\nSetting up nginx-common (1.24.0-2ubuntu7) ...\nSetting up nginx-core (1.24.0-2ubuntu7) ...\nSetting up nginx (1.24.0-2ubuntu7) ...\nProcessing triggers for man-db (2.12.0-4build2) ...\nProcessing triggers for ufw (0.36.2-6) ..."
+id = "command-002"
+command_id = "v04-ref-512a96d4b4"
 
 [[sections.commands]]
-command = "apt search nginx"
 summary = "搜索与 nginx 相关的软件包"
-simulated_output = """Sorting... Done
-Full Text Search... Done
-libnginx-mod-http-auth-pam/noble 1.24.0-2ubuntu7 amd64
-  PAM authentication module for Nginx
-
-libnginx-mod-http-geoip2/noble,now 1.24.0-2ubuntu7 amd64 [installed,automatic]
-  GeoIP2 module for Nginx
-
-libnginx-mod-http-image-filter/noble,now 1.24.0-2ubuntu7 amd64 [installed,automatic]
-  HTTP image filter module for Nginx
-
-nginx/noble,now 1.24.0-2ubuntu7 all [installed]
-  small, powerful, scalable web/proxy server
-
-nginx-common/noble,now 1.24.0-2ubuntu7 all [installed,automatic]
-  small, powerful, scalable web/proxy server - common files
-
-nginx-core/noble,now 1.24.0-2ubuntu7 amd64 [installed,automatic]
-  nginx web/proxy server (standard version)
-
-nginx-doc/noble 1.24.0-2ubuntu7 all
-  small, powerful, scalable web/proxy server - documentation
-
-nginx-extras/noble 1.24.0-2ubuntu7 amd64
-  nginx web/proxy server (extended version)
-
-nginx-full/noble 1.24.0-2ubuntu7 amd64
-  nginx web/proxy server (standard version with 3rd party modules)"""
+simulated_output = "Sorting... Done\nFull Text Search... Done\nlibnginx-mod-http-auth-pam/noble 1.24.0-2ubuntu7 amd64\n  PAM authentication module for Nginx\n\nlibnginx-mod-http-geoip2/noble,now 1.24.0-2ubuntu7 amd64 [installed,automatic]\n  GeoIP2 module for Nginx\n\nlibnginx-mod-http-image-filter/noble,now 1.24.0-2ubuntu7 amd64 [installed,automatic]\n  HTTP image filter module for Nginx\n\nnginx/noble,now 1.24.0-2ubuntu7 all [installed]\n  small, powerful, scalable web/proxy server\n\nnginx-common/noble,now 1.24.0-2ubuntu7 all [installed,automatic]\n  small, powerful, scalable web/proxy server - common files\n\nnginx-core/noble,now 1.24.0-2ubuntu7 amd64 [installed,automatic]\n  nginx web/proxy server (standard version)\n\nnginx-doc/noble 1.24.0-2ubuntu7 all\n  small, powerful, scalable web/proxy server - documentation\n\nnginx-extras/noble 1.24.0-2ubuntu7 amd64\n  nginx web/proxy server (extended version)\n\nnginx-full/noble 1.24.0-2ubuntu7 amd64\n  nginx web/proxy server (standard version with 3rd party modules)"
+id = "command-003"
+command_id = "v04-ref-53d6b97554"
 
 [[sections.commands]]
-command = "apt show nginx"
 summary = "显示软件包的详细信息"
-simulated_output = """Package: nginx
-Version: 1.24.0-2ubuntu7
-Priority: optional
-Section: httpd
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Installed-Size: 48.1 kB
-Depends: nginx-core (<< 1.24.0-2ubuntu7.1~) | nginx-full (<< 1.24.0-2ubuntu7.1~) | nginx-light (<< 1.24.0-2ubuntu7.1~) | nginx-extras (<< 1.24.0-2ubuntu7.1~), nginx-core (>= 1.24.0-2ubuntu7) | nginx-full (>= 1.24.0-2ubuntu7) | nginx-light (>= 1.24.0-2ubuntu7) | nginx-extras (>= 1.24.0-2ubuntu7)
-Homepage: https://nginx.org
-Download-Size: 5,592 B
-APT-Sources: http://cn.archive.ubuntu.com/ubuntu noble/main amd64 Packages
-Description: small, powerful, scalable web/proxy server
- Nginx ("engine X") is a high-performance web and reverse proxy server
- created by Igor Sysoev. It can be used both as a standalone web server
- and as a proxy to reduce the load on back-end HTTP or mail servers."""
+simulated_output = "Package: nginx\nVersion: 1.24.0-2ubuntu7\nPriority: optional\nSection: httpd\nMaintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>\nInstalled-Size: 48.1 kB\nDepends: nginx-core (<< 1.24.0-2ubuntu7.1~) | nginx-full (<< 1.24.0-2ubuntu7.1~) | nginx-light (<< 1.24.0-2ubuntu7.1~) | nginx-extras (<< 1.24.0-2ubuntu7.1~), nginx-core (>= 1.24.0-2ubuntu7) | nginx-full (>= 1.24.0-2ubuntu7) | nginx-light (>= 1.24.0-2ubuntu7) | nginx-extras (>= 1.24.0-2ubuntu7)\nHomepage: https://nginx.org\nDownload-Size: 5,592 B\nAPT-Sources: http://cn.archive.ubuntu.com/ubuntu noble/main amd64 Packages\nDescription: small, powerful, scalable web/proxy server\n Nginx (\"engine X\") is a high-performance web and reverse proxy server\n created by Igor Sysoev. It can be used both as a standalone web server\n and as a proxy to reduce the load on back-end HTTP or mail servers."
+id = "command-004"
+command_id = "v04-ref-099669d1c0"
 
 [[sections.commands]]
-command = "sudo apt remove nginx"
 summary = "卸载 nginx 软件包（保留配置文件）"
-simulated_output = """Reading package lists... Done
-Building dependency tree... Done
-Reading state information... Done
-The following packages will be REMOVED:
-  nginx
-0 upgraded, 0 newly installed, 1 to remove and 15 not upgraded.
-After this operation, 48.1 kB disk space will be freed.
-Do you want to continue? [Y/n] Y
-(Reading database ... 85496 files and directories currently installed.)
-Removing nginx (1.24.0-2ubuntu7) ...
-Processing triggers for man-db (2.12.0-4build2) ..."""
+simulated_output = "Reading package lists... Done\nBuilding dependency tree... Done\nReading state information... Done\nThe following packages will be REMOVED:\n  nginx\n0 upgraded, 0 newly installed, 1 to remove and 15 not upgraded.\nAfter this operation, 48.1 kB disk space will be freed.\nDo you want to continue? [Y/n] Y\n(Reading database ... 85496 files and directories currently installed.)\nRemoving nginx (1.24.0-2ubuntu7) ...\nProcessing triggers for man-db (2.12.0-4build2) ..."
+id = "command-005"
+command_id = "apt-remove-nginx"
 
 [[sections.commands]]
-command = "sudo apt autoremove"
 summary = "自动移除不再需要的依赖包"
-simulated_output = """Reading package lists... Done
-Building dependency tree... Done
-Reading state information... Done
-The following packages will be REMOVED:
-  libnginx-mod-http-geoip2 libnginx-mod-http-image-filter
-  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream
-  libnginx-mod-stream-geoip2 nginx-common nginx-core
-0 upgraded, 0 newly installed, 8 to remove and 15 not upgraded.
-After this operation, 2,941 kB disk space will be freed.
-Do you want to continue? [Y/n] Y
-(Reading database ... 85490 files and directories currently installed.)
-Removing libnginx-mod-http-geoip2 (1.24.0-2ubuntu7) ...
-Removing libnginx-mod-http-image-filter (1.24.0-2ubuntu7) ...
-Removing libnginx-mod-http-xslt-filter (1.24.0-2ubuntu7) ...
-Removing libnginx-mod-mail (1.24.0-2ubuntu7) ...
-Removing libnginx-mod-stream-geoip2 (1.24.0-2ubuntu7) ...
-Removing libnginx-mod-stream (1.24.0-2ubuntu7) ...
-Removing nginx-core (1.24.0-2ubuntu7) ...
-Removing nginx-common (1.24.0-2ubuntu7) ...
-Processing triggers for man-db (2.12.0-4build2) ..."""
+simulated_output = "Reading package lists... Done\nBuilding dependency tree... Done\nReading state information... Done\nThe following packages will be REMOVED:\n  libnginx-mod-http-geoip2 libnginx-mod-http-image-filter\n  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream\n  libnginx-mod-stream-geoip2 nginx-common nginx-core\n0 upgraded, 0 newly installed, 8 to remove and 15 not upgraded.\nAfter this operation, 2,941 kB disk space will be freed.\nDo you want to continue? [Y/n] Y\n(Reading database ... 85490 files and directories currently installed.)\nRemoving libnginx-mod-http-geoip2 (1.24.0-2ubuntu7) ...\nRemoving libnginx-mod-http-image-filter (1.24.0-2ubuntu7) ...\nRemoving libnginx-mod-http-xslt-filter (1.24.0-2ubuntu7) ...\nRemoving libnginx-mod-mail (1.24.0-2ubuntu7) ...\nRemoving libnginx-mod-stream-geoip2 (1.24.0-2ubuntu7) ...\nRemoving libnginx-mod-stream (1.24.0-2ubuntu7) ...\nRemoving nginx-core (1.24.0-2ubuntu7) ...\nRemoving nginx-common (1.24.0-2ubuntu7) ...\nProcessing triggers for man-db (2.12.0-4build2) ..."
+id = "command-006"
+command_id = "apt-autoremove-unused"
 
 [[sections.commands]]
-command = "apt list --installed | head -10"
 summary = "列出已安装的软件包（前 10 条）"
-simulated_output = """Listing...
-accountsservice/noble,now 23.13.9-2ubuntu6 amd64 [installed,automatic]
-acl/noble,now 2.3.2-1build1 amd64 [installed,automatic]
-adduser/noble,now 3.137ubuntu1 all [installed,automatic]
-apparmor/noble,now 4.0.0-beta3-0ubuntu1 amd64 [installed,automatic]
-apt/noble,now 2.7.14build2 amd64 [installed,automatic]
-apt-transport-https/noble,now 2.7.14build2 all [installed,automatic]
-apt-utils/noble,now 2.7.14build2 amd64 [installed,automatic]
-base-files/noble,now 13ubuntu10 amd64 [installed,automatic]
-base-passwd/noble,now 3.6.3build1 amd64 [installed,automatic]"""
+simulated_output = "Listing...\naccountsservice/noble,now 23.13.9-2ubuntu6 amd64 [installed,automatic]\nacl/noble,now 2.3.2-1build1 amd64 [installed,automatic]\nadduser/noble,now 3.137ubuntu1 all [installed,automatic]\napparmor/noble,now 4.0.0-beta3-0ubuntu1 amd64 [installed,automatic]\napt/noble,now 2.7.14build2 amd64 [installed,automatic]\napt-transport-https/noble,now 2.7.14build2 all [installed,automatic]\napt-utils/noble,now 2.7.14build2 amd64 [installed,automatic]\nbase-files/noble,now 13ubuntu10 amd64 [installed,automatic]\nbase-passwd/noble,now 3.6.3build1 amd64 [installed,automatic]"
+id = "command-007"
+command_id = "shared-db772d559c639b11"
 
 [[sections.commands]]
-command = "dpkg -l | head -15"
 summary = "使用 dpkg 列出已安装包的详细信息"
-simulated_output = """Desired=Unknown/Install/Remove/Purge/Hold
-| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
-|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
-||/ Name                          Version                    Architecture Description
-+++-=============================-==========================-============-=====================================================
-ii  accountsservice               23.13.9-2ubuntu6           amd64        query and manipulate user account information
-ii  acl                           2.3.2-1build1              amd64        access control list - utilities
-ii  adduser                       3.137ubuntu1               all          add and remove users and groups
-ii  apparmor                      4.0.0-beta3-0ubuntu1       amd64        user-space parser utility for AppArmor
-ii  apt                           2.7.14build2               amd64        commandline package manager
-ii  apt-transport-https           2.7.14build2               all          transitional package for https support
-ii  apt-utils                     2.7.14build2               amd64        package management related utility programs
-ii  base-files                    13ubuntu10                 amd64        Debian base system miscellaneous files
-ii  base-passwd                   3.6.3build1                amd64        Debian base system master password and group files
-ii  bash                          5.2.21-2ubuntu4            amd64        GNU Bourne Again SHell"""
+simulated_output = "Desired=Unknown/Install/Remove/Purge/Hold\n| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend\n|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)\n||/ Name                          Version                    Architecture Description\n+++-=============================-==========================-============-=====================================================\nii  accountsservice               23.13.9-2ubuntu6           amd64        query and manipulate user account information\nii  acl                           2.3.2-1build1              amd64        access control list - utilities\nii  adduser                       3.137ubuntu1               all          add and remove users and groups\nii  apparmor                      4.0.0-beta3-0ubuntu1       amd64        user-space parser utility for AppArmor\nii  apt                           2.7.14build2               amd64        commandline package manager\nii  apt-transport-https           2.7.14build2               all          transitional package for https support\nii  apt-utils                     2.7.14build2               amd64        package management related utility programs\nii  base-files                    13ubuntu10                 amd64        Debian base system miscellaneous files\nii  base-passwd                   3.6.3build1                amd64        Debian base system master password and group files\nii  bash                          5.2.21-2ubuntu4            amd64        GNU Bourne Again SHell"
+id = "command-008"
+command_id = "shared-ca2c7b7465ad4910"
 
-# ============================================================
-# Section 2: YUM/DNF 包管理（RHEL/CentOS/Fedora）
-# ============================================================
 [[sections]]
 id = "yum-dnf"
 title = "YUM/DNF 包管理（RHEL/CentOS/Fedora）"
-description = """YUM（Yellowdog Updater Modified）和 DNF（Dandified YUM）是 Red Hat 系发行版的包管理工具。
-DNF 是 YUM 的下一代替代品，在 Fedora 22+ 和 RHEL 8+ 中已成为默认工具。
-
-工具关系：
-  yum  — 传统包管理工具（RHEL 7 / CentOS 7）
-  dnf  — 新一代包管理工具（RHEL 8+ / Fedora 22+）
-  rpm  — 底层 .rpm 包管理工具
-
-软件源配置文件：
-  /etc/yum.repos.d/*.repo — 仓库配置目录
-
-注意：在 RHEL 8+ 中，yum 命令实际上是 dnf 的软链接，两者用法基本一致。"""
+description = "YUM（Yellowdog Updater Modified）和 DNF（Dandified YUM）是 Red Hat 系发行版的包管理工具。\nDNF 是 YUM 的下一代替代品，在 Fedora 22+ 和 RHEL 8+ 中已成为默认工具。\n\n工具关系：\n  yum  — 传统包管理工具（RHEL 7 / CentOS 7）\n  dnf  — 新一代包管理工具（RHEL 8+ / Fedora 22+）\n  rpm  — 底层 .rpm 包管理工具\n\n软件源配置文件：\n  /etc/yum.repos.d/*.repo — 仓库配置目录\n\n注意：在 RHEL 8+ 中，yum 命令实际上是 dnf 的软链接，两者用法基本一致。"
 
 [[sections.commands]]
-command = "sudo yum install httpd -y"
 summary = "安装 Apache HTTP 服务器（-y 自动确认）"
-simulated_output = """Last metadata expiration check: 1:23:45 ago on Mon 09 Mar 2026 10:00:00 AM CST.
-Dependencies resolved.
-================================================================================
- Package              Arch       Version                Repository         Size
-================================================================================
-Installing:
- httpd                x86_64     2.4.57-8.el9           appstream         1.4 M
-Installing dependencies:
- apr                  x86_64     1.7.2-2.el9            appstream         127 k
- apr-util             x86_64     1.6.3-1.el9            appstream          98 k
- httpd-core           x86_64     2.4.57-8.el9           appstream         3.7 M
- httpd-filesystem     noarch     2.4.57-8.el9           appstream          14 k
- httpd-tools          x86_64     2.4.57-8.el9           appstream          82 k
- mod_http2            x86_64     2.0.26-1.el9           appstream         163 k
- mod_lua              x86_64     2.4.57-8.el9           appstream          62 k
-
-Transaction Summary
-================================================================================
-Install  8 Packages
-
-Total download size: 5.6 M
-Installed size: 16 M
-Downloading Packages:
-(1/8): apr-1.7.2-2.el9.x86_64.rpm                  512 kB/s | 127 kB     00:00
-(2/8): apr-util-1.6.3-1.el9.x86_64.rpm             398 kB/s |  98 kB     00:00
-(3/8): httpd-2.4.57-8.el9.x86_64.rpm               2.1 MB/s | 1.4 MB     00:00
-(4/8): httpd-core-2.4.57-8.el9.x86_64.rpm          3.8 MB/s | 3.7 MB     00:00
-(5/8): httpd-filesystem-2.4.57-8.el9.noarch.rpm      56 kB/s |  14 kB     00:00
-(6/8): httpd-tools-2.4.57-8.el9.x86_64.rpm         328 kB/s |  82 kB     00:00
-(7/8): mod_http2-2.0.26-1.el9.x86_64.rpm           652 kB/s | 163 kB     00:00
-(8/8): mod_lua-2.4.57-8.el9.x86_64.rpm             248 kB/s |  62 kB     00:00
---------------------------------------------------------------------------------
-Total                                               4.2 MB/s | 5.6 MB     00:01
-Running transaction check
-Transaction check succeeded.
-Running transaction test
-Transaction test succeeded.
-Running transaction
-  Preparing        :                                                        1/1
-  Installing       : apr-1.7.2-2.el9.x86_64                                1/8
-  Installing       : apr-util-1.6.3-1.el9.x86_64                           2/8
-  Installing       : httpd-tools-2.4.57-8.el9.x86_64                       3/8
-  Installing       : httpd-filesystem-2.4.57-8.el9.noarch                   4/8
-  Installing       : httpd-core-2.4.57-8.el9.x86_64                        5/8
-  Installing       : mod_http2-2.0.26-1.el9.x86_64                         6/8
-  Installing       : mod_lua-2.4.57-8.el9.x86_64                           7/8
-  Installing       : httpd-2.4.57-8.el9.x86_64                             8/8
-  Running scriptlet: httpd-2.4.57-8.el9.x86_64                             8/8
-  Verifying        : httpd-2.4.57-8.el9.x86_64                             1/8
-  Verifying        : apr-1.7.2-2.el9.x86_64                                2/8
-  Verifying        : apr-util-1.6.3-1.el9.x86_64                           3/8
-  Verifying        : httpd-core-2.4.57-8.el9.x86_64                        4/8
-  Verifying        : httpd-filesystem-2.4.57-8.el9.noarch                   5/8
-  Verifying        : httpd-tools-2.4.57-8.el9.x86_64                       6/8
-  Verifying        : mod_http2-2.0.26-1.el9.x86_64                         7/8
-  Verifying        : mod_lua-2.4.57-8.el9.x86_64                           8/8
-
-Installed:
-  apr-1.7.2-2.el9.x86_64                  apr-util-1.6.3-1.el9.x86_64
-  httpd-2.4.57-8.el9.x86_64               httpd-core-2.4.57-8.el9.x86_64
-  httpd-filesystem-2.4.57-8.el9.noarch     httpd-tools-2.4.57-8.el9.x86_64
-  mod_http2-2.0.26-1.el9.x86_64           mod_lua-2.4.57-8.el9.x86_64
-
-Complete!"""
+simulated_output = "Last metadata expiration check: 1:23:45 ago on Mon 09 Mar 2026 10:00:00 AM CST.\nDependencies resolved.\n================================================================================\n Package              Arch       Version                Repository         Size\n================================================================================\nInstalling:\n httpd                x86_64     2.4.57-8.el9           appstream         1.4 M\nInstalling dependencies:\n apr                  x86_64     1.7.2-2.el9            appstream         127 k\n apr-util             x86_64     1.6.3-1.el9            appstream          98 k\n httpd-core           x86_64     2.4.57-8.el9           appstream         3.7 M\n httpd-filesystem     noarch     2.4.57-8.el9           appstream          14 k\n httpd-tools          x86_64     2.4.57-8.el9           appstream          82 k\n mod_http2            x86_64     2.0.26-1.el9           appstream         163 k\n mod_lua              x86_64     2.4.57-8.el9           appstream          62 k\n\nTransaction Summary\n================================================================================\nInstall  8 Packages\n\nTotal download size: 5.6 M\nInstalled size: 16 M\nDownloading Packages:\n(1/8): apr-1.7.2-2.el9.x86_64.rpm                  512 kB/s | 127 kB     00:00\n(2/8): apr-util-1.6.3-1.el9.x86_64.rpm             398 kB/s |  98 kB     00:00\n(3/8): httpd-2.4.57-8.el9.x86_64.rpm               2.1 MB/s | 1.4 MB     00:00\n(4/8): httpd-core-2.4.57-8.el9.x86_64.rpm          3.8 MB/s | 3.7 MB     00:00\n(5/8): httpd-filesystem-2.4.57-8.el9.noarch.rpm      56 kB/s |  14 kB     00:00\n(6/8): httpd-tools-2.4.57-8.el9.x86_64.rpm         328 kB/s |  82 kB     00:00\n(7/8): mod_http2-2.0.26-1.el9.x86_64.rpm           652 kB/s | 163 kB     00:00\n(8/8): mod_lua-2.4.57-8.el9.x86_64.rpm             248 kB/s |  62 kB     00:00\n--------------------------------------------------------------------------------\nTotal                                               4.2 MB/s | 5.6 MB     00:01\nRunning transaction check\nTransaction check succeeded.\nRunning transaction test\nTransaction test succeeded.\nRunning transaction\n  Preparing        :                                                        1/1\n  Installing       : apr-1.7.2-2.el9.x86_64                                1/8\n  Installing       : apr-util-1.6.3-1.el9.x86_64                           2/8\n  Installing       : httpd-tools-2.4.57-8.el9.x86_64                       3/8\n  Installing       : httpd-filesystem-2.4.57-8.el9.noarch                   4/8\n  Installing       : httpd-core-2.4.57-8.el9.x86_64                        5/8\n  Installing       : mod_http2-2.0.26-1.el9.x86_64                         6/8\n  Installing       : mod_lua-2.4.57-8.el9.x86_64                           7/8\n  Installing       : httpd-2.4.57-8.el9.x86_64                             8/8\n  Running scriptlet: httpd-2.4.57-8.el9.x86_64                             8/8\n  Verifying        : httpd-2.4.57-8.el9.x86_64                             1/8\n  Verifying        : apr-1.7.2-2.el9.x86_64                                2/8\n  Verifying        : apr-util-1.6.3-1.el9.x86_64                           3/8\n  Verifying        : httpd-core-2.4.57-8.el9.x86_64                        4/8\n  Verifying        : httpd-filesystem-2.4.57-8.el9.noarch                   5/8\n  Verifying        : httpd-tools-2.4.57-8.el9.x86_64                       6/8\n  Verifying        : mod_http2-2.0.26-1.el9.x86_64                         7/8\n  Verifying        : mod_lua-2.4.57-8.el9.x86_64                           8/8\n\nInstalled:\n  apr-1.7.2-2.el9.x86_64                  apr-util-1.6.3-1.el9.x86_64\n  httpd-2.4.57-8.el9.x86_64               httpd-core-2.4.57-8.el9.x86_64\n  httpd-filesystem-2.4.57-8.el9.noarch     httpd-tools-2.4.57-8.el9.x86_64\n  mod_http2-2.0.26-1.el9.x86_64           mod_lua-2.4.57-8.el9.x86_64\n\nComplete!"
+id = "command-001"
+command_id = "v04-ref-f8ac6f09c8"
 
 [[sections.commands]]
-command = "yum search nginx"
 summary = "搜索与 nginx 相关的软件包"
-simulated_output = """Last metadata expiration check: 1:25:12 ago on Mon 09 Mar 2026 10:00:00 AM CST.
-========================= Name Exactly Matched: nginx ==========================
-nginx.x86_64 : A high performance web server and reverse proxy server
-======================== Name & Summary Matched: nginx =========================
-nginx-all-modules.noarch : A meta package that installs all available Nginx modules
-nginx-core.x86_64 : nginx minimal core
-nginx-filesystem.noarch : The basic directory layout for the Nginx server
-nginx-mod-http-image-filter.x86_64 : Nginx HTTP image filter module
-nginx-mod-http-perl.x86_64 : Nginx HTTP perl module
-nginx-mod-http-xslt-filter.x86_64 : Nginx XSLT module
-nginx-mod-mail.x86_64 : Nginx mail modules
-nginx-mod-stream.x86_64 : Nginx stream modules"""
+simulated_output = "Last metadata expiration check: 1:25:12 ago on Mon 09 Mar 2026 10:00:00 AM CST.\n========================= Name Exactly Matched: nginx ==========================\nnginx.x86_64 : A high performance web server and reverse proxy server\n======================== Name & Summary Matched: nginx =========================\nnginx-all-modules.noarch : A meta package that installs all available Nginx modules\nnginx-core.x86_64 : nginx minimal core\nnginx-filesystem.noarch : The basic directory layout for the Nginx server\nnginx-mod-http-image-filter.x86_64 : Nginx HTTP image filter module\nnginx-mod-http-perl.x86_64 : Nginx HTTP perl module\nnginx-mod-http-xslt-filter.x86_64 : Nginx XSLT module\nnginx-mod-mail.x86_64 : Nginx mail modules\nnginx-mod-stream.x86_64 : Nginx stream modules"
+id = "command-002"
+command_id = "v04-ref-7da4c11ab0"
 
 [[sections.commands]]
-command = "yum info nginx"
 summary = "显示 nginx 软件包的详细信息"
-simulated_output = """Last metadata expiration check: 1:26:30 ago on Mon 09 Mar 2026 10:00:00 AM CST.
-Available Packages
-Name         : nginx
-Epoch        : 1
-Version      : 1.24.0
-Release      : 4.el9
-Architecture : x86_64
-Size         : 38 k
-Source        : nginx-1.24.0-4.el9.src.rpm
-Repository   : appstream
-Summary      : A high performance web server and reverse proxy server
-URL          : https://nginx.org
-License      : BSD-2-Clause
-Description  : Nginx is a web server and a reverse proxy server for HTTP, SMTP, POP3 and
-             : IMAP protocols, with a strong focus on high concurrency, performance and low
-             : memory usage."""
+simulated_output = "Last metadata expiration check: 1:26:30 ago on Mon 09 Mar 2026 10:00:00 AM CST.\nAvailable Packages\nName         : nginx\nEpoch        : 1\nVersion      : 1.24.0\nRelease      : 4.el9\nArchitecture : x86_64\nSize         : 38 k\nSource        : nginx-1.24.0-4.el9.src.rpm\nRepository   : appstream\nSummary      : A high performance web server and reverse proxy server\nURL          : https://nginx.org\nLicense      : BSD-2-Clause\nDescription  : Nginx is a web server and a reverse proxy server for HTTP, SMTP, POP3 and\n             : IMAP protocols, with a strong focus on high concurrency, performance and low\n             : memory usage."
+id = "command-003"
+command_id = "v04-ref-689d20621b"
 
 [[sections.commands]]
-command = "sudo yum remove httpd"
 summary = "卸载 Apache HTTP 服务器"
-simulated_output = """Dependencies resolved.
-================================================================================
- Package              Arch       Version                Repository         Size
-================================================================================
-Removing:
- httpd                x86_64     2.4.57-8.el9           @appstream        1.4 M
-Removing dependent packages:
- mod_http2            x86_64     2.0.26-1.el9           @appstream        163 k
- mod_lua              x86_64     2.4.57-8.el9           @appstream         62 k
-Removing unused dependencies:
- apr                  x86_64     1.7.2-2.el9            @appstream        127 k
- apr-util             x86_64     1.6.3-1.el9            @appstream         98 k
- httpd-core           x86_64     2.4.57-8.el9           @appstream        3.7 M
- httpd-filesystem     noarch     2.4.57-8.el9           @appstream         14 k
- httpd-tools          x86_64     2.4.57-8.el9           @appstream         82 k
-
-Transaction Summary
-================================================================================
-Remove  8 Packages
-
-Freed space: 5.6 M
-Is this ok [y/N]: y
-Running transaction check
-Transaction check succeeded.
-Running transaction test
-Transaction test succeeded.
-Running transaction
-  Preparing        :                                                        1/1
-  Removing         : httpd-2.4.57-8.el9.x86_64                             1/8
-  Running scriptlet: httpd-2.4.57-8.el9.x86_64                             1/8
-  Removing         : mod_lua-2.4.57-8.el9.x86_64                           2/8
-  Removing         : mod_http2-2.0.26-1.el9.x86_64                         3/8
-  Removing         : httpd-core-2.4.57-8.el9.x86_64                        4/8
-  Removing         : httpd-tools-2.4.57-8.el9.x86_64                       5/8
-  Removing         : httpd-filesystem-2.4.57-8.el9.noarch                   6/8
-  Removing         : apr-util-1.6.3-1.el9.x86_64                           7/8
-  Removing         : apr-1.7.2-2.el9.x86_64                                8/8
-  Verifying        : httpd-2.4.57-8.el9.x86_64                             1/8
-  Verifying        : apr-1.7.2-2.el9.x86_64                                2/8
-  Verifying        : apr-util-1.6.3-1.el9.x86_64                           3/8
-  Verifying        : httpd-core-2.4.57-8.el9.x86_64                        4/8
-  Verifying        : httpd-filesystem-2.4.57-8.el9.noarch                   5/8
-  Verifying        : httpd-tools-2.4.57-8.el9.x86_64                       6/8
-  Verifying        : mod_http2-2.0.26-1.el9.x86_64                         7/8
-  Verifying        : mod_lua-2.4.57-8.el9.x86_64                           8/8
-
-Removed:
-  apr-1.7.2-2.el9.x86_64                  apr-util-1.6.3-1.el9.x86_64
-  httpd-2.4.57-8.el9.x86_64               httpd-core-2.4.57-8.el9.x86_64
-  httpd-filesystem-2.4.57-8.el9.noarch     httpd-tools-2.4.57-8.el9.x86_64
-  mod_http2-2.0.26-1.el9.x86_64           mod_lua-2.4.57-8.el9.x86_64
-
-Complete!"""
+simulated_output = "Dependencies resolved.\n================================================================================\n Package              Arch       Version                Repository         Size\n================================================================================\nRemoving:\n httpd                x86_64     2.4.57-8.el9           @appstream        1.4 M\nRemoving dependent packages:\n mod_http2            x86_64     2.0.26-1.el9           @appstream        163 k\n mod_lua              x86_64     2.4.57-8.el9           @appstream         62 k\nRemoving unused dependencies:\n apr                  x86_64     1.7.2-2.el9            @appstream        127 k\n apr-util             x86_64     1.6.3-1.el9            @appstream         98 k\n httpd-core           x86_64     2.4.57-8.el9           @appstream        3.7 M\n httpd-filesystem     noarch     2.4.57-8.el9           @appstream         14 k\n httpd-tools          x86_64     2.4.57-8.el9           @appstream         82 k\n\nTransaction Summary\n================================================================================\nRemove  8 Packages\n\nFreed space: 5.6 M\nIs this ok [y/N]: y\nRunning transaction check\nTransaction check succeeded.\nRunning transaction test\nTransaction test succeeded.\nRunning transaction\n  Preparing        :                                                        1/1\n  Removing         : httpd-2.4.57-8.el9.x86_64                             1/8\n  Running scriptlet: httpd-2.4.57-8.el9.x86_64                             1/8\n  Removing         : mod_lua-2.4.57-8.el9.x86_64                           2/8\n  Removing         : mod_http2-2.0.26-1.el9.x86_64                         3/8\n  Removing         : httpd-core-2.4.57-8.el9.x86_64                        4/8\n  Removing         : httpd-tools-2.4.57-8.el9.x86_64                       5/8\n  Removing         : httpd-filesystem-2.4.57-8.el9.noarch                   6/8\n  Removing         : apr-util-1.6.3-1.el9.x86_64                           7/8\n  Removing         : apr-1.7.2-2.el9.x86_64                                8/8\n  Verifying        : httpd-2.4.57-8.el9.x86_64                             1/8\n  Verifying        : apr-1.7.2-2.el9.x86_64                                2/8\n  Verifying        : apr-util-1.6.3-1.el9.x86_64                           3/8\n  Verifying        : httpd-core-2.4.57-8.el9.x86_64                        4/8\n  Verifying        : httpd-filesystem-2.4.57-8.el9.noarch                   5/8\n  Verifying        : httpd-tools-2.4.57-8.el9.x86_64                       6/8\n  Verifying        : mod_http2-2.0.26-1.el9.x86_64                         7/8\n  Verifying        : mod_lua-2.4.57-8.el9.x86_64                           8/8\n\nRemoved:\n  apr-1.7.2-2.el9.x86_64                  apr-util-1.6.3-1.el9.x86_64\n  httpd-2.4.57-8.el9.x86_64               httpd-core-2.4.57-8.el9.x86_64\n  httpd-filesystem-2.4.57-8.el9.noarch     httpd-tools-2.4.57-8.el9.x86_64\n  mod_http2-2.0.26-1.el9.x86_64           mod_lua-2.4.57-8.el9.x86_64\n\nComplete!"
+id = "command-004"
+command_id = "v04-ref-80ebe9049b"
 
 [[sections.commands]]
-command = "yum list installed | head -10"
 summary = "列出已安装的 RPM 软件包（前 10 条）"
-simulated_output = """Installed Packages
-acl.x86_64                              2.3.2-1.el9                    @baseos
-audit.x86_64                            3.1.2-2.el9                    @baseos
-audit-libs.x86_64                       3.1.2-2.el9                    @baseos
-basesystem.noarch                       11-13.el9                      @baseos
-bash.x86_64                             5.2.26-4.el9                   @baseos
-bash-completion.noarch                  2.11-5.el9                     @baseos
-bind-libs.x86_64                        9.16.23-18.el9                 @appstream
-bind-license.noarch                     9.16.23-18.el9                 @appstream
-bind-utils.x86_64                       9.16.23-18.el9                 @appstream"""
+simulated_output = "Installed Packages\nacl.x86_64                              2.3.2-1.el9                    @baseos\naudit.x86_64                            3.1.2-2.el9                    @baseos\naudit-libs.x86_64                       3.1.2-2.el9                    @baseos\nbasesystem.noarch                       11-13.el9                      @baseos\nbash.x86_64                             5.2.26-4.el9                   @baseos\nbash-completion.noarch                  2.11-5.el9                     @baseos\nbind-libs.x86_64                        9.16.23-18.el9                 @appstream\nbind-license.noarch                     9.16.23-18.el9                 @appstream\nbind-utils.x86_64                       9.16.23-18.el9                 @appstream"
+id = "command-005"
+command_id = "shared-5389776767f36550"
 
 [[sections.commands]]
-command = "rpm -qa | head -10"
 summary = "使用 rpm 列出所有已安装的包（前 10 条）"
-simulated_output = """basesystem-11-13.el9.noarch
-filesystem-3.16-5.el9.x86_64
-bash-5.2.26-4.el9.x86_64
-glibc-common-2.34-83.el9.x86_64
-glibc-minimal-langpack-2.34-83.el9.x86_64
-glibc-2.34-83.el9.x86_64
-ncurses-libs-6.4-12.el9.x86_64
-libgcc-11.4.1-3.el9.x86_64
-libstdc++-11.4.1-3.el9.x86_64
-zlib-1.2.11-41.el9.x86_64"""
+simulated_output = "basesystem-11-13.el9.noarch\nfilesystem-3.16-5.el9.x86_64\nbash-5.2.26-4.el9.x86_64\nglibc-common-2.34-83.el9.x86_64\nglibc-minimal-langpack-2.34-83.el9.x86_64\nglibc-2.34-83.el9.x86_64\nncurses-libs-6.4-12.el9.x86_64\nlibgcc-11.4.1-3.el9.x86_64\nlibstdc++-11.4.1-3.el9.x86_64\nzlib-1.2.11-41.el9.x86_64"
+id = "command-006"
+command_id = "shared-4fc3eca1c87b779e"
 
-# ============================================================
-# Section 3: Pacman 包管理（Arch Linux）
-# ============================================================
 [[sections]]
 id = "pacman"
 title = "Pacman 包管理（Arch Linux）"
-description = """Pacman 是 Arch Linux 及其衍生发行版（Manjaro 等）的包管理工具。
-它以简洁高效著称，使用单字母选项组合来执行不同操作。
-
-核心选项说明：
-  -S  — Sync（同步/安装）    pacman -S nginx
-  -R  — Remove（卸载）       pacman -R nginx
-  -Q  — Query（查询本地）     pacman -Q
-  -Ss — 在仓库中搜索包
-  -Qi — 查询已安装包的详细信息
-  -Sy — 同步包数据库
-  -Syu— 系统完整升级
-
-软件源配置：
-  /etc/pacman.conf       — 主配置文件
-  /etc/pacman.d/mirrorlist — 镜像源列表
-
-Arch 遵循滚动更新模型，建议经常执行 pacman -Syu 保持系统最新。"""
+description = "Pacman 是 Arch Linux 及其衍生发行版（Manjaro 等）的包管理工具。\n它以简洁高效著称，使用单字母选项组合来执行不同操作。\n\n核心选项说明：\n  -S  — Sync（同步/安装）    pacman -S nginx\n  -R  — Remove（卸载）       pacman -R nginx\n  -Q  — Query（查询本地）     pacman -Q\n  -Ss — 在仓库中搜索包\n  -Qi — 查询已安装包的详细信息\n  -Sy — 同步包数据库\n  -Syu— 系统完整升级\n\n软件源配置：\n  /etc/pacman.conf       — 主配置文件\n  /etc/pacman.d/mirrorlist — 镜像源列表\n\nArch 遵循滚动更新模型，建议经常执行 pacman -Syu 保持系统最新。"
 
 [[sections.commands]]
-command = "sudo pacman -S nginx"
 summary = "安装 nginx 软件包"
-simulated_output = """resolving dependencies...
-looking for conflicting packages...
-
-Packages (1) nginx-1.24.0-2
-
-Total Download Size:   0.48 MiB
-Total Installed Size:  1.52 MiB
-
-:: Proceed with installation? [Y/n] Y
-:: Retrieving packages...
- nginx-1.24.0-2-x86_64                    492.3 KiB  1024 KiB/s 00:00 [####################################] 100%
-(1/1) checking keys in keyring                                         [####################################] 100%
-(1/1) checking package integrity                                       [####################################] 100%
-(1/1) loading package files                                            [####################################] 100%
-(1/1) checking for file conflicts                                      [####################################] 100%
-(1/1) checking available disk space                                    [####################################] 100%
-:: Processing package changes...
-(1/1) installing nginx                                                 [####################################] 100%
-Optional dependencies for nginx
-    geoip: GeoIP support for NGINX
-    gd: for image filter module
-:: Running post-transaction hooks...
-(1/2) Reloading system manager configuration...
-(2/2) Arming ConditionNeedsUpdate..."""
+simulated_output = "resolving dependencies...\nlooking for conflicting packages...\n\nPackages (1) nginx-1.24.0-2\n\nTotal Download Size:   0.48 MiB\nTotal Installed Size:  1.52 MiB\n\n:: Proceed with installation? [Y/n] Y\n:: Retrieving packages...\n nginx-1.24.0-2-x86_64                    492.3 KiB  1024 KiB/s 00:00 [####################################] 100%\n(1/1) checking keys in keyring                                         [####################################] 100%\n(1/1) checking package integrity                                       [####################################] 100%\n(1/1) loading package files                                            [####################################] 100%\n(1/1) checking for file conflicts                                      [####################################] 100%\n(1/1) checking available disk space                                    [####################################] 100%\n:: Processing package changes...\n(1/1) installing nginx                                                 [####################################] 100%\nOptional dependencies for nginx\n    geoip: GeoIP support for NGINX\n    gd: for image filter module\n:: Running post-transaction hooks...\n(1/2) Reloading system manager configuration...\n(2/2) Arming ConditionNeedsUpdate..."
+id = "command-001"
+command_id = "v04-ref-175b0d58f3"
 
 [[sections.commands]]
-command = "pacman -Ss nginx"
 summary = "在仓库中搜索 nginx 相关的包"
-simulated_output = """extra/nginx 1.24.0-2 [installed]
-    Lightweight HTTP server and IMAP/POP3 proxy server
-extra/nginx-mod-auth-pam 3.0.2-4
-    PAM authentication module for nginx
-extra/nginx-mod-brotli 1:1.0.0rc-7
-    Brotli compression module for nginx
-extra/nginx-mod-geoip2 3.4-4
-    GeoIP2 module for nginx
-extra/nginx-mod-headers-more 0.37-1
-    Set and clear input and output headers for nginx
-extra/nginx-mod-njs 0.8.2-1
-    njs scripting language module for nginx
-community/nginx-mainline 1.25.4-1
-    Lightweight HTTP server and IMAP/POP3 proxy server, mainline release"""
+simulated_output = "extra/nginx 1.24.0-2 [installed]\n    Lightweight HTTP server and IMAP/POP3 proxy server\nextra/nginx-mod-auth-pam 3.0.2-4\n    PAM authentication module for nginx\nextra/nginx-mod-brotli 1:1.0.0rc-7\n    Brotli compression module for nginx\nextra/nginx-mod-geoip2 3.4-4\n    GeoIP2 module for nginx\nextra/nginx-mod-headers-more 0.37-1\n    Set and clear input and output headers for nginx\nextra/nginx-mod-njs 0.8.2-1\n    njs scripting language module for nginx\ncommunity/nginx-mainline 1.25.4-1\n    Lightweight HTTP server and IMAP/POP3 proxy server, mainline release"
+id = "command-002"
+command_id = "v04-ref-ba2dd74c04"
 
 [[sections.commands]]
-command = "pacman -Qi nginx"
 summary = "查询已安装的 nginx 包详细信息"
-simulated_output = """Name            : nginx
-Version         : 1.24.0-2
-Description     : Lightweight HTTP server and IMAP/POP3 proxy server
-Architecture    : x86_64
-URL             : https://nginx.org
-Licenses        : custom
-Groups          : None
-Provides        : None
-Depends On      : glibc  openssl  pcre2  zlib  mailcap
-Optional Deps   : geoip: GeoIP support for NGINX [installed]
-                  gd: for image filter module
-Required By     : None
-Optional For    : None
-Conflicts With  : None
-Replaces        : None
-Installed Size  : 1.52 MiB
-Packager        : Arch Linux Package Maintainer <maintainer@archlinux.org>
-Build Date      : Sat 15 Feb 2026 08:30:12 AM CST
-Install Date    : Mon 09 Mar 2026 11:30:45 AM CST
-Install Reason  : Explicitly installed
-Validated By    : Signature"""
+simulated_output = "Name            : nginx\nVersion         : 1.24.0-2\nDescription     : Lightweight HTTP server and IMAP/POP3 proxy server\nArchitecture    : x86_64\nURL             : https://nginx.org\nLicenses        : custom\nGroups          : None\nProvides        : None\nDepends On      : glibc  openssl  pcre2  zlib  mailcap\nOptional Deps   : geoip: GeoIP support for NGINX [installed]\n                  gd: for image filter module\nRequired By     : None\nOptional For    : None\nConflicts With  : None\nReplaces        : None\nInstalled Size  : 1.52 MiB\nPackager        : Arch Linux Package Maintainer <maintainer@archlinux.org>\nBuild Date      : Sat 15 Feb 2026 08:30:12 AM CST\nInstall Date    : Mon 09 Mar 2026 11:30:45 AM CST\nInstall Reason  : Explicitly installed\nValidated By    : Signature"
+id = "command-003"
+command_id = "v04-ref-07cfb8c64a"
 
 [[sections.commands]]
-command = "sudo pacman -R nginx"
 summary = "卸载 nginx 软件包"
-simulated_output = """checking dependencies...
-
-Packages (1) nginx-1.24.0-2
-
-Total Removed Size:  1.52 MiB
-
-:: Do you want to remove these packages? [Y/n] Y
-:: Processing package changes...
-(1/1) removing nginx                                                   [####################################] 100%
-:: Running post-transaction hooks...
-(1/2) Reloading system manager configuration...
-(2/2) Arming ConditionNeedsUpdate..."""
+simulated_output = "checking dependencies...\n\nPackages (1) nginx-1.24.0-2\n\nTotal Removed Size:  1.52 MiB\n\n:: Do you want to remove these packages? [Y/n] Y\n:: Processing package changes...\n(1/1) removing nginx                                                   [####################################] 100%\n:: Running post-transaction hooks...\n(1/2) Reloading system manager configuration...\n(2/2) Arming ConditionNeedsUpdate..."
+id = "command-004"
+command_id = "v04-ref-878de0e31d"
 
 [[sections.commands]]
-command = "pacman -Q | head -10"
 summary = "列出所有已安装的包（前 10 条）"
-simulated_output = """acl 2.3.2-1
-archlinux-keyring 20260301-1
-attr 2.5.2-1
-audit 4.0.1-3
-autoconf 2.72-1
-automake 1.16.5-2
-b43-fwcutter 019-4
-base 3-2
-base-devel 1-2
-bash 5.2.026-2"""
+simulated_output = "acl 2.3.2-1\narchlinux-keyring 20260301-1\nattr 2.5.2-1\naudit 4.0.1-3\nautoconf 2.72-1\nautomake 1.16.5-2\nb43-fwcutter 019-4\nbase 3-2\nbase-devel 1-2\nbash 5.2.026-2"
+id = "command-005"
+command_id = "shared-294a7aeb133c7942"
 
-# ============================================================
-# Section 4: 常见包管理任务
-# ============================================================
 [[sections]]
 id = "common-tasks"
 title = "常见包管理任务"
-description = """不同发行版的包管理命令虽然语法不同，但核心操作是一致的。
-掌握跨发行版的对照关系，可以在不同系统间快速切换。
-
-常见操作对照表：
-  ┌──────────────┬──────────────────┬──────────────────┬────────────────┐
-  │    操作       │  apt (Debian)    │  yum/dnf (RHEL)  │ pacman (Arch)  │
-  ├──────────────┼──────────────────┼──────────────────┼────────────────┤
-  │ 更新索引      │ apt update       │ yum makecache    │ pacman -Sy     │
-  │ 安装软件      │ apt install pkg  │ yum install pkg  │ pacman -S pkg  │
-  │ 卸载软件      │ apt remove pkg   │ yum remove pkg   │ pacman -R pkg  │
-  │ 搜索软件      │ apt search pkg   │ yum search pkg   │ pacman -Ss pkg │
-  │ 查看信息      │ apt show pkg     │ yum info pkg     │ pacman -Qi pkg │
-  │ 系统升级      │ apt upgrade      │ yum update       │ pacman -Syu    │
-  │ 列出已安装    │ apt list         │ yum list inst.   │ pacman -Q      │
-  │ 清理缓存      │ apt autoclean    │ yum clean all    │ pacman -Sc     │
-  └──────────────┴──────────────────┴──────────────────┴────────────────┘
-
-以下示例基于 Debian/Ubuntu 系统演示一些常用的包管理辅助操作。"""
+description = "不同发行版的包管理命令虽然语法不同，但核心操作是一致的。\n掌握跨发行版的对照关系，可以在不同系统间快速切换。\n\n常见操作对照表：\n  ┌──────────────┬──────────────────┬──────────────────┬────────────────┐\n  │    操作       │  apt (Debian)    │  yum/dnf (RHEL)  │ pacman (Arch)  │\n  ├──────────────┼──────────────────┼──────────────────┼────────────────┤\n  │ 更新索引      │ apt update       │ yum makecache    │ pacman -Sy     │\n  │ 安装软件      │ apt install pkg  │ yum install pkg  │ pacman -S pkg  │\n  │ 卸载软件      │ apt remove pkg   │ yum remove pkg   │ pacman -R pkg  │\n  │ 搜索软件      │ apt search pkg   │ yum search pkg   │ pacman -Ss pkg │\n  │ 查看信息      │ apt show pkg     │ yum info pkg     │ pacman -Qi pkg │\n  │ 系统升级      │ apt upgrade      │ yum update       │ pacman -Syu    │\n  │ 列出已安装    │ apt list         │ yum list inst.   │ pacman -Q      │\n  │ 清理缓存      │ apt autoclean    │ yum clean all    │ pacman -Sc     │\n  └──────────────┴──────────────────┴──────────────────┴────────────────┘\n\n以下示例基于 Debian/Ubuntu 系统演示一些常用的包管理辅助操作。"
 
 [[sections.commands]]
-command = "which nginx"
 summary = "查找已安装命令的可执行文件路径"
-simulated_output = """/usr/sbin/nginx"""
+simulated_output = "/usr/sbin/nginx"
+id = "command-001"
+command_id = "v04-ref-f0ac6e8f47"
 
 [[sections.commands]]
-command = "dpkg -L nginx | head -10"
 summary = "列出某个已安装包包含的所有文件（前 10 条）"
-simulated_output = """/.
-/usr
-/usr/share
-/usr/share/doc
-/usr/share/doc/nginx
-/usr/share/doc/nginx/changelog.Debian.gz
-/usr/share/doc/nginx/copyright
-/usr/share/man
-/usr/share/man/man8
-/usr/share/man/man8/nginx.8.gz"""
+simulated_output = "/.\n/usr\n/usr/share\n/usr/share/doc\n/usr/share/doc/nginx\n/usr/share/doc/nginx/changelog.Debian.gz\n/usr/share/doc/nginx/copyright\n/usr/share/man\n/usr/share/man/man8\n/usr/share/man/man8/nginx.8.gz"
+id = "command-002"
+command_id = "v04-ref-72c3d3cc39"
 
 [[sections.commands]]
-command = "apt-cache depends nginx"
 summary = "显示软件包的依赖关系"
-simulated_output = """nginx
- |Depends: nginx-core
- |Depends: nginx-full
- |Depends: nginx-light
-  Depends: nginx-extras
- |Depends: nginx-core
- |Depends: nginx-full
- |Depends: nginx-light
-  Depends: nginx-extras"""
+simulated_output = "nginx\n |Depends: nginx-core\n |Depends: nginx-full\n |Depends: nginx-light\n  Depends: nginx-extras\n |Depends: nginx-core\n |Depends: nginx-full\n |Depends: nginx-light\n  Depends: nginx-extras"
+id = "command-003"
+command_id = "v04-ref-865876ee9e"
 
 [[sections.commands]]
-command = "sudo apt upgrade"
 summary = "升级所有可更新的软件包"
-simulated_output = """Reading package lists... Done
-Building dependency tree... Done
-Reading state information... Done
-Calculating upgrade... Done
-The following packages will be upgraded:
-  base-files curl libc-bin libc6 libcurl4 libgnutls30 libsqlite3-0
-  libssl3 libsystemd0 libudev1 openssl python3-software-properties
-  software-properties-common tzdata wget
-15 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Need to get 12.8 MB of archives.
-After this operation, 52.2 kB of additional disk space will be used.
-Do you want to continue? [Y/n] Y
-Get:1 http://cn.archive.ubuntu.com/ubuntu noble-updates/main amd64 base-files amd64 13ubuntu10.1 [75.4 kB]
-Get:2 http://cn.archive.ubuntu.com/ubuntu noble-updates/main amd64 libc6 amd64 2.39-0ubuntu8.4 [2,913 kB]
-Get:3 http://cn.archive.ubuntu.com/ubuntu noble-updates/main amd64 libc-bin amd64 2.39-0ubuntu8.4 [607 kB]
-Get:4 http://cn.archive.ubuntu.com/ubuntu noble-updates/main amd64 libssl3 amd64 3.0.13-0ubuntu3.5 [1,932 kB]
-Get:5 http://cn.archive.ubuntu.com/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.5 [1,002 kB]
-Fetched 12.8 MB in 3s (4,267 kB/s)
-(Reading database ... 85432 files and directories currently installed.)
-Preparing to unpack .../base-files_13ubuntu10.1_amd64.deb ...
-Unpacking base-files (13ubuntu10.1) over (13ubuntu10) ...
-Setting up base-files (13ubuntu10.1) ...
-(Reading database ... 85432 files and directories currently installed.)
-Preparing to unpack .../libc6_2.39-0ubuntu8.4_amd64.deb ...
-Unpacking libc6:amd64 (2.39-0ubuntu8.4) over (2.39-0ubuntu8.3) ...
-Setting up libc6:amd64 (2.39-0ubuntu8.4) ...
-Processing triggers for man-db (2.12.0-4build2) ...
-Processing triggers for libc-bin (2.39-0ubuntu8.4) ..."""
+simulated_output = "Reading package lists... Done\nBuilding dependency tree... Done\nReading state information... Done\nCalculating upgrade... Done\nThe following packages will be upgraded:\n  base-files curl libc-bin libc6 libcurl4 libgnutls30 libsqlite3-0\n  libssl3 libsystemd0 libudev1 openssl python3-software-properties\n  software-properties-common tzdata wget\n15 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\nNeed to get 12.8 MB of archives.\nAfter this operation, 52.2 kB of additional disk space will be used.\nDo you want to continue? [Y/n] Y\nGet:1 http://cn.archive.ubuntu.com/ubuntu noble-updates/main amd64 base-files amd64 13ubuntu10.1 [75.4 kB]\nGet:2 http://cn.archive.ubuntu.com/ubuntu noble-updates/main amd64 libc6 amd64 2.39-0ubuntu8.4 [2,913 kB]\nGet:3 http://cn.archive.ubuntu.com/ubuntu noble-updates/main amd64 libc-bin amd64 2.39-0ubuntu8.4 [607 kB]\nGet:4 http://cn.archive.ubuntu.com/ubuntu noble-updates/main amd64 libssl3 amd64 3.0.13-0ubuntu3.5 [1,932 kB]\nGet:5 http://cn.archive.ubuntu.com/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.5 [1,002 kB]\nFetched 12.8 MB in 3s (4,267 kB/s)\n(Reading database ... 85432 files and directories currently installed.)\nPreparing to unpack .../base-files_13ubuntu10.1_amd64.deb ...\nUnpacking base-files (13ubuntu10.1) over (13ubuntu10) ...\nSetting up base-files (13ubuntu10.1) ...\n(Reading database ... 85432 files and directories currently installed.)\nPreparing to unpack .../libc6_2.39-0ubuntu8.4_amd64.deb ...\nUnpacking libc6:amd64 (2.39-0ubuntu8.4) over (2.39-0ubuntu8.3) ...\nSetting up libc6:amd64 (2.39-0ubuntu8.4) ...\nProcessing triggers for man-db (2.12.0-4build2) ...\nProcessing triggers for libc-bin (2.39-0ubuntu8.4) ..."
+id = "command-004"
+command_id = "apt-upgrade-review"

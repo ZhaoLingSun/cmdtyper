@@ -1,0 +1,93 @@
+{
+  "return_code": 0,
+  "passed": 265,
+  "failed": 0,
+  "ignored": 0,
+  "suites": [
+    {
+      "status": "ok",
+      "passed": 121,
+      "failed": 0
+    },
+    {
+      "status": "ok",
+      "passed": 0,
+      "failed": 0
+    },
+    {
+      "status": "ok",
+      "passed": 9,
+      "failed": 0
+    },
+    {
+      "status": "ok",
+      "passed": 9,
+      "failed": 0
+    },
+    {
+      "status": "ok",
+      "passed": 9,
+      "failed": 0
+    },
+    {
+      "status": "ok",
+      "passed": 4,
+      "failed": 0
+    },
+    {
+      "status": "ok",
+      "passed": 7,
+      "failed": 0
+    },
+    {
+      "status": "ok",
+      "passed": 18,
+      "failed": 0
+    },
+    {
+      "status": "ok",
+      "passed": 1,
+      "failed": 0
+    },
+    {
+      "status": "ok",
+      "passed": 1,
+      "failed": 0
+    },
+    {
+      "status": "ok",
+      "passed": 4,
+      "failed": 0
+    },
+    {
+      "status": "ok",
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "status": "ok",
+      "passed": 17,
+      "failed": 0
+    },
+    {
+      "status": "ok",
+      "passed": 1,
+      "failed": 0
+    },
+    {
+      "status": "ok",
+      "passed": 41,
+      "failed": 0
+    },
+    {
+      "status": "ok",
+      "passed": 15,
+      "failed": 0
+    },
+    {
+      "status": "ok",
+      "passed": 0,
+      "failed": 0
+    }
+  ]
+}

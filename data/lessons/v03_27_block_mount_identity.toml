@@ -1,3 +1,4 @@
+
 [meta]
 command = "lsblk / findmnt / blkid（块设备与挂载身份）"
 full_name = "block device, filesystem, and mount identity"
@@ -7,19 +8,23 @@ importance = "core"
 
 [overview]
 summary = "把物理或虚拟块设备、文件系统身份、来源设备和当前挂载点连接成一张只读关系图"
-explanation = """容量问题常因“看的不是同一层”而混乱：lsblk 展示块设备层级和分区；lsblk -f、blkid 展示文件系统类型、LABEL、UUID 等持久身份；findmnt 查询当前系统挂载表，把目标路径映射到来源、类型和选项；df --total 则从已挂载文件系统视角汇总容量。可靠工作流通常从实际路径 findmnt -T 开始，确认它落在哪个挂载点，再用 lsblk 或 blkid 识别底层对象。设备名可能随硬件发现顺序变化，脚本和配置不应凭想象写死 sda、nvme 或 /dev/root。全部示例只读，不会分区、格式化或挂载设备。"""
+explanation = "容量问题常因“看的不是同一层”而混乱：lsblk 展示块设备层级和分区；lsblk -f、blkid 展示文件系统类型、LABEL、UUID 等持久身份；findmnt 查询当前系统挂载表，把目标路径映射到来源、类型和选项；df --total 则从已挂载文件系统视角汇总容量。可靠工作流通常从实际路径 findmnt -T 开始，确认它落在哪个挂载点，再用 lsblk 或 blkid 识别底层对象。设备名可能随硬件发现顺序变化，脚本和配置不应凭想象写死 sda、nvme 或 /dev/root。全部示例只读，不会分区、格式化或挂载设备。"
 
 [syntax]
 basic = "lsblk [列选项] | findmnt [-T 路径 | 挂载点] | blkid | df -h --total"
+
 [[syntax.parts]]
 name = "块设备拓扑"
 desc = "lsblk 以树展示磁盘、分区及其父子关系；MOUNTPOINTS 可显示一个对象的多个挂载点"
+
 [[syntax.parts]]
 name = "文件系统身份"
 desc = "lsblk -f 和 blkid 展示 TYPE、LABEL、UUID 等属性，但可见范围受权限和系统环境影响"
+
 [[syntax.parts]]
 name = "挂载关系"
 desc = "findmnt 查询当前挂载表；-T 接受任意路径并定位其所属文件系统"
+
 [[syntax.parts]]
 name = "容量汇总"
 desc = "df -h --total 汇总已报告的文件系统容量，不等于把所有物理磁盘原始容量相加"

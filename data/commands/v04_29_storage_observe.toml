@@ -1,0 +1,352 @@
+[meta]
+category = "system"
+difficulty = "basic"
+description = "先确定报错路径所在文件系统，再区分容量耗尽、inode 耗尽和文件仍被占用。"
+
+[meta.topic]
+id = "v04_storage_observe"
+title = "容量、inode 与挂载定位"
+icon = "🧰"
+order = 129
+
+[[commands]]
+id = "v04-storage_observe-3a44df7f41"
+command = "df -hT /srv/app"
+summary = "按路径查看所属文件系统类型、总量和可用空间"
+
+[[commands.tokens]]
+text = "df"
+desc = "按路径查看所属文件系统类型、总量和可用空间"
+
+[[commands.tokens]]
+text = " -hT"
+desc = "按路径查看所属文件系统类型、总量和可用空间；此处使用 -hT 选项"
+
+[[commands.tokens]]
+text = " /srv/app"
+desc = "本次操作指定的路径：/srv/app"
+
+[commands.dictation]
+prompt = "按路径查看所属文件系统类型、总量和可用空间"
+answers = ["df -hT /srv/app"]
+
+[[commands]]
+id = "v04-storage_observe-8c34d855fb"
+command = "df -i /var/log"
+summary = "检查日志路径所在文件系统 inode 使用率"
+
+[[commands.tokens]]
+text = "df"
+desc = "检查日志路径所在文件系统 inode 使用率"
+
+[[commands.tokens]]
+text = " -i"
+desc = "检查日志路径所在文件系统 inode 使用率；此处使用 -i 选项"
+
+[[commands.tokens]]
+text = " /var/log"
+desc = "本次操作指定的路径：/var/log"
+
+[commands.dictation]
+prompt = "检查日志路径所在文件系统 inode 使用率"
+answers = ["df -i /var/log"]
+
+[[commands]]
+id = "v04-storage_observe-daf19c7f60"
+command = "findmnt -T /srv/app -o TARGET,SOURCE,FSTYPE,OPTIONS"
+summary = "按路径定位实际挂载及只读等选项"
+
+[[commands.tokens]]
+text = "findmnt"
+desc = "按路径定位实际挂载及只读等选项"
+
+[[commands.tokens]]
+text = " -T"
+desc = "按路径定位实际挂载及只读等选项；此处使用 -T 选项"
+
+[[commands.tokens]]
+text = " /srv/app"
+desc = "本次操作指定的路径：/srv/app"
+
+[[commands.tokens]]
+text = " -o"
+desc = "按路径定位实际挂载及只读等选项；此处使用 -o 选项"
+
+[[commands.tokens]]
+text = " TARGET,SOURCE,FSTYPE,OPTIONS"
+desc = "按路径定位实际挂载及只读等选项；指定 TARGET,SOURCE,FSTYPE,OPTIONS"
+
+[commands.dictation]
+prompt = "按路径定位实际挂载及只读等选项"
+answers = ["findmnt -T /srv/app -o TARGET,SOURCE,FSTYPE,OPTIONS"]
+
+[[commands]]
+id = "v04-storage_observe-002461e566"
+command = "lsblk -o NAME,TYPE,SIZE,FSTYPE,UUID,MOUNTPOINTS"
+summary = "关联块设备、文件系统标识和挂载位置"
+
+[[commands.tokens]]
+text = "lsblk"
+desc = "关联块设备、文件系统标识和挂载位置"
+
+[[commands.tokens]]
+text = " -o"
+desc = "关联块设备、文件系统标识和挂载位置；此处使用 -o 选项"
+
+[[commands.tokens]]
+text = " NAME,TYPE,SIZE,FSTYPE,UUID,MOUNTPOINTS"
+desc = "关联块设备、文件系统标识和挂载位置；指定 NAME,TYPE,SIZE,FSTYPE,UUID,MOUNTPOINTS"
+
+[commands.dictation]
+prompt = "关联块设备、文件系统标识和挂载位置"
+answers = ["lsblk -o NAME,TYPE,SIZE,FSTYPE,UUID,MOUNTPOINTS"]
+
+[[commands]]
+id = "v04-storage_observe-e43e61fa16"
+command = "du -xhd1 /var/log"
+summary = "只统计同一文件系统的日志目录一层用量"
+
+[[commands.tokens]]
+text = "du"
+desc = "只统计同一文件系统的日志目录一层用量"
+
+[[commands.tokens]]
+text = " -xhd1"
+desc = "只统计同一文件系统的日志目录一层用量；此处使用 -xhd1 选项"
+
+[[commands.tokens]]
+text = " /var/log"
+desc = "本次操作指定的路径：/var/log"
+
+[commands.dictation]
+prompt = "只统计同一文件系统的日志目录一层用量"
+answers = ["du -xhd1 /var/log"]
+
+[[commands]]
+id = "v04-storage_observe-7d2241b347"
+command = "du -xhd1 /srv/app"
+summary = "清点部署目录一层用量，避免跨越其他挂载"
+
+[[commands.tokens]]
+text = "du"
+desc = "清点部署目录一层用量，避免跨越其他挂载"
+
+[[commands.tokens]]
+text = " -xhd1"
+desc = "清点部署目录一层用量，避免跨越其他挂载；此处使用 -xhd1 选项"
+
+[[commands.tokens]]
+text = " /srv/app"
+desc = "本次操作指定的路径：/srv/app"
+
+[commands.dictation]
+prompt = "清点部署目录一层用量，避免跨越其他挂载"
+answers = ["du -xhd1 /srv/app"]
+
+[[commands]]
+id = "v04-storage_observe-d925cfe95f"
+command = "sudo lsof +L1"
+summary = "查找已删除但仍被进程打开的文件，解释 df 与 du 差异"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " lsof"
+desc = "查找已删除但仍被进程打开的文件，解释 df 与 du 差异"
+
+[[commands.tokens]]
+text = " +L1"
+desc = "查找已删除但仍被进程打开的文件，解释 df 与 du 差异；此处使用 +L1 选项"
+
+[commands.dictation]
+prompt = "查找已删除但仍被进程打开的文件，解释 df 与 du 差异"
+answers = ["sudo lsof +L1"]
+
+[[commands]]
+id = "v04-storage_observe-2a733b16ab"
+command = "find /var/log -xdev -type f -size +50M -print"
+summary = "在日志所在文件系统查找大于 50 MiB 的普通文件"
+
+[[commands.tokens]]
+text = "find"
+desc = "按路径、类型或属性筛选文件"
+
+[[commands.tokens]]
+text = " /var/log"
+desc = "本次操作指定的路径：/var/log"
+
+[[commands.tokens]]
+text = " -xdev"
+desc = "在日志所在文件系统查找大于 50 MiB 的普通文件；此处使用 -xdev 选项"
+
+[[commands.tokens]]
+text = " -type"
+desc = "在日志所在文件系统查找大于 50 MiB 的普通文件；此处使用 -type 选项"
+
+[[commands.tokens]]
+text = " f"
+desc = "在日志所在文件系统查找大于 50 MiB 的普通文件；指定 f"
+
+[[commands.tokens]]
+text = " -size"
+desc = "在日志所在文件系统查找大于 50 MiB 的普通文件；此处使用 -size 选项"
+
+[[commands.tokens]]
+text = " +50M"
+desc = "在日志所在文件系统查找大于 50 MiB 的普通文件；此处使用 +50M 选项"
+
+[[commands.tokens]]
+text = " -print"
+desc = "在日志所在文件系统查找大于 50 MiB 的普通文件；此处使用 -print 选项"
+
+[commands.dictation]
+prompt = "在日志所在文件系统查找大于 50 MiB 的普通文件"
+answers = ["find /var/log -xdev -type f -size +50M -print"]
+
+[[commands]]
+id = "v04-storage_observe-9c91d27ed3"
+command = "find /srv/app -xdev -type f -mtime +30 -print"
+summary = "清点三十天前修改的实验文件，只读列出"
+
+[[commands.tokens]]
+text = "find"
+desc = "按路径、类型或属性筛选文件"
+
+[[commands.tokens]]
+text = " /srv/app"
+desc = "本次操作指定的路径：/srv/app"
+
+[[commands.tokens]]
+text = " -xdev"
+desc = "清点三十天前修改的实验文件，只读列出；此处使用 -xdev 选项"
+
+[[commands.tokens]]
+text = " -type"
+desc = "清点三十天前修改的实验文件，只读列出；此处使用 -type 选项"
+
+[[commands.tokens]]
+text = " f"
+desc = "清点三十天前修改的实验文件，只读列出；指定 f"
+
+[[commands.tokens]]
+text = " -mtime"
+desc = "清点三十天前修改的实验文件，只读列出；此处使用 -mtime 选项"
+
+[[commands.tokens]]
+text = " +30"
+desc = "清点三十天前修改的实验文件，只读列出；此处使用 +30 选项"
+
+[[commands.tokens]]
+text = " -print"
+desc = "清点三十天前修改的实验文件，只读列出；此处使用 -print 选项"
+
+[commands.dictation]
+prompt = "清点三十天前修改的实验文件，只读列出"
+answers = ["find /srv/app -xdev -type f -mtime +30 -print"]
+
+[[commands]]
+id = "v04-storage_observe-93b0b8a591"
+command = "findmnt --verify --verbose"
+summary = "校验 fstab 可解析性和挂载配置，读取检查不自动挂载"
+
+[[commands.tokens]]
+text = "findmnt"
+desc = "校验 fstab 可解析性和挂载配置，读取检查不自动挂载"
+
+[[commands.tokens]]
+text = " --verify"
+desc = "校验 fstab 可解析性和挂载配置，读取检查不自动挂载；此处使用 --verify 选项"
+
+[[commands.tokens]]
+text = " --verbose"
+desc = "校验 fstab 可解析性和挂载配置，读取检查不自动挂载；此处使用 --verbose 选项"
+
+[commands.dictation]
+prompt = "校验 fstab 可解析性和挂载配置，读取检查不自动挂载"
+answers = ["findmnt --verify --verbose"]
+
+[[commands]]
+id = "v04-storage_observe-f5a221d62c"
+command = "lsblk -f /dev/sda"
+summary = "读取实验磁盘的文件系统与 UUID 信息"
+
+[[commands.tokens]]
+text = "lsblk"
+desc = "读取实验磁盘的文件系统与 UUID 信息"
+
+[[commands.tokens]]
+text = " -f"
+desc = "读取实验磁盘的文件系统与 UUID 信息；此处使用 -f 选项"
+
+[[commands.tokens]]
+text = " /dev/sda"
+desc = "本次操作指定的路径：/dev/sda"
+
+[commands.dictation]
+prompt = "读取实验磁盘的文件系统与 UUID 信息"
+answers = ["lsblk -f /dev/sda"]
+
+[[commands]]
+id = "v04-storage_observe-372a961a1a"
+command = "sudo blkid /dev/sda1"
+summary = "读取实验分区的签名与 UUID"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " blkid"
+desc = "读取实验分区的签名与 UUID"
+
+[[commands.tokens]]
+text = " /dev/sda1"
+desc = "本次操作指定的路径：/dev/sda1"
+
+[commands.dictation]
+prompt = "读取实验分区的签名与 UUID"
+answers = ["sudo blkid /dev/sda1"]
+
+[[commands]]
+id = "v04-storage_observe-8563b6aa50"
+command = "cat /proc/mounts"
+summary = "读取当前进程挂载视图的文件系统列表"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /proc/mounts"
+desc = "本次操作指定的路径：/proc/mounts"
+
+[commands.dictation]
+prompt = "读取当前进程挂载视图的文件系统列表"
+answers = ["cat /proc/mounts"]
+
+[[commands]]
+id = "v04-storage_observe-b0c98dd345"
+command = "journalctl -k --grep='I/O error|read-only|EXT4-fs error' --no-pager"
+summary = "筛选存储错误与只读重新挂载相关日志"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " -k"
+desc = "只读取内核消息"
+
+[[commands.tokens]]
+text = " --grep='I/O error|read-only|EXT4-fs error'"
+desc = "筛选存储错误与只读重新挂载相关日志；此处使用 --grep='I/O error|read-only|EXT4-fs error' 选项"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "直接输出，不启动分页器"
+
+[commands.dictation]
+prompt = "筛选存储错误与只读重新挂载相关日志"
+answers = ["journalctl -k --grep='I/O error|read-only|EXT4-fs error' --no-pager"]

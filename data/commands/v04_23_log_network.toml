@@ -1,0 +1,358 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "以统一时间范围关联内核、服务、反向代理与认证日志，区分相关性和根因证据。"
+
+[meta.topic]
+id = "v04_log_network"
+title = "网络故障的日志关联"
+icon = "🌐"
+order = 123
+
+[[commands]]
+id = "v04-log_network-1198267ce4"
+command = "journalctl -b -k --no-pager"
+summary = "查看本次启动内核日志，定位驱动、链路和防火墙信息"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " -b"
+desc = "选择本次或指定启动记录"
+
+[[commands.tokens]]
+text = " -k"
+desc = "只读取内核消息"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "直接输出，不启动分页器"
+
+[commands.dictation]
+prompt = "查看本次启动内核日志，定位驱动、链路和防火墙信息"
+answers = ["journalctl -b -k --no-pager"]
+
+[[commands]]
+id = "v04-log_network-c45be905c9"
+command = "journalctl -b -1 -k --no-pager"
+summary = "查看上次启动内核日志；需要持久 journal 才能保留"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " -b"
+desc = "选择本次或指定启动记录"
+
+[[commands.tokens]]
+text = " -1"
+desc = "查看上次启动内核日志；需要持久 journal 才能保留；此处使用 -1 选项"
+
+[[commands.tokens]]
+text = " -k"
+desc = "只读取内核消息"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "直接输出，不启动分页器"
+
+[commands.dictation]
+prompt = "查看上次启动内核日志；需要持久 journal 才能保留"
+answers = ["journalctl -b -1 -k --no-pager"]
+
+[[commands]]
+id = "v04-log_network-2ff3e9b63d"
+command = "journalctl --list-boots --no-pager"
+summary = "列出保留的启动记录，先确定故障所在 boot"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " --list-boots"
+desc = "列出保留的启动记录"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "直接输出，不启动分页器"
+
+[commands.dictation]
+prompt = "列出保留的启动记录，先确定故障所在 boot"
+answers = ["journalctl --list-boots --no-pager"]
+
+[[commands]]
+id = "v04-log_network-5632587be3"
+command = "journalctl -u ssh.service --since '-30 min' --no-pager"
+summary = "在 Ubuntu SSH 单元查看最近半小时登录服务日志"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " -u"
+desc = "只读取指定 systemd 单元的日志"
+
+[[commands.tokens]]
+text = " ssh.service"
+desc = "在 Ubuntu SSH 单元查看最近半小时登录服务日志；指定 ssh.service"
+
+[[commands.tokens]]
+text = " --since"
+desc = "设置包含的起始时间"
+
+[[commands.tokens]]
+text = " '-30 min'"
+desc = "引号保护此参数中的空格或特殊符号；在 Ubuntu SSH 单元查看最近半小时登录服务日志"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "直接输出，不启动分页器"
+
+[commands.dictation]
+prompt = "在 Ubuntu SSH 单元查看最近半小时登录服务日志"
+answers = ["journalctl -u ssh.service --since '-30 min' --no-pager"]
+
+[[commands]]
+id = "v04-log_network-cc61d0f55d"
+command = "journalctl -u systemd-networkd --since '-30 min' --no-pager"
+summary = "检查接口配置和 DHCP 相关服务事件"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " -u"
+desc = "只读取指定 systemd 单元的日志"
+
+[[commands.tokens]]
+text = " systemd-networkd"
+desc = "检查接口配置和 DHCP 相关服务事件；指定 systemd-networkd"
+
+[[commands.tokens]]
+text = " --since"
+desc = "设置包含的起始时间"
+
+[[commands.tokens]]
+text = " '-30 min'"
+desc = "引号保护此参数中的空格或特殊符号；检查接口配置和 DHCP 相关服务事件"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "直接输出，不启动分页器"
+
+[commands.dictation]
+prompt = "检查接口配置和 DHCP 相关服务事件"
+answers = ["journalctl -u systemd-networkd --since '-30 min' --no-pager"]
+
+[[commands]]
+id = "v04-log_network-c46732f14d"
+command = "journalctl -u NetworkManager --since '-30 min' --no-pager"
+summary = "在 NetworkManager 环境检查断连与重连事件"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " -u"
+desc = "只读取指定 systemd 单元的日志"
+
+[[commands.tokens]]
+text = " NetworkManager"
+desc = "在 NetworkManager 环境检查断连与重连事件；指定 NetworkManager"
+
+[[commands.tokens]]
+text = " --since"
+desc = "设置包含的起始时间"
+
+[[commands.tokens]]
+text = " '-30 min'"
+desc = "引号保护此参数中的空格或特殊符号；在 NetworkManager 环境检查断连与重连事件"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "直接输出，不启动分页器"
+
+[commands.dictation]
+prompt = "在 NetworkManager 环境检查断连与重连事件"
+answers = ["journalctl -u NetworkManager --since '-30 min' --no-pager"]
+
+[[commands]]
+id = "v04-log_network-da91573ccf"
+command = "journalctl -k --grep='link.*down|link.*up' --no-pager"
+summary = "筛选内核链路上下线信息；匹配内容受驱动格式影响"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " -k"
+desc = "只读取内核消息"
+
+[[commands.tokens]]
+text = " --grep='link.*down|link.*up'"
+desc = "筛选内核链路上下线信息；匹配内容受驱动格式影响；此处使用 --grep='link.*down|link.*up' 选项"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "直接输出，不启动分页器"
+
+[commands.dictation]
+prompt = "筛选内核链路上下线信息；匹配内容受驱动格式影响"
+answers = ["journalctl -k --grep='link.*down|link.*up' --no-pager"]
+
+[[commands]]
+id = "v04-log_network-289fcffe53"
+command = "journalctl --since '2026-09-06 09:00:00' --until '2026-09-06 09:10:00' --no-pager"
+summary = "限定实验故障十分钟窗口，时间按系统本地时区解析"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " --since"
+desc = "设置包含的起始时间"
+
+[[commands.tokens]]
+text = " '2026-09-06 09:00:00'"
+desc = "引号保护此参数中的空格或特殊符号；限定实验故障十分钟窗口，时间按系统本地时区解析"
+
+[[commands.tokens]]
+text = " --until"
+desc = "设置截止时间"
+
+[[commands.tokens]]
+text = " '2026-09-06 09:10:00'"
+desc = "引号保护此参数中的空格或特殊符号；限定实验故障十分钟窗口，时间按系统本地时区解析"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "直接输出，不启动分页器"
+
+[commands.dictation]
+prompt = "限定实验故障十分钟窗口，时间按系统本地时区解析"
+answers = ["journalctl --since '2026-09-06 09:00:00' --until '2026-09-06 09:10:00' --no-pager"]
+
+[[commands]]
+id = "v04-log_network-e02266ab66"
+command = "tail -n 40 /var/log/nginx/error.log"
+summary = "查看反向代理近期错误，关注 upstream 和超时原因"
+
+[[commands.tokens]]
+text = "tail"
+desc = "查看反向代理近期错误，关注 upstream 和超时原因"
+
+[[commands.tokens]]
+text = " -n"
+desc = "查看反向代理近期错误，关注 upstream 和超时原因；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 40"
+desc = "本次练习的数值参数 40；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " /var/log/nginx/error.log"
+desc = "本次操作指定的路径：/var/log/nginx/error.log"
+
+[commands.dictation]
+prompt = "查看反向代理近期错误，关注 upstream 和超时原因"
+answers = ["tail -n 40 /var/log/nginx/error.log"]
+
+[[commands]]
+id = "v04-log_network-b0ea300795"
+command = "grep -n 'upstream timed out' /var/log/nginx/error.log"
+summary = "定位上游响应超时记录及行号"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " -n"
+desc = "显示匹配行号"
+
+[[commands.tokens]]
+text = " 'upstream timed out'"
+desc = "引号保护此参数中的空格或特殊符号；定位上游响应超时记录及行号"
+
+[[commands.tokens]]
+text = " /var/log/nginx/error.log"
+desc = "本次操作指定的路径：/var/log/nginx/error.log"
+
+[commands.dictation]
+prompt = "定位上游响应超时记录及行号"
+answers = ["grep -n 'upstream timed out' /var/log/nginx/error.log"]
+
+[[commands]]
+id = "v04-log_network-1c537e545b"
+command = "grep -n 'Connection refused' /var/log/nginx/error.log"
+summary = "筛选 nginx 到后端建连被拒绝的证据"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " -n"
+desc = "显示匹配行号"
+
+[[commands.tokens]]
+text = " 'Connection refused'"
+desc = "引号保护此参数中的空格或特殊符号；筛选 nginx 到后端建连被拒绝的证据"
+
+[[commands.tokens]]
+text = " /var/log/nginx/error.log"
+desc = "本次操作指定的路径：/var/log/nginx/error.log"
+
+[commands.dictation]
+prompt = "筛选 nginx 到后端建连被拒绝的证据"
+answers = ["grep -n 'Connection refused' /var/log/nginx/error.log"]
+
+[[commands]]
+id = "v04-log_network-25db9f3f28"
+command = "journalctl -o short-iso -u nginx --since '-1 hour' --no-pager"
+summary = "输出带时区的 ISO 时间，便于跨日志关联"
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取 systemd journal 日志"
+
+[[commands.tokens]]
+text = " -o"
+desc = "选择日志时间和字段输出格式"
+
+[[commands.tokens]]
+text = " short-iso"
+desc = "输出带时区的 ISO 时间，便于跨日志关联；指定 short-iso"
+
+[[commands.tokens]]
+text = " -u"
+desc = "只读取指定 systemd 单元的日志"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "输出带时区的 ISO 时间，便于跨日志关联；指定 nginx"
+
+[[commands.tokens]]
+text = " --since"
+desc = "设置包含的起始时间"
+
+[[commands.tokens]]
+text = " '-1 hour'"
+desc = "引号保护此参数中的空格或特殊符号；输出带时区的 ISO 时间，便于跨日志关联"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "直接输出，不启动分页器"
+
+[commands.dictation]
+prompt = "输出带时区的 ISO 时间，便于跨日志关联"
+answers = ["journalctl -o short-iso -u nginx --since '-1 hour' --no-pager"]

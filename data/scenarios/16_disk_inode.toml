@@ -1,0 +1,125 @@
+id = "disk_inode"
+title = "磁盘写满：区分容量和 inode"
+category = "系统与存储"
+difficulty = "basic"
+background = "应用报告 No space left on device，但根分区还有 12 GiB。会话缓存产生大量小文件，目标文件系统 inode 接近耗尽。"
+objective = "比较 df -h 与 df -i，定位小文件目录，按既定过期策略清理并验收。"
+environment = "Ubuntu 24.04 LTS 教学主机 web-01（192.0.2.10），客户端 ops-01（192.0.2.50），网关 192.0.2.1。文档保留地址与 example.test 域名只用于模拟；每例独立还原起始状态，全部输出预置。"
+recap = "No space left 不只由字节空间耗尽引起；按文件系统比较容量和 inode，定位文件数量，再依据应用策略清理并修复定时任务。"
+sources = ["https://www.gnu.org/s/coreutils/manual/html_node/df-invocation.html", "https://www.gnu.org/software/findutils/manual/html_node/find_html/Delete-Files.html"]
+
+[[steps]]
+title = "查看文件系统容量"
+output = "Filesystem Size Used Avail Use% Mounted on\n/dev/vda1 40G 26G 12G 69% /"
+explanation = "字节容量仍有余量，错误不一定来自大文件。"
+instruction = "请跟打，查看文件系统容量。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_01"
+command_id = "shared-91424cf7d6c5b879"
+
+[[steps]]
+title = "查看 inode 使用率"
+output = "Filesystem Inodes IUsed IFree IUse% Mounted on\n/dev/vda1 2621440 2621438 2 100% /"
+explanation = "inode 几乎用尽，每个新文件通常需要 inode，即使还有字节空间也无法创建。"
+instruction = "请跟打，查看 inode 使用率。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_02"
+command_id = "shared-f1aac1b28cb8455a"
+
+[steps.decision]
+question = "应该重点找哪类数据？"
+
+[[steps.decision.choices]]
+text = "只查最大的 ISO 文件"
+correct = false
+feedback = "单个大文件只用少量 inode，未必是这里的根因。"
+
+[[steps.decision.choices]]
+text = "数量巨大的小文件目录"
+correct = true
+feedback = "对，inode 问题主要与文件数量相关。"
+
+[[steps]]
+title = "比较目录文件数量"
+output = "2500000 /var/lib/orders/cache/sessions\n2500200 /var/lib/orders"
+explanation = "--inodes 统计 inode 使用，-x 限制在同一文件系统。"
+instruction = "请跟打，比较目录文件数量。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_03"
+command_id = "shared-875d4c068c4a4792"
+
+[[steps]]
+title = "检查缓存生成服务"
+output = "Active: inactive (dead)"
+explanation = "清理定时器未启用，与过期缓存持续积累一致。"
+instruction = "请跟打，检查缓存生成服务。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_04"
+command_id = "shared-e913b3928abff57f"
+
+[[steps]]
+title = "预览符合过期条件的文件"
+output = "/var/lib/orders/cache/sessions/expired-000001"
+explanation = "只预览一条代表，目标目录在课程中仅含可丢弃会话缓存；24 小时策略已由应用负责人确认。"
+instruction = "请跟打，预览符合过期条件的文件。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_05"
+command_id = "shared-35b53216b2667c3a"
+
+[[steps]]
+title = "统计可清理数量"
+output = "2400000"
+explanation = "2,400,000 个文件符合既定过期策略；当前活跃会话未进入集合。"
+instruction = "请跟打，统计可清理数量。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_06"
+command_id = "shared-96bb001e12880642"
+
+[steps.decision]
+question = "合适的清理范围是什么？"
+
+[[steps.decision.choices]]
+text = "递归清空整个 /var/lib"
+correct = false
+feedback = "/var/lib 包含数据库等持久业务数据，不能为缓存问题整体清空。"
+
+[[steps.decision.choices]]
+text = "仅删除这个缓存目录中超过 24 小时的普通文件"
+correct = true
+feedback = "对，删除范围来自预览和应用保留策略。"
+
+[[steps]]
+title = "清理已确认过期缓存"
+output = "[模拟：过期缓存已删除]"
+explanation = "本步只模拟删除。真实操作要在确认缓存可再生和保留策略后按相同条件执行。"
+instruction = "请跟打，清理已确认过期缓存。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_07"
+command_id = "shared-9b2bf8f525a972b2"
+
+[[steps]]
+title = "恢复清理定时器"
+output = "Created symlink...\n[模拟：清理定时器已启用]"
+explanation = "修复清理机制，避免只释放空间但继续积累。"
+instruction = "请跟打，恢复清理定时器。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_08"
+command_id = "shared-5283882915c823b6"
+
+[[steps]]
+title = "复查 inode 余量"
+output = "Filesystem Inodes IUsed IFree IUse% Mounted on\n/dev/vda1 2621440 221438 2400002 9% /"
+explanation = "inode 已释放；还要检查新请求能否写入缓存。"
+instruction = "请跟打，复查 inode 余量。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_09"
+command_id = "shared-f1aac1b28cb8455a"
+
+[[steps]]
+title = "验证应用可写路径"
+output = "{\"status\":\"ok\",\"cache_write\":\"ok\"}"
+explanation = "这个案例的健康接口包含缓存写入探针，验证原始失败功能。"
+instruction = "请跟打，验证应用可写路径。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_10"
+command_id = "shared-e2281a98a4b26251"

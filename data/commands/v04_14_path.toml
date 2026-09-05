@@ -1,0 +1,398 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "中间路由器不回应不等于丢弃转发流量，结合最终跳结果分析。"
+
+[meta.topic]
+id = "v04_path"
+title = "路径追踪与中间跳限制"
+icon = "🌐"
+order = 114
+
+[[commands]]
+id = "v04-path-b0797f125f"
+command = "traceroute -n 198.51.100.20"
+summary = "数值方式追踪实验目标，避免每跳反向解析拖慢"
+
+[[commands.tokens]]
+text = "traceroute"
+desc = "以递增 TTL 探测路径中的路由器"
+
+[[commands.tokens]]
+text = " -n"
+desc = "数值方式追踪实验目标，避免每跳反向解析拖慢；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "数值方式追踪实验目标，避免每跳反向解析拖慢；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "数值方式追踪实验目标，避免每跳反向解析拖慢"
+answers = ["traceroute -n 198.51.100.20"]
+
+[[commands]]
+id = "v04-path-1b9221f046"
+command = "traceroute -n -m 12 198.51.100.20"
+summary = "限制最大十二跳，控制一次诊断范围"
+
+[[commands.tokens]]
+text = "traceroute"
+desc = "以递增 TTL 探测路径中的路由器"
+
+[[commands.tokens]]
+text = " -n"
+desc = "限制最大十二跳，控制一次诊断范围；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " -m"
+desc = "限制最大十二跳，控制一次诊断范围；此处使用 -m 选项"
+
+[[commands.tokens]]
+text = " 12"
+desc = "本次练习的数值参数 12；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "限制最大十二跳，控制一次诊断范围；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "限制最大十二跳，控制一次诊断范围"
+answers = ["traceroute -n -m 12 198.51.100.20"]
+
+[[commands]]
+id = "v04-path-cac19f47b4"
+command = "traceroute -n -w 1 -q 1 198.51.100.20"
+summary = "每跳只发一次探测并等待一秒，快速获得初步路径"
+
+[[commands.tokens]]
+text = "traceroute"
+desc = "以递增 TTL 探测路径中的路由器"
+
+[[commands.tokens]]
+text = " -n"
+desc = "每跳只发一次探测并等待一秒，快速获得初步路径；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " -w"
+desc = "每跳只发一次探测并等待一秒，快速获得初步路径；此处使用 -w 选项"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次练习的数值参数 1；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -q"
+desc = "每跳只发一次探测并等待一秒，快速获得初步路径；此处使用 -q 选项"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次练习的数值参数 1；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "每跳只发一次探测并等待一秒，快速获得初步路径；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "每跳只发一次探测并等待一秒，快速获得初步路径"
+answers = ["traceroute -n -w 1 -q 1 198.51.100.20"]
+
+[[commands]]
+id = "v04-path-c4686e0ed3"
+command = "sudo traceroute -I -n 198.51.100.20"
+summary = "用 ICMP 探测与默认 UDP 方式对照"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " traceroute"
+desc = "以递增 TTL 探测路径中的路由器"
+
+[[commands.tokens]]
+text = " -I"
+desc = "用 ICMP 探测与默认 UDP 方式对照；此处使用 -I 选项"
+
+[[commands.tokens]]
+text = " -n"
+desc = "用 ICMP 探测与默认 UDP 方式对照；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "用 ICMP 探测与默认 UDP 方式对照；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "用 ICMP 探测与默认 UDP 方式对照"
+answers = ["sudo traceroute -I -n 198.51.100.20"]
+
+[[commands]]
+id = "v04-path-36ecfbace3"
+command = "sudo traceroute -T -p 443 -n 198.51.100.20"
+summary = "用 TCP 443 探测更接近 HTTPS 的过滤路径"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " traceroute"
+desc = "以递增 TTL 探测路径中的路由器"
+
+[[commands.tokens]]
+text = " -T"
+desc = "用 TCP 443 探测更接近 HTTPS 的过滤路径；此处使用 -T 选项"
+
+[[commands.tokens]]
+text = " -p"
+desc = "用 TCP 443 探测更接近 HTTPS 的过滤路径；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " 443"
+desc = "本次练习的数值参数 443；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -n"
+desc = "用 TCP 443 探测更接近 HTTPS 的过滤路径；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "用 TCP 443 探测更接近 HTTPS 的过滤路径；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "用 TCP 443 探测更接近 HTTPS 的过滤路径"
+answers = ["sudo traceroute -T -p 443 -n 198.51.100.20"]
+
+[[commands]]
+id = "v04-path-a05247df12"
+command = "sudo traceroute -T -p 22 -n 198.51.100.20"
+summary = "比较 SSH 与 HTTPS 端口路径响应"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " traceroute"
+desc = "以递增 TTL 探测路径中的路由器"
+
+[[commands.tokens]]
+text = " -T"
+desc = "比较 SSH 与 HTTPS 端口路径响应；此处使用 -T 选项"
+
+[[commands.tokens]]
+text = " -p"
+desc = "比较 SSH 与 HTTPS 端口路径响应；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " 22"
+desc = "本次练习的数值参数 22；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -n"
+desc = "比较 SSH 与 HTTPS 端口路径响应；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "比较 SSH 与 HTTPS 端口路径响应；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "比较 SSH 与 HTTPS 端口路径响应"
+answers = ["sudo traceroute -T -p 22 -n 198.51.100.20"]
+
+[[commands]]
+id = "v04-path-16a71150b1"
+command = "tracepath -n 198.51.100.20"
+summary = "使用无需特权的 tracepath 观察路径和 PMTU"
+
+[[commands.tokens]]
+text = "tracepath"
+desc = "探测路径和路径 MTU"
+
+[[commands.tokens]]
+text = " -n"
+desc = "使用无需特权的 tracepath 观察路径和 PMTU；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "使用无需特权的 tracepath 观察路径和 PMTU；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "使用无需特权的 tracepath 观察路径和 PMTU"
+answers = ["tracepath -n 198.51.100.20"]
+
+[[commands]]
+id = "v04-path-fb6024f69a"
+command = "tracepath -6 -n 2001:db8:2::20"
+summary = "观察实验 IPv6 路径和 MTU 线索"
+
+[[commands.tokens]]
+text = "tracepath"
+desc = "探测路径和路径 MTU"
+
+[[commands.tokens]]
+text = " -6"
+desc = "观察实验 IPv6 路径和 MTU 线索；此处使用 -6 选项"
+
+[[commands.tokens]]
+text = " -n"
+desc = "观察实验 IPv6 路径和 MTU 线索；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 2001:db8:2::20"
+desc = "观察实验 IPv6 路径和 MTU 线索；指定 2001:db8:2::20"
+
+[commands.dictation]
+prompt = "观察实验 IPv6 路径和 MTU 线索"
+answers = ["tracepath -6 -n 2001:db8:2::20"]
+
+[[commands]]
+id = "v04-path-22014e0c0a"
+command = "mtr -n -r -c 10 198.51.100.20"
+summary = "生成十次采样的数值路径报告；中间跳限速需谨慎解读"
+
+[[commands.tokens]]
+text = "mtr"
+desc = "重复采样路由路径，汇总延迟与响应丢失"
+
+[[commands.tokens]]
+text = " -n"
+desc = "生成十次采样的数值路径报告；中间跳限速需谨慎解读；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " -r"
+desc = "生成十次采样的数值路径报告；中间跳限速需谨慎解读；此处使用 -r 选项"
+
+[[commands.tokens]]
+text = " -c"
+desc = "生成十次采样的数值路径报告；中间跳限速需谨慎解读；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 10"
+desc = "本次练习的数值参数 10；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "生成十次采样的数值路径报告；中间跳限速需谨慎解读；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "生成十次采样的数值路径报告；中间跳限速需谨慎解读"
+answers = ["mtr -n -r -c 10 198.51.100.20"]
+
+[[commands]]
+id = "v04-path-8948b49c6b"
+command = "mtr -n -r -w -c 20 198.51.100.20"
+summary = "生成更宽的二十次采样报告，核对最终跳丢包"
+
+[[commands.tokens]]
+text = "mtr"
+desc = "重复采样路由路径，汇总延迟与响应丢失"
+
+[[commands.tokens]]
+text = " -n"
+desc = "生成更宽的二十次采样报告，核对最终跳丢包；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " -r"
+desc = "生成更宽的二十次采样报告，核对最终跳丢包；此处使用 -r 选项"
+
+[[commands.tokens]]
+text = " -w"
+desc = "生成更宽的二十次采样报告，核对最终跳丢包；此处使用 -w 选项"
+
+[[commands.tokens]]
+text = " -c"
+desc = "生成更宽的二十次采样报告，核对最终跳丢包；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "生成更宽的二十次采样报告，核对最终跳丢包；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "生成更宽的二十次采样报告，核对最终跳丢包"
+answers = ["mtr -n -r -w -c 20 198.51.100.20"]
+
+[[commands]]
+id = "v04-path-92ae30aa85"
+command = "sudo mtr -n -r -T -P 443 -c 10 198.51.100.20"
+summary = "使用 TCP 443 进行 MTR 路径对照"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " mtr"
+desc = "重复采样路由路径，汇总延迟与响应丢失"
+
+[[commands.tokens]]
+text = " -n"
+desc = "使用 TCP 443 进行 MTR 路径对照；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " -r"
+desc = "使用 TCP 443 进行 MTR 路径对照；此处使用 -r 选项"
+
+[[commands.tokens]]
+text = " -T"
+desc = "使用 TCP 443 进行 MTR 路径对照；此处使用 -T 选项"
+
+[[commands.tokens]]
+text = " -P"
+desc = "使用 TCP 443 进行 MTR 路径对照；此处使用 -P 选项"
+
+[[commands.tokens]]
+text = " 443"
+desc = "本次练习的数值参数 443；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -c"
+desc = "使用 TCP 443 进行 MTR 路径对照；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 10"
+desc = "本次练习的数值参数 10；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "使用 TCP 443 进行 MTR 路径对照；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "使用 TCP 443 进行 MTR 路径对照"
+answers = ["sudo mtr -n -r -T -P 443 -c 10 198.51.100.20"]
+
+[[commands]]
+id = "v04-path-4153570e82"
+command = "ip route get 198.51.100.20 oif ens33"
+summary = "核对限定 ens33 出口时的路由查询结果"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " route"
+desc = "核对限定 ens33 出口时的路由查询结果；指定 route"
+
+[[commands.tokens]]
+text = " get"
+desc = "核对限定 ens33 出口时的路由查询结果；指定 get"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "核对限定 ens33 出口时的路由查询结果；指定 198.51.100.20"
+
+[[commands.tokens]]
+text = " oif"
+desc = "核对限定 ens33 出口时的路由查询结果；指定 oif"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "核对限定 ens33 出口时的路由查询结果；指定 ens33"
+
+[commands.dictation]
+prompt = "核对限定 ens33 出口时的路由查询结果"
+answers = ["ip route get 198.51.100.20 oif ens33"]

@@ -1,3 +1,4 @@
+
 [meta]
 command = "users-identity-groups"
 full_name = "Linux user identity and group lookup"
@@ -7,16 +8,19 @@ importance = "core"
 
 [overview]
 summary = "用只读查询建立用户、UID、主组与附加组的准确身份图"
-explanation = """Linux 授权判断依赖数字 UID/GID，而人通常使用用户名和组名交流。排查权限前应先回答：账号是否存在、UID 与主 GID 是什么、还属于哪些附加组、名称服务返回了什么。`id` 汇总当前解析出的身份，`groups` 强调组成员资格，`getent` 则通过 NSS（Name Service Switch）查询本地文件、LDAP 等实际配置的数据源。组数据库末尾的显式成员列表不包含所有以该组为主组的用户，因此不能只看一条 `getent group` 就断言完整成员关系。这里的命令全部用于观察，不创建用户、不改变组成员，也不切换到高权限 shell。先建立可靠身份基线，再讨论文件权限或 sudo 策略，可避免把“名称相似”“缓存未刷新”或“主组未列出”误判为授权事实。"""
+explanation = "Linux 授权判断依赖数字 UID/GID，而人通常使用用户名和组名交流。排查权限前应先回答：账号是否存在、UID 与主 GID 是什么、还属于哪些附加组、名称服务返回了什么。`id` 汇总当前解析出的身份，`groups` 强调组成员资格，`getent` 则通过 NSS（Name Service Switch）查询本地文件、LDAP 等实际配置的数据源。组数据库末尾的显式成员列表不包含所有以该组为主组的用户，因此不能只看一条 `getent group` 就断言完整成员关系。这里的命令全部用于观察，不创建用户、不改变组成员，也不切换到高权限 shell。先建立可靠身份基线，再讨论文件权限或 sudo 策略，可避免把“名称相似”“缓存未刷新”或“主组未列出”误判为授权事实。"
 
 [syntax]
 basic = "id|groups 用户名；getent passwd|group 名称"
+
 [[syntax.parts]]
 name = "查询工具"
 desc = "id 给出 UID/GID 汇总，groups 给出组列表，getent 按 NSS 配置读取账户或组数据库"
+
 [[syntax.parts]]
 name = "数据库"
 desc = "passwd 记录账号、UID、主 GID、家目录和登录 shell；group 记录组名、GID 与显式附加成员"
+
 [[syntax.parts]]
 name = "名称"
 desc = "应使用明确的现有教学账号或组名；查询失败时先区分不存在、名称服务故障和权限问题"
@@ -72,12 +76,12 @@ level = 2
 
 [[gotchas]]
 title = "主组成员不会完整出现在 group 记录末尾"
-content = """`getent group training` 的最后一列只列显式附加成员。某用户若在 passwd 记录中把 training 的 GID 设为主 GID，组记录末尾仍可能为空。要判断一个用户实际属于哪些组，应以 `id 用户名` 或 `groups 用户名` 为主，并用 passwd/group 的数字 GID 交叉核对。不要因为成员字段为空就删除组、重建账号或贸然修改成员关系。"""
+content = "`getent group training` 的最后一列只列显式附加成员。某用户若在 passwd 记录中把 training 的 GID 设为主 GID，组记录末尾仍可能为空。要判断一个用户实际属于哪些组，应以 `id 用户名` 或 `groups 用户名` 为主，并用 passwd/group 的数字 GID 交叉核对。不要因为成员字段为空就删除组、重建账号或贸然修改成员关系。"
 
 [[gotchas]]
 title = "名称服务查询不是只读本地文件的同义词"
-content = """`getent` 会按照 NSS 配置访问本地文件、目录服务或其他后端。它不修改账户，但查询可能依赖网络、缓存和服务可用性；无输出不一定等于“本地文件中没有”。记录命令、目标名称、返回码和查询时刻，再判断是对象不存在还是名称服务暂时异常。"""
+content = "`getent` 会按照 NSS 配置访问本地文件、目录服务或其他后端。它不修改账户，但查询可能依赖网络、缓存和服务可用性；无输出不一定等于“本地文件中没有”。记录命令、目标名称、返回码和查询时刻，再判断是对象不存在还是名称服务暂时异常。"
 
 [[gotchas]]
 title = "sudo 组名称不等于统一的管理员模型"
-content = """Debian/Ubuntu 常用 sudo 组，但其他发行版可能使用 wheel，且最终权限由 sudoers 规则决定。即使账号出现在某个管理员组，也应使用授权查询确认具体可执行范围；本课只读取身份关系，不建议为排障随手把用户加入高权限组。"""
+content = "Debian/Ubuntu 常用 sudo 组，但其他发行版可能使用 wheel，且最终权限由 sudoers 规则决定。即使账号出现在某个管理员组，也应使用授权查询确认具体可执行范围；本课只读取身份关系，不建议为排障随手把用户加入高权限组。"

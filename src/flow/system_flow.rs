@@ -1,7 +1,6 @@
-use crossterm::event::{KeyCode, KeyEvent};
+use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 
 use crate::app::{App, AppState, SystemPhase};
-use crate::core::scorer;
 use crate::data::models::{DeepSource, RecordMode};
 
 pub fn handle_system_topics_key(app: &mut App, key: KeyEvent) {
@@ -252,6 +251,49 @@ fn handle_system_typing_key(
         }
     };
 
+    if key.modifiers.contains(KeyModifiers::CONTROL)
+        && !key.modifiers.contains(KeyModifiers::ALT)
+        && key.code == KeyCode::Char('r')
+    {
+        enter_system_typing(app, topic_index, section_index, command_idx);
+        return;
+    }
+    if key
+        .modifiers
+        .intersects(KeyModifiers::CONTROL | KeyModifiers::ALT)
+    {
+        return;
+    }
+
+    // Right and output-page characters can submit without the App's Enter gate.
+    // Save the completed attempt before revealing output or replacing its engine.
+    let submits_or_advances = app.typing_engine.is_complete()
+        && (matches!(
+            key.code,
+            KeyCode::Enter | KeyCode::Right | KeyCode::Char('l')
+        ) || (app.system_typing_showing_output && matches!(key.code, KeyCode::Char(_))));
+    if submits_or_advances
+        && !finalize_system_typing_command(app, topic_index, section_index, command_idx)
+    {
+        return;
+    }
+
+    if app.system_typing_showing_output
+        && let KeyCode::Char(c) = key.code
+    {
+        advance_system_typing(app, topic_index, section_index, command_idx + 1);
+        if matches!(
+            app.state,
+            AppState::SystemLesson {
+                phase: SystemPhase::TypingPractice { .. },
+                ..
+            }
+        ) {
+            app.typing_engine.input(c);
+        }
+        return;
+    }
+
     match key.code {
         KeyCode::Esc => app.state = AppState::SystemTopics,
         KeyCode::Char('d') | KeyCode::Char('D') if app.typing_engine.is_complete() => {
@@ -266,7 +308,7 @@ fn handle_system_typing_key(
                 };
             }
         }
-        KeyCode::Up | KeyCode::Char('k') if app.system_typing_showing_output => {
+        KeyCode::Up if app.system_typing_showing_output => {
             set_system_typing_scroll(
                 app,
                 topic_index,
@@ -275,7 +317,7 @@ fn handle_system_typing_key(
                 scroll.saturating_sub(1),
             );
         }
-        KeyCode::Down | KeyCode::Char('j') if app.system_typing_showing_output => {
+        KeyCode::Down if app.system_typing_showing_output => {
             set_system_typing_scroll(
                 app,
                 topic_index,
@@ -325,7 +367,6 @@ fn handle_system_typing_key(
                 return;
             }
 
-            finalize_system_typing_command(app, topic_index, section_index, command_idx);
             advance_system_typing(app, topic_index, section_index, command_idx + 1);
         }
         _ => {}
@@ -352,16 +393,16 @@ fn finalize_system_typing_command(
     topic_index: usize,
     section_index: usize,
     command_idx: usize,
-) {
+) -> bool {
     let Some(topic) = app.system_topics.get(topic_index) else {
-        return;
+        return false;
     };
 
     let Some(section) = topic.sections.get(section_index) else {
-        return;
+        return false;
     };
     let Some(command) = section.commands.get(command_idx) else {
-        return;
+        return false;
     };
 
     let command_id =
@@ -372,10 +413,7 @@ fn finalize_system_typing_command(
         .typing_engine
         .finish(&command_id, difficulty, RecordMode::SystemTyping);
 
-    scorer::update_stats(&mut app.user_stats, &record);
-    let _ = app.progress_store.save_stats(&app.user_stats);
-    let _ = app.progress_store.append_record(&record);
-    app.history.push(record);
+    app.persist_record(record)
 }
 
 pub(crate) fn system_command_progress_key(

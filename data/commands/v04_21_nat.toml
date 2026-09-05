@@ -1,0 +1,350 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "路由、FORWARD 规则和 NAT 相互独立，按数据流方向检查。"
+
+[meta.topic]
+id = "v04_nat"
+title = "NAT、转发与连接跟踪"
+icon = "🌐"
+order = 121
+
+[[commands]]
+id = "v04-nat-67225c60ea"
+command = "sysctl net.ipv4.ip_forward"
+summary = "读取 IPv4 转发开关，转发主机应结合角色解释"
+
+[[commands.tokens]]
+text = "sysctl"
+desc = "读取内核参数；无 -w 时不写入配置"
+
+[[commands.tokens]]
+text = " net.ipv4.ip_forward"
+desc = "读取 IPv4 转发开关，转发主机应结合角色解释；指定 net.ipv4.ip_forward"
+
+[commands.dictation]
+prompt = "读取 IPv4 转发开关，转发主机应结合角色解释"
+answers = ["sysctl net.ipv4.ip_forward"]
+
+[[commands]]
+id = "v04-nat-61439a4948"
+command = "sysctl net.ipv6.conf.all.forwarding"
+summary = "读取 IPv6 全局转发配置"
+
+[[commands.tokens]]
+text = "sysctl"
+desc = "读取内核参数；无 -w 时不写入配置"
+
+[[commands.tokens]]
+text = " net.ipv6.conf.all.forwarding"
+desc = "读取 IPv6 全局转发配置；指定 net.ipv6.conf.all.forwarding"
+
+[commands.dictation]
+prompt = "读取 IPv6 全局转发配置"
+answers = ["sysctl net.ipv6.conf.all.forwarding"]
+
+[[commands]]
+id = "v04-nat-2e3408a68c"
+command = "sudo iptables -t nat -L -n -v"
+summary = "查看 IPv4 NAT 链和计数器"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " iptables"
+desc = "查看 IPv4 NAT 链和计数器"
+
+[[commands.tokens]]
+text = " -t"
+desc = "查看 IPv4 NAT 链和计数器；此处使用 -t 选项"
+
+[[commands.tokens]]
+text = " nat"
+desc = "查看 IPv4 NAT 链和计数器；指定 nat"
+
+[[commands.tokens]]
+text = " -L"
+desc = "查看 IPv4 NAT 链和计数器；此处使用 -L 选项"
+
+[[commands.tokens]]
+text = " -n"
+desc = "查看 IPv4 NAT 链和计数器；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " -v"
+desc = "查看 IPv4 NAT 链和计数器；此处使用 -v 选项"
+
+[commands.dictation]
+prompt = "查看 IPv4 NAT 链和计数器"
+answers = ["sudo iptables -t nat -L -n -v"]
+
+[[commands]]
+id = "v04-nat-8fcb8adfbc"
+command = "sudo iptables -t nat -S"
+summary = "以规则规格形式查看 IPv4 NAT"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " iptables"
+desc = "以规则规格形式查看 IPv4 NAT"
+
+[[commands.tokens]]
+text = " -t"
+desc = "以规则规格形式查看 IPv4 NAT；此处使用 -t 选项"
+
+[[commands.tokens]]
+text = " nat"
+desc = "以规则规格形式查看 IPv4 NAT；指定 nat"
+
+[[commands.tokens]]
+text = " -S"
+desc = "以规则规格形式查看 IPv4 NAT；此处使用 -S 选项"
+
+[commands.dictation]
+prompt = "以规则规格形式查看 IPv4 NAT"
+answers = ["sudo iptables -t nat -S"]
+
+[[commands]]
+id = "v04-nat-c9cb13e512"
+command = "sudo iptables -L FORWARD -n -v --line-numbers"
+summary = "检查转发链是否阻断路由流量"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " iptables"
+desc = "检查转发链是否阻断路由流量"
+
+[[commands.tokens]]
+text = " -L"
+desc = "检查转发链是否阻断路由流量；此处使用 -L 选项"
+
+[[commands.tokens]]
+text = " FORWARD"
+desc = "检查转发链是否阻断路由流量；指定 FORWARD"
+
+[[commands.tokens]]
+text = " -n"
+desc = "检查转发链是否阻断路由流量；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " -v"
+desc = "检查转发链是否阻断路由流量；此处使用 -v 选项"
+
+[[commands.tokens]]
+text = " --line-numbers"
+desc = "检查转发链是否阻断路由流量；此处使用 --line-numbers 选项"
+
+[commands.dictation]
+prompt = "检查转发链是否阻断路由流量"
+answers = ["sudo iptables -L FORWARD -n -v --line-numbers"]
+
+[[commands]]
+id = "v04-nat-014ca7a0ad"
+command = "sudo conntrack -L -p tcp --dport 443"
+summary = "使用 conntrack 工具查看 HTTPS 连接跟踪记录"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " conntrack"
+desc = "使用 conntrack 工具查看 HTTPS 连接跟踪记录"
+
+[[commands.tokens]]
+text = " -L"
+desc = "使用 conntrack 工具查看 HTTPS 连接跟踪记录；此处使用 -L 选项"
+
+[[commands.tokens]]
+text = " -p"
+desc = "使用 conntrack 工具查看 HTTPS 连接跟踪记录；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " tcp"
+desc = "使用 conntrack 工具查看 HTTPS 连接跟踪记录；指定 tcp"
+
+[[commands.tokens]]
+text = " --dport"
+desc = "使用 conntrack 工具查看 HTTPS 连接跟踪记录；此处使用 --dport 选项"
+
+[[commands.tokens]]
+text = " 443"
+desc = "本次练习的数值参数 443；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "使用 conntrack 工具查看 HTTPS 连接跟踪记录"
+answers = ["sudo conntrack -L -p tcp --dport 443"]
+
+[[commands]]
+id = "v04-nat-14ab8a3956"
+command = "sudo conntrack -L -p tcp --dport 5432"
+summary = "查看实验数据库连接跟踪及 NAT 前后元组"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " conntrack"
+desc = "查看实验数据库连接跟踪及 NAT 前后元组"
+
+[[commands.tokens]]
+text = " -L"
+desc = "查看实验数据库连接跟踪及 NAT 前后元组；此处使用 -L 选项"
+
+[[commands.tokens]]
+text = " -p"
+desc = "查看实验数据库连接跟踪及 NAT 前后元组；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " tcp"
+desc = "查看实验数据库连接跟踪及 NAT 前后元组；指定 tcp"
+
+[[commands.tokens]]
+text = " --dport"
+desc = "查看实验数据库连接跟踪及 NAT 前后元组；此处使用 --dport 选项"
+
+[[commands.tokens]]
+text = " 5432"
+desc = "本次练习的数值参数 5432；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "查看实验数据库连接跟踪及 NAT 前后元组"
+answers = ["sudo conntrack -L -p tcp --dport 5432"]
+
+[[commands]]
+id = "v04-nat-4c19529ff6"
+command = "sudo conntrack -S"
+summary = "读取连接跟踪统计，观察插入失败等异常"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " conntrack"
+desc = "读取连接跟踪统计，观察插入失败等异常"
+
+[[commands.tokens]]
+text = " -S"
+desc = "读取连接跟踪统计，观察插入失败等异常；此处使用 -S 选项"
+
+[commands.dictation]
+prompt = "读取连接跟踪统计，观察插入失败等异常"
+answers = ["sudo conntrack -S"]
+
+[[commands]]
+id = "v04-nat-92476210a8"
+command = "sysctl net.netfilter.nf_conntrack_count"
+summary = "读取当前连接跟踪表条目数"
+
+[[commands.tokens]]
+text = "sysctl"
+desc = "读取内核参数；无 -w 时不写入配置"
+
+[[commands.tokens]]
+text = " net.netfilter.nf_conntrack_count"
+desc = "读取当前连接跟踪表条目数；指定 net.netfilter.nf_conntrack_count"
+
+[commands.dictation]
+prompt = "读取当前连接跟踪表条目数"
+answers = ["sysctl net.netfilter.nf_conntrack_count"]
+
+[[commands]]
+id = "v04-nat-ea6b736b0f"
+command = "sysctl net.netfilter.nf_conntrack_max"
+summary = "读取连接跟踪容量上限，和当前数量对照"
+
+[[commands.tokens]]
+text = "sysctl"
+desc = "读取内核参数；无 -w 时不写入配置"
+
+[[commands.tokens]]
+text = " net.netfilter.nf_conntrack_max"
+desc = "读取连接跟踪容量上限，和当前数量对照；指定 net.netfilter.nf_conntrack_max"
+
+[commands.dictation]
+prompt = "读取连接跟踪容量上限，和当前数量对照"
+answers = ["sysctl net.netfilter.nf_conntrack_max"]
+
+[[commands]]
+id = "v04-nat-d8bfe46e11"
+command = "sudo tcpdump -ni ens33 -c 20 'tcp port 8080'"
+summary = "在外侧接口观察实验发布端口的数据流"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "在外侧接口观察实验发布端口的数据流；指定 ens33"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 'tcp port 8080'"
+desc = "引号保护此参数中的空格或特殊符号；在外侧接口观察实验发布端口的数据流"
+
+[commands.dictation]
+prompt = "在外侧接口观察实验发布端口的数据流"
+answers = ["sudo tcpdump -ni ens33 -c 20 'tcp port 8080'"]
+
+[[commands]]
+id = "v04-nat-a9e712b7e5"
+command = "sudo tcpdump -ni docker0 -c 20 'tcp port 80'"
+summary = "在默认 Docker 网桥对照 NAT 后的容器 HTTP 流量"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " docker0"
+desc = "在默认 Docker 网桥对照 NAT 后的容器 HTTP 流量；指定 docker0"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 'tcp port 80'"
+desc = "引号保护此参数中的空格或特殊符号；在默认 Docker 网桥对照 NAT 后的容器 HTTP 流量"
+
+[commands.dictation]
+prompt = "在默认 Docker 网桥对照 NAT 后的容器 HTTP 流量"
+answers = ["sudo tcpdump -ni docker0 -c 20 'tcp port 80'"]

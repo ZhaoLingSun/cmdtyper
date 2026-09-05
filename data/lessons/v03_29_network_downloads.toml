@@ -1,3 +1,4 @@
+
 [meta]
 command = "wget、curl 与网络观察"
 full_name = "Network downloads, headers, reachability, and interface observation"
@@ -7,19 +8,23 @@ importance = "core"
 
 [overview]
 summary = "把下载落盘、HTTP 元数据、连通测试和本机地址检查分成四种任务"
-explanation = """wget 和 curl 都能从 URL 获取内容，但保存策略不同。wget 使用 URL 末尾名称保存时，如果本地同名文件已存在，常见行为是改用带编号的新文件名；这避免了简单覆盖，却也可能让脚本继续读取旧文件，所以仍应先确认目标名称。wget -c 会把服务器返回的数据接到已有文件后，只有在 URL、远端对象和本地部分确实属于同一文件时才安全，否则可能得到损坏的拼接结果。curl -O 沿用远端文件名，并默认截断、覆盖本地同名目标，必须先确认不存在或另行选择安全输出路径。curl -I 只查看 HTTP 响应头，不保存正文。ping -c 4 观察 ICMP 可达性、丢包和时延，但服务仍可能不可用，网络设备也可能过滤 ICMP。ip a 只读展示本机接口与地址，是定位“本机有没有地址”的观察步骤，不代表公网连通。"""
+explanation = "wget 和 curl 都能从 URL 获取内容，但保存策略不同。wget 使用 URL 末尾名称保存时，如果本地同名文件已存在，常见行为是改用带编号的新文件名；这避免了简单覆盖，却也可能让脚本继续读取旧文件，所以仍应先确认目标名称。wget -c 会把服务器返回的数据接到已有文件后，只有在 URL、远端对象和本地部分确实属于同一文件时才安全，否则可能得到损坏的拼接结果。curl -O 沿用远端文件名，并默认截断、覆盖本地同名目标，必须先确认不存在或另行选择安全输出路径。curl -I 只查看 HTTP 响应头，不保存正文。ping -c 4 观察 ICMP 可达性、丢包和时延，但服务仍可能不可用，网络设备也可能过滤 ICMP。ip a 只读展示本机接口与地址，是定位“本机有没有地址”的观察步骤，不代表公网连通。"
 
 [syntax]
 basic = "wget [-c] URL；curl [-O|-I] URL；ping -c 次数 地址；ip a"
+
 [[syntax.parts]]
 name = "URL"
 desc = "确认协议、主机名、完整路径和预期文件；下载完成后还应按可信来源校验摘要或签名"
+
 [[syntax.parts]]
 name = "落盘名称"
 desc = "wget 与 curl -O 都可能从 URL 推导文件名，但遇到本地同名文件时行为不同"
+
 [[syntax.parts]]
 name = "请求范围"
 desc = "curl -I 请求响应头而非正文；它用于观察状态和元数据，不等于验证下载内容"
+
 [[syntax.parts]]
 name = "网络观察"
 desc = "ping 观察 ICMP 路径，ip a 观察本机接口；两者都不会证明具体应用服务健康"

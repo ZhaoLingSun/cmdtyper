@@ -1,0 +1,125 @@
+id = "backend_logs"
+title = "后端接口 500：关联日志与数据库状态"
+category = "网站与后端"
+difficulty = "basic"
+background = "订单列表突然返回 500，健康检查也失败。数据库连接数被一次报表任务耗尽，API 日志带请求 ID。"
+objective = "先复现和关联日志，再检查连接与长事务；停止已确认报表任务并验证。"
+environment = "Ubuntu 24.04 LTS，项目 /srv/ops-site。此独立快照已经创建本地维护超级用户 postgres，并将 app 设置为 NOSUPERUSER LOGIN CONNECTION LIMIT 99；max_connections=200。报表和 API 共用业务角色 app，95+4 个连接恰好触及角色上限，维护角色不占该角色配额。教学输出与请求 ID 中间件均为预置，命令不会真实执行。"
+recap = "请求 ID 关联端到端日志；连接数、状态、事务年龄帮助区分数据库存活与业务可用。恢复后修复资源释放逻辑。"
+sources = ["https://www.postgresql.org/docs/current/app-pgdump.html", "https://www.postgresql.org/docs/current/tutorial-transactions.html", "https://www.postgresql.org/docs/17/sql-createrole.html", "https://docs.docker.com/compose/how-tos/startup-order/", "https://docs.docker.com/compose/how-tos/production/"]
+
+[[steps]]
+title = "带请求标识重现错误"
+output = "HTTP/2 500\nX-Request-ID: lab-500-01\n{\"detail\":\"database unavailable\"}"
+explanation = "教学中间件记录并返回请求 ID，便于从很多并发请求中定位这一次失败。"
+instruction = "请跟打，带请求标识重现错误。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_01"
+command_id = "shared-a221c3a3134dde65"
+
+[[steps]]
+title = "查找关联 API 日志"
+output = "request_id=lab-500-01 error=too many connections for role app"
+explanation = "错误明确发生在获取数据库连接阶段，先查连接占用而不是代理端口。"
+instruction = "请跟打，查找关联 API 日志。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_02"
+command_id = "shared-3597933150aa2291"
+
+[[steps]]
+title = "查看数据库运行状态"
+output = "ops-db-1 Up (healthy)"
+explanation = "数据库主进程仍可响应健康探测；普通业务角色可能已达到连接限额。"
+instruction = "请跟打，查看数据库运行状态。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_03"
+command_id = "shared-4edc9b7c87cb8588"
+
+[steps.decision]
+question = "下一步优先检查什么？"
+
+[[steps.decision.choices]]
+text = "按应用名统计数据库连接与事务状态"
+correct = true
+feedback = "对，连接限额需要从数据库会话证据排查。"
+
+[[steps.decision.choices]]
+text = "先扩大 Nginx 请求超时"
+correct = false
+feedback = "增加代理超时不会释放已耗尽的数据库连接。"
+
+[[steps]]
+title = "进入维护数据库会话"
+output = "psql (17)\napp=#"
+explanation = "本例实验数据库提供本地维护角色 postgres；网站初始案例用 app 初始化，进入本例时已由课程准备独立维护角色。"
+instruction = "请跟打，进入维护数据库会话。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_04"
+command_id = "shared-34f23b512239a1f0"
+
+[[steps]]
+title = "按应用名聚合连接"
+output = "report-export | idle in transaction | 95\norders-api | idle | 4\npsql | active | 1"
+explanation = "95 个报表连接停在事务内，可能占用连接和锁。"
+instruction = "请跟打，按应用名聚合连接。先观察输出，再决定下一步。"
+prompt = "app=# "
+id = "step_05"
+command_id = "shared-d522deab69ddef3f"
+
+[[steps]]
+title = "查询最长事务"
+output = "3210 report-export 00:45:10\n3211 report-export 00:45:10"
+explanation = "结合变更记录确认 report-export 是可暂停的离线报表任务，不能随意终止未知业务会话。"
+instruction = "请跟打，查询最长事务。先观察输出，再决定下一步。"
+prompt = "app=# "
+id = "step_06"
+command_id = "shared-10a31cc5c6753144"
+
+[[steps]]
+title = "只查看报表任务查询"
+output = "3210 SELECT * FROM orders\n3211 SELECT * FROM orders"
+explanation = "报表读取后未正确结束事务；课程运维窗口允许停止此任务。"
+instruction = "请跟打，只查看报表任务查询。先观察输出，再决定下一步。"
+prompt = "app=# "
+id = "step_07"
+command_id = "shared-ad9987ba921d0e48"
+
+[steps.decision]
+question = "如何降低影响并恢复？"
+
+[[steps.decision.choices]]
+text = "停止确认的报表任务并修复连接释放"
+correct = true
+feedback = "对，应针对已确认异常的任务处理。"
+
+[[steps.decision.choices]]
+text = "终止数据库所有连接"
+correct = false
+feedback = "全部终止会影响其他服务和维护会话，范围过大。"
+
+[[steps]]
+title = "退出 SQL 客户端"
+output = "[模拟：返回 /srv/ops-site shell]"
+explanation = "后续 systemctl 在宿主机执行，不是在 psql 中。"
+instruction = "请跟打，退出 SQL 客户端。先观察输出，再决定下一步。"
+prompt = "app=# "
+id = "step_08"
+command_id = "shared-f43a4150248fd4ae"
+
+[[steps]]
+title = "停止异常报表服务"
+output = "[模拟：report-export 停止，数据库连接已释放]"
+explanation = "本例报表受宿主机 systemd 管理；工程修复应保证事务和连接在异常路径也能关闭。"
+instruction = "请跟打，停止异常报表服务。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_09"
+command_id = "shared-8f2a43574a49bb56"
+
+[[steps]]
+title = "重新验证订单查询"
+output = "[{\"id\":42,\"status\":\"pending\"}]"
+explanation = "业务恢复后为报表配置池大小、超时及连接数监控；不把单纯调高连接上限当成根因修复。"
+instruction = "请跟打，重新验证订单查询。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_10"
+command_id = "shared-341f756bc2cb5d8b"

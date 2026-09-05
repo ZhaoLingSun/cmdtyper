@@ -1,10 +1,16 @@
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::{Duration, Instant};
 
-use chrono::Utc;
+use chrono::{Local, TimeZone, Utc};
 
-use crate::data::models::{Difficulty, Keystroke, RecordMode, SessionRecord};
+use crate::data::models::{
+    ActiveSpan, Difficulty, Keystroke, PositionDaySnapshot, RecordMode, SessionRecord,
+    TypingMetrics, TypingPosition,
+};
 
-/// Result of a single keystroke input.
+const IDLE_LIMIT_MS: u64 = 30_000;
+static SESSION_SEQUENCE: AtomicU64 = AtomicU64::new(0);
+
 #[derive(Debug, Clone, PartialEq)]
 pub enum InputResult {
     Correct,
@@ -12,8 +18,8 @@ pub enum InputResult {
     AlreadyComplete,
 }
 
-/// Core typing engine: tracks target characters, cursor position, keystrokes,
-/// error flash state, and timing for WPM/CPM/accuracy calculations.
+/// Cursor state is separate from position measurements: deleting/retyping never
+/// erases an error or creates a second speed sample for the same target position.
 pub struct TypingEngine {
     pub target: Vec<char>,
     pub cursor: usize,
@@ -24,12 +30,23 @@ pub struct TypingEngine {
     pub completed_at: Option<Instant>,
     pub last_correct_time: Option<Instant>,
     error_flash_duration: Duration,
+    positions: Vec<Option<TypingPosition>>,
+    active_spans: Vec<ActiveSpan>,
+    position_day_snapshots: Vec<PositionDaySnapshot>,
+    completed_date: String,
+    last_input: Option<(Instant, i64)>,
+    started_at_ms: Option<i64>,
+    last_event_ms: Option<i64>,
+    session_id: String,
+    paused: bool,
 }
 
 impl TypingEngine {
     pub fn new(target_str: &str) -> Self {
+        let target: Vec<char> = target_str.chars().collect();
         Self {
-            target: target_str.chars().collect(),
+            positions: vec![None; target.len()],
+            target,
             cursor: 0,
             keystrokes: Vec::new(),
             current_attempts: 0,
@@ -38,179 +55,395 @@ impl TypingEngine {
             completed_at: None,
             last_correct_time: None,
             error_flash_duration: Duration::from_millis(150),
+            active_spans: Vec::new(),
+            position_day_snapshots: Vec::new(),
+            completed_date: String::new(),
+            last_input: None,
+            started_at_ms: None,
+            last_event_ms: None,
+            session_id: format!(
+                "{}-{}",
+                Utc::now().timestamp_nanos_opt().unwrap_or_default(),
+                SESSION_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+            ),
+            paused: false,
         }
     }
 
-    /// Process a character input. Returns `Correct` if the character matches the
-    /// current target, `Error { expected }` if it doesn't, or `AlreadyComplete`
-    /// if the target has already been fully typed.
+    pub fn session_id(&self) -> &str {
+        &self.session_id
+    }
+
     pub fn input(&mut self, ch: char) -> InputResult {
+        self.input_at(ch, Instant::now(), Utc::now().timestamp_millis())
+    }
+
+    /// Explicit clocks make idle and midnight behavior deterministic in tests.
+    pub fn input_at(&mut self, ch: char, now: Instant, timestamp_ms: i64) -> InputResult {
         if self.is_complete() {
             return InputResult::AlreadyComplete;
         }
-
-        // Start timer on first input
-        if self.start_time.is_none() {
-            let now = Instant::now();
-            self.start_time = Some(now);
-            self.last_correct_time = Some(now);
-        }
-
-        self.current_attempts += 1;
         let expected = self.target[self.cursor];
-
-        if ch == expected {
-            let now = Instant::now();
-            let latency_ms = self
-                .last_correct_time
-                .map(|t| now.duration_since(t).as_millis() as u64)
-                .unwrap_or(0);
-
-            let keystroke = Keystroke {
-                expected,
-                actual: ch,
-                correct: self.current_attempts == 1,
-                attempts: self.current_attempts,
-                latency_ms,
-                timestamp_ms: Utc::now().timestamp_millis(),
-            };
-
-            self.keystrokes.push(keystroke);
-            self.cursor += 1;
-            self.current_attempts = 0;
-            self.last_correct_time = Some(now);
-            self.error_flash = None;
-            if self.cursor >= self.target.len() {
-                self.completed_at = Some(now);
+        if expected == '\n' {
+            if ch == '\n' {
+                self.cursor += 1;
+                self.last_input = None;
+                self.last_event_ms = Some(timestamp_ms);
+                self.current_attempts = 0;
+                self.error_flash = None;
+                if self.is_complete() {
+                    self.completed_at = Some(now);
+                    self.completed_date = local_date(timestamp_ms);
+                }
+                return InputResult::Correct;
             }
-
-            InputResult::Correct
-        } else {
-            self.error_flash = Some(Instant::now());
-            InputResult::Error { expected }
+            return InputResult::Error { expected };
         }
+        // Enter and editing shortcuts are not effective characters.
+        if ch.is_control() {
+            return InputResult::Error { expected };
+        }
+        if self.start_time.is_none() {
+            self.start_time = Some(now);
+            self.started_at_ms = Some(timestamp_ms);
+            self.last_correct_time = Some(now);
+        }
+        self.paused = false;
+        let index = self.cursor;
+        self.positions[index].get_or_insert_with(|| TypingPosition {
+            index,
+            expected,
+            attempted_at_ms: timestamp_ms,
+            attempted_date: local_date(timestamp_ms),
+            updated_date: local_date(timestamp_ms),
+            speed_sample_valid: true,
+            ..TypingPosition::default()
+        });
+        self.record_interval(index, now, timestamp_ms);
+        let position = self.positions[index]
+            .as_mut()
+            .expect("position initialized");
+        position.attempts = position.attempts.saturating_add(1);
+        self.current_attempts = position.attempts.min(u8::MAX as u64) as u8;
+        if ch != expected {
+            position.error = true;
+            position
+                .error_date
+                .get_or_insert_with(|| local_date(timestamp_ms));
+            self.error_flash = Some(now);
+            return InputResult::Error { expected };
+        }
+        position.completed = true;
+        position.completed_at_ms = timestamp_ms;
+        position.completed_date = local_date(timestamp_ms);
+        self.keystrokes.push(Keystroke {
+            expected,
+            actual: ch,
+            correct: !position.error,
+            attempts: self.current_attempts,
+            latency_ms: position.latency_ms,
+            timestamp_ms,
+        });
+        self.cursor += 1;
+        self.current_attempts = 0;
+        self.last_correct_time = Some(now);
+        self.error_flash = None;
+        if self.is_complete() {
+            self.completed_at = Some(now);
+            self.completed_date = local_date(timestamp_ms);
+        }
+        // Reading output / waiting for Enter at a step boundary is not typing.
+        if self.target.get(self.cursor) == Some(&'\n') {
+            self.last_input = None;
+        }
+        InputResult::Correct
+    }
+
+    /// Capture the old day's final state before latency, validity or completion
+    /// can be changed by a future-day input, backspace or pause.
+    fn checkpoint_position(&mut self, index: usize, timestamp_ms: i64) {
+        let Some(position) = self.positions.get_mut(index).and_then(Option::as_mut) else {
+            return;
+        };
+        let date = local_date(timestamp_ms);
+        if !position.updated_date.is_empty() && position.updated_date < date {
+            let snapshot = PositionDaySnapshot {
+                index,
+                date: position.updated_date.clone(),
+                completed: position.completed,
+                completed_at_ms: position.completed_at_ms,
+                completed_date: position.completed_date.clone(),
+                latency_ms: position.latency_ms,
+                speed_sample_valid: position.speed_sample_valid,
+            };
+            if let Some(existing) = self
+                .position_day_snapshots
+                .iter_mut()
+                .find(|existing| existing.index == index && existing.date == snapshot.date)
+            {
+                *existing = snapshot;
+            } else {
+                self.position_day_snapshots.push(snapshot);
+            }
+        }
+        position.updated_date = date;
+    }
+
+    fn record_interval(&mut self, index: usize, now: Instant, timestamp_ms: i64) {
+        self.checkpoint_position(index, timestamp_ms);
+        if let Some((last, last_ms)) = self.last_input {
+            let gap = now
+                .saturating_duration_since(last)
+                .as_millis()
+                .min(u64::MAX as u128) as u64;
+            let active = gap.min(IDLE_LIMIT_MS);
+            add_active_span(&mut self.active_spans, last_ms, active);
+            if let Some(position) = self.positions.get_mut(index).and_then(Option::as_mut) {
+                position.latency_ms = position.latency_ms.saturating_add(active);
+                if gap > IDLE_LIMIT_MS {
+                    position.speed_sample_valid = false;
+                }
+            }
+        } else if let Some(position) = self.positions.get_mut(index).and_then(Option::as_mut) {
+            position.speed_sample_valid = false;
+        }
+        self.last_input = Some((now, timestamp_ms));
+        self.last_event_ms = Some(timestamp_ms);
     }
 
     pub fn backspace(&mut self) {
-        if self.cursor == 0 {
+        self.backspace_at(Instant::now(), Utc::now().timestamp_millis());
+    }
+
+    pub fn backspace_at(&mut self, now: Instant, timestamp_ms: i64) {
+        // A submitted step cannot be erased; backspace only revisits its current line.
+        if self.cursor == 0 || self.target.get(self.cursor - 1) == Some(&'\n') {
             return;
         }
-
         self.cursor -= 1;
+        self.record_interval(self.cursor, now, timestamp_ms);
+        if let Some(position) = self.positions[self.cursor].as_mut() {
+            position.completed = false;
+        }
         self.current_attempts = 0;
         self.error_flash = None;
         self.completed_at = None;
+        self.completed_date.clear();
         self.keystrokes.pop();
+    }
+
+    pub fn pause(&mut self) {
+        self.pause_at(Instant::now(), Utc::now().timestamp_millis());
+    }
+
+    pub fn pause_at(&mut self, now: Instant, timestamp_ms: i64) {
+        if !self.is_complete() && !self.paused {
+            if let Some((last, last_ms)) = self.last_input {
+                let active = now
+                    .saturating_duration_since(last)
+                    .as_millis()
+                    .min(IDLE_LIMIT_MS as u128) as u64;
+                add_active_span(&mut self.active_spans, last_ms, active);
+                self.checkpoint_position(self.cursor, timestamp_ms);
+                if let Some(position) = self.positions.get_mut(self.cursor).and_then(Option::as_mut)
+                {
+                    position.latency_ms = position.latency_ms.saturating_add(active);
+                    position.speed_sample_valid = false;
+                }
+            }
+            self.last_event_ms = self.last_event_ms.map(|_| timestamp_ms);
+        }
+        self.last_input = None;
+        self.paused = true;
+    }
+
+    pub fn resume(&mut self) {
+        self.paused = false;
+        self.last_input = None;
+    }
+
+    pub fn has_activity(&self) -> bool {
+        self.positions.iter().any(Option::is_some)
     }
 
     pub fn is_complete(&self) -> bool {
         self.cursor >= self.target.len()
     }
 
-    /// Check if error flash should still be active (within `error_flash_duration`).
     pub fn is_error_flashing(&self) -> bool {
         self.error_flash
-            .map(|t| t.elapsed() < self.error_flash_duration)
+            .map(|time| time.elapsed() < self.error_flash_duration)
             .unwrap_or(false)
     }
 
-    /// Words per minute: (correct_chars / 5) / (elapsed_secs / 60).
     pub fn current_wpm(&self) -> f64 {
-        let elapsed_secs = self.elapsed_secs();
-        if elapsed_secs < 0.1 {
-            return 0.0;
-        }
-        let correct_chars = self.cursor as f64;
-        (correct_chars / 5.0) / (elapsed_secs / 60.0)
+        self.current_cpm() / 5.0
     }
 
-    /// Characters per minute: correct_chars / (elapsed_secs / 60).
     pub fn current_cpm(&self) -> f64 {
-        let elapsed_secs = self.elapsed_secs();
-        if elapsed_secs < 0.1 {
-            return 0.0;
+        let seconds = self.elapsed_secs();
+        if seconds < 0.1 {
+            0.0
+        } else {
+            self.completed_chars() as f64 * 60.0 / seconds
         }
-        let correct_chars = self.cursor as f64;
-        correct_chars / (elapsed_secs / 60.0)
     }
 
-    /// Accuracy: proportion of characters typed correctly on the first attempt.
     pub fn current_accuracy(&self) -> f64 {
-        if self.keystrokes.is_empty() {
-            return 1.0;
+        let attempted = self.positions.iter().flatten().count();
+        let errors = self
+            .positions
+            .iter()
+            .flatten()
+            .filter(|position| position.error)
+            .count();
+        if attempted == 0 {
+            1.0
+        } else {
+            1.0 - errors as f64 / attempted as f64
         }
-        let first_try_correct = self.keystrokes.iter().filter(|k| k.correct).count() as f64;
-        let total = self.keystrokes.len() as f64;
-        first_try_correct / total
+    }
+
+    fn completed_chars(&self) -> usize {
+        self.positions
+            .iter()
+            .flatten()
+            .filter(|position| position.completed)
+            .count()
+    }
+
+    fn tail_ms(&self, now: Instant) -> u64 {
+        if self.is_complete() || self.paused {
+            return 0;
+        }
+        self.last_input
+            .map(|(last, _)| {
+                now.saturating_duration_since(last)
+                    .as_millis()
+                    .min(IDLE_LIMIT_MS as u128) as u64
+            })
+            .unwrap_or(0)
     }
 
     pub fn elapsed_secs(&self) -> f64 {
-        match (self.start_time, self.completed_at) {
-            (Some(start_time), Some(completed_at)) => {
-                completed_at.duration_since(start_time).as_secs_f64()
-            }
-            (Some(start_time), None) => start_time.elapsed().as_secs_f64(),
-            (None, _) => 0.0,
-        }
+        (self
+            .active_spans
+            .iter()
+            .map(|span| span.duration_ms)
+            .sum::<u64>()
+            + self.tail_ms(Instant::now())) as f64
+            / 1000.0
     }
 
-    /// Finalize the session into a `SessionRecord`.
     pub fn finish(
         &self,
         command_id: &str,
         difficulty: Difficulty,
         mode: RecordMode,
     ) -> SessionRecord {
-        let now_ms = Utc::now().timestamp_millis();
-        let elapsed_secs = self.elapsed_secs();
-        let correct_chars = self.cursor as f64;
-        let elapsed_mins = elapsed_secs / 60.0;
+        self.finish_at(
+            command_id,
+            difficulty,
+            mode,
+            Instant::now(),
+            Utc::now().timestamp_millis(),
+        )
+    }
 
-        let wpm = if elapsed_mins > 0.0 {
-            (correct_chars / 5.0) / elapsed_mins
+    pub fn finish_at(
+        &self,
+        command_id: &str,
+        difficulty: Difficulty,
+        mode: RecordMode,
+        now: Instant,
+        timestamp_ms: i64,
+    ) -> SessionRecord {
+        let mut spans = self.active_spans.clone();
+        if let Some((_, last_ms)) = self.last_input {
+            add_active_span(&mut spans, last_ms, self.tail_ms(now));
+        }
+        let duration_ms = spans.iter().map(|span| span.duration_ms).sum::<u64>();
+        let cpm = if duration_ms > 0 {
+            self.completed_chars() as f64 * 60_000.0 / duration_ms as f64
         } else {
             0.0
         };
-        let cpm = if elapsed_mins > 0.0 {
-            correct_chars / elapsed_mins
-        } else {
-            0.0
-        };
-
-        let error_count = self
-            .keystrokes
-            .iter()
-            .map(|k| k.attempts.saturating_sub(1) as u32)
-            .sum::<u32>();
-
         SessionRecord {
-            id: format!("{}", now_ms),
+            id: self.session_id.clone(),
             command_id: command_id.to_string(),
             mode,
             keystrokes: self.keystrokes.clone(),
-            started_at: self
-                .start_time
-                .map(|_| now_ms - (elapsed_secs * 1000.0) as i64)
-                .unwrap_or(now_ms),
-            finished_at: now_ms,
-            wpm,
+            started_at: self.started_at_ms.unwrap_or(timestamp_ms),
+            finished_at: if self.is_complete() || self.paused {
+                self.last_event_ms.unwrap_or(timestamp_ms)
+            } else {
+                timestamp_ms
+            },
+            wpm: cpm / 5.0,
             cpm,
             accuracy: self.current_accuracy(),
-            error_count,
+            error_count: self
+                .positions
+                .iter()
+                .flatten()
+                .filter(|position| position.error)
+                .count() as u32,
             difficulty,
+            typing: Some(TypingMetrics {
+                version: 2,
+                completed: self.is_complete(),
+                completed_date: self.completed_date.clone(),
+                active_duration_ms: duration_ms,
+                positions: self.positions.iter().flatten().cloned().collect(),
+                active_spans: spans,
+                position_day_snapshots: self.position_day_snapshots.clone(),
+            }),
         }
     }
 
-    /// Reset the engine for a new target string.
     pub fn reset(&mut self, target_str: &str) {
-        self.target = target_str.chars().collect();
-        self.cursor = 0;
-        self.keystrokes.clear();
-        self.current_attempts = 0;
-        self.error_flash = None;
-        self.start_time = None;
-        self.completed_at = None;
-        self.last_correct_time = None;
+        *self = Self::new(target_str);
+    }
+}
+
+fn local_date(timestamp_ms: i64) -> String {
+    Local
+        .timestamp_millis_opt(timestamp_ms)
+        .single()
+        .map(|date| date.format("%Y-%m-%d").to_string())
+        .unwrap_or_default()
+}
+
+/// Split the capped active interval at local midnight, preserving its original
+/// local date even if the user later moves to a different timezone.
+fn add_active_span(spans: &mut Vec<ActiveSpan>, start_ms: i64, duration_ms: u64) {
+    if duration_ms == 0 {
+        return;
+    }
+    let end_ms = start_ms.saturating_add(duration_ms.min(i64::MAX as u64) as i64);
+    let Some(start) = Local.timestamp_millis_opt(start_ms).single() else {
+        return;
+    };
+    let next_midnight = start
+        .date_naive()
+        .succ_opt()
+        .and_then(|date| date.and_hms_opt(0, 0, 0))
+        .and_then(|date| date.and_local_timezone(Local).earliest())
+        .map(|date| date.timestamp_millis());
+    let split_ms = next_midnight
+        .filter(|midnight| *midnight > start_ms && *midnight < end_ms)
+        .unwrap_or(end_ms);
+    push_span(spans, local_date(start_ms), (split_ms - start_ms) as u64);
+    if split_ms < end_ms {
+        push_span(spans, local_date(split_ms), (end_ms - split_ms) as u64);
+    }
+}
+
+fn push_span(spans: &mut Vec<ActiveSpan>, date: String, duration_ms: u64) {
+    if let Some(previous) = spans.last_mut().filter(|span| span.date == date) {
+        previous.duration_ms += duration_ms;
+    } else {
+        spans.push(ActiveSpan { date, duration_ms });
     }
 }
 

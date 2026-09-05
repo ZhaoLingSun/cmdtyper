@@ -1,0 +1,383 @@
+[meta]
+category = "network"
+difficulty = "beginner"
+description = "基础用法的短练习：目标已在隔离实验环境中准备，按提示完成单一任务。"
+
+[[commands]]
+id = "v04-ex-25f5da636f"
+command = "curl https://example.com/"
+summary = "发起简单 HTTPS GET 请求并输出正文"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "发起简单 HTTPS GET 请求并输出正文"
+answers = ["curl https://example.com/"]
+
+[[commands]]
+id = "v04-ex-aab4a7dcc7"
+command = "curl --max-time 5 http://127.0.0.1:8000/health"
+summary = "给本机实验健康检查设置总时限"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " --max-time"
+desc = "限定整个请求总秒数"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " http://127.0.0.1:8000/health"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "给本机实验健康检查设置总时限"
+answers = ["curl --max-time 5 http://127.0.0.1:8000/health"]
+
+[[commands]]
+id = "v04-ex-c808819735"
+command = "ip -br address show dev ens33"
+summary = "以简表查看实验网卡地址"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -br"
+desc = "使用紧凑单行格式"
+
+[[commands.tokens]]
+text = " address"
+desc = "以简表查看实验网卡地址；指定 address"
+
+[[commands.tokens]]
+text = " show"
+desc = "以简表查看实验网卡地址；指定 show"
+
+[[commands.tokens]]
+text = " dev"
+desc = "以简表查看实验网卡地址；指定 dev"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "以简表查看实验网卡地址；指定 ens33"
+
+[commands.dictation]
+prompt = "以简表查看实验网卡地址"
+answers = ["ip -br address show dev ens33"]
+
+[[commands]]
+id = "v04-ex-d1751015b6"
+command = "ip -4 address show dev ens33"
+summary = "仅检查实验网卡 IPv4 地址"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -4"
+desc = "限制为 IPv4"
+
+[[commands.tokens]]
+text = " address"
+desc = "仅检查实验网卡 IPv4 地址；指定 address"
+
+[[commands.tokens]]
+text = " show"
+desc = "仅检查实验网卡 IPv4 地址；指定 show"
+
+[[commands.tokens]]
+text = " dev"
+desc = "仅检查实验网卡 IPv4 地址；指定 dev"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "仅检查实验网卡 IPv4 地址；指定 ens33"
+
+[commands.dictation]
+prompt = "仅检查实验网卡 IPv4 地址"
+answers = ["ip -4 address show dev ens33"]
+
+[[commands]]
+id = "v04-ex-2e784349f2"
+command = "ping -c 2 192.0.2.1"
+summary = "向实验网关发两次 ICMP 回显请求"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 2"
+desc = "本次练习的数值参数 2；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 192.0.2.1"
+desc = "向实验网关发两次 ICMP 回显请求；指定 192.0.2.1"
+
+[commands.dictation]
+prompt = "向实验网关发两次 ICMP 回显请求"
+answers = ["ping -c 2 192.0.2.1"]
+
+[[commands]]
+id = "v04-ex-a5dd9f457c"
+command = "ping -c 5 -W 1 192.0.2.1"
+summary = "采样五次并限制每次等待，比较丢包情况"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -W"
+desc = "设置单次应答等待秒数"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次练习的数值参数 1；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 192.0.2.1"
+desc = "采样五次并限制每次等待，比较丢包情况；指定 192.0.2.1"
+
+[commands.dictation]
+prompt = "采样五次并限制每次等待，比较丢包情况"
+answers = ["ping -c 5 -W 1 192.0.2.1"]
+
+[[commands]]
+id = "v04-ex-8158015db6"
+command = "ping -n -c 3 198.51.100.20"
+summary = "直接测试实验 IP 并禁用名称解析，隔离 DNS 干扰"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -n"
+desc = "不执行地址名称解析"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "直接测试实验 IP 并禁用名称解析，隔离 DNS 干扰；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "直接测试实验 IP 并禁用名称解析，隔离 DNS 干扰"
+answers = ["ping -n -c 3 198.51.100.20"]
+
+[[commands]]
+id = "v04-ex-e070ab6592"
+command = "ssh ops@192.0.2.20"
+summary = "以 ops 账号连接实验服务器"
+
+[[commands.tokens]]
+text = "ssh"
+desc = "以 SSH 协议连接实验目标或读取客户端配置"
+
+[[commands.tokens]]
+text = " ops@192.0.2.20"
+desc = "以 ops 账号连接实验服务器；指定 ops@192.0.2.20"
+
+[commands.dictation]
+prompt = "以 ops 账号连接实验服务器"
+answers = ["ssh ops@192.0.2.20"]
+
+[[commands]]
+id = "v04-ex-648cbe12c0"
+command = "ssh -o ConnectTimeout=5 ops@192.0.2.20"
+summary = "限制实验 SSH 连接等待为五秒"
+
+[[commands.tokens]]
+text = "ssh"
+desc = "以 SSH 协议连接实验目标或读取客户端配置"
+
+[[commands.tokens]]
+text = " -o"
+desc = "设置单项 SSH 客户端配置"
+
+[[commands.tokens]]
+text = " ConnectTimeout=5"
+desc = "限制实验 SSH 连接等待为五秒；指定 ConnectTimeout=5"
+
+[[commands.tokens]]
+text = " ops@192.0.2.20"
+desc = "限制实验 SSH 连接等待为五秒；指定 ops@192.0.2.20"
+
+[commands.dictation]
+prompt = "限制实验 SSH 连接等待为五秒"
+answers = ["ssh -o ConnectTimeout=5 ops@192.0.2.20"]
+
+[[commands]]
+id = "v04-ex-c5063a7cce"
+command = "wget -O example.html https://example.com/"
+summary = "下载示例网页并指定本地输出文件名"
+
+[[commands.tokens]]
+text = "wget"
+desc = "下载示例网页并指定本地输出文件名"
+
+[[commands.tokens]]
+text = " -O"
+desc = "下载示例网页并指定本地输出文件名；此处使用 -O 选项"
+
+[[commands.tokens]]
+text = " example.html"
+desc = "下载示例网页并指定本地输出文件名；指定 example.html"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "下载示例网页并指定本地输出文件名"
+answers = ["wget -O example.html https://example.com/"]
+
+[[commands]]
+id = "v04-ex-56846eec3d"
+command = "wget --spider https://example.com/"
+summary = "检查示例资源可访问性，不保存正文文件"
+
+[[commands.tokens]]
+text = "wget"
+desc = "检查示例资源可访问性，不保存正文文件"
+
+[[commands.tokens]]
+text = " --spider"
+desc = "检查示例资源可访问性，不保存正文文件；此处使用 --spider 选项"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "检查示例资源可访问性，不保存正文文件"
+answers = ["wget --spider https://example.com/"]
+
+[[commands]]
+id = "v04-ex-9a2ed411fb"
+command = "wget --timeout=5 --tries=1 https://example.com/"
+summary = "限制下载等待与重试次数，避免持续等待"
+
+[[commands.tokens]]
+text = "wget"
+desc = "限制下载等待与重试次数，避免持续等待"
+
+[[commands.tokens]]
+text = " --timeout=5"
+desc = "限制下载等待与重试次数，避免持续等待；此处使用 --timeout=5 选项"
+
+[[commands.tokens]]
+text = " --tries=1"
+desc = "限制下载等待与重试次数，避免持续等待；此处使用 --tries=1 选项"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "限制下载等待与重试次数，避免持续等待"
+answers = ["wget --timeout=5 --tries=1 https://example.com/"]
+
+[[commands]]
+id = "v04-ex-b1d80bbe90"
+command = "scp ~/ops-lab/report.txt ops@192.0.2.20:/tmp/report.txt"
+summary = "上传实验报告到明确远端路径"
+
+[[commands.tokens]]
+text = "scp"
+desc = "通过 SSH 文件传输复制实验文件"
+
+[[commands.tokens]]
+text = " ~/ops-lab/report.txt"
+desc = "本次操作指定的路径：~/ops-lab/report.txt"
+
+[[commands.tokens]]
+text = " ops@192.0.2.20:/tmp/report.txt"
+desc = "上传实验报告到明确远端路径；指定 ops@192.0.2.20:/tmp/report.txt"
+
+[commands.dictation]
+prompt = "上传实验报告到明确远端路径"
+answers = ["scp ~/ops-lab/report.txt ops@192.0.2.20:/tmp/report.txt"]
+
+[[commands]]
+id = "v04-ex-fda7034a28"
+command = "scp ops@192.0.2.20:/tmp/report.txt ~/ops-lab/input/"
+summary = "把远端实验报告下载到本地输入目录"
+
+[[commands.tokens]]
+text = "scp"
+desc = "通过 SSH 文件传输复制实验文件"
+
+[[commands.tokens]]
+text = " ops@192.0.2.20:/tmp/report.txt"
+desc = "把远端实验报告下载到本地输入目录；指定 ops@192.0.2.20:/tmp/report.txt"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input/"
+desc = "本次操作指定的路径：~/ops-lab/input/"
+
+[commands.dictation]
+prompt = "把远端实验报告下载到本地输入目录"
+answers = ["scp ops@192.0.2.20:/tmp/report.txt ~/ops-lab/input/"]
+
+[[commands]]
+id = "v04-ex-44abef423a"
+command = "scp -P 2222 ~/ops-lab/settings.ini ops@192.0.2.20:/tmp/settings.ini"
+summary = "使用大写 -P 指定实验 SSH 端口"
+
+[[commands.tokens]]
+text = "scp"
+desc = "通过 SSH 文件传输复制实验文件"
+
+[[commands.tokens]]
+text = " -P"
+desc = "使用大写 -P 指定实验 SSH 端口；此处使用 -P 选项"
+
+[[commands.tokens]]
+text = " 2222"
+desc = "本次练习的数值参数 2222；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "本次操作指定的路径：~/ops-lab/settings.ini"
+
+[[commands.tokens]]
+text = " ops@192.0.2.20:/tmp/settings.ini"
+desc = "使用大写 -P 指定实验 SSH 端口；指定 ops@192.0.2.20:/tmp/settings.ini"
+
+[commands.dictation]
+prompt = "使用大写 -P 指定实验 SSH 端口"
+answers = ["scp -P 2222 ~/ops-lab/settings.ini ops@192.0.2.20:/tmp/settings.ini"]

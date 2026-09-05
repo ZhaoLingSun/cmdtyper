@@ -1,0 +1,438 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "每次采集设置报文数上限；pcap 可能含业务数据，示例仅使用实验流量。"
+
+[meta.topic]
+id = "v04_tcpdump"
+title = "tcpdump 抓包、过滤与离线读取"
+icon = "🌐"
+order = 124
+
+[[commands]]
+id = "v04-tcpdump-605cfb96cb"
+command = "sudo tcpdump -D"
+summary = "列出可抓包接口，先确认接口编号与名称"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -D"
+desc = "列出可捕获接口"
+
+[commands.dictation]
+prompt = "列出可抓包接口，先确认接口编号与名称"
+answers = ["sudo tcpdump -D"]
+
+[[commands]]
+id = "v04-tcpdump-ce1f156d97"
+command = "sudo tcpdump -ni any -c 10"
+summary = "在所有接口捕获十个报文，不执行地址和端口名称解析"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " any"
+desc = "在所有接口捕获十个报文，不执行地址和端口名称解析；指定 any"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 10"
+desc = "本次练习的数值参数 10；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "在所有接口捕获十个报文，不执行地址和端口名称解析"
+answers = ["sudo tcpdump -ni any -c 10"]
+
+[[commands]]
+id = "v04-tcpdump-407665ed65"
+command = "sudo tcpdump -ni ens33 -c 20 host 192.0.2.20"
+summary = "只观察实验目标的双向流量"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "只观察实验目标的双向流量；指定 ens33"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " host"
+desc = "只观察实验目标的双向流量；指定 host"
+
+[[commands.tokens]]
+text = " 192.0.2.20"
+desc = "只观察实验目标的双向流量；指定 192.0.2.20"
+
+[commands.dictation]
+prompt = "只观察实验目标的双向流量"
+answers = ["sudo tcpdump -ni ens33 -c 20 host 192.0.2.20"]
+
+[[commands]]
+id = "v04-tcpdump-71949c570a"
+command = "sudo tcpdump -ni ens33 -c 20 net 192.0.2.0/24"
+summary = "按实验网段过滤，缩小抓包范围"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "按实验网段过滤，缩小抓包范围；指定 ens33"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " net"
+desc = "按实验网段过滤，缩小抓包范围；指定 net"
+
+[[commands.tokens]]
+text = " 192.0.2.0/24"
+desc = "按实验网段过滤，缩小抓包范围；指定 192.0.2.0/24"
+
+[commands.dictation]
+prompt = "按实验网段过滤，缩小抓包范围"
+answers = ["sudo tcpdump -ni ens33 -c 20 net 192.0.2.0/24"]
+
+[[commands]]
+id = "v04-tcpdump-fac401fa26"
+command = "sudo tcpdump -ni ens33 -c 20 'src host 192.0.2.20'"
+summary = "只观察由实验主机发出的流量"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "只观察由实验主机发出的流量；指定 ens33"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 'src host 192.0.2.20'"
+desc = "引号保护此参数中的空格或特殊符号；只观察由实验主机发出的流量"
+
+[commands.dictation]
+prompt = "只观察由实验主机发出的流量"
+answers = ["sudo tcpdump -ni ens33 -c 20 'src host 192.0.2.20'"]
+
+[[commands]]
+id = "v04-tcpdump-66d633c6be"
+command = "sudo tcpdump -ni ens33 -c 20 'dst port 443'"
+summary = "只观察目的端口为 HTTPS 的报文"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "只观察目的端口为 HTTPS 的报文；指定 ens33"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 'dst port 443'"
+desc = "引号保护此参数中的空格或特殊符号；只观察目的端口为 HTTPS 的报文"
+
+[commands.dictation]
+prompt = "只观察目的端口为 HTTPS 的报文"
+answers = ["sudo tcpdump -ni ens33 -c 20 'dst port 443'"]
+
+[[commands]]
+id = "v04-tcpdump-4c3e9e2fc3"
+command = "sudo tcpdump -ni ens33 -c 20 'tcp[tcpflags] & tcp-syn != 0'"
+summary = "捕获带 SYN 标志的 TCP 报文，包括 SYN-ACK"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "捕获带 SYN 标志的 TCP 报文，包括 SYN-ACK；指定 ens33"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 'tcp[tcpflags] & tcp-syn != 0'"
+desc = "引号保护此参数中的空格或特殊符号；捕获带 SYN 标志的 TCP 报文，包括 SYN-ACK"
+
+[commands.dictation]
+prompt = "捕获带 SYN 标志的 TCP 报文，包括 SYN-ACK"
+answers = ["sudo tcpdump -ni ens33 -c 20 'tcp[tcpflags] & tcp-syn != 0'"]
+
+[[commands]]
+id = "v04-tcpdump-5532aa90e9"
+command = "sudo tcpdump -ni ens33 -c 20 'tcp[tcpflags] & tcp-rst != 0'"
+summary = "捕获 TCP 重置报文，核对源地址与时间"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "捕获 TCP 重置报文，核对源地址与时间；指定 ens33"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 'tcp[tcpflags] & tcp-rst != 0'"
+desc = "引号保护此参数中的空格或特殊符号；捕获 TCP 重置报文，核对源地址与时间"
+
+[commands.dictation]
+prompt = "捕获 TCP 重置报文，核对源地址与时间"
+answers = ["sudo tcpdump -ni ens33 -c 20 'tcp[tcpflags] & tcp-rst != 0'"]
+
+[[commands]]
+id = "v04-tcpdump-044979cc8e"
+command = "sudo tcpdump -ni ens33 -s 0 -c 100 -w incident.pcap"
+summary = "采集一百个完整报文到实验 pcap 文件，不在屏幕解码"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "采集一百个完整报文到实验 pcap 文件，不在屏幕解码；指定 ens33"
+
+[[commands.tokens]]
+text = " -s"
+desc = "设置抓取长度，0 表示使用完整捕获长度"
+
+[[commands.tokens]]
+text = " 0"
+desc = "本次练习的数值参数 0；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 100"
+desc = "本次练习的数值参数 100；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -w"
+desc = "将原始报文写入 pcap 文件"
+
+[[commands.tokens]]
+text = " incident.pcap"
+desc = "采集一百个完整报文到实验 pcap 文件，不在屏幕解码；指定 incident.pcap"
+
+[commands.dictation]
+prompt = "采集一百个完整报文到实验 pcap 文件，不在屏幕解码"
+answers = ["sudo tcpdump -ni ens33 -s 0 -c 100 -w incident.pcap"]
+
+[[commands]]
+id = "v04-tcpdump-22f2209426"
+command = "tcpdump -nn -r incident.pcap -c 20"
+summary = "离线读取前二十个报文，不需要重新抓包"
+
+[[commands.tokens]]
+text = "tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -nn"
+desc = "禁用地址及服务端口名称解析"
+
+[[commands.tokens]]
+text = " -r"
+desc = "离线读取指定 pcap 文件"
+
+[[commands.tokens]]
+text = " incident.pcap"
+desc = "离线读取前二十个报文，不需要重新抓包；指定 incident.pcap"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "离线读取前二十个报文，不需要重新抓包"
+answers = ["tcpdump -nn -r incident.pcap -c 20"]
+
+[[commands]]
+id = "v04-tcpdump-2064c41fb4"
+command = "tcpdump -nn -tttt -r incident.pcap 'tcp port 443'"
+summary = "以完整日期时间过滤离线 HTTPS 报文"
+
+[[commands.tokens]]
+text = "tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -nn"
+desc = "禁用地址及服务端口名称解析"
+
+[[commands.tokens]]
+text = " -tttt"
+desc = "打印完整日期和时间"
+
+[[commands.tokens]]
+text = " -r"
+desc = "离线读取指定 pcap 文件"
+
+[[commands.tokens]]
+text = " incident.pcap"
+desc = "以完整日期时间过滤离线 HTTPS 报文；指定 incident.pcap"
+
+[[commands.tokens]]
+text = " 'tcp port 443'"
+desc = "引号保护此参数中的空格或特殊符号；以完整日期时间过滤离线 HTTPS 报文"
+
+[commands.dictation]
+prompt = "以完整日期时间过滤离线 HTTPS 报文"
+answers = ["tcpdump -nn -tttt -r incident.pcap 'tcp port 443'"]
+
+[[commands]]
+id = "v04-tcpdump-cabe962c99"
+command = "tcpdump -nn -r incident.pcap 'port 53'"
+summary = "从同一抓包文件中检查 DNS 请求和响应"
+
+[[commands.tokens]]
+text = "tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -nn"
+desc = "禁用地址及服务端口名称解析"
+
+[[commands.tokens]]
+text = " -r"
+desc = "离线读取指定 pcap 文件"
+
+[[commands.tokens]]
+text = " incident.pcap"
+desc = "从同一抓包文件中检查 DNS 请求和响应；指定 incident.pcap"
+
+[[commands.tokens]]
+text = " 'port 53'"
+desc = "引号保护此参数中的空格或特殊符号；从同一抓包文件中检查 DNS 请求和响应"
+
+[commands.dictation]
+prompt = "从同一抓包文件中检查 DNS 请求和响应"
+answers = ["tcpdump -nn -r incident.pcap 'port 53'"]

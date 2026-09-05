@@ -1,0 +1,51 @@
+
+[meta]
+category = "permission"
+difficulty = "basic"
+description = "针对基础用法具体操作、方向和选项的三题练习；只在模拟实验环境中输入。"
+
+[[commands]]
+id = "v04-ex-qa-e14a112a10"
+command = "stat -c '%U:%G %n' ~/ops-lab/report.txt"
+summary = "读取实验报告的用户与组所有者"
+
+[[commands.tokens]]
+text = "stat"
+desc = "读取实验报告的用户与组所有者"
+
+[[commands.tokens]]
+text = " -c"
+desc = "本次操作参数：-c。读取实验报告的用户与组所有者"
+
+[[commands.tokens]]
+text = " '%U:%G %n'"
+desc = "本次操作参数：'%U:%G %n'。读取实验报告的用户与组所有者"
+
+[[commands.tokens]]
+text = " ~/ops-lab/report.txt"
+desc = "本次操作参数：~/ops-lab/report.txt。读取实验报告的用户与组所有者"
+
+[commands.dictation]
+prompt = "读取实验报告的用户与组所有者"
+answers = ["stat -c '%U:%G %n' ~/ops-lab/report.txt"]
+
+[[commands]]
+id = "v04-ex-qa-d0085a6b24"
+command = "ls -ld ~/ops-lab/backup"
+summary = "查看实验备份目录本身的所有者与组"
+
+[[commands.tokens]]
+text = "ls"
+desc = "查看实验备份目录本身的所有者与组"
+
+[[commands.tokens]]
+text = " -ld"
+desc = "本次操作参数：-ld。查看实验备份目录本身的所有者与组"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backup"
+desc = "本次操作参数：~/ops-lab/backup。查看实验备份目录本身的所有者与组"
+
+[commands.dictation]
+prompt = "查看实验备份目录本身的所有者与组"
+answers = ["ls -ld ~/ops-lab/backup"]

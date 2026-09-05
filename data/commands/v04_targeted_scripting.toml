@@ -1,0 +1,59 @@
+
+[meta]
+category = "scripting"
+difficulty = "basic"
+description = "针对基础用法具体操作、方向和选项的三题练习；只在模拟实验环境中输入。"
+
+[[commands]]
+id = "v04-ex-qa-35d1e7ab96"
+command = "bash --version | head -n 1"
+summary = "只读取 PATH 中 Bash 程序的版本首行"
+
+[[commands.tokens]]
+text = "bash"
+desc = "只读取 PATH 中 Bash 程序的版本首行"
+
+[[commands.tokens]]
+text = " --version"
+desc = "本次操作参数：--version。只读取 PATH 中 Bash 程序的版本首行"
+
+[[commands.tokens]]
+text = " |"
+desc = "本次操作参数：|。只读取 PATH 中 Bash 程序的版本首行"
+
+[[commands.tokens]]
+text = " head"
+desc = "本次操作参数：head。只读取 PATH 中 Bash 程序的版本首行"
+
+[[commands.tokens]]
+text = " -n"
+desc = "本次操作参数：-n。只读取 PATH 中 Bash 程序的版本首行"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次操作参数：1。只读取 PATH 中 Bash 程序的版本首行"
+
+[commands.dictation]
+prompt = "只读取 PATH 中 Bash 程序的版本首行"
+answers = ["bash --version | head -n 1"]
+
+[[commands]]
+id = "v04-ex-qa-71b16d9cf9"
+command = "LC_ALL=C bash --version"
+summary = "在 C 区域下查看 Bash 程序完整版本说明"
+
+[[commands.tokens]]
+text = "LC_ALL=C"
+desc = "在 C 区域下查看 Bash 程序完整版本说明"
+
+[[commands.tokens]]
+text = " bash"
+desc = "本次操作参数：bash。在 C 区域下查看 Bash 程序完整版本说明"
+
+[[commands.tokens]]
+text = " --version"
+desc = "本次操作参数：--version。在 C 区域下查看 Bash 程序完整版本说明"
+
+[commands.dictation]
+prompt = "在 C 区域下查看 Bash 程序完整版本说明"
+answers = ["LC_ALL=C bash --version"]

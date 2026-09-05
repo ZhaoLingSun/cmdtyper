@@ -73,11 +73,7 @@ answers = ["echo 'Hello World' | tr '[:upper:]' '[:lower:]'"]
 id = "paste-merge-columns"
 command = "paste names.txt scores.txt"
 summary = "把两个文件按行并排合并"
-simulated_output = """
-Alice	98
-Bob	87
-Carol	91
-"""
+simulated_output = "Alice\t98\nBob\t87\nCarol\t91\n"
 [[commands.tokens]]
 text = "paste"
 desc = "按行并列合并多个文件的命令"
@@ -95,12 +91,7 @@ answers = ["paste names.txt scores.txt"]
 id = "diff-color"
 command = "diff --color old.conf new.conf"
 summary = "彩色对比两个配置文件的差异"
-simulated_output = """
-3c3
-< worker_processes 2;
----
-> worker_processes auto;
-"""
+simulated_output = "3c3\n< worker_processes 2;\n---\n> worker_processes auto;\n"
 [[commands.tokens]]
 text = "diff"
 desc = "比较文件差异的命令"
@@ -121,10 +112,7 @@ answers = ["diff --color old.conf new.conf"]
 id = "find-mtime-delete"
 command = "find /var/log -type f -name '*.log' -mtime +30 -print"
 summary = "只读列出 /var/log 下超过 30 天的 .log 普通文件，交给日志保留策略审核"
-simulated_output = """
-/var/log/app/archive-2026-05-14.log
-/var/log/nginx/access-2026-06-01.log
-"""
+simulated_output = "/var/log/app/archive-2026-05-14.log\n/var/log/nginx/access-2026-06-01.log\n"
 [[commands.tokens]]
 text = "find"
 desc = "在目录树中递归查找文件和目录"
@@ -160,11 +148,7 @@ answers = ["find /var/log -type f -name '*.log' -mtime +30 -print"]
 id = "jq-array-map"
 command = "jq '.[].name' users.json"
 summary = "从 users.json 数组中提取每个元素的 name 字段"
-simulated_output = """
-"alice"
-"bob"
-"carol"
-"""
+simulated_output = "\"alice\"\n\"bob\"\n\"carol\"\n"
 [[commands.tokens]]
 text = "jq"
 desc = "命令行 JSON 处理工具：解析、过滤和格式化 JSON"
@@ -182,16 +166,7 @@ answers = ["jq '.[].name' users.json"]
 id = "jq-select-filter"
 command = "jq '.[] | select(.age > 18)' users.json"
 summary = "从 users.json 中筛出年龄大于 18 的记录"
-simulated_output = """
-{
-  "name": "alice",
-  "age": 24
-}
-{
-  "name": "carol",
-  "age": 31
-}
-"""
+simulated_output = "{\n  \"name\": \"alice\",\n  \"age\": 24\n}\n{\n  \"name\": \"carol\",\n  \"age\": 31\n}\n"
 [[commands.tokens]]
 text = "jq"
 desc = "命令行 JSON 处理工具：解析、过滤和格式化 JSON"
@@ -209,13 +184,7 @@ answers = ["jq '.[] | select(.age > 18)' users.json"]
 id = "docker-system-prune"
 command = "docker image prune"
 summary = "交互式清理悬空镜像，不扩大到全部未使用镜像、容器和网络"
-simulated_output = """
-WARNING! This will remove all dangling images.
-Are you sure you want to continue? [y/N] y
-Deleted Images:
-deleted: sha256:7ab3c1d9e4f0
-Total reclaimed space: 186.4MB
-"""
+simulated_output = "WARNING! This will remove all dangling images.\nAre you sure you want to continue? [y/N] y\nDeleted Images:\ndeleted: sha256:7ab3c1d9e4f0\nTotal reclaimed space: 186.4MB\n"
 [[commands.tokens]]
 text = "docker"
 desc = "容器管理工具"
@@ -254,12 +223,7 @@ answers = ["docker compose config --quiet"]
 id = "watch-docker-ps"
 command = "watch -n 5 docker ps"
 summary = "每 5 秒刷新一次 Docker 容器列表"
-simulated_output = """
-Every 5.0s: docker ps
-CONTAINER ID   IMAGE        STATUS
-1ab23cd45ef6   app:latest   Up 5 minutes
-7de89fa01bc2   postgres:16  Up 5 minutes (healthy)
-"""
+simulated_output = "Every 5.0s: docker ps\nCONTAINER ID   IMAGE        STATUS\n1ab23cd45ef6   app:latest   Up 5 minutes\n7de89fa01bc2   postgres:16  Up 5 minutes (healthy)\n"
 [[commands.tokens]]
 text = "watch"
 desc = "定期执行命令并刷新显示"
@@ -281,51 +245,21 @@ answers = ["watch -n 5 docker ps"]
 
 [[commands]]
 id = "tar-exclude-vcs"
-command = "archive=$(mktemp ./release-XXXXXX.tar.gz) && tar czf \"$archive\" --exclude=.git --exclude=node_modules project && printf '%s\\n' \"$archive\""
-summary = "用唯一目标打包 project，排除 .git 和 node_modules，并输出实际归档名"
+command = "archive=$(mktemp ./release-XXXXXX.tar.gz)\ntar czf \"$archive\" --exclude=.git --exclude=node_modules project\nprintf '%s\\n' \"$archive\""
+summary = "用唯一目标打包 project，排除 .git 和 node_modules，并输出实际归档名；逐条回车，确认成功再继续"
 simulated_output = "./release-R4k9Wp.tar.gz"
 [[commands.tokens]]
-text = "archive="
-desc = "保存本次唯一 release 归档路径"
+text = "archive=$(mktemp ./release-XXXXXX.tar.gz)\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 [[commands.tokens]]
-text = "$(mktemp ./release-XXXXXX.tar.gz)"
-desc = "原子创建唯一的新目标，重复运行不会覆盖已有 release 归档"
+text = "tar czf \"$archive\" --exclude=.git --exclude=node_modules project\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 [[commands.tokens]]
-text = " &&"
-desc = "只有唯一目标创建成功后才继续"
-[[commands.tokens]]
-text = " tar"
-desc = "归档工具：将多个文件打包或从归档中提取"
-[[commands.tokens]]
-text = " czf"
-desc = "创建 gzip 压缩 tar 归档"
-[[commands.tokens]]
-text = " \"$archive\""
-desc = "引用刚创建的唯一空文件，不会截断已有有效归档"
-[[commands.tokens]]
-text = " --exclude=.git"
-desc = "排除 .git 目录"
-[[commands.tokens]]
-text = " --exclude=node_modules"
-desc = "排除 node_modules 目录"
-[[commands.tokens]]
-text = " project"
-desc = "要打包的源目录"
-[[commands.tokens]]
-text = " &&"
-desc = "只有归档成功后才输出路径"
-[[commands.tokens]]
-text = " printf"
-desc = "输出实际生成的归档名"
-[[commands.tokens]]
-text = " '%s\\n'"
-desc = "按一行一个字符串的格式输出"
-[[commands.tokens]]
-text = " \"$archive\""
-desc = "本次唯一 release 归档路径"
+text = "printf '%s\\n' \"$archive\""
+desc = "用唯一目标打包 project，排除 .git 和 node_modules，并输出实际归档名"
 [commands.dictation]
 prompt = "用 mktemp 生成唯一 release 归档路径，打包 project 但排除 .git 和 node_modules，成功后输出实际文件名，重复运行不得覆盖已有归档"
-answers = ["archive=$(mktemp ./release-XXXXXX.tar.gz) && tar czf \"$archive\" --exclude=.git --exclude=node_modules project && printf '%s\\n' \"$archive\""]
+answers = ["archive=$(mktemp ./release-XXXXXX.tar.gz)\ntar czf \"$archive\" --exclude=.git --exclude=node_modules project\nprintf '%s\\n' \"$archive\""]
 
 [[commands]]
 id = "crontab-edit"
@@ -346,11 +280,7 @@ answers = ["crontab -e"]
 id = "crontab-list"
 command = "crontab -l"
 summary = "列出当前用户的定时任务"
-simulated_output = """
-SHELL=/bin/bash
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-0 3 * * * /usr/local/bin/backup.sh
-"""
+simulated_output = "SHELL=/bin/bash\nPATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\n0 3 * * * /usr/local/bin/backup.sh\n"
 [[commands.tokens]]
 text = "crontab"
 desc = "管理定时任务的命令"

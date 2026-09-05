@@ -3990,4 +3990,3 @@ prompt = "键入: echo -e 'haha\\nhahaha\\nha\\nho' | grep -E '^(ha){2,}$'"
 difficulty = "advanced"
 type = "typing"
 answer = "echo -e 'haha\\nhahaha\\nha\\nho' | grep -E '^(ha){2,}$'"
-

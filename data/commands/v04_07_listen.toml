@@ -1,0 +1,250 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "区分 127.0.0.1、0.0.0.0 和 IPv6 监听，确认端口与服务预期。"
+
+[meta.topic]
+id = "v04_listen"
+title = "TCP 监听地址与端口"
+icon = "🌐"
+order = 107
+
+[[commands]]
+id = "v04-listen-fc6726f8a0"
+command = "ss -ltn"
+summary = "列出 TCP 监听套接字，不解析主机名和服务名"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -ltn"
+desc = "只看监听 TCP，并使用数字地址与端口"
+
+[commands.dictation]
+prompt = "列出 TCP 监听套接字，不解析主机名和服务名"
+answers = ["ss -ltn"]
+
+[[commands]]
+id = "v04-listen-70a93890c7"
+command = "ss -4 -ltn"
+summary = "只看 IPv4 TCP 监听地址"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -4"
+desc = "只看 IPv4 套接字"
+
+[[commands.tokens]]
+text = " -ltn"
+desc = "只看监听 TCP，并使用数字地址与端口"
+
+[commands.dictation]
+prompt = "只看 IPv4 TCP 监听地址"
+answers = ["ss -4 -ltn"]
+
+[[commands]]
+id = "v04-listen-a2ddf0546f"
+command = "ss -6 -ltn"
+summary = "只看 IPv6 TCP 监听地址"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -6"
+desc = "只看 IPv6 套接字"
+
+[[commands.tokens]]
+text = " -ltn"
+desc = "只看监听 TCP，并使用数字地址与端口"
+
+[commands.dictation]
+prompt = "只看 IPv6 TCP 监听地址"
+answers = ["ss -6 -ltn"]
+
+[[commands]]
+id = "v04-listen-9699edf83f"
+command = "ss -ltn 'sport = :22'"
+summary = "用 ss 过滤表达式检查 SSH 端口监听"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -ltn"
+desc = "只看监听 TCP，并使用数字地址与端口"
+
+[[commands.tokens]]
+text = " 'sport = :22'"
+desc = "引号保护此参数中的空格或特殊符号；用 ss 过滤表达式检查 SSH 端口监听"
+
+[commands.dictation]
+prompt = "用 ss 过滤表达式检查 SSH 端口监听"
+answers = ["ss -ltn 'sport = :22'"]
+
+[[commands]]
+id = "v04-listen-812566634b"
+command = "ss -ltn 'sport = :80'"
+summary = "检查 HTTP 端口是否监听及绑定地址"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -ltn"
+desc = "只看监听 TCP，并使用数字地址与端口"
+
+[[commands.tokens]]
+text = " 'sport = :80'"
+desc = "引号保护此参数中的空格或特殊符号；检查 HTTP 端口是否监听及绑定地址"
+
+[commands.dictation]
+prompt = "检查 HTTP 端口是否监听及绑定地址"
+answers = ["ss -ltn 'sport = :80'"]
+
+[[commands]]
+id = "v04-listen-c7b100db7f"
+command = "ss -ltn 'sport = :443'"
+summary = "检查 HTTPS 监听，注意不能据此确定证书可用"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -ltn"
+desc = "只看监听 TCP，并使用数字地址与端口"
+
+[[commands.tokens]]
+text = " 'sport = :443'"
+desc = "引号保护此参数中的空格或特殊符号；检查 HTTPS 监听，注意不能据此确定证书可用"
+
+[commands.dictation]
+prompt = "检查 HTTPS 监听，注意不能据此确定证书可用"
+answers = ["ss -ltn 'sport = :443'"]
+
+[[commands]]
+id = "v04-listen-3854c23c9a"
+command = "ss -ltn 'sport = :5432'"
+summary = "检查 PostgreSQL 监听地址，区分本地与远程访问能力"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -ltn"
+desc = "只看监听 TCP，并使用数字地址与端口"
+
+[[commands.tokens]]
+text = " 'sport = :5432'"
+desc = "引号保护此参数中的空格或特殊符号；检查 PostgreSQL 监听地址，区分本地与远程访问能力"
+
+[commands.dictation]
+prompt = "检查 PostgreSQL 监听地址，区分本地与远程访问能力"
+answers = ["ss -ltn 'sport = :5432'"]
+
+[[commands]]
+id = "v04-listen-301a27b641"
+command = "ss -ltn 'sport = :6379'"
+summary = "检查 Redis 监听，确认是否意外暴露到所有网卡"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -ltn"
+desc = "只看监听 TCP，并使用数字地址与端口"
+
+[[commands.tokens]]
+text = " 'sport = :6379'"
+desc = "引号保护此参数中的空格或特殊符号；检查 Redis 监听，确认是否意外暴露到所有网卡"
+
+[commands.dictation]
+prompt = "检查 Redis 监听，确认是否意外暴露到所有网卡"
+answers = ["ss -ltn 'sport = :6379'"]
+
+[[commands]]
+id = "v04-listen-8a694fc2ee"
+command = "ss -ltn 'sport = :8000'"
+summary = "检查后端开发端口，判断反向代理 upstream 目标是否存在"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -ltn"
+desc = "只看监听 TCP，并使用数字地址与端口"
+
+[[commands.tokens]]
+text = " 'sport = :8000'"
+desc = "引号保护此参数中的空格或特殊符号；检查后端开发端口，判断反向代理 upstream 目标是否存在"
+
+[commands.dictation]
+prompt = "检查后端开发端口，判断反向代理 upstream 目标是否存在"
+answers = ["ss -ltn 'sport = :8000'"]
+
+[[commands]]
+id = "v04-listen-601f894415"
+command = "ss -ltn 'sport = :8080'"
+summary = "检查备用 HTTP 端口，和 Compose 端口映射对照"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -ltn"
+desc = "只看监听 TCP，并使用数字地址与端口"
+
+[[commands.tokens]]
+text = " 'sport = :8080'"
+desc = "引号保护此参数中的空格或特殊符号；检查备用 HTTP 端口，和 Compose 端口映射对照"
+
+[commands.dictation]
+prompt = "检查备用 HTTP 端口，和 Compose 端口映射对照"
+answers = ["ss -ltn 'sport = :8080'"]
+
+[[commands]]
+id = "v04-listen-a2bcc5a451"
+command = "ss -ltne"
+summary = "显示监听套接字扩展信息，包括 inode 等字段"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -ltne"
+desc = "显示监听套接字扩展信息，包括 inode 等字段；此处使用 -ltne 选项"
+
+[commands.dictation]
+prompt = "显示监听套接字扩展信息，包括 inode 等字段"
+answers = ["ss -ltne"]
+
+[[commands]]
+id = "v04-listen-8f01192f1e"
+command = "ss -ltnm"
+summary = "显示监听套接字内存信息，辅助排查积压"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -ltnm"
+desc = "显示监听套接字内存信息，辅助排查积压；此处使用 -ltnm 选项"
+
+[commands.dictation]
+prompt = "显示监听套接字内存信息，辅助排查积压"
+answers = ["ss -ltnm"]

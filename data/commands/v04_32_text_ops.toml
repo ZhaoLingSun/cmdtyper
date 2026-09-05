@@ -1,0 +1,502 @@
+[meta]
+category = "text_process"
+difficulty = "basic"
+description = "每条命令聚焦一个字段或过滤任务，输出证据可以用于后续判断。"
+
+[meta.topic]
+id = "v04_text_ops"
+title = "日志与文本的简单分析"
+icon = "🧰"
+order = 132
+
+[[commands]]
+id = "v04-text_ops-0a8f9421da"
+command = "head -n 20 /var/log/nginx/access.log"
+summary = "检查访问日志前二十行，先确认日志格式"
+
+[[commands.tokens]]
+text = "head"
+desc = "检查访问日志前二十行，先确认日志格式"
+
+[[commands.tokens]]
+text = " -n"
+desc = "检查访问日志前二十行，先确认日志格式；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " /var/log/nginx/access.log"
+desc = "本次操作指定的路径：/var/log/nginx/access.log"
+
+[commands.dictation]
+prompt = "检查访问日志前二十行，先确认日志格式"
+answers = ["head -n 20 /var/log/nginx/access.log"]
+
+[[commands]]
+id = "v04-text_ops-60b0dae74b"
+command = "tail -n 30 /var/log/nginx/access.log"
+summary = "读取最近三十条访问记录"
+
+[[commands.tokens]]
+text = "tail"
+desc = "读取最近三十条访问记录"
+
+[[commands.tokens]]
+text = " -n"
+desc = "读取最近三十条访问记录；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 30"
+desc = "本次练习的数值参数 30；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " /var/log/nginx/access.log"
+desc = "本次操作指定的路径：/var/log/nginx/access.log"
+
+[commands.dictation]
+prompt = "读取最近三十条访问记录"
+answers = ["tail -n 30 /var/log/nginx/access.log"]
+
+[[commands]]
+id = "v04-text_ops-80929ffb6c"
+command = "grep -n 'ERROR' backend.log"
+summary = "定位后端 ERROR 记录和行号"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " -n"
+desc = "显示匹配行号"
+
+[[commands.tokens]]
+text = " 'ERROR'"
+desc = "引号保护此参数中的空格或特殊符号；定位后端 ERROR 记录和行号"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "定位后端 ERROR 记录和行号；指定 backend.log"
+
+[commands.dictation]
+prompt = "定位后端 ERROR 记录和行号"
+answers = ["grep -n 'ERROR' backend.log"]
+
+[[commands]]
+id = "v04-text_ops-d9a77dc9bd"
+command = "grep -n -C 2 'Traceback' backend.log"
+summary = "连同上下各两行查看 Python 回溯起点"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " -n"
+desc = "显示匹配行号"
+
+[[commands.tokens]]
+text = " -C"
+desc = "额外输出上下文行数"
+
+[[commands.tokens]]
+text = " 2"
+desc = "本次练习的数值参数 2；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 'Traceback'"
+desc = "引号保护此参数中的空格或特殊符号；连同上下各两行查看 Python 回溯起点"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "连同上下各两行查看 Python 回溯起点；指定 backend.log"
+
+[commands.dictation]
+prompt = "连同上下各两行查看 Python 回溯起点"
+answers = ["grep -n -C 2 'Traceback' backend.log"]
+
+[[commands]]
+id = "v04-text_ops-e7a3e28151"
+command = "grep -c ' 500 ' access.log"
+summary = "统计默认访问日志中包含 500 状态片段的行数，需先核对格式"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " -c"
+desc = "只输出匹配行数"
+
+[[commands.tokens]]
+text = " ' 500 '"
+desc = "引号保护此参数中的空格或特殊符号；统计默认访问日志中包含 500 状态片段的行数，需先核对格式"
+
+[[commands.tokens]]
+text = " access.log"
+desc = "统计默认访问日志中包含 500 状态片段的行数，需先核对格式；指定 access.log"
+
+[commands.dictation]
+prompt = "统计默认访问日志中包含 500 状态片段的行数，需先核对格式"
+answers = ["grep -c ' 500 ' access.log"]
+
+[[commands]]
+id = "v04-text_ops-7d1e3e2d9f"
+command = "grep -E ' 50[234] ' access.log"
+summary = "筛选示例访问日志中的 502、503、504 状态片段"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " -E"
+desc = "使用扩展正则表达式"
+
+[[commands.tokens]]
+text = " ' 50[234] '"
+desc = "引号保护此参数中的空格或特殊符号；筛选示例访问日志中的 502、503、504 状态片段"
+
+[[commands.tokens]]
+text = " access.log"
+desc = "筛选示例访问日志中的 502、503、504 状态片段；指定 access.log"
+
+[commands.dictation]
+prompt = "筛选示例访问日志中的 502、503、504 状态片段"
+answers = ["grep -E ' 50[234] ' access.log"]
+
+[[commands]]
+id = "v04-text_ops-c66040b031"
+command = "grep -F 'request_id=abc123' backend.log"
+summary = "按字面字符串跟踪同一请求 ID，避免正则字符误解"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " -F"
+desc = "按字面固定字符串匹配"
+
+[[commands.tokens]]
+text = " 'request_id=abc123'"
+desc = "引号保护此参数中的空格或特殊符号；按字面字符串跟踪同一请求 ID，避免正则字符误解"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "按字面字符串跟踪同一请求 ID，避免正则字符误解；指定 backend.log"
+
+[commands.dictation]
+prompt = "按字面字符串跟踪同一请求 ID，避免正则字符误解"
+answers = ["grep -F 'request_id=abc123' backend.log"]
+
+[[commands]]
+id = "v04-text_ops-cc7bccacee"
+command = "grep -v '^#' settings.ini"
+summary = "排除以井号开头的配置注释，空行仍保留"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " -v"
+desc = "选择不匹配的行"
+
+[[commands.tokens]]
+text = " '^#'"
+desc = "引号保护此参数中的空格或特殊符号；排除以井号开头的配置注释，空行仍保留"
+
+[[commands.tokens]]
+text = " settings.ini"
+desc = "排除以井号开头的配置注释，空行仍保留；指定 settings.ini"
+
+[commands.dictation]
+prompt = "排除以井号开头的配置注释，空行仍保留"
+answers = ["grep -v '^#' settings.ini"]
+
+[[commands]]
+id = "v04-text_ops-d4b5836fb7"
+command = "grep -n -i 'timeout' backend.log"
+summary = "忽略大小写定位超时相关记录"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " -n"
+desc = "显示匹配行号"
+
+[[commands.tokens]]
+text = " -i"
+desc = "忽略大小写"
+
+[[commands.tokens]]
+text = " 'timeout'"
+desc = "引号保护此参数中的空格或特殊符号；忽略大小写定位超时相关记录"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "忽略大小写定位超时相关记录；指定 backend.log"
+
+[commands.dictation]
+prompt = "忽略大小写定位超时相关记录"
+answers = ["grep -n -i 'timeout' backend.log"]
+
+[[commands]]
+id = "v04-text_ops-c544184ae1"
+command = "awk '{print $1}' /var/log/nginx/access.log"
+summary = "在默认 combined 日志格式中提取来源地址列"
+
+[[commands.tokens]]
+text = "awk"
+desc = "按记录和字段处理文本"
+
+[[commands.tokens]]
+text = " '{print $1}'"
+desc = "引号保护此参数中的空格或特殊符号；在默认 combined 日志格式中提取来源地址列"
+
+[[commands.tokens]]
+text = " /var/log/nginx/access.log"
+desc = "本次操作指定的路径：/var/log/nginx/access.log"
+
+[commands.dictation]
+prompt = "在默认 combined 日志格式中提取来源地址列"
+answers = ["awk '{print $1}' /var/log/nginx/access.log"]
+
+[[commands]]
+id = "v04-text_ops-71fcdb3743"
+command = "awk '{print $9}' /var/log/nginx/access.log"
+summary = "在默认 combined 日志格式中提取 HTTP 状态码列"
+
+[[commands.tokens]]
+text = "awk"
+desc = "按记录和字段处理文本"
+
+[[commands.tokens]]
+text = " '{print $9}'"
+desc = "引号保护此参数中的空格或特殊符号；在默认 combined 日志格式中提取 HTTP 状态码列"
+
+[[commands.tokens]]
+text = " /var/log/nginx/access.log"
+desc = "本次操作指定的路径：/var/log/nginx/access.log"
+
+[commands.dictation]
+prompt = "在默认 combined 日志格式中提取 HTTP 状态码列"
+answers = ["awk '{print $9}' /var/log/nginx/access.log"]
+
+[[commands]]
+id = "v04-text_ops-fa4b11c411"
+command = "awk -F: '{print $1, $3}' /etc/passwd"
+summary = "以冒号分隔读取账号名和 UID"
+
+[[commands.tokens]]
+text = "awk"
+desc = "按记录和字段处理文本"
+
+[[commands.tokens]]
+text = " -F:"
+desc = "以冒号分隔读取账号名和 UID；此处使用 -F: 选项"
+
+[[commands.tokens]]
+text = " '{print $1, $3}'"
+desc = "引号保护此参数中的空格或特殊符号；以冒号分隔读取账号名和 UID"
+
+[[commands.tokens]]
+text = " /etc/passwd"
+desc = "本次操作指定的路径：/etc/passwd"
+
+[commands.dictation]
+prompt = "以冒号分隔读取账号名和 UID"
+answers = ["awk -F: '{print $1, $3}' /etc/passwd"]
+
+[[commands]]
+id = "v04-text_ops-1f26ed544b"
+command = "cut -d, -f1,3 report.csv"
+summary = "抽取无引号逗号嵌套的简单 CSV 第一和第三列"
+
+[[commands.tokens]]
+text = "cut"
+desc = "抽取无引号逗号嵌套的简单 CSV 第一和第三列"
+
+[[commands.tokens]]
+text = " -d,"
+desc = "抽取无引号逗号嵌套的简单 CSV 第一和第三列；此处使用 -d, 选项"
+
+[[commands.tokens]]
+text = " -f1,3"
+desc = "抽取无引号逗号嵌套的简单 CSV 第一和第三列；此处使用 -f1,3 选项"
+
+[[commands.tokens]]
+text = " report.csv"
+desc = "抽取无引号逗号嵌套的简单 CSV 第一和第三列；指定 report.csv"
+
+[commands.dictation]
+prompt = "抽取无引号逗号嵌套的简单 CSV 第一和第三列"
+answers = ["cut -d, -f1,3 report.csv"]
+
+[[commands]]
+id = "v04-text_ops-da58ebd003"
+command = "sort -n latency_ms.txt"
+summary = "按数字排序实验耗时值，避免字典序把 100 排在 20 前"
+
+[[commands.tokens]]
+text = "sort"
+desc = "按数字排序实验耗时值，避免字典序把 100 排在 20 前"
+
+[[commands.tokens]]
+text = " -n"
+desc = "按数字排序实验耗时值，避免字典序把 100 排在 20 前；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " latency_ms.txt"
+desc = "按数字排序实验耗时值，避免字典序把 100 排在 20 前；指定 latency_ms.txt"
+
+[commands.dictation]
+prompt = "按数字排序实验耗时值，避免字典序把 100 排在 20 前"
+answers = ["sort -n latency_ms.txt"]
+
+[[commands]]
+id = "v04-text_ops-e2241b1542"
+command = "sort -u hosts.txt"
+summary = "排序并去重实验主机列表"
+
+[[commands.tokens]]
+text = "sort"
+desc = "排序并去重实验主机列表"
+
+[[commands.tokens]]
+text = " -u"
+desc = "排序并去重实验主机列表；此处使用 -u 选项"
+
+[[commands.tokens]]
+text = " hosts.txt"
+desc = "排序并去重实验主机列表；指定 hosts.txt"
+
+[commands.dictation]
+prompt = "排序并去重实验主机列表"
+answers = ["sort -u hosts.txt"]
+
+[[commands]]
+id = "v04-text_ops-c5537c490e"
+command = "uniq -c sorted-status.txt"
+summary = "统计已排序状态文件的相邻重复次数"
+
+[[commands.tokens]]
+text = "uniq"
+desc = "统计已排序状态文件的相邻重复次数"
+
+[[commands.tokens]]
+text = " -c"
+desc = "统计已排序状态文件的相邻重复次数；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " sorted-status.txt"
+desc = "统计已排序状态文件的相邻重复次数；指定 sorted-status.txt"
+
+[commands.dictation]
+prompt = "统计已排序状态文件的相邻重复次数"
+answers = ["uniq -c sorted-status.txt"]
+
+[[commands]]
+id = "v04-text_ops-11241be1cc"
+command = "wc -l access.log backend.log"
+summary = "分别统计两份实验日志行数及合计"
+
+[[commands.tokens]]
+text = "wc"
+desc = "分别统计两份实验日志行数及合计"
+
+[[commands.tokens]]
+text = " -l"
+desc = "分别统计两份实验日志行数及合计；此处使用 -l 选项"
+
+[[commands.tokens]]
+text = " access.log"
+desc = "分别统计两份实验日志行数及合计；指定 access.log"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "分别统计两份实验日志行数及合计；指定 backend.log"
+
+[commands.dictation]
+prompt = "分别统计两份实验日志行数及合计"
+answers = ["wc -l access.log backend.log"]
+
+[[commands]]
+id = "v04-text_ops-aa9340d308"
+command = "sed -n '10,20p' backend.log"
+summary = "仅打印后端日志第十至二十行，不修改文件"
+
+[[commands.tokens]]
+text = "sed"
+desc = "用编辑表达式转换或筛选输入文本"
+
+[[commands.tokens]]
+text = " -n"
+desc = "仅打印后端日志第十至二十行，不修改文件；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " '10,20p'"
+desc = "引号保护此参数中的空格或特殊符号；仅打印后端日志第十至二十行，不修改文件"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "仅打印后端日志第十至二十行，不修改文件；指定 backend.log"
+
+[commands.dictation]
+prompt = "仅打印后端日志第十至二十行，不修改文件"
+answers = ["sed -n '10,20p' backend.log"]
+
+[[commands]]
+id = "v04-text_ops-7e3490539b"
+command = "sed 's/localhost/127.0.0.1/g' config.example"
+summary = "预览文本替换后的配置，不使用原地修改选项"
+
+[[commands.tokens]]
+text = "sed"
+desc = "用编辑表达式转换或筛选输入文本"
+
+[[commands.tokens]]
+text = " 's/localhost/127.0.0.1/g'"
+desc = "引号保护此参数中的空格或特殊符号；预览文本替换后的配置，不使用原地修改选项"
+
+[[commands.tokens]]
+text = " config.example"
+desc = "预览文本替换后的配置，不使用原地修改选项；指定 config.example"
+
+[commands.dictation]
+prompt = "预览文本替换后的配置，不使用原地修改选项"
+answers = ["sed 's/localhost/127.0.0.1/g' config.example"]
+
+[[commands]]
+id = "v04-text_ops-69ac88c2e8"
+command = "tr -d '\\r' < windows.txt"
+summary = "从标准输入删除 CR 字符，预览 Windows 文本换行转换"
+
+[[commands.tokens]]
+text = "tr"
+desc = "从标准输入删除 CR 字符，预览 Windows 文本换行转换"
+
+[[commands.tokens]]
+text = " -d"
+desc = "从标准输入删除 CR 字符，预览 Windows 文本换行转换；此处使用 -d 选项"
+
+[[commands.tokens]]
+text = " '\\r'"
+desc = "引号保护此参数中的空格或特殊符号；从标准输入删除 CR 字符，预览 Windows 文本换行转换"
+
+[[commands.tokens]]
+text = " <"
+desc = "从指定文件读取标准输入"
+
+[[commands.tokens]]
+text = " windows.txt"
+desc = "从标准输入删除 CR 字符，预览 Windows 文本换行转换；指定 windows.txt"
+
+[commands.dictation]
+prompt = "从标准输入删除 CR 字符，预览 Windows 文本换行转换"
+answers = ["tr -d '\\r' < windows.txt"]

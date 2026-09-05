@@ -83,17 +83,27 @@ fn parse_all_command_files() {
             file_count += 1;
         }
     }
-    assert_eq!(file_count, 35, "unexpected command file inventory");
-    assert_eq!(command_count, 554, "unexpected canonical command inventory");
-    assert_eq!(topics.len(), 16, "unexpected command topic inventory");
-    assert_eq!(
-        topic_command_count, 283,
-        "unexpected topic-mapped command inventory"
+    assert!(
+        file_count >= 35,
+        "original command files must remain present"
     );
+    assert!(
+        command_count >= 954,
+        "at least 400 distinct command additions required"
+    );
+    assert!(
+        topics.len() >= 40,
+        "at least 24 new network topics required"
+    );
+    assert!(topic_command_count >= 283);
 
     topics.sort_by_key(|(order, _)| *order);
     assert_eq!(
-        topics,
+        topics
+            .iter()
+            .filter(|(order, _)| *order <= 16)
+            .cloned()
+            .collect::<Vec<_>>(),
         vec![
             (1, "help_rescue".to_string()),
             (2, "apt_workflow".to_string()),

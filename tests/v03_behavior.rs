@@ -146,13 +146,13 @@ fn typing_mode_cycles_standard_detailed_terminal_standard() {
     app.state = AppState::Typing;
 
     app.typing_mode = TypingDisplayMode::Standard;
-    app.handle_key(key(KeyCode::Char('m')));
+    app.handle_key(key(KeyCode::F(2)));
     assert_eq!(app.typing_mode, TypingDisplayMode::Detailed);
 
-    app.handle_key(key(KeyCode::Char('m')));
+    app.handle_key(key(KeyCode::F(2)));
     assert_eq!(app.typing_mode, TypingDisplayMode::Terminal);
 
-    app.handle_key(key(KeyCode::Char('m')));
+    app.handle_key(key(KeyCode::F(2)));
     assert_eq!(app.typing_mode, TypingDisplayMode::Standard);
 }
 
@@ -1073,17 +1073,17 @@ fn legacy_indices_fallback_and_invalid_resume_locations_are_safe() {
 }
 
 #[test]
-fn learn_hub_selection_stops_at_visible_index_seven() {
+fn learn_hub_selection_stops_at_visible_last_entry() {
     let mut app = fresh_app("learn-hub-index-max");
     app.state = AppState::LearnHub;
-    app.learn_hub_index = 7;
+    app.learn_hub_index = 5;
 
     app.handle_key(key(KeyCode::Down));
     app.handle_key(key(KeyCode::Char('j')));
-    assert_eq!(app.learn_hub_index, 7);
+    assert_eq!(app.learn_hub_index, 5);
 
     app.handle_key(key(KeyCode::Enter));
-    assert_eq!(app.state, AppState::ReviewTopics);
+    assert_eq!(app.state, AppState::Scenarios);
 }
 
 #[test]
@@ -1136,13 +1136,13 @@ fn narrow_learn_hub_and_command_topics_keep_last_selection_visible() {
     let mut app = fresh_app("narrow-learn-command-menus");
 
     app.state = AppState::LearnHub;
-    app.learn_hub_index = 7;
+    app.learn_hub_index = 5;
     let learn_hub_render = render_app(&app, 40, 6);
     let compact_learn_hub: String = learn_hub_render
         .chars()
         .filter(|character| !character.is_whitespace())
         .collect();
-    assert!(compact_learn_hub.contains("专题训练"));
+    assert!(compact_learn_hub.contains("场景实训"));
 
     let categories = app.get_lesson_categories();
     app.state = AppState::CommandTopics;
@@ -1288,7 +1288,7 @@ fn long_system_simulated_output_scrolls_to_wrapped_bottom() {
     app.handle_key(key(KeyCode::Char('x')));
     app.handle_key(key(KeyCode::Enter));
     assert!(app.system_typing_showing_output);
-    app.handle_key(key(KeyCode::Char('j')));
+    app.handle_key(key(KeyCode::Down));
     assert_eq!(system_lesson_scroll(&app), 1);
     app.handle_key(key(KeyCode::PageDown));
     assert_eq!(system_lesson_scroll(&app), 6);
@@ -1304,9 +1304,9 @@ fn long_system_simulated_output_scrolls_to_wrapped_bottom() {
 }
 
 #[test]
-fn all_sixteen_command_training_topics_are_selectable_in_small_terminal() {
+fn all_command_training_topics_are_selectable_in_small_terminal() {
     let mut app = fresh_app("review-all-topics");
-    assert_eq!(app.command_training_topics.len(), 16);
+    assert!(app.command_training_topics.len() >= 40);
     app.state = AppState::ReviewTopics;
 
     for index in 0..app.command_training_topics.len() {

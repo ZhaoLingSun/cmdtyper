@@ -1,3 +1,4 @@
+
 [meta]
 command = "mkdir"
 full_name = "Make Directory"
@@ -7,13 +8,15 @@ importance = "core"
 
 [overview]
 summary = "创建新目录"
-explanation = """mkdir（make directory）用于创建新的目录。最常用的选项是 -p，它可以一次性创建多级目录结构，且目录已存在时不报错。在编写 Shell 脚本时，mkdir -p 几乎是创建目录的标准写法。-m 选项可以在创建目录的同时指定权限模式，省去了后续再运行 chmod 的步骤。mkdir 是文件系统操作中最基础的命令之一，常与 cd、cp 等命令配合使用。"""
+explanation = "mkdir（make directory）用于创建新的目录。最常用的选项是 -p，它可以一次性创建多级目录结构，且目录已存在时不报错。在编写 Shell 脚本时，mkdir -p 几乎是创建目录的标准写法。-m 选项可以在创建目录的同时指定权限模式，省去了后续再运行 chmod 的步骤。mkdir 是文件系统操作中最基础的命令之一，常与 cd、cp 等命令配合使用。"
 
 [syntax]
 basic = "mkdir [选项] 目录名..."
+
 [[syntax.parts]]
 name = "选项"
 desc = "控制创建行为的标志，如 -p 创建父目录"
+
 [[syntax.parts]]
 name = "目录名"
 desc = "要创建的目录路径，支持多个参数，可以包含父路径"
@@ -38,22 +41,24 @@ note = "显示每个被创建的目录路径"
 
 [[examples]]
 level = 1
-command = "mkdir projects"
 summary = "在当前目录创建 projects 目录"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-001"
+command_id = "v04-ref-15afb305aa"
+
 [[examples.token_details]]
 token = "projects"
 explanation = "要创建的目录名称：在当前目录下新建名为 projects 的目录。"
 
 [[examples]]
 level = 1
-command = "mkdir -p ~/code/python/scripts"
 summary = "一次性创建多级目录结构"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-002"
+command_id = "v04-ref-640b523034"
+
 [[examples.token_details]]
 token = "-p"
 explanation = "自动创建路径中所有不存在的父目录，且目标已存在时不报错（适合脚本中使用）。"
@@ -64,14 +69,12 @@ explanation = "要创建的多级目录路径；`-p` 会依次创建 ~/code、~/
 
 [[examples]]
 level = 2
-command = "mkdir -pv /opt/myapp/logs /opt/myapp/config /opt/myapp/data"
 summary = "同时创建三个子目录并显示详情"
-simulated_output = """mkdir: created directory '/opt/myapp'
-mkdir: created directory '/opt/myapp/logs'
-mkdir: created directory '/opt/myapp/config'
-mkdir: created directory '/opt/myapp/data'"""
-
+simulated_output = "mkdir: created directory '/opt/myapp'\nmkdir: created directory '/opt/myapp/logs'\nmkdir: created directory '/opt/myapp/config'\nmkdir: created directory '/opt/myapp/data'"
 output_explanation = "mkdir 成功时一般不输出内容（除 `-v`）。如果目录已创建，可用 `ls -ld 目录名` 检查权限和属主。"
+id = "example-003"
+command_id = "shared-4a48887cb0f94b5c"
+
 [[examples.token_details]]
 token = "-pv"
 explanation = "组合选项：`-p` 自动创建不存在的父目录且已存在不报错，`-v` 显示每个被创建的目录路径。"
@@ -90,11 +93,12 @@ explanation = "目标路径：/opt/myapp/data"
 
 [[examples]]
 level = 2
-command = "mkdir -m 755 /var/www/newsite"
 summary = "创建 Web 目录并设置标准权限"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-004"
+command_id = "shared-669273fd98977e02"
+
 [[examples.token_details]]
 token = "-m"
 explanation = "创建目录时直接设置权限模式，等效于先 mkdir 再 chmod，避免出现短暂的默认权限窗口。"
@@ -109,11 +113,12 @@ explanation = "目标路径：/var/www/newsite"
 
 [[examples]]
 level = 3
-command = "mkdir -p backups/2024-03-09"
 summary = "创建以日期命名的备份目录"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-005"
+command_id = "shared-ad04ba0a5fc3cd90"
+
 [[examples.token_details]]
 token = "-p"
 explanation = "指定端口、PID 或创建父目录（取决于命令）。"
@@ -124,8 +129,8 @@ explanation = "要创建的日期目录路径，如果 backups/ 不存在，`-p`
 
 [[gotchas]]
 title = "-p 是脚本中的标准写法"
-content = """在 Shell 脚本中创建目录时，始终应该使用 mkdir -p，原因有二：1. 如果父目录不存在，-p 会自动创建整个路径链。2. 如果目录已经存在，-p 不会报错（不加 -p 会报 "File exists"）。不加 -p 的 mkdir 在自动化脚本中容易因目录已存在而导致脚本意外终止。"""
+content = "在 Shell 脚本中创建目录时，始终应该使用 mkdir -p，原因有二：1. 如果父目录不存在，-p 会自动创建整个路径链。2. 如果目录已经存在，-p 不会报错（不加 -p 会报 \"File exists\"）。不加 -p 的 mkdir 在自动化脚本中容易因目录已存在而导致脚本意外终止。"
 
 [[gotchas]]
 title = "花括号展开语法一次创建多个目录"
-content = """可以利用 Shell 的花括号展开一次创建多个目录：mkdir -p app/src app/tests app/docs 会创建三个目录。使用 mkdir -p proj/{src,tests,docs} 语法可以更简洁地完成同样的操作。这种技巧在初始化项目目录结构时非常高效。"""
+content = "可以利用 Shell 的花括号展开一次创建多个目录：mkdir -p app/src app/tests app/docs 会创建三个目录。使用 mkdir -p proj/{src,tests,docs} 语法可以更简洁地完成同样的操作。这种技巧在初始化项目目录结构时非常高效。"

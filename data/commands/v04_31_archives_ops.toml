@@ -1,0 +1,390 @@
+[meta]
+category = "archive"
+difficulty = "basic"
+description = "先查看归档清单，再解压到准备好的隔离目录；测试完整性不等同于确认内容可信。"
+
+[meta.topic]
+id = "v04_archives_ops"
+title = "归档检查、解压与完整性"
+icon = "🧰"
+order = 131
+
+[[commands]]
+id = "v04-archives_ops-85f5dd0067"
+command = "tar -tzf release.tar.gz"
+summary = "仅列出 gzip tar 归档内容，不写入文件"
+
+[[commands.tokens]]
+text = "tar"
+desc = "创建、列出或提取 tar 归档"
+
+[[commands.tokens]]
+text = " -tzf"
+desc = "列出 gzip 归档成员"
+
+[[commands.tokens]]
+text = " release.tar.gz"
+desc = "仅列出 gzip tar 归档内容，不写入文件；指定 release.tar.gz"
+
+[commands.dictation]
+prompt = "仅列出 gzip tar 归档内容，不写入文件"
+answers = ["tar -tzf release.tar.gz"]
+
+[[commands]]
+id = "v04-archives_ops-ba15a71475"
+command = "tar -tvzf release.tar.gz"
+summary = "详细查看归档成员权限、属主与大小"
+
+[[commands.tokens]]
+text = "tar"
+desc = "创建、列出或提取 tar 归档"
+
+[[commands.tokens]]
+text = " -tvzf"
+desc = "详细列出 gzip 归档成员"
+
+[[commands.tokens]]
+text = " release.tar.gz"
+desc = "详细查看归档成员权限、属主与大小；指定 release.tar.gz"
+
+[commands.dictation]
+prompt = "详细查看归档成员权限、属主与大小"
+answers = ["tar -tvzf release.tar.gz"]
+
+[[commands]]
+id = "v04-archives_ops-1bbd0b1585"
+command = "tar -xzf release.tar.gz -C ~/ops-lab/output"
+summary = "将实验归档解压到已创建的输出目录"
+
+[[commands.tokens]]
+text = "tar"
+desc = "创建、列出或提取 tar 归档"
+
+[[commands.tokens]]
+text = " -xzf"
+desc = "提取 gzip 归档"
+
+[[commands.tokens]]
+text = " release.tar.gz"
+desc = "将实验归档解压到已创建的输出目录；指定 release.tar.gz"
+
+[[commands.tokens]]
+text = " -C"
+desc = "先切到指定目录再处理成员路径"
+
+[[commands.tokens]]
+text = " ~/ops-lab/output"
+desc = "本次操作指定的路径：~/ops-lab/output"
+
+[commands.dictation]
+prompt = "将实验归档解压到已创建的输出目录"
+answers = ["tar -xzf release.tar.gz -C ~/ops-lab/output"]
+
+[[commands]]
+id = "v04-archives_ops-76e3d3ff24"
+command = "tar -czf config-backup.tar.gz -C /srv/app config"
+summary = "归档实验 config 子目录，避免保留绝对路径"
+
+[[commands.tokens]]
+text = "tar"
+desc = "创建、列出或提取 tar 归档"
+
+[[commands.tokens]]
+text = " -czf"
+desc = "创建 gzip 归档并指定文件名"
+
+[[commands.tokens]]
+text = " config-backup.tar.gz"
+desc = "归档实验 config 子目录，避免保留绝对路径；指定 config-backup.tar.gz"
+
+[[commands.tokens]]
+text = " -C"
+desc = "先切到指定目录再处理成员路径"
+
+[[commands.tokens]]
+text = " /srv/app"
+desc = "本次操作指定的路径：/srv/app"
+
+[[commands.tokens]]
+text = " config"
+desc = "归档实验 config 子目录，避免保留绝对路径；指定 config"
+
+[commands.dictation]
+prompt = "归档实验 config 子目录，避免保留绝对路径"
+answers = ["tar -czf config-backup.tar.gz -C /srv/app config"]
+
+[[commands]]
+id = "v04-archives_ops-a6c5f62d13"
+command = "tar --exclude='./cache' -czf app-backup.tar.gz -C /srv/app ."
+summary = "归档部署目录时排除相对 cache 目录"
+
+[[commands.tokens]]
+text = "tar"
+desc = "创建、列出或提取 tar 归档"
+
+[[commands.tokens]]
+text = " --exclude='./cache'"
+desc = "归档部署目录时排除相对 cache 目录；此处使用 --exclude='./cache' 选项"
+
+[[commands.tokens]]
+text = " -czf"
+desc = "创建 gzip 归档并指定文件名"
+
+[[commands.tokens]]
+text = " app-backup.tar.gz"
+desc = "归档部署目录时排除相对 cache 目录；指定 app-backup.tar.gz"
+
+[[commands.tokens]]
+text = " -C"
+desc = "先切到指定目录再处理成员路径"
+
+[[commands.tokens]]
+text = " /srv/app"
+desc = "本次操作指定的路径：/srv/app"
+
+[[commands.tokens]]
+text = " ."
+desc = "归档部署目录时排除相对 cache 目录；指定 ."
+
+[commands.dictation]
+prompt = "归档部署目录时排除相对 cache 目录"
+answers = ["tar --exclude='./cache' -czf app-backup.tar.gz -C /srv/app ."]
+
+[[commands]]
+id = "v04-archives_ops-bc6df65a3d"
+command = "tar -tf backup.tar"
+summary = "列出未压缩 tar 归档内容"
+
+[[commands.tokens]]
+text = "tar"
+desc = "创建、列出或提取 tar 归档"
+
+[[commands.tokens]]
+text = " -tf"
+desc = "列出 tar 归档成员"
+
+[[commands.tokens]]
+text = " backup.tar"
+desc = "列出未压缩 tar 归档内容；指定 backup.tar"
+
+[commands.dictation]
+prompt = "列出未压缩 tar 归档内容"
+answers = ["tar -tf backup.tar"]
+
+[[commands]]
+id = "v04-archives_ops-1456077182"
+command = "tar -xf backup.tar -C ~/ops-lab/output"
+summary = "将未压缩归档解到隔离实验目录"
+
+[[commands.tokens]]
+text = "tar"
+desc = "创建、列出或提取 tar 归档"
+
+[[commands.tokens]]
+text = " -xf"
+desc = "提取 tar 归档成员"
+
+[[commands.tokens]]
+text = " backup.tar"
+desc = "将未压缩归档解到隔离实验目录；指定 backup.tar"
+
+[[commands.tokens]]
+text = " -C"
+desc = "先切到指定目录再处理成员路径"
+
+[[commands.tokens]]
+text = " ~/ops-lab/output"
+desc = "本次操作指定的路径：~/ops-lab/output"
+
+[commands.dictation]
+prompt = "将未压缩归档解到隔离实验目录"
+answers = ["tar -xf backup.tar -C ~/ops-lab/output"]
+
+[[commands]]
+id = "v04-archives_ops-c521fb0dbd"
+command = "gzip -t access.log.gz"
+summary = "检查 gzip 数据完整性，成功通常无输出"
+
+[[commands.tokens]]
+text = "gzip"
+desc = "检查 gzip 数据完整性，成功通常无输出"
+
+[[commands.tokens]]
+text = " -t"
+desc = "检查 gzip 数据完整性，成功通常无输出；此处使用 -t 选项"
+
+[[commands.tokens]]
+text = " access.log.gz"
+desc = "检查 gzip 数据完整性，成功通常无输出；指定 access.log.gz"
+
+[commands.dictation]
+prompt = "检查 gzip 数据完整性，成功通常无输出"
+answers = ["gzip -t access.log.gz"]
+
+[[commands]]
+id = "v04-archives_ops-1d16e5997c"
+command = "gzip -dc access.log.gz"
+summary = "解压到标准输出，保留原 gzip 文件"
+
+[[commands.tokens]]
+text = "gzip"
+desc = "解压到标准输出，保留原 gzip 文件"
+
+[[commands.tokens]]
+text = " -dc"
+desc = "解压到标准输出，保留原 gzip 文件；此处使用 -dc 选项"
+
+[[commands.tokens]]
+text = " access.log.gz"
+desc = "解压到标准输出，保留原 gzip 文件；指定 access.log.gz"
+
+[commands.dictation]
+prompt = "解压到标准输出，保留原 gzip 文件"
+answers = ["gzip -dc access.log.gz"]
+
+[[commands]]
+id = "v04-archives_ops-d8d9ac0231"
+command = "xz -t backup.tar.xz"
+summary = "校验 xz 压缩流完整性"
+
+[[commands.tokens]]
+text = "xz"
+desc = "校验 xz 压缩流完整性"
+
+[[commands.tokens]]
+text = " -t"
+desc = "校验 xz 压缩流完整性；此处使用 -t 选项"
+
+[[commands.tokens]]
+text = " backup.tar.xz"
+desc = "校验 xz 压缩流完整性；指定 backup.tar.xz"
+
+[commands.dictation]
+prompt = "校验 xz 压缩流完整性"
+answers = ["xz -t backup.tar.xz"]
+
+[[commands]]
+id = "v04-archives_ops-874c36dda9"
+command = "xz -dc backup.tar.xz"
+summary = "将 xz 内容解到标准输出并保留输入"
+
+[[commands.tokens]]
+text = "xz"
+desc = "将 xz 内容解到标准输出并保留输入"
+
+[[commands.tokens]]
+text = " -dc"
+desc = "将 xz 内容解到标准输出并保留输入；此处使用 -dc 选项"
+
+[[commands.tokens]]
+text = " backup.tar.xz"
+desc = "将 xz 内容解到标准输出并保留输入；指定 backup.tar.xz"
+
+[commands.dictation]
+prompt = "将 xz 内容解到标准输出并保留输入"
+answers = ["xz -dc backup.tar.xz"]
+
+[[commands]]
+id = "v04-archives_ops-4bdb2660bb"
+command = "unzip -l site.zip"
+summary = "列出 ZIP 中的路径和大小，先确认目标结构"
+
+[[commands.tokens]]
+text = "unzip"
+desc = "列出 ZIP 中的路径和大小，先确认目标结构"
+
+[[commands.tokens]]
+text = " -l"
+desc = "列出 ZIP 中的路径和大小，先确认目标结构；此处使用 -l 选项"
+
+[[commands.tokens]]
+text = " site.zip"
+desc = "列出 ZIP 中的路径和大小，先确认目标结构；指定 site.zip"
+
+[commands.dictation]
+prompt = "列出 ZIP 中的路径和大小，先确认目标结构"
+answers = ["unzip -l site.zip"]
+
+[[commands]]
+id = "v04-archives_ops-6c4937d6d2"
+command = "unzip -t site.zip"
+summary = "测试 ZIP 成员完整性，不提取到工作目录"
+
+[[commands.tokens]]
+text = "unzip"
+desc = "测试 ZIP 成员完整性，不提取到工作目录"
+
+[[commands.tokens]]
+text = " -t"
+desc = "测试 ZIP 成员完整性，不提取到工作目录；此处使用 -t 选项"
+
+[[commands.tokens]]
+text = " site.zip"
+desc = "测试 ZIP 成员完整性，不提取到工作目录；指定 site.zip"
+
+[commands.dictation]
+prompt = "测试 ZIP 成员完整性，不提取到工作目录"
+answers = ["unzip -t site.zip"]
+
+[[commands]]
+id = "v04-archives_ops-497ba83880"
+command = "unzip site.zip -d ~/ops-lab/output"
+summary = "把实验 ZIP 解到指定隔离目录"
+
+[[commands.tokens]]
+text = "unzip"
+desc = "把实验 ZIP 解到指定隔离目录"
+
+[[commands.tokens]]
+text = " site.zip"
+desc = "把实验 ZIP 解到指定隔离目录；指定 site.zip"
+
+[[commands.tokens]]
+text = " -d"
+desc = "把实验 ZIP 解到指定隔离目录；此处使用 -d 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/output"
+desc = "本次操作指定的路径：~/ops-lab/output"
+
+[commands.dictation]
+prompt = "把实验 ZIP 解到指定隔离目录"
+answers = ["unzip site.zip -d ~/ops-lab/output"]
+
+[[commands]]
+id = "v04-archives_ops-e56a6a69b7"
+command = "sha256sum release.tar.gz"
+summary = "计算发布归档 SHA-256，与可信渠道给出的摘要核对"
+
+[[commands.tokens]]
+text = "sha256sum"
+desc = "计算发布归档 SHA-256，与可信渠道给出的摘要核对"
+
+[[commands.tokens]]
+text = " release.tar.gz"
+desc = "计算发布归档 SHA-256，与可信渠道给出的摘要核对；指定 release.tar.gz"
+
+[commands.dictation]
+prompt = "计算发布归档 SHA-256，与可信渠道给出的摘要核对"
+answers = ["sha256sum release.tar.gz"]
+
+[[commands]]
+id = "v04-archives_ops-349ec878ac"
+command = "sha256sum -c SHA256SUMS"
+summary = "按摘要清单校验文件，清单本身也需要可信来源"
+
+[[commands.tokens]]
+text = "sha256sum"
+desc = "按摘要清单校验文件，清单本身也需要可信来源"
+
+[[commands.tokens]]
+text = " -c"
+desc = "按摘要清单校验文件，清单本身也需要可信来源；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " SHA256SUMS"
+desc = "按摘要清单校验文件，清单本身也需要可信来源；指定 SHA256SUMS"
+
+[commands.dictation]
+prompt = "按摘要清单校验文件，清单本身也需要可信来源"
+answers = ["sha256sum -c SHA256SUMS"]

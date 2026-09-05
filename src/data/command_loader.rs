@@ -41,13 +41,18 @@ pub fn load_command_catalog(data_dir: &Path) -> Result<CommandCatalog> {
 
         let category = file.meta.category;
         let difficulty = file.meta.difficulty;
-        let command_ids = file
+        let mut command_ids: Vec<String> = file
             .commands
             .iter()
             .map(|command| command.id.clone())
             .collect();
 
         if let Some(topic) = file.meta.topic {
+            for id in &topic.command_ids {
+                if !command_ids.contains(id) {
+                    command_ids.push(id.clone());
+                }
+            }
             catalog.topics.push(CommandTrainingTopic {
                 id: topic.id,
                 title: topic.title,
@@ -69,6 +74,14 @@ pub fn load_command_catalog(data_dir: &Path) -> Result<CommandCatalog> {
 
     validate_canonical_commands(&catalog.commands)?;
     validate_topics(&catalog.topics)?;
+    let known: HashSet<_> = catalog.commands.iter().map(|c| c.id.as_str()).collect();
+    for topic in &catalog.topics {
+        for id in &topic.command_ids {
+            if !known.contains(id.as_str()) {
+                bail!("topic {} references unknown command {}", topic.id, id);
+            }
+        }
+    }
     catalog.topics.sort_by_key(|topic| topic.order);
     Ok(catalog)
 }
@@ -412,4 +425,29 @@ answers = ["tar -tf a.tar"]
 
         fs::remove_dir_all(dir).expect("cleanup");
     }
+}
+
+/// Optional terminal dialect prompts, e.g. SQL statements entered inside psql.
+pub fn load_command_prompts(
+    data_dir: &Path,
+    commands: &[Command],
+) -> Result<HashMap<String, String>> {
+    #[derive(serde::Deserialize)]
+    struct Contexts {
+        prompts: HashMap<String, String>,
+    }
+    let path = data_dir.join("command_contexts.toml");
+    if !path.exists() {
+        return Ok(HashMap::new());
+    }
+    let contexts: Contexts = toml::from_str(&fs::read_to_string(path)?)?;
+    for (id, prompt) in &contexts.prompts {
+        if !commands.iter().any(|c| &c.id == id)
+            || prompt.trim().is_empty()
+            || prompt.chars().any(char::is_control)
+        {
+            bail!("invalid command prompt context {id}");
+        }
+    }
+    Ok(contexts.prompts)
 }

@@ -1,3 +1,4 @@
+
 [meta]
 command = "chmod"
 full_name = "change mode"
@@ -7,19 +8,15 @@ importance = "core"
 
 [overview]
 summary = "修改文件或目录的访问权限"
-explanation = """chmod 是 Linux 中管理文件权限的核心命令，名称来源于 "change mode"（更改模式）。\
-Linux 的权限系统基于三类用户：文件所有者（user）、所属组（group）和其他用户（others），\
-每类用户可以拥有读（r=4）、写（w=2）、执行（x=1）三种权限。\
-chmod 支持两种设置方式：数字模式（如 755）和符号模式（如 u+x）。\
-数字模式将 rwx 权限转换为三位八进制数，每位对应一类用户；\
-符号模式则更直观地描述"给谁""做什么""哪个权限"。\
-理解文件权限是 Linux 系统管理的基础，错误的权限设置可能导致程序无法运行或安全漏洞。"""
+explanation = "chmod 是 Linux 中管理文件权限的核心命令，名称来源于 \"change mode\"（更改模式）。Linux 的权限系统基于三类用户：文件所有者（user）、所属组（group）和其他用户（others），每类用户可以拥有读（r=4）、写（w=2）、执行（x=1）三种权限。chmod 支持两种设置方式：数字模式（如 755）和符号模式（如 u+x）。数字模式将 rwx 权限转换为三位八进制数，每位对应一类用户；符号模式则更直观地描述\"给谁\"\"做什么\"\"哪个权限\"。理解文件权限是 Linux 系统管理的基础，错误的权限设置可能导致程序无法运行或安全漏洞。"
 
 [syntax]
 basic = "chmod [选项] 模式 文件..."
+
 [[syntax.parts]]
 name = "模式"
 desc = "权限模式，可以是数字（如 755）或符号（如 u+rwx,go+rx）"
+
 [[syntax.parts]]
 name = "文件"
 desc = "要修改权限的文件或目录，支持通配符"
@@ -62,11 +59,12 @@ note = "移除组用户和其他用户的写权限"
 
 [[examples]]
 level = 1
-command = "chmod 755 deploy.sh"
 summary = "给脚本设置可执行权限（所有者 rwx，其他人 rx）"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-001"
+command_id = "v04-ref-2e30ad2885"
+
 [[examples.token_details]]
 token = "755"
 explanation = "权限 rwxr-xr-x：所有者读写执行，组和其他用户读执行。"
@@ -77,11 +75,12 @@ explanation = "部署脚本文件。"
 
 [[examples]]
 level = 1
-command = "chmod u+x script.sh"
 summary = "用符号模式给文件所有者添加执行权限"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-002"
+command_id = "v04-ref-6a9b036623"
+
 [[examples.token_details]]
 token = "u+x"
 explanation = "给属主（u）添加执行权限（+x），不影响组和其他用户。"
@@ -92,11 +91,12 @@ explanation = "Shell 脚本文件。"
 
 [[examples]]
 level = 2
-command = "chmod 644 index.html"
 summary = "设置网页文件权限：所有者可读写，其他人只读"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-003"
+command_id = "shared-600972cd074aacab"
+
 [[examples.token_details]]
 token = "644"
 explanation = "权限 rw-r--r--：所有者读写，组和其他用户只读。"
@@ -107,11 +107,12 @@ explanation = "目标网页文件，chmod 644 确保 Web 服务器能读取它�
 
 [[examples]]
 level = 2
-command = "chmod -v go-rwx secret.key"
 summary = "移除组和其他用户的所有权限并显示变更"
-simulated_output = """mode of 'secret.key' changed from 0644 (rw-r--r--) to 0600 (rw-------)"""
-
+simulated_output = "mode of 'secret.key' changed from 0644 (rw-r--r--) to 0600 (rw-------)"
 output_explanation = "该结果表示权限修改命令已执行。若使用 `-v` 会显示权限变化详情；建议再用 `ls -l` 复核最终权限位是否符合预期。"
+id = "example-004"
+command_id = "shared-0d1970abf7d270a7"
+
 [[examples.token_details]]
 token = "-v"
 explanation = "显示详细执行过程，便于观察发生了什么。"
@@ -126,11 +127,12 @@ explanation = "敏感密钥文件，chmod -v go-rwx 将组和其他用户的所�
 
 [[examples]]
 level = 3
-command = "chmod -R 755 /var/www/html"
 summary = "递归设置网站目录权限"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-005"
+command_id = "shared-5573a6b44f00a19d"
+
 [[examples.token_details]]
 token = "-R"
 explanation = "递归修改：把权限应用到目录及其所有子文件和子目录。"
@@ -145,11 +147,12 @@ explanation = "网站根目录：这里会递归调整其中所有内容的权�
 
 [[examples]]
 level = 3
-command = "chmod a+r,u+w,go-w report.pdf"
 summary = "组合符号模式：所有人可读，所有者可写，组和其他人不可写"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-006"
+command_id = "shared-f074a13e50398257"
+
 [[examples.token_details]]
 token = "a+r,u+w,go-w"
 explanation = "组合符号模式：所有人可读，属主可写，组和其他用户不可写。多个规则用逗号串联。"
@@ -160,12 +163,13 @@ explanation = "目标 PDF 文件。"
 
 [[examples]]
 level = 4
-command = "find /var/www -type f -exec chmod 644 {} +"
 summary = "只修改目录下所有文件（不含目录）的权限为 644"
 display = "find /var/www -type f \\\n  -exec chmod 644 {} +"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-007"
+command_id = "shared-88625cc0b2100e7a"
+
 [[examples.token_details]]
 token = "find"
 explanation = "先递归找出要处理的文件。"
@@ -204,35 +208,12 @@ explanation = "批量传参：尽量一次传多个文件给 chmod，减少进�
 
 [[gotchas]]
 title = "目录的执行权限（x）含义特殊"
-content = """对于目录来说，执行权限（x）的含义与文件不同：
-  文件的 x：表示可以运行该文件（作为程序或脚本）
-  目录的 x：表示可以进入（cd）该目录和访问其中的文件
-
-如果目录只有 r 权限没有 x 权限，你可以用 ls 看到文件名列表，
-但无法读取文件内容或进入子目录。常见的目录权限：
-  755 — 标准目录权限（所有者完全控制，他人可浏览）
-  700 — 私有目录（只有所有者可以访问）
-  1777 — 粘滞位目录如 /tmp（所有人可写，但只能删除自己的文件）"""
+content = "对于目录来说，执行权限（x）的含义与文件不同：\n  文件的 x：表示可以运行该文件（作为程序或脚本）\n  目录的 x：表示可以进入（cd）该目录和访问其中的文件\n\n如果目录只有 r 权限没有 x 权限，你可以用 ls 看到文件名列表，\n但无法读取文件内容或进入子目录。常见的目录权限：\n  755 — 标准目录权限（所有者完全控制，他人可浏览）\n  700 — 私有目录（只有所有者可以访问）\n  1777 — 粘滞位目录如 /tmp（所有人可写，但只能删除自己的文件）"
 
 [[gotchas]]
 title = "chmod 与 chown 的区别"
-content = """chmod 修改的是文件的访问权限（rwx），而 chown 修改的是文件的所有者和所属组。
-两者通常需要配合使用：
-  chmod 755 script.sh     — 设置权限
-  chown alice:dev script.sh — 更改所有者为 alice，所属组为 dev
-
-注意：只有文件所有者和 root 才能使用 chmod 修改权限，
-而 chown 通常只有 root 才能使用。
-如果你发现脚本无法执行，先用 ls -l 检查权限，
-大多数情况下是缺少 x（执行）权限：chmod +x script.sh"""
+content = "chmod 修改的是文件的访问权限（rwx），而 chown 修改的是文件的所有者和所属组。\n两者通常需要配合使用：\n  chmod 755 script.sh     — 设置权限\n  chown alice:dev script.sh — 更改所有者为 alice，所属组为 dev\n\n注意：只有文件所有者和 root 才能使用 chmod 修改权限，\n而 chown 通常只有 root 才能使用。\n如果你发现脚本无法执行，先用 ls -l 检查权限，\n大多数情况下是缺少 x（执行）权限：chmod +x script.sh"
 
 [[gotchas]]
 title = "递归修改权限时区分文件和目录"
-content = """使用 chmod -R 递归修改权限时，如果对文件和目录使用相同的权限可能会有问题：
-  chmod -R 755 /var/www  — 文件也变成了可执行（755），通常不需要
-  chmod -R 644 /var/www  — 目录失去了 x 权限，无法进入！
-
-正确做法是分别设置：
-  find /var/www -type d -exec chmod 755 {} +  — 目录设 755
-  find /var/www -type f -exec chmod 644 {} +  — 文件设 644
-这样目录可以正常浏览，而普通文件没有不必要的执行权限。"""
+content = "使用 chmod -R 递归修改权限时，如果对文件和目录使用相同的权限可能会有问题：\n  chmod -R 755 /var/www  — 文件也变成了可执行（755），通常不需要\n  chmod -R 644 /var/www  — 目录失去了 x 权限，无法进入！\n\n正确做法是分别设置：\n  find /var/www -type d -exec chmod 755 {} +  — 目录设 755\n  find /var/www -type f -exec chmod 644 {} +  — 文件设 644\n这样目录可以正常浏览，而普通文件没有不必要的执行权限。"

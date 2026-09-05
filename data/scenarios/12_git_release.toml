@@ -1,0 +1,170 @@
+id = "git_release"
+title = "Git 发布与镜像回滚"
+category = "网站运维"
+difficulty = "basic"
+background = "ops-site 已完成 HTTPS 基线。准备发布 v1.1.0，监控发现新 API 返回 500；旧 v1.0.1 镜像与数据库兼容，需快速回滚 API。"
+objective = "检查变更、标记源码与镜像、只更新目标服务，并验证旧版本恢复。"
+environment = "同一 ops-site 项目 /srv/ops-site，ace 已获 Docker 访问权限。Git v1.0.1 与镜像 ops-api:v1.0.1 已作为 HTTPS 稳定基线保留；本例仅模拟本地发布。"
+recap = "发布身份由提交、tag 和镜像共同确定；保留旧产物，按验收指标触发回滚，并同步期望运行版本。包含数据库迁移时必须额外处理兼容性。"
+sources = ["https://docs.docker.com/compose/how-tos/startup-order/", "https://docs.docker.com/compose/how-tos/production/", "https://git-scm.com/docs/git-tag", "https://git-scm.com/docs/git-diff", "https://docs.docker.com/compose/how-tos/networking/", "https://nginx.org/en/docs/http/ngx_http_proxy_module.html"]
+
+[[steps]]
+title = "确认工作区状态"
+output = "[工作区干净]"
+explanation = "避免把未提交代码误当成确定版本进行发布。"
+instruction = "请跟打，确认工作区状态。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_01"
+command_id = "v04-git_ops-605ccf9a59"
+
+[[steps]]
+title = "查看版本差异"
+output = "+app_version = \"v1.1.0\"\n+def summarize_orders(): ..."
+explanation = "本例新增汇总接口，没有数据库结构迁移；若有不兼容迁移，应先设计可回退策略。"
+instruction = "请跟打，查看版本差异。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_02"
+command_id = "shared-6a0d1651c8010547"
+
+[[steps]]
+title = "确认发布提交"
+output = "3c4d5e6 Add order summary endpoint\n2b3c4d5 Enable HTTPS reverse proxy\n1a2b3c4 Add containerized orders site"
+explanation = "v1.0.1 对应含 HTTPS 的 2b3c4d5，当前提交已完成预发布测试。"
+instruction = "请跟打，确认发布提交。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_03"
+command_id = "shared-6e58442eb0c56be6"
+
+[steps.decision]
+question = "发布前最关键的关联是什么？"
+
+[[steps.decision.choices]]
+text = "Git 提交、版本标签与镜像标签一致"
+correct = true
+feedback = "对，明确的版本身份才能恢复到已知代码。"
+
+[[steps.decision.choices]]
+text = "只用 latest 标记每个历史镜像"
+correct = false
+feedback = "反复覆盖 latest 不能明确描述回滚目标。"
+
+[[steps]]
+title = "标记候选发布"
+output = "[模拟：tag v1.1.0 已创建]"
+explanation = "仅本地标记；本练习不推送任何远端仓库。"
+instruction = "请跟打，标记候选发布。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_04"
+command_id = "shared-889e627a1c7883b2"
+
+[[steps]]
+title = "构建版本镜像"
+output = "naming to docker.io/library/ops-api:v1.1.0"
+explanation = "Compose 通过环境变量把镜像命名为明确版本。"
+instruction = "请跟打，构建版本镜像。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_05"
+command_id = "shared-2d8be63dfbc41de9"
+
+[[steps]]
+title = "部署 API 新版本"
+output = "Container ops-api-1 Recreated"
+explanation = "更换 API 容器后其网络地址可能改变。确认新进程已监听后，须校验并重载 Nginx，使静态上游名称重新解析；初次启动的健康依赖不会自动重载既有代理。"
+instruction = "请跟打，部署 API 新版本。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_06"
+command_id = "shared-a5c287cd7fe5f37a"
+
+[[steps]]
+id = "step_06_proxy_check"
+title = "校验代理配置并解析当前 API 地址"
+command_id = "v04-compose_ops-955b2bfe04"
+output = "nginx: the configuration file /etc/nginx/nginx.conf syntax is ok\nnginx: configuration file /etc/nginx/nginx.conf test is successful"
+explanation = "在 API 容器已启动并注册 db/api 服务名称后校验。此处 nginx -t 的成功还没有更新正在运行的 worker，下一步必须重载。"
+instruction = "请跟打，校验代理配置并解析当前 API 地址。"
+prompt = "$ "
+
+[[steps]]
+id = "step_06_proxy_reload"
+title = "重载代理以更新 API 上游地址"
+command_id = "v04-compose_ops-a56a5bacf1"
+output = "[notice] signal process started"
+explanation = "Nginx 配置使用静态 proxy_pass http://api:8000；重载让新 worker 重新解析 api。Docker 重建容器后 IP 可能改变，不能依赖地址碰巧复用；随后从外部 HTTPS 路径验证。"
+instruction = "请跟打，重载代理以更新 API 上游地址。"
+prompt = "$ "
+
+[[steps]]
+title = "从真实路径验收"
+output = "HTTP/1.1 500\n{\"detail\":\"unexpected summary error\"}"
+explanation = "新版本破坏健康接口；继续观察或回滚需遵循预先约定的验收标准，本例立即回滚。"
+instruction = "请跟打，从真实路径验收。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_07"
+command_id = "shared-0f88814aa21d7187"
+
+[steps.decision]
+question = "如何恢复最可控？"
+
+[[steps.decision.choices]]
+text = "重新部署保留的 v1.0.1 API 镜像"
+correct = true
+feedback = "对，无数据库迁移的发布可以直接切回兼容镜像。"
+
+[[steps.decision.choices]]
+text = "删除数据库卷后重新安装全部服务"
+correct = false
+feedback = "数据库没有故障证据，删除卷会扩大影响。"
+
+[[steps]]
+title = "确认旧镜像仍存在"
+output = "sha256:1111222233334444"
+explanation = "回滚依赖保存好的产物，不能假设旧代码随时可重新构建成同一镜像。"
+instruction = "请跟打，确认旧镜像仍存在。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_08"
+command_id = "shared-dcbffec994f57072"
+
+[[steps]]
+title = "回滚 API 服务"
+output = "Container ops-api-1 Recreated"
+explanation = "--no-build 使用已经验证过的旧镜像，避免回滚时重新构建漂移。等待旧版 API 监听，再次校验并重载 Nginx，让代理使用此次重建后的容器地址。"
+instruction = "请跟打，回滚 API 服务。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_09"
+command_id = "shared-bb76a8c0675768c6"
+
+[[steps]]
+id = "step_09_proxy_check"
+title = "校验代理配置并解析当前 API 地址"
+command_id = "v04-compose_ops-955b2bfe04"
+output = "nginx: the configuration file /etc/nginx/nginx.conf syntax is ok\nnginx: configuration file /etc/nginx/nginx.conf test is successful"
+explanation = "在 API 容器已启动并注册 db/api 服务名称后校验。此处 nginx -t 的成功还没有更新正在运行的 worker，下一步必须重载。"
+instruction = "请跟打，校验代理配置并解析当前 API 地址。"
+prompt = "$ "
+
+[[steps]]
+id = "step_09_proxy_reload"
+title = "重载代理以更新 API 上游地址"
+command_id = "v04-compose_ops-a56a5bacf1"
+output = "[notice] signal process started"
+explanation = "Nginx 配置使用静态 proxy_pass http://api:8000；重载让新 worker 重新解析 api。Docker 重建容器后 IP 可能改变，不能依赖地址碰巧复用；随后从外部 HTTPS 路径验证。"
+instruction = "请跟打，重载代理以更新 API 上游地址。"
+prompt = "$ "
+
+[[steps]]
+title = "验证回滚业务"
+output = "{\"status\":\"ok\",\"database\":\"ok\"}"
+explanation = "同时查看错误率和关键业务请求，确认真正恢复。"
+instruction = "请跟打，验证回滚业务。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_10"
+command_id = "shared-a75e45756f08277e"
+
+[[steps]]
+title = "保存期望运行版本"
+output = " [模拟：.env 记录 v1.0.1]"
+explanation = "防止下一次未指定环境变量的 compose up 又启动有问题版本；缺陷代码另行通过新提交修复。"
+instruction = "请跟打，保存期望运行版本。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_11"
+command_id = "shared-87e250470b215a67"

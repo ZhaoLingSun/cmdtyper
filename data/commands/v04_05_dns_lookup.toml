@@ -1,0 +1,318 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "使用保留示例域名演示 A、AAAA、MX、TXT、NS 和 PTR，实际结果由对应 DNS 配置决定。"
+
+[meta.topic]
+id = "v04_dns_lookup"
+title = "DNS 解析与记录类型"
+icon = "🌐"
+order = 105
+
+[[commands]]
+id = "v04-dns_lookup-12c92dc38b"
+command = "dig example.com A +noall +answer"
+summary = "只显示域名 IPv4 地址的答案区"
+
+[[commands.tokens]]
+text = "dig"
+desc = "使用 BIND DNS 查询工具检查服务器应答"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "只显示域名 IPv4 地址的答案区；指定 example.com"
+
+[[commands.tokens]]
+text = " A"
+desc = "只显示域名 IPv4 地址的答案区；指定 A"
+
+[[commands.tokens]]
+text = " +noall"
+desc = "只显示域名 IPv4 地址的答案区；此处使用 +noall 选项"
+
+[[commands.tokens]]
+text = " +answer"
+desc = "只显示域名 IPv4 地址的答案区；此处使用 +answer 选项"
+
+[commands.dictation]
+prompt = "只显示域名 IPv4 地址的答案区"
+answers = ["dig example.com A +noall +answer"]
+
+[[commands]]
+id = "v04-dns_lookup-4e0e7247e2"
+command = "dig example.com AAAA +noall +answer"
+summary = "只显示域名 IPv6 地址的答案区"
+
+[[commands.tokens]]
+text = "dig"
+desc = "使用 BIND DNS 查询工具检查服务器应答"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "只显示域名 IPv6 地址的答案区；指定 example.com"
+
+[[commands.tokens]]
+text = " AAAA"
+desc = "只显示域名 IPv6 地址的答案区；指定 AAAA"
+
+[[commands.tokens]]
+text = " +noall"
+desc = "只显示域名 IPv6 地址的答案区；此处使用 +noall 选项"
+
+[[commands.tokens]]
+text = " +answer"
+desc = "只显示域名 IPv6 地址的答案区；此处使用 +answer 选项"
+
+[commands.dictation]
+prompt = "只显示域名 IPv6 地址的答案区"
+answers = ["dig example.com AAAA +noall +answer"]
+
+[[commands]]
+id = "v04-dns_lookup-19bed85f9e"
+command = "dig example.com MX +noall +answer"
+summary = "查看邮件交换记录及其优先级"
+
+[[commands.tokens]]
+text = "dig"
+desc = "使用 BIND DNS 查询工具检查服务器应答"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "查看邮件交换记录及其优先级；指定 example.com"
+
+[[commands.tokens]]
+text = " MX"
+desc = "查看邮件交换记录及其优先级；指定 MX"
+
+[[commands.tokens]]
+text = " +noall"
+desc = "查看邮件交换记录及其优先级；此处使用 +noall 选项"
+
+[[commands.tokens]]
+text = " +answer"
+desc = "查看邮件交换记录及其优先级；此处使用 +answer 选项"
+
+[commands.dictation]
+prompt = "查看邮件交换记录及其优先级"
+answers = ["dig example.com MX +noall +answer"]
+
+[[commands]]
+id = "v04-dns_lookup-ad95ffffd8"
+command = "dig example.com NS +noall +answer"
+summary = "查看该域名的权威名称服务器记录"
+
+[[commands.tokens]]
+text = "dig"
+desc = "使用 BIND DNS 查询工具检查服务器应答"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "查看该域名的权威名称服务器记录；指定 example.com"
+
+[[commands.tokens]]
+text = " NS"
+desc = "查看该域名的权威名称服务器记录；指定 NS"
+
+[[commands.tokens]]
+text = " +noall"
+desc = "查看该域名的权威名称服务器记录；此处使用 +noall 选项"
+
+[[commands.tokens]]
+text = " +answer"
+desc = "查看该域名的权威名称服务器记录；此处使用 +answer 选项"
+
+[commands.dictation]
+prompt = "查看该域名的权威名称服务器记录"
+answers = ["dig example.com NS +noall +answer"]
+
+[[commands]]
+id = "v04-dns_lookup-472e1e2890"
+command = "dig example.com TXT +noall +answer"
+summary = "查看文本记录，注意 TXT 记录可能分为多个字符串"
+
+[[commands.tokens]]
+text = "dig"
+desc = "使用 BIND DNS 查询工具检查服务器应答"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "查看文本记录，注意 TXT 记录可能分为多个字符串；指定 example.com"
+
+[[commands.tokens]]
+text = " TXT"
+desc = "查看文本记录，注意 TXT 记录可能分为多个字符串；指定 TXT"
+
+[[commands.tokens]]
+text = " +noall"
+desc = "查看文本记录，注意 TXT 记录可能分为多个字符串；此处使用 +noall 选项"
+
+[[commands.tokens]]
+text = " +answer"
+desc = "查看文本记录，注意 TXT 记录可能分为多个字符串；此处使用 +answer 选项"
+
+[commands.dictation]
+prompt = "查看文本记录，注意 TXT 记录可能分为多个字符串"
+answers = ["dig example.com TXT +noall +answer"]
+
+[[commands]]
+id = "v04-dns_lookup-16991e37d8"
+command = "dig example.com SOA +noall +answer"
+summary = "核对区域 SOA 序列号和维护计时参数"
+
+[[commands.tokens]]
+text = "dig"
+desc = "使用 BIND DNS 查询工具检查服务器应答"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "核对区域 SOA 序列号和维护计时参数；指定 example.com"
+
+[[commands.tokens]]
+text = " SOA"
+desc = "核对区域 SOA 序列号和维护计时参数；指定 SOA"
+
+[[commands.tokens]]
+text = " +noall"
+desc = "核对区域 SOA 序列号和维护计时参数；此处使用 +noall 选项"
+
+[[commands.tokens]]
+text = " +answer"
+desc = "核对区域 SOA 序列号和维护计时参数；此处使用 +answer 选项"
+
+[commands.dictation]
+prompt = "核对区域 SOA 序列号和维护计时参数"
+answers = ["dig example.com SOA +noall +answer"]
+
+[[commands]]
+id = "v04-dns_lookup-62ee7601ff"
+command = "dig -x 192.0.2.10 +noall +answer"
+summary = "查询示例地址 PTR 记录；没有记录不代表主机离线"
+
+[[commands.tokens]]
+text = "dig"
+desc = "使用 BIND DNS 查询工具检查服务器应答"
+
+[[commands.tokens]]
+text = " -x"
+desc = "查询示例地址 PTR 记录；没有记录不代表主机离线；此处使用 -x 选项"
+
+[[commands.tokens]]
+text = " 192.0.2.10"
+desc = "查询示例地址 PTR 记录；没有记录不代表主机离线；指定 192.0.2.10"
+
+[[commands.tokens]]
+text = " +noall"
+desc = "查询示例地址 PTR 记录；没有记录不代表主机离线；此处使用 +noall 选项"
+
+[[commands.tokens]]
+text = " +answer"
+desc = "查询示例地址 PTR 记录；没有记录不代表主机离线；此处使用 +answer 选项"
+
+[commands.dictation]
+prompt = "查询示例地址 PTR 记录；没有记录不代表主机离线"
+answers = ["dig -x 192.0.2.10 +noall +answer"]
+
+[[commands]]
+id = "v04-dns_lookup-56834a1f76"
+command = "dig @192.0.2.53 example.com A"
+summary = "直接向实验 DNS 服务器查询，隔离本机解析器配置影响"
+
+[[commands.tokens]]
+text = "dig"
+desc = "使用 BIND DNS 查询工具检查服务器应答"
+
+[[commands.tokens]]
+text = " @192.0.2.53"
+desc = "直接向实验 DNS 服务器查询，隔离本机解析器配置影响；指定 @192.0.2.53"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "直接向实验 DNS 服务器查询，隔离本机解析器配置影响；指定 example.com"
+
+[[commands.tokens]]
+text = " A"
+desc = "直接向实验 DNS 服务器查询，隔离本机解析器配置影响；指定 A"
+
+[commands.dictation]
+prompt = "直接向实验 DNS 服务器查询，隔离本机解析器配置影响"
+answers = ["dig @192.0.2.53 example.com A"]
+
+[[commands]]
+id = "v04-dns_lookup-0f3b2b54a4"
+command = "getent ahostsv4 example.com"
+summary = "通过系统 NSS 解析 IPv4，结果可能受 hosts 文件影响"
+
+[[commands.tokens]]
+text = "getent"
+desc = "通过系统 NSS 解析 IPv4，结果可能受 hosts 文件影响"
+
+[[commands.tokens]]
+text = " ahostsv4"
+desc = "通过系统 NSS 解析 IPv4，结果可能受 hosts 文件影响；指定 ahostsv4"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "通过系统 NSS 解析 IPv4，结果可能受 hosts 文件影响；指定 example.com"
+
+[commands.dictation]
+prompt = "通过系统 NSS 解析 IPv4，结果可能受 hosts 文件影响"
+answers = ["getent ahostsv4 example.com"]
+
+[[commands]]
+id = "v04-dns_lookup-16d5231a11"
+command = "getent ahostsv6 example.com"
+summary = "通过系统 NSS 解析 IPv6，和直接 DNS 查询对照"
+
+[[commands.tokens]]
+text = "getent"
+desc = "通过系统 NSS 解析 IPv6，和直接 DNS 查询对照"
+
+[[commands.tokens]]
+text = " ahostsv6"
+desc = "通过系统 NSS 解析 IPv6，和直接 DNS 查询对照；指定 ahostsv6"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "通过系统 NSS 解析 IPv6，和直接 DNS 查询对照；指定 example.com"
+
+[commands.dictation]
+prompt = "通过系统 NSS 解析 IPv6，和直接 DNS 查询对照"
+answers = ["getent ahostsv6 example.com"]
+
+[[commands]]
+id = "v04-dns_lookup-d6ec66d2d0"
+command = "resolvectl query example.com"
+summary = "在 systemd-resolved 环境查询域名并查看响应接口信息"
+
+[[commands.tokens]]
+text = "resolvectl"
+desc = "在 systemd-resolved 环境查询域名并查看响应接口信息"
+
+[[commands.tokens]]
+text = " query"
+desc = "在 systemd-resolved 环境查询域名并查看响应接口信息；指定 query"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "在 systemd-resolved 环境查询域名并查看响应接口信息；指定 example.com"
+
+[commands.dictation]
+prompt = "在 systemd-resolved 环境查询域名并查看响应接口信息"
+answers = ["resolvectl query example.com"]
+
+[[commands]]
+id = "v04-dns_lookup-35b777ee9a"
+command = "resolvectl dns"
+summary = "查看每个接口分配的 DNS 服务器"
+
+[[commands.tokens]]
+text = "resolvectl"
+desc = "查看每个接口分配的 DNS 服务器"
+
+[[commands.tokens]]
+text = " dns"
+desc = "查看每个接口分配的 DNS 服务器；指定 dns"
+
+[commands.dictation]
+prompt = "查看每个接口分配的 DNS 服务器"
+answers = ["resolvectl dns"]

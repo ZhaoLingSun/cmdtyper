@@ -1,3 +1,4 @@
+
 [meta]
 id = "tests_conditionals"
 topic = "条件测试与流程判断"
@@ -10,54 +11,45 @@ id = "single-bracket-test"
 char_repr = "[ ]"
 name = "单中括号条件测试"
 summary = "[ 是 test 命令的另一种写法，右侧 ] 必须作为独立参数"
-explanation = """[ 条件 ] 是 POSIX Shell 常见的条件测试形式，本质上等价于 test 条件。
-左中括号后、右中括号前都必须有空格，因为 [ 与 ] 都按命令参数解析。
-判断结果不直接打印真假，而是通过退出状态表达：成立返回 0，不成立返回非 0。
-它适合可移植脚本；变量通常要放在双引号中，避免空值或空格改变参数数量。"""
+explanation = "[ 条件 ] 是 POSIX Shell 常见的条件测试形式，本质上等价于 test 条件。\n左中括号后、右中括号前都必须有空格，因为 [ 与 ] 都按命令参数解析。\n判断结果不直接打印真假，而是通过退出状态表达：成立返回 0，不成立返回非 0。\n它适合可移植脚本；变量通常要放在双引号中，避免空值或空格改变参数数量。"
 
 [[symbols.examples]]
 id = "single-bracket-mode"
-command = "(mode=safe; [ \"$mode\" = \"safe\" ] && printf 'safe\\n')"
 explanation = "在子 shell 中先把 mode 固定为 safe，再比较字符串；不依赖调用者环境"
 simulated_output = "safe"
+command_id = "v04-ref-c3ffaf1554"
 
 [[symbols.examples]]
 id = "single-bracket-spacing"
-command = "[ -n \"$USER\" ] && printf 'named user\\n'"
 explanation = "-n 判断字符串非空；] 前的空格不可省略"
 simulated_output = "named user"
+command_id = "shared-4a9908cb5ec0b338"
 
 [[symbols]]
 id = "double-bracket-test"
 char_repr = "[[ ]]"
 name = "双中括号条件表达式"
 summary = "Bash/Ksh 的增强测试语法，减少分词和路径名展开陷阱"
-explanation = """[[ 条件 ]] 是 Bash、Ksh 等 Shell 的关键字语法，不是外部命令。
-其中变量不会再经历普通的单词分割和路径名展开，因此字符串比较通常更稳健。
-它支持 == 模式匹配、=~ 正则匹配以及 &&、|| 组合条件。
-但 [[ ]] 不是 POSIX sh 语法；脚本若声明 #!/bin/sh，就不应依赖它。"""
+explanation = "[[ 条件 ]] 是 Bash、Ksh 等 Shell 的关键字语法，不是外部命令。\n其中变量不会再经历普通的单词分割和路径名展开，因此字符串比较通常更稳健。\n它支持 == 模式匹配、=~ 正则匹配以及 &&、|| 组合条件。\n但 [[ ]] 不是 POSIX sh 语法；脚本若声明 #!/bin/sh，就不应依赖它。"
 
 [[symbols.examples]]
 id = "double-bracket-pattern"
-command = "(name=server.log; [[ $name == *.log ]] && printf 'log file\\n')"
 explanation = "在子 shell 中先设置 server.log，再用未加引号的 *.log 模式匹配"
 simulated_output = "log file"
+command_id = "v04-ref-b8a48f9f4b"
 
 [[symbols.examples]]
 id = "double-bracket-regex"
-command = "(port=443; [[ $port =~ ^[0-9]+$ ]] && printf 'numeric port\\n')"
 explanation = "在子 shell 中先设置数字字符串 443，再用正则确认只包含数字"
 simulated_output = "numeric port"
+command_id = "shared-d8ab8bc6c1c7fadf"
 
 [[symbols]]
 id = "file-tests"
 char_repr = "-e -f -d -r -w -x"
 name = "文件属性测试"
 summary = "先观察路径类型和权限，再决定后续安全动作"
-explanation = """文件测试操作符读取文件系统元数据，不会执行目标文件。
--e 判断路径是否存在；-f 判断普通文件；-d 判断目录；-L 判断符号链接；
--r、-w、-x 分别从当前进程身份的视角判断可读、可写、可执行。
-测试成立不等于操作一定安全：路径可能在测试后被替换，因此关键操作仍需验证目标、所有者与权限。"""
+explanation = "文件测试操作符读取文件系统元数据，不会执行目标文件。\n-e 判断路径是否存在；-f 判断普通文件；-d 判断目录；-L 判断符号链接；\n-r、-w、-x 分别从当前进程身份的视角判断可读、可写、可执行。\n测试成立不等于操作一定安全：路径可能在测试后被替换，因此关键操作仍需验证目标、所有者与权限。"
 
 [[symbols.examples]]
 id = "file-test-env-canonical"
@@ -65,75 +57,66 @@ command_id = "if-file-exists"
 
 [[symbols.examples]]
 id = "file-test-directory"
-command = "test -d /srv/app && printf 'directory ready\\n'"
 explanation = "只在 /srv/app 是目录时输出静态提示"
 simulated_output = "directory ready"
+command_id = "shared-3c87757a0bbaf51f"
 
 [[symbols.examples]]
 id = "file-test-readable"
-command = "[ -r settings.ini ] && printf 'readable\\n'"
 explanation = "从当前用户身份判断 settings.ini 是否可读"
 simulated_output = "readable"
+command_id = "shared-231b72421ad17a98"
 
 [[symbols]]
 id = "string-tests"
 char_repr = "-z -n = !="
 name = "字符串测试"
 summary = "区分空字符串、非空字符串、相等与不相等"
-explanation = """-z STRING 在字符串长度为零时成立，-n STRING 在长度非零时成立。
-[ ] 中常用 = 和 != 比较字符串；[[ ]] 还可以用 == 并支持模式匹配。
-字符串和数字测试不能混用：版本号 08、名称 10a 都应按字符串处理。
-给变量加双引号能让空值保持为空字符串，并保留其中的空格。"""
+explanation = "-z STRING 在字符串长度为零时成立，-n STRING 在长度非零时成立。\n[ ] 中常用 = 和 != 比较字符串；[[ ]] 还可以用 == 并支持模式匹配。\n字符串和数字测试不能混用：版本号 08、名称 10a 都应按字符串处理。\n给变量加双引号能让空值保持为空字符串，并保留其中的空格。"
 
 [[symbols.examples]]
 id = "string-test-empty"
-command = "[ -z \"$optional_tag\" ] && printf 'tag missing\\n'"
 explanation = "变量为空时输出提示，不把空值误当成缺失参数"
 simulated_output = "tag missing"
+command_id = "v04-ref-581d05315b"
 
 [[symbols.examples]]
 id = "string-test-equal"
-command = "(environment=production; [ \"$environment\" = \"production\" ] && printf 'production\\n')"
 explanation = "在子 shell 中先设置 production，再做精确字符串比较"
 simulated_output = "production"
+command_id = "shared-32b2048ca8c22d48"
 
 [[symbols]]
 id = "numeric-tests"
 char_repr = "-eq -ne -lt -le -gt -ge"
 name = "整数比较测试"
 summary = "使用专用操作符比较整数，而不是字典序字符串"
-explanation = """[ ] 和 test 使用 -eq、-ne、-lt、-le、-gt、-ge 比较整数。
-它们分别表示等于、不等于、小于、小于等于、大于、大于等于。
-= 与 != 是字符串比较；把 10 和 2 当字符串比较会得到与数值直觉不同的结果。
-输入来自用户或文件时，应先确认它确实是整数，再做数值比较。"""
+explanation = "[ ] 和 test 使用 -eq、-ne、-lt、-le、-gt、-ge 比较整数。\n它们分别表示等于、不等于、小于、小于等于、大于、大于等于。\n= 与 != 是字符串比较；把 10 和 2 当字符串比较会得到与数值直觉不同的结果。\n输入来自用户或文件时，应先确认它确实是整数，再做数值比较。"
 
 [[symbols.examples]]
 id = "numeric-test-retries"
-command = "(retries=3; [ \"$retries\" -ge 3 ] && printf 'retry limit reached\\n')"
 explanation = "在子 shell 中先设置整数 3，再判断是否达到重试上限"
 simulated_output = "retry limit reached"
+command_id = "v04-ref-501d51f219"
 
 [[symbols.examples]]
 id = "numeric-test-port"
-command = "(port=443; [[ $port -gt 0 && $port -le 65535 ]] && printf 'valid range\\n')"
 explanation = "在子 shell 中先设置端口 443，再组合检查两个整数边界"
 simulated_output = "valid range"
+command_id = "shared-3eedb84f5258d157"
 
 [[symbols]]
 id = "logical-and-flow"
 char_repr = "&&"
 name = "成功后继续"
 summary = "左侧退出状态为 0 时才求值右侧"
-explanation = """command_a && command_b 使用短路求值：只有左侧成功，右侧才出现。
-它适合表达“验证通过后再做下一步”，例如先确认文件存在，再读取摘要。
-连续的 A && B && C 要求每一步都成功才继续。
-它不是完整事务：若 C 失败，A 与 B 已产生的效果不会自动回滚。"""
+explanation = "command_a && command_b 使用短路求值：只有左侧成功，右侧才出现。\n它适合表达“验证通过后再做下一步”，例如先确认文件存在，再读取摘要。\n连续的 A && B && C 要求每一步都成功才继续。\n它不是完整事务：若 C 失败，A 与 B 已产生的效果不会自动回滚。"
 
 [[symbols.examples]]
 id = "and-file-readable"
-command = "test -f report.txt && test -r report.txt && printf 'ready to inspect\\n'"
 explanation = "先验证普通文件，再验证可读，最后才输出安全观察提示"
 simulated_output = "ready to inspect"
+command_id = "v04-ref-5086b97528"
 
 [[symbols.examples]]
 id = "and-status-canonical"
@@ -144,22 +127,19 @@ id = "logical-or-flow"
 char_repr = "||"
 name = "失败后走备用分支"
 summary = "左侧退出状态非 0 时才求值右侧"
-explanation = """command_a || command_b 只在左侧失败时求值右侧，常用于报告、回退或停止流程。
-A && B || C 看似 if/else，但若 B 自身失败，C 也会执行，因此不能无条件等同于完整 if/else。
-复杂判断更适合写成清楚的 if ... then ... else ... fi。
-安全流程应保持“观察 -> 验证 -> 安全动作”，不要用短路链掩盖关键失败。"""
+explanation = "command_a || command_b 只在左侧失败时求值右侧，常用于报告、回退或停止流程。\nA && B || C 看似 if/else，但若 B 自身失败，C 也会执行，因此不能无条件等同于完整 if/else。\n复杂判断更适合写成清楚的 if ... then ... else ... fi。\n安全流程应保持“观察 -> 验证 -> 安全动作”，不要用短路链掩盖关键失败。"
 
 [[symbols.examples]]
 id = "or-report-missing"
-command = "test -f settings.ini || printf 'settings missing\\n'"
 explanation = "文件不存在时只报告状态，不创建或修改任何内容"
 simulated_output = "settings missing"
+command_id = "v04-ref-3cc3178b14"
 
 [[symbols.examples]]
 id = "and-or-status"
-command = "test -r report.txt && printf 'readable\\n' || printf 'not readable\\n'"
 explanation = "演示组合链；需记住中间 printf 的失败也会触发最后分支"
 simulated_output = "readable"
+command_id = "shared-103a4a1c32edeed0"
 
 [[exercises]]
 id = "test-file-env"
@@ -171,109 +151,109 @@ id = "test-single-bracket-directory"
 kind = "typing"
 prompt = "判断 /srv/app 是目录，成立时输出 directory"
 answers = ["[ -d /srv/app ] && echo directory"]
-command = "[ -d /srv/app ] && echo directory"
 simulated_output = "directory"
+command_id = "shared-25d70b366e84e2b1"
 
 [[exercises]]
 id = "test-double-bracket-pattern"
 kind = "typing"
 prompt = "在同一子 shell 中先令 name=server.log，再用 [[ ]] 判断它以 .log 结尾，成立时输出 log"
 answers = ["(name=server.log; [[ $name == *.log ]] && echo log)"]
-command = "(name=server.log; [[ $name == *.log ]] && echo log)"
 simulated_output = "log"
+command_id = "shared-92401117d2a108f2"
 
 [[exercises]]
 id = "test-string-empty"
 kind = "typing"
 prompt = "判断变量 value 为空，成立时输出 empty"
 answers = ["[ -z \"$value\" ] && echo empty", "test -z \"$value\" && echo empty"]
-command = "[ -z \"$value\" ] && echo empty"
 simulated_output = "empty"
+command_id = "shared-142dbaff68cdffed"
 
 [[exercises]]
 id = "test-string-nonempty"
 kind = "typing"
 prompt = "判断变量 USER 非空，成立时输出 set"
 answers = ["[ -n \"$USER\" ] && echo set", "test -n \"$USER\" && echo set"]
-command = "[ -n \"$USER\" ] && echo set"
 simulated_output = "set"
+command_id = "shared-ff939914f7063d1d"
 
 [[exercises]]
 id = "test-numeric-range"
 kind = "typing"
 prompt = "在同一子 shell 中先令 port=443，再用 [[ ]] 判断它大于 0 且小于等于 65535"
 answers = ["(port=443; [[ $port -gt 0 && $port -le 65535 ]])"]
-command = "(port=443; [[ $port -gt 0 && $port -le 65535 ]])"
 simulated_output = ""
+command_id = "shared-7d065e899c32c416"
 
 [[exercises]]
 id = "test-readable-chain"
 kind = "typing"
 prompt = "先判断 report.txt 是普通文件，再判断它可读"
 answers = ["test -f report.txt && test -r report.txt", "[ -f report.txt ] && [ -r report.txt ]"]
-command = "test -f report.txt && test -r report.txt"
 simulated_output = ""
+command_id = "shared-601cdba065c1480d"
 
 [[exercises]]
 id = "test-fallback-message"
 kind = "typing"
 prompt = "settings.ini 不存在时输出 missing"
 answers = ["test -f settings.ini || echo missing", "[ -f settings.ini ] || echo missing"]
-command = "test -f settings.ini || echo missing"
 simulated_output = "missing"
+command_id = "shared-c62d741ccbdac69b"
 
 [[exercises]]
 id = "test-file-exists-dictation"
 kind = "dictation"
 prompt = "用 test 判断 config.yml 是普通文件"
 answers = ["test -f config.yml", "[ -f config.yml ]"]
-command = "test -f config.yml"
 simulated_output = ""
+command_id = "shared-ebae5dd0620f5423"
 
 [[exercises]]
 id = "test-directory-dictation"
 kind = "dictation"
 prompt = "用单中括号判断 logs 是目录"
 answers = ["[ -d logs ]"]
-command = "[ -d logs ]"
 simulated_output = ""
+command_id = "shared-c789aa5e96596013"
 
 [[exercises]]
 id = "test-string-equality-dictation"
 kind = "dictation"
 prompt = "在同一子 shell 中先令 mode=safe，再用单中括号判断它等于 safe"
 answers = ["(mode=safe; [ \"$mode\" = safe ])", "(mode=safe; [ \"$mode\" = \"safe\" ])"]
-command = "(mode=safe; [ \"$mode\" = safe ])"
 simulated_output = ""
+command_id = "shared-0c9e33ea7594fc63"
 
 [[exercises]]
 id = "test-string-inequality-dictation"
 kind = "dictation"
 prompt = "用 [[ ]] 判断 state 不等于 failed"
 answers = ["[[ $state != failed ]]", "[[ $state != \"failed\" ]]"]
-command = "[[ $state != failed ]]"
 simulated_output = ""
+command_id = "shared-98f921f277e23426"
 
 [[exercises]]
 id = "test-numeric-ge-dictation"
 kind = "dictation"
 prompt = "在同一子 shell 中先令 retries=3，再判断它大于等于 3"
 answers = ["(retries=3; [ \"$retries\" -ge 3 ])", "(retries=3; test \"$retries\" -ge 3)", "(retries=3; [[ $retries -ge 3 ]])"]
-command = "(retries=3; [ \"$retries\" -ge 3 ])"
 simulated_output = ""
+command_id = "shared-31913d39653f9d3f"
 
 [[exercises]]
 id = "test-and-flow-dictation"
 kind = "dictation"
 prompt = "检查 data.csv 可读，成功后输出 ready"
 answers = ["test -r data.csv && echo ready", "[ -r data.csv ] && echo ready"]
-command = "test -r data.csv && echo ready"
 simulated_output = "ready"
+command_id = "shared-3a70c2c2f35e58ca"
 
 [[exercises]]
 id = "test-or-flow-dictation"
 kind = "dictation"
 prompt = "检查 data.csv 可读，失败时输出 unavailable"
 answers = ["test -r data.csv || echo unavailable", "[ -r data.csv ] || echo unavailable"]
-command = "test -r data.csv || echo unavailable"
 simulated_output = "unavailable"
+command_id = "shared-45846ed0d8c2f786"

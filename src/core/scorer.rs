@@ -1,124 +1,590 @@
 use std::cmp::Ordering;
-use std::collections::{BTreeMap, HashMap};
+use std::collections::{BTreeMap, HashMap, HashSet};
 
-use chrono::{NaiveDate, TimeZone, Utc};
+use chrono::{Local, NaiveDate, TimeZone};
 
 use crate::data::models::{
-    Category, CharSpeedPoint, CharStat, Command, CommandProgress, DailyStat, Keystroke, RecordMode,
-    SessionRecord, UserStats,
+    Category, CharLatencySample, CharSpeedPoint, CharStat, Command, CommandProgress, DailyEntry,
+    DailyStat, Keystroke, RecordMode, SessionRecord, TypingPosition, UserStats,
 };
 
-/// Update global user statistics with a completed session record.
+pub const STATS_VERSION: u32 = 2;
+pub const CHARACTER_WINDOW: usize = 50;
+pub const MIN_CHARACTER_SAMPLES: usize = 10;
+
+/// Records are applied once. Rebuild from history when replacing a partial
+/// snapshot with a newer snapshot sharing the same stable record ID.
 pub fn update_stats(stats: &mut UserStats, record: &SessionRecord) {
-    let previous_sessions = stats.total_sessions as f64;
-    let previous_wpm_sessions = stats.total_wpm_sessions as f64;
-
+    if stats.applied_record_ids.contains(&record.id) {
+        return;
+    }
+    stats.applied_record_ids.push(record.id.clone());
+    stats.stats_version = STATS_VERSION;
     stats.total_sessions += 1;
-    stats.total_keystrokes += record
-        .keystrokes
-        .iter()
-        .map(|keystroke| keystroke.attempts as u64)
-        .sum::<u64>();
-
-    let duration_ms = record_duration_ms(record);
-    stats.total_duration_ms += duration_ms;
-    if is_typing_wpm_mode(record.mode) {
-        stats.overall_avg_wpm = weighted_average(
-            stats.overall_avg_wpm,
-            previous_wpm_sessions,
-            record.wpm,
-            1.0,
-        );
-        stats.best_wpm = stats.best_wpm.max(record.wpm);
-        stats.total_wpm_sessions += 1;
+    if record.is_completed() {
+        update_command_progress(stats, record);
     }
-    stats.overall_avg_accuracy = weighted_average(
-        stats.overall_avg_accuracy,
-        previous_sessions,
-        record.accuracy,
-        1.0,
-    );
-
-    let date = format_session_date(record.finished_at);
-    update_daily_stat(
-        stats,
-        &date,
-        duration_ms,
-        record.wpm,
-        record.accuracy,
-        is_typing_wpm_mode(record.mode),
-    );
-    recalculate_streaks(stats);
-
-    // Group keystrokes by expected character
-    let mut grouped: BTreeMap<char, Vec<Keystroke>> = BTreeMap::new();
-    for keystroke in &record.keystrokes {
-        grouped
-            .entry(keystroke.expected)
-            .or_default()
-            .push(keystroke.clone());
+    if !is_typing_wpm_mode(record.mode) {
+        return;
     }
-
-    for (char_key, keystrokes) in grouped {
-        let stat = get_or_insert_char_stat(stats, char_key);
-        update_char_stat(stat, &keystrokes);
-    }
-
-    update_command_progress(stats, record);
-}
-
-/// Update a single character's statistics from a batch of keystrokes.
-pub fn update_char_stat(stat: &mut CharStat, keystrokes: &[Keystroke]) {
-    if keystrokes.is_empty() {
+    if record
+        .typing
+        .as_ref()
+        .is_some_and(|metrics| metrics.positions.is_empty())
+    {
         return;
     }
 
-    let session_samples = keystrokes.len() as u64;
-    let session_correct = keystrokes
-        .iter()
-        .filter(|keystroke| keystroke.correct)
-        .count() as u64;
-    let session_errors = keystrokes
-        .iter()
-        .map(|keystroke| keystroke.attempts.saturating_sub(1) as u64)
-        .sum::<u64>();
-    let session_latency = keystrokes
-        .iter()
-        .map(|keystroke| keystroke.latency_ms as f64)
-        .sum::<f64>()
-        / session_samples as f64;
-    let session_cpm = keystrokes
-        .iter()
-        .map(|keystroke| cpm_for_latency(keystroke.latency_ms))
-        .sum::<f64>()
-        / session_samples as f64;
+    let duration_ms = record_duration_ms(record);
+    let previous_duration = stats.total_duration_ms;
+    stats.total_duration_ms = stats.total_duration_ms.saturating_add(duration_ms);
+    stats.total_wpm_sessions += 1;
+    stats.best_wpm = stats.best_wpm.max(record.wpm);
+    stats.overall_avg_wpm = weighted_average(
+        stats.overall_avg_wpm,
+        previous_duration as f64,
+        record.wpm,
+        duration_ms as f64,
+    );
+    let mut days: BTreeMap<String, DailyStat> = BTreeMap::new();
 
-    let previous_samples = stat.total_samples as f64;
-    stat.total_correct += session_correct;
-    stat.total_errors += session_errors;
-    stat.total_samples += session_samples;
-    stat.avg_latency_ms = weighted_average(
-        stat.avg_latency_ms,
-        previous_samples,
-        session_latency,
-        session_samples as f64,
+    if let Some(metrics) = &record.typing {
+        stats.total_keystrokes += metrics
+            .positions
+            .iter()
+            .map(|position| position.attempts)
+            .sum::<u64>();
+        for span in &metrics.active_spans {
+            day_mut(&mut days, &span.date).total_duration_ms += span.duration_ms;
+        }
+        for position in &metrics.positions {
+            stats.attempted_positions += 1;
+            stats.error_positions += u64::from(position.error);
+            let day = day_mut(&mut days, &position.attempted_date);
+            day.attempted_positions += 1;
+            day.error_positions += u64::from(position.error);
+            if position.completed {
+                stats.completed_chars += 1;
+                day_mut(&mut days, &position.completed_date).completed_chars += 1;
+            }
+            let stat = get_or_insert_char_stat(stats, position.expected);
+            apply_position(stat, position, true);
+        }
+        for day in days.values_mut() {
+            day.accuracy_weight = day.attempted_positions;
+            day.avg_accuracy = accuracy(day.attempted_positions, day.error_positions);
+            day.avg_cpm = speed(day.completed_chars, day.total_duration_ms);
+            day.avg_wpm = day.avg_cpm / 5.0;
+        }
+        let count = metrics.positions.len() as u64;
+        stats.overall_avg_accuracy = weighted_average(
+            stats.overall_avg_accuracy,
+            stats.accuracy_weight as f64,
+            record.accuracy,
+            count as f64,
+        );
+        stats.accuracy_weight += count;
+    } else {
+        // Legacy records retain reported aggregates. Missing idle/backspace/
+        // position information is explicitly labelled and never invented.
+        stats.legacy_sessions_count += 1;
+        stats.total_keystrokes += record
+            .keystrokes
+            .iter()
+            .map(|stroke| stroke.attempts as u64)
+            .sum::<u64>();
+        let count = record.keystrokes.len().max(1) as u64;
+        stats.overall_avg_accuracy = weighted_average(
+            stats.overall_avg_accuracy,
+            stats.accuracy_weight as f64,
+            record.accuracy,
+            count as f64,
+        );
+        stats.accuracy_weight += count;
+        let day = day_mut(&mut days, &format_session_date(record.finished_at));
+        day.total_duration_ms = duration_ms;
+        day.avg_wpm = record.wpm;
+        day.avg_cpm = record.cpm;
+        day.avg_accuracy = record.accuracy;
+        day.accuracy_weight = count;
+        day.legacy_sessions_count = 1;
+        day.completed_chars = record.keystrokes.len() as u64;
+        day.attempted_positions = record.keystrokes.len() as u64;
+        day.error_positions = record
+            .keystrokes
+            .iter()
+            .filter(|stroke| !stroke.correct)
+            .count() as u64;
+        for stroke in &record.keystrokes {
+            let stat = get_or_insert_char_stat(stats, stroke.expected);
+            stat.total_samples += 1;
+            stat.total_errors += u64::from(!stroke.correct);
+            stat.total_correct += u64::from(stroke.correct);
+            stat.accuracy = accuracy(stat.total_samples, stat.total_errors);
+        }
+    }
+    if stats.legacy_sessions_count == 0 {
+        stats.overall_avg_wpm = speed(stats.completed_chars, stats.total_duration_ms) / 5.0;
+    }
+    let completed_date = completion_date(record);
+    if record.is_completed() {
+        day_mut(&mut days, &completed_date);
+    }
+    for (_, mut contribution) in days {
+        contribution.sessions_count = 1;
+        contribution.wpm_sessions_count = 1;
+        contribution.entries.push(DailyEntry {
+            mode: record.mode,
+            sessions_count: 1,
+            completed_count: u32::from(
+                record.is_completed() && contribution.date == completed_date,
+            ),
+            duration_ms: contribution.total_duration_ms,
+            completed_chars: contribution.completed_chars,
+            attempted_positions: contribution.attempted_positions,
+            error_positions: contribution.error_positions,
+            avg_wpm: contribution.avg_wpm,
+            avg_cpm: contribution.avg_cpm,
+            avg_accuracy: contribution.avg_accuracy,
+            accuracy_weight: contribution.accuracy_weight,
+            legacy_sessions_count: contribution.legacy_sessions_count,
+        });
+        merge_day(stats, contribution);
+    }
+    recalculate_streaks(stats);
+}
+
+/// New records preserve the completion-time local day. Earlier version-2
+/// records can recover it from the latest completed position; only records
+/// without saved input dates fall back to the timestamp in the current zone.
+fn completion_date(record: &SessionRecord) -> String {
+    if let Some(metrics) = &record.typing {
+        if !metrics.completed_date.is_empty() {
+            return metrics.completed_date.clone();
+        }
+        if let Some(position) = metrics
+            .positions
+            .iter()
+            .filter(|position| position.completed && !position.completed_date.is_empty())
+            .max_by_key(|position| position.completed_at_ms)
+        {
+            return position.completed_date.clone();
+        }
+    }
+    format_session_date(record.finished_at)
+}
+
+/// The last snapshot for each ID wins; replay order is chronological.
+/// Mastery is rebuilt from all completed modes, while follow-typing alone
+/// contributes to calendar, speed and character measurements.
+pub fn rebuild_from_history(history: &[SessionRecord]) -> UserStats {
+    let mut seen = HashSet::new();
+    let mut records: Vec<&SessionRecord> = history
+        .iter()
+        .rev()
+        .filter(|record| seen.insert(record.id.as_str()))
+        .collect();
+    records.sort_by_key(|record| record.finished_at);
+    let mut stats = UserStats {
+        stats_version: STATS_VERSION,
+        ..UserStats::default()
+    };
+    for record in records {
+        update_stats(&mut stats, record);
+    }
+    stats
+}
+
+/// Preserve the aggregate-only baseline of installations whose old event
+/// history is absent. It remains explicitly legacy and creates no intervals.
+pub fn merge_legacy_stats(stats: &mut UserStats, baseline: &UserStats) {
+    if baseline.total_sessions == 0
+        && baseline.daily_stats.is_empty()
+        && baseline.command_progress.is_empty()
+    {
+        return;
+    }
+    let duration = baseline.total_duration_ms;
+    stats.overall_avg_wpm = weighted_average(
+        stats.overall_avg_wpm,
+        stats.total_duration_ms as f64,
+        baseline.overall_avg_wpm,
+        duration as f64,
     );
-    stat.avg_cpm = weighted_average(
-        stat.avg_cpm,
-        previous_samples,
-        session_cpm,
-        session_samples as f64,
+    let accuracy_weight = baseline
+        .accuracy_weight
+        .max(baseline.total_wpm_sessions)
+        .max(baseline.total_sessions);
+    stats.overall_avg_accuracy = weighted_average(
+        stats.overall_avg_accuracy,
+        stats.accuracy_weight as f64,
+        baseline.overall_avg_accuracy,
+        accuracy_weight as f64,
     );
-    stat.accuracy = if stat.total_samples == 0 {
+    stats.accuracy_weight += accuracy_weight;
+    stats.total_sessions += baseline.total_sessions;
+    stats.total_wpm_sessions += baseline.total_wpm_sessions;
+    stats.total_keystrokes += baseline.total_keystrokes;
+    stats.total_duration_ms += duration;
+    stats.best_wpm = stats.best_wpm.max(baseline.best_wpm);
+    stats.legacy_sessions_count += baseline.total_sessions;
+    for old in &baseline.char_stats {
+        let stat = get_or_insert_char_stat(stats, old.char_key);
+        stat.total_correct += old.total_correct;
+        stat.total_samples += old.total_samples;
+        stat.total_errors += old.total_samples.saturating_sub(old.total_correct);
+        stat.accuracy = accuracy(stat.total_samples, stat.total_errors);
+        // Keep only measured version-2 interval windows already in `stats`.
+    }
+    for old in &baseline.daily_stats {
+        let mut day = old.clone();
+        day.legacy_sessions_count = old.sessions_count;
+        day.avg_cpm = old.avg_wpm * 5.0;
+        day.accuracy_weight = old.accuracy_weight.max(old.sessions_count as u64);
+        merge_day(stats, day);
+    }
+    merge_command_progress(stats, baseline);
+    recalculate_streaks(stats);
+}
+
+pub fn merge_command_progress(stats: &mut UserStats, previous: &UserStats) {
+    for old in &previous.command_progress {
+        if let Some(progress) = stats
+            .command_progress
+            .iter_mut()
+            .find(|progress| progress.command_id == old.command_id)
+        {
+            progress.times_practiced = progress.times_practiced.max(old.times_practiced);
+            progress.best_wpm = progress.best_wpm.max(old.best_wpm);
+            progress.best_accuracy = progress.best_accuracy.max(old.best_accuracy);
+            progress.last_practiced = progress.last_practiced.max(old.last_practiced);
+            progress.mastery = progress.mastery.max(old.mastery);
+        } else {
+            stats.command_progress.push(old.clone());
+        }
+    }
+}
+
+pub fn is_typing_wpm_mode(mode: RecordMode) -> bool {
+    matches!(
+        mode,
+        RecordMode::Typing
+            | RecordMode::LessonPractice
+            | RecordMode::ReviewTyping
+            | RecordMode::SymbolTyping
+            | RecordMode::SystemTyping
+            | RecordMode::ScenarioTyping
+    )
+}
+
+pub fn mode_label(mode: RecordMode) -> &'static str {
+    match mode {
+        RecordMode::Typing => "对着打",
+        RecordMode::LessonPractice => "命令专题",
+        RecordMode::SymbolTyping => "符号专题",
+        RecordMode::SystemTyping => "系统专题",
+        RecordMode::ReviewTyping => "专题训练",
+        RecordMode::ScenarioTyping => "场景实训",
+        RecordMode::Dictation | RecordMode::ReviewDictation => "默写",
+        RecordMode::SymbolPractice | RecordMode::ReviewCloze => "填空",
+    }
+}
+
+/// Direct callers provide reliable interval samples. Legacy migration does not
+/// call this helper because its timing cannot be reconstructed reliably.
+pub fn update_char_stat(stat: &mut CharStat, keystrokes: &[Keystroke]) {
+    for stroke in keystrokes {
+        apply_position(
+            stat,
+            &TypingPosition {
+                expected: stroke.expected,
+                completed: true,
+                error: !stroke.correct,
+                attempts: stroke.attempts as u64,
+                completed_at_ms: stroke.timestamp_ms,
+                completed_date: format_session_date(stroke.timestamp_ms),
+                latency_ms: stroke.latency_ms,
+                speed_sample_valid: stroke.latency_ms > 0 && stroke.latency_ms <= 30_000,
+                ..TypingPosition::default()
+            },
+            true,
+        );
+    }
+    if !keystrokes.is_empty() {
+        stat.history.push(CharSpeedPoint {
+            session_index: stat.history.len() as u32 + 1,
+            cpm: stat.avg_cpm,
+            accuracy: stat.accuracy,
+        });
+        if stat.history.len() > CHARACTER_WINDOW {
+            stat.history.remove(0);
+        }
+    }
+}
+
+fn apply_position(stat: &mut CharStat, position: &TypingPosition, include_sample: bool) {
+    stat.total_samples += 1;
+    stat.total_errors += u64::from(position.error);
+    stat.total_correct += u64::from(!position.error);
+    stat.accuracy = accuracy(stat.total_samples, stat.total_errors);
+    if include_sample
+        && position.completed
+        && position.speed_sample_valid
+        && position.latency_ms > 0
+    {
+        stat.recent_latencies.push(CharLatencySample {
+            timestamp_ms: position.completed_at_ms,
+            date: position.completed_date.clone(),
+            latency_ms: position.latency_ms,
+        });
+        stat.recent_latencies
+            .sort_by_key(|sample| sample.timestamp_ms);
+        if stat.recent_latencies.len() > CHARACTER_WINDOW {
+            stat.recent_latencies
+                .drain(..stat.recent_latencies.len() - CHARACTER_WINDOW);
+        }
+    }
+    let average = smoothed_latency(&stat.recent_latencies);
+    stat.avg_latency_ms = average.unwrap_or(0.0);
+    stat.avg_cpm = average.map(|latency| 60_000.0 / latency).unwrap_or(0.0);
+}
+
+/// Winsorize the fastest/slowest 10% of a bounded latency window, then invert
+/// mean latency. Never average instantaneous CPM values.
+pub fn smoothed_latency(samples: &[CharLatencySample]) -> Option<f64> {
+    let mut latencies = samples
+        .iter()
+        .rev()
+        .filter(|sample| sample.latency_ms > 0)
+        .take(CHARACTER_WINDOW)
+        .map(|sample| sample.latency_ms)
+        .collect::<Vec<_>>();
+    if latencies.len() < MIN_CHARACTER_SAMPLES {
+        return None;
+    }
+    latencies.sort_unstable();
+    let trim = latencies.len() / 10;
+    let low = latencies[trim];
+    let high = latencies[latencies.len() - 1 - trim];
+    Some(
+        latencies
+            .iter()
+            .map(|latency| (*latency).clamp(low, high) as f64)
+            .sum::<f64>()
+            / latencies.len() as f64,
+    )
+}
+
+/// Reconstruct the bounded character windows as they stood at the end of a
+/// selected local date, rather than leaking future practice into older dates.
+pub fn character_stats_as_of(history: &[SessionRecord], date: &str) -> Vec<CharStat> {
+    let mut seen = HashSet::new();
+    let mut records = history
+        .iter()
+        .rev()
+        .filter(|record| seen.insert(record.id.as_str()))
+        .collect::<Vec<_>>();
+    records.sort_by_key(|record| record.finished_at);
+    let mut stats = UserStats::default();
+    for record in records {
+        if !is_typing_wpm_mode(record.mode) {
+            continue;
+        }
+        if let Some(metrics) = &record.typing {
+            for position in &metrics.positions {
+                if position.attempted_date.as_str() <= date {
+                    let stat = get_or_insert_char_stat(&mut stats, position.expected);
+                    let mut snapshot = position.clone();
+                    if !position.updated_date.is_empty() && position.updated_date.as_str() > date {
+                        if let Some(prior) = metrics
+                            .position_day_snapshots
+                            .iter()
+                            .filter(|prior| {
+                                prior.index == position.index && prior.date.as_str() <= date
+                            })
+                            .max_by(|left, right| left.date.cmp(&right.date))
+                        {
+                            snapshot.completed = prior.completed;
+                            snapshot.completed_at_ms = prior.completed_at_ms;
+                            snapshot.completed_date = prior.completed_date.clone();
+                            snapshot.latency_ms = prior.latency_ms;
+                            snapshot.speed_sample_valid = prior.speed_sample_valid;
+                        } else {
+                            snapshot.completed = false;
+                        }
+                    }
+                    if snapshot
+                        .error_date
+                        .as_deref()
+                        .is_some_and(|error_date| error_date > date)
+                    {
+                        snapshot.error = false;
+                    }
+                    apply_position(stat, &snapshot, snapshot.completed_date.as_str() <= date);
+                }
+            }
+        }
+    }
+    stats.char_stats.sort_by_key(|stat| stat.char_key);
+    stats.char_stats
+}
+
+fn day_mut<'a>(days: &'a mut BTreeMap<String, DailyStat>, date: &str) -> &'a mut DailyStat {
+    days.entry(date.to_owned()).or_insert_with(|| DailyStat {
+        date: date.to_owned(),
+        ..DailyStat::default()
+    })
+}
+
+fn merge_day(stats: &mut UserStats, incoming: DailyStat) {
+    if let Some(day) = stats
+        .daily_stats
+        .iter_mut()
+        .find(|day| day.date == incoming.date)
+    {
+        day.avg_wpm = weighted_average(
+            day.avg_wpm,
+            day.total_duration_ms as f64,
+            incoming.avg_wpm,
+            incoming.total_duration_ms as f64,
+        );
+        day.avg_cpm = day.avg_wpm * 5.0;
+        day.avg_accuracy = weighted_average(
+            day.avg_accuracy,
+            day.accuracy_weight as f64,
+            incoming.avg_accuracy,
+            incoming.accuracy_weight as f64,
+        );
+        day.sessions_count += incoming.sessions_count;
+        day.wpm_sessions_count += incoming.wpm_sessions_count;
+        day.total_duration_ms += incoming.total_duration_ms;
+        day.completed_chars += incoming.completed_chars;
+        day.attempted_positions += incoming.attempted_positions;
+        day.error_positions += incoming.error_positions;
+        day.accuracy_weight += incoming.accuracy_weight;
+        day.legacy_sessions_count += incoming.legacy_sessions_count;
+        if day.legacy_sessions_count == 0 {
+            day.avg_cpm = speed(day.completed_chars, day.total_duration_ms);
+            day.avg_wpm = day.avg_cpm / 5.0;
+        }
+        for entry in incoming.entries {
+            if let Some(existing) = day
+                .entries
+                .iter_mut()
+                .find(|existing| existing.mode == entry.mode)
+            {
+                existing.avg_wpm = weighted_average(
+                    existing.avg_wpm,
+                    existing.duration_ms as f64,
+                    entry.avg_wpm,
+                    entry.duration_ms as f64,
+                );
+                existing.avg_accuracy = weighted_average(
+                    existing.avg_accuracy,
+                    existing.accuracy_weight as f64,
+                    entry.avg_accuracy,
+                    entry.accuracy_weight as f64,
+                );
+                existing.accuracy_weight += entry.accuracy_weight;
+                existing.legacy_sessions_count += entry.legacy_sessions_count;
+                existing.sessions_count += entry.sessions_count;
+                existing.completed_count += entry.completed_count;
+                existing.duration_ms += entry.duration_ms;
+                existing.completed_chars += entry.completed_chars;
+                existing.attempted_positions += entry.attempted_positions;
+                existing.error_positions += entry.error_positions;
+                if existing.legacy_sessions_count == 0 {
+                    existing.avg_wpm = speed(existing.completed_chars, existing.duration_ms) / 5.0;
+                }
+                existing.avg_cpm = existing.avg_wpm * 5.0;
+            } else {
+                day.entries.push(entry);
+            }
+        }
+    } else {
+        stats.daily_stats.push(incoming);
+    }
+    stats
+        .daily_stats
+        .sort_by(|left, right| left.date.cmp(&right.date));
+}
+
+pub fn accuracy(attempted: u64, errors: u64) -> f64 {
+    if attempted == 0 {
+        1.0
+    } else {
+        1.0 - errors.min(attempted) as f64 / attempted as f64
+    }
+}
+
+pub fn speed(completed_chars: u64, duration_ms: u64) -> f64 {
+    if duration_ms == 0 {
         0.0
     } else {
-        stat.total_correct as f64 / stat.total_samples as f64
+        completed_chars as f64 * 60_000.0 / duration_ms as f64
+    }
+}
+
+fn recalculate_streaks(stats: &mut UserStats) {
+    let mut dates = stats
+        .daily_stats
+        .iter()
+        .filter(|day| day.sessions_count > 0)
+        .filter_map(|day| NaiveDate::parse_from_str(&day.date, "%Y-%m-%d").ok())
+        .collect::<Vec<_>>();
+    dates.sort_unstable();
+    dates.dedup();
+    let mut current = 0;
+    let mut longest = 0;
+    let mut previous: Option<NaiveDate> = None;
+    for date in &dates {
+        current = if previous.and_then(|day| day.succ_opt()) == Some(*date) {
+            current + 1
+        } else {
+            1
+        };
+        longest = longest.max(current);
+        previous = Some(*date);
+    }
+    let today = Local::now().date_naive();
+    stats.current_streak = if dates
+        .last()
+        .is_some_and(|date| *date == today || date.succ_opt() == Some(today))
+    {
+        current
+    } else {
+        0
     };
-    stat.history.push(CharSpeedPoint {
-        session_index: stat.history.len() as u32 + 1,
-        cpm: session_cpm,
-        accuracy: session_correct as f64 / session_samples as f64,
-    });
+    stats.longest_streak = longest;
+}
+
+fn format_session_date(timestamp_ms: i64) -> String {
+    Local
+        .timestamp_millis_opt(timestamp_ms)
+        .single()
+        .map(|date| date.format("%Y-%m-%d").to_string())
+        .unwrap_or_else(|| "1970-01-01".to_owned())
+}
+
+pub fn record_duration_ms(record: &SessionRecord) -> u64 {
+    record
+        .typing
+        .as_ref()
+        .map(|metrics| metrics.active_duration_ms)
+        .unwrap_or_else(|| record.finished_at.saturating_sub(record.started_at).max(0) as u64)
+}
+
+fn weighted_average(current: f64, current_weight: f64, next: f64, next_weight: f64) -> f64 {
+    let total = current_weight + next_weight;
+    if total == 0.0 {
+        0.0
+    } else {
+        (current * current_weight + next * next_weight) / total
+    }
+}
+
+fn float_cmp(left: f64, right: f64) -> Ordering {
+    left.partial_cmp(&right).unwrap_or(Ordering::Equal)
 }
 
 /// Compute mastery score: accuracy * min(times/target, 1.0).
@@ -238,17 +704,6 @@ pub fn recommend_commands<'a>(
         .collect()
 }
 
-fn is_typing_wpm_mode(mode: RecordMode) -> bool {
-    matches!(
-        mode,
-        RecordMode::Typing
-            | RecordMode::LessonPractice
-            | RecordMode::ReviewTyping
-            | RecordMode::SymbolTyping
-            | RecordMode::SystemTyping
-    )
-}
-
 fn update_command_progress(stats: &mut UserStats, record: &SessionRecord) {
     let index = if let Some(index) = stats
         .command_progress
@@ -293,108 +748,6 @@ fn get_or_insert_char_stat(stats: &mut UserStats, char_key: char) -> &mut CharSt
         .char_stats
         .last_mut()
         .expect("char stat was just inserted")
-}
-
-fn update_daily_stat(
-    stats: &mut UserStats,
-    date: &str,
-    duration_ms: u64,
-    wpm: f64,
-    accuracy: f64,
-    include_wpm: bool,
-) {
-    if let Some(day) = stats.daily_stats.iter_mut().find(|day| day.date == date) {
-        let previous_sessions = day.sessions_count as f64;
-        day.sessions_count += 1;
-        day.total_duration_ms += duration_ms;
-        if include_wpm {
-            let previous_wpm_sessions = day.wpm_sessions_count as f64;
-            day.avg_wpm = weighted_average(day.avg_wpm, previous_wpm_sessions, wpm, 1.0);
-            day.wpm_sessions_count += 1;
-        }
-        day.avg_accuracy = weighted_average(day.avg_accuracy, previous_sessions, accuracy, 1.0);
-    } else {
-        stats.daily_stats.push(DailyStat {
-            date: date.to_string(),
-            sessions_count: 1,
-            total_duration_ms: duration_ms,
-            avg_wpm: if include_wpm { wpm } else { 0.0 },
-            avg_accuracy: accuracy,
-            wpm_sessions_count: if include_wpm { 1 } else { 0 },
-        });
-        stats
-            .daily_stats
-            .sort_by(|left, right| left.date.cmp(&right.date));
-    }
-}
-
-fn recalculate_streaks(stats: &mut UserStats) {
-    let mut dates = stats
-        .daily_stats
-        .iter()
-        .filter(|day| day.sessions_count > 0)
-        .filter_map(|day| NaiveDate::parse_from_str(&day.date, "%Y-%m-%d").ok())
-        .collect::<Vec<_>>();
-
-    if dates.is_empty() {
-        stats.current_streak = 0;
-        stats.longest_streak = 0;
-        return;
-    }
-
-    dates.sort_unstable();
-
-    let mut longest = 1_u32;
-    let mut current_run = 1_u32;
-
-    for window in dates.windows(2) {
-        let previous = window[0];
-        let current = window[1];
-        let is_consecutive = previous.succ_opt() == Some(current);
-
-        if is_consecutive {
-            current_run += 1;
-        } else {
-            current_run = 1;
-        }
-
-        longest = longest.max(current_run);
-    }
-
-    stats.current_streak = current_run;
-    stats.longest_streak = longest;
-}
-
-fn format_session_date(timestamp_ms: i64) -> String {
-    Utc.timestamp_millis_opt(timestamp_ms)
-        .single()
-        .map(|dt| dt.format("%Y-%m-%d").to_string())
-        .unwrap_or_else(|| "1970-01-01".to_string())
-}
-
-fn record_duration_ms(record: &SessionRecord) -> u64 {
-    record.finished_at.saturating_sub(record.started_at) as u64
-}
-
-fn cpm_for_latency(latency_ms: u64) -> f64 {
-    if latency_ms == 0 {
-        0.0
-    } else {
-        60_000.0 / latency_ms as f64
-    }
-}
-
-fn weighted_average(current: f64, current_weight: f64, next: f64, next_weight: f64) -> f64 {
-    let total_weight = current_weight + next_weight;
-    if total_weight == 0.0 {
-        0.0
-    } else {
-        ((current * current_weight) + (next * next_weight)) / total_weight
-    }
-}
-
-fn float_cmp(left: f64, right: f64) -> Ordering {
-    left.partial_cmp(&right).unwrap_or(Ordering::Equal)
 }
 
 #[cfg(test)]
@@ -444,6 +797,7 @@ mod tests {
             accuracy: 0.8,
             error_count: 1,
             difficulty,
+            ..SessionRecord::default()
         }
     }
 
@@ -476,9 +830,10 @@ mod tests {
 
         assert_eq!(stat.total_samples, 2);
         assert_eq!(stat.total_correct, 1);
-        assert_eq!(stat.total_errors, 2);
-        approx_eq(stat.avg_latency_ms, 150.0);
-        approx_eq(stat.avg_cpm, (600.0 + 300.0) / 2.0);
+        assert_eq!(stat.total_errors, 1);
+        assert_eq!(stat.recent_latencies.len(), 2);
+        approx_eq(stat.avg_latency_ms, 0.0);
+        approx_eq(stat.avg_cpm, 0.0);
         approx_eq(stat.accuracy, 0.5);
         assert_eq!(stat.history.len(), 1);
         assert_eq!(stat.history[0].session_index, 1);
@@ -515,7 +870,7 @@ mod tests {
         approx_eq(stats.overall_avg_wpm, 48.0);
         approx_eq(stats.overall_avg_accuracy, 0.8);
         approx_eq(stats.best_wpm, 48.0);
-        assert_eq!(stats.current_streak, 2);
+        assert_eq!(stats.current_streak, 0);
         assert_eq!(stats.longest_streak, 2);
         assert_eq!(stats.daily_stats.len(), 2);
         assert_eq!(stats.command_progress.len(), 1);
@@ -544,7 +899,7 @@ mod tests {
             &record("3", "cmd-3", "2026-03-04", Difficulty::Basic),
         );
 
-        assert_eq!(stats.current_streak, 1);
+        assert_eq!(stats.current_streak, 0);
         assert_eq!(stats.longest_streak, 2);
     }
 

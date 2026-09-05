@@ -1,0 +1,116 @@
+id = "port_conflict"
+title = "端口冲突：找到占用者再恢复服务"
+category = "网络与进程"
+difficulty = "basic"
+background = "订单 API 启动失败。旧的演示 Python HTTP 服务意外占用了同一 8000 端口。"
+objective = "从服务日志定位 EADDRINUSE，确认占用进程身份，停止对应服务后验证。"
+environment = "Ubuntu 24.04 LTS 教学主机 web-01（192.0.2.10），客户端 ops-01（192.0.2.50），网关 192.0.2.1。文档保留地址与 example.test 域名只用于模拟；每例独立还原起始状态，全部输出预置。"
+recap = "日志识别绑定错误，ss 找 PID，ps 和 systemctl 确认归属，停止准确对象，再启动目标并做健康检查。"
+sources = ["https://man7.org/linux/man-pages/man8/ss.8.html", "https://man7.org/linux/man-pages/man8/tcpdump.8.html", "https://www.freedesktop.org/software/systemd/man/255/journalctl.html"]
+
+[[steps]]
+title = "检查失败服务"
+output = "Active: failed (Result: exit-code)"
+explanation = "先取得服务状态，不反复重启掩盖首次失败日志。"
+instruction = "请跟打，检查失败服务。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_01"
+command_id = "shared-2706a13e8b69846d"
+
+[[steps]]
+title = "查看启动错误"
+output = "ERROR: [Errno 98] Address already in use: 0.0.0.0:8000"
+explanation = "errno 98 指向端口绑定冲突。"
+instruction = "请跟打，查看启动错误。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_02"
+command_id = "shared-d425be20d17340b6"
+
+[[steps]]
+title = "查 8000 端口拥有者"
+output = "LISTEN 0 5 0.0.0.0:8000 0.0.0.0:* users:((\"python3\",pid=2400,fd=3))"
+explanation = "占用者为 PID 2400；不能仅凭 python3 就判定可终止。"
+instruction = "请跟打，查 8000 端口拥有者。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_03"
+command_id = "v04-port_process-84205b4dd3"
+
+[steps.decision]
+question = "接下来该做什么？"
+
+[[steps.decision.choices]]
+text = "查看进程完整命令与所属服务"
+correct = true
+feedback = "对，确认归属后才能判断影响范围。"
+
+[[steps.decision.choices]]
+text = "立即 kill -9 所有 python3"
+correct = false
+feedback = "所有 Python 进程可能包含其他业务；当前只有一个已定位 PID。"
+
+[[steps]]
+title = "检查完整启动参数"
+output = "2400 1 ace python3 -m http.server 8000"
+explanation = "这是演示静态服务器，与 orders-api 的 uvicorn 启动命令不同。"
+instruction = "请跟打，检查完整启动参数。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_04"
+command_id = "shared-93dd3f6f962d5279"
+
+[[steps]]
+title = "确认所属服务"
+output = "demo-http.service - Temporary demo server\nMain PID: 2400 (python3)"
+explanation = "演示服务器受 systemd 管理；直接杀进程可能触发自动重启。"
+instruction = "请跟打，确认所属服务。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_05"
+command_id = "shared-b2191d7f54b3acb6"
+
+[[steps]]
+title = "停止已确认不再需要的演示服务"
+output = "[模拟：demo-http 已停止]"
+explanation = "按服务停止，尊重进程管理器生命周期。"
+instruction = "请跟打，停止已确认不再需要的演示服务。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_06"
+command_id = "shared-5d14182b8d3a010a"
+
+[[steps]]
+title = "复查端口释放"
+output = "State Recv-Q Send-Q Local Address:Port Peer Address:Port"
+explanation = "没有 LISTEN 行，冲突端口已释放。"
+instruction = "请跟打，复查端口释放。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_07"
+command_id = "v04-port_process-84205b4dd3"
+
+[steps.decision]
+question = "下一步是什么？"
+
+[[steps.decision.choices]]
+text = "启动 orders-api 并检查健康接口"
+correct = true
+feedback = "对，资源冲突解除还需证明目标应用能运行。"
+
+[[steps.decision.choices]]
+text = "把冲突视为解决，跳过业务验证"
+correct = false
+feedback = "释放端口只完成修复的一半，还没验证目标服务。"
+
+[[steps]]
+title = "启动 API"
+output = "[模拟：orders-api 已启动]"
+explanation = "若再次失败，应返回新的日志证据。"
+instruction = "请跟打，启动 API。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_08"
+command_id = "shared-deae82e6426b7b2e"
+
+[[steps]]
+title = "验证业务健康"
+output = "{\"status\":\"ok\"}"
+explanation = "应用成功绑定端口并响应健康检查。"
+instruction = "请跟打，验证业务健康。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_09"
+command_id = "shared-e2281a98a4b26251"

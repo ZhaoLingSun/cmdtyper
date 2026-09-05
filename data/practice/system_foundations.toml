@@ -1,0 +1,468 @@
+
+[[groups]]
+id = "practice-system-config_files-bashrc"
+source_kind = "system"
+source_id = "config_files"
+unit_id = "bashrc"
+title = "Shell 配置文件"
+teaching_command_id = "v04-ref-47bb0ffc73"
+exercise_command_ids = ["source-bashrc", "v04-ex-qa-e17caca506", "v04-ex-review-5d1cb9cb8f"]
+
+[[groups]]
+id = "practice-system-config_files-sshd"
+source_kind = "system"
+source_id = "config_files"
+unit_id = "sshd"
+title = "SSH 服务配置"
+teaching_command_id = "v04-ref-6c864869bf"
+exercise_command_ids = ["shared-e431d5ade2e6e1f5", "v04-ex-review-5f9fdcc237", "v04-ex-review-d527734825"]
+
+[[groups]]
+id = "practice-system-config_files-nginx"
+source_kind = "system"
+source_id = "config_files"
+unit_id = "nginx"
+title = "Nginx Web 服务器配置"
+teaching_command_id = "v04-ref-6b55fc52e0"
+exercise_command_ids = ["v04-ref-d526cdf4cc", "systemctl-restart-nginx", "v04-ex-8c298f48dd"]
+
+[[groups]]
+id = "practice-system-config_files-fstab"
+source_kind = "system"
+source_id = "config_files"
+unit_id = "fstab"
+title = "文件系统挂载表"
+teaching_command_id = "v04-ref-34415115a3"
+exercise_command_ids = ["v04-ex-review-9190de6648", "v04-storage_observe-93b0b8a591", "v04-ex-review-88156bb1e4"]
+
+[[groups]]
+id = "practice-system-config_files-crontab"
+source_kind = "system"
+source_id = "config_files"
+unit_id = "crontab"
+title = "定时任务配置"
+teaching_command_id = "crontab-list"
+exercise_command_ids = ["crontab-edit", "v04-ex-7f63c3e829", "v04-ex-review-cc33fbcce9"]
+
+[[groups]]
+id = "practice-system-directory_structure-etc"
+source_kind = "system"
+source_id = "directory_structure"
+unit_id = "etc"
+title = "/etc 系统配置目录"
+teaching_command_id = "v04-ref-c8ae6b6b9a"
+exercise_command_ids = ["v04-ref-eb3714c8a8", "v04-ref-c8e8350489", "v04-ref-8536c102ab"]
+
+[[groups]]
+id = "practice-system-directory_structure-var"
+source_kind = "system"
+source_id = "directory_structure"
+unit_id = "var"
+title = "/var 可变数据目录"
+teaching_command_id = "v04-ref-0bbda2194a"
+exercise_command_ids = ["v04-ref-caa407deeb", "v04-ref-3f7d03fad0", "v04-ex-53c2ff6498"]
+
+[[groups]]
+id = "practice-system-directory_structure-usr"
+source_kind = "system"
+source_id = "directory_structure"
+unit_id = "usr"
+title = "/usr 用户程序目录"
+teaching_command_id = "v04-ref-c8ed0da80d"
+exercise_command_ids = ["v04-ref-04c9f310e0", "v04-ref-d3da986856", "readlink-canonical"]
+
+[[groups]]
+id = "practice-system-directory_structure-home"
+source_kind = "system"
+source_id = "directory_structure"
+unit_id = "home"
+title = "/home 用户家目录"
+teaching_command_id = "v04-ref-4421f2a4d1"
+exercise_command_ids = ["v04-ref-e02e268493", "v04-ref-77ea660117", "v04-ex-f51f4bd9dc"]
+
+[[groups]]
+id = "practice-system-directory_structure-tmp"
+source_kind = "system"
+source_id = "directory_structure"
+unit_id = "tmp"
+title = "/tmp 临时文件目录"
+teaching_command_id = "v04-ref-8640fd8ece"
+exercise_command_ids = ["v04-ref-39cb1cbabd", "v04-ref-b78c7c207e", "v04-ex-qa-c23a2796a8"]
+
+[[groups]]
+id = "practice-system-directory_structure-dev"
+source_kind = "system"
+source_id = "directory_structure"
+unit_id = "dev"
+title = "/dev 设备文件目录"
+teaching_command_id = "v04-ref-1cb130f268"
+exercise_command_ids = ["v04-ref-1879de6367", "v04-ex-qa-04cbe3e706", "shared-cd8512052ebbd251"]
+
+[[groups]]
+id = "practice-system-directory_structure-proc"
+source_kind = "system"
+source_id = "directory_structure"
+unit_id = "proc"
+title = "/proc 进程信息伪文件系统"
+teaching_command_id = "v04-ref-49bc704d94"
+exercise_command_ids = ["v04-ref-29d4c4d5ac", "v04-ref-bcd39db8f0", "v04-ref-a66995af0f"]
+
+[[groups]]
+id = "practice-system-directory_structure-sys"
+source_kind = "system"
+source_id = "directory_structure"
+unit_id = "sys"
+title = "/sys 系统信息伪文件系统"
+teaching_command_id = "v04-ref-a5cbdb161a"
+exercise_command_ids = ["v04-ref-2330f8525b", "v04-link-54dafe3add", "v04-link-1fd5a6fe42"]
+
+[[groups]]
+id = "practice-system-filesystem_permissions-rwx-basics"
+source_kind = "system"
+source_id = "filesystem_permissions"
+unit_id = "rwx-basics"
+title = "rwx 权限基础"
+teaching_command_id = "v04-ref-4421f2a4d1"
+exercise_command_ids = ["v04-ref-eb07f0ae8e", "v04-ref-1cfa0bdc36", "v04-ex-fd53d00d98"]
+
+[[groups]]
+id = "practice-system-filesystem_permissions-chmod"
+source_kind = "system"
+source_id = "filesystem_permissions"
+unit_id = "chmod"
+title = "chmod 修改权限"
+teaching_command_id = "v04-ref-97cea508df"
+exercise_command_ids = ["v04-ref-346bbb60aa", "v04-ref-b5741947d4", "v04-ref-eb870b3db3"]
+
+[[groups]]
+id = "practice-system-filesystem_permissions-chown-chgrp"
+source_kind = "system"
+source_id = "filesystem_permissions"
+unit_id = "chown-chgrp"
+title = "chown/chgrp 修改归属"
+teaching_command_id = "v04-ref-49507e74a4"
+exercise_command_ids = ["v04-ref-da5118d24f", "v04-ref-5b875f039f", "chgrp-www-data"]
+
+[[groups]]
+id = "practice-system-filesystem_permissions-umask"
+source_kind = "system"
+source_id = "filesystem_permissions"
+unit_id = "umask"
+title = "umask 默认权限掩码"
+teaching_command_id = "umask-show"
+exercise_command_ids = ["v04-ex-0e86550cb5", "v04-ex-e4a5907a91", "v04-ex-2bfbe9f0a0"]
+
+[[groups]]
+id = "practice-system-filesystem_permissions-special-permissions"
+source_kind = "system"
+source_id = "filesystem_permissions"
+unit_id = "special-permissions"
+title = "特殊权限（SUID/SGID/Sticky Bit）"
+teaching_command_id = "v04-ref-1cfa0bdc36"
+exercise_command_ids = ["v04-ref-40182dbff1", "v04-ref-b78c7c207e", "v04-ref-c507278d1c"]
+
+[[groups]]
+id = "practice-system-network_basics-ip-address"
+source_kind = "system"
+source_id = "network_basics"
+unit_id = "ip-address"
+title = "IP 地址与网卡"
+teaching_command_id = "v04-ref-1394aeac24"
+exercise_command_ids = ["v04-ref-88bfe9866c", "v04-ex-review-5d20b6c282", "v04-ref-80165fcc4b"]
+
+[[groups]]
+id = "practice-system-network_basics-dns"
+source_kind = "system"
+source_id = "network_basics"
+unit_id = "dns"
+title = "DNS 解析"
+teaching_command_id = "v04-ref-b472e9e666"
+exercise_command_ids = ["dig-short-domain", "v04-ref-00c72bba3f", "v04-ref-9ec875cb41"]
+
+[[groups]]
+id = "practice-system-network_basics-ports-services"
+source_kind = "system"
+source_id = "network_basics"
+unit_id = "ports-services"
+title = "端口与服务"
+teaching_command_id = "v04-ref-ce919f47dd"
+exercise_command_ids = ["v04-ref-9e60a9053e", "v04-ex-review-54d263b75c", "v04-ref-8242f087aa"]
+
+[[groups]]
+id = "practice-system-network_basics-firewall-ufw"
+source_kind = "system"
+source_id = "network_basics"
+unit_id = "firewall-ufw"
+title = "防火墙 (ufw)"
+teaching_command_id = "ufw-status"
+exercise_command_ids = ["ufw-allow-ssh", "v04-ref-812878820a", "v04-ref-703be84027"]
+
+[[groups]]
+id = "practice-system-network_basics-network-diagnostics"
+source_kind = "system"
+source_id = "network_basics"
+unit_id = "network-diagnostics"
+title = "网络诊断"
+teaching_command_id = "ping-count-four"
+exercise_command_ids = ["v04-ref-40c980ae51", "v04-ref-4db7c8a7ca", "v04-ref-ee931fd010"]
+
+[[groups]]
+id = "practice-system-package_management-apt"
+source_kind = "system"
+source_id = "package_management"
+unit_id = "apt"
+title = "APT 包管理（Debian/Ubuntu）"
+teaching_command_id = "apt-update"
+exercise_command_ids = ["v04-ref-512a96d4b4", "v04-ref-53d6b97554", "v04-ref-099669d1c0"]
+
+[[groups]]
+id = "practice-system-package_management-yum-dnf"
+source_kind = "system"
+source_id = "package_management"
+unit_id = "yum-dnf"
+title = "YUM/DNF 包管理（RHEL/CentOS/Fedora）"
+teaching_command_id = "v04-ref-f8ac6f09c8"
+exercise_command_ids = ["v04-ref-7da4c11ab0", "v04-ref-689d20621b", "v04-ref-80ebe9049b"]
+
+[[groups]]
+id = "practice-system-package_management-pacman"
+source_kind = "system"
+source_id = "package_management"
+unit_id = "pacman"
+title = "Pacman 包管理（Arch Linux）"
+teaching_command_id = "v04-ref-175b0d58f3"
+exercise_command_ids = ["v04-ref-ba2dd74c04", "v04-ref-07cfb8c64a", "v04-ref-878de0e31d"]
+
+[[groups]]
+id = "practice-system-package_management-common-tasks"
+source_kind = "system"
+source_id = "package_management"
+unit_id = "common-tasks"
+title = "常见包管理任务"
+teaching_command_id = "v04-ref-f0ac6e8f47"
+exercise_command_ids = ["v04-ref-72c3d3cc39", "v04-ref-865876ee9e", "apt-upgrade-review"]
+
+[[groups]]
+id = "practice-system-process_systemd-process-basics"
+source_kind = "system"
+source_id = "process_systemd"
+unit_id = "process-basics"
+title = "进程基础"
+teaching_command_id = "v04-ref-bb542eda71"
+exercise_command_ids = ["v04-ref-746578f7f3", "v04-ref-a05979f0c1", "v04-ref-fdadf4b271"]
+
+[[groups]]
+id = "practice-system-process_systemd-process-signals"
+source_kind = "system"
+source_id = "process_systemd"
+unit_id = "process-signals"
+title = "信号与进程控制"
+teaching_command_id = "v04-ref-3be3b7d642"
+exercise_command_ids = ["v04-ex-1a01b9884f", "v04-ex-13e99fbdb9", "v04-ex-review-e1793e55b2"]
+
+[[groups]]
+id = "practice-system-process_systemd-job-control"
+source_kind = "system"
+source_id = "process_systemd"
+unit_id = "job-control"
+title = "作业控制"
+teaching_command_id = "jobs-basic"
+exercise_command_ids = ["bg-job-one", "fg-job-one", "v04-ref-ae516be39b"]
+
+[[groups]]
+id = "practice-system-process_systemd-systemd-units"
+source_kind = "system"
+source_id = "process_systemd"
+unit_id = "systemd-units"
+title = "Systemd 服务单元"
+teaching_command_id = "v04-ref-366be2c91e"
+exercise_command_ids = ["systemctl-status-nginx", "v04-ref-e6cab7cf2a", "v04-ref-22c52518ec"]
+
+[[groups]]
+id = "practice-system-process_systemd-journalctl"
+source_kind = "system"
+source_id = "process_systemd"
+unit_id = "journalctl"
+title = "Journalctl 日志查看"
+teaching_command_id = "v04-ref-b51d9f140d"
+exercise_command_ids = ["v04-ref-46a418a934", "journalctl-errors-boot", "v04-ex-review-4f9345a9cc"]
+
+[[groups]]
+id = "practice-system-terminal_shell_tty-process-session-tty-model"
+source_kind = "system"
+source_id = "terminal_shell_tty"
+unit_id = "process-session-tty-model"
+title = "PID、PPID、SID 与 TTY：先确认进程属于哪个会话"
+teaching_command_id = "tty-current-terminal"
+exercise_command_ids = ["ps-session-terminal-review", "v04-ref-4d727eaf56", "v04-ex-10b234ee47"]
+
+[[groups]]
+id = "practice-system-terminal_shell_tty-tmux-detach-reattach"
+source_kind = "system"
+source_id = "terminal_shell_tty"
+unit_id = "tmux-detach-reattach"
+title = "tmux：让程序依附于可分离的伪终端"
+teaching_command_id = "tmux-new-session"
+exercise_command_ids = ["v04-ex-5178d9cbd1", "v04-ex-review-d926098cb9", "v04-ex-44f0759038"]
+
+[[groups]]
+id = "practice-system-terminal_shell_tty-reptyr-safety-boundaries"
+source_kind = "system"
+source_id = "terminal_shell_tty"
+unit_id = "reptyr-safety-boundaries"
+title = "reptyr：仅在身份、所有权与内核策略都验证后考虑"
+teaching_command_id = "command-v-reptyr"
+exercise_command_ids = ["yama-ptrace-scope-read", "reptyr-attach-normal", "ps-tty-session-scope-review"]
+
+[[groups]]
+id = "practice-system-terminal_shell_tty-detached-task-recovery-scenario"
+source_kind = "system"
+source_id = "terminal_shell_tty"
+unit_id = "detached-task-recovery-scenario"
+title = "七步场景：SSH 断开后恢复长期任务"
+teaching_command_id = "tty-current-terminal"
+exercise_command_ids = ["tmux-list-sessions-recovery", "tmux-list-panes-recovery-format", "tmux-attach-session"]
+
+[[groups]]
+id = "practice-system-standard_streams_exit_status-three-standard-streams"
+source_kind = "system"
+source_id = "standard_streams_exit_status"
+unit_id = "three-standard-streams"
+title = "stdin、stdout、stderr 与文件描述符"
+teaching_command_id = "redirect-file-to-stdin"
+exercise_command_ids = ["v04-ex-b402dae83f", "v04-ex-cd8e7b29fc", "v04-ex-1977e75759"]
+
+[[groups]]
+id = "practice-system-standard_streams_exit_status-redirection-pipeline-order"
+source_kind = "system"
+source_id = "standard_streams_exit_status"
+unit_id = "redirection-pipeline-order"
+title = "重定向从左到右，管道默认只接 stdout"
+teaching_command_id = "redirect-both-after-stdout"
+exercise_command_ids = ["redirect-order-stderr-terminal", "pipe-stdout-only-count", "pipe-merge-stderr-count"]
+
+[[groups]]
+id = "practice-system-standard_streams_exit_status-exit-status-and-short-circuit"
+source_kind = "system"
+source_id = "standard_streams_exit_status"
+unit_id = "exit-status-and-short-circuit"
+title = "退出状态：0 表示成功，非 0 表示未完成预期"
+teaching_command_id = "shell-last-exit-status"
+exercise_command_ids = ["v04-ex-e72d3b8059", "v04-ex-2cc809b680", "v04-ex-cb1138050f"]
+
+[[groups]]
+id = "practice-system-standard_streams_exit_status-stream-diagnosis-scenario"
+source_kind = "system"
+source_id = "standard_streams_exit_status"
+unit_id = "stream-diagnosis-scenario"
+title = "六步场景：命令有报错但统计结果仍是 0"
+teaching_command_id = "v04-ref-8114e17f6e"
+exercise_command_ids = ["pipe-stdout-only-count", "v04-ex-qa-65ce188c94", "pipe-merge-stderr-count"]
+
+[[groups]]
+id = "practice-system-storage_filesystems_mounts-block-device-filesystem-layer"
+source_kind = "system"
+source_id = "storage_filesystems_mounts"
+unit_id = "block-device-filesystem-layer"
+title = "块设备、分区与文件系统不是同一层"
+teaching_command_id = "disk-lsblk-size-mountpoints"
+exercise_command_ids = ["disk-lsblk-filesystems", "disk-blkid-all", "v04-ex-cc8f75b939"]
+
+[[groups]]
+id = "practice-system-storage_filesystems_mounts-mount-tree-and-namespace"
+source_kind = "system"
+source_id = "storage_filesystems_mounts"
+unit_id = "mount-tree-and-namespace"
+title = "挂载点把文件系统接入统一目录树"
+teaching_command_id = "disk-findmnt-root"
+exercise_command_ids = ["disk-findmnt-path-target", "v04-ref-9993965839", "v04-ex-64b15d3c65"]
+
+[[groups]]
+id = "practice-system-storage_filesystems_mounts-capacity-inodes-and-usage"
+source_kind = "system"
+source_id = "storage_filesystems_mounts"
+unit_id = "capacity-inodes-and-usage"
+title = "df 看文件系统，du 看目录树；inode 也可能耗尽"
+teaching_command_id = "disk-df-human-root"
+exercise_command_ids = ["disk-df-inodes-root", "disk-du-summary-downloads", "disk-du-project-depth-one"]
+
+[[groups]]
+id = "practice-system-storage_filesystems_mounts-disk-full-diagnosis-scenario"
+source_kind = "system"
+source_id = "storage_filesystems_mounts"
+unit_id = "disk-full-diagnosis-scenario"
+title = "七步场景：应用报告 No space left on device"
+teaching_command_id = "disk-df-human-root"
+exercise_command_ids = ["v04-ex-8a5ee4d992", "v04-storage_observe-8c34d855fb", "du-summary"]
+
+[[groups]]
+id = "practice-system-users_groups_sudo_sessions-identity-and-group-membership"
+source_kind = "system"
+source_id = "users_groups_sudo_sessions"
+unit_id = "identity-and-group-membership"
+title = "真实身份、有效身份与补充组"
+teaching_command_id = "id-training-account"
+exercise_command_ids = ["groups-training-account", "getent-training-account", "getent-training-group"]
+
+[[groups]]
+id = "practice-system-users_groups_sudo_sessions-sudo-authorization-boundary"
+source_kind = "system"
+source_id = "users_groups_sudo_sessions"
+unit_id = "sudo-authorization-boundary"
+title = "sudo 授权边界（各题独立，管理查询使用管理员账号）"
+teaching_command_id = "sudo-current-rules-audit"
+exercise_command_ids = ["sudo-training-rules-audit", "v04-ex-review-aef35ddea0", "v04-ex-review-9889e58ef2"]
+
+[[groups]]
+id = "practice-system-users_groups_sudo_sessions-login-sessions-and-process-context"
+source_kind = "system"
+source_id = "users_groups_sudo_sessions"
+unit_id = "login-sessions-and-process-context"
+title = "账户存在、用户已登录、进程正在运行是三件事"
+teaching_command_id = "v04-ref-b7adf77905"
+exercise_command_ids = ["w-basic", "last-logins", "v04-ref-e6802f6d72"]
+
+[[groups]]
+id = "practice-system-users_groups_sudo_sessions-access-denied-scenario"
+source_kind = "system"
+source_id = "users_groups_sudo_sessions"
+unit_id = "access-denied-scenario"
+title = "七步场景：training 用户无法读取文件且 sudo 被拒绝"
+teaching_command_id = "id-training-account"
+exercise_command_ids = ["getent-training-account", "v04-ex-review-9411f6b8dc", "sudo-training-rules-audit"]
+
+[[groups]]
+id = "practice-system-locale_time_encoding-locale-precedence"
+source_kind = "system"
+source_id = "locale_time_encoding"
+unit_id = "locale-precedence"
+title = "LANG、LC_* 与 LC_ALL 的覆盖关系"
+teaching_command_id = "locale-current-settings"
+exercise_command_ids = ["v04-ex-review-a35ca6b63a", "v04-ex-review-39247445ea", "v04-ex-review-cbd198a330"]
+
+[[groups]]
+id = "practice-system-locale_time_encoding-encoding-and-text-bytes"
+source_kind = "system"
+source_id = "locale_time_encoding"
+unit_id = "encoding-and-text-bytes"
+title = "UTF-8 是编码，不是语言"
+teaching_command_id = "locale-current-charmap"
+exercise_command_ids = ["v04-ref-21d1e955a2", "v04-ref-1db3107bc3", "v04-ref-ab461223c3"]
+
+[[groups]]
+id = "practice-system-locale_time_encoding-time-zone-and-clock"
+source_kind = "system"
+source_id = "locale_time_encoding"
+unit_id = "time-zone-and-clock"
+title = "时间点、时区、系统时钟与显示格式"
+teaching_command_id = "date-current-local"
+exercise_command_ids = ["date-current-utc", "date-iso-calendar-day", "date-timezone-abbreviation"]
+
+[[groups]]
+id = "practice-system-locale_time_encoding-garbled-time-scenario"
+source_kind = "system"
+source_id = "locale_time_encoding"
+unit_id = "garbled-time-scenario"
+title = "七步场景：中文日志乱码且时间相差八小时"
+teaching_command_id = "locale-current-settings"
+exercise_command_ids = ["locale-current-charmap", "v04-ref-b709db98a7", "v04-ex-review-ee099f43f9"]

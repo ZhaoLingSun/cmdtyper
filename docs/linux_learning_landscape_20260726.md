@@ -324,4 +324,3 @@ shell 概念 → 导航(pwd/cd/ls) → 文件操作(touch/cp/mv/mkdir/rm) → �
 - 概念讲解卡（少打字/不打字内容）覆盖高票概念混淆区：terminal/shell/tty 区别、sh vs bash、login shell、/usr/bin vs /usr/local/bin、man 页数字、-- 双横线；再加'急救卡'：Ctrl-S 假死按 Ctrl-Q、Ctrl-C/Ctrl-Z/fg、kill -9 无效意味着什么、rm 事故预防(-i、-- 、先 ls 再 rm 的习惯)。适合放进现有'系统架构专题/符号训练'框架。
 - 编排原则：按'任务/症状'组织专题而非教材式知识体系（数据表明新手全部按 How-do-I-X 和报错原文提问，没人按章节学）；鸟哥式的磁盘分割/Quota/RAID/内核编译等章节不必进题库。Reddit 型痛点（选发行版/装系统/驱动）不适合打字题，最多做一张导读讲解卡。
 - 中文本地化差异化机会：换源、乱码、输入法、Windows 宿主机(WSL/虚拟机/Xshell/文件互传) 是英文教学产品完全不覆盖的刚需，做成'中文用户生存专题'可成为 cmdtyper 独有卖点；其中换源(编辑 sources.list + apt update)和乱码排查(locale/LANG/unzip -O)都是可打字练习的命令序列。
-

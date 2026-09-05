@@ -1,7 +1,6 @@
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 
 use crate::app::{App, AppState};
-use crate::core::scorer;
 use crate::data::models::{DeepSource, RecordMode, lesson_example_progress_key};
 
 pub fn handle_command_lesson_overview_key(
@@ -71,6 +70,15 @@ pub fn handle_command_lesson_practice_key(
     command_index: usize,
     example_index: usize,
 ) {
+    if key
+        .modifiers
+        .intersects(KeyModifiers::CONTROL | KeyModifiers::ALT)
+        && !(key.modifiers.contains(KeyModifiers::CONTROL)
+            && !key.modifiers.contains(KeyModifiers::ALT)
+            && key.code == KeyCode::Char('r'))
+    {
+        return;
+    }
     match key.code {
         KeyCode::Esc => {
             app.state = AppState::CommandLessonOverview {
@@ -137,10 +145,7 @@ pub fn handle_command_lesson_practice_key(
                 let record =
                     app.typing_engine
                         .finish(&command_id, difficulty, RecordMode::LessonPractice);
-                scorer::update_stats(&mut app.user_stats, &record);
-                let _ = app.progress_store.save_stats(&app.user_stats);
-                let _ = app.progress_store.append_record(&record);
-                app.history.push(record);
+                app.persist_record(record);
 
                 // Move to next example or back to overview
                 let next_example = example_index + 1;

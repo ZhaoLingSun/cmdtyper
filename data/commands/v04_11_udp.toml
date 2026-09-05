@@ -1,0 +1,330 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "UDP 没有 TCP 握手；使用 DNS 等应用协议应答验证服务，不能只凭 nc -u 无报错。"
+
+[meta.topic]
+id = "v04_udp"
+title = "UDP 服务与验证边界"
+icon = "🌐"
+order = 111
+
+[[commands]]
+id = "v04-udp-af48ca3f18"
+command = "ss -lun"
+summary = "查看 UDP 未连接套接字及本地绑定端口"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -lun"
+desc = "查看 UDP 本地绑定并使用数字地址与端口"
+
+[commands.dictation]
+prompt = "查看 UDP 未连接套接字及本地绑定端口"
+answers = ["ss -lun"]
+
+[[commands]]
+id = "v04-udp-74722c9ef4"
+command = "sudo ss -lunp"
+summary = "查看 UDP 绑定进程，需要权限读取其他用户进程"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -lunp"
+desc = "查看 UDP 绑定和所属进程"
+
+[commands.dictation]
+prompt = "查看 UDP 绑定进程，需要权限读取其他用户进程"
+answers = ["sudo ss -lunp"]
+
+[[commands]]
+id = "v04-udp-12aee04ac9"
+command = "ss -lun 'sport = :53'"
+summary = "检查 DNS 的 UDP 监听端口"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -lun"
+desc = "查看 UDP 本地绑定并使用数字地址与端口"
+
+[[commands.tokens]]
+text = " 'sport = :53'"
+desc = "引号保护此参数中的空格或特殊符号；检查 DNS 的 UDP 监听端口"
+
+[commands.dictation]
+prompt = "检查 DNS 的 UDP 监听端口"
+answers = ["ss -lun 'sport = :53'"]
+
+[[commands]]
+id = "v04-udp-a7f0b12106"
+command = "ss -lun 'sport = :123'"
+summary = "检查 NTP 的 UDP 监听端口"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -lun"
+desc = "查看 UDP 本地绑定并使用数字地址与端口"
+
+[[commands.tokens]]
+text = " 'sport = :123'"
+desc = "引号保护此参数中的空格或特殊符号；检查 NTP 的 UDP 监听端口"
+
+[commands.dictation]
+prompt = "检查 NTP 的 UDP 监听端口"
+answers = ["ss -lun 'sport = :123'"]
+
+[[commands]]
+id = "v04-udp-15c3624841"
+command = "ss -lun 'sport = :514'"
+summary = "检查 syslog UDP 接收端口"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -lun"
+desc = "查看 UDP 本地绑定并使用数字地址与端口"
+
+[[commands.tokens]]
+text = " 'sport = :514'"
+desc = "引号保护此参数中的空格或特殊符号；检查 syslog UDP 接收端口"
+
+[commands.dictation]
+prompt = "检查 syslog UDP 接收端口"
+answers = ["ss -lun 'sport = :514'"]
+
+[[commands]]
+id = "v04-udp-2d4d7ec3e5"
+command = "ss -4 -lun"
+summary = "只查看 IPv4 UDP 绑定"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -4"
+desc = "只看 IPv4 套接字"
+
+[[commands.tokens]]
+text = " -lun"
+desc = "查看 UDP 本地绑定并使用数字地址与端口"
+
+[commands.dictation]
+prompt = "只查看 IPv4 UDP 绑定"
+answers = ["ss -4 -lun"]
+
+[[commands]]
+id = "v04-udp-da8052c6a4"
+command = "ss -6 -lun"
+summary = "只查看 IPv6 UDP 绑定"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -6"
+desc = "只看 IPv6 套接字"
+
+[[commands.tokens]]
+text = " -lun"
+desc = "查看 UDP 本地绑定并使用数字地址与端口"
+
+[commands.dictation]
+prompt = "只查看 IPv6 UDP 绑定"
+answers = ["ss -6 -lun"]
+
+[[commands]]
+id = "v04-udp-4a0b228744"
+command = "dig @192.0.2.53 example.com A +notcp +time=1 +tries=1"
+summary = "以真实 DNS 应答验证 UDP 53，而非仅发送空数据"
+
+[[commands.tokens]]
+text = "dig"
+desc = "使用 BIND DNS 查询工具检查服务器应答"
+
+[[commands.tokens]]
+text = " @192.0.2.53"
+desc = "以真实 DNS 应答验证 UDP 53，而非仅发送空数据；指定 @192.0.2.53"
+
+[[commands.tokens]]
+text = " example.com"
+desc = "以真实 DNS 应答验证 UDP 53，而非仅发送空数据；指定 example.com"
+
+[[commands.tokens]]
+text = " A"
+desc = "以真实 DNS 应答验证 UDP 53，而非仅发送空数据；指定 A"
+
+[[commands.tokens]]
+text = " +notcp"
+desc = "以真实 DNS 应答验证 UDP 53，而非仅发送空数据；此处使用 +notcp 选项"
+
+[[commands.tokens]]
+text = " +time=1"
+desc = "以真实 DNS 应答验证 UDP 53，而非仅发送空数据；此处使用 +time=1 选项"
+
+[[commands.tokens]]
+text = " +tries=1"
+desc = "以真实 DNS 应答验证 UDP 53，而非仅发送空数据；此处使用 +tries=1 选项"
+
+[commands.dictation]
+prompt = "以真实 DNS 应答验证 UDP 53，而非仅发送空数据"
+answers = ["dig @192.0.2.53 example.com A +notcp +time=1 +tries=1"]
+
+[[commands]]
+id = "v04-udp-6ed1302652"
+command = "sudo tcpdump -ni any -c 12 'udp port 123'"
+summary = "观察 NTP 请求与响应；无包时检查是否选对接口与时段"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " any"
+desc = "观察 NTP 请求与响应；无包时检查是否选对接口与时段；指定 any"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 12"
+desc = "本次练习的数值参数 12；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 'udp port 123'"
+desc = "引号保护此参数中的空格或特殊符号；观察 NTP 请求与响应；无包时检查是否选对接口与时段"
+
+[commands.dictation]
+prompt = "观察 NTP 请求与响应；无包时检查是否选对接口与时段"
+answers = ["sudo tcpdump -ni any -c 12 'udp port 123'"]
+
+[[commands]]
+id = "v04-udp-b1f2a969c6"
+command = "sudo tcpdump -ni any -c 12 'udp port 514'"
+summary = "检查日志报文是否到达主机"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " any"
+desc = "检查日志报文是否到达主机；指定 any"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 12"
+desc = "本次练习的数值参数 12；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 'udp port 514'"
+desc = "引号保护此参数中的空格或特殊符号；检查日志报文是否到达主机"
+
+[commands.dictation]
+prompt = "检查日志报文是否到达主机"
+answers = ["sudo tcpdump -ni any -c 12 'udp port 514'"]
+
+[[commands]]
+id = "v04-udp-b2a23ba069"
+command = "sudo tcpdump -ni any -c 12 'icmp and icmp[0] = 3'"
+summary = "捕获 IPv4 目的不可达消息，结合代码区分端口不可达等原因"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " any"
+desc = "捕获 IPv4 目的不可达消息，结合代码区分端口不可达等原因；指定 any"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 12"
+desc = "本次练习的数值参数 12；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 'icmp and icmp[0] = 3'"
+desc = "引号保护此参数中的空格或特殊符号；捕获 IPv4 目的不可达消息，结合代码区分端口不可达等原因"
+
+[commands.dictation]
+prompt = "捕获 IPv4 目的不可达消息，结合代码区分端口不可达等原因"
+answers = ["sudo tcpdump -ni any -c 12 'icmp and icmp[0] = 3'"]
+
+[[commands]]
+id = "v04-udp-846b666b6a"
+command = "nstat -az UdpInErrors UdpNoPorts UdpRcvbufErrors"
+summary = "读取 UDP 错误计数，排查无端口及接收缓冲丢弃"
+
+[[commands.tokens]]
+text = "nstat"
+desc = "读取 UDP 错误计数，排查无端口及接收缓冲丢弃"
+
+[[commands.tokens]]
+text = " -az"
+desc = "读取 UDP 错误计数，排查无端口及接收缓冲丢弃；此处使用 -az 选项"
+
+[[commands.tokens]]
+text = " UdpInErrors"
+desc = "读取 UDP 错误计数，排查无端口及接收缓冲丢弃；指定 UdpInErrors"
+
+[[commands.tokens]]
+text = " UdpNoPorts"
+desc = "读取 UDP 错误计数，排查无端口及接收缓冲丢弃；指定 UdpNoPorts"
+
+[[commands.tokens]]
+text = " UdpRcvbufErrors"
+desc = "读取 UDP 错误计数，排查无端口及接收缓冲丢弃；指定 UdpRcvbufErrors"
+
+[commands.dictation]
+prompt = "读取 UDP 错误计数，排查无端口及接收缓冲丢弃"
+answers = ["nstat -az UdpInErrors UdpNoPorts UdpRcvbufErrors"]

@@ -1,3 +1,4 @@
+
 [meta]
 command = "date-apt-sources-locale"
 full_name = "Locale-aware dates and read-only APT source inspection"
@@ -7,22 +8,27 @@ importance = "common"
 
 [overview]
 summary = "区分 locale 与时区，并分层只读核对 APT 实际识别的软件源"
-explanation = """`date` 同时受时钟、时区和 locale 影响，但三者职责不同：LC_TIME 决定星期、月份等文字与默认格式，系统时区决定本地时间偏移，`-u` 仅把显示切换到 UTC，`%F` 输出稳定的 YYYY-MM-DD，`%Z` 只给可能不唯一的时区缩写。`cal` 的月份和星期名称同样受 LC_TIME 影响，且命令可能来自额外软件包。APT 软件源也需要分层理解：传统 `/etc/apt/sources.list` 只是一个文件；`sources.list.d` 还可能包含 `.list` 和 Deb822 `.sources` 分片；文件存在不等于条目启用、语法有效或被当前 APT 接受。`grep` 示例只筛传统主文件中的 deb 行，不能代表全部来源。`apt-cache policy` 汇总 APT 当前识别的来源和优先级，不修改软件源配置或已安装包，但查询可能读取并按权限重新生成本地缓存，因此“只读配置”不等于绝对没有任何本地缓存副作用。本课不写源文件、不运行 update、不安装包。"""
+explanation = "`date` 同时受时钟、时区和 locale 影响，但三者职责不同：LC_TIME 决定星期、月份等文字与默认格式，系统时区决定本地时间偏移，`-u` 仅把显示切换到 UTC，`%F` 输出稳定的 YYYY-MM-DD，`%Z` 只给可能不唯一的时区缩写。`cal` 的月份和星期名称同样受 LC_TIME 影响，且命令可能来自额外软件包。APT 软件源也需要分层理解：传统 `/etc/apt/sources.list` 只是一个文件；`sources.list.d` 还可能包含 `.list` 和 Deb822 `.sources` 分片；文件存在不等于条目启用、语法有效或被当前 APT 接受。`grep` 示例只筛传统主文件中的 deb 行，不能代表全部来源。`apt-cache policy` 汇总 APT 当前识别的来源和优先级，不修改软件源配置或已安装包，但查询可能读取并按权限重新生成本地缓存，因此“只读配置”不等于绝对没有任何本地缓存副作用。本课不写源文件、不运行 update、不安装包。"
 
 [syntax]
 basic = "date [+格式|-u]；cal；cat|grep|ls APT配置；apt-cache policy"
+
 [[syntax.parts]]
 name = "时间基准"
 desc = "默认显示本地时区，-u 以 UTC 显示；两者读取同一当前时刻，不修改系统时钟"
+
 [[syntax.parts]]
 name = "格式与语言"
 desc = "%A 和 cal 的名称受有效 LC_TIME 影响，%F 是固定数字日期；LANG 仅在未被覆盖时提供默认"
+
 [[syntax.parts]]
 name = "APT 配置层"
 desc = "传统主文件、.list 分片与 Deb822 .sources 都可能参与，需逐层核对"
+
 [[syntax.parts]]
 name = "启用与识别"
 desc = "列出文件名不证明启用；apt-cache policy 更接近 APT 当前识别结果与优先级"
+
 [[syntax.parts]]
 name = "查询副作用"
 desc = "cat/grep/ls/date/cal 只读展示；apt-cache 查询不改源或软件包，但可能维护本地缓存元数据"
@@ -110,20 +116,20 @@ level = 3
 
 [[gotchas]]
 title = "locale 不等于时区"
-content = """把 LC_TIME 改成中文会改变星期和月份文字，但不会把 UTC+8 变成其他偏移；`date -u` 选择 UTC 显示，也不会把消息语言切成英文。诊断应分别记录有效 LC_TIME、时区和格式字符串。"""
+content = "把 LC_TIME 改成中文会改变星期和月份文字，但不会把 UTC+8 变成其他偏移；`date -u` 选择 UTC 显示，也不会把消息语言切成英文。诊断应分别记录有效 LC_TIME、时区和格式字符串。"
 
 [[gotchas]]
 title = "时区缩写可能歧义"
-content = """CST、IST 等缩写在不同地区可代表不同含义，夏令时也会改变缩写。`date +%Z` 适合快速观察，不适合当作唯一机器标识；跨系统记录应同时保留数值偏移或完整时区名称。"""
+content = "CST、IST 等缩写在不同地区可代表不同含义，夏令时也会改变缩写。`date +%Z` 适合快速观察，不适合当作唯一机器标识；跨系统记录应同时保留数值偏移或完整时区名称。"
 
 [[gotchas]]
 title = "一个 sources.list 不是全部 APT 来源"
-content = """现代 Debian/Ubuntu 可能主要使用 `/etc/apt/sources.list.d/*.sources`。`cat /etc/apt/sources.list` 或 grep 传统 deb 行都只能说明该文件内容；分片扩展名、Deb822 段落、Enabled 字段、架构和签名配置仍需另外核对。"""
+content = "现代 Debian/Ubuntu 可能主要使用 `/etc/apt/sources.list.d/*.sources`。`cat /etc/apt/sources.list` 或 grep 传统 deb 行都只能说明该文件内容；分片扩展名、Deb822 段落、Enabled 字段、架构和签名配置仍需另外核对。"
 
 [[gotchas]]
 title = "列出配置文件不证明来源有效"
-content = """`ls /etc/apt/sources.list.d` 只给候选文件名。被忽略的扩展名、注释、禁用段、语法错误或不匹配架构都可能使文件不生效。`apt-cache policy` 展示当前缓存理解的来源，但也不证明远端此刻可达或元数据最新。"""
+content = "`ls /etc/apt/sources.list.d` 只给候选文件名。被忽略的扩展名、注释、禁用段、语法错误或不匹配架构都可能使文件不生效。`apt-cache policy` 展示当前缓存理解的来源，但也不证明远端此刻可达或元数据最新。"
 
 [[gotchas]]
 title = "只读查询也要准确描述副作用边界"
-content = """date、cal、cat、grep、ls 不修改目标配置；读取通常仍可能更新文件访问时间，取决于挂载策略。`apt-cache policy` 不改软件源和安装状态，但可能按实现与权限生成缓存。教学中应说“无配置/安装变更”，不要绝对化为“磁盘上任何字节都不会变化”。"""
+content = "date、cal、cat、grep、ls 不修改目标配置；读取通常仍可能更新文件访问时间，取决于挂载策略。`apt-cache policy` 不改软件源和安装状态，但可能按实现与权限生成缓存。教学中应说“无配置/安装变更”，不要绝对化为“磁盘上任何字节都不会变化”。"

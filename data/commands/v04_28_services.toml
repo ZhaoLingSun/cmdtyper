@@ -1,0 +1,355 @@
+[meta]
+category = "system"
+difficulty = "basic"
+description = "区分配置读取、校验、启动和重载；示例单元以 Ubuntu nginx 与 ssh 为基准。"
+
+[meta.topic]
+id = "v04_services"
+title = "systemd 服务生命周期与排错"
+icon = "🧰"
+order = 128
+command_ids = ["systemctl-daemon-reload", "systemctl-reload-nginx-service"]
+
+[[commands]]
+id = "v04-services-508adf43c2"
+command = "systemctl list-units --type=service --state=failed --no-pager"
+summary = "列出失败服务，先确定影响范围"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " list-units"
+desc = "列出失败服务，先确定影响范围；指定 list-units"
+
+[[commands.tokens]]
+text = " --type=service"
+desc = "列出失败服务，先确定影响范围；此处使用 --type=service 选项"
+
+[[commands.tokens]]
+text = " --state=failed"
+desc = "列出失败服务，先确定影响范围；此处使用 --state=failed 选项"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "禁用分页器，直接输出便于查看的结果"
+
+[commands.dictation]
+prompt = "列出失败服务，先确定影响范围"
+answers = ["systemctl list-units --type=service --state=failed --no-pager"]
+
+[[commands]]
+id = "v04-services-bca4b8dc96"
+command = "systemctl list-unit-files --type=service --no-pager"
+summary = "读取服务是否启用等单元文件状态"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " list-unit-files"
+desc = "读取服务是否启用等单元文件状态；指定 list-unit-files"
+
+[[commands.tokens]]
+text = " --type=service"
+desc = "读取服务是否启用等单元文件状态；此处使用 --type=service 选项"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "禁用分页器，直接输出便于查看的结果"
+
+[commands.dictation]
+prompt = "读取服务是否启用等单元文件状态"
+answers = ["systemctl list-unit-files --type=service --no-pager"]
+
+[[commands]]
+id = "v04-services-7f0c74d209"
+command = "systemctl cat nginx.service"
+summary = "查看 nginx 主单元及 drop-in 覆盖配置"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " cat"
+desc = "查看 nginx 主单元及 drop-in 覆盖配置；指定 cat"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "查看 nginx 主单元及 drop-in 覆盖配置；指定 nginx.service"
+
+[commands.dictation]
+prompt = "查看 nginx 主单元及 drop-in 覆盖配置"
+answers = ["systemctl cat nginx.service"]
+
+[[commands]]
+id = "v04-services-309565e8a0"
+command = "systemctl show nginx.service -p ExecStart -p FragmentPath -p DropInPaths"
+summary = "定位真实启动命令和配置来源"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " show"
+desc = "定位真实启动命令和配置来源；指定 show"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "定位真实启动命令和配置来源；指定 nginx.service"
+
+[[commands.tokens]]
+text = " -p"
+desc = "定位真实启动命令和配置来源；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " ExecStart"
+desc = "定位真实启动命令和配置来源；指定 ExecStart"
+
+[[commands.tokens]]
+text = " -p"
+desc = "定位真实启动命令和配置来源；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " FragmentPath"
+desc = "定位真实启动命令和配置来源；指定 FragmentPath"
+
+[[commands.tokens]]
+text = " -p"
+desc = "定位真实启动命令和配置来源；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " DropInPaths"
+desc = "定位真实启动命令和配置来源；指定 DropInPaths"
+
+[commands.dictation]
+prompt = "定位真实启动命令和配置来源"
+answers = ["systemctl show nginx.service -p ExecStart -p FragmentPath -p DropInPaths"]
+
+[[commands]]
+id = "v04-services-51151c2aa1"
+command = "systemctl show nginx.service -p NRestarts -p Restart -p Result"
+summary = "查看自动重启次数、策略和退出结果"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " show"
+desc = "查看自动重启次数、策略和退出结果；指定 show"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "查看自动重启次数、策略和退出结果；指定 nginx.service"
+
+[[commands.tokens]]
+text = " -p"
+desc = "查看自动重启次数、策略和退出结果；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " NRestarts"
+desc = "查看自动重启次数、策略和退出结果；指定 NRestarts"
+
+[[commands.tokens]]
+text = " -p"
+desc = "查看自动重启次数、策略和退出结果；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " Restart"
+desc = "查看自动重启次数、策略和退出结果；指定 Restart"
+
+[[commands.tokens]]
+text = " -p"
+desc = "查看自动重启次数、策略和退出结果；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " Result"
+desc = "查看自动重启次数、策略和退出结果；指定 Result"
+
+[commands.dictation]
+prompt = "查看自动重启次数、策略和退出结果"
+answers = ["systemctl show nginx.service -p NRestarts -p Restart -p Result"]
+
+[[commands]]
+id = "v04-services-5339cd3047"
+command = "systemctl list-dependencies nginx.service --no-pager"
+summary = "查看服务依赖，辅助查找上游启动失败"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " list-dependencies"
+desc = "查看服务依赖，辅助查找上游启动失败；指定 list-dependencies"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "查看服务依赖，辅助查找上游启动失败；指定 nginx.service"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "禁用分页器，直接输出便于查看的结果"
+
+[commands.dictation]
+prompt = "查看服务依赖，辅助查找上游启动失败"
+answers = ["systemctl list-dependencies nginx.service --no-pager"]
+
+[[commands]]
+id = "v04-services-aea2ce7a9c"
+command = "systemctl is-enabled ssh.service"
+summary = "检查 Ubuntu SSH 是否设为开机启动"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " is-enabled"
+desc = "检查 Ubuntu SSH 是否设为开机启动；指定 is-enabled"
+
+[[commands.tokens]]
+text = " ssh.service"
+desc = "检查 Ubuntu SSH 是否设为开机启动；指定 ssh.service"
+
+[commands.dictation]
+prompt = "检查 Ubuntu SSH 是否设为开机启动"
+answers = ["systemctl is-enabled ssh.service"]
+
+[[commands]]
+id = "v04-services-9ad575ec05"
+command = "systemctl status ssh.service --no-pager --full"
+summary = "完整显示 SSH 服务状态，避免截断日志行"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " status"
+desc = "完整显示 SSH 服务状态，避免截断日志行；指定 status"
+
+[[commands.tokens]]
+text = " ssh.service"
+desc = "完整显示 SSH 服务状态，避免截断日志行；指定 ssh.service"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "禁用分页器，直接输出便于查看的结果"
+
+[[commands.tokens]]
+text = " --full"
+desc = "完整显示 SSH 服务状态，避免截断日志行；此处使用 --full 选项"
+
+[commands.dictation]
+prompt = "完整显示 SSH 服务状态，避免截断日志行"
+answers = ["systemctl status ssh.service --no-pager --full"]
+
+[[commands]]
+id = "v04-services-0e41a228f4"
+command = "sudo systemd-analyze verify /etc/systemd/system/web.service"
+summary = "校验实验 Web 单元文件，变更生效前发现语法问题"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " systemd-analyze"
+desc = "校验实验 Web 单元文件，变更生效前发现语法问题"
+
+[[commands.tokens]]
+text = " verify"
+desc = "校验实验 Web 单元文件，变更生效前发现语法问题；指定 verify"
+
+[[commands.tokens]]
+text = " /etc/systemd/system/web.service"
+desc = "本次操作指定的路径：/etc/systemd/system/web.service"
+
+[commands.dictation]
+prompt = "校验实验 Web 单元文件，变更生效前发现语法问题"
+answers = ["sudo systemd-analyze verify /etc/systemd/system/web.service"]
+
+[[commands]]
+id = "v04-services-235fc2e970"
+command = "systemctl show nginx.service -p ExecMainStatus -p ExecMainCode"
+summary = "读取主进程退出状态和退出原因类别"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " show"
+desc = "读取主进程退出状态和退出原因类别；指定 show"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "读取主进程退出状态和退出原因类别；指定 nginx.service"
+
+[[commands.tokens]]
+text = " -p"
+desc = "读取主进程退出状态和退出原因类别；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " ExecMainStatus"
+desc = "读取主进程退出状态和退出原因类别；指定 ExecMainStatus"
+
+[[commands.tokens]]
+text = " -p"
+desc = "读取主进程退出状态和退出原因类别；此处使用 -p 选项"
+
+[[commands.tokens]]
+text = " ExecMainCode"
+desc = "读取主进程退出状态和退出原因类别；指定 ExecMainCode"
+
+[commands.dictation]
+prompt = "读取主进程退出状态和退出原因类别"
+answers = ["systemctl show nginx.service -p ExecMainStatus -p ExecMainCode"]
+
+[[commands]]
+id = "v04-services-ac31014179"
+command = "systemctl list-timers --all --no-pager"
+summary = "列出 systemd 定时器及下次、上次触发时间"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查询或管理 systemd 单元"
+
+[[commands.tokens]]
+text = " list-timers"
+desc = "列出 systemd 定时器及下次、上次触发时间；指定 list-timers"
+
+[[commands.tokens]]
+text = " --all"
+desc = "列出 systemd 定时器及下次、上次触发时间；此处使用 --all 选项"
+
+[[commands.tokens]]
+text = " --no-pager"
+desc = "禁用分页器，直接输出便于查看的结果"
+
+[commands.dictation]
+prompt = "列出 systemd 定时器及下次、上次触发时间"
+answers = ["systemctl list-timers --all --no-pager"]
+
+[[commands]]
+id = "v04-services-cc485eece7"
+command = "systemd-analyze critical-chain"
+summary = "查看启动关键依赖链，定位启动等待"
+
+[[commands.tokens]]
+text = "systemd-analyze"
+desc = "查看启动关键依赖链，定位启动等待"
+
+[[commands.tokens]]
+text = " critical-chain"
+desc = "查看启动关键依赖链，定位启动等待；指定 critical-chain"
+
+[commands.dictation]
+prompt = "查看启动关键依赖链，定位启动等待"
+answers = ["systemd-analyze critical-chain"]

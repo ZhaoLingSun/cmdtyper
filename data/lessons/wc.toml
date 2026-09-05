@@ -1,3 +1,4 @@
+
 [meta]
 command = "wc"
 full_name = "word count"
@@ -7,17 +8,15 @@ importance = "core"
 
 [overview]
 summary = "统计文件的行数、单词数和字节数"
-explanation = """wc（word count）命令用于统计文件中的行数、单词数和字节数。\
-它是最简单但最实用的文本处理工具之一。\
-wc 经常通过管道与其他命令配合使用，例如统计搜索结果的数量、\
-统计代码行数、检查文件记录数等。\
-不带任何选项时，wc 会同时输出行数、单词数和字节数。"""
+explanation = "wc（word count）命令用于统计文件中的行数、单词数和字节数。它是最简单但最实用的文本处理工具之一。wc 经常通过管道与其他命令配合使用，例如统计搜索结果的数量、统计代码行数、检查文件记录数等。不带任何选项时，wc 会同时输出行数、单词数和字节数。"
 
 [syntax]
 basic = "wc [选项] [文件]..."
+
 [[syntax.parts]]
 name = "选项"
 desc = "指定统计哪种计数"
+
 [[syntax.parts]]
 name = "文件"
 desc = "要统计的文件，省略时从标准输入读取"
@@ -54,22 +53,24 @@ note = "输出文件中最长行的字符数"
 
 [[examples]]
 level = 1
-command = "wc /etc/passwd"
 summary = "统计 /etc/passwd 的行数、单词数和字节数"
-simulated_output = """  42  68 2456 /etc/passwd"""
-
+simulated_output = "  42  68 2456 /etc/passwd"
 output_explanation = "输出分别表示行数、单词数、字节数（或仅某一项），常用于快速统计文本规模或结果数量。"
+id = "example-001"
+command_id = "v04-ref-1fec1130c6"
+
 [[examples.token_details]]
 token = "/etc/passwd"
 explanation = "系统用户账户信息文件。"
 
 [[examples]]
 level = 1
-command = "wc -l /etc/passwd"
 summary = "统计系统中有多少个用户账户"
-simulated_output = """42 /etc/passwd"""
-
+simulated_output = "42 /etc/passwd"
 output_explanation = "输出分别表示行数、单词数、字节数（或仅某一项），常用于快速统计文本规模或结果数量。"
+id = "example-002"
+command_id = "v04-ref-d17f38d48c"
+
 [[examples.token_details]]
 token = "-l"
 explanation = "列表模式或逐行统计（取决于命令）。"
@@ -80,11 +81,12 @@ explanation = "系统用户账户信息文件。"
 
 [[examples]]
 level = 2
-command = "find . -name '*.rs' | wc -l"
 summary = "统计当前项目中有多少个 Rust 源文件"
-simulated_output = """18"""
-
+simulated_output = "18"
 output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
+id = "example-003"
+command_id = "shared-5ea1131aae0745aa"
+
 [[examples.token_details]]
 token = "."
 explanation = "当前目录。"
@@ -107,15 +109,12 @@ explanation = "列表模式或逐行统计（取决于命令）。"
 
 [[examples]]
 level = 2
-command = "wc -l src/*.rs"
 summary = "分别统计每个 Rust 源文件的行数"
-simulated_output = """   45 src/main.rs
-  128 src/app.rs
-   89 src/event.rs
-  234 src/lib.rs
-  496 total"""
-
+simulated_output = "   45 src/main.rs\n  128 src/app.rs\n   89 src/event.rs\n  234 src/lib.rs\n  496 total"
 output_explanation = "输出分别表示行数、单词数、字节数（或仅某一项），常用于快速统计文本规模或结果数量。"
+id = "example-004"
+command_id = "shared-2b96d567ecf1682f"
+
 [[examples.token_details]]
 token = "-l"
 explanation = "列表模式或逐行统计（取决于命令）。"
@@ -126,11 +125,12 @@ explanation = "`src/` 目录下所有 Rust 源文件，wc 会逐个统计行数�
 
 [[examples]]
 level = 3
-command = "cat access.log | grep '404' | wc -l"
 summary = "统计访问日志中 404 错误的数量"
-simulated_output = """237"""
-
+simulated_output = "237"
 output_explanation = "输出展示了 cat 读取（或拼接）后的文件内容。cat 本身不做格式化，看到什么就原样输出什么，适合快速核对文件内容。"
+id = "example-005"
+command_id = "shared-6f7702acbfa38510"
+
 [[examples.token_details]]
 token = "access.log"
 explanation = "HTTP 访问日志文件，cat 读取其内容并通过管道传给 grep 过滤。"
@@ -149,12 +149,13 @@ explanation = "列表模式或逐行统计（取决于命令）。"
 
 [[examples]]
 level = 4
-command = "find . -name '*.rs' -exec cat {} + | wc -l"
 summary = "统计项目中所有 Rust 源文件的总行数"
 display = "find . -name '*.rs' \\\n  -exec cat {} + | wc -l"
-simulated_output = """3847"""
-
+simulated_output = "3847"
 output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
+id = "example-006"
+command_id = "shared-8f8e5e71fb057c16"
+
 [[examples.token_details]]
 token = "."
 explanation = "当前目录。"
@@ -189,10 +190,4 @@ explanation = "列表模式或逐行统计（取决于命令）。"
 
 [[gotchas]]
 title = "wc -l 统计的是换行符数量"
-content = """wc -l 实际上是统计换行符（\\n）的数量，而不是"行数"。
-如果文件最后一行没有换行符，该行不会被计入：
-  echo -n "hello" | wc -l    → 0（没有换行符）
-  echo "hello" | wc -l       → 1（有一个换行符）
-
-大多数正常的文本文件最后都有换行符，所以通常不会出问题。
-但处理某些工具生成的文件时需要注意这一点。"""
+content = "wc -l 实际上是统计换行符（\\n）的数量，而不是\"行数\"。\n如果文件最后一行没有换行符，该行不会被计入：\n  echo -n \"hello\" | wc -l    → 0（没有换行符）\n  echo \"hello\" | wc -l       → 1（有一个换行符）\n\n大多数正常的文本文件最后都有换行符，所以通常不会出问题。\n但处理某些工具生成的文件时需要注意这一点。"

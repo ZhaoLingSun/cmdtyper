@@ -8,542 +8,317 @@ id = "tail-follow-nginx-500"
 command = "tail -f /var/log/nginx/access.log | grep 500"
 summary = "实时跟踪 nginx 访问日志，并筛出状态码 500 的请求"
 display = "tail -f /var/log/nginx/access.log | \\\n  grep 500"
-simulated_output = """
-192.168.1.10 - - [09/Mar/2025:10:15:32 +0800] "POST /api/checkout 500" 1024 "-"
-10.0.0.5 - - [09/Mar/2025:10:16:08 +0800] "GET /api/reports 500" 512 "-"
-172.16.0.22 - - [09/Mar/2025:10:18:45 +0800] "POST /api/upload 500" 2048 "-" """
-
+simulated_output = "192.168.1.10 - - [09/Mar/2025:10:15:32 +0800] \"POST /api/checkout 500\" 1024 \"-\"\n10.0.0.5 - - [09/Mar/2025:10:16:08 +0800] \"GET /api/reports 500\" 512 \"-\"\n172.16.0.22 - - [09/Mar/2025:10:18:45 +0800] \"POST /api/upload 500\" 2048 \"-\" "
 [[commands.tokens]]
 text = "tail"
 desc = "显示文件的末尾若干行（默认 10 行）"
-
 [[commands.tokens]]
 text = " -f"
 desc = "持续跟踪文件新增内容"
-
 [[commands.tokens]]
 text = " /var/log/nginx/access.log"
 desc = "nginx 访问日志文件"
-
 [[commands.tokens]]
 text = " |"
 desc = "把 tail 的输出传给 grep 继续筛选"
-
 [[commands.tokens]]
 text = " grep"
 desc = "按模式过滤文本行的命令"
-
 [[commands.tokens]]
 text = " 500"
 desc = "要匹配的 HTTP 状态码"
-
 [commands.dictation]
 prompt = "实时跟踪 nginx 访问日志，只看状态码 500 的请求"
-answers = [
-    "tail -f /var/log/nginx/access.log | grep 500",
-    "tail --follow /var/log/nginx/access.log | grep 500",
-]
+answers = ["tail -f /var/log/nginx/access.log | grep 500", "tail --follow /var/log/nginx/access.log | grep 500"]
 
 [[commands]]
 id = "journalctl-nginx-last-100"
 command = "journalctl -u nginx -n 100"
 summary = "查看 nginx 服务最近 100 条日志"
-simulated_output = """
--- Journal begins at Sat 2025-03-08 07:52:10 CST. --
-Mar 09 08:00:01 server nginx[1020]: 192.168.1.10 "GET / HTTP/1.1" 200
-Mar 09 08:01:15 server nginx[1020]: 10.0.0.5 "GET /api/health HTTP/1.1" 200
-Mar 09 08:02:30 server nginx[1020]: 192.168.1.35 "POST /api/login HTTP/1.1" 200
-Mar 09 08:03:01 server nginx[1020]: 172.16.0.22 "GET /static/app.js HTTP/1.1" 304"""
-
+simulated_output = "-- Journal begins at Sat 2025-03-08 07:52:10 CST. --\nMar 09 08:00:01 server nginx[1020]: 192.168.1.10 \"GET / HTTP/1.1\" 200\nMar 09 08:01:15 server nginx[1020]: 10.0.0.5 \"GET /api/health HTTP/1.1\" 200\nMar 09 08:02:30 server nginx[1020]: 192.168.1.35 \"POST /api/login HTTP/1.1\" 200\nMar 09 08:03:01 server nginx[1020]: 172.16.0.22 \"GET /static/app.js HTTP/1.1\" 304"
 [[commands.tokens]]
 text = "journalctl"
 desc = "查看 systemd 管理的系统日志"
-
 [[commands.tokens]]
 text = " -u"
 desc = "按 systemd unit 名称过滤日志"
-
 [[commands.tokens]]
 text = " nginx"
 desc = "要查看日志的服务名称"
-
 [[commands.tokens]]
 text = " -n"
 desc = "指定要显示的最近日志条数"
-
 [[commands.tokens]]
 text = " 100"
 desc = "显示最近 100 条日志"
-
 [commands.dictation]
 prompt = "查看 nginx 服务最近的 100 条日志"
-answers = [
-    "journalctl -u nginx -n 100",
-    "journalctl --unit nginx --lines 100",
-]
+answers = ["journalctl -u nginx -n 100", "journalctl --unit nginx --lines 100"]
 
 [[commands]]
 id = "journalctl-nginx-today-errors"
 command = "journalctl -u nginx --since today | grep ERROR"
 summary = "查看 nginx 今天以来的日志，并筛出 ERROR 相关内容"
 display = "journalctl -u nginx --since today | \\\n  grep ERROR"
-simulated_output = """
-Mar 09 08:15:44 server nginx[1020]: [ERROR] upstream timed out (110: Connection timed out)
-Mar 09 09:32:19 server nginx[1020]: [ERROR] open() "/srv/www/favicon.ico" failed (2: No such file)
-Mar 09 10:05:00 server nginx[1020]: [ERROR] SSL_do_handshake() failed (SSL: certificate verify failed)"""
-
+simulated_output = "Mar 09 08:15:44 server nginx[1020]: [ERROR] upstream timed out (110: Connection timed out)\nMar 09 09:32:19 server nginx[1020]: [ERROR] open() \"/srv/www/favicon.ico\" failed (2: No such file)\nMar 09 10:05:00 server nginx[1020]: [ERROR] SSL_do_handshake() failed (SSL: certificate verify failed)"
 [[commands.tokens]]
 text = "journalctl"
 desc = "查看 systemd 管理的系统日志"
-
 [[commands.tokens]]
 text = " -u"
 desc = "按 systemd unit 名称过滤日志"
-
 [[commands.tokens]]
 text = " nginx"
 desc = "要查看日志的服务名称"
-
 [[commands.tokens]]
 text = " --since"
 desc = "限定日志起始时间"
-
 [[commands.tokens]]
 text = " today"
 desc = "从今天开始筛选日志"
-
 [[commands.tokens]]
 text = " |"
 desc = "把日志输出继续传给 grep 过滤"
-
 [[commands.tokens]]
 text = " grep"
 desc = "按模式过滤文本行的命令"
-
 [[commands.tokens]]
 text = " ERROR"
 desc = "要筛选的错误关键字"
-
 [commands.dictation]
 prompt = "查看 nginx 今天以来的日志，并只保留包含 ERROR 的行"
-answers = [
-    "journalctl -u nginx --since today | grep ERROR",
-    "journalctl --unit nginx --since today | grep ERROR",
-]
+answers = ["journalctl -u nginx --since today | grep ERROR", "journalctl --unit nginx --since today | grep ERROR"]
 
 [[commands]]
 id = "find-logs-xargs-grep-error"
 command = "find /var/log -type f -name '*.log' -exec grep -H ERROR {} +"
 summary = "安全地把找到的 .log 文件路径批量交给 grep 查找 ERROR，并显示文件名"
 display = "find /var/log -type f -name '*.log' \\\n  -exec grep -H ERROR {} +"
-simulated_output = """
-/var/log/syslog:Mar 09 08:03:01 server app[2045]: [ERROR] Connection refused
-/var/log/auth.log:Mar 09 08:12:30 server sshd[3120]: [ERROR] Authentication failure
-/var/log/nginx/error.log:2025/03/09 08:15:44 [ERROR] upstream timed out
-/var/log/app.log:2025-03-09 09:20:15 [ERROR] Failed to write to disk"""
-
+simulated_output = "/var/log/syslog:Mar 09 08:03:01 server app[2045]: [ERROR] Connection refused\n/var/log/auth.log:Mar 09 08:12:30 server sshd[3120]: [ERROR] Authentication failure\n/var/log/nginx/error.log:2025/03/09 08:15:44 [ERROR] upstream timed out\n/var/log/app.log:2025-03-09 09:20:15 [ERROR] Failed to write to disk"
 [[commands.tokens]]
 text = "find"
 desc = "在目录树中递归查找文件和目录"
-
 [[commands.tokens]]
 text = " /var/log"
 desc = "查找起点：系统日志目录"
-
 [[commands.tokens]]
 text = " -type"
 desc = "按文件类型过滤结果"
-
 [[commands.tokens]]
 text = " f"
 desc = "只匹配普通文件"
-
 [[commands.tokens]]
 text = " -name"
 desc = "按文件名模式匹配"
-
 [[commands.tokens]]
 text = " '*.log'"
 desc = "只匹配以 .log 结尾的日志文件"
-
 [[commands.tokens]]
 text = " -exec"
 desc = "把 find 产生的路径直接作为参数传递，不经过换行分隔的文本解析"
-
 [[commands.tokens]]
 text = " grep"
 desc = "在匹配到的文件中查找关键字"
-
 [[commands.tokens]]
 text = " -H"
 desc = "输出匹配结果时强制显示文件名"
-
 [[commands.tokens]]
 text = " ERROR"
 desc = "要查找的错误关键字"
-
 [[commands.tokens]]
 text = " {}"
 desc = "代表 find 找到的各个完整路径，包括含空格或换行的文件名"
-
 [[commands.tokens]]
 text = " +"
 desc = "把多个路径安全地批量传给尽量少的 grep 调用；无匹配文件时不运行 grep"
-
 [commands.dictation]
 prompt = "在 /var/log 下所有 .log 普通文件中查找 ERROR；使用 find -exec 的批量形式安全传递任意文件名，并显示所属文件"
-answers = [
-    "find /var/log -type f -name '*.log' -exec grep -H ERROR {} +",
-    "find /var/log -type f -name '*.log' -exec grep --with-filename ERROR {} +",
-]
+answers = ["find /var/log -type f -name '*.log' -exec grep -H ERROR {} +", "find /var/log -type f -name '*.log' -exec grep --with-filename ERROR {} +"]
 
 [[commands]]
 id = "tar-backup-etc"
-command = "archive=$(mktemp ./etc-backup-XXXXXX.tar.gz) && sudo tar -czf \"$archive\" -C / etc && printf '%s\\n' \"$archive\""
-summary = "创建唯一归档路径后，以所需权限从根目录相对打包 etc，并输出新归档名"
+command = "archive=$(mktemp ./etc-backup-XXXXXX.tar.gz)\nsudo tar -czf \"$archive\" -C / etc\nprintf '%s\\n' \"$archive\""
+summary = "创建唯一归档路径后，以所需权限从根目录相对打包 etc，并输出新归档名；逐条回车，确认成功再继续"
 simulated_output = "./etc-backup-A1b2C3.tar.gz"
-
 [[commands.tokens]]
-text = "archive="
-desc = "把唯一归档路径保存到当前 shell 变量"
-
+text = "archive=$(mktemp ./etc-backup-XXXXXX.tar.gz)\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 [[commands.tokens]]
-text = "$(mktemp ./etc-backup-XXXXXX.tar.gz)"
-desc = "在当前目录原子创建一个唯一的新文件，不覆盖任何已有归档"
-
+text = "sudo tar -czf \"$archive\" -C / etc\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 [[commands.tokens]]
-text = " &&"
-desc = "只有唯一目标创建成功后才继续"
-
-[[commands.tokens]]
-text = " sudo"
-desc = "读取完整 /etc 树通常需要管理员权限，只为 tar 这一步提权"
-
-[[commands.tokens]]
-text = " tar"
-desc = "创建归档的工具"
-
-[[commands.tokens]]
-text = " -czf"
-desc = "创建 gzip 压缩归档并指定目标文件"
-
-[[commands.tokens]]
-text = " \"$archive\""
-desc = "引用刚由 mktemp 创建的唯一目标；只截断这个新空文件，不碰已有有效归档"
-
-[[commands.tokens]]
-text = " -C"
-desc = "先切换 tar 的读取基准目录"
-
-[[commands.tokens]]
-text = " /"
-desc = "把根目录设为归档读取基准"
-
-[[commands.tokens]]
-text = " etc"
-desc = "以相对名称 etc 写入成员，避免归档中出现前导斜杠"
-
-[[commands.tokens]]
-text = " &&"
-desc = "只有归档成功后才输出目标路径"
-
-[[commands.tokens]]
-text = " printf"
-desc = "明确输出新建归档的实际文件名"
-
-[[commands.tokens]]
-text = " '%s\\n'"
-desc = "每行输出一个字符串"
-
-[[commands.tokens]]
-text = " \"$archive\""
-desc = "显示本次唯一归档路径，便于后续校验"
-
+text = "printf '%s\\n' \"$archive\""
+desc = "创建唯一归档路径后，以所需权限从根目录相对打包 etc，并输出新归档名"
 [commands.dictation]
 prompt = "用 mktemp 创建唯一且不覆盖已有文件的 etc-backup 归档路径，再以管理员权限从 / 切换基准、用相对成员名 etc 打包，成功后输出归档名"
-answers = [
-    "archive=$(mktemp ./etc-backup-XXXXXX.tar.gz) && sudo tar -czf \"$archive\" -C / etc && printf '%s\\n' \"$archive\"",
-]
+answers = ["archive=$(mktemp ./etc-backup-XXXXXX.tar.gz)\nsudo tar -czf \"$archive\" -C / etc\nprintf '%s\\n' \"$archive\""]
 
 [[commands]]
 id = "rsync-www-backup"
 command = "rsync -av --delete --dry-run /srv/www/ /backup/www/"
 summary = "只预演网站目录镜像，列出将更新和删除的目标项供审核"
-simulated_output = """
-sending incremental file list
-./
-index.html
-css/style.css
-js/app.js
-images/logo.png
-deleting old/removed-page.html
-
-sent 214 bytes  received 32 bytes  492.00 bytes/sec
-total size is 1,240,560  speedup is 5,043.00 (DRY RUN)"""
-
+simulated_output = "sending incremental file list\n./\nindex.html\ncss/style.css\njs/app.js\nimages/logo.png\ndeleting old/removed-page.html\n\nsent 214 bytes  received 32 bytes  492.00 bytes/sec\ntotal size is 1,240,560  speedup is 5,043.00 (DRY RUN)"
 [[commands.tokens]]
 text = "rsync"
 desc = "高效的远程或本地文件同步工具；带删除的镜像必须先预演"
-
 [[commands.tokens]]
 text = " -av"
 desc = "-a 使用归档模式保留属性，-v 输出详细计划"
-
 [[commands.tokens]]
 text = " --delete"
 desc = "把目标中源端不存在的项目列为删除对象；风险高于普通同步"
-
 [[commands.tokens]]
 text = " --dry-run"
 desc = "只显示计划，不写入、覆盖或删除任何目标文件"
-
 [[commands.tokens]]
 text = " /srv/www/"
 desc = "源目录内容；末尾斜杠表示同步目录中的内容"
-
 [[commands.tokens]]
 text = " /backup/www/"
 desc = "已核对的目标目录；预演清单中的 deleting 不代表已经删除"
-
 [commands.dictation]
 prompt = "只预演把 /srv/www/ 镜像到 /backup/www/：列出目标端多余项，但不实际更新或删除，供逐项审核"
-answers = [
-    "rsync -av --delete --dry-run /srv/www/ /backup/www/",
-    "rsync -avn --delete /srv/www/ /backup/www/",
-]
+answers = ["rsync -av --delete --dry-run /srv/www/ /backup/www/", "rsync -avn --delete /srv/www/ /backup/www/"]
 
 [[commands]]
 id = "ps-grep-nginx"
 command = "ps aux | grep '[n]ginx'"
 summary = "查找正在运行的 nginx 进程，并避免匹配到 grep 自身"
 display = "ps aux | grep '[n]ginx'"
-simulated_output = """
-root      1020  0.0  0.1  65432  8764 ?        Ss   Mar08   0:00 nginx: master process /usr/sbin/nginx
-www-data  1024  0.2  0.5 145892 42360 ?        S    Mar08   2:15 nginx: worker process
-www-data  1025  0.1  0.4 145892 38240 ?        S    Mar08   1:58 nginx: worker process"""
-
+simulated_output = "root      1020  0.0  0.1  65432  8764 ?        Ss   Mar08   0:00 nginx: master process /usr/sbin/nginx\nwww-data  1024  0.2  0.5 145892 42360 ?        S    Mar08   2:15 nginx: worker process\nwww-data  1025  0.1  0.4 145892 38240 ?        S    Mar08   1:58 nginx: worker process"
 [[commands.tokens]]
 text = "ps"
 desc = "显示当前运行的进程信息"
-
 [[commands.tokens]]
 text = " aux"
 desc = "a 显示所有终端进程 + u 用户格式 + x 包含无终端进程"
-
 [[commands.tokens]]
 text = " |"
 desc = "把进程列表传给 grep 继续过滤"
-
 [[commands.tokens]]
 text = " grep"
 desc = "按模式过滤文本行的命令"
-
 [[commands.tokens]]
 text = " '[n]ginx'"
 desc = "利用字符类避免匹配到当前 grep 命令本身"
-
 [commands.dictation]
 prompt = "查找 nginx 进程，并避免把 grep 自己也匹配出来"
-answers = [
-    "ps aux | grep '[n]ginx'",
-    "ps axu | grep '[n]ginx'",
-]
+answers = ["ps aux | grep '[n]ginx'", "ps axu | grep '[n]ginx'"]
 
 [[commands]]
 id = "du-sort-var-log"
 command = "du -sh /var/log/* | sort -h"
 summary = "统计 /var/log 下各项大小，并按体积从小到大排序"
 display = "du -sh /var/log/* | sort -h"
-simulated_output = """
-4.0K\t/var/log/alternatives.log
-12K\t/var/log/bootstrap.log
-64K\t/var/log/cups
-156K\t/var/log/auth.log
-1.5M\t/var/log/kern.log
-8.2M\t/var/log/nginx
-45M\t/var/log/journal
-189M\t/var/log/syslog"""
-
+simulated_output = "4.0K\t/var/log/alternatives.log\n12K\t/var/log/bootstrap.log\n64K\t/var/log/cups\n156K\t/var/log/auth.log\n1.5M\t/var/log/kern.log\n8.2M\t/var/log/nginx\n45M\t/var/log/journal\n189M\t/var/log/syslog"
 [[commands.tokens]]
 text = "du"
 desc = "统计文件或目录的磁盘占用空间"
-
 [[commands.tokens]]
 text = " -sh"
 desc = "-s 只显示汇总结果 + -h 以易读单位显示大小"
-
 [[commands.tokens]]
 text = " /var/log/*"
 desc = "统计 /var/log 下每个子项的大小"
-
 [[commands.tokens]]
 text = " |"
 desc = "把大小统计结果传给 sort 排序"
-
 [[commands.tokens]]
 text = " sort"
 desc = "对文本行进行排序"
-
 [[commands.tokens]]
 text = " -h"
 desc = "按易读的大小单位进行排序"
-
 [commands.dictation]
 prompt = "查看 /var/log 下各子项大小，并按大小顺序排序"
-answers = [
-    "du -sh /var/log/* | sort -h",
-    "du -s -h /var/log/* | sort -h",
-]
+answers = ["du -sh /var/log/* | sort -h", "du -s -h /var/log/* | sort -h"]
 
 [[commands]]
 id = "curl-head-example"
 command = "curl -I https://example.com"
 summary = "仅请求 https://example.com 的响应头"
-simulated_output = """
-HTTP/2 200
-content-type: text/html; charset=UTF-8
-content-length: 1256
-server: ECAcc (sed/58EA)
-cache-control: max-age=604800
-expires: Sun, 16 Mar 2025 10:22:35 GMT
-last-modified: Thu, 17 Oct 2019 07:18:26 GMT"""
-
+simulated_output = "HTTP/2 200\ncontent-type: text/html; charset=UTF-8\ncontent-length: 1256\nserver: ECAcc (sed/58EA)\ncache-control: max-age=604800\nexpires: Sun, 16 Mar 2025 10:22:35 GMT\nlast-modified: Thu, 17 Oct 2019 07:18:26 GMT"
 [[commands.tokens]]
 text = "curl"
 desc = "命令行 HTTP 客户端：发送请求并获取响应"
-
 [[commands.tokens]]
 text = " -I"
 desc = "只获取响应头，不下载响应体"
-
 [[commands.tokens]]
 text = " https://example.com"
 desc = "要访问的目标 URL"
-
 [commands.dictation]
 prompt = "只获取 https://example.com 的 HTTP 响应头"
-answers = [
-    "curl -I https://example.com",
-    "curl --head https://example.com",
-]
+answers = ["curl -I https://example.com", "curl --head https://example.com"]
 
 [[commands]]
 id = "curl-health-check"
 command = "curl -fsSL https://example.com/"
 summary = "请求 IANA 保留示例域名的稳定示例页面，并在 HTTP 错误时失败"
-simulated_output = """<!doctype html>
-<html>
-<head>
-    <title>Example Domain</title>
-</head>"""
-
+simulated_output = "<!doctype html>\n<html>\n<head>\n    <title>Example Domain</title>\n</head>"
 [[commands.tokens]]
 text = "curl"
 desc = "命令行 HTTP 客户端：发送请求并获取响应"
-
 [[commands.tokens]]
 text = " -fsSL"
 desc = "-f HTTP 错误时失败 + -s 静默 + -S 显示错误 + -L 跟随重定向"
-
 [[commands.tokens]]
 text = " https://example.com/"
 desc = "IANA 保留的文档示例域名根页面；不是虚构的健康检查 API"
-
 [commands.dictation]
 prompt = "静默请求 IANA 保留的 https://example.com/ 示例页面，HTTP 错误时失败、仍显示错误并跟随重定向"
-answers = [
-    "curl -fsSL https://example.com/",
-    "curl --fail --silent --show-error --location https://example.com/",
-]
+answers = ["curl -fsSL https://example.com/", "curl --fail --silent --show-error --location https://example.com/"]
 
 [[commands]]
 id = "systemctl-status-nginx"
 command = "systemctl status nginx"
 summary = "查看 nginx 服务当前状态"
-simulated_output = """
-● nginx.service - A high performance web server and a reverse proxy server
-     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; preset: enabled)
-     Active: active (running) since Sat 2025-03-08 07:52:10 CST; 1 day ago
-       Docs: man:nginx(8)
-   Main PID: 1020 (nginx)
-      Tasks: 3 (limit: 9447)
-     Memory: 8.5M
-        CPU: 320ms
-     CGroup: /system.slice/nginx.service
-             ├─1020 "nginx: master process /usr/sbin/nginx"
-             └─1024 "nginx: worker process" """
-
+simulated_output = "● nginx.service - A high performance web server and a reverse proxy server\n     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; preset: enabled)\n     Active: active (running) since Sat 2025-03-08 07:52:10 CST; 1 day ago\n       Docs: man:nginx(8)\n   Main PID: 1020 (nginx)\n      Tasks: 3 (limit: 9447)\n     Memory: 8.5M\n        CPU: 320ms\n     CGroup: /system.slice/nginx.service\n             ├─1020 \"nginx: master process /usr/sbin/nginx\"\n             └─1024 \"nginx: worker process\" "
 [[commands.tokens]]
 text = "systemctl"
 desc = "systemd 服务管理器"
-
 [[commands.tokens]]
 text = " status"
 desc = "查看指定服务或单元的状态"
-
 [[commands.tokens]]
 text = " nginx"
 desc = "要查看状态的服务名称"
-
 [commands.dictation]
 prompt = "查看 nginx 服务当前运行状态"
-answers = [
-    "systemctl status nginx",
-    "systemctl status nginx.service",
-]
+answers = ["systemctl status nginx", "systemctl status nginx.service"]
 
 [[commands]]
 id = "systemctl-restart-nginx"
 command = "sudo nginx -t"
 summary = "在任何 reload 或 restart 前，只验证 nginx 配置语法和引用文件"
-simulated_output = """
-nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
-nginx: configuration file /etc/nginx/nginx.conf test is successful"""
-
+simulated_output = "nginx: the configuration file /etc/nginx/nginx.conf syntax is ok\nnginx: configuration file /etc/nginx/nginx.conf test is successful"
 [[commands.tokens]]
 text = "sudo"
 desc = "仅为读取完整 nginx 配置和密钥引用请求管理员权限；本命令不重启服务"
-
 [[commands.tokens]]
 text = " nginx"
 desc = "nginx 可执行程序，用于解析当前配置"
-
 [[commands.tokens]]
 text = " -t"
 desc = "测试配置语法并尝试打开引用文件，不应用配置、不 reload、不 restart"
-
 [commands.dictation]
 prompt = "在考虑 reload 或 restart nginx 前，只验证当前配置语法和引用文件是否可读取，不改变服务运行状态"
-answers = [
-    "sudo nginx -t",
-]
+answers = ["sudo nginx -t"]
 
 [[commands]]
 id = "journalctl-debug-sshd"
 command = "journalctl -xeu sshd"
 summary = "查看 sshd 服务的最新详细日志并附带解释信息"
-simulated_output = """
-Mar 09 08:12:30 server sshd[3120]: Accepted publickey for ace from 192.168.1.10 port 52341 ssh2
-Mar 09 08:12:30 server sshd[3120]: pam_unix(sshd:session): session opened for user ace(uid=1000)
-Mar 09 09:45:12 server sshd[3245]: Failed password for invalid user admin from 10.0.0.99 port 38412 ssh2
-Mar 09 09:45:12 server sshd[3245]: Connection closed by invalid user admin 10.0.0.99 port 38412
-Mar 09 10:01:05 server sshd[3310]: Accepted publickey for ace from 192.168.1.10 port 52890 ssh2"""
-
+simulated_output = "Mar 09 08:12:30 server sshd[3120]: Accepted publickey for ace from 192.168.1.10 port 52341 ssh2\nMar 09 08:12:30 server sshd[3120]: pam_unix(sshd:session): session opened for user ace(uid=1000)\nMar 09 09:45:12 server sshd[3245]: Failed password for invalid user admin from 10.0.0.99 port 38412 ssh2\nMar 09 09:45:12 server sshd[3245]: Connection closed by invalid user admin 10.0.0.99 port 38412\nMar 09 10:01:05 server sshd[3310]: Accepted publickey for ace from 192.168.1.10 port 52890 ssh2"
 [[commands.tokens]]
 text = "journalctl"
 desc = "查看 systemd 管理的系统日志"
-
 [[commands.tokens]]
 text = " -xeu"
 desc = "-x 添加说明文本 + -e 跳到日志末尾附近 + -u 按 unit 过滤"
-
 [[commands.tokens]]
 text = " sshd"
 desc = "要查看日志的 ssh 服务名称"
-
 [commands.dictation]
 prompt = "查看 sshd 服务最近的详细日志，并附带解释信息"
-answers = [
-    "journalctl -xeu sshd",
-    "journalctl -x -e -u sshd",
-]
+answers = ["journalctl -xeu sshd", "journalctl -x -e -u sshd"]

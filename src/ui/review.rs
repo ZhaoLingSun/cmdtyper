@@ -169,7 +169,7 @@ fn render_typing_exercise(lines: &mut Vec<Line<'static>>, app: &App) {
         Style::default().fg(ACCENT),
     )));
     lines.push(Line::from(""));
-    lines.push(render_typing_line("$ ", &app.typing_engine));
+    lines.extend(crate::ui::widgets::typing_lines("$ ", &app.typing_engine));
     lines.push(Line::from(""));
     lines.push(Line::from(Span::styled(
         format!(
@@ -399,29 +399,6 @@ fn source_progress(app: &App, source: &ReviewSource) -> (usize, usize) {
 
 fn average(sum: f64, count: usize) -> f64 {
     if count == 0 { 0.0 } else { sum / count as f64 }
-}
-
-fn render_typing_line<'a>(prompt: &str, engine: &crate::core::engine::TypingEngine) -> Line<'a> {
-    let mut spans = vec![Span::styled(
-        prompt.to_string(),
-        Style::default().fg(PROMPT_COLOR),
-    )];
-    let is_flashing = engine.is_error_flashing();
-    for (index, ch) in engine.target.iter().enumerate() {
-        let style = if index < engine.cursor {
-            Style::default().fg(TYPED_CORRECT)
-        } else if index == engine.cursor {
-            if is_flashing {
-                Style::default().fg(ERROR_FLASH).bg(ERROR_FLASH_BG)
-            } else {
-                Style::default().fg(CURSOR).bg(CURSOR_BG)
-            }
-        } else {
-            Style::default().fg(PENDING).bg(PENDING_BG)
-        };
-        spans.push(Span::styled(ch.to_string(), style));
-    }
-    Line::from(spans)
 }
 
 pub fn render_topics(frame: &mut Frame, app: &App) {

@@ -1,3 +1,4 @@
+
 [meta]
 category = "system"
 difficulty = "basic"
@@ -21,11 +22,7 @@ answers = ["uptime"]
 id = "w-basic"
 command = "w"
 summary = "查看当前登录的用户和他们在做什么"
-simulated_output = """
- 08:51:18 up 12 days,  4:32,  3 users,  load average: 0.42, 0.55, 0.61
-USER     TTY      FROM         LOGIN@   IDLE   JCPU   PCPU WHAT
-ace      pts/1    10.0.0.5     08:30    1:12   0.03s  0.01s bash
-"""
+simulated_output = " 08:51:18 up 12 days,  4:32,  3 users,  load average: 0.42, 0.55, 0.61\nUSER     TTY      FROM         LOGIN@   IDLE   JCPU   PCPU WHAT\nace      pts/1    10.0.0.5     08:30    1:12   0.03s  0.01s bash\n"
 
 [[commands.tokens]]
 text = "w"
@@ -39,11 +36,7 @@ answers = ["w"]
 id = "top-basic-monitor"
 command = "top -o %CPU"
 summary = "实时查看系统进程，并按 CPU 占用字段排序"
-simulated_output = """
-top - 08:51:23 up 12 days,  4:32,  3 users,  load average: 0.42, 0.55, 0.61
-Tasks: 842 total,   1 running, 841 sleeping,   0 stopped,   0 zombie
-%Cpu(s):  4.3 us,  1.1 sy,  0.0 ni, 94.3 id,  0.2 wa
-"""
+simulated_output = "top - 08:51:23 up 12 days,  4:32,  3 users,  load average: 0.42, 0.55, 0.61\nTasks: 842 total,   1 running, 841 sleeping,   0 stopped,   0 zombie\n%Cpu(s):  4.3 us,  1.1 sy,  0.0 ni, 94.3 id,  0.2 wa\n"
 
 [[commands.tokens]]
 text = "top"
@@ -65,11 +58,7 @@ answers = ["top -o %CPU"]
 id = "htop-basic"
 command = "htop"
 summary = "启动交互式进程管理器（界面比 top 更友好）"
-simulated_output = """
-htop 3.3.0 - 08:51:27
-CPU[||                                                6.1%]
-Mem[|||                                      112G/1.5T]
-"""
+simulated_output = "htop 3.3.0 - 08:51:27\nCPU[||                                                6.1%]\nMem[|||                                      112G/1.5T]\n"
 
 [[commands.tokens]]
 text = "htop"
@@ -83,11 +72,7 @@ answers = ["htop"]
 id = "dmesg-tail"
 command = "dmesg | tail -30"
 summary = "查看内核消息日志的最后 30 行"
-simulated_output = """
-[125331.121311] EXT4-fs (nvme0n1p2): re-mounted.
-[125632.884901] docker0: port 1(veth7a1) entered blocking state
-[125938.190204] audit: type=1400 apparmor="STATUS" operation="profile_load"
-"""
+simulated_output = "[125331.121311] EXT4-fs (nvme0n1p2): re-mounted.\n[125632.884901] docker0: port 1(veth7a1) entered blocking state\n[125938.190204] audit: type=1400 apparmor=\"STATUS\" operation=\"profile_load\"\n"
 
 [[commands.tokens]]
 text = "dmesg"
@@ -186,41 +171,34 @@ answers = ["sudo systemctl daemon-reload"]
 [[commands]]
 id = "journalctl-errors-boot"
 command = "journalctl -p err -b"
-summary = "查看本次启动以来的所有 error 级别日志"
-simulated_output = """
-Mar 14 02:11:06 intranet kernel: ACPI BIOS Error (bug): Could not resolve symbol
-Mar 14 02:11:07 intranet systemd[1]: Failed to start snapd.apparmor.service
-"""
+summary = "查看本次启动中 err 及更严重级别的日志（包含 crit、alert、emerg）"
+simulated_output = "Mar 14 02:11:06 intranet kernel: ACPI BIOS Error (bug): Could not resolve symbol\nMar 14 02:11:07 intranet systemd[1]: Failed to start snapd.apparmor.service\n"
 
 [[commands.tokens]]
 text = "journalctl"
-desc = "查看 systemd 管理的系统日志"
+desc = "查看本次启动中 err 及更严重级别的日志（包含 crit、alert、emerg）"
 
 [[commands.tokens]]
 text = " -p"
-desc = "按优先级过滤日志"
+desc = "查看本次启动中 err 及更严重级别的日志（包含 crit、alert、emerg）"
 
 [[commands.tokens]]
 text = " err"
-desc = "只显示 error 及以上级别"
+desc = "查看本次启动中 err 及更严重级别的日志（包含 crit、alert、emerg）"
 
 [[commands.tokens]]
 text = " -b"
-desc = "只看本次启动以来的日志"
+desc = "查看本次启动中 err 及更严重级别的日志（包含 crit、alert、emerg）"
 
 [commands.dictation]
-prompt = "查看本次启动以来的所有 error 级别日志"
-answers = ["journalctl -p err -b", "journalctl --priority err --boot"]
+prompt = "查看本次启动中 err 及更严重级别的日志（包含 crit、alert、emerg）"
+answers = ["journalctl -p err -b"]
 
 [[commands]]
 id = "journalctl-since-hour"
 command = "journalctl --since '1 hour ago'"
 summary = "查看最近 1 小时内的系统日志"
-simulated_output = """
-Mar 14 07:52:01 intranet CRON[22311]: (root) CMD (run-parts /etc/cron.hourly)
-Mar 14 08:10:32 intranet sshd[24510]: Accepted publickey for ace
-Mar 14 08:43:05 intranet dockerd[1187]: API listen on /run/docker.sock
-"""
+simulated_output = "Mar 14 07:52:01 intranet CRON[22311]: (root) CMD (run-parts /etc/cron.hourly)\nMar 14 08:10:32 intranet sshd[24510]: Accepted publickey for ace\nMar 14 08:43:05 intranet dockerd[1187]: API listen on /run/docker.sock\n"
 
 [[commands.tokens]]
 text = "journalctl"
@@ -242,13 +220,7 @@ answers = ["journalctl --since '1 hour ago'"]
 id = "lscpu-basic"
 command = "lscpu"
 summary = "显示 CPU 架构和核心数等信息"
-simulated_output = """
-Architecture: x86_64
-CPU(s): 192
-Thread(s) per core: 2
-Socket(s): 2
-Model name: AMD EPYC 9654
-"""
+simulated_output = "Architecture: x86_64\nCPU(s): 192\nThread(s) per core: 2\nSocket(s): 2\nModel name: AMD EPYC 9654\n"
 
 [[commands.tokens]]
 text = "lscpu"

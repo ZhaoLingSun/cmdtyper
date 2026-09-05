@@ -1,0 +1,470 @@
+[meta]
+category = "scripting"
+difficulty = "basic"
+description = "在实验仓库逐步确认工作区、暂存区和提交差异；先读状态再进行版本操作。"
+
+[meta.topic]
+id = "v04_git_ops"
+title = "Git 检查、版本与回滚准备"
+icon = "🧰"
+order = 133
+command_ids = ["git-remote-verbose"]
+
+[[commands]]
+id = "v04-git_ops-605ccf9a59"
+command = "git status --short"
+summary = "紧凑查看工作区与暂存区变更，左右两列含义不同"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " status"
+desc = "紧凑查看工作区与暂存区变更，左右两列含义不同；指定 status"
+
+[[commands.tokens]]
+text = " --short"
+desc = "使用短状态格式"
+
+[commands.dictation]
+prompt = "紧凑查看工作区与暂存区变更，左右两列含义不同"
+answers = ["git status --short"]
+
+[[commands]]
+id = "v04-git_ops-a5b5249024"
+command = "git diff --stat"
+summary = "查看尚未暂存变更的文件与行数摘要"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " diff"
+desc = "查看尚未暂存变更的文件与行数摘要；指定 diff"
+
+[[commands.tokens]]
+text = " --stat"
+desc = "输出文件级变更数量摘要"
+
+[commands.dictation]
+prompt = "查看尚未暂存变更的文件与行数摘要"
+answers = ["git diff --stat"]
+
+[[commands]]
+id = "v04-git_ops-ac9bc35092"
+command = "git diff --cached"
+summary = "审查已暂存、将进入下一次提交的内容"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " diff"
+desc = "审查已暂存、将进入下一次提交的内容；指定 diff"
+
+[[commands.tokens]]
+text = " --cached"
+desc = "比较暂存区和当前提交"
+
+[commands.dictation]
+prompt = "审查已暂存、将进入下一次提交的内容"
+answers = ["git diff --cached"]
+
+[[commands]]
+id = "v04-git_ops-e9643d4ca0"
+command = "git diff --check"
+summary = "检查未暂存补丁中的空白错误及冲突标记"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " diff"
+desc = "检查未暂存补丁中的空白错误及冲突标记；指定 diff"
+
+[[commands.tokens]]
+text = " --check"
+desc = "检查未暂存补丁中的空白错误及冲突标记；此处使用 --check 选项"
+
+[commands.dictation]
+prompt = "检查未暂存补丁中的空白错误及冲突标记"
+answers = ["git diff --check"]
+
+[[commands]]
+id = "v04-git_ops-a00ae9ccb7"
+command = "git log --oneline --decorate -10"
+summary = "查看最近十次提交及分支、标签指向"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " log"
+desc = "查看最近十次提交及分支、标签指向；指定 log"
+
+[[commands.tokens]]
+text = " --oneline"
+desc = "每个提交显示为一行"
+
+[[commands.tokens]]
+text = " --decorate"
+desc = "显示提交关联的分支或标签"
+
+[[commands.tokens]]
+text = " -10"
+desc = "查看最近十次提交及分支、标签指向；此处使用 -10 选项"
+
+[commands.dictation]
+prompt = "查看最近十次提交及分支、标签指向"
+answers = ["git log --oneline --decorate -10"]
+
+[[commands]]
+id = "v04-git_ops-417cd09a38"
+command = "git log --oneline -- src/main.py"
+summary = "查看实验后端文件的提交历史"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " log"
+desc = "查看实验后端文件的提交历史；指定 log"
+
+[[commands.tokens]]
+text = " --oneline"
+desc = "每个提交显示为一行"
+
+[[commands.tokens]]
+text = " --"
+desc = "查看实验后端文件的提交历史；此处使用 -- 选项"
+
+[[commands.tokens]]
+text = " src/main.py"
+desc = "查看实验后端文件的提交历史；指定 src/main.py"
+
+[commands.dictation]
+prompt = "查看实验后端文件的提交历史"
+answers = ["git log --oneline -- src/main.py"]
+
+[[commands]]
+id = "v04-git_ops-8b24ab465a"
+command = "git show --stat HEAD"
+summary = "查看最近提交的作者、说明与变更统计"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " show"
+desc = "查看最近提交的作者、说明与变更统计；指定 show"
+
+[[commands.tokens]]
+text = " --stat"
+desc = "输出文件级变更数量摘要"
+
+[[commands.tokens]]
+text = " HEAD"
+desc = "查看最近提交的作者、说明与变更统计；指定 HEAD"
+
+[commands.dictation]
+prompt = "查看最近提交的作者、说明与变更统计"
+answers = ["git show --stat HEAD"]
+
+[[commands]]
+id = "v04-git_ops-8621a4c855"
+command = "git show HEAD:compose.yaml"
+summary = "读取当前提交中的 Compose 文件版本"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " show"
+desc = "读取当前提交中的 Compose 文件版本；指定 show"
+
+[[commands.tokens]]
+text = " HEAD:compose.yaml"
+desc = "读取当前提交中的 Compose 文件版本；指定 HEAD:compose.yaml"
+
+[commands.dictation]
+prompt = "读取当前提交中的 Compose 文件版本"
+answers = ["git show HEAD:compose.yaml"]
+
+[[commands]]
+id = "v04-git_ops-72df5ebeea"
+command = "git branch --show-current"
+summary = "显示当前分支；游离 HEAD 时可能为空"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " branch"
+desc = "显示当前分支；游离 HEAD 时可能为空；指定 branch"
+
+[[commands.tokens]]
+text = " --show-current"
+desc = "只显示当前分支名"
+
+[commands.dictation]
+prompt = "显示当前分支；游离 HEAD 时可能为空"
+answers = ["git branch --show-current"]
+
+[[commands]]
+id = "v04-git_ops-77526f9e3e"
+command = "git branch -vv"
+summary = "查看本地分支及其上游跟踪状态"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " branch"
+desc = "查看本地分支及其上游跟踪状态；指定 branch"
+
+[[commands.tokens]]
+text = " -vv"
+desc = "查看本地分支及其上游跟踪状态；此处使用 -vv 选项"
+
+[commands.dictation]
+prompt = "查看本地分支及其上游跟踪状态"
+answers = ["git branch -vv"]
+
+[[commands]]
+id = "v04-git_ops-12295dce7c"
+command = "git tag --list 'v*'"
+summary = "列出版本标签，通配模式由 Git 处理"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " tag"
+desc = "列出版本标签，通配模式由 Git 处理；指定 tag"
+
+[[commands.tokens]]
+text = " --list"
+desc = "列出版本标签，通配模式由 Git 处理；此处使用 --list 选项"
+
+[[commands.tokens]]
+text = " 'v*'"
+desc = "引号保护此参数中的空格或特殊符号；列出版本标签，通配模式由 Git 处理"
+
+[commands.dictation]
+prompt = "列出版本标签，通配模式由 Git 处理"
+answers = ["git tag --list 'v*'"]
+
+[[commands]]
+id = "v04-git_ops-f4dfd23f42"
+command = "git switch -c fix/healthcheck"
+summary = "在实验仓库创建并切换健康检查修复分支"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " switch"
+desc = "在实验仓库创建并切换健康检查修复分支；指定 switch"
+
+[[commands.tokens]]
+text = " -c"
+desc = "在实验仓库创建并切换健康检查修复分支；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " fix/healthcheck"
+desc = "在实验仓库创建并切换健康检查修复分支；指定 fix/healthcheck"
+
+[commands.dictation]
+prompt = "在实验仓库创建并切换健康检查修复分支"
+answers = ["git switch -c fix/healthcheck"]
+
+[[commands]]
+id = "v04-git_ops-a0c59aad08"
+command = "git add compose.yaml"
+summary = "仅把已审查的实验 Compose 配置放入暂存区"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " add"
+desc = "仅把已审查的实验 Compose 配置放入暂存区；指定 add"
+
+[[commands.tokens]]
+text = " compose.yaml"
+desc = "仅把已审查的实验 Compose 配置放入暂存区；指定 compose.yaml"
+
+[commands.dictation]
+prompt = "仅把已审查的实验 Compose 配置放入暂存区"
+answers = ["git add compose.yaml"]
+
+[[commands]]
+id = "v04-git_ops-ac397de991"
+command = "git commit -m 'fix: add backend health check'"
+summary = "为实验健康检查变更创建明确说明的提交"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " commit"
+desc = "为实验健康检查变更创建明确说明的提交；指定 commit"
+
+[[commands.tokens]]
+text = " -m"
+desc = "指定提交或标签说明文本"
+
+[[commands.tokens]]
+text = " 'fix: add backend health check'"
+desc = "引号保护此参数中的空格或特殊符号；为实验健康检查变更创建明确说明的提交"
+
+[commands.dictation]
+prompt = "为实验健康检查变更创建明确说明的提交"
+answers = ["git commit -m 'fix: add backend health check'"]
+
+[[commands]]
+id = "v04-git_ops-029e20bef3"
+command = "git tag -a v1.0.1 -m 'Release v1.0.1'"
+summary = "在当前提交创建带注释的实验发布标签"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " tag"
+desc = "在当前提交创建带注释的实验发布标签；指定 tag"
+
+[[commands.tokens]]
+text = " -a"
+desc = "创建带注释的版本标签"
+
+[[commands.tokens]]
+text = " v1.0.1"
+desc = "在当前提交创建带注释的实验发布标签；指定 v1.0.1"
+
+[[commands.tokens]]
+text = " -m"
+desc = "指定提交或标签说明文本"
+
+[[commands.tokens]]
+text = " 'Release v1.0.1'"
+desc = "引号保护此参数中的空格或特殊符号；在当前提交创建带注释的实验发布标签"
+
+[commands.dictation]
+prompt = "在当前提交创建带注释的实验发布标签"
+answers = ["git tag -a v1.0.1 -m 'Release v1.0.1'"]
+
+[[commands]]
+id = "v04-git_ops-dc0242146b"
+command = "git diff v1.0.0..v1.0.1 -- compose.yaml"
+summary = "比较两个实验版本的部署配置变化"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " diff"
+desc = "比较两个实验版本的部署配置变化；指定 diff"
+
+[[commands.tokens]]
+text = " v1.0.0..v1.0.1"
+desc = "比较两个实验版本的部署配置变化；指定 v1.0.0..v1.0.1"
+
+[[commands.tokens]]
+text = " --"
+desc = "比较两个实验版本的部署配置变化；此处使用 -- 选项"
+
+[[commands.tokens]]
+text = " compose.yaml"
+desc = "比较两个实验版本的部署配置变化；指定 compose.yaml"
+
+[commands.dictation]
+prompt = "比较两个实验版本的部署配置变化"
+answers = ["git diff v1.0.0..v1.0.1 -- compose.yaml"]
+
+[[commands]]
+id = "v04-git_ops-1d5ee24f40"
+command = "git restore --staged compose.yaml"
+summary = "将 Compose 文件移出暂存区，保留工作区修改"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " restore"
+desc = "将 Compose 文件移出暂存区，保留工作区修改；指定 restore"
+
+[[commands.tokens]]
+text = " --staged"
+desc = "操作暂存区"
+
+[[commands.tokens]]
+text = " compose.yaml"
+desc = "将 Compose 文件移出暂存区，保留工作区修改；指定 compose.yaml"
+
+[commands.dictation]
+prompt = "将 Compose 文件移出暂存区，保留工作区修改"
+answers = ["git restore --staged compose.yaml"]
+
+[[commands]]
+id = "v04-git_ops-ff369054bb"
+command = "git revert --no-edit HEAD"
+summary = "在实验分支用新提交反做最近提交，适合保留公开历史"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " revert"
+desc = "在实验分支用新提交反做最近提交，适合保留公开历史；指定 revert"
+
+[[commands.tokens]]
+text = " --no-edit"
+desc = "使用自动提交说明而不打开编辑器"
+
+[[commands.tokens]]
+text = " HEAD"
+desc = "在实验分支用新提交反做最近提交，适合保留公开历史；指定 HEAD"
+
+[commands.dictation]
+prompt = "在实验分支用新提交反做最近提交，适合保留公开历史"
+answers = ["git revert --no-edit HEAD"]
+
+[[commands]]
+id = "v04-git_ops-aac910d51e"
+command = "git reflog -10"
+summary = "查看本地最近 HEAD 移动，辅助找回误切换的提交"
+
+[[commands.tokens]]
+text = "git"
+desc = "在实验仓库中执行版本管理操作"
+
+[[commands.tokens]]
+text = " reflog"
+desc = "查看本地最近 HEAD 移动，辅助找回误切换的提交；指定 reflog"
+
+[[commands.tokens]]
+text = " -10"
+desc = "查看本地最近 HEAD 移动，辅助找回误切换的提交；此处使用 -10 选项"
+
+[commands.dictation]
+prompt = "查看本地最近 HEAD 移动，辅助找回误切换的提交"
+answers = ["git reflog -10"]

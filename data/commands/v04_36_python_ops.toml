@@ -1,0 +1,347 @@
+[meta]
+category = "scripting"
+difficulty = "basic"
+description = "使用 Python 标准库处理结构化数据、日期和文件摘要，不安装额外依赖。"
+
+[meta.topic]
+id = "v04_python_ops"
+title = "终端 Python 的运维小工具"
+icon = "🧰"
+order = 136
+command_ids = ["python-venv-create"]
+
+[[commands]]
+id = "v04-python_ops-76b8f3cd67"
+command = "python3 -m json.tool response.json"
+summary = "验证并格式化实验 JSON 文件，错误 JSON 会报告解析位置"
+
+[[commands.tokens]]
+text = "python3"
+desc = "运行 Python 3 解释器或标准库工具"
+
+[[commands.tokens]]
+text = " -m"
+desc = "运行指定模块作为程序"
+
+[[commands.tokens]]
+text = " json.tool"
+desc = "验证并格式化实验 JSON 文件，错误 JSON 会报告解析位置；指定 json.tool"
+
+[[commands.tokens]]
+text = " response.json"
+desc = "验证并格式化实验 JSON 文件，错误 JSON 会报告解析位置；指定 response.json"
+
+[commands.dictation]
+prompt = "验证并格式化实验 JSON 文件，错误 JSON 会报告解析位置"
+answers = ["python3 -m json.tool response.json"]
+
+[[commands]]
+id = "v04-python_ops-1f7d07ad30"
+command = "python3 -m json.tool --sort-keys response.json"
+summary = "按键排序输出 JSON，便于对照配置差异"
+
+[[commands.tokens]]
+text = "python3"
+desc = "运行 Python 3 解释器或标准库工具"
+
+[[commands.tokens]]
+text = " -m"
+desc = "运行指定模块作为程序"
+
+[[commands.tokens]]
+text = " json.tool"
+desc = "按键排序输出 JSON，便于对照配置差异；指定 json.tool"
+
+[[commands.tokens]]
+text = " --sort-keys"
+desc = "按键排序输出 JSON，便于对照配置差异；此处使用 --sort-keys 选项"
+
+[[commands.tokens]]
+text = " response.json"
+desc = "按键排序输出 JSON，便于对照配置差异；指定 response.json"
+
+[commands.dictation]
+prompt = "按键排序输出 JSON，便于对照配置差异"
+answers = ["python3 -m json.tool --sort-keys response.json"]
+
+[[commands]]
+id = "v04-python_ops-979572083e"
+command = "python3 -m http.server 8000 --bind 127.0.0.1"
+summary = "仅在本机回环运行临时文件服务器；当前目录内容会被提供"
+
+[[commands.tokens]]
+text = "python3"
+desc = "运行 Python 3 解释器或标准库工具"
+
+[[commands.tokens]]
+text = " -m"
+desc = "运行指定模块作为程序"
+
+[[commands.tokens]]
+text = " http.server"
+desc = "仅在本机回环运行临时文件服务器；当前目录内容会被提供；指定 http.server"
+
+[[commands.tokens]]
+text = " 8000"
+desc = "本次练习的数值参数 8000；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " --bind"
+desc = "仅在本机回环运行临时文件服务器；当前目录内容会被提供；此处使用 --bind 选项"
+
+[[commands.tokens]]
+text = " 127.0.0.1"
+desc = "仅在本机回环运行临时文件服务器；当前目录内容会被提供；指定 127.0.0.1"
+
+[commands.dictation]
+prompt = "仅在本机回环运行临时文件服务器；当前目录内容会被提供"
+answers = ["python3 -m http.server 8000 --bind 127.0.0.1"]
+
+[[commands]]
+id = "v04-python_ops-1fea620ef4"
+command = "python3 -c 'import sys; print(sys.version)'"
+summary = "检查终端实际调用的 Python 解释器版本"
+
+[[commands.tokens]]
+text = "python3"
+desc = "运行 Python 3 解释器或标准库工具"
+
+[[commands.tokens]]
+text = " -c"
+desc = "执行随后的 Python 代码字符串"
+
+[[commands.tokens]]
+text = " 'import sys; print(sys.version)'"
+desc = "引号保护此参数中的空格或特殊符号；检查终端实际调用的 Python 解释器版本"
+
+[commands.dictation]
+prompt = "检查终端实际调用的 Python 解释器版本"
+answers = ["python3 -c 'import sys; print(sys.version)'"]
+
+[[commands]]
+id = "v04-python_ops-184950872b"
+command = "python3 -c 'import sys; print(sys.executable)'"
+summary = "显示 Python 可执行文件路径，定位虚拟环境差异"
+
+[[commands.tokens]]
+text = "python3"
+desc = "运行 Python 3 解释器或标准库工具"
+
+[[commands.tokens]]
+text = " -c"
+desc = "执行随后的 Python 代码字符串"
+
+[[commands.tokens]]
+text = " 'import sys; print(sys.executable)'"
+desc = "引号保护此参数中的空格或特殊符号；显示 Python 可执行文件路径，定位虚拟环境差异"
+
+[commands.dictation]
+prompt = "显示 Python 可执行文件路径，定位虚拟环境差异"
+answers = ["python3 -c 'import sys; print(sys.executable)'"]
+
+[[commands]]
+id = "v04-python_ops-45a5f18647"
+command = "python3 -c 'import socket; print(socket.gethostname())'"
+summary = "用标准库读取主机名，不执行远端查询"
+
+[[commands.tokens]]
+text = "python3"
+desc = "运行 Python 3 解释器或标准库工具"
+
+[[commands.tokens]]
+text = " -c"
+desc = "执行随后的 Python 代码字符串"
+
+[[commands.tokens]]
+text = " 'import socket; print(socket.gethostname())'"
+desc = "引号保护此参数中的空格或特殊符号；用标准库读取主机名，不执行远端查询"
+
+[commands.dictation]
+prompt = "用标准库读取主机名，不执行远端查询"
+answers = ["python3 -c 'import socket; print(socket.gethostname())'"]
+
+[[commands]]
+id = "v04-python_ops-8b5573b9d4"
+command = "python3 -c 'import shutil; print(shutil.disk_usage(\"/\"))'"
+summary = "读取根文件系统总量、已用和可用字节数"
+
+[[commands.tokens]]
+text = "python3"
+desc = "运行 Python 3 解释器或标准库工具"
+
+[[commands.tokens]]
+text = " -c"
+desc = "执行随后的 Python 代码字符串"
+
+[[commands.tokens]]
+text = " 'import shutil; print(shutil.disk_usage(\"/\"))'"
+desc = "引号保护此参数中的空格或特殊符号；读取根文件系统总量、已用和可用字节数"
+
+[commands.dictation]
+prompt = "读取根文件系统总量、已用和可用字节数"
+answers = ["python3 -c 'import shutil; print(shutil.disk_usage(\"/\"))'"]
+
+[[commands]]
+id = "v04-python_ops-0261b5280e"
+command = "python3 -c 'from pathlib import Path; print(Path(\"config.yml\").resolve())'"
+summary = "解析实验配置绝对路径，默认不验证文件存在"
+
+[[commands.tokens]]
+text = "python3"
+desc = "运行 Python 3 解释器或标准库工具"
+
+[[commands.tokens]]
+text = " -c"
+desc = "执行随后的 Python 代码字符串"
+
+[[commands.tokens]]
+text = " 'from pathlib import Path; print(Path(\"config.yml\").resolve())'"
+desc = "引号保护此参数中的空格或特殊符号；解析实验配置绝对路径，默认不验证文件存在"
+
+[commands.dictation]
+prompt = "解析实验配置绝对路径，默认不验证文件存在"
+answers = ["python3 -c 'from pathlib import Path; print(Path(\"config.yml\").resolve())'"]
+
+[[commands]]
+id = "v04-python_ops-c54ff25efc"
+command = "python3 -c 'from pathlib import Path; print(Path(\"backend.log\").stat().st_size)'"
+summary = "读取实验日志字节大小，文件不存在会报错"
+
+[[commands.tokens]]
+text = "python3"
+desc = "运行 Python 3 解释器或标准库工具"
+
+[[commands.tokens]]
+text = " -c"
+desc = "执行随后的 Python 代码字符串"
+
+[[commands.tokens]]
+text = " 'from pathlib import Path; print(Path(\"backend.log\").stat().st_size)'"
+desc = "引号保护此参数中的空格或特殊符号；读取实验日志字节大小，文件不存在会报错"
+
+[commands.dictation]
+prompt = "读取实验日志字节大小，文件不存在会报错"
+answers = ["python3 -c 'from pathlib import Path; print(Path(\"backend.log\").stat().st_size)'"]
+
+[[commands]]
+id = "v04-python_ops-9955b7f60c"
+command = "python3 -c 'import json; print(json.load(open(\"response.json\"))[\"status\"])'"
+summary = "读取实验 JSON 的 status 字段，学习按结构取值"
+
+[[commands.tokens]]
+text = "python3"
+desc = "运行 Python 3 解释器或标准库工具"
+
+[[commands.tokens]]
+text = " -c"
+desc = "执行随后的 Python 代码字符串"
+
+[[commands.tokens]]
+text = " 'import json; print(json.load(open(\"response.json\"))[\"status\"])'"
+desc = "引号保护此参数中的空格或特殊符号；读取实验 JSON 的 status 字段，学习按结构取值"
+
+[commands.dictation]
+prompt = "读取实验 JSON 的 status 字段，学习按结构取值"
+answers = ["python3 -c 'import json; print(json.load(open(\"response.json\"))[\"status\"])'"]
+
+[[commands]]
+id = "v04-python_ops-eeb93f3a78"
+command = "python3 -c 'import csv; print(next(csv.reader(open(\"report.csv\"))))'"
+summary = "用 CSV 解析器读取表头，支持引号包围的逗号"
+
+[[commands.tokens]]
+text = "python3"
+desc = "运行 Python 3 解释器或标准库工具"
+
+[[commands.tokens]]
+text = " -c"
+desc = "执行随后的 Python 代码字符串"
+
+[[commands.tokens]]
+text = " 'import csv; print(next(csv.reader(open(\"report.csv\"))))'"
+desc = "引号保护此参数中的空格或特殊符号；用 CSV 解析器读取表头，支持引号包围的逗号"
+
+[commands.dictation]
+prompt = "用 CSV 解析器读取表头，支持引号包围的逗号"
+answers = ["python3 -c 'import csv; print(next(csv.reader(open(\"report.csv\"))))'"]
+
+[[commands]]
+id = "v04-python_ops-eb501a2c42"
+command = "python3 -c 'from datetime import datetime, timezone; print(datetime.now(timezone.utc).isoformat())'"
+summary = "输出带 UTC 时区的 ISO 时间，方便跨系统关联"
+
+[[commands.tokens]]
+text = "python3"
+desc = "运行 Python 3 解释器或标准库工具"
+
+[[commands.tokens]]
+text = " -c"
+desc = "执行随后的 Python 代码字符串"
+
+[[commands.tokens]]
+text = " 'from datetime import datetime, timezone; print(datetime.now(timezone.utc).isoformat())'"
+desc = "引号保护此参数中的空格或特殊符号；输出带 UTC 时区的 ISO 时间，方便跨系统关联"
+
+[commands.dictation]
+prompt = "输出带 UTC 时区的 ISO 时间，方便跨系统关联"
+answers = ["python3 -c 'from datetime import datetime, timezone; print(datetime.now(timezone.utc).isoformat())'"]
+
+[[commands]]
+id = "v04-python_ops-7b3e0e0e73"
+command = "python3 -c 'import ipaddress; print(ipaddress.ip_address(\"192.0.2.10\") in ipaddress.ip_network(\"192.0.2.0/24\"))'"
+summary = "判断实验地址是否属于指定网段"
+simulated_output = "True"
+
+[[commands.tokens]]
+text = "python3"
+desc = "运行 Python 3 解释器或标准库工具"
+
+[[commands.tokens]]
+text = " -c"
+desc = "执行随后的 Python 代码字符串"
+
+[[commands.tokens]]
+text = " 'import ipaddress; print(ipaddress.ip_address(\"192.0.2.10\") in ipaddress.ip_network(\"192.0.2.0/24\"))'"
+desc = "引号保护此参数中的空格或特殊符号；判断实验地址是否属于指定网段"
+
+[commands.dictation]
+prompt = "判断实验地址是否属于指定网段"
+answers = ["python3 -c 'import ipaddress; print(ipaddress.ip_address(\"192.0.2.10\") in ipaddress.ip_network(\"192.0.2.0/24\"))'"]
+
+[[commands]]
+id = "v04-python_ops-ea7d1ec0e0"
+command = "python3 -c 'import hashlib; print(hashlib.sha256(b\"hello\").hexdigest())'"
+summary = "计算固定实验字节的 SHA-256，理解摘要输入是字节"
+
+[[commands.tokens]]
+text = "python3"
+desc = "运行 Python 3 解释器或标准库工具"
+
+[[commands.tokens]]
+text = " -c"
+desc = "执行随后的 Python 代码字符串"
+
+[[commands.tokens]]
+text = " 'import hashlib; print(hashlib.sha256(b\"hello\").hexdigest())'"
+desc = "引号保护此参数中的空格或特殊符号；计算固定实验字节的 SHA-256，理解摘要输入是字节"
+
+[commands.dictation]
+prompt = "计算固定实验字节的 SHA-256，理解摘要输入是字节"
+answers = ["python3 -c 'import hashlib; print(hashlib.sha256(b\"hello\").hexdigest())'"]
+
+[[commands]]
+id = "v04-python_ops-9f61792990"
+command = ". .venv/bin/activate"
+summary = "在当前 shell 激活实验虚拟环境，点命令不能由子进程代替"
+
+[[commands.tokens]]
+text = "."
+desc = "在当前 shell 激活实验虚拟环境，点命令不能由子进程代替"
+
+[[commands.tokens]]
+text = " .venv/bin/activate"
+desc = "在当前 shell 激活实验虚拟环境，点命令不能由子进程代替；指定 .venv/bin/activate"
+
+[commands.dictation]
+prompt = "在当前 shell 激活实验虚拟环境，点命令不能由子进程代替"
+answers = [". .venv/bin/activate"]

@@ -1,3 +1,4 @@
+
 [meta]
 command = "ping"
 full_name = "Packet InterNet Groper"
@@ -7,16 +8,11 @@ importance = "core"
 
 [overview]
 summary = "测试网络连通性和延迟"
-explanation = """ping 是最基本的网络诊断工具，通过发送 ICMP Echo Request 包并等待回复\
-来测试与目标主机之间的网络连通性。它可以帮助你判断：\
-目标主机是否可达、网络延迟有多大、是否存在丢包等。\
-ping 是网络故障排查的第一步——当你发现无法访问某个服务时，\
-先 ping 一下看看网络层是否正常。\
-注意：在 Linux 上 ping 默认会持续发送直到手动 Ctrl+C 中断，\
-与 Windows 上默认发 4 个包不同。"""
+explanation = "ping 是最基本的网络诊断工具，通过发送 ICMP Echo Request 包并等待回复来测试与目标主机之间的网络连通性。它可以帮助你判断：目标主机是否可达、网络延迟有多大、是否存在丢包等。ping 是网络故障排查的第一步——当你发现无法访问某个服务时，先 ping 一下看看网络层是否正常。注意：在 Linux 上 ping 默认会持续发送直到手动 Ctrl+C 中断，与 Windows 上默认发 4 个包不同。"
 
 [syntax]
 basic = "ping [选项] 目标主机"
+
 [[syntax.parts]]
 name = "目标主机"
 desc = "IP 地址或域名"
@@ -59,19 +55,12 @@ note = "强制使用 IPv4 或 IPv6"
 
 [[examples]]
 level = 1
-command = "ping -c 4 8.8.8.8"
 summary = "向 Google DNS 发送 4 个 ICMP 包测试外网连通性"
-simulated_output = """PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
-64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=12.3 ms
-64 bytes from 8.8.8.8: icmp_seq=2 ttl=117 time=11.8 ms
-64 bytes from 8.8.8.8: icmp_seq=3 ttl=117 time=12.1 ms
-64 bytes from 8.8.8.8: icmp_seq=4 ttl=117 time=11.9 ms
-
---- 8.8.8.8 ping statistics ---
-4 packets transmitted, 4 received, 0% packet loss, time 3005ms
-rtt min/avg/max/mdev = 11.802/12.025/12.301/0.185 ms"""
-
+simulated_output = "PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.\n64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=12.3 ms\n64 bytes from 8.8.8.8: icmp_seq=2 ttl=117 time=11.8 ms\n64 bytes from 8.8.8.8: icmp_seq=3 ttl=117 time=12.1 ms\n64 bytes from 8.8.8.8: icmp_seq=4 ttl=117 time=11.9 ms\n\n--- 8.8.8.8 ping statistics ---\n4 packets transmitted, 4 received, 0% packet loss, time 3005ms\nrtt min/avg/max/mdev = 11.802/12.025/12.301/0.185 ms"
 output_explanation = "输出展示了 ICMP 连通性测试结果。重点关注丢包率和 RTT（min/avg/max）；丢包高或延迟抖动大通常说明链路不稳定。"
+id = "example-001"
+command_id = "ping-count-four"
+
 [[examples.token_details]]
 token = "-c"
 explanation = "指定发送的 ICMP 包数量（count）。"
@@ -86,18 +75,12 @@ explanation = "Google 公共 DNS 服务器地址，常用于测试外网连通�
 
 [[examples]]
 level = 1
-command = "ping -c 3 google.com"
 summary = "测试域名解析和网络连通性"
-simulated_output = """PING google.com (142.250.185.14) 56(84) bytes of data.
-64 bytes from tsa01s11-in-f14.1e100.net (142.250.185.14): icmp_seq=1 ttl=118 time=8.42 ms
-64 bytes from tsa01s11-in-f14.1e100.net (142.250.185.14): icmp_seq=2 ttl=118 time=8.15 ms
-64 bytes from tsa01s11-in-f14.1e100.net (142.250.185.14): icmp_seq=3 ttl=118 time=8.28 ms
-
---- google.com ping statistics ---
-3 packets transmitted, 3 received, 0% packet loss, time 2003ms
-rtt min/avg/max/mdev = 8.150/8.283/8.420/0.110 ms"""
-
+simulated_output = "PING google.com (142.250.185.14) 56(84) bytes of data.\n64 bytes from tsa01s11-in-f14.1e100.net (142.250.185.14): icmp_seq=1 ttl=118 time=8.42 ms\n64 bytes from tsa01s11-in-f14.1e100.net (142.250.185.14): icmp_seq=2 ttl=118 time=8.15 ms\n64 bytes from tsa01s11-in-f14.1e100.net (142.250.185.14): icmp_seq=3 ttl=118 time=8.28 ms\n\n--- google.com ping statistics ---\n3 packets transmitted, 3 received, 0% packet loss, time 2003ms\nrtt min/avg/max/mdev = 8.150/8.283/8.420/0.110 ms"
 output_explanation = "输出展示了 ICMP 连通性测试结果。重点关注丢包率和 RTT（min/avg/max）；丢包高或延迟抖动大通常说明链路不稳定。"
+id = "example-002"
+command_id = "v04-ref-b065e06d8b"
+
 [[examples.token_details]]
 token = "-c"
 explanation = "指定发送的 ICMP 包数量。"
@@ -112,19 +95,12 @@ explanation = "目标域名，ping 会先做 DNS 解析再发送 ICMP 包。"
 
 [[examples]]
 level = 2
-command = "ping -c 4 192.168.1.1"
 summary = "测试网关是否可达"
-simulated_output = """PING 192.168.1.1 (192.168.1.1) 56(84) bytes of data.
-64 bytes from 192.168.1.1: icmp_seq=1 ttl=64 time=0.523 ms
-64 bytes from 192.168.1.1: icmp_seq=2 ttl=64 time=0.481 ms
-64 bytes from 192.168.1.1: icmp_seq=3 ttl=64 time=0.614 ms
-64 bytes from 192.168.1.1: icmp_seq=4 ttl=64 time=0.498 ms
-
---- 192.168.1.1 ping statistics ---
-4 packets transmitted, 4 received, 0% packet loss, time 3004ms
-rtt min/avg/max/mdev = 0.481/0.529/0.614/0.051 ms"""
-
+simulated_output = "PING 192.168.1.1 (192.168.1.1) 56(84) bytes of data.\n64 bytes from 192.168.1.1: icmp_seq=1 ttl=64 time=0.523 ms\n64 bytes from 192.168.1.1: icmp_seq=2 ttl=64 time=0.481 ms\n64 bytes from 192.168.1.1: icmp_seq=3 ttl=64 time=0.614 ms\n64 bytes from 192.168.1.1: icmp_seq=4 ttl=64 time=0.498 ms\n\n--- 192.168.1.1 ping statistics ---\n4 packets transmitted, 4 received, 0% packet loss, time 3004ms\nrtt min/avg/max/mdev = 0.481/0.529/0.614/0.051 ms"
 output_explanation = "输出展示了 ICMP 连通性测试结果。重点关注丢包率和 RTT（min/avg/max）；丢包高或延迟抖动大通常说明链路不稳定。"
+id = "example-003"
+command_id = "shared-1080438ca26361b2"
+
 [[examples.token_details]]
 token = "-c"
 explanation = "指定发送的 ICMP 包数量。"
@@ -139,15 +115,12 @@ explanation = "局域网网关地址，用于测试本地网络是否正常。"
 
 [[examples]]
 level = 3
-command = "ping -qc 100 server.example.com"
 summary = "发送 100 个包只看统计摘要（用于丢包率测试）"
-simulated_output = """PING server.example.com (203.0.113.42) 56(84) bytes of data.
-
---- server.example.com ping statistics ---
-100 packets transmitted, 97 received, 3% packet loss, time 99132ms
-rtt min/avg/max/mdev = 10.234/15.678/89.432/8.901 ms"""
-
+simulated_output = "PING server.example.com (203.0.113.42) 56(84) bytes of data.\n\n--- server.example.com ping statistics ---\n100 packets transmitted, 97 received, 3% packet loss, time 99132ms\nrtt min/avg/max/mdev = 10.234/15.678/89.432/8.901 ms"
 output_explanation = "输出展示了 ICMP 连通性测试结果。重点关注丢包率和 RTT（min/avg/max）；丢包高或延迟抖动大通常说明链路不稳定。"
+id = "example-004"
+command_id = "shared-6ce6f1b98f10118c"
+
 [[examples.token_details]]
 token = "-qc"
 explanation = "组合选项：-q 静默模式（只显示统计摘要）+ -c 指定发送次数。"
@@ -162,19 +135,12 @@ explanation = "要测试连通性的目标服务器域名。"
 
 [[examples]]
 level = 3
-command = "ping -c 4 -s 1400 10.0.0.1"
 summary = "发送大包测试 MTU（最大传输单元）"
-simulated_output = """PING 10.0.0.1 (10.0.0.1) 1400(1428) bytes of data.
-1408 bytes from 10.0.0.1: icmp_seq=1 ttl=64 time=0.892 ms
-1408 bytes from 10.0.0.1: icmp_seq=2 ttl=64 time=0.845 ms
-1408 bytes from 10.0.0.1: icmp_seq=3 ttl=64 time=0.901 ms
-1408 bytes from 10.0.0.1: icmp_seq=4 ttl=64 time=0.867 ms
-
---- 10.0.0.1 ping statistics ---
-4 packets transmitted, 4 received, 0% packet loss, time 3004ms
-rtt min/avg/max/mdev = 0.845/0.876/0.901/0.021 ms"""
-
+simulated_output = "PING 10.0.0.1 (10.0.0.1) 1400(1428) bytes of data.\n1408 bytes from 10.0.0.1: icmp_seq=1 ttl=64 time=0.892 ms\n1408 bytes from 10.0.0.1: icmp_seq=2 ttl=64 time=0.845 ms\n1408 bytes from 10.0.0.1: icmp_seq=3 ttl=64 time=0.901 ms\n1408 bytes from 10.0.0.1: icmp_seq=4 ttl=64 time=0.867 ms\n\n--- 10.0.0.1 ping statistics ---\n4 packets transmitted, 4 received, 0% packet loss, time 3004ms\nrtt min/avg/max/mdev = 0.845/0.876/0.901/0.021 ms"
 output_explanation = "输出展示了 ICMP 连通性测试结果。重点关注丢包率和 RTT（min/avg/max）；丢包高或延迟抖动大通常说明链路不稳定。"
+id = "example-005"
+command_id = "shared-5aadebaac26ac867"
+
 [[examples.token_details]]
 token = "-c"
 explanation = "指定发送的 ICMP 包数量。"
@@ -197,26 +163,8 @@ explanation = "目标主机 IP 地址。"
 
 [[gotchas]]
 title = "ping 不通不一定是网络有问题"
-content = """ping 使用 ICMP 协议，有些情况下 ping 不通但网络实际是正常的：
-  1. 目标主机防火墙禁止了 ICMP（很多云服务器默认禁 ping）
-  2. 网络中的防火墙/路由器过滤了 ICMP 包
-  3. 某些 ISP 限制了 ICMP 流量
-
-排查方法：
-  ping 不通时，尝试用 curl 或 telnet 测试具体端口：
-  curl -v http://target:80     — 测试 HTTP 端口
-  curl -v telnet://target:22   — 测试 SSH 端口
-  如果端口可达说明网络没问题，只是 ICMP 被过滤了。"""
+content = "ping 使用 ICMP 协议，有些情况下 ping 不通但网络实际是正常的：\n  1. 目标主机防火墙禁止了 ICMP（很多云服务器默认禁 ping）\n  2. 网络中的防火墙/路由器过滤了 ICMP 包\n  3. 某些 ISP 限制了 ICMP 流量\n\n排查方法：\n  ping 不通时，尝试用 curl 或 telnet 测试具体端口：\n  curl -v http://target:80     — 测试 HTTP 端口\n  curl -v telnet://target:22   — 测试 SSH 端口\n  如果端口可达说明网络没问题，只是 ICMP 被过滤了。"
 
 [[gotchas]]
 title = "Linux 与 Windows ping 的区别"
-content = """Linux 和 Windows 的 ping 有几个重要区别：
-  Linux：默认持续发送直到 Ctrl+C，需要 -c 限制次数
-  Windows：默认发送 4 个包后停止，用 -t 持续发送
-
-  Linux：ping -c 4 google.com
-  Windows：ping google.com（自动发 4 个）
-  Windows：ping -t google.com（持续发送）
-
-另外 Linux 上限制 ping 间隔小于 0.2 秒需要 root 权限，
-而 Windows 没有这个限制。"""
+content = "Linux 和 Windows 的 ping 有几个重要区别：\n  Linux：默认持续发送直到 Ctrl+C，需要 -c 限制次数\n  Windows：默认发送 4 个包后停止，用 -t 持续发送\n\n  Linux：ping -c 4 google.com\n  Windows：ping google.com（自动发 4 个）\n  Windows：ping -t google.com（持续发送）\n\n另外 Linux 上限制 ping 间隔小于 0.2 秒需要 root 权限，\n而 Windows 没有这个限制。"

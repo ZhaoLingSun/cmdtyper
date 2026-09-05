@@ -1,0 +1,116 @@
+id = "firewall_timeout"
+title = "连接超时：定位主机防火墙规则"
+category = "网络"
+difficulty = "basic"
+background = "管理端到原生 metrics-agent 的 9100 端口超时。本例不是 Docker 发布端口，主机使用 UFW。"
+objective = "证明服务监听正常，确认 SYN 到达与本机过滤，增加限定来源的规则。"
+environment = "Ubuntu 24.04 LTS 教学主机 web-01（192.0.2.10），客户端 ops-01（192.0.2.50），网关 192.0.2.1。文档保留地址与 example.test 域名只用于模拟；每例独立还原起始状态，全部输出预置。"
+recap = "监听、本地请求、入站抓包和防火墙日志共同定位过滤；修复以限定来源规则为单位。"
+sources = ["https://man7.org/linux/man-pages/man8/ss.8.html", "https://man7.org/linux/man-pages/man8/tcpdump.8.html", "https://ubuntu.com/server/docs/how-to/security/firewalls/"]
+
+[[steps]]
+title = "从管理端重现超时"
+output = "nc: connect to 192.0.2.10 port 9100 (tcp) timed out"
+explanation = "超时不能直接断定服务停止，也可能是丢弃或路径问题。"
+instruction = "请跟打，从管理端重现超时。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_01"
+command_id = "shared-b2e6eb91648c3b7c"
+
+[[steps]]
+title = "在服务端确认监听"
+output = "LISTEN 0 4096 0.0.0.0:9100 0.0.0.0:* users:((\"metrics-agent\",pid=1800,fd=4))"
+explanation = "0.0.0.0 表示所有 IPv4 本机地址。"
+instruction = "请跟打，在服务端确认监听。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_02"
+command_id = "shared-b3f648655e69cb48"
+
+[[steps]]
+title = "测试服务端本机请求"
+output = "ok"
+explanation = "本机成功，范围缩小到外部路径或来源相关策略。"
+instruction = "请跟打，测试服务端本机请求。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_03"
+command_id = "shared-141f6a92ee5756d4"
+
+[[steps]]
+title = "观察来自管理端的 SYN"
+output = "192.0.2.50.51000 > 192.0.2.10.9100: Flags [S]\n192.0.2.50.51000 > 192.0.2.10.9100: Flags [S]\n192.0.2.50.51000 > 192.0.2.10.9100: Flags [S]"
+explanation = "模拟中客户端同时重试。SYN 已到达目标网卡，却看不到回应。"
+instruction = "请跟打，观察来自管理端的 SYN。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_04"
+command_id = "shared-be60d91704aa74d2"
+
+[steps.decision]
+question = "最值得继续检查什么？"
+
+[[steps.decision.choices]]
+text = "客户端域名拼写"
+correct = false
+feedback = "这里直接使用 IP 地址，没有 DNS 参与。"
+
+[[steps.decision.choices]]
+text = "服务端入站过滤及返回路径"
+correct = true
+feedback = "对，已经直接使用 IP 并证实请求到达服务端。"
+
+[[steps]]
+title = "检查活动防火墙策略"
+output = "Status: active\nDefault: deny (incoming), allow (outgoing)\n22/tcp ALLOW IN 192.0.2.0/24"
+explanation = "9100 尚无例外规则，默认入站丢弃与抓包现象一致。"
+instruction = "请跟打，检查活动防火墙策略。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_05"
+command_id = "ufw-status"
+
+[[steps]]
+title = "查看已记录的阻断"
+output = "[UFW BLOCK] IN=ens3 SRC=192.0.2.50 DST=192.0.2.10 PROTO=TCP DPT=9100"
+explanation = "日志进一步关联来源、目标端口和阻断动作。"
+instruction = "请跟打，查看已记录的阻断。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_06"
+command_id = "shared-5209f55e18ca75f9"
+
+[[steps]]
+title = "预览限定来源规则"
+output = "[模拟预览：允许 192.0.2.50 -> 9100/tcp，不改变现有规则]"
+explanation = "先检查范围；监控端是唯一需要连接此端口的主机。"
+instruction = "请跟打，预览限定来源规则。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_07"
+command_id = "shared-a18af06ff1d757a0"
+
+[steps.decision]
+question = "应应用哪种修复？"
+
+[[steps.decision.choices]]
+text = "只允许管理端访问 9100/tcp"
+correct = true
+feedback = "对，精确例外满足需求并保留其他过滤。"
+
+[[steps.decision.choices]]
+text = "关闭整台机器防火墙"
+correct = false
+feedback = "关闭全部过滤超出这个端口故障的范围。"
+
+[[steps]]
+title = "添加监控来源例外"
+output = "Rule added"
+explanation = "本例为原生主机服务。Docker 发布端口路径需检查 Docker 转发规则，不能照搬此结论。"
+instruction = "请跟打，添加监控来源例外。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_08"
+command_id = "shared-e98f74b45a753f51"
+
+[[steps]]
+title = "从管理端验证应用"
+output = "ok"
+explanation = "通过原始失败路径验证，而不是只测回环地址。"
+instruction = "请跟打，从管理端验证应用。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_09"
+command_id = "shared-1b31a5367bc390cd"

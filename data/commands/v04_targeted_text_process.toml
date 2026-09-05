@@ -1,0 +1,198 @@
+
+[meta]
+category = "text_process"
+difficulty = "basic"
+description = "针对基础用法具体操作、方向和选项的三题练习；只在模拟实验环境中输入。"
+
+[[commands]]
+id = "v04-ex-qa-36f4ae94fb"
+command = "sort -nr latency_ms.txt"
+summary = "将同一实验数值列表从大到小排序"
+
+[[commands.tokens]]
+text = "sort"
+desc = "将同一实验数值列表从大到小排序"
+
+[[commands.tokens]]
+text = " -nr"
+desc = "本次操作参数：-nr。将同一实验数值列表从大到小排序"
+
+[[commands.tokens]]
+text = " latency_ms.txt"
+desc = "本次操作参数：latency_ms.txt。将同一实验数值列表从大到小排序"
+
+[commands.dictation]
+prompt = "将同一实验数值列表从大到小排序"
+answers = ["sort -nr latency_ms.txt"]
+
+[[commands]]
+id = "v04-ex-qa-d94ce07df8"
+command = "sort -n retry_counts.txt"
+summary = "按数值比较实验重试次数，避免字典序误判"
+
+[[commands.tokens]]
+text = "sort"
+desc = "按数值比较实验重试次数，避免字典序误判"
+
+[[commands.tokens]]
+text = " -n"
+desc = "本次操作参数：-n。按数值比较实验重试次数，避免字典序误判"
+
+[[commands.tokens]]
+text = " retry_counts.txt"
+desc = "本次操作参数：retry_counts.txt。按数值比较实验重试次数，避免字典序误判"
+
+[commands.dictation]
+prompt = "按数值比较实验重试次数，避免字典序误判"
+answers = ["sort -n retry_counts.txt"]
+
+[[commands]]
+id = "v04-ex-qa-311bc7ecf3"
+command = "sort -r hosts.txt"
+summary = "按反向字典序排列实验主机名称"
+
+[[commands.tokens]]
+text = "sort"
+desc = "按反向字典序排列实验主机名称"
+
+[[commands.tokens]]
+text = " -r"
+desc = "本次操作参数：-r。按反向字典序排列实验主机名称"
+
+[[commands.tokens]]
+text = " hosts.txt"
+desc = "本次操作参数：hosts.txt。按反向字典序排列实验主机名称"
+
+[commands.dictation]
+prompt = "按反向字典序排列实验主机名称"
+answers = ["sort -r hosts.txt"]
+
+[[commands]]
+id = "v04-ex-qa-c81f582989"
+command = "sort -r users.txt"
+summary = "反向排列实验账号名称"
+
+[[commands.tokens]]
+text = "sort"
+desc = "反向排列实验账号名称"
+
+[[commands.tokens]]
+text = " -r"
+desc = "本次操作参数：-r。反向排列实验账号名称"
+
+[[commands.tokens]]
+text = " users.txt"
+desc = "本次操作参数：users.txt。反向排列实验账号名称"
+
+[commands.dictation]
+prompt = "反向排列实验账号名称"
+answers = ["sort -r users.txt"]
+
+[[commands]]
+id = "v04-ex-qa-271b5ec22d"
+command = "sort -ru regions.txt"
+summary = "反向排序实验区域名称并合并重复项"
+
+[[commands.tokens]]
+text = "sort"
+desc = "反向排序实验区域名称并合并重复项"
+
+[[commands.tokens]]
+text = " -ru"
+desc = "本次操作参数：-ru。反向排序实验区域名称并合并重复项"
+
+[[commands.tokens]]
+text = " regions.txt"
+desc = "本次操作参数：regions.txt。反向排序实验区域名称并合并重复项"
+
+[commands.dictation]
+prompt = "反向排序实验区域名称并合并重复项"
+answers = ["sort -ru regions.txt"]
+
+[[commands]]
+id = "v04-ex-qa-e08e46d029"
+command = "cat -n ~/ops-lab/check.sh"
+summary = "为实验脚本每一行编号"
+
+[[commands.tokens]]
+text = "cat"
+desc = "为实验脚本每一行编号"
+
+[[commands.tokens]]
+text = " -n"
+desc = "本次操作参数：-n。为实验脚本每一行编号"
+
+[[commands.tokens]]
+text = " ~/ops-lab/check.sh"
+desc = "本次操作参数：~/ops-lab/check.sh。为实验脚本每一行编号"
+
+[commands.dictation]
+prompt = "为实验脚本每一行编号"
+answers = ["cat -n ~/ops-lab/check.sh"]
+
+[[commands]]
+id = "v04-ex-qa-7af69b7f34"
+command = "cat -n ~/ops-lab/notes.txt"
+summary = "给实验笔记加行号，方便交流位置"
+
+[[commands.tokens]]
+text = "cat"
+desc = "给实验笔记加行号，方便交流位置"
+
+[[commands.tokens]]
+text = " -n"
+desc = "本次操作参数：-n。给实验笔记加行号，方便交流位置"
+
+[[commands.tokens]]
+text = " ~/ops-lab/notes.txt"
+desc = "本次操作参数：~/ops-lab/notes.txt。给实验笔记加行号，方便交流位置"
+
+[commands.dictation]
+prompt = "给实验笔记加行号，方便交流位置"
+answers = ["cat -n ~/ops-lab/notes.txt"]
+
+[[commands]]
+id = "v04-ex-qa-c843e06687"
+command = "wc -l ~/ops-lab/settings.ini"
+summary = "统计实验配置行数"
+
+[[commands.tokens]]
+text = "wc"
+desc = "统计实验配置行数"
+
+[[commands.tokens]]
+text = " -l"
+desc = "本次操作参数：-l。统计实验配置行数"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "本次操作参数：~/ops-lab/settings.ini。统计实验配置行数"
+
+[commands.dictation]
+prompt = "统计实验配置行数"
+answers = ["wc -l ~/ops-lab/settings.ini"]
+
+[[commands]]
+id = "v04-ex-qa-32d42a4df7"
+command = "wc -l ~/ops-lab/notes.txt ~/ops-lab/report.txt"
+summary = "分别统计两份实验文件行数和合计"
+
+[[commands.tokens]]
+text = "wc"
+desc = "分别统计两份实验文件行数和合计"
+
+[[commands.tokens]]
+text = " -l"
+desc = "本次操作参数：-l。分别统计两份实验文件行数和合计"
+
+[[commands.tokens]]
+text = " ~/ops-lab/notes.txt"
+desc = "本次操作参数：~/ops-lab/notes.txt。分别统计两份实验文件行数和合计"
+
+[[commands.tokens]]
+text = " ~/ops-lab/report.txt"
+desc = "本次操作参数：~/ops-lab/report.txt。分别统计两份实验文件行数和合计"
+
+[commands.dictation]
+prompt = "分别统计两份实验文件行数和合计"
+answers = ["wc -l ~/ops-lab/notes.txt ~/ops-lab/report.txt"]

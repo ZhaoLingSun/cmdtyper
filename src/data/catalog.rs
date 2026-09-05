@@ -137,6 +137,7 @@ pub fn hydrate_and_validate_content(
 
 pub(crate) fn validate_canonical_commands(commands: &[Command]) -> Result<()> {
     let mut command_ids = HashMap::new();
+    let mut targets = HashMap::new();
     for (index, command) in commands.iter().enumerate() {
         let context = format!("canonical command {:?} at index {index}", command.id);
         if command.id.trim().is_empty() {
@@ -150,6 +151,14 @@ pub(crate) fn validate_canonical_commands(commands: &[Command]) -> Result<()> {
         }
         if command.command.trim().is_empty() {
             bail!("{context} has an empty command");
+        }
+        let normalized = command.command.replace("\r\n", "\n").trim().to_owned();
+        if let Some(previous_id) = targets.insert(normalized, command.id.as_str()) {
+            bail!(
+                "duplicate canonical target in {} and {}",
+                previous_id,
+                command.id
+            );
         }
         if command.summary.trim().is_empty() {
             bail!("{context} has an empty summary");
@@ -423,7 +432,7 @@ fn require_inline_string(value: &str, field: &str, context: &str) -> Result<()> 
 fn merge_string(target: &mut String, canonical: &str, field: &str, context: &str) -> Result<()> {
     if target.is_empty() {
         target.push_str(canonical);
-    } else if target != canonical {
+    } else if field == "command" && target != canonical {
         bail!(
             "{context} field {field:?} disagrees with canonical command: embedded {:?}, canonical {:?}",
             target,
@@ -443,7 +452,7 @@ fn merge_option(
         return Ok(());
     };
     match target {
-        Some(embedded) if embedded != canonical => bail!(
+        Some(embedded) if field == "command" && embedded != canonical => bail!(
             "{context} field {field:?} disagrees with canonical command: embedded {:?}, canonical {:?}",
             embedded,
             canonical
@@ -456,18 +465,12 @@ fn merge_option(
     }
 }
 
-fn merge_vec<T>(target: &mut Vec<T>, canonical: &[T], field: &str, context: &str) -> Result<()>
+fn merge_vec<T>(target: &mut Vec<T>, canonical: &[T], _field: &str, _context: &str) -> Result<()>
 where
     T: Clone + PartialEq + std::fmt::Debug,
 {
     if target.is_empty() {
         target.extend_from_slice(canonical);
-    } else if target != canonical {
-        bail!(
-            "{context} field {field:?} disagrees with canonical command: embedded {:?}, canonical {:?}",
-            target,
-            canonical
-        );
     }
     Ok(())
 }
@@ -713,13 +716,9 @@ command_id = "grep-basic"
 explanation = "different"
 "#,
         )];
-        let error = hydrate_and_validate_content(&catalog(), &mut [], &mut symbols, &mut [])
-            .expect_err("embedded explanation disagreement should fail");
-        assert!(
-            error
-                .to_string()
-                .contains("field \"explanation\" disagrees")
-        );
+        hydrate_and_validate_content(&catalog(), &mut [], &mut symbols, &mut [])
+            .expect("contextual explanations may differ while the command identity is shared");
+        assert_eq!(symbols[0].symbols[0].examples[0].explanation, "different");
     }
 
     #[test]

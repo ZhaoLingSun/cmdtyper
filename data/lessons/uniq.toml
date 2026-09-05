@@ -1,3 +1,4 @@
+
 [meta]
 command = "uniq"
 full_name = "unique"
@@ -7,17 +8,15 @@ importance = "common"
 
 [overview]
 summary = "去除或统计文件中的重复行"
-explanation = """uniq 命令用于检测和处理文件中相邻的重复行。\
-它可以去除重复行、统计重复次数、只显示重复行或只显示唯一行。\
-关键点：uniq 只处理相邻的重复行，因此通常需要先用 sort 排序。\
-经典用法是 sort file | uniq -c | sort -rn，用于统计词频或日志中的重复条目。\
-uniq 虽然简单，但在数据处理管道中是不可或缺的环节。"""
+explanation = "uniq 命令用于检测和处理文件中相邻的重复行。它可以去除重复行、统计重复次数、只显示重复行或只显示唯一行。关键点：uniq 只处理相邻的重复行，因此通常需要先用 sort 排序。经典用法是 sort file | uniq -c | sort -rn，用于统计词频或日志中的重复条目。uniq 虽然简单，但在数据处理管道中是不可或缺的环节。"
 
 [syntax]
 basic = "uniq [选项] [输入文件 [输出文件]]"
+
 [[syntax.parts]]
 name = "输入文件"
 desc = "要处理的文件，省略时从标准输入读取"
+
 [[syntax.parts]]
 name = "输出文件"
 desc = "输出到指定文件，省略时输出到标准输出"
@@ -60,15 +59,12 @@ note = "只比较每行前 N 个字符"
 
 [[examples]]
 level = 1
-command = "sort names.txt | uniq"
 summary = "排序后去除重复的名字"
-simulated_output = """Alice
-Bob
-Charlie
-Diana
-Eve"""
-
+simulated_output = "Alice\nBob\nCharlie\nDiana\nEve"
 output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
+id = "example-001"
+command_id = "xargs-one-argument-each"
+
 [[examples.token_details]]
 token = "names.txt"
 explanation = "名称列表文件。"
@@ -79,15 +75,12 @@ explanation = "管道符，把前一个命令的输出交给后一个命令继�
 
 [[examples]]
 level = 2
-command = "sort names.txt | uniq -c"
 summary = "统计每个名字出现的次数"
-simulated_output = """      3 Alice
-      1 Bob
-      2 Charlie
-      1 Diana
-      4 Eve"""
-
+simulated_output = "      3 Alice\n      1 Bob\n      2 Charlie\n      1 Diana\n      4 Eve"
 output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
+id = "example-002"
+command_id = "shared-a9958a79e202a464"
+
 [[examples.token_details]]
 token = "names.txt"
 explanation = "名称列表文件。"
@@ -102,13 +95,12 @@ explanation = "指定次数或统计计数（具体含义取决于命令）。"
 
 [[examples]]
 level = 2
-command = "sort names.txt | uniq -d"
 summary = "只显示有重复的名字"
-simulated_output = """Alice
-Charlie
-Eve"""
-
+simulated_output = "Alice\nCharlie\nEve"
 output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
+id = "example-003"
+command_id = "shared-70ee0d35139578cd"
+
 [[examples.token_details]]
 token = "names.txt"
 explanation = "名称列表文件。"
@@ -123,16 +115,13 @@ explanation = "只输出有重复的行（duplicate），每组重复行只显�
 
 [[examples]]
 level = 3
-command = "sort access.log | uniq -c | sort -rn | head -5"
 summary = "统计日志中出现次数最多的 5 条记录"
 display = "sort access.log | uniq -c \\\n  | sort -rn | head -5"
-simulated_output = """    523 192.168.1.50 - GET /index.html
-    312 10.0.0.5 - GET /api/health
-    187 192.168.1.105 - POST /api/login
-    145 172.16.0.20 - GET /static/main.js
-     98 192.168.1.200 - GET /favicon.ico"""
-
+simulated_output = "    523 192.168.1.50 - GET /index.html\n    312 10.0.0.5 - GET /api/health\n    187 192.168.1.105 - POST /api/login\n    145 172.16.0.20 - GET /static/main.js\n     98 192.168.1.200 - GET /favicon.ico"
 output_explanation = "输出是排序后的结果，排序规则受数字/逆序/字段键影响。可结合 `-t` 与 `-k` 控制按哪一列排序。"
+id = "example-004"
+command_id = "shared-ef17c9d059551f6c"
+
 [[examples.token_details]]
 token = "access.log"
 explanation = "HTTP 访问日志文件。"
@@ -155,21 +144,13 @@ explanation = "传给 head 的行数参数，只输出前 5 行结果。"
 
 [[examples]]
 level = 4
-command = "awk '{print $1}' access.log | sort | uniq -c | sort -rn | head -10"
 summary = "统计访问最多的 IP 地址（经典管道组合）"
 display = "awk '{print $1}' access.log \\\n  | sort | uniq -c | sort -rn | head -10"
-simulated_output = """   1523 192.168.1.50
-    987 10.0.0.5
-    654 192.168.1.105
-    432 172.16.0.20
-    321 192.168.1.200
-    234 10.0.0.12
-    187 203.0.113.42
-    145 192.168.1.30
-     98 10.0.0.100
-     76 172.16.0.55"""
-
+simulated_output = "   1523 192.168.1.50\n    987 10.0.0.5\n    654 192.168.1.105\n    432 172.16.0.20\n    321 192.168.1.200\n    234 10.0.0.12\n    187 203.0.113.42\n    145 192.168.1.30\n     98 10.0.0.100\n     76 172.16.0.55"
 output_explanation = "这是 awk 的筛选/字段处理结果：它按给定规则对输入文本逐行处理，只输出匹配或计算后的内容。可重点关注字段分隔符、条件表达式和 END 统计是否符合预期。"
+id = "example-005"
+command_id = "shared-11c1e6355f157dc4"
+
 [[examples.token_details]]
 token = "{print $1}"
 explanation = "awk 程序：打印每行第 1 列（即 IP 地址），作为后续 sort+uniq 统计的输入。"
@@ -196,25 +177,8 @@ explanation = "传给 head 的行数参数，只输出前 10 行，即访问量�
 
 [[gotchas]]
 title = "uniq 只去除相邻的重复行"
-content = """这是 uniq 最常见的陷阱。uniq 只比较相邻行是否相同：
-  文件内容：          uniq 结果：
-  apple               apple
-  banana              banana
-  apple               apple      ← apple 不相邻，不被去重！
-  banana              banana
-
-正确做法是先排序再去重：
-  sort file.txt | uniq     — 先排序使相同行相邻，再去重
-  sort -u file.txt         — 更简洁的写法，排序同时去重"""
+content = "这是 uniq 最常见的陷阱。uniq 只比较相邻行是否相同：\n  文件内容：          uniq 结果：\n  apple               apple\n  banana              banana\n  apple               apple      ← apple 不相邻，不被去重！\n  banana              banana\n\n正确做法是先排序再去重：\n  sort file.txt | uniq     — 先排序使相同行相邻，再去重\n  sort -u file.txt         — 更简洁的写法，排序同时去重"
 
 [[gotchas]]
 title = "uniq -c 的输出格式"
-content = """uniq -c 在每行前面加上计数，但输出格式有固定的前导空格：
-      3 Alice
-      1 Bob
-
-后续处理时需要注意前导空格。用 sort -rn 排序时会自动忽略前导空格。
-如果需要去掉前导空格，可以用：
-  sort file | uniq -c | sort -rn | sed 's/^[ ]*//'
-或者：
-  sort file | uniq -c | sort -rn | awk '{print $1, $2}'"""
+content = "uniq -c 在每行前面加上计数，但输出格式有固定的前导空格：\n      3 Alice\n      1 Bob\n\n后续处理时需要注意前导空格。用 sort -rn 排序时会自动忽略前导空格。\n如果需要去掉前导空格，可以用：\n  sort file | uniq -c | sort -rn | sed 's/^[ ]*//'\n或者：\n  sort file | uniq -c | sort -rn | awk '{print $1, $2}'"

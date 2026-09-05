@@ -1,0 +1,350 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "以具体目标执行 route get，结合策略规则排查多网卡出口。"
+
+[meta.topic]
+id = "v04_route"
+title = "路由与出口选择"
+icon = "🌐"
+order = 103
+
+[[commands]]
+id = "v04-route-d3e17a156a"
+command = "ip -4 route show table main"
+summary = "查看主 IPv4 路由表，包括默认网关和直连网段"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -4"
+desc = "限制为 IPv4"
+
+[[commands.tokens]]
+text = " route"
+desc = "查看主 IPv4 路由表，包括默认网关和直连网段；指定 route"
+
+[[commands.tokens]]
+text = " show"
+desc = "查看主 IPv4 路由表，包括默认网关和直连网段；指定 show"
+
+[[commands.tokens]]
+text = " table"
+desc = "查看主 IPv4 路由表，包括默认网关和直连网段；指定 table"
+
+[[commands.tokens]]
+text = " main"
+desc = "查看主 IPv4 路由表，包括默认网关和直连网段；指定 main"
+
+[commands.dictation]
+prompt = "查看主 IPv4 路由表，包括默认网关和直连网段"
+answers = ["ip -4 route show table main"]
+
+[[commands]]
+id = "v04-route-5d0f9ca4b6"
+command = "ip route get 192.0.2.20"
+summary = "查询内核对具体目标的选路结果，关注 dev、via 和 src"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " route"
+desc = "查询内核对具体目标的选路结果，关注 dev、via 和 src；指定 route"
+
+[[commands.tokens]]
+text = " get"
+desc = "查询内核对具体目标的选路结果，关注 dev、via 和 src；指定 get"
+
+[[commands.tokens]]
+text = " 192.0.2.20"
+desc = "查询内核对具体目标的选路结果，关注 dev、via 和 src；指定 192.0.2.20"
+
+[commands.dictation]
+prompt = "查询内核对具体目标的选路结果，关注 dev、via 和 src"
+answers = ["ip route get 192.0.2.20"]
+
+[[commands]]
+id = "v04-route-e16f841d41"
+command = "ip route get 198.51.100.20"
+summary = "查询远端业务地址的实际出口，和本地网段结果对照"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " route"
+desc = "查询远端业务地址的实际出口，和本地网段结果对照；指定 route"
+
+[[commands.tokens]]
+text = " get"
+desc = "查询远端业务地址的实际出口，和本地网段结果对照；指定 get"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "查询远端业务地址的实际出口，和本地网段结果对照；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "查询远端业务地址的实际出口，和本地网段结果对照"
+answers = ["ip route get 198.51.100.20"]
+
+[[commands]]
+id = "v04-route-06feaf2c98"
+command = "ip route get 203.0.113.53"
+summary = "核对访问 DNS 服务器将使用的出口和源地址"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " route"
+desc = "核对访问 DNS 服务器将使用的出口和源地址；指定 route"
+
+[[commands.tokens]]
+text = " get"
+desc = "核对访问 DNS 服务器将使用的出口和源地址；指定 get"
+
+[[commands.tokens]]
+text = " 203.0.113.53"
+desc = "核对访问 DNS 服务器将使用的出口和源地址；指定 203.0.113.53"
+
+[commands.dictation]
+prompt = "核对访问 DNS 服务器将使用的出口和源地址"
+answers = ["ip route get 203.0.113.53"]
+
+[[commands]]
+id = "v04-route-a1f86ab12c"
+command = "ip route get 198.51.100.20 from 192.0.2.10"
+summary = "指定源地址核对多地址主机的策略选路"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " route"
+desc = "指定源地址核对多地址主机的策略选路；指定 route"
+
+[[commands.tokens]]
+text = " get"
+desc = "指定源地址核对多地址主机的策略选路；指定 get"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "指定源地址核对多地址主机的策略选路；指定 198.51.100.20"
+
+[[commands.tokens]]
+text = " from"
+desc = "指定源地址核对多地址主机的策略选路；指定 from"
+
+[[commands.tokens]]
+text = " 192.0.2.10"
+desc = "指定源地址核对多地址主机的策略选路；指定 192.0.2.10"
+
+[commands.dictation]
+prompt = "指定源地址核对多地址主机的策略选路"
+answers = ["ip route get 198.51.100.20 from 192.0.2.10"]
+
+[[commands]]
+id = "v04-route-62b2892557"
+command = "ip rule show"
+summary = "查看策略路由优先级，数值越小通常越先匹配"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " rule"
+desc = "查看策略路由优先级，数值越小通常越先匹配；指定 rule"
+
+[[commands.tokens]]
+text = " show"
+desc = "查看策略路由优先级，数值越小通常越先匹配；指定 show"
+
+[commands.dictation]
+prompt = "查看策略路由优先级，数值越小通常越先匹配"
+answers = ["ip rule show"]
+
+[[commands]]
+id = "v04-route-630848b3b1"
+command = "ip route show table all"
+summary = "查看全部路由表，排查主表之外的路由"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " route"
+desc = "查看全部路由表，排查主表之外的路由；指定 route"
+
+[[commands.tokens]]
+text = " show"
+desc = "查看全部路由表，排查主表之外的路由；指定 show"
+
+[[commands.tokens]]
+text = " table"
+desc = "查看全部路由表，排查主表之外的路由；指定 table"
+
+[[commands.tokens]]
+text = " all"
+desc = "查看全部路由表，排查主表之外的路由；指定 all"
+
+[commands.dictation]
+prompt = "查看全部路由表，排查主表之外的路由"
+answers = ["ip route show table all"]
+
+[[commands]]
+id = "v04-route-f86a3baf76"
+command = "ip route show default"
+summary = "只查看默认路由；多条默认路由需核对 metric"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " route"
+desc = "只查看默认路由；多条默认路由需核对 metric；指定 route"
+
+[[commands.tokens]]
+text = " show"
+desc = "只查看默认路由；多条默认路由需核对 metric；指定 show"
+
+[[commands.tokens]]
+text = " default"
+desc = "只查看默认路由；多条默认路由需核对 metric；指定 default"
+
+[commands.dictation]
+prompt = "只查看默认路由；多条默认路由需核对 metric"
+answers = ["ip route show default"]
+
+[[commands]]
+id = "v04-route-d55fd1b3b6"
+command = "ip -6 route show default"
+summary = "检查 IPv6 默认路由是否存在"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -6"
+desc = "限制为 IPv6"
+
+[[commands.tokens]]
+text = " route"
+desc = "检查 IPv6 默认路由是否存在；指定 route"
+
+[[commands.tokens]]
+text = " show"
+desc = "检查 IPv6 默认路由是否存在；指定 show"
+
+[[commands.tokens]]
+text = " default"
+desc = "检查 IPv6 默认路由是否存在；指定 default"
+
+[commands.dictation]
+prompt = "检查 IPv6 默认路由是否存在"
+answers = ["ip -6 route show default"]
+
+[[commands]]
+id = "v04-route-26b4506d28"
+command = "ip -6 rule show"
+summary = "查看 IPv6 策略路由规则"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -6"
+desc = "限制为 IPv6"
+
+[[commands.tokens]]
+text = " rule"
+desc = "查看 IPv6 策略路由规则；指定 rule"
+
+[[commands.tokens]]
+text = " show"
+desc = "查看 IPv6 策略路由规则；指定 show"
+
+[commands.dictation]
+prompt = "查看 IPv6 策略路由规则"
+answers = ["ip -6 rule show"]
+
+[[commands]]
+id = "v04-route-d95ed19bdf"
+command = "ip route show dev ens33"
+summary = "仅列出 ens33 关联的路由"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " route"
+desc = "仅列出 ens33 关联的路由；指定 route"
+
+[[commands.tokens]]
+text = " show"
+desc = "仅列出 ens33 关联的路由；指定 show"
+
+[[commands.tokens]]
+text = " dev"
+desc = "仅列出 ens33 关联的路由；指定 dev"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "仅列出 ens33 关联的路由；指定 ens33"
+
+[commands.dictation]
+prompt = "仅列出 ens33 关联的路由"
+answers = ["ip route show dev ens33"]
+
+[[commands]]
+id = "v04-route-adf134fc8e"
+command = "ip route get 198.51.100.20 ipproto tcp dport 443"
+summary = "在支持的 iproute2 版本中把 TCP 443 选择器纳入路由查询"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " route"
+desc = "在支持的 iproute2 版本中把 TCP 443 选择器纳入路由查询；指定 route"
+
+[[commands.tokens]]
+text = " get"
+desc = "在支持的 iproute2 版本中把 TCP 443 选择器纳入路由查询；指定 get"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "在支持的 iproute2 版本中把 TCP 443 选择器纳入路由查询；指定 198.51.100.20"
+
+[[commands.tokens]]
+text = " ipproto"
+desc = "在支持的 iproute2 版本中把 TCP 443 选择器纳入路由查询；指定 ipproto"
+
+[[commands.tokens]]
+text = " tcp"
+desc = "在支持的 iproute2 版本中把 TCP 443 选择器纳入路由查询；指定 tcp"
+
+[[commands.tokens]]
+text = " dport"
+desc = "在支持的 iproute2 版本中把 TCP 443 选择器纳入路由查询；指定 dport"
+
+[[commands.tokens]]
+text = " 443"
+desc = "本次练习的数值参数 443；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "在支持的 iproute2 版本中把 TCP 443 选择器纳入路由查询"
+answers = ["ip route get 198.51.100.20 ipproto tcp dport 443"]

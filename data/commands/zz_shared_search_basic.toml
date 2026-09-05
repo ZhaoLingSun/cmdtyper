@@ -1,0 +1,89 @@
+
+[meta]
+category = "search"
+difficulty = "basic"
+description = "跨模块共用的规范命令（由内容归一化维护）"
+
+[[commands]]
+id = "shared-d1a1640feb42c617"
+command = "find /var/log -type f -name '*.log' -size +10M"
+summary = "查找大于 10MB 的日志文件"
+simulated_output = "/var/log/syslog\n/var/log/kern.log\n/var/log/auth.log\n/var/log/nginx/access.log\n/var/log/mysql/error.log"
+
+[[commands.tokens]]
+text = "find /var/log -type f -name '*.log' -size +10M"
+desc = "查找大于 10MB 的日志文件"
+
+[commands.dictation]
+prompt = "查找大于 10MB 的日志文件"
+answers = ["find /var/log -type f -name '*.log' -size +10M"]
+
+[[commands]]
+id = "shared-7c9845d8a70d2907"
+command = "find . -type d -name 'node_modules'"
+summary = "查找当前目录下所有 node_modules 目录"
+simulated_output = "./project-a/node_modules\n./project-a/packages/ui/node_modules\n./project-b/node_modules\n./old-projects/webapp/node_modules"
+
+[[commands.tokens]]
+text = "find . -type d -name 'node_modules'"
+desc = "查找当前目录下所有 node_modules 目录"
+
+[commands.dictation]
+prompt = "查找当前目录下所有 node_modules 目录"
+answers = ["find . -type d -name 'node_modules'"]
+
+[[commands]]
+id = "shared-9d999b203c358f9f"
+command = "find /tmp -type f -mtime +30 -exec rm -v {} \\;"
+summary = "删除 /tmp 中超过 30 天的旧文件"
+simulated_output = "removed '/tmp/sess_a8f3k2m1n4p5'\nremoved '/tmp/tmp.X8kd92Ls'\nremoved '/tmp/core.12345'\nremoved '/tmp/download.7Rkm3P'\nremoved '/tmp/upload_cache_old.dat'"
+
+[[commands.tokens]]
+text = "find /tmp -type f -mtime +30 -exec rm -v {} \\;"
+desc = "删除 /tmp 中超过 30 天的旧文件"
+
+[commands.dictation]
+prompt = "删除 /tmp 中超过 30 天的旧文件"
+answers = ["find /tmp -type f -mtime +30 -exec rm -v {} \\;"]
+
+[[commands]]
+id = "shared-4153993ba473eaf8"
+command = "find /home -name '*.sh' -type f -perm -u+x"
+summary = "查找所有可执行的 shell 脚本"
+simulated_output = "/home/alice/scripts/backup.sh\n/home/alice/scripts/deploy.sh\n/home/alice/bin/cleanup.sh\n/home/bob/scripts/monitor.sh\n/home/bob/cron/daily-report.sh"
+
+[[commands.tokens]]
+text = "find /home -name '*.sh' -type f -perm -u+x"
+desc = "查找所有可执行的 shell 脚本"
+
+[commands.dictation]
+prompt = "查找所有可执行的 shell 脚本"
+answers = ["find /home -name '*.sh' -type f -perm -u+x"]
+
+[[commands]]
+id = "shared-483160901fd3ef11"
+command = "find ./src -name '*.py' -type f -exec grep -l 'import requests' {} +"
+summary = "查找所有导入了 requests 库的 Python 文件"
+simulated_output = "./src/api/client.py\n./src/services/webhook.py\n./src/utils/downloader.py\n./src/tests/test_api.py"
+
+[[commands.tokens]]
+text = "find ./src -name '*.py' -type f -exec grep -l 'import requests' {} +"
+desc = "查找所有导入了 requests 库的 Python 文件"
+
+[commands.dictation]
+prompt = "查找所有导入了 requests 库的 Python 文件"
+answers = ["find ./src -name '*.py' -type f -exec grep -l 'import requests' {} +"]
+
+[[commands]]
+id = "shared-3a80f1d70144de2b"
+command = "find / -type f -perm -4000 -ls 2>/dev/null"
+summary = "安全审计：查找系统中所有 SUID 文件"
+simulated_output = "   131073     40 -rwsr-xr-x   1 root     root        39144 Mar  7  2025 /usr/bin/newgrp\n   131089     84 -rwsr-xr-x   1 root     root        85064 Mar  7  2025 /usr/bin/chfn\n   131091     52 -rwsr-xr-x   1 root     root        53040 Mar  7  2025 /usr/bin/chsh\n   131095     68 -rwsr-xr-x   1 root     root        68208 Mar  7  2025 /usr/bin/passwd\n   131097     44 -rwsr-xr-x   1 root     root        44784 Mar  7  2025 /usr/bin/su\n   131099    164 -rwsr-xr-x   1 root     root       166056 Apr  1  2025 /usr/bin/sudo\n   131112     36 -rwsr-xr-x   1 root     root        35192 Mar  7  2025 /usr/bin/umount\n   131115     56 -rwsr-xr-x   1 root     root        55528 Mar  7  2025 /usr/bin/mount"
+
+[[commands.tokens]]
+text = "find / -type f -perm -4000 -ls 2>/dev/null"
+desc = "安全审计：查找系统中所有 SUID 文件"
+
+[commands.dictation]
+prompt = "安全审计：查找系统中所有 SUID 文件"
+answers = ["find / -type f -perm -4000 -ls 2>/dev/null"]

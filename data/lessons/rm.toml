@@ -1,3 +1,4 @@
+
 [meta]
 command = "rm"
 full_name = "remove"
@@ -7,16 +8,11 @@ importance = "core"
 
 [overview]
 summary = "删除文件和目录"
-explanation = """rm 是 Linux 中删除文件和目录的命令，名称来源于 "remove"。\
-与 Windows 的回收站不同，Linux 的 rm 是永久删除——文件被删除后\
-无法通过简单操作恢复（除非使用专业数据恢复工具且磁盘未被覆写）。\
-默认情况下 rm 只能删除文件，删除目录需要加 -r（递归）选项。\
-由于 rm 的破坏性，建议初学者使用 -i（交互确认）选项，\
-或者在执行删除前先用 ls 确认要删除的文件列表。\
-特别警告：rm -rf / 或 rm -rf * 等命令极其危险，可能导致系统完全损坏！"""
+explanation = "rm 是 Linux 中删除文件和目录的命令，名称来源于 \"remove\"。与 Windows 的回收站不同，Linux 的 rm 是永久删除——文件被删除后无法通过简单操作恢复（除非使用专业数据恢复工具且磁盘未被覆写）。默认情况下 rm 只能删除文件，删除目录需要加 -r（递归）选项。由于 rm 的破坏性，建议初学者使用 -i（交互确认）选项，或者在执行删除前先用 ls 确认要删除的文件列表。特别警告：rm -rf / 或 rm -rf * 等命令极其危险，可能导致系统完全损坏！"
 
 [syntax]
 basic = "rm [选项] 文件..."
+
 [[syntax.parts]]
 name = "文件"
 desc = "要删除的文件或目录路径，可以指定多个，支持通配符"
@@ -59,22 +55,24 @@ note = "删除空目录，等同于 rmdir"
 
 [[examples]]
 level = 1
-command = "rm temp.log"
 summary = "删除单个文件"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-001"
+command_id = "rm-file"
+
 [[examples.token_details]]
 token = "temp.log"
 explanation = "目标文件：temp.log"
 
 [[examples]]
 level = 1
-command = "rm -i important.doc"
 summary = "删除文件前确认"
-simulated_output = """rm: remove regular file 'important.doc'? y"""
-
+simulated_output = "rm: remove regular file 'important.doc'? y"
 output_explanation = "该结果表示文件删除操作已执行。带 `-v` 会显示被删除对象；批量删除前务必确认匹配范围，避免误删。"
+id = "example-002"
+command_id = "v04-ref-48bcf8fb73"
+
 [[examples.token_details]]
 token = "-i"
 explanation = "启用交互确认，覆盖/删除前先询问。"
@@ -85,16 +83,12 @@ explanation = "输入文件路径，表示要删除的目标文件。"
 
 [[examples]]
 level = 2
-command = "rm -rv old_project/"
 summary = "递归删除整个目录并显示详情"
-simulated_output = """removed 'old_project/src/main.rs'
-removed 'old_project/src/lib.rs'
-removed directory 'old_project/src/'
-removed 'old_project/Cargo.toml'
-removed 'old_project/README.md'
-removed directory 'old_project/'"""
-
+simulated_output = "removed 'old_project/src/main.rs'\nremoved 'old_project/src/lib.rs'\nremoved directory 'old_project/src/'\nremoved 'old_project/Cargo.toml'\nremoved 'old_project/README.md'\nremoved directory 'old_project/'"
 output_explanation = "该结果表示文件删除操作已执行。带 `-v` 会显示被删除对象；批量删除前务必确认匹配范围，避免误删。"
+id = "example-003"
+command_id = "shared-b676e8f9e5dcf31a"
+
 [[examples.token_details]]
 token = "-rv"
 explanation = "按文件系统条目类型筛选匹配结果。"
@@ -105,13 +99,12 @@ explanation = "临时文件目录。"
 
 [[examples]]
 level = 2
-command = "rm -v *.tmp *.bak"
 summary = "删除所有临时文件和备份文件"
-simulated_output = """removed 'data.tmp'
-removed 'output.tmp'
-removed 'config.bak'"""
-
+simulated_output = "removed 'data.tmp'\nremoved 'output.tmp'\nremoved 'config.bak'"
 output_explanation = "该结果表示文件删除操作已执行。带 `-v` 会显示被删除对象；批量删除前务必确认匹配范围，避免误删。"
+id = "example-004"
+command_id = "shared-d442a6201242302f"
+
 [[examples.token_details]]
 token = "-v"
 explanation = "显示详细执行过程，便于观察发生了什么。"
@@ -126,11 +119,12 @@ explanation = "通配符模式，匹配当前目录下所有 .bak 扩展名的�
 
 [[examples]]
 level = 3
-command = "find /tmp -type f -mtime +30 -delete"
 summary = "删除 /tmp 下超过 30 天的文件（使用 find 更安全）"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-005"
+command_id = "shared-9413c036aab6f176"
+
 [[examples.token_details]]
 token = "/tmp"
 explanation = "/tmp 目录，存放系统临时文件，这里作为 find 的搜索起点。"
@@ -157,14 +151,13 @@ explanation = "直接删除 find 匹配到的结果。"
 
 [[examples]]
 level = 4
-command = "find . -name '*.pyc' -type f -exec rm -v {} +"
 summary = "递归删除当前目录下所有 Python 字节码文件"
 display = "find . -name '*.pyc' -type f \\\n  -exec rm -v {} +"
-simulated_output = """removed './app/__pycache__/main.cpython-312.pyc'
-removed './app/__pycache__/utils.cpython-312.pyc'
-removed './tests/__pycache__/test_main.cpython-312.pyc'"""
-
+simulated_output = "removed './app/__pycache__/main.cpython-312.pyc'\nremoved './app/__pycache__/utils.cpython-312.pyc'\nremoved './tests/__pycache__/test_main.cpython-312.pyc'"
 output_explanation = "这是 find 搜索或批量处理的结果，通常每行对应一个匹配路径或被处理对象。执行批量操作前可先去掉 `-exec` 仅确认匹配范围。"
+id = "example-006"
+command_id = "shared-1e2f213c95bf1b08"
+
 [[examples.token_details]]
 token = "."
 explanation = "当前目录。"
@@ -203,26 +196,8 @@ explanation = "与 -exec 连用，表示尽量批量传参以减少进程启动�
 
 [[gotchas]]
 title = "rm -rf 的致命危险"
-content = """rm -rf 组合了递归（-r）和强制（-f），是 Linux 中最危险的命令之一：
-  rm -rf /          — 删除整个系统（现代系统需加 --no-preserve-root）
-  rm -rf ~          — 删除家目录所有文件
-  rm -rf *          — 删除当前目录所有文件（含隐藏文件用 .* 就更危险）
-  rm -rf $UNDEFINED — 如果变量为空，展开为 rm -rf，可能删当前目录
-
-安全建议：
-  1. 永远不要以 root 身份随意运行 rm -rf
-  2. 先用 ls 查看将要删除的文件列表
-  3. 使用 rm -ri 代替 rm -rf 进行交互确认
-  4. 重要数据先做备份
-  5. 在脚本中使用 rm 前，验证路径变量不为空"""
+content = "rm -rf 组合了递归（-r）和强制（-f），是 Linux 中最危险的命令之一：\n  rm -rf /          — 删除整个系统（现代系统需加 --no-preserve-root）\n  rm -rf ~          — 删除家目录所有文件\n  rm -rf *          — 删除当前目录所有文件（含隐藏文件用 .* 就更危险）\n  rm -rf $UNDEFINED — 如果变量为空，展开为 rm -rf，可能删当前目录\n\n安全建议：\n  1. 永远不要以 root 身份随意运行 rm -rf\n  2. 先用 ls 查看将要删除的文件列表\n  3. 使用 rm -ri 代替 rm -rf 进行交互确认\n  4. 重要数据先做备份\n  5. 在脚本中使用 rm 前，验证路径变量不为空"
 
 [[gotchas]]
 title = "rm 不是移动到回收站"
-content = """Linux 的 rm 是真正的删除，不像 Windows 那样移到回收站。
-如果需要类似回收站的功能，可以：
-  1. 使用 trash-cli 工具：trash-put file.txt（安装：sudo apt install trash-cli）
-  2. 自定义 alias：alias rm='trash-put'（但脚本中仍会用真正的 rm）
-  3. 设置 alias rm='rm -i' 至少在删除前有确认机会
-
-如果不小心删除了文件，停止对该分区的一切写入操作，
-然后尝试使用 extundelete 或 photorec 等工具进行数据恢复。"""
+content = "Linux 的 rm 是真正的删除，不像 Windows 那样移到回收站。\n如果需要类似回收站的功能，可以：\n  1. 使用 trash-cli 工具：trash-put file.txt（安装：sudo apt install trash-cli）\n  2. 自定义 alias：alias rm='trash-put'（但脚本中仍会用真正的 rm）\n  3. 设置 alias rm='rm -i' 至少在删除前有确认机会\n\n如果不小心删除了文件，停止对该分区的一切写入操作，\n然后尝试使用 extundelete 或 photorec 等工具进行数据恢复。"

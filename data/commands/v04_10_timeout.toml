@@ -1,0 +1,370 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "设置有限超时并逐层对比路由、防火墙和 SYN/SYN-ACK，避免无限等待。"
+
+[meta.topic]
+id = "v04_timeout"
+title = "连接超时与重传"
+icon = "🌐"
+order = 110
+
+[[commands]]
+id = "v04-timeout-82042c5fcd"
+command = "nc -vz -w 2 198.51.100.20 443"
+summary = "用两秒超时复现实验 HTTPS 建连超时"
+
+[[commands.tokens]]
+text = "nc"
+desc = "使用 OpenBSD netcat 检查 TCP 或 UDP 通信"
+
+[[commands.tokens]]
+text = " -vz"
+desc = "用两秒超时复现实验 HTTPS 建连超时；此处使用 -vz 选项"
+
+[[commands.tokens]]
+text = " -w"
+desc = "用两秒超时复现实验 HTTPS 建连超时；此处使用 -w 选项"
+
+[[commands.tokens]]
+text = " 2"
+desc = "本次练习的数值参数 2；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "用两秒超时复现实验 HTTPS 建连超时；指定 198.51.100.20"
+
+[[commands.tokens]]
+text = " 443"
+desc = "本次练习的数值参数 443；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "用两秒超时复现实验 HTTPS 建连超时"
+answers = ["nc -vz -w 2 198.51.100.20 443"]
+
+[[commands]]
+id = "v04-timeout-b19c3b59fa"
+command = "curl --connect-timeout 2 --max-time 5 https://example.com/"
+summary = "分别限制连接阶段和整个请求时长"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " --connect-timeout"
+desc = "限定连接阶段等待秒数"
+
+[[commands.tokens]]
+text = " 2"
+desc = "本次练习的数值参数 2；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " --max-time"
+desc = "限定整个请求总秒数"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "分别限制连接阶段和整个请求时长"
+answers = ["curl --connect-timeout 2 --max-time 5 https://example.com/"]
+
+[[commands]]
+id = "v04-timeout-ff5fc499a4"
+command = "curl --connect-timeout 2 --max-time 5 http://192.0.2.20/health"
+summary = "绕过 DNS 测试实验 HTTP 目标，保留总时限"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " --connect-timeout"
+desc = "限定连接阶段等待秒数"
+
+[[commands.tokens]]
+text = " 2"
+desc = "本次练习的数值参数 2；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " --max-time"
+desc = "限定整个请求总秒数"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " http://192.0.2.20/health"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "绕过 DNS 测试实验 HTTP 目标，保留总时限"
+answers = ["curl --connect-timeout 2 --max-time 5 http://192.0.2.20/health"]
+
+[[commands]]
+id = "v04-timeout-43fa786a9d"
+command = "ss -tnop state syn-sent"
+summary = "查看等待建连连接的计时器和进程，需权限才能显示其他用户进程"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -tnop"
+desc = "查看等待建连连接的计时器和进程，需权限才能显示其他用户进程；此处使用 -tnop 选项"
+
+[[commands.tokens]]
+text = " state"
+desc = "查看等待建连连接的计时器和进程，需权限才能显示其他用户进程；指定 state"
+
+[[commands.tokens]]
+text = " syn-sent"
+desc = "查看等待建连连接的计时器和进程，需权限才能显示其他用户进程；指定 syn-sent"
+
+[commands.dictation]
+prompt = "查看等待建连连接的计时器和进程，需权限才能显示其他用户进程"
+answers = ["ss -tnop state syn-sent"]
+
+[[commands]]
+id = "v04-timeout-0267b7d0e3"
+command = "ss -ti dst 198.51.100.20"
+summary = "查看实验远端连接的 TCP 内部信息与重传迹象"
+
+[[commands.tokens]]
+text = "ss"
+desc = "查询内核套接字及连接状态"
+
+[[commands.tokens]]
+text = " -ti"
+desc = "查看实验远端连接的 TCP 内部信息与重传迹象；此处使用 -ti 选项"
+
+[[commands.tokens]]
+text = " dst"
+desc = "查看实验远端连接的 TCP 内部信息与重传迹象；指定 dst"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "查看实验远端连接的 TCP 内部信息与重传迹象；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "查看实验远端连接的 TCP 内部信息与重传迹象"
+answers = ["ss -ti dst 198.51.100.20"]
+
+[[commands]]
+id = "v04-timeout-d8eea91895"
+command = "ip route get 198.51.100.20 from 192.0.2.10 iif lo"
+summary = "检查本机来源到实验目标的选路策略"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " route"
+desc = "检查本机来源到实验目标的选路策略；指定 route"
+
+[[commands.tokens]]
+text = " get"
+desc = "检查本机来源到实验目标的选路策略；指定 get"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "检查本机来源到实验目标的选路策略；指定 198.51.100.20"
+
+[[commands.tokens]]
+text = " from"
+desc = "检查本机来源到实验目标的选路策略；指定 from"
+
+[[commands.tokens]]
+text = " 192.0.2.10"
+desc = "检查本机来源到实验目标的选路策略；指定 192.0.2.10"
+
+[[commands.tokens]]
+text = " iif"
+desc = "检查本机来源到实验目标的选路策略；指定 iif"
+
+[[commands.tokens]]
+text = " lo"
+desc = "检查本机来源到实验目标的选路策略；指定 lo"
+
+[commands.dictation]
+prompt = "检查本机来源到实验目标的选路策略"
+answers = ["ip route get 198.51.100.20 from 192.0.2.10 iif lo"]
+
+[[commands]]
+id = "v04-timeout-1c935f617b"
+command = "sudo tcpdump -ni ens33 -c 20 'host 198.51.100.20 and tcp port 443'"
+summary = "在出口抓取有限报文，观察请求是否出站及响应是否返回"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "在出口抓取有限报文，观察请求是否出站及响应是否返回；指定 ens33"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 'host 198.51.100.20 and tcp port 443'"
+desc = "引号保护此参数中的空格或特殊符号；在出口抓取有限报文，观察请求是否出站及响应是否返回"
+
+[commands.dictation]
+prompt = "在出口抓取有限报文，观察请求是否出站及响应是否返回"
+answers = ["sudo tcpdump -ni ens33 -c 20 'host 198.51.100.20 and tcp port 443'"]
+
+[[commands]]
+id = "v04-timeout-248d433ad2"
+command = "sudo nft list ruleset"
+summary = "查看 nftables 规则及已有计数器，不修改规则"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " nft"
+desc = "查看 nftables 规则及已有计数器，不修改规则"
+
+[[commands.tokens]]
+text = " list"
+desc = "查看 nftables 规则及已有计数器，不修改规则；指定 list"
+
+[[commands.tokens]]
+text = " ruleset"
+desc = "查看 nftables 规则及已有计数器，不修改规则；指定 ruleset"
+
+[commands.dictation]
+prompt = "查看 nftables 规则及已有计数器，不修改规则"
+answers = ["sudo nft list ruleset"]
+
+[[commands]]
+id = "v04-timeout-b976b46abe"
+command = "sudo iptables -L OUTPUT -n -v --line-numbers"
+summary = "检查 IPv4 出站链规则和计数，注意系统可能使用 nft 后端"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " iptables"
+desc = "检查 IPv4 出站链规则和计数，注意系统可能使用 nft 后端"
+
+[[commands.tokens]]
+text = " -L"
+desc = "检查 IPv4 出站链规则和计数，注意系统可能使用 nft 后端；此处使用 -L 选项"
+
+[[commands.tokens]]
+text = " OUTPUT"
+desc = "检查 IPv4 出站链规则和计数，注意系统可能使用 nft 后端；指定 OUTPUT"
+
+[[commands.tokens]]
+text = " -n"
+desc = "检查 IPv4 出站链规则和计数，注意系统可能使用 nft 后端；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " -v"
+desc = "检查 IPv4 出站链规则和计数，注意系统可能使用 nft 后端；此处使用 -v 选项"
+
+[[commands.tokens]]
+text = " --line-numbers"
+desc = "检查 IPv4 出站链规则和计数，注意系统可能使用 nft 后端；此处使用 --line-numbers 选项"
+
+[commands.dictation]
+prompt = "检查 IPv4 出站链规则和计数，注意系统可能使用 nft 后端"
+answers = ["sudo iptables -L OUTPUT -n -v --line-numbers"]
+
+[[commands]]
+id = "v04-timeout-d41593b61a"
+command = "sudo iptables -L INPUT -n -v --line-numbers"
+summary = "检查 IPv4 入站链规则和计数"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " iptables"
+desc = "检查 IPv4 入站链规则和计数"
+
+[[commands.tokens]]
+text = " -L"
+desc = "检查 IPv4 入站链规则和计数；此处使用 -L 选项"
+
+[[commands.tokens]]
+text = " INPUT"
+desc = "检查 IPv4 入站链规则和计数；指定 INPUT"
+
+[[commands.tokens]]
+text = " -n"
+desc = "检查 IPv4 入站链规则和计数；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " -v"
+desc = "检查 IPv4 入站链规则和计数；此处使用 -v 选项"
+
+[[commands.tokens]]
+text = " --line-numbers"
+desc = "检查 IPv4 入站链规则和计数；此处使用 --line-numbers 选项"
+
+[commands.dictation]
+prompt = "检查 IPv4 入站链规则和计数"
+answers = ["sudo iptables -L INPUT -n -v --line-numbers"]
+
+[[commands]]
+id = "v04-timeout-124e8a3fe2"
+command = "sysctl net.ipv4.tcp_syn_retries"
+summary = "读取主动连接 SYN 重试设置，排障时先观察而非盲目调参"
+
+[[commands.tokens]]
+text = "sysctl"
+desc = "读取内核参数；无 -w 时不写入配置"
+
+[[commands.tokens]]
+text = " net.ipv4.tcp_syn_retries"
+desc = "读取主动连接 SYN 重试设置，排障时先观察而非盲目调参；指定 net.ipv4.tcp_syn_retries"
+
+[commands.dictation]
+prompt = "读取主动连接 SYN 重试设置，排障时先观察而非盲目调参"
+answers = ["sysctl net.ipv4.tcp_syn_retries"]
+
+[[commands]]
+id = "v04-timeout-434cde8261"
+command = "sysctl net.ipv4.conf.all.rp_filter"
+summary = "读取反向路径过滤配置，结合非对称路由判断影响"
+
+[[commands.tokens]]
+text = "sysctl"
+desc = "读取内核参数；无 -w 时不写入配置"
+
+[[commands.tokens]]
+text = " net.ipv4.conf.all.rp_filter"
+desc = "读取反向路径过滤配置，结合非对称路由判断影响；指定 net.ipv4.conf.all.rp_filter"
+
+[commands.dictation]
+prompt = "读取反向路径过滤配置，结合非对称路由判断影响"
+answers = ["sysctl net.ipv4.conf.all.rp_filter"]

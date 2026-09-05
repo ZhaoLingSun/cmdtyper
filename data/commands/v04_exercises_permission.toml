@@ -1,0 +1,231 @@
+[meta]
+category = "permission"
+difficulty = "beginner"
+description = "基础用法的短练习：目标已在隔离实验环境中准备，按提示完成单一任务。"
+
+[[commands]]
+id = "v04-ex-3cd3f63140"
+command = "chmod 750 ~/ops-lab/check.sh"
+summary = "让实验脚本属主可读写执行、组可读执行、其他人无权限"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "调整实验文件的权限位"
+
+[[commands.tokens]]
+text = " 750"
+desc = "本次练习的数值参数 750；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ~/ops-lab/check.sh"
+desc = "本次操作指定的路径：~/ops-lab/check.sh"
+
+[commands.dictation]
+prompt = "让实验脚本属主可读写执行、组可读执行、其他人无权限"
+answers = ["chmod 750 ~/ops-lab/check.sh"]
+
+[[commands]]
+id = "v04-ex-c7179dbd5a"
+command = "chmod 700 ~/ops-lab/private"
+summary = "将实验目录限制为仅所有者访问"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "调整实验文件的权限位"
+
+[[commands.tokens]]
+text = " 700"
+desc = "本次练习的数值参数 700；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ~/ops-lab/private"
+desc = "本次操作指定的路径：~/ops-lab/private"
+
+[commands.dictation]
+prompt = "将实验目录限制为仅所有者访问"
+answers = ["chmod 700 ~/ops-lab/private"]
+
+[[commands]]
+id = "v04-ex-5076c5d1e5"
+command = "chmod g+r ~/ops-lab/report.txt"
+summary = "在现有权限上为组增加读取权限"
+
+[[commands.tokens]]
+text = "chmod"
+desc = "调整实验文件的权限位"
+
+[[commands.tokens]]
+text = " g+r"
+desc = "在现有权限上为组增加读取权限；指定 g+r"
+
+[[commands.tokens]]
+text = " ~/ops-lab/report.txt"
+desc = "本次操作指定的路径：~/ops-lab/report.txt"
+
+[commands.dictation]
+prompt = "在现有权限上为组增加读取权限"
+answers = ["chmod g+r ~/ops-lab/report.txt"]
+
+[[commands]]
+id = "v04-ex-c37de53430"
+command = "getent passwd ace"
+summary = "通过 NSS 查询实验 ace 用户信息"
+
+[[commands.tokens]]
+text = "getent"
+desc = "通过 NSS 查询实验 ace 用户信息"
+
+[[commands.tokens]]
+text = " passwd"
+desc = "通过 NSS 查询实验 ace 用户信息；指定 passwd"
+
+[[commands.tokens]]
+text = " ace"
+desc = "通过 NSS 查询实验 ace 用户信息；指定 ace"
+
+[commands.dictation]
+prompt = "通过 NSS 查询实验 ace 用户信息"
+answers = ["getent passwd ace"]
+
+[[commands]]
+id = "v04-ex-0decb5bc37"
+command = "getent group adm"
+summary = "查看 Ubuntu 日志读取组的成员"
+
+[[commands.tokens]]
+text = "getent"
+desc = "查看 Ubuntu 日志读取组的成员"
+
+[[commands.tokens]]
+text = " group"
+desc = "查看 Ubuntu 日志读取组的成员；指定 group"
+
+[[commands.tokens]]
+text = " adm"
+desc = "查看 Ubuntu 日志读取组的成员；指定 adm"
+
+[commands.dictation]
+prompt = "查看 Ubuntu 日志读取组的成员"
+answers = ["getent group adm"]
+
+[[commands]]
+id = "v04-ex-ac4986e33f"
+command = "groups www-data"
+summary = "读取实验 Web 服务账号所属组"
+
+[[commands.tokens]]
+text = "groups"
+desc = "读取实验 Web 服务账号所属组"
+
+[[commands.tokens]]
+text = " www-data"
+desc = "读取实验 Web 服务账号所属组；指定 www-data"
+
+[commands.dictation]
+prompt = "读取实验 Web 服务账号所属组"
+answers = ["groups www-data"]
+
+[[commands]]
+id = "v04-ex-300e21479c"
+command = "id -Gn ace"
+summary = "只输出实验 ace 用户所属组名"
+
+[[commands.tokens]]
+text = "id"
+desc = "只输出实验 ace 用户所属组名"
+
+[[commands.tokens]]
+text = " -Gn"
+desc = "只输出实验 ace 用户所属组名；此处使用 -Gn 选项"
+
+[[commands.tokens]]
+text = " ace"
+desc = "只输出实验 ace 用户所属组名；指定 ace"
+
+[commands.dictation]
+prompt = "只输出实验 ace 用户所属组名"
+answers = ["id -Gn ace"]
+
+[[commands]]
+id = "v04-ex-210eb9fe21"
+command = "id www-data"
+summary = "查看 Web 服务账号身份"
+
+[[commands.tokens]]
+text = "id"
+desc = "查看 Web 服务账号身份"
+
+[[commands.tokens]]
+text = " www-data"
+desc = "查看 Web 服务账号身份；指定 www-data"
+
+[commands.dictation]
+prompt = "查看 Web 服务账号身份"
+answers = ["id www-data"]
+
+[[commands]]
+id = "v04-ex-5e3e3a9fb1"
+command = "id -u ace"
+summary = "只读取实验 ace 用户的 UID"
+
+[[commands.tokens]]
+text = "id"
+desc = "只读取实验 ace 用户的 UID"
+
+[[commands.tokens]]
+text = " -u"
+desc = "只读取实验 ace 用户的 UID；此处使用 -u 选项"
+
+[[commands.tokens]]
+text = " ace"
+desc = "只读取实验 ace 用户的 UID；指定 ace"
+
+[commands.dictation]
+prompt = "只读取实验 ace 用户的 UID"
+answers = ["id -u ace"]
+
+[[commands]]
+id = "v04-ex-0e86550cb5"
+command = "umask -S"
+summary = "用符号形式读取当前实验 shell 掩码所允许的默认权限"
+
+[[commands.tokens]]
+text = "umask"
+desc = "用符号形式读取当前实验 shell 掩码所允许的默认权限"
+
+[[commands.tokens]]
+text = " -S"
+desc = "用符号形式读取当前实验 shell 掩码所允许的默认权限；此处使用 -S 选项"
+
+[commands.dictation]
+prompt = "用符号形式读取当前实验 shell 掩码所允许的默认权限"
+answers = ["umask -S"]
+
+[[commands]]
+id = "v04-ex-e4a5907a91"
+command = "( umask 022; umask )"
+summary = "在子 shell 演示 022 掩码，父 shell 不变"
+
+[[commands.tokens]]
+text = "("
+desc = "在子 shell 演示 022 掩码，父 shell 不变"
+
+[[commands.tokens]]
+text = " umask"
+desc = "在子 shell 演示 022 掩码，父 shell 不变；指定 umask"
+
+[[commands.tokens]]
+text = " 022;"
+desc = "在子 shell 演示 022 掩码，父 shell 不变；指定 022;"
+
+[[commands.tokens]]
+text = " umask"
+desc = "在子 shell 演示 022 掩码，父 shell 不变；指定 umask"
+
+[[commands.tokens]]
+text = " )"
+desc = "在子 shell 演示 022 掩码，父 shell 不变；指定 )"
+
+[commands.dictation]
+prompt = "在子 shell 演示 022 掩码，父 shell 不变"
+answers = ["( umask 022; umask )"]

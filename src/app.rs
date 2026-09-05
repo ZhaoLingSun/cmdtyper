@@ -29,6 +29,11 @@ pub enum AppState {
     Typing,
     TypingFilter,
     LearnHub,
+    Calendar,
+    Scenarios,
+    ScenarioPractice,
+    PracticeTopics,
+    PracticeGroup,
     CommandTopics,
     CommandLessonOverview {
         category_index: usize,
@@ -98,7 +103,7 @@ pub enum ReviewPhase {
     Practice,
 }
 
-const LEARN_HUB_ITEM_COUNT: usize = 8;
+const LEARN_HUB_ITEM_COUNT: usize = 6;
 
 #[derive(Debug, Clone, Default)]
 pub struct SymbolPracticeState {
@@ -181,10 +186,20 @@ pub struct App {
 
     // Data
     pub commands: Vec<Command>,
+    pub command_prompts: std::collections::HashMap<String, String>,
     pub command_training_topics: Vec<CommandTrainingTopic>,
     pub lessons: Vec<CommandLesson>,
     pub symbol_topics: Vec<SymbolTopic>,
     pub system_topics: Vec<SystemTopic>,
+
+    pub sequences: Vec<crate::data::sequence_loader::CommandSequence>,
+    pub workflow_state: crate::flow::workflow_flow::WorkflowState,
+    pub scenario_catalog: Vec<crate::data::scenario_loader::Scenario>,
+    pub scenario_state: crate::data::scenario_loader::ScenarioState,
+    pub practice_groups: Vec<crate::data::practice_loader::PracticeGroup>,
+    pub practice_state: crate::flow::practice_flow::PracticeState,
+    pub calendar_state: crate::ui::calendar::CalendarState,
+    pub persistence_error: Option<String>,
 
     // User data
     pub user_stats: UserStats,
@@ -285,22 +300,55 @@ impl App {
             &mut symbol_topics,
             &mut system_topics,
         )?;
+        let command_prompts =
+            command_loader::load_command_prompts(&data_dir, &command_catalog.commands)?;
+        let sequences =
+            crate::data::sequence_loader::load_sequences(&data_dir, &command_catalog.commands)?;
+        let aliases =
+            crate::data::aliases::CommandAliases::load(&data_dir, &command_catalog.commands)?;
+        let practice_groups = crate::data::practice_loader::load_practice_groups(
+            &data_dir,
+            &command_catalog.commands,
+        )?;
+        crate::data::practice_loader::validate_practice_sources(
+            &practice_groups,
+            &lessons,
+            &symbol_topics,
+            &system_topics,
+        )?;
+        let mut scenario_catalog =
+            crate::data::scenario_loader::load_scenarios(&data_dir.join("scenarios"))?;
+        crate::data::scenario_loader::hydrate_scenarios(
+            &mut scenario_catalog,
+            &command_catalog.commands,
+        )?;
         let commands = command_catalog.commands;
         let command_training_topics = command_catalog.topics;
 
         let progress_store = ProgressStore::new()?;
-        let user_stats = progress_store.load_stats()?;
+        aliases.migrate(&progress_store)?;
+        let user_stats = progress_store.migrate_stats()?;
         let user_config = progress_store.load_config()?;
         let typing_mode = user_config.typing_mode.clone();
         let history = progress_store.load_history()?;
 
+        let scenario_state = crate::data::scenario_loader::load_state(progress_store.base_dir());
         let mut app = Self {
             state: AppState::Home,
             commands,
+            command_prompts,
             command_training_topics,
             lessons,
             symbol_topics,
             system_topics,
+            sequences,
+            workflow_state: crate::flow::workflow_flow::WorkflowState::default(),
+            scenario_catalog,
+            scenario_state,
+            practice_groups,
+            practice_state: Default::default(),
+            calendar_state: Default::default(),
+            persistence_error: None,
             user_stats,
             user_config,
             progress_store,
@@ -341,6 +389,217 @@ impl App {
         let resume = app.progress_store.load_resume_state().unwrap_or_default();
         app.apply_resume_state(resume);
         Ok(app)
+    }
+
+    pub fn practice_counts(&self, kind: &str, source: &str) -> (usize, usize, usize) {
+        let groups: Vec<_> = self
+            .practice_groups
+            .iter()
+            .filter(|g| g.source_kind == kind && g.source_id == source)
+            .collect();
+        let ids: std::collections::HashSet<_> = groups
+            .iter()
+            .flat_map(|g| g.exercise_command_ids.iter())
+            .collect();
+        let completed = ids
+            .iter()
+            .filter(|id| {
+                self.user_stats
+                    .command_progress
+                    .iter()
+                    .any(|p| &p.command_id == **id && p.times_practiced > 0)
+            })
+            .count();
+        (groups.len(), ids.len(), completed)
+    }
+
+    pub fn is_follow_typing_screen(&self) -> bool {
+        matches!(
+            self.state,
+            AppState::Typing | AppState::CommandLessonPractice { .. } | AppState::PracticeGroup
+        ) || matches!(
+            self.state,
+            AppState::SymbolLesson {
+                phase: SymbolPhase::TypingPractice { .. },
+                ..
+            } | AppState::SystemLesson {
+                phase: SystemPhase::TypingPractice { .. },
+                ..
+            }
+        ) || (matches!(
+            self.state,
+            AppState::Review {
+                phase: ReviewPhase::Practice,
+                ..
+            }
+        ) && self
+            .review_practice
+            .exercises
+            .get(self.review_practice.current_index)
+            .is_some_and(|e| e.kind == ReviewExerciseKind::Typing))
+            || (self.state == AppState::ScenarioPractice
+                && self.scenario_state.phase == crate::data::scenario_loader::ScenarioPhase::Typing)
+    }
+
+    /// Persist history first; statistics are a recoverable cache of stable session IDs.
+    pub fn persist_record(&mut self, record: SessionRecord) -> bool {
+        if self.history.iter().any(|old| old == &record) {
+            if self.persistence_error.is_some() {
+                self.persistence_error = self
+                    .progress_store
+                    .save_stats(&self.user_stats)
+                    .err()
+                    .map(|e| format!("统计保存失败：{e}"));
+            }
+            return true;
+        }
+        if let Err(error) = self.progress_store.append_record(&record) {
+            self.persistence_error = Some(format!("练习记录保存失败：{error}"));
+            return false;
+        }
+        let previous_progress = self.user_stats.command_progress.clone();
+        if let Some(existing) = self.history.iter_mut().find(|old| old.id == record.id) {
+            *existing = record;
+            self.user_stats = match self.progress_store.stats_for_history(&self.history) {
+                Ok(stats) => stats,
+                Err(error) => {
+                    self.persistence_error = Some(format!("统计恢复失败：{error}"));
+                    return true;
+                }
+            };
+            for old in previous_progress {
+                if let Some(current) = self
+                    .user_stats
+                    .command_progress
+                    .iter_mut()
+                    .find(|p| p.command_id == old.command_id)
+                {
+                    current.times_practiced = current.times_practiced.max(old.times_practiced);
+                    current.best_wpm = current.best_wpm.max(old.best_wpm);
+                    current.best_accuracy = current.best_accuracy.max(old.best_accuracy);
+                    current.last_practiced = current.last_practiced.max(old.last_practiced);
+                    current.mastery = current.mastery.max(old.mastery);
+                } else {
+                    self.user_stats.command_progress.push(old);
+                }
+            }
+        } else {
+            scorer::update_stats(&mut self.user_stats, &record);
+            self.history.push(record);
+        }
+        self.persistence_error = self
+            .progress_store
+            .save_stats(&self.user_stats)
+            .err()
+            .map(|error| format!("统计保存失败：{error}"));
+        true
+    }
+
+    pub fn active_typing_identity(&self) -> Option<(String, Difficulty, RecordMode)> {
+        match &self.state {
+            AppState::Typing => self
+                .current_typing_command()
+                .map(|c| (c.id.clone(), c.difficulty, RecordMode::Typing)),
+            AppState::CommandLessonPractice {
+                category_index,
+                command_index,
+                example_index,
+            } => {
+                let categories = self.get_lesson_categories();
+                let lessons = self.get_lessons_for_category(*categories.get(*category_index)?);
+                let lesson = lessons.get(*command_index)?;
+                let example = lesson.examples.get(*example_index)?;
+                Some((
+                    lesson_example_progress_key(lesson, *example_index),
+                    self.effective_record_difficulty(
+                        example.command_id.as_deref(),
+                        lesson.meta.difficulty,
+                    ),
+                    RecordMode::LessonPractice,
+                ))
+            }
+            AppState::PracticeGroup if !self.practice_state.done => {
+                let command = crate::flow::practice_flow::current_command(self)?;
+                let mode = crate::flow::practice_flow::current_record_mode(self)?;
+                Some((command.id.clone(), command.difficulty, mode))
+            }
+            AppState::Review {
+                phase: ReviewPhase::Practice,
+                ..
+            } => self
+                .review_practice
+                .exercises
+                .get(self.review_practice.current_index)
+                .filter(|e| e.kind == ReviewExerciseKind::Typing && !self.review_practice.completed)
+                .map(|e| (e.command_id.clone(), e.difficulty, RecordMode::ReviewTyping)),
+            AppState::SymbolLesson {
+                topic_index,
+                phase: SymbolPhase::TypingPractice { exercise_idx },
+                ..
+            } => {
+                let topic = self.symbol_topics.get(*topic_index)?;
+                let raw = *self.symbol_practice.typing_indices.get(*exercise_idx)?;
+                let exercise = topic.exercises.get(raw)?;
+                Some((
+                    crate::flow::symbol_flow::symbol_exercise_progress_key(topic, exercise, raw),
+                    self.effective_record_difficulty(
+                        exercise.command_id.as_deref(),
+                        topic.meta.difficulty,
+                    ),
+                    RecordMode::SymbolTyping,
+                ))
+            }
+            AppState::SystemLesson {
+                topic_index,
+                section_index,
+                phase: SystemPhase::TypingPractice { command_idx },
+                ..
+            } => {
+                let topic = self.system_topics.get(*topic_index)?;
+                let section = topic.sections.get(*section_index)?;
+                let command = section.commands.get(*command_idx)?;
+                Some((
+                    crate::flow::system_flow::system_command_progress_key(
+                        topic,
+                        section,
+                        command,
+                        *section_index,
+                        *command_idx,
+                    ),
+                    self.effective_record_difficulty(
+                        command.command_id.as_deref(),
+                        topic.meta.difficulty,
+                    ),
+                    RecordMode::SystemTyping,
+                ))
+            }
+            AppState::ScenarioPractice
+                if self.scenario_state.phase
+                    == crate::data::scenario_loader::ScenarioPhase::Typing =>
+            {
+                let scenario = crate::flow::scenario_flow::active_scenario(self)?;
+                let step = scenario.steps.get(self.scenario_state.step_index)?;
+                Some((
+                    step.command_id
+                        .clone()
+                        .unwrap_or_else(|| format!("scenario:{}:{}", scenario.id, step.id)),
+                    scenario.difficulty,
+                    RecordMode::ScenarioTyping,
+                ))
+            }
+            _ => None,
+        }
+    }
+
+    pub fn save_active_typing(&mut self) -> bool {
+        if self.typing_engine.has_activity() {
+            if let Some((id, difficulty, mode)) = self.active_typing_identity() {
+                self.typing_engine.pause();
+                let record = self.typing_engine.finish(&id, difficulty, mode);
+                return self.persist_record(record);
+            }
+        }
+        true
     }
 
     pub fn save_resume_state(&self) {
@@ -814,6 +1073,13 @@ impl App {
     // ─────────────────────────────────────────────────────────
 
     pub fn format_prompt(&self) -> String {
+        if self.state == AppState::Typing {
+            if let Some(command) = self.current_typing_command() {
+                if let Some(prompt) = self.command_prompts.get(&command.id) {
+                    return prompt.clone();
+                }
+            }
+        }
         match self.user_config.prompt_style {
             PromptStyle::Full => {
                 let path = if self.user_config.show_path { "~" } else { "" };
@@ -839,6 +1105,105 @@ impl App {
     }
 
     pub fn handle_key(&mut self, key: KeyEvent) {
+        if key.modifiers.contains(KeyModifiers::ALT)
+            || (key.modifiers.contains(KeyModifiers::CONTROL)
+                && !matches!(key.code, KeyCode::Char('c' | 'r')))
+        {
+            return;
+        }
+        if !crate::flow::workflow_flow::handle_key(self, key) {
+            self.handle_key_without_workflow(key);
+        }
+    }
+
+    pub(crate) fn handle_key_without_workflow(&mut self, key: KeyEvent) {
+        if key.code == KeyCode::Enter && key.modifiers.contains(KeyModifiers::SHIFT) {
+            match &self.state {
+                AppState::Dictation if !self.dictation_submitted => {
+                    self.dictation_input.push('\n');
+                    return;
+                }
+                AppState::Review {
+                    phase: ReviewPhase::Practice,
+                    ..
+                } if !self.review_practice.dictation_submitted
+                    && self
+                        .review_practice
+                        .exercises
+                        .get(self.review_practice.current_index)
+                        .is_some_and(|e| e.kind == ReviewExerciseKind::Dictation) =>
+                {
+                    self.review_practice.dictation_input.push('\n');
+                    return;
+                }
+                _ => {}
+            }
+        }
+        if key.code == KeyCode::Enter
+            && self.is_follow_typing_screen()
+            && self.typing_engine.target.get(self.typing_engine.cursor) == Some(&'\n')
+        {
+            self.typing_engine.input('\n');
+            return;
+        }
+        if key.code == KeyCode::Char('p') {
+            let source = match &self.state {
+                AppState::CommandLessonOverview {
+                    category_index,
+                    command_index,
+                    ..
+                } => self
+                    .get_lesson_categories()
+                    .get(*category_index)
+                    .and_then(|cat| {
+                        self.get_lessons_for_category(*cat)
+                            .get(*command_index)
+                            .map(|l| ("lesson", l.meta.command.clone()))
+                    }),
+                AppState::SymbolLesson {
+                    topic_index,
+                    phase: SymbolPhase::Explain,
+                    ..
+                } => self
+                    .symbol_topics
+                    .get(*topic_index)
+                    .map(|t| ("symbol", t.meta.id.clone())),
+                AppState::SystemLesson {
+                    topic_index,
+                    phase: SystemPhase::Overview | SystemPhase::Detail,
+                    ..
+                } => self
+                    .system_topics
+                    .get(*topic_index)
+                    .map(|t| ("system", t.meta.id.clone())),
+                _ => None,
+            };
+            if let Some((kind, source)) = source {
+                crate::flow::practice_flow::enter(self, Some(kind), Some(&source));
+                return;
+            }
+        }
+        if matches!(key.code, KeyCode::Esc | KeyCode::Tab)
+            || (key.modifiers.contains(KeyModifiers::CONTROL)
+                && matches!(key.code, KeyCode::Char('c' | 'r')))
+        {
+            if !self.save_active_typing() {
+                return;
+            }
+        }
+        if key.code == KeyCode::Enter
+            && self.is_follow_typing_screen()
+            && self.typing_engine.is_complete()
+        {
+            if !self.save_active_typing() {
+                return;
+            }
+        }
+        if key.modifiers.contains(KeyModifiers::CONTROL)
+            && !matches!(key.code, KeyCode::Char('c' | 'r'))
+        {
+            return;
+        }
         // Global: Ctrl+C saves the current screen before entering Quitting.
         if key.modifiers.contains(KeyModifiers::CONTROL) && key.code == KeyCode::Char('c') {
             self.save_resume_state();
@@ -851,6 +1216,19 @@ impl App {
             AppState::Typing => crate::flow::typing_flow::handle_typing_key(self, key),
             AppState::TypingFilter => self.handle_typing_filter_key(key),
             AppState::LearnHub => self.handle_learn_hub_key(key),
+            AppState::Calendar => {
+                if key.code == KeyCode::Esc {
+                    self.state = AppState::Home;
+                } else {
+                    self.calendar_state.handle_key(key.code);
+                }
+            }
+            AppState::Scenarios => crate::flow::scenario_flow::handle_topics_key(self, key),
+            AppState::ScenarioPractice => {
+                crate::flow::scenario_flow::handle_practice_key(self, key)
+            }
+            AppState::PracticeTopics => crate::flow::practice_flow::handle_topics_key(self, key),
+            AppState::PracticeGroup => crate::flow::practice_flow::handle_group_key(self, key),
             AppState::CommandTopics => self.handle_command_topics_key(key),
             AppState::CommandLessonOverview {
                 category_index,
@@ -926,7 +1304,7 @@ impl App {
                 }
             }
             KeyCode::Down | KeyCode::Char('j') => {
-                if self.home_index < 4 {
+                if self.home_index < 5 {
                     self.home_index += 1;
                 }
             }
@@ -939,6 +1317,7 @@ impl App {
                 2 => self.enter_dictation(),
                 3 => self.state = AppState::Stats,
                 4 => self.state = AppState::Settings,
+                5 => self.state = AppState::Calendar,
                 _ => {}
             },
             KeyCode::Char('q') => self.state = AppState::Quitting,
@@ -1019,6 +1398,7 @@ impl App {
     // ─────────────────────────────────────────────────────────
 
     fn handle_learn_hub_key(&mut self, key: KeyEvent) {
+        self.learn_hub_index = self.learn_hub_index.min(LEARN_HUB_ITEM_COUNT - 1);
         match key.code {
             KeyCode::Esc => self.state = AppState::Home,
             KeyCode::Up | KeyCode::Char('k') => {
@@ -1032,25 +1412,21 @@ impl App {
                 }
             }
             KeyCode::Enter => match self.learn_hub_index {
-                0 => self.enter_typing_with_filter(Some(Difficulty::Beginner), None),
-                1 => self.enter_typing_with_filter(Some(Difficulty::Basic), None),
-                2 => self.enter_typing_with_filter(Some(Difficulty::Advanced), None),
-                3 => self.enter_typing_with_filter(Some(Difficulty::Practical), None),
-                4 => {
-                    self.state = AppState::CommandTopics;
-                }
-                5 => {
+                0 => self.state = AppState::CommandTopics,
+                1 => {
                     self.symbol_topics_index = 0;
                     self.state = AppState::SymbolTopics;
                 }
-                6 => {
+                2 => {
                     self.system_topics_index = 0;
                     self.state = AppState::SystemTopics;
                 }
-                7 => {
+                3 => {
                     self.review_topics_index = 0;
                     self.state = AppState::ReviewTopics;
                 }
+                4 => crate::flow::practice_flow::enter(self, None, None),
+                5 => self.state = AppState::Scenarios,
                 _ => {}
             },
             _ => {}
@@ -1231,6 +1607,7 @@ impl App {
 
                     let now_ms = Utc::now().timestamp_millis();
                     let record = SessionRecord {
+                        typing: None,
                         id: format!("{}", now_ms),
                         command_id: cmd.id.clone(),
                         mode: RecordMode::Dictation,
@@ -1267,6 +1644,36 @@ impl App {
     // ─────────────────────────────────────────────────────────
 
     fn handle_stats_key(&mut self, key: KeyEvent) {
+        if self.stats_tab == 3
+            && matches!(
+                key.code,
+                KeyCode::Up
+                    | KeyCode::Down
+                    | KeyCode::Left
+                    | KeyCode::Right
+                    | KeyCode::PageUp
+                    | KeyCode::PageDown
+                    | KeyCode::Home
+                    | KeyCode::Char('j' | 'k' | '[' | ']')
+            )
+        {
+            self.calendar_state.handle_key(key.code);
+            return;
+        }
+        if self.stats_tab == 1
+            && matches!(
+                key.code,
+                KeyCode::Char('j' | 'k') | KeyCode::Up | KeyCode::Down
+            )
+        {
+            let code = match key.code {
+                KeyCode::Up => KeyCode::Char('k'),
+                KeyCode::Down => KeyCode::Char('j'),
+                code => code,
+            };
+            self.calendar_state.handle_key(code);
+            return;
+        }
         match key.code {
             KeyCode::Esc => self.state = AppState::Home,
             KeyCode::Tab | KeyCode::Right | KeyCode::Char('l') => {

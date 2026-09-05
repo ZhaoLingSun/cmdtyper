@@ -1,0 +1,362 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "ICMP 回显用于判断特定路径上的回显能力；不应把 ping 丢包直接等同于网站故障。"
+
+[meta.topic]
+id = "v04_ping"
+title = "Ping 与连通性边界"
+icon = "🌐"
+order = 113
+
+[[commands]]
+id = "v04-ping-d5eee520b2"
+command = "ping -c 3 127.0.0.1"
+summary = "先检查本机 IPv4 回环栈"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 127.0.0.1"
+desc = "先检查本机 IPv4 回环栈；指定 127.0.0.1"
+
+[commands.dictation]
+prompt = "先检查本机 IPv4 回环栈"
+answers = ["ping -c 3 127.0.0.1"]
+
+[[commands]]
+id = "v04-ping-7fee83baed"
+command = "ping -c 3 192.0.2.10"
+summary = "测试本机实验地址，和回环结果比较"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 192.0.2.10"
+desc = "测试本机实验地址，和回环结果比较；指定 192.0.2.10"
+
+[commands.dictation]
+prompt = "测试本机实验地址，和回环结果比较"
+answers = ["ping -c 3 192.0.2.10"]
+
+[[commands]]
+id = "v04-ping-df0ae68ffa"
+command = "ping -c 3 192.0.2.1"
+summary = "测试实验网关的 ICMP 回应能力"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 192.0.2.1"
+desc = "测试实验网关的 ICMP 回应能力；指定 192.0.2.1"
+
+[commands.dictation]
+prompt = "测试实验网关的 ICMP 回应能力"
+answers = ["ping -c 3 192.0.2.1"]
+
+[[commands]]
+id = "v04-ping-b27b4001f0"
+command = "ping -c 3 198.51.100.20"
+summary = "测试远端实验主机；无回显可能由过滤或限速造成"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "测试远端实验主机；无回显可能由过滤或限速造成；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "测试远端实验主机；无回显可能由过滤或限速造成"
+answers = ["ping -c 3 198.51.100.20"]
+
+[[commands]]
+id = "v04-ping-89756e11f9"
+command = "ping -n -c 3 192.0.2.1"
+summary = "禁用名称解析，避免 DNS 干扰回显观察"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -n"
+desc = "不执行地址名称解析"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 192.0.2.1"
+desc = "禁用名称解析，避免 DNS 干扰回显观察；指定 192.0.2.1"
+
+[commands.dictation]
+prompt = "禁用名称解析，避免 DNS 干扰回显观察"
+answers = ["ping -n -c 3 192.0.2.1"]
+
+[[commands]]
+id = "v04-ping-111c2cd511"
+command = "ping -c 3 -W 1 192.0.2.1"
+summary = "限制每次等待应答时间，快速检查实验网关"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -W"
+desc = "设置单次应答等待秒数"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次练习的数值参数 1；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 192.0.2.1"
+desc = "限制每次等待应答时间，快速检查实验网关；指定 192.0.2.1"
+
+[commands.dictation]
+prompt = "限制每次等待应答时间，快速检查实验网关"
+answers = ["ping -c 3 -W 1 192.0.2.1"]
+
+[[commands]]
+id = "v04-ping-a828ddec6c"
+command = "ping -c 5 -w 6 192.0.2.1"
+summary = "设置整个 ping 运行的六秒截止时间"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -w"
+desc = "设置整个运行的截止秒数"
+
+[[commands.tokens]]
+text = " 6"
+desc = "本次练习的数值参数 6；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 192.0.2.1"
+desc = "设置整个 ping 运行的六秒截止时间；指定 192.0.2.1"
+
+[commands.dictation]
+prompt = "设置整个 ping 运行的六秒截止时间"
+answers = ["ping -c 5 -w 6 192.0.2.1"]
+
+[[commands]]
+id = "v04-ping-354cb1be5e"
+command = "ping -c 3 -I ens33 192.0.2.1"
+summary = "指定源接口比较多网卡路径"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -I"
+desc = "指定源接口或源地址"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "指定源接口比较多网卡路径；指定 ens33"
+
+[[commands.tokens]]
+text = " 192.0.2.1"
+desc = "指定源接口比较多网卡路径；指定 192.0.2.1"
+
+[commands.dictation]
+prompt = "指定源接口比较多网卡路径"
+answers = ["ping -c 3 -I ens33 192.0.2.1"]
+
+[[commands]]
+id = "v04-ping-e0a5a995b2"
+command = "ping -c 3 -I 192.0.2.10 198.51.100.20"
+summary = "指定已配置的源 IP 检查回程可达性"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -I"
+desc = "指定源接口或源地址"
+
+[[commands.tokens]]
+text = " 192.0.2.10"
+desc = "指定已配置的源 IP 检查回程可达性；指定 192.0.2.10"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "指定已配置的源 IP 检查回程可达性；指定 198.51.100.20"
+
+[commands.dictation]
+prompt = "指定已配置的源 IP 检查回程可达性"
+answers = ["ping -c 3 -I 192.0.2.10 198.51.100.20"]
+
+[[commands]]
+id = "v04-ping-5bbf8fc257"
+command = "ping -D -c 5 192.0.2.1"
+summary = "给每条应答加时间戳，便于关联日志"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -D"
+desc = "每条输出附加时间戳"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 192.0.2.1"
+desc = "给每条应答加时间戳，便于关联日志；指定 192.0.2.1"
+
+[commands.dictation]
+prompt = "给每条应答加时间戳，便于关联日志"
+answers = ["ping -D -c 5 192.0.2.1"]
+
+[[commands]]
+id = "v04-ping-871d57f8c9"
+command = "curl -I --max-time 5 https://example.com/"
+summary = "用实际 HTTPS 请求交叉验证，避免只依赖 ping"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " -I"
+desc = "发 HEAD 请求读取响应头"
+
+[[commands.tokens]]
+text = " --max-time"
+desc = "限定整个请求总秒数"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "用实际 HTTPS 请求交叉验证，避免只依赖 ping"
+answers = ["curl -I --max-time 5 https://example.com/"]
+
+[[commands]]
+id = "v04-ping-3bcc2f61ef"
+command = "nc -vz -w 2 198.51.100.20 22"
+summary = "在 ICMP 不通时独立检查实验 SSH TCP 端口"
+
+[[commands.tokens]]
+text = "nc"
+desc = "使用 OpenBSD netcat 检查 TCP 或 UDP 通信"
+
+[[commands.tokens]]
+text = " -vz"
+desc = "在 ICMP 不通时独立检查实验 SSH TCP 端口；此处使用 -vz 选项"
+
+[[commands.tokens]]
+text = " -w"
+desc = "在 ICMP 不通时独立检查实验 SSH TCP 端口；此处使用 -w 选项"
+
+[[commands.tokens]]
+text = " 2"
+desc = "本次练习的数值参数 2；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 198.51.100.20"
+desc = "在 ICMP 不通时独立检查实验 SSH TCP 端口；指定 198.51.100.20"
+
+[[commands.tokens]]
+text = " 22"
+desc = "本次练习的数值参数 22；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "在 ICMP 不通时独立检查实验 SSH TCP 端口"
+answers = ["nc -vz -w 2 198.51.100.20 22"]

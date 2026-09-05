@@ -1,0 +1,510 @@
+[meta]
+category = "system"
+difficulty = "basic"
+description = "以含 nginx、backend、db 服务的实验 Compose 项目演练，命令只在应用内模拟。"
+
+[meta.topic]
+id = "v04_compose_ops"
+title = "Docker Compose 发布与回滚检查"
+icon = "🧰"
+order = 134
+command_ids = ["docker-compose-up"]
+
+[[commands]]
+id = "v04-compose_ops-ee6847efaa"
+command = "docker compose version"
+summary = "检查 Compose 插件版本，避免混用旧 docker-compose 语法"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "检查 Compose 插件版本，避免混用旧 docker-compose 语法；指定 compose"
+
+[[commands.tokens]]
+text = " version"
+desc = "检查 Compose 插件版本，避免混用旧 docker-compose 语法；指定 version"
+
+[commands.dictation]
+prompt = "检查 Compose 插件版本，避免混用旧 docker-compose 语法"
+answers = ["docker compose version"]
+
+[[commands]]
+id = "v04-compose_ops-f1b4c5ec0a"
+command = "docker compose config --images"
+summary = "列出最终使用的镜像引用，检查标签是否明确"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "列出最终使用的镜像引用，检查标签是否明确；指定 compose"
+
+[[commands.tokens]]
+text = " config"
+desc = "列出最终使用的镜像引用，检查标签是否明确；指定 config"
+
+[[commands.tokens]]
+text = " --images"
+desc = "列出最终使用的镜像引用，检查标签是否明确；此处使用 --images 选项"
+
+[commands.dictation]
+prompt = "列出最终使用的镜像引用，检查标签是否明确"
+answers = ["docker compose config --images"]
+
+[[commands]]
+id = "v04-compose_ops-d49fd695b6"
+command = "docker compose pull"
+summary = "拉取 Compose 中已有镜像，先更新本地镜像再部署"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "拉取 Compose 中已有镜像，先更新本地镜像再部署；指定 compose"
+
+[[commands.tokens]]
+text = " pull"
+desc = "拉取 Compose 中已有镜像，先更新本地镜像再部署；指定 pull"
+
+[commands.dictation]
+prompt = "拉取 Compose 中已有镜像，先更新本地镜像再部署"
+answers = ["docker compose pull"]
+
+[[commands]]
+id = "v04-compose_ops-813deea126"
+command = "docker compose build backend"
+summary = "构建实验后端镜像，读取 Dockerfile 和构建上下文"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "构建实验后端镜像，读取 Dockerfile 和构建上下文；指定 compose"
+
+[[commands.tokens]]
+text = " build"
+desc = "构建实验后端镜像，读取 Dockerfile 和构建上下文；指定 build"
+
+[[commands.tokens]]
+text = " backend"
+desc = "构建实验后端镜像，读取 Dockerfile 和构建上下文；指定 backend"
+
+[commands.dictation]
+prompt = "构建实验后端镜像，读取 Dockerfile 和构建上下文"
+answers = ["docker compose build backend"]
+
+[[commands]]
+id = "v04-compose_ops-51d300027a"
+command = "docker compose up -d"
+summary = "按实验 Compose 配置创建并后台运行服务"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "按实验 Compose 配置创建并后台运行服务；指定 compose"
+
+[[commands.tokens]]
+text = " up"
+desc = "按实验 Compose 配置创建并后台运行服务；指定 up"
+
+[[commands.tokens]]
+text = " -d"
+desc = "按实验 Compose 配置创建并后台运行服务；此处使用 -d 选项"
+
+[commands.dictation]
+prompt = "按实验 Compose 配置创建并后台运行服务"
+answers = ["docker compose up -d"]
+
+[[commands]]
+id = "v04-compose_ops-68fcf8c431"
+command = "docker compose up -d --no-deps backend"
+summary = "仅更新后端服务而不启动其依赖，前提是依赖已正常运行"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "仅更新后端服务而不启动其依赖，前提是依赖已正常运行；指定 compose"
+
+[[commands.tokens]]
+text = " up"
+desc = "仅更新后端服务而不启动其依赖，前提是依赖已正常运行；指定 up"
+
+[[commands.tokens]]
+text = " -d"
+desc = "仅更新后端服务而不启动其依赖，前提是依赖已正常运行；此处使用 -d 选项"
+
+[[commands.tokens]]
+text = " --no-deps"
+desc = "仅更新后端服务而不启动其依赖，前提是依赖已正常运行；此处使用 --no-deps 选项"
+
+[[commands.tokens]]
+text = " backend"
+desc = "仅更新后端服务而不启动其依赖，前提是依赖已正常运行；指定 backend"
+
+[commands.dictation]
+prompt = "仅更新后端服务而不启动其依赖，前提是依赖已正常运行"
+answers = ["docker compose up -d --no-deps backend"]
+
+[[commands]]
+id = "v04-compose_ops-24d0b47849"
+command = "docker compose ps"
+summary = "查看实验项目服务状态和端口"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "查看实验项目服务状态和端口；指定 compose"
+
+[[commands.tokens]]
+text = " ps"
+desc = "查看实验项目服务状态和端口；指定 ps"
+
+[commands.dictation]
+prompt = "查看实验项目服务状态和端口"
+answers = ["docker compose ps"]
+
+[[commands]]
+id = "v04-compose_ops-728574c89a"
+command = "docker compose images"
+summary = "查看项目容器当前使用的镜像"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "查看项目容器当前使用的镜像；指定 compose"
+
+[[commands.tokens]]
+text = " images"
+desc = "查看项目容器当前使用的镜像；指定 images"
+
+[commands.dictation]
+prompt = "查看项目容器当前使用的镜像"
+answers = ["docker compose images"]
+
+[[commands]]
+id = "v04-compose_ops-e2fd200610"
+command = "docker compose logs --tail 50 nginx"
+summary = "检查实验反向代理最近五十行日志"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "检查实验反向代理最近五十行日志；指定 compose"
+
+[[commands.tokens]]
+text = " logs"
+desc = "检查实验反向代理最近五十行日志；指定 logs"
+
+[[commands.tokens]]
+text = " --tail"
+desc = "检查实验反向代理最近五十行日志；此处使用 --tail 选项"
+
+[[commands.tokens]]
+text = " 50"
+desc = "本次练习的数值参数 50；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "检查实验反向代理最近五十行日志；指定 nginx"
+
+[commands.dictation]
+prompt = "检查实验反向代理最近五十行日志"
+answers = ["docker compose logs --tail 50 nginx"]
+
+[[commands]]
+id = "v04-compose_ops-e4e7c8a7e4"
+command = "docker compose logs --since 10m backend"
+summary = "查看实验后端最近十分钟日志"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "查看实验后端最近十分钟日志；指定 compose"
+
+[[commands.tokens]]
+text = " logs"
+desc = "查看实验后端最近十分钟日志；指定 logs"
+
+[[commands.tokens]]
+text = " --since"
+desc = "查看实验后端最近十分钟日志；此处使用 --since 选项"
+
+[[commands.tokens]]
+text = " 10m"
+desc = "查看实验后端最近十分钟日志；指定 10m"
+
+[[commands.tokens]]
+text = " backend"
+desc = "查看实验后端最近十分钟日志；指定 backend"
+
+[commands.dictation]
+prompt = "查看实验后端最近十分钟日志"
+answers = ["docker compose logs --since 10m backend"]
+
+[[commands]]
+id = "v04-compose_ops-955b2bfe04"
+command = "docker compose exec nginx nginx -t"
+summary = "在容器内验证 nginx 配置语法和引用文件"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "在容器内验证 nginx 配置语法和引用文件；指定 compose"
+
+[[commands.tokens]]
+text = " exec"
+desc = "在容器内验证 nginx 配置语法和引用文件；指定 exec"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "在容器内验证 nginx 配置语法和引用文件；指定 nginx"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "在容器内验证 nginx 配置语法和引用文件；指定 nginx"
+
+[[commands.tokens]]
+text = " -t"
+desc = "在容器内验证 nginx 配置语法和引用文件；此处使用 -t 选项"
+
+[commands.dictation]
+prompt = "在容器内验证 nginx 配置语法和引用文件"
+answers = ["docker compose exec nginx nginx -t"]
+
+[[commands]]
+id = "v04-compose_ops-a56a5bacf1"
+command = "docker compose exec nginx nginx -s reload"
+summary = "配置校验通过后让容器内 nginx 平滑重载"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "配置校验通过后让容器内 nginx 平滑重载；指定 compose"
+
+[[commands.tokens]]
+text = " exec"
+desc = "配置校验通过后让容器内 nginx 平滑重载；指定 exec"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "配置校验通过后让容器内 nginx 平滑重载；指定 nginx"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "配置校验通过后让容器内 nginx 平滑重载；指定 nginx"
+
+[[commands.tokens]]
+text = " -s"
+desc = "配置校验通过后让容器内 nginx 平滑重载；此处使用 -s 选项"
+
+[[commands.tokens]]
+text = " reload"
+desc = "配置校验通过后让容器内 nginx 平滑重载；指定 reload"
+
+[commands.dictation]
+prompt = "配置校验通过后让容器内 nginx 平滑重载"
+answers = ["docker compose exec nginx nginx -s reload"]
+
+[[commands]]
+id = "v04-compose_ops-f576631743"
+command = "docker compose restart backend"
+summary = "重启实验后端；restart 不会应用 Compose 配置变更"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "重启实验后端；restart 不会应用 Compose 配置变更；指定 compose"
+
+[[commands.tokens]]
+text = " restart"
+desc = "重启实验后端；restart 不会应用 Compose 配置变更；指定 restart"
+
+[[commands.tokens]]
+text = " backend"
+desc = "重启实验后端；restart 不会应用 Compose 配置变更；指定 backend"
+
+[commands.dictation]
+prompt = "重启实验后端；restart 不会应用 Compose 配置变更"
+answers = ["docker compose restart backend"]
+
+[[commands]]
+id = "v04-compose_ops-d70930b744"
+command = "docker compose stop backend"
+summary = "停止实验后端容器但保留其资源"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "停止实验后端容器但保留其资源；指定 compose"
+
+[[commands.tokens]]
+text = " stop"
+desc = "停止实验后端容器但保留其资源；指定 stop"
+
+[[commands.tokens]]
+text = " backend"
+desc = "停止实验后端容器但保留其资源；指定 backend"
+
+[commands.dictation]
+prompt = "停止实验后端容器但保留其资源"
+answers = ["docker compose stop backend"]
+
+[[commands]]
+id = "v04-compose_ops-9a77960d8e"
+command = "docker compose start backend"
+summary = "重新启动已存在且停止的后端容器"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " compose"
+desc = "重新启动已存在且停止的后端容器；指定 compose"
+
+[[commands.tokens]]
+text = " start"
+desc = "重新启动已存在且停止的后端容器；指定 start"
+
+[[commands.tokens]]
+text = " backend"
+desc = "重新启动已存在且停止的后端容器；指定 backend"
+
+[commands.dictation]
+prompt = "重新启动已存在且停止的后端容器"
+answers = ["docker compose start backend"]
+
+[[commands]]
+id = "v04-compose_ops-a8497f97b8"
+command = "docker stats --no-stream"
+summary = "采样一次运行容器的资源使用"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " stats"
+desc = "采样一次运行容器的资源使用；指定 stats"
+
+[[commands.tokens]]
+text = " --no-stream"
+desc = "采样一次运行容器的资源使用；此处使用 --no-stream 选项"
+
+[commands.dictation]
+prompt = "采样一次运行容器的资源使用"
+answers = ["docker stats --no-stream"]
+
+[[commands]]
+id = "v04-compose_ops-06429c3e36"
+command = "docker inspect backend --format '{{json .State.Health}}'"
+summary = "查看实验容器健康检查历史，容器名需与实际一致"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " inspect"
+desc = "查看实验容器健康检查历史，容器名需与实际一致；指定 inspect"
+
+[[commands.tokens]]
+text = " backend"
+desc = "查看实验容器健康检查历史，容器名需与实际一致；指定 backend"
+
+[[commands.tokens]]
+text = " --format"
+desc = "查看实验容器健康检查历史，容器名需与实际一致；此处使用 --format 选项"
+
+[[commands.tokens]]
+text = " '{{json .State.Health}}'"
+desc = "引号保护此参数中的空格或特殊符号；查看实验容器健康检查历史，容器名需与实际一致"
+
+[commands.dictation]
+prompt = "查看实验容器健康检查历史，容器名需与实际一致"
+answers = ["docker inspect backend --format '{{json .State.Health}}'"]
+
+[[commands]]
+id = "v04-compose_ops-5df690e006"
+command = "docker volume inspect web_db_data"
+summary = "查看实验数据库卷信息，确认数据持久化位置"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " volume"
+desc = "查看实验数据库卷信息，确认数据持久化位置；指定 volume"
+
+[[commands.tokens]]
+text = " inspect"
+desc = "查看实验数据库卷信息，确认数据持久化位置；指定 inspect"
+
+[[commands.tokens]]
+text = " web_db_data"
+desc = "查看实验数据库卷信息，确认数据持久化位置；指定 web_db_data"
+
+[commands.dictation]
+prompt = "查看实验数据库卷信息，确认数据持久化位置"
+answers = ["docker volume inspect web_db_data"]
+
+[[commands]]
+id = "v04-compose_ops-795ab39e5f"
+command = "docker system df"
+summary = "查看 Docker 镜像、容器和卷的空间占用，不执行清理"
+
+[[commands.tokens]]
+text = "docker"
+desc = "查询或管理 Docker 容器及项目"
+
+[[commands.tokens]]
+text = " system"
+desc = "查看 Docker 镜像、容器和卷的空间占用，不执行清理；指定 system"
+
+[[commands.tokens]]
+text = " df"
+desc = "查看 Docker 镜像、容器和卷的空间占用，不执行清理；指定 df"
+
+[commands.dictation]
+prompt = "查看 Docker 镜像、容器和卷的空间占用，不执行清理"
+answers = ["docker system df"]

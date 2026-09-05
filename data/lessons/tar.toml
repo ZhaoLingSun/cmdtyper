@@ -1,3 +1,4 @@
+
 [meta]
 command = "tar"
 full_name = "tape archive"
@@ -7,19 +8,15 @@ importance = "core"
 
 [overview]
 summary = "打包和压缩文件归档"
-explanation = """tar 是 Linux 中最常用的归档工具，名称来源于 "tape archive"（磁带归档）。\
-tar 本身只负责将多个文件打包成一个归档文件（.tar），\
-通常配合压缩工具（gzip、bzip2、xz）一起使用来减小文件大小。\
-最常见的组合是 tar + gzip（生成 .tar.gz 或 .tgz 文件）。\
-tar 的核心操作只有三个：创建归档（c）、查看内容（t）、解压归档（x），\
-配合压缩选项（z=gzip, j=bzip2, J=xz）就能覆盖日常所有归档需求。\
-记住口诀：czf 压缩、xzf 解压、tzf 查看。"""
+explanation = "tar 是 Linux 中最常用的归档工具，名称来源于 \"tape archive\"（磁带归档）。tar 本身只负责将多个文件打包成一个归档文件（.tar），通常配合压缩工具（gzip、bzip2、xz）一起使用来减小文件大小。最常见的组合是 tar + gzip（生成 .tar.gz 或 .tgz 文件）。tar 的核心操作只有三个：创建归档（c）、查看内容（t）、解压归档（x），配合压缩选项（z=gzip, j=bzip2, J=xz）就能覆盖日常所有归档需求。记住口诀：czf 压缩、xzf 解压、tzf 查看。"
 
 [syntax]
 basic = "tar [选项] [归档文件] [文件...]"
+
 [[syntax.parts]]
 name = "归档文件"
 desc = "归档文件的路径，通常以 .tar.gz、.tgz、.tar.bz2 等结尾"
+
 [[syntax.parts]]
 name = "文件"
 desc = "要打包的文件或目录（创建归档时使用）"
@@ -74,11 +71,12 @@ note = "排除匹配模式的文件"
 
 [[examples]]
 level = 1
-command = "tar -czf project.tar.gz project/"
 summary = "将 project 目录打包并用 gzip 压缩"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-001"
+command_id = "v04-ref-1a7bc833f4"
+
 [[examples.token_details]]
 token = "tar"
 explanation = "归档命令：用于打包和解包文件。"
@@ -97,11 +95,12 @@ explanation = "要打包的目录。"
 
 [[examples]]
 level = 1
-command = "tar -xzf project.tar.gz"
 summary = "解压 .tar.gz 归档文件"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-002"
+command_id = "v04-ref-3b44e3e305"
+
 [[examples.token_details]]
 token = "tar"
 explanation = "归档命令。"
@@ -116,18 +115,12 @@ explanation = "要解压的归档文件。"
 
 [[examples]]
 level = 2
-command = "tar -tzf backup.tar.gz"
 summary = "查看 .tar.gz 归档中的文件列表"
-simulated_output = """backup/
-backup/config.yml
-backup/data/
-backup/data/users.db
-backup/data/products.db
-backup/logs/
-backup/logs/app.log
-backup/README.md"""
-
+simulated_output = "backup/\nbackup/config.yml\nbackup/data/\nbackup/data/users.db\nbackup/data/products.db\nbackup/logs/\nbackup/logs/app.log\nbackup/README.md"
 output_explanation = "输出展示了打包/解包/列出归档内容的结果。`-v` 会逐项打印文件名，便于确认归档范围是否正确。"
+id = "example-003"
+command_id = "tar-extract-gzip"
+
 [[examples.token_details]]
 token = "tar"
 explanation = "归档命令。"
@@ -142,19 +135,13 @@ explanation = "要查看内容的归档文件。"
 
 [[examples]]
 level = 2
-command = "tar -czvf backup.tar.gz --exclude='*.log' --exclude='node_modules' project/"
 summary = "打包项目但排除日志文件和 node_modules"
 display = "tar -czvf backup.tar.gz \\\n  --exclude='*.log' \\\n  --exclude='node_modules' \\\n  project/"
-simulated_output = """project/
-project/package.json
-project/src/
-project/src/index.js
-project/src/app.js
-project/public/
-project/public/index.html
-project/README.md"""
-
+simulated_output = "project/\nproject/package.json\nproject/src/\nproject/src/index.js\nproject/src/app.js\nproject/public/\nproject/public/index.html\nproject/README.md"
 output_explanation = "输出展示了打包/解包/列出归档内容的结果。`-v` 会逐项打印文件名，便于确认归档范围是否正确。"
+id = "example-004"
+command_id = "shared-ff7e3d388bad4e52"
+
 [[examples.token_details]]
 token = "-czvf"
 explanation = "组合选项：-c 创建，-z gzip 压缩，-v 显示过程，-f 指定文件名。"
@@ -177,11 +164,12 @@ explanation = "要打包的项目根目录，tar 会递归归档其中所有未�
 
 [[examples]]
 level = 3
-command = "tar -xzf release-v2.0.tar.gz -C /opt/app/"
 summary = "将归档解压到指定目录"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-005"
+command_id = "shared-1f0b104d075493ca"
+
 [[examples.token_details]]
 token = "tar"
 explanation = "归档命令。"
@@ -204,12 +192,13 @@ explanation = "目标解压目录。"
 
 [[examples]]
 level = 4
-command = "tar -czf /backup/www-$(date +%Y%m%d).tar.gz -C /var/www html/"
 summary = "备份网站目录，文件名包含日期"
 display = "tar -czf /backup/www-$(date +%Y%m%d).tar.gz \\\n  -C /var/www html/"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-006"
+command_id = "shared-2469e4fb07b8da49"
+
 [[examples.token_details]]
 token = "tar"
 explanation = "归档命令。"
@@ -236,26 +225,8 @@ explanation = "真正要打包的目录；因为使用了 -C，所以这里按�
 
 [[gotchas]]
 title = "tar 选项中 f 必须在最后"
-content = """tar 的 -f 选项后面必须紧跟归档文件名，因此 f 通常放在选项组合的最后：
-  tar -czf archive.tar.gz files/   ✓  f 后面是文件名
-  tar -cfz archive.tar.gz files/   ✗  f 后面变成了 z！
-
-另外，现代 GNU tar 可以自动检测压缩格式，解压时可以省略 z/j/J：
-  tar -xf archive.tar.gz    ✓ 自动检测 gzip
-  tar -xf archive.tar.bz2   ✓ 自动检测 bzip2
-  tar -xf archive.tar.xz    ✓ 自动检测 xz
-但创建归档时必须指定压缩选项。"""
+content = "tar 的 -f 选项后面必须紧跟归档文件名，因此 f 通常放在选项组合的最后：\n  tar -czf archive.tar.gz files/   ✓  f 后面是文件名\n  tar -cfz archive.tar.gz files/   ✗  f 后面变成了 z！\n\n另外，现代 GNU tar 可以自动检测压缩格式，解压时可以省略 z/j/J：\n  tar -xf archive.tar.gz    ✓ 自动检测 gzip\n  tar -xf archive.tar.bz2   ✓ 自动检测 bzip2\n  tar -xf archive.tar.xz    ✓ 自动检测 xz\n但创建归档时必须指定压缩选项。"
 
 [[gotchas]]
 title = "tar 解压时注意目录结构"
-content = """解压 tar 归档时，需要注意归档内的目录结构：
-  1. 如果归档的根目录是 project/，解压后会创建 project/ 目录
-  2. 如果归档没有根目录，文件会直接散落在当前目录
-
-安全做法：先用 tar -tf 查看内容，再决定如何解压：
-  tar -tf unknown.tar.gz | head -10
-  如果文件没有统一的根目录，建议创建一个目录再解压到其中：
-  mkdir output && tar -xzf unknown.tar.gz -C output/
-
-另外注意带绝对路径的归档（以 / 开头的路径）可能覆盖系统文件！
-GNU tar 默认会去掉前导 /，但使用第三方打包的归档时要警惕。"""
+content = "解压 tar 归档时，需要注意归档内的目录结构：\n  1. 如果归档的根目录是 project/，解压后会创建 project/ 目录\n  2. 如果归档没有根目录，文件会直接散落在当前目录\n\n安全做法：先用 tar -tf 查看内容，再决定如何解压：\n  tar -tf unknown.tar.gz | head -10\n  如果文件没有统一的根目录，建议创建一个目录再解压到其中：\n  mkdir output && tar -xzf unknown.tar.gz -C output/\n\n另外注意带绝对路径的归档（以 / 开头的路径）可能覆盖系统文件！\nGNU tar 默认会去掉前导 /，但使用第三方打包的归档时要警惕。"

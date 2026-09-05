@@ -1,0 +1,48 @@
+{
+  "canonical_target_corrections": {
+    "v04-ref-8aee894088": {
+      "old": "ls /nonexistent 2> errors.txt && cat errors.txt",
+      "new": "ls /nonexistent 2> errors.txt\ncat errors.txt"
+    },
+    "v04-ref-eb870b3db3": {
+      "old": "chmod -R 644 docs/",
+      "new": "find docs/ -type f -exec chmod 644 {} +"
+    },
+    "v04-ref-9e60a9053e": {
+      "old": "ss -tulnp | grep :80",
+      "new": "sudo ss -tulnp 'sport = :80'"
+    },
+    "v04-ex-1551ed06a6": {
+      "old": "find ~/ops-lab -maxdepth 2 -type d",
+      "new": "find ~/ops-lab -maxdepth 2 -type f -name '*.pdf'"
+    },
+    "v04-ref-0cc3054757": {
+      "old": "find . -name '*.tmp' | xargs rm",
+      "new": "find . -type f -name '*.tmp' -print0 | xargs -0 -r rm --"
+    },
+    "v04-ref-7452f01c9c": {
+      "old": "echo -e 'ab\\nabab\\nababab\\naabb' | grep -E '(ab)+'",
+      "new": "echo -e 'ab\\nabab\\nababab\\naabb' | grep -E '^(ab)+$'"
+    },
+    "v04-ref-6c864869bf": {
+      "old": "cat /etc/ssh/sshd_config | grep -v '^#' | grep -v '^$'",
+      "new": "cat /etc/ssh/sshd_config | grep -v '^#' | grep -v '^$'"
+    },
+    "journalctl-errors-boot": {
+      "old": "journalctl -p err -b",
+      "new": "journalctl -p err -b"
+    },
+    "v04-ref-50d8acfa04": {
+      "old": "wget https://example.com/file.tar.gz",
+      "new": "wget -O hello-source.tar.gz https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz"
+    }
+  },
+  "practice_group_corrections": [
+    "sed substitutions",
+    "ssh domain login",
+    "curl GET",
+    "find name matching",
+    "chown/chgrp operation"
+  ],
+  "canonical_id_policy": "All target corrections retain IDs; group changes reuse existing canonical IDs; no aliases or new command definitions needed."
+}

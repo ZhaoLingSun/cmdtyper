@@ -1,0 +1,152 @@
+id = "postgres_transaction"
+title = "数据库查询与事务修改：先演练再提交"
+category = "数据库"
+difficulty = "basic"
+background = "客服确认订单 42 已完成线下核验，需要从 pending 改为 reviewed。只允许修改这一条订单，必须有预览、回滚演练和提交验证。"
+objective = "熟悉 psql 提示符、SELECT、事务、行锁、RETURNING、ROLLBACK 和 COMMIT。"
+environment = "Ubuntu 24.04 LTS 教学主机 web-01（192.0.2.10），客户端 ops-01（192.0.2.50），网关 192.0.2.1。文档保留地址与 example.test 域名只用于模拟；每例独立还原起始状态，全部输出预置。"
+recap = "同一 psql 会话中先查范围，事务内查看 RETURNING，再回滚演练；正式提交后另做查询验证。修改前后值与工单一起留档。"
+sources = ["https://www.postgresql.org/docs/current/app-pgdump.html", "https://www.postgresql.org/docs/current/tutorial-transactions.html"]
+
+[[steps]]
+title = "连接应用数据库"
+output = "psql (17)\napp=#"
+explanation = "以下 SQL 都在同一个 psql 会话执行；每条 SQL 回车提交语句，事务由 BEGIN/COMMIT 控制。"
+instruction = "请跟打，连接应用数据库。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_01"
+command_id = "shared-0b56288249a5c43d"
+
+[[steps]]
+title = "查看目标订单"
+output = "42 | pending"
+explanation = "先确认目标记录存在且当前值符合工单预期。"
+instruction = "请跟打，查看目标订单。先观察输出，再决定下一步。"
+prompt = "app=# "
+id = "step_02"
+command_id = "shared-bbaea739061a58e9"
+
+[[steps]]
+title = "核对筛选范围"
+output = "count\n1"
+explanation = "范围精确命中一条，加入旧值条件还能防止覆盖已经变化的状态。"
+instruction = "请跟打，核对筛选范围。先观察输出，再决定下一步。"
+prompt = "app=# "
+id = "step_03"
+command_id = "shared-83d96f67a923fda1"
+
+[steps.decision]
+question = "更新语句应采用哪种条件？"
+
+[[steps.decision.choices]]
+text = "WHERE id = 42 AND status = pending 的旧值检查"
+correct = true
+feedback = "对，使用明确主键与原状态作为更新前提。"
+
+[[steps.decision.choices]]
+text = "不加 WHERE 直接修改整张表"
+correct = false
+feedback = "需求只涉及一条记录，整表更新超出工单范围。"
+
+[[steps]]
+title = "开始可回滚演练事务"
+output = "BEGIN"
+explanation = "后续修改在提交前可以回滚；不要长时间闲置事务。"
+instruction = "请跟打，开始可回滚演练事务。先观察输出，再决定下一步。"
+prompt = "app=# "
+id = "step_04"
+command_id = "shared-09d5c7e4829721a8"
+
+[[steps]]
+title = "锁定并再次查看目标行"
+output = "42 | pending"
+explanation = "行锁减少并发变更造成的检查与更新竞争；仍应使用精确条件。"
+instruction = "请跟打，锁定并再次查看目标行。先观察输出，再决定下一步。"
+prompt = "app=# "
+id = "step_05"
+command_id = "shared-6f5a7ebd1ef5b77f"
+
+[[steps]]
+title = "修改并返回受影响记录"
+output = "42 | reviewed\nUPDATE 1"
+explanation = "RETURNING 与 UPDATE 1 共同确认实际修改行数；零行要重新核对条件，不应盲目去掉 WHERE。"
+instruction = "请跟打，修改并返回受影响记录。先观察输出，再决定下一步。"
+prompt = "app=# "
+id = "step_06"
+command_id = "shared-e89b54bfc4bc93ce"
+
+[[steps]]
+title = "回滚第一次演练"
+output = "ROLLBACK"
+explanation = "本次变更全部撤销，验证操作可控之后再执行正式事务。"
+instruction = "请跟打，回滚第一次演练。先观察输出，再决定下一步。"
+prompt = "app=# "
+id = "step_07"
+command_id = "shared-9be868b5fc7744c6"
+
+[steps.decision]
+question = "现在数据库中的订单 42 应是什么？"
+
+[[steps.decision.choices]]
+text = "pending，因为尚未提交并已回滚"
+correct = true
+feedback = "对，RETURNING 是事务内结果，回滚撤销变更。"
+
+[[steps.decision.choices]]
+text = "reviewed，因为看到了 RETURNING 输出"
+correct = false
+feedback = "事务内观察到的结果不代表已经永久提交。"
+
+[[steps]]
+title = "确认回滚后的状态"
+output = "42 | pending"
+explanation = "验证回滚确实恢复原始值。"
+instruction = "请跟打，确认回滚后的状态。先观察输出，再决定下一步。"
+prompt = "app=# "
+id = "step_08"
+command_id = "shared-bbaea739061a58e9"
+
+[[steps]]
+title = "开始正式事务"
+output = "BEGIN"
+explanation = "工单核验完成后进行同样的精确修改。"
+instruction = "请跟打，开始正式事务。先观察输出，再决定下一步。"
+prompt = "app=# "
+id = "step_09"
+command_id = "shared-09d5c7e4829721a8"
+
+[[steps]]
+title = "正式更新目标订单"
+output = "42 | reviewed\nUPDATE 1"
+explanation = "再次确认只影响一行，再提交。"
+instruction = "请跟打，正式更新目标订单。先观察输出，再决定下一步。"
+prompt = "app=# "
+id = "step_10"
+command_id = "shared-e89b54bfc4bc93ce"
+
+[[steps]]
+title = "提交事务"
+output = "COMMIT"
+explanation = "数据库现在持久保存此次事务；提交后不能再用 ROLLBACK 撤销，需要新的反向业务变更。"
+instruction = "请跟打，提交事务。先观察输出，再决定下一步。"
+prompt = "app=# "
+id = "step_11"
+command_id = "shared-2db35aa37c4005aa"
+
+[[steps]]
+title = "验证已提交值"
+output = "42 | reviewed"
+explanation = "保留工单、操作者、时间及变更前后值，便于审计。"
+instruction = "请跟打，验证已提交值。先观察输出，再决定下一步。"
+prompt = "app=# "
+id = "step_12"
+command_id = "shared-bbaea739061a58e9"
+
+[[steps]]
+title = "退出数据库终端"
+output = "[模拟：返回 shell]"
+explanation = "退出客户端结束交互会话，不是 SQL 语句。"
+instruction = "请跟打，退出数据库终端。先观察输出，再决定下一步。"
+prompt = "app=# "
+id = "step_13"
+command_id = "shared-f43a4150248fd4ae"

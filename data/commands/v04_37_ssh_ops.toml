@@ -1,0 +1,372 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "先核对配置、密钥和目标账号，再建立连接；不要通过关闭主机密钥校验来修复问题。"
+
+[meta.topic]
+id = "v04_ssh_ops"
+title = "SSH 配置、传输与恢复"
+icon = "🌐"
+order = 137
+
+[[commands]]
+id = "v04-ssh_ops-dd5bf29494"
+command = "ssh -G ops@192.0.2.20"
+summary = "打印解析后的 SSH 客户端配置，不建立会话"
+
+[[commands.tokens]]
+text = "ssh"
+desc = "以 SSH 协议连接实验目标或读取客户端配置"
+
+[[commands.tokens]]
+text = " -G"
+desc = "显示解析后的客户端配置而不连接"
+
+[[commands.tokens]]
+text = " ops@192.0.2.20"
+desc = "打印解析后的 SSH 客户端配置，不建立会话；指定 ops@192.0.2.20"
+
+[commands.dictation]
+prompt = "打印解析后的 SSH 客户端配置，不建立会话"
+answers = ["ssh -G ops@192.0.2.20"]
+
+[[commands]]
+id = "v04-ssh_ops-a480aa4648"
+command = "ssh -vv -o ConnectTimeout=5 ops@192.0.2.20"
+summary = "带调试输出连接实验主机，限制初始连接等待"
+
+[[commands.tokens]]
+text = "ssh"
+desc = "以 SSH 协议连接实验目标或读取客户端配置"
+
+[[commands.tokens]]
+text = " -vv"
+desc = "输出更详细的连接诊断"
+
+[[commands.tokens]]
+text = " -o"
+desc = "设置单项 SSH 客户端配置"
+
+[[commands.tokens]]
+text = " ConnectTimeout=5"
+desc = "带调试输出连接实验主机，限制初始连接等待；指定 ConnectTimeout=5"
+
+[[commands.tokens]]
+text = " ops@192.0.2.20"
+desc = "带调试输出连接实验主机，限制初始连接等待；指定 ops@192.0.2.20"
+
+[commands.dictation]
+prompt = "带调试输出连接实验主机，限制初始连接等待"
+answers = ["ssh -vv -o ConnectTimeout=5 ops@192.0.2.20"]
+
+[[commands]]
+id = "v04-ssh_ops-841869275a"
+command = "ssh -o BatchMode=yes -o ConnectTimeout=5 ops@192.0.2.20 true"
+summary = "测试实验主机非交互认证和命令执行，禁止口令提示"
+
+[[commands.tokens]]
+text = "ssh"
+desc = "以 SSH 协议连接实验目标或读取客户端配置"
+
+[[commands.tokens]]
+text = " -o"
+desc = "设置单项 SSH 客户端配置"
+
+[[commands.tokens]]
+text = " BatchMode=yes"
+desc = "测试实验主机非交互认证和命令执行，禁止口令提示；指定 BatchMode=yes"
+
+[[commands.tokens]]
+text = " -o"
+desc = "设置单项 SSH 客户端配置"
+
+[[commands.tokens]]
+text = " ConnectTimeout=5"
+desc = "测试实验主机非交互认证和命令执行，禁止口令提示；指定 ConnectTimeout=5"
+
+[[commands.tokens]]
+text = " ops@192.0.2.20"
+desc = "测试实验主机非交互认证和命令执行，禁止口令提示；指定 ops@192.0.2.20"
+
+[[commands.tokens]]
+text = " true"
+desc = "测试实验主机非交互认证和命令执行，禁止口令提示；指定 true"
+
+[commands.dictation]
+prompt = "测试实验主机非交互认证和命令执行，禁止口令提示"
+answers = ["ssh -o BatchMode=yes -o ConnectTimeout=5 ops@192.0.2.20 true"]
+
+[[commands]]
+id = "v04-ssh_ops-47c37252ee"
+command = "ssh -p 2222 ops@192.0.2.20"
+summary = "使用实验 SSH 非默认端口连接"
+
+[[commands.tokens]]
+text = "ssh"
+desc = "以 SSH 协议连接实验目标或读取客户端配置"
+
+[[commands.tokens]]
+text = " -p"
+desc = "指定远端 SSH 端口"
+
+[[commands.tokens]]
+text = " 2222"
+desc = "本次练习的数值参数 2222；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ops@192.0.2.20"
+desc = "使用实验 SSH 非默认端口连接；指定 ops@192.0.2.20"
+
+[commands.dictation]
+prompt = "使用实验 SSH 非默认端口连接"
+answers = ["ssh -p 2222 ops@192.0.2.20"]
+
+[[commands]]
+id = "v04-ssh_ops-1e3510b235"
+command = "ssh -i ~/.ssh/ops_ed25519 ops@192.0.2.20"
+summary = "指定实验身份文件，避免密钥选择不明确"
+
+[[commands.tokens]]
+text = "ssh"
+desc = "以 SSH 协议连接实验目标或读取客户端配置"
+
+[[commands.tokens]]
+text = " -i"
+desc = "指定身份私钥文件"
+
+[[commands.tokens]]
+text = " ~/.ssh/ops_ed25519"
+desc = "本次操作指定的路径：~/.ssh/ops_ed25519"
+
+[[commands.tokens]]
+text = " ops@192.0.2.20"
+desc = "指定实验身份文件，避免密钥选择不明确；指定 ops@192.0.2.20"
+
+[commands.dictation]
+prompt = "指定实验身份文件，避免密钥选择不明确"
+answers = ["ssh -i ~/.ssh/ops_ed25519 ops@192.0.2.20"]
+
+[[commands]]
+id = "v04-ssh_ops-25fae20858"
+command = "ssh -o IdentitiesOnly=yes -i ~/.ssh/ops_ed25519 ops@192.0.2.20"
+summary = "仅使用配置指定的身份，避免 agent 提供过多密钥"
+
+[[commands.tokens]]
+text = "ssh"
+desc = "以 SSH 协议连接实验目标或读取客户端配置"
+
+[[commands.tokens]]
+text = " -o"
+desc = "设置单项 SSH 客户端配置"
+
+[[commands.tokens]]
+text = " IdentitiesOnly=yes"
+desc = "仅使用配置指定的身份，避免 agent 提供过多密钥；指定 IdentitiesOnly=yes"
+
+[[commands.tokens]]
+text = " -i"
+desc = "指定身份私钥文件"
+
+[[commands.tokens]]
+text = " ~/.ssh/ops_ed25519"
+desc = "本次操作指定的路径：~/.ssh/ops_ed25519"
+
+[[commands.tokens]]
+text = " ops@192.0.2.20"
+desc = "仅使用配置指定的身份，避免 agent 提供过多密钥；指定 ops@192.0.2.20"
+
+[commands.dictation]
+prompt = "仅使用配置指定的身份，避免 agent 提供过多密钥"
+answers = ["ssh -o IdentitiesOnly=yes -i ~/.ssh/ops_ed25519 ops@192.0.2.20"]
+
+[[commands]]
+id = "v04-ssh_ops-4e1423cd40"
+command = "ssh -J ops@192.0.2.10 ops@192.0.2.20"
+summary = "通过实验跳板机连接内部主机"
+
+[[commands.tokens]]
+text = "ssh"
+desc = "以 SSH 协议连接实验目标或读取客户端配置"
+
+[[commands.tokens]]
+text = " -J"
+desc = "指定跳板机"
+
+[[commands.tokens]]
+text = " ops@192.0.2.10"
+desc = "通过实验跳板机连接内部主机；指定 ops@192.0.2.10"
+
+[[commands.tokens]]
+text = " ops@192.0.2.20"
+desc = "通过实验跳板机连接内部主机；指定 ops@192.0.2.20"
+
+[commands.dictation]
+prompt = "通过实验跳板机连接内部主机"
+answers = ["ssh -J ops@192.0.2.10 ops@192.0.2.20"]
+
+[[commands]]
+id = "v04-ssh_ops-52e5300a35"
+command = "ssh-keygen -lf ~/.ssh/ops_ed25519.pub"
+summary = "查看实验公钥指纹，和授权记录核对"
+
+[[commands.tokens]]
+text = "ssh-keygen"
+desc = "查看实验公钥指纹，和授权记录核对"
+
+[[commands.tokens]]
+text = " -lf"
+desc = "查看实验公钥指纹，和授权记录核对；此处使用 -lf 选项"
+
+[[commands.tokens]]
+text = " ~/.ssh/ops_ed25519.pub"
+desc = "本次操作指定的路径：~/.ssh/ops_ed25519.pub"
+
+[commands.dictation]
+prompt = "查看实验公钥指纹，和授权记录核对"
+answers = ["ssh-keygen -lf ~/.ssh/ops_ed25519.pub"]
+
+[[commands]]
+id = "v04-ssh_ops-c4d1f2f090"
+command = "ssh-keygen -F 192.0.2.20"
+summary = "在 known_hosts 查找实验主机记录，不修改记录"
+
+[[commands.tokens]]
+text = "ssh-keygen"
+desc = "在 known_hosts 查找实验主机记录，不修改记录"
+
+[[commands.tokens]]
+text = " -F"
+desc = "在 known_hosts 查找实验主机记录，不修改记录；此处使用 -F 选项"
+
+[[commands.tokens]]
+text = " 192.0.2.20"
+desc = "在 known_hosts 查找实验主机记录，不修改记录；指定 192.0.2.20"
+
+[commands.dictation]
+prompt = "在 known_hosts 查找实验主机记录，不修改记录"
+answers = ["ssh-keygen -F 192.0.2.20"]
+
+[[commands]]
+id = "v04-ssh_ops-7cd61a1761"
+command = "ssh-add -l"
+summary = "查看当前 SSH agent 持有的密钥指纹"
+
+[[commands.tokens]]
+text = "ssh-add"
+desc = "查看当前 SSH agent 持有的密钥指纹"
+
+[[commands.tokens]]
+text = " -l"
+desc = "查看当前 SSH agent 持有的密钥指纹；此处使用 -l 选项"
+
+[commands.dictation]
+prompt = "查看当前 SSH agent 持有的密钥指纹"
+answers = ["ssh-add -l"]
+
+[[commands]]
+id = "v04-ssh_ops-854d2dd94a"
+command = "scp -P 2222 report.txt ops@192.0.2.20:/tmp/report.txt"
+summary = "用大写 -P 指定 scp 端口并上传实验报告"
+
+[[commands.tokens]]
+text = "scp"
+desc = "通过 SSH 文件传输复制实验文件"
+
+[[commands.tokens]]
+text = " -P"
+desc = "用大写 -P 指定 scp 端口并上传实验报告；此处使用 -P 选项"
+
+[[commands.tokens]]
+text = " 2222"
+desc = "本次练习的数值参数 2222；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " report.txt"
+desc = "用大写 -P 指定 scp 端口并上传实验报告；指定 report.txt"
+
+[[commands.tokens]]
+text = " ops@192.0.2.20:/tmp/report.txt"
+desc = "用大写 -P 指定 scp 端口并上传实验报告；指定 ops@192.0.2.20:/tmp/report.txt"
+
+[commands.dictation]
+prompt = "用大写 -P 指定 scp 端口并上传实验报告"
+answers = ["scp -P 2222 report.txt ops@192.0.2.20:/tmp/report.txt"]
+
+[[commands]]
+id = "v04-ssh_ops-cc27f563fe"
+command = "scp ops@192.0.2.20:/var/log/app/report.txt ~/ops-lab/input/"
+summary = "下载授权可读的实验日志报告"
+
+[[commands.tokens]]
+text = "scp"
+desc = "通过 SSH 文件传输复制实验文件"
+
+[[commands.tokens]]
+text = " ops@192.0.2.20:/var/log/app/report.txt"
+desc = "下载授权可读的实验日志报告；指定 ops@192.0.2.20:/var/log/app/report.txt"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input/"
+desc = "本次操作指定的路径：~/ops-lab/input/"
+
+[commands.dictation]
+prompt = "下载授权可读的实验日志报告"
+answers = ["scp ops@192.0.2.20:/var/log/app/report.txt ~/ops-lab/input/"]
+
+[[commands]]
+id = "v04-ssh_ops-cc2c587036"
+command = "rsync -av --dry-run ~/ops-lab/input/ ops@192.0.2.20:/srv/staging/"
+summary = "预演实验目录同步，尾部斜杠表示复制目录内容"
+
+[[commands.tokens]]
+text = "rsync"
+desc = "比较并同步指定源与目标文件"
+
+[[commands.tokens]]
+text = " -av"
+desc = "预演实验目录同步，尾部斜杠表示复制目录内容；此处使用 -av 选项"
+
+[[commands.tokens]]
+text = " --dry-run"
+desc = "预演实验目录同步，尾部斜杠表示复制目录内容；此处使用 --dry-run 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input/"
+desc = "本次操作指定的路径：~/ops-lab/input/"
+
+[[commands.tokens]]
+text = " ops@192.0.2.20:/srv/staging/"
+desc = "预演实验目录同步，尾部斜杠表示复制目录内容；指定 ops@192.0.2.20:/srv/staging/"
+
+[commands.dictation]
+prompt = "预演实验目录同步，尾部斜杠表示复制目录内容"
+answers = ["rsync -av --dry-run ~/ops-lab/input/ ops@192.0.2.20:/srv/staging/"]
+
+[[commands]]
+id = "v04-ssh_ops-cd0428c52d"
+command = "rsync -av --itemize-changes ~/ops-lab/input/ ~/ops-lab/backup/"
+summary = "本地同步实验资料并逐项列出变更，不使用删除选项"
+
+[[commands.tokens]]
+text = "rsync"
+desc = "比较并同步指定源与目标文件"
+
+[[commands.tokens]]
+text = " -av"
+desc = "本地同步实验资料并逐项列出变更，不使用删除选项；此处使用 -av 选项"
+
+[[commands.tokens]]
+text = " --itemize-changes"
+desc = "本地同步实验资料并逐项列出变更，不使用删除选项；此处使用 --itemize-changes 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/input/"
+desc = "本次操作指定的路径：~/ops-lab/input/"
+
+[[commands.tokens]]
+text = " ~/ops-lab/backup/"
+desc = "本次操作指定的路径：~/ops-lab/backup/"
+
+[commands.dictation]
+prompt = "本地同步实验资料并逐项列出变更，不使用删除选项"
+answers = ["rsync -av --itemize-changes ~/ops-lab/input/ ~/ops-lab/backup/"]

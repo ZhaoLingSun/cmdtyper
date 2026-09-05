@@ -97,13 +97,7 @@ answers = ["for f in *.jpeg; do [ -e \"$f\" ] || continue; [ -e \"${f%.jpeg}.jpg
 id = "disk-top-dirs"
 command = "du -h --max-depth=1 / 2>/dev/null | sort -rh | head -20"
 summary = "查看根目录下各一级子目录的空间占用，按大小排列取前 20"
-simulated_output = """
-45G	/var
-18G	/home
-9.7G	/usr
-3.1G	/opt
-1.2G	/etc
-"""
+simulated_output = "45G\t/var\n18G\t/home\n9.7G\t/usr\n3.1G\t/opt\n1.2G\t/etc\n"
 [[commands.tokens]]
 text = "du"
 desc = "统计文件或目录的磁盘占用空间"
@@ -145,10 +139,7 @@ answers = ["du -h --max-depth=1 / 2>/dev/null | sort -rh | head -20"]
 id = "find-empty-dirs"
 command = "find . -depth -mindepth 1 -type d -empty -print"
 summary = "按深度优先顺序只读列出当前目录下的空子目录，供删除前审核"
-simulated_output = """
-./build/cache
-./tmp/old
-"""
+simulated_output = "./build/cache\n./tmp/old\n"
 [[commands.tokens]]
 text = "find"
 desc = "在目录树中递归查找文件和目录"
@@ -184,11 +175,7 @@ answers = ["find . -depth -mindepth 1 -type d -empty -print"]
 id = "grep-count-error-per-hour"
 command = "grep 'ERROR' app.log | awk '{print substr($2,1,13)}' | sort | uniq -c"
 summary = "按小时统计 app.log 中 ERROR 的出现次数"
-simulated_output = """
- 12 2026-03-14T08
-  9 2026-03-14T09
-  4 2026-03-14T10
-"""
+simulated_output = " 12 2026-03-14T08\n  9 2026-03-14T09\n  4 2026-03-14T10\n"
 [[commands.tokens]]
 text = "grep"
 desc = "在文件或输入中搜索匹配指定模式的行"
@@ -228,65 +215,54 @@ answers = ["grep 'ERROR' app.log | awk '{print substr($2,1,13)}' | sort | uniq -
 
 [[commands]]
 id = "ssh-keygen-ed25519"
-command = "(umask 077; key_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-deploy-key.XXXXXX\") && chmod 700 \"$key_dir\" && key=\"$key_dir/id_ed25519_deploy\" && ssh-keygen -t ed25519 -f \"$key\" -C 'deploy@server' && printf 'Key directory: %s\\nPrivate key: %s\\nPublic key: %s\\n' \"$key_dir\" \"$key\" \"$key.pub\")"
-summary = "在新建的私有临时目录中交互生成专用部署密钥，并报告实际路径"
+command = "umask 077\nkey_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-deploy-key.XXXXXX\")\nchmod 700 \"$key_dir\"\nkey=\"$key_dir/id_ed25519_deploy\"\nssh-keygen -t ed25519 -f \"$key\" -C 'deploy@server'\nprintf 'Key directory: %s\\nPrivate key: %s\\nPublic key: %s\\n' \"$key_dir\" \"$key\" \"$key.pub\""
+summary = "在新建的私有临时目录中交互生成专用部署密钥，并报告实际路径；逐条回车，确认成功再继续"
 simulated_output = "Generating public/private ed25519 key pair.\nEnter passphrase (empty for no passphrase):\nEnter same passphrase again:\nYour identification has been saved in /tmp/cmdtyper-deploy-key.A1b2C3/id_ed25519_deploy\nYour public key has been saved in /tmp/cmdtyper-deploy-key.A1b2C3/id_ed25519_deploy.pub\nKey directory: /tmp/cmdtyper-deploy-key.A1b2C3\nPrivate key: /tmp/cmdtyper-deploy-key.A1b2C3/id_ed25519_deploy\nPublic key: /tmp/cmdtyper-deploy-key.A1b2C3/id_ed25519_deploy.pub"
 [[commands.tokens]]
-text = "(umask 077; key_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-deploy-key.XXXXXX\") && chmod 700 \"$key_dir\""
-desc = "原子创建当前用户拥有的唯一 0700 私有目录，悬空符号链接和旧固定文件都无法占用内部目标"
-
+text = "umask 077\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 [[commands.tokens]]
-text = " && key=\"$key_dir/id_ed25519_deploy\""
-desc = "在新目录中使用清晰的部署密钥基名"
-
+text = "key_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-deploy-key.XXXXXX\")\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 [[commands.tokens]]
-text = " && ssh-keygen -t ed25519 -f \"$key\" -C 'deploy@server'"
-desc = "交互生成 Ed25519 密钥并保留原生口令提示，不用 -N 静默创建无口令私钥"
-
+text = "chmod 700 \"$key_dir\"\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 [[commands.tokens]]
-text = " && printf 'Key directory: %s\\nPrivate key: %s\\nPublic key: %s\\n' \"$key_dir\" \"$key\" \"$key.pub\")"
-desc = "成功后输出私钥和配套 .pub 的真实随机路径，供下一题精确选择"
+text = "key=\"$key_dir/id_ed25519_deploy\"\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+[[commands.tokens]]
+text = "ssh-keygen -t ed25519 -f \"$key\" -C 'deploy@server'\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
+[[commands.tokens]]
+text = "printf 'Key directory: %s\\nPrivate key: %s\\nPublic key: %s\\n' \"$key_dir\" \"$key\" \"$key.pub\""
+desc = "在新建的私有临时目录中交互生成专用部署密钥，并报告实际路径"
 [commands.dictation]
 prompt = "用 umask 077 和 mktemp -d 新建唯一 0700 私有目录，在其中交互生成 id_ed25519_deploy 专用 Ed25519 密钥并设置口令；成功后输出实际私钥及 .pub 路径，不使用 test ! -e 或固定覆盖目标"
-answers = ["(umask 077; key_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-deploy-key.XXXXXX\") && chmod 700 \"$key_dir\" && key=\"$key_dir/id_ed25519_deploy\" && ssh-keygen -t ed25519 -f \"$key\" -C 'deploy@server' && printf 'Key directory: %s\\nPrivate key: %s\\nPublic key: %s\\n' \"$key_dir\" \"$key\" \"$key.pub\")"]
+answers = ["umask 077\nkey_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-deploy-key.XXXXXX\")\nchmod 700 \"$key_dir\"\nkey=\"$key_dir/id_ed25519_deploy\"\nssh-keygen -t ed25519 -f \"$key\" -C 'deploy@server'\nprintf 'Key directory: %s\\nPrivate key: %s\\nPublic key: %s\\n' \"$key_dir\" \"$key\" \"$key.pub\""]
 
 [[commands]]
 id = "ssh-copy-id"
-command = "(umask 077; printf 'Private key path printed by ssh-keygen: ' && IFS= read -r key && [ -f \"$key.pub\" ] && [ ! -L \"$key.pub\" ] && printf 'Expected ED25519 SHA256 host fingerprint from an independent trusted source: ' && IFS= read -r expected && host=example.com && kh=$(mktemp) && trap 'rm -f -- \"$kh\"' EXIT HUP INT TERM && ssh-keyscan -t ed25519 \"$host\" >\"$kh\" 2>/dev/null && actual=$(ssh-keygen -lf \"$kh\" -E sha256 | awk '{print $2}' | sort -u) && [ \"$actual\" = \"$expected\" ] && ssh-copy-id -i \"$key.pub\" -o HostKeyAlgorithms=ssh-ed25519 -o UserKnownHostsFile=\"$kh\" -o GlobalKnownHostsFile=/dev/null -o StrictHostKeyChecking=yes \"admin@$host\")"
-summary = "独立核验主机指纹后，精确安装上一题生成的部署公钥"
-simulated_output = "Private key path printed by ssh-keygen: /tmp/cmdtyper-deploy-key.A1b2C3/id_ed25519_deploy\nExpected ED25519 SHA256 host fingerprint from an independent trusted source: SHA256:V7pN2cR4mK8sT1xQ6zL9bH3dF5wJ0yE2uA4gC6iM8oP\n/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: \"/tmp/cmdtyper-deploy-key.A1b2C3/id_ed25519_deploy.pub\"\nadmin@example.com's password:\nNumber of key(s) added: 1\nNow try logging into the machine, with: \"ssh admin@example.com\""
+command = "ssh-keygen -lf ~/.ssh/id_ed25519_deploy.pub\nssh-keyscan -t ed25519 example.com\nssh-copy-id -i ~/.ssh/id_ed25519_deploy.pub admin@example.com"
+summary = "查看公钥指纹、检查服务器主机密钥并安装公钥（分步模拟）；逐条回车，确认成功再继续"
+simulated_output = "Number of key(s) added: 1"
 [[commands.tokens]]
-text = "(umask 077; printf 'Private key path printed by ssh-keygen: ' && IFS= read -r key && [ -f \"$key.pub\" ] && [ ! -L \"$key.pub\" ]"
-desc = "在本命令中读取上一题报告的实际部署私钥路径，并验证对应 .pub 是普通文件"
-
+text = "ssh-keygen -lf ~/.ssh/id_ed25519_deploy.pub\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 [[commands.tokens]]
-text = " && printf 'Expected ED25519 SHA256 host fingerprint from an independent trusted source: ' && IFS= read -r expected"
-desc = "要求从连接之外的可信渠道取得预期 Ed25519 SHA256 主机指纹"
-
+text = "ssh-keyscan -t ed25519 example.com\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 [[commands.tokens]]
-text = " && host=example.com && kh=$(mktemp) && trap 'rm -f -- \"$kh\"' EXIT HUP INT TERM && ssh-keyscan -t ed25519 \"$host\" >\"$kh\" 2>/dev/null"
-desc = "把当前呈现的主机密钥捕获到私有随机 known_hosts 文件，供比较和后续固定"
-
-[[commands.tokens]]
-text = " && actual=$(ssh-keygen -lf \"$kh\" -E sha256 | awk '{print $2}' | sort -u) && [ \"$actual\" = \"$expected\" ]"
-desc = "只有所有扫描到的唯一指纹恰好等于独立可信值才继续"
-
-[[commands.tokens]]
-text = " && ssh-copy-id -i \"$key.pub\" -o HostKeyAlgorithms=ssh-ed25519 -o UserKnownHostsFile=\"$kh\" -o GlobalKnownHostsFile=/dev/null -o StrictHostKeyChecking=yes \"admin@$host\")"
-desc = "通过 -i 精确安装上一题同一路径的 .pub，并把 SSH 连接固定到已核验主机密钥"
+text = "ssh-copy-id -i ~/.ssh/id_ed25519_deploy.pub admin@example.com"
+desc = "查看公钥指纹、检查服务器主机密钥并安装公钥（分步模拟）"
 [commands.dictation]
-prompt = "输入上一题输出的实际部署私钥路径，再输入从独立可信渠道取得的 example.com Ed25519 SHA256 主机指纹；仅当对应 .pub 为普通文件且主机指纹完全匹配时，用 -i \"$key.pub\" 安装到 admin@example.com，并固定该已核验主机密钥"
-answers = ["(umask 077; printf 'Private key path printed by ssh-keygen: ' && IFS= read -r key && [ -f \"$key.pub\" ] && [ ! -L \"$key.pub\" ] && printf 'Expected ED25519 SHA256 host fingerprint from an independent trusted source: ' && IFS= read -r expected && host=example.com && kh=$(mktemp) && trap 'rm -f -- \"$kh\"' EXIT HUP INT TERM && ssh-keyscan -t ed25519 \"$host\" >\"$kh\" 2>/dev/null && actual=$(ssh-keygen -lf \"$kh\" -E sha256 | awk '{print $2}' | sort -u) && [ \"$actual\" = \"$expected\" ] && ssh-copy-id -i \"$key.pub\" -o HostKeyAlgorithms=ssh-ed25519 -o UserKnownHostsFile=\"$kh\" -o GlobalKnownHostsFile=/dev/null -o StrictHostKeyChecking=yes \"admin@$host\")"]
+prompt = "已创建对应公钥。逐步查看公钥指纹与服务器主机密钥；通过独立可信渠道核对服务器指纹后，再安装公钥。ssh-keyscan 本身不证明服务器身份。"
+answers = ["ssh-keygen -lf ~/.ssh/id_ed25519_deploy.pub\nssh-keyscan -t ed25519 example.com\nssh-copy-id -i ~/.ssh/id_ed25519_deploy.pub admin@example.com"]
 
 [[commands]]
 id = "awk-csv-filter"
 command = "awk -F, '$3 > 100 {print $1, $3}' sales.csv"
 summary = "从 sales.csv 中筛出第三列大于 100 的行，输出第一和第三列"
-simulated_output = """
-alice 120
-carol 245
-dave 180
-"""
+simulated_output = "alice 120\ncarol 245\ndave 180\n"
 [[commands.tokens]]
 text = "awk"
 desc = "文本处理语言：按字段分割和处理结构化文本"
@@ -328,14 +304,7 @@ answers = ["sed -i.bak '/^[[:space:]]*$/d' notes.txt"]
 id = "parallel-ping"
 command = "seq 1 10 | xargs -P 4 -I{} ping -c 1 -W 1 127.0.0.{}"
 summary = "以最多 4 路并发探测 10 个本机回环地址，不向外部或未授权网络发送流量"
-simulated_output = """
-PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.
-PING 127.0.0.2 (127.0.0.2) 56(84) bytes of data.
-64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.031 ms
-64 bytes from 127.0.0.2: icmp_seq=1 ttl=64 time=0.028 ms
---- 127.0.0.1 ping statistics ---
-1 packets transmitted, 1 received, 0% packet loss, time 0ms
-"""
+simulated_output = "PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.\nPING 127.0.0.2 (127.0.0.2) 56(84) bytes of data.\n64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.031 ms\n64 bytes from 127.0.0.2: icmp_seq=1 ttl=64 time=0.028 ms\n--- 127.0.0.1 ping statistics ---\n1 packets transmitted, 1 received, 0% packet loss, time 0ms\n"
 [[commands.tokens]]
 text = "seq"
 desc = "生成受限的数字序列"
@@ -384,45 +353,18 @@ answers = ["seq 1 10 | xargs -P 4 -I{} ping -c 1 -W 1 127.0.0.{}"]
 
 [[commands]]
 id = "tar-incremental-backup"
-command = "archive=$(mktemp \"./backup-$(date +%F)-XXXXXX.tar.gz\") && tar czf \"$archive\" --newer-mtime='1 day ago' /srv/data && printf '%s\\n' \"$archive\""
-summary = "用当天日期和唯一后缀创建过去一天文件的独立归档，不覆盖同日已有备份"
+command = "archive=$(mktemp \"./backup-$(date +%F)-XXXXXX.tar.gz\")\ntar czf \"$archive\" --newer-mtime='1 day ago' /srv/data\nprintf '%s\\n' \"$archive\""
+summary = "用当天日期和唯一后缀创建过去一天文件的独立归档，不覆盖同日已有备份；逐条回车，确认成功再继续"
 simulated_output = "./backup-2026-03-14-K8p3Nz.tar.gz"
 [[commands.tokens]]
-text = "archive="
-desc = "保存本次唯一归档路径"
+text = "archive=$(mktemp \"./backup-$(date +%F)-XXXXXX.tar.gz\")\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 [[commands.tokens]]
-text = "$(mktemp \"./backup-$(date +%F)-XXXXXX.tar.gz\")"
-desc = "把当天日期与随机后缀组合成唯一新文件；同一天重复运行不会截断已有备份"
+text = "tar czf \"$archive\" --newer-mtime='1 day ago' /srv/data\n"
+desc = "准备或执行本步骤；确认成功后按 Enter 进入下一条。"
 [[commands.tokens]]
-text = " &&"
-desc = "只有唯一目标创建成功后才继续"
-[[commands.tokens]]
-text = " tar"
-desc = "归档工具；本命令创建独立归档，不记录增量链状态"
-[[commands.tokens]]
-text = " czf"
-desc = "创建 gzip 压缩 tar 归档"
-[[commands.tokens]]
-text = " \"$archive\""
-desc = "引用刚创建的唯一空文件，不会覆盖已有有效归档"
-[[commands.tokens]]
-text = " --newer-mtime='1 day ago'"
-desc = "只按修改时间筛选过去一天内更新的文件，不保存上次归档状态"
-[[commands.tokens]]
-text = " /srv/data"
-desc = "在该目录树中筛选文件；这不是可连续恢复的增量链"
-[[commands.tokens]]
-text = " &&"
-desc = "只有归档成功后才输出路径"
-[[commands.tokens]]
-text = " printf"
-desc = "输出实际生成的归档名"
-[[commands.tokens]]
-text = " '%s\\n'"
-desc = "按一行一个字符串的格式输出"
-[[commands.tokens]]
-text = " \"$archive\""
-desc = "本次带日期和唯一后缀的归档路径"
+text = "printf '%s\\n' \"$archive\""
+desc = "用当天日期和唯一后缀创建过去一天文件的独立归档，不覆盖同日已有备份"
 [commands.dictation]
 prompt = "用当天日期和 mktemp 唯一后缀为 /srv/data 中过去一天修改过的文件创建独立 gzip tar 归档；同日重复运行不得覆盖已有备份，成功后输出文件名"
-answers = ["archive=$(mktemp \"./backup-$(date +%F)-XXXXXX.tar.gz\") && tar czf \"$archive\" --newer-mtime='1 day ago' /srv/data && printf '%s\\n' \"$archive\""]
+answers = ["archive=$(mktemp \"./backup-$(date +%F)-XXXXXX.tar.gz\")\ntar czf \"$archive\" --newer-mtime='1 day ago' /srv/data\nprintf '%s\\n' \"$archive\""]

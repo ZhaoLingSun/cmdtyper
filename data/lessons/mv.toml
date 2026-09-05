@@ -1,3 +1,4 @@
+
 [meta]
 command = "mv"
 full_name = "move"
@@ -7,18 +8,15 @@ importance = "core"
 
 [overview]
 summary = "移动或重命名文件和目录"
-explanation = """mv 命令用于移动文件/目录到新位置，或者重命名文件/目录。\
-与 cp 不同，mv 不会在原位置保留副本——文件被移到新位置后，原路径不再存在。\
-在同一文件系统内移动文件时，mv 只修改目录项（非常快），不实际复制数据；\
-跨文件系统移动时则先复制再删除原文件。\
-mv 也是重命名文件和目录的标准方式，Linux 没有专门的 rename 命令。\
-和 cp 一样，mv 默认覆盖已有文件时不提示，操作重要文件时请加 -i。"""
+explanation = "mv 命令用于移动文件/目录到新位置，或者重命名文件/目录。与 cp 不同，mv 不会在原位置保留副本——文件被移到新位置后，原路径不再存在。在同一文件系统内移动文件时，mv 只修改目录项（非常快），不实际复制数据；跨文件系统移动时则先复制再删除原文件。mv 也是重命名文件和目录的标准方式，Linux 没有专门的 rename 命令。和 cp 一样，mv 默认覆盖已有文件时不提示，操作重要文件时请加 -i。"
 
 [syntax]
 basic = "mv [选项] 源... 目标"
+
 [[syntax.parts]]
 name = "源"
 desc = "要移动或重命名的文件/目录，可以指定多个"
+
 [[syntax.parts]]
 name = "目标"
 desc = "目标路径。如果是已存在的目录则移入其中；否则作为新名称"
@@ -61,11 +59,12 @@ note = "覆盖前先备份已有文件，numbered 模式生成编号备份"
 
 [[examples]]
 level = 1
-command = "mv old.txt new.txt"
 summary = "将 old.txt 重命名为 new.txt"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-001"
+command_id = "mv-file"
+
 [[examples.token_details]]
 token = "old.txt"
 explanation = "目标文件：old.txt"
@@ -76,11 +75,12 @@ explanation = "目标文件：new.txt"
 
 [[examples]]
 level = 1
-command = "mv report.pdf ~/Documents/"
 summary = "将文件移动到 Documents 目录"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-002"
+command_id = "v04-ref-531acd0dbe"
+
 [[examples.token_details]]
 token = "report.pdf"
 explanation = "目标文件：*.log"
@@ -91,13 +91,12 @@ explanation = "目标路径：/var/log/archive/"
 
 [[examples]]
 level = 2
-command = "mv -v *.log /var/log/archive/"
 summary = "将所有日志文件移动到归档目录并显示详情"
-simulated_output = """renamed 'access.log' -> '/var/log/archive/access.log'
-renamed 'error.log' -> '/var/log/archive/error.log'
-renamed 'app.log' -> '/var/log/archive/app.log'"""
-
+simulated_output = "renamed 'access.log' -> '/var/log/archive/access.log'\nrenamed 'error.log' -> '/var/log/archive/error.log'\nrenamed 'app.log' -> '/var/log/archive/app.log'"
 output_explanation = "该结果表示重命名或移动操作执行完成。带 `-v/-i` 时会给出移动详情或交互提示；操作后建议检查目标路径是否符合预期。"
+id = "example-003"
+command_id = "shared-73a6c698a0632c2c"
+
 [[examples.token_details]]
 token = "-v"
 explanation = "显示详细执行过程，便于观察发生了什么。"
@@ -112,11 +111,12 @@ explanation = "临时文件目录。"
 
 [[examples]]
 level = 2
-command = "mv -i config.yml config.yml.bak"
 summary = "重命名配置文件为备份，覆盖前确认"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-004"
+command_id = "shared-4a46f337c696a4b7"
+
 [[examples.token_details]]
 token = "-i"
 explanation = "覆盖已有目标文件前先询问，防止误覆盖重要文件。"
@@ -131,11 +131,12 @@ explanation = "目标文件名：将 config.yml 重命名为 .bak 备份。"
 
 [[examples]]
 level = 3
-command = "mv project-v1/ project-v2/"
 summary = "重命名整个目录（无需 -r 选项）"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-005"
+command_id = "shared-de44fe2597499cef"
+
 [[examples.token_details]]
 token = "project-v1/"
 explanation = "目标路径：/tmp/archive/"
@@ -146,12 +147,13 @@ explanation = "新目录名：将 project-v1 重命名为 project-v2。"
 
 [[examples]]
 level = 4
-command = "find /tmp -name '*.tmp' -mtime +7 -exec mv {} /tmp/archive/ \\;"
 summary = "将 /tmp 下超过 7 天的临时文件移到归档目录"
 display = "find /tmp -name '*.tmp' -mtime +7 \\\n  -exec mv {} /tmp/archive/ \\;"
 simulated_output = ""
-
 output_explanation = "该命令成功时通常不会在终端产生可见输出；没有报错并返回提示符一般就表示执行成功。建议随后用相关检查命令（如 `pwd`、`ls`、`stat`）确认结果。"
+id = "example-006"
+command_id = "shared-ae020ce671c49312"
+
 [[examples.token_details]]
 token = "/tmp"
 explanation = "搜索起点：从临时目录开始查找。"
@@ -190,18 +192,8 @@ explanation = "顺序执行多个命令，不检查前一个命令是否成功�
 
 [[gotchas]]
 title = "mv 不需要 -r 选项移动目录"
-content = """与 cp 不同，mv 移动目录时不需要加 -r 选项：
-  cp -r mydir /backup/    — 复制目录需要 -r
-  mv mydir /backup/       — 移动目录不需要 -r
-
-这是因为在同一文件系统内，mv 只是修改目录的元数据（重新链接），
-并不需要递归处理每个文件。"""
+content = "与 cp 不同，mv 移动目录时不需要加 -r 选项：\n  cp -r mydir /backup/    — 复制目录需要 -r\n  mv mydir /backup/       — 移动目录不需要 -r\n\n这是因为在同一文件系统内，mv 只是修改目录的元数据（重新链接），\n并不需要递归处理每个文件。"
 
 [[gotchas]]
 title = "mv 默认覆盖已有文件"
-content = """mv 和 cp 一样，默认会直接覆盖目标位置的已有文件而不提示。
-建议在 ~/.bashrc 中添加：
-  alias mv='mv -i'
-这样每次覆盖前都会询问确认。
-
-在脚本中如果确实需要覆盖，可以使用 mv -f 或 \\mv（反斜杠跳过 alias）。"""
+content = "mv 和 cp 一样，默认会直接覆盖目标位置的已有文件而不提示。\n建议在 ~/.bashrc 中添加：\n  alias mv='mv -i'\n这样每次覆盖前都会询问确认。\n\n在脚本中如果确实需要覆盖，可以使用 mv -f 或 \\mv（反斜杠跳过 alias）。"

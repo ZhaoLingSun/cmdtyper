@@ -1,0 +1,960 @@
+[meta]
+category = "pipeline"
+difficulty = "beginner"
+description = "基础用法的短练习：目标已在隔离实验环境中准备，按提示完成单一任务。"
+
+[[commands]]
+id = "v04-ex-60e55fb497"
+command = "printf '%s\\n' alpha beta | xargs echo"
+summary = "将两行实验词汇汇成 echo 参数"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；将两行实验词汇汇成 echo 参数"
+
+[[commands.tokens]]
+text = " alpha"
+desc = "将两行实验词汇汇成 echo 参数；指定 alpha"
+
+[[commands.tokens]]
+text = " beta"
+desc = "将两行实验词汇汇成 echo 参数；指定 beta"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " xargs"
+desc = "将两行实验词汇汇成 echo 参数；指定 xargs"
+
+[[commands.tokens]]
+text = " echo"
+desc = "将两行实验词汇汇成 echo 参数；指定 echo"
+
+[commands.dictation]
+prompt = "将两行实验词汇汇成 echo 参数"
+answers = ["printf '%s\\n' alpha beta | xargs echo"]
+
+[[commands]]
+id = "v04-ex-6011401e62"
+command = "printf '%s\\n' one two three | xargs -n 1 echo"
+summary = "每次只把一个参数交给 echo"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；每次只把一个参数交给 echo"
+
+[[commands.tokens]]
+text = " one"
+desc = "每次只把一个参数交给 echo；指定 one"
+
+[[commands.tokens]]
+text = " two"
+desc = "每次只把一个参数交给 echo；指定 two"
+
+[[commands.tokens]]
+text = " three"
+desc = "每次只把一个参数交给 echo；指定 three"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " xargs"
+desc = "每次只把一个参数交给 echo；指定 xargs"
+
+[[commands.tokens]]
+text = " -n"
+desc = "每次只把一个参数交给 echo；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 1"
+desc = "本次练习的数值参数 1；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " echo"
+desc = "每次只把一个参数交给 echo；指定 echo"
+
+[commands.dictation]
+prompt = "每次只把一个参数交给 echo"
+answers = ["printf '%s\\n' one two three | xargs -n 1 echo"]
+
+[[commands]]
+id = "v04-ex-71c0088c64"
+command = "find ~/ops-lab -type f -print0 | xargs -0 -r ls -l"
+summary = "用 NUL 分隔可靠传递含空格文件名，空输入不运行 ls"
+
+[[commands.tokens]]
+text = "find"
+desc = "按路径、类型或属性筛选文件"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作指定的路径：~/ops-lab"
+
+[[commands.tokens]]
+text = " -type"
+desc = "用 NUL 分隔可靠传递含空格文件名，空输入不运行 ls；此处使用 -type 选项"
+
+[[commands.tokens]]
+text = " f"
+desc = "用 NUL 分隔可靠传递含空格文件名，空输入不运行 ls；指定 f"
+
+[[commands.tokens]]
+text = " -print0"
+desc = "用 NUL 分隔可靠传递含空格文件名，空输入不运行 ls；此处使用 -print0 选项"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " xargs"
+desc = "用 NUL 分隔可靠传递含空格文件名，空输入不运行 ls；指定 xargs"
+
+[[commands.tokens]]
+text = " -0"
+desc = "用 NUL 分隔可靠传递含空格文件名，空输入不运行 ls；此处使用 -0 选项"
+
+[[commands.tokens]]
+text = " -r"
+desc = "用 NUL 分隔可靠传递含空格文件名，空输入不运行 ls；此处使用 -r 选项"
+
+[[commands.tokens]]
+text = " ls"
+desc = "用 NUL 分隔可靠传递含空格文件名，空输入不运行 ls；指定 ls"
+
+[[commands.tokens]]
+text = " -l"
+desc = "用 NUL 分隔可靠传递含空格文件名，空输入不运行 ls；此处使用 -l 选项"
+
+[commands.dictation]
+prompt = "用 NUL 分隔可靠传递含空格文件名，空输入不运行 ls"
+answers = ["find ~/ops-lab -type f -print0 | xargs -0 -r ls -l"]
+
+[[commands]]
+id = "v04-ex-55b0063e08"
+command = "ps -ef | head -n 4"
+summary = "将进程列表交给 head 只显示前四行"
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示进程快照及所选字段"
+
+[[commands.tokens]]
+text = " -ef"
+desc = "将进程列表交给 head 只显示前四行；此处使用 -ef 选项"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "将进程列表交给 head 只显示前四行；指定 head"
+
+[[commands.tokens]]
+text = " -n"
+desc = "将进程列表交给 head 只显示前四行；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 4"
+desc = "本次练习的数值参数 4；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "将进程列表交给 head 只显示前四行"
+answers = ["ps -ef | head -n 4"]
+
+[[commands]]
+id = "v04-ex-c557749386"
+command = "grep 'ERROR' backend.log | wc -l"
+summary = "计算实验后端 ERROR 匹配行数"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " 'ERROR'"
+desc = "引号保护此参数中的空格或特殊符号；计算实验后端 ERROR 匹配行数"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "计算实验后端 ERROR 匹配行数；指定 backend.log"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " wc"
+desc = "计算实验后端 ERROR 匹配行数；指定 wc"
+
+[[commands.tokens]]
+text = " -l"
+desc = "计算实验后端 ERROR 匹配行数；此处使用 -l 选项"
+
+[commands.dictation]
+prompt = "计算实验后端 ERROR 匹配行数"
+answers = ["grep 'ERROR' backend.log | wc -l"]
+
+[[commands]]
+id = "v04-ex-cd8e7b29fc"
+command = "printf 'mode=development\\n' > ~/ops-lab/app.conf"
+summary = "把实验配置写入文件，覆盖已有内容"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'mode=development\\n'"
+desc = "引号保护此参数中的空格或特殊符号；把实验配置写入文件，覆盖已有内容"
+
+[[commands.tokens]]
+text = " >"
+desc = "将标准输出写入目标并覆盖现有内容"
+
+[[commands.tokens]]
+text = " ~/ops-lab/app.conf"
+desc = "本次操作指定的路径：~/ops-lab/app.conf"
+
+[commands.dictation]
+prompt = "把实验配置写入文件，覆盖已有内容"
+answers = ["printf 'mode=development\\n' > ~/ops-lab/app.conf"]
+
+[[commands]]
+id = "v04-ex-038e7b14da"
+command = "date >> ~/ops-lab/deploy.log"
+summary = "把当前时间追加到实验部署日志"
+
+[[commands.tokens]]
+text = "date"
+desc = "把当前时间追加到实验部署日志"
+
+[[commands.tokens]]
+text = " >>"
+desc = "向目标文件追加标准输出"
+
+[[commands.tokens]]
+text = " ~/ops-lab/deploy.log"
+desc = "本次操作指定的路径：~/ops-lab/deploy.log"
+
+[commands.dictation]
+prompt = "把当前时间追加到实验部署日志"
+answers = ["date >> ~/ops-lab/deploy.log"]
+
+[[commands]]
+id = "v04-ex-c6090a59ed"
+command = "sort < ~/ops-lab/names.txt"
+summary = "从实验文件读取标准输入并排序输出"
+
+[[commands.tokens]]
+text = "sort"
+desc = "从实验文件读取标准输入并排序输出"
+
+[[commands.tokens]]
+text = " <"
+desc = "从指定文件读取标准输入"
+
+[[commands.tokens]]
+text = " ~/ops-lab/names.txt"
+desc = "本次操作指定的路径：~/ops-lab/names.txt"
+
+[commands.dictation]
+prompt = "从实验文件读取标准输入并排序输出"
+answers = ["sort < ~/ops-lab/names.txt"]
+
+[[commands]]
+id = "v04-ex-138dbc3390"
+command = "ls /var/log | head -n 3"
+summary = "把日志文件列表通过管道交给 head，保留前三行"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " /var/log"
+desc = "本次操作指定的路径：/var/log"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "把日志文件列表通过管道交给 head，保留前三行；指定 head"
+
+[[commands.tokens]]
+text = " -n"
+desc = "把日志文件列表通过管道交给 head，保留前三行；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "把日志文件列表通过管道交给 head，保留前三行"
+answers = ["ls /var/log | head -n 3"]
+
+[[commands]]
+id = "v04-ex-a54e02876e"
+command = "printf '%s\\n' alpha beta alpha | sort"
+summary = "把三行实验文本送给 sort 排序"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "引号保护此参数中的空格或特殊符号；把三行实验文本送给 sort 排序"
+
+[[commands.tokens]]
+text = " alpha"
+desc = "把三行实验文本送给 sort 排序；指定 alpha"
+
+[[commands.tokens]]
+text = " beta"
+desc = "把三行实验文本送给 sort 排序；指定 beta"
+
+[[commands.tokens]]
+text = " alpha"
+desc = "把三行实验文本送给 sort 排序；指定 alpha"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " sort"
+desc = "把三行实验文本送给 sort 排序；指定 sort"
+
+[commands.dictation]
+prompt = "把三行实验文本送给 sort 排序"
+answers = ["printf '%s\\n' alpha beta alpha | sort"]
+
+[[commands]]
+id = "v04-ex-f55e665e2f"
+command = "grep 'WARN' backend.log | wc -l"
+summary = "把匹配的警告行交给 wc 统计"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " 'WARN'"
+desc = "引号保护此参数中的空格或特殊符号；把匹配的警告行交给 wc 统计"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "把匹配的警告行交给 wc 统计；指定 backend.log"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " wc"
+desc = "把匹配的警告行交给 wc 统计；指定 wc"
+
+[[commands.tokens]]
+text = " -l"
+desc = "把匹配的警告行交给 wc 统计；此处使用 -l 选项"
+
+[commands.dictation]
+prompt = "把匹配的警告行交给 wc 统计"
+answers = ["grep 'WARN' backend.log | wc -l"]
+
+[[commands]]
+id = "v04-ex-fd967b9341"
+command = "printf 'hello\\n' > ~/ops-lab/greeting.txt"
+summary = "把实验问候写入文件，已有内容会被覆盖"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'hello\\n'"
+desc = "引号保护此参数中的空格或特殊符号；把实验问候写入文件，已有内容会被覆盖"
+
+[[commands.tokens]]
+text = " >"
+desc = "将标准输出写入目标并覆盖现有内容"
+
+[[commands.tokens]]
+text = " ~/ops-lab/greeting.txt"
+desc = "本次操作指定的路径：~/ops-lab/greeting.txt"
+
+[commands.dictation]
+prompt = "把实验问候写入文件，已有内容会被覆盖"
+answers = ["printf 'hello\\n' > ~/ops-lab/greeting.txt"]
+
+[[commands]]
+id = "v04-ex-e91c2f5e90"
+command = "ls ~/ops-lab > ~/ops-lab/inventory.txt"
+summary = "把实验目录列表保存为清单"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作指定的路径：~/ops-lab"
+
+[[commands.tokens]]
+text = " >"
+desc = "将标准输出写入目标并覆盖现有内容"
+
+[[commands.tokens]]
+text = " ~/ops-lab/inventory.txt"
+desc = "本次操作指定的路径：~/ops-lab/inventory.txt"
+
+[commands.dictation]
+prompt = "把实验目录列表保存为清单"
+answers = ["ls ~/ops-lab > ~/ops-lab/inventory.txt"]
+
+[[commands]]
+id = "v04-ex-1d6059d14c"
+command = "date -u > ~/ops-lab/checked-at.txt"
+summary = "保存 UTC 检查时间到实验文件"
+
+[[commands.tokens]]
+text = "date"
+desc = "保存 UTC 检查时间到实验文件"
+
+[[commands.tokens]]
+text = " -u"
+desc = "保存 UTC 检查时间到实验文件；此处使用 -u 选项"
+
+[[commands.tokens]]
+text = " >"
+desc = "将标准输出写入目标并覆盖现有内容"
+
+[[commands.tokens]]
+text = " ~/ops-lab/checked-at.txt"
+desc = "本次操作指定的路径：~/ops-lab/checked-at.txt"
+
+[commands.dictation]
+prompt = "保存 UTC 检查时间到实验文件"
+answers = ["date -u > ~/ops-lab/checked-at.txt"]
+
+[[commands]]
+id = "v04-ex-9dda04da0e"
+command = "printf 'started\\n' >> ~/ops-lab/deploy.log"
+summary = "向实验部署日志追加启动标记"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'started\\n'"
+desc = "引号保护此参数中的空格或特殊符号；向实验部署日志追加启动标记"
+
+[[commands.tokens]]
+text = " >>"
+desc = "向目标文件追加标准输出"
+
+[[commands.tokens]]
+text = " ~/ops-lab/deploy.log"
+desc = "本次操作指定的路径：~/ops-lab/deploy.log"
+
+[commands.dictation]
+prompt = "向实验部署日志追加启动标记"
+answers = ["printf 'started\\n' >> ~/ops-lab/deploy.log"]
+
+[[commands]]
+id = "v04-ex-08862ec49a"
+command = "date -u >> ~/ops-lab/deploy.log"
+summary = "在实验日志末尾追加 UTC 时间"
+
+[[commands.tokens]]
+text = "date"
+desc = "在实验日志末尾追加 UTC 时间"
+
+[[commands.tokens]]
+text = " -u"
+desc = "在实验日志末尾追加 UTC 时间；此处使用 -u 选项"
+
+[[commands.tokens]]
+text = " >>"
+desc = "向目标文件追加标准输出"
+
+[[commands.tokens]]
+text = " ~/ops-lab/deploy.log"
+desc = "本次操作指定的路径：~/ops-lab/deploy.log"
+
+[commands.dictation]
+prompt = "在实验日志末尾追加 UTC 时间"
+answers = ["date -u >> ~/ops-lab/deploy.log"]
+
+[[commands]]
+id = "v04-ex-3f56640ef2"
+command = "printf 'finished\\n' >> ~/ops-lab/deploy.log"
+summary = "追加结束标记，保留之前内容"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'finished\\n'"
+desc = "引号保护此参数中的空格或特殊符号；追加结束标记，保留之前内容"
+
+[[commands.tokens]]
+text = " >>"
+desc = "向目标文件追加标准输出"
+
+[[commands.tokens]]
+text = " ~/ops-lab/deploy.log"
+desc = "本次操作指定的路径：~/ops-lab/deploy.log"
+
+[commands.dictation]
+prompt = "追加结束标记，保留之前内容"
+answers = ["printf 'finished\\n' >> ~/ops-lab/deploy.log"]
+
+[[commands]]
+id = "v04-ex-e7e461013d"
+command = "ls ~/ops-lab/missing 2> ~/ops-lab/errors.txt"
+summary = "只把查找缺失路径的标准错误保存到文件"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " ~/ops-lab/missing"
+desc = "本次操作指定的路径：~/ops-lab/missing"
+
+[[commands.tokens]]
+text = " 2>"
+desc = "重定向标准错误"
+
+[[commands.tokens]]
+text = " ~/ops-lab/errors.txt"
+desc = "本次操作指定的路径：~/ops-lab/errors.txt"
+
+[commands.dictation]
+prompt = "只把查找缺失路径的标准错误保存到文件"
+answers = ["ls ~/ops-lab/missing 2> ~/ops-lab/errors.txt"]
+
+[[commands]]
+id = "v04-ex-c6a773694c"
+command = "find /var/log -type f 2> ~/ops-lab/find-errors.txt"
+summary = "保存遍历权限错误，正常路径仍在标准输出"
+
+[[commands.tokens]]
+text = "find"
+desc = "按路径、类型或属性筛选文件"
+
+[[commands.tokens]]
+text = " /var/log"
+desc = "本次操作指定的路径：/var/log"
+
+[[commands.tokens]]
+text = " -type"
+desc = "保存遍历权限错误，正常路径仍在标准输出；此处使用 -type 选项"
+
+[[commands.tokens]]
+text = " f"
+desc = "保存遍历权限错误，正常路径仍在标准输出；指定 f"
+
+[[commands.tokens]]
+text = " 2>"
+desc = "重定向标准错误"
+
+[[commands.tokens]]
+text = " ~/ops-lab/find-errors.txt"
+desc = "本次操作指定的路径：~/ops-lab/find-errors.txt"
+
+[commands.dictation]
+prompt = "保存遍历权限错误，正常路径仍在标准输出"
+answers = ["find /var/log -type f 2> ~/ops-lab/find-errors.txt"]
+
+[[commands]]
+id = "v04-ex-1977e75759"
+command = "python3 ~/ops-lab/check.py 2> ~/ops-lab/python-errors.txt"
+summary = "把实验脚本异常输出单独记录"
+
+[[commands.tokens]]
+text = "python3"
+desc = "运行 Python 3 解释器或标准库工具"
+
+[[commands.tokens]]
+text = " ~/ops-lab/check.py"
+desc = "本次操作指定的路径：~/ops-lab/check.py"
+
+[[commands.tokens]]
+text = " 2>"
+desc = "重定向标准错误"
+
+[[commands.tokens]]
+text = " ~/ops-lab/python-errors.txt"
+desc = "本次操作指定的路径：~/ops-lab/python-errors.txt"
+
+[commands.dictation]
+prompt = "把实验脚本异常输出单独记录"
+answers = ["python3 ~/ops-lab/check.py 2> ~/ops-lab/python-errors.txt"]
+
+[[commands]]
+id = "v04-ex-aa6e14365c"
+command = "ls /etc /missing 2>&1 | head -n 5"
+summary = "先合并标准错误到标准输出，再经管道截取前五行"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " /etc"
+desc = "本次操作指定的路径：/etc"
+
+[[commands.tokens]]
+text = " /missing"
+desc = "本次操作指定的路径：/missing"
+
+[[commands.tokens]]
+text = " 2>&1"
+desc = "让标准错误复制当前标准输出的去向"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "先合并标准错误到标准输出，再经管道截取前五行；指定 head"
+
+[[commands.tokens]]
+text = " -n"
+desc = "先合并标准错误到标准输出，再经管道截取前五行；此处使用 -n 选项"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[commands.dictation]
+prompt = "先合并标准错误到标准输出，再经管道截取前五行"
+answers = ["ls /etc /missing 2>&1 | head -n 5"]
+
+[[commands]]
+id = "v04-ex-8bd0e829da"
+command = "python3 ~/ops-lab/check.py > ~/ops-lab/run.log 2>&1"
+summary = "先指定日志文件，再让标准错误跟随当前标准输出"
+
+[[commands.tokens]]
+text = "python3"
+desc = "运行 Python 3 解释器或标准库工具"
+
+[[commands.tokens]]
+text = " ~/ops-lab/check.py"
+desc = "本次操作指定的路径：~/ops-lab/check.py"
+
+[[commands.tokens]]
+text = " >"
+desc = "将标准输出写入目标并覆盖现有内容"
+
+[[commands.tokens]]
+text = " ~/ops-lab/run.log"
+desc = "本次操作指定的路径：~/ops-lab/run.log"
+
+[[commands.tokens]]
+text = " 2>&1"
+desc = "让标准错误复制当前标准输出的去向"
+
+[commands.dictation]
+prompt = "先指定日志文件，再让标准错误跟随当前标准输出"
+answers = ["python3 ~/ops-lab/check.py > ~/ops-lab/run.log 2>&1"]
+
+[[commands]]
+id = "v04-ex-2843d309be"
+command = "ls ~/ops-lab/missing 2>&1 | wc -l"
+summary = "合并错误输出后统计诊断消息行数"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出路径条目或元数据"
+
+[[commands.tokens]]
+text = " ~/ops-lab/missing"
+desc = "本次操作指定的路径：~/ops-lab/missing"
+
+[[commands.tokens]]
+text = " 2>&1"
+desc = "让标准错误复制当前标准输出的去向"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " wc"
+desc = "合并错误输出后统计诊断消息行数；指定 wc"
+
+[[commands.tokens]]
+text = " -l"
+desc = "合并错误输出后统计诊断消息行数；此处使用 -l 选项"
+
+[commands.dictation]
+prompt = "合并错误输出后统计诊断消息行数"
+answers = ["ls ~/ops-lab/missing 2>&1 | wc -l"]
+
+[[commands]]
+id = "v04-ex-685cba5a02"
+command = "wc -l < ~/ops-lab/notes.txt"
+summary = "通过标准输入统计实验笔记行数"
+
+[[commands.tokens]]
+text = "wc"
+desc = "通过标准输入统计实验笔记行数"
+
+[[commands.tokens]]
+text = " -l"
+desc = "通过标准输入统计实验笔记行数；此处使用 -l 选项"
+
+[[commands.tokens]]
+text = " <"
+desc = "从指定文件读取标准输入"
+
+[[commands.tokens]]
+text = " ~/ops-lab/notes.txt"
+desc = "本次操作指定的路径：~/ops-lab/notes.txt"
+
+[commands.dictation]
+prompt = "通过标准输入统计实验笔记行数"
+answers = ["wc -l < ~/ops-lab/notes.txt"]
+
+[[commands]]
+id = "v04-ex-b402dae83f"
+command = "sort < ~/ops-lab/hosts.txt"
+summary = "从重定向输入读取实验主机列表并排序"
+
+[[commands.tokens]]
+text = "sort"
+desc = "从重定向输入读取实验主机列表并排序"
+
+[[commands.tokens]]
+text = " <"
+desc = "从指定文件读取标准输入"
+
+[[commands.tokens]]
+text = " ~/ops-lab/hosts.txt"
+desc = "本次操作指定的路径：~/ops-lab/hosts.txt"
+
+[commands.dictation]
+prompt = "从重定向输入读取实验主机列表并排序"
+answers = ["sort < ~/ops-lab/hosts.txt"]
+
+[[commands]]
+id = "v04-ex-b1bbe38d1c"
+command = "python3 -m json.tool < ~/ops-lab/response.json"
+summary = "通过标准输入验证和格式化实验 JSON"
+
+[[commands.tokens]]
+text = "python3"
+desc = "运行 Python 3 解释器或标准库工具"
+
+[[commands.tokens]]
+text = " -m"
+desc = "运行指定模块作为程序"
+
+[[commands.tokens]]
+text = " json.tool"
+desc = "通过标准输入验证和格式化实验 JSON；指定 json.tool"
+
+[[commands.tokens]]
+text = " <"
+desc = "从指定文件读取标准输入"
+
+[[commands.tokens]]
+text = " ~/ops-lab/response.json"
+desc = "本次操作指定的路径：~/ops-lab/response.json"
+
+[commands.dictation]
+prompt = "通过标准输入验证和格式化实验 JSON"
+answers = ["python3 -m json.tool < ~/ops-lab/response.json"]
+
+[[commands]]
+id = "v04-ex-fdd519fb34"
+command = "cat <<'TEXT'\nhello\nTEXT"
+summary = "输入带引号结束标识的 here-document，正文不做变量展开"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " <<'TEXT'"
+desc = "输入带引号结束标识的 here-document，正文不做变量展开；指定 <<'TEXT'"
+
+[[commands.tokens]]
+text = "\nhello"
+desc = "输入带引号结束标识的 here-document，正文不做变量展开；指定 hello"
+
+[[commands.tokens]]
+text = "\nTEXT"
+desc = "输入带引号结束标识的 here-document，正文不做变量展开；指定 TEXT"
+
+[commands.dictation]
+prompt = "输入带引号结束标识的 here-document，正文不做变量展开"
+answers = ["cat <<'TEXT'\nhello\nTEXT"]
+
+[[commands]]
+id = "v04-ex-0235108569"
+command = "cat <<'CONFIG'\nport=8000\nCONFIG"
+summary = "用 here-document 演示一行实验配置"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " <<'CONFIG'"
+desc = "用 here-document 演示一行实验配置；指定 <<'CONFIG'"
+
+[[commands.tokens]]
+text = "\nport=8000"
+desc = "用 here-document 演示一行实验配置；指定 port=8000"
+
+[[commands.tokens]]
+text = "\nCONFIG"
+desc = "用 here-document 演示一行实验配置；指定 CONFIG"
+
+[commands.dictation]
+prompt = "用 here-document 演示一行实验配置"
+answers = ["cat <<'CONFIG'\nport=8000\nCONFIG"]
+
+[[commands]]
+id = "v04-ex-4bfbfde272"
+command = "cat <<'VARS'\n$HOME\nVARS"
+summary = "观察带引号结束标识保护正文中的变量名"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " <<'VARS'"
+desc = "观察带引号结束标识保护正文中的变量名；指定 <<'VARS'"
+
+[[commands.tokens]]
+text = "\n$HOME"
+desc = "观察带引号结束标识保护正文中的变量名；指定 $HOME"
+
+[[commands.tokens]]
+text = "\nVARS"
+desc = "观察带引号结束标识保护正文中的变量名；指定 VARS"
+
+[commands.dictation]
+prompt = "观察带引号结束标识保护正文中的变量名"
+answers = ["cat <<'VARS'\n$HOME\nVARS"]
+
+[[commands]]
+id = "v04-ex-725374647f"
+command = "date -u | tee ~/ops-lab/checked-at.txt"
+summary = "同时显示 UTC 时间并写入实验文件"
+
+[[commands.tokens]]
+text = "date"
+desc = "同时显示 UTC 时间并写入实验文件"
+
+[[commands.tokens]]
+text = " -u"
+desc = "同时显示 UTC 时间并写入实验文件；此处使用 -u 选项"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " tee"
+desc = "同时显示 UTC 时间并写入实验文件；指定 tee"
+
+[[commands.tokens]]
+text = " ~/ops-lab/checked-at.txt"
+desc = "本次操作指定的路径：~/ops-lab/checked-at.txt"
+
+[commands.dictation]
+prompt = "同时显示 UTC 时间并写入实验文件"
+answers = ["date -u | tee ~/ops-lab/checked-at.txt"]
+
+[[commands]]
+id = "v04-ex-ab0f00ec72"
+command = "printf 'ready\\n' | tee -a ~/ops-lab/deploy.log"
+summary = "同时显示状态并追加日志"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'ready\\n'"
+desc = "引号保护此参数中的空格或特殊符号；同时显示状态并追加日志"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " tee"
+desc = "同时显示状态并追加日志；指定 tee"
+
+[[commands.tokens]]
+text = " -a"
+desc = "同时显示状态并追加日志；此处使用 -a 选项"
+
+[[commands.tokens]]
+text = " ~/ops-lab/deploy.log"
+desc = "本次操作指定的路径：~/ops-lab/deploy.log"
+
+[commands.dictation]
+prompt = "同时显示状态并追加日志"
+answers = ["printf 'ready\\n' | tee -a ~/ops-lab/deploy.log"]
+
+[[commands]]
+id = "v04-ex-0aa45dbaa7"
+command = "df -h / | tee ~/ops-lab/disk-report.txt"
+summary = "把根文件系统容量报告同时显示和保存"
+
+[[commands.tokens]]
+text = "df"
+desc = "把根文件系统容量报告同时显示和保存"
+
+[[commands.tokens]]
+text = " -h"
+desc = "把根文件系统容量报告同时显示和保存；此处使用 -h 选项"
+
+[[commands.tokens]]
+text = " /"
+desc = "本次操作指定的路径：/"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " tee"
+desc = "把根文件系统容量报告同时显示和保存；指定 tee"
+
+[[commands.tokens]]
+text = " ~/ops-lab/disk-report.txt"
+desc = "本次操作指定的路径：~/ops-lab/disk-report.txt"
+
+[commands.dictation]
+prompt = "把根文件系统容量报告同时显示和保存"
+answers = ["df -h / | tee ~/ops-lab/disk-report.txt"]

@@ -1,0 +1,370 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "目标在本地链路时检查邻居解析；FAILED 表示解析失败，STALE 并不等于故障。"
+
+[meta.topic]
+id = "v04_neighbor"
+title = "ARP 与邻居解析"
+icon = "🌐"
+order = 104
+
+[[commands]]
+id = "v04-neighbor-01383e10a2"
+command = "ip neigh show dev ens33"
+summary = "查看指定网卡的 IPv4 ARP 与 IPv6 邻居缓存"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " neigh"
+desc = "查看指定网卡的 IPv4 ARP 与 IPv6 邻居缓存；指定 neigh"
+
+[[commands.tokens]]
+text = " show"
+desc = "查看指定网卡的 IPv4 ARP 与 IPv6 邻居缓存；指定 show"
+
+[[commands.tokens]]
+text = " dev"
+desc = "查看指定网卡的 IPv4 ARP 与 IPv6 邻居缓存；指定 dev"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "查看指定网卡的 IPv4 ARP 与 IPv6 邻居缓存；指定 ens33"
+
+[commands.dictation]
+prompt = "查看指定网卡的 IPv4 ARP 与 IPv6 邻居缓存"
+answers = ["ip neigh show dev ens33"]
+
+[[commands]]
+id = "v04-neighbor-e7b9c19679"
+command = "ip -4 neigh show"
+summary = "只显示 IPv4 邻居，关联本地网关 MAC"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -4"
+desc = "限制为 IPv4"
+
+[[commands.tokens]]
+text = " neigh"
+desc = "只显示 IPv4 邻居，关联本地网关 MAC；指定 neigh"
+
+[[commands.tokens]]
+text = " show"
+desc = "只显示 IPv4 邻居，关联本地网关 MAC；指定 show"
+
+[commands.dictation]
+prompt = "只显示 IPv4 邻居，关联本地网关 MAC"
+answers = ["ip -4 neigh show"]
+
+[[commands]]
+id = "v04-neighbor-d1f9fd561f"
+command = "ip -6 neigh show"
+summary = "只显示 IPv6 邻居，观察 NUD 状态"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -6"
+desc = "限制为 IPv6"
+
+[[commands.tokens]]
+text = " neigh"
+desc = "只显示 IPv6 邻居，观察 NUD 状态；指定 neigh"
+
+[[commands.tokens]]
+text = " show"
+desc = "只显示 IPv6 邻居，观察 NUD 状态；指定 show"
+
+[commands.dictation]
+prompt = "只显示 IPv6 邻居，观察 NUD 状态"
+answers = ["ip -6 neigh show"]
+
+[[commands]]
+id = "v04-neighbor-c0ccb1a9fa"
+command = "ip neigh show to 192.0.2.1"
+summary = "查看到实验网关的邻居解析状态"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " neigh"
+desc = "查看到实验网关的邻居解析状态；指定 neigh"
+
+[[commands.tokens]]
+text = " show"
+desc = "查看到实验网关的邻居解析状态；指定 show"
+
+[[commands.tokens]]
+text = " to"
+desc = "查看到实验网关的邻居解析状态；指定 to"
+
+[[commands.tokens]]
+text = " 192.0.2.1"
+desc = "查看到实验网关的邻居解析状态；指定 192.0.2.1"
+
+[commands.dictation]
+prompt = "查看到实验网关的邻居解析状态"
+answers = ["ip neigh show to 192.0.2.1"]
+
+[[commands]]
+id = "v04-neighbor-633df81886"
+command = "ip neigh show nud failed"
+summary = "筛选解析失败的邻居，作为链路排查线索"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " neigh"
+desc = "筛选解析失败的邻居，作为链路排查线索；指定 neigh"
+
+[[commands.tokens]]
+text = " show"
+desc = "筛选解析失败的邻居，作为链路排查线索；指定 show"
+
+[[commands.tokens]]
+text = " nud"
+desc = "筛选解析失败的邻居，作为链路排查线索；指定 nud"
+
+[[commands.tokens]]
+text = " failed"
+desc = "筛选解析失败的邻居，作为链路排查线索；指定 failed"
+
+[commands.dictation]
+prompt = "筛选解析失败的邻居，作为链路排查线索"
+answers = ["ip neigh show nud failed"]
+
+[[commands]]
+id = "v04-neighbor-394bd6b826"
+command = "ip neigh show nud incomplete"
+summary = "筛选尚未完成解析的邻居，结合抓包判断是否有应答"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " neigh"
+desc = "筛选尚未完成解析的邻居，结合抓包判断是否有应答；指定 neigh"
+
+[[commands.tokens]]
+text = " show"
+desc = "筛选尚未完成解析的邻居，结合抓包判断是否有应答；指定 show"
+
+[[commands.tokens]]
+text = " nud"
+desc = "筛选尚未完成解析的邻居，结合抓包判断是否有应答；指定 nud"
+
+[[commands.tokens]]
+text = " incomplete"
+desc = "筛选尚未完成解析的邻居，结合抓包判断是否有应答；指定 incomplete"
+
+[commands.dictation]
+prompt = "筛选尚未完成解析的邻居，结合抓包判断是否有应答"
+answers = ["ip neigh show nud incomplete"]
+
+[[commands]]
+id = "v04-neighbor-02db6bc52a"
+command = "ip neigh show nud stale"
+summary = "查看陈旧缓存；STALE 是待重新验证状态，并不直接表示断网"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " neigh"
+desc = "查看陈旧缓存；STALE 是待重新验证状态，并不直接表示断网；指定 neigh"
+
+[[commands.tokens]]
+text = " show"
+desc = "查看陈旧缓存；STALE 是待重新验证状态，并不直接表示断网；指定 show"
+
+[[commands.tokens]]
+text = " nud"
+desc = "查看陈旧缓存；STALE 是待重新验证状态，并不直接表示断网；指定 nud"
+
+[[commands.tokens]]
+text = " stale"
+desc = "查看陈旧缓存；STALE 是待重新验证状态，并不直接表示断网；指定 stale"
+
+[commands.dictation]
+prompt = "查看陈旧缓存；STALE 是待重新验证状态，并不直接表示断网"
+answers = ["ip neigh show nud stale"]
+
+[[commands]]
+id = "v04-neighbor-08d0998783"
+command = "sudo arping -I ens33 -c 3 192.0.2.1"
+summary = "在同一二层链路测试网关 ARP 应答，需要 arping 工具"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " arping"
+desc = "在同一二层链路测试网关 ARP 应答，需要 arping 工具"
+
+[[commands.tokens]]
+text = " -I"
+desc = "在同一二层链路测试网关 ARP 应答，需要 arping 工具；此处使用 -I 选项"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "在同一二层链路测试网关 ARP 应答，需要 arping 工具；指定 ens33"
+
+[[commands.tokens]]
+text = " -c"
+desc = "在同一二层链路测试网关 ARP 应答，需要 arping 工具；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 192.0.2.1"
+desc = "在同一二层链路测试网关 ARP 应答，需要 arping 工具；指定 192.0.2.1"
+
+[commands.dictation]
+prompt = "在同一二层链路测试网关 ARP 应答，需要 arping 工具"
+answers = ["sudo arping -I ens33 -c 3 192.0.2.1"]
+
+[[commands]]
+id = "v04-neighbor-9d8e5a21e9"
+command = "sudo arping -D -I ens33 -c 3 192.0.2.10"
+summary = "对实验地址执行重复地址检测，结合工具退出状态判断冲突"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " arping"
+desc = "对实验地址执行重复地址检测，结合工具退出状态判断冲突"
+
+[[commands.tokens]]
+text = " -D"
+desc = "对实验地址执行重复地址检测，结合工具退出状态判断冲突；此处使用 -D 选项"
+
+[[commands.tokens]]
+text = " -I"
+desc = "对实验地址执行重复地址检测，结合工具退出状态判断冲突；此处使用 -I 选项"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "对实验地址执行重复地址检测，结合工具退出状态判断冲突；指定 ens33"
+
+[[commands.tokens]]
+text = " -c"
+desc = "对实验地址执行重复地址检测，结合工具退出状态判断冲突；此处使用 -c 选项"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 192.0.2.10"
+desc = "对实验地址执行重复地址检测，结合工具退出状态判断冲突；指定 192.0.2.10"
+
+[commands.dictation]
+prompt = "对实验地址执行重复地址检测，结合工具退出状态判断冲突"
+answers = ["sudo arping -D -I ens33 -c 3 192.0.2.10"]
+
+[[commands]]
+id = "v04-neighbor-5ee0cd4331"
+command = "sudo tcpdump -ni ens33 -c 10 arp"
+summary = "捕获十个 ARP 包，核对 who-has 请求和 is-at 应答"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "捕获十个 ARP 包，核对 who-has 请求和 is-at 应答；指定 ens33"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 10"
+desc = "本次练习的数值参数 10；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " arp"
+desc = "捕获十个 ARP 包，核对 who-has 请求和 is-at 应答；指定 arp"
+
+[commands.dictation]
+prompt = "捕获十个 ARP 包，核对 who-has 请求和 is-at 应答"
+answers = ["sudo tcpdump -ni ens33 -c 10 arp"]
+
+[[commands]]
+id = "v04-neighbor-771a4dcfb7"
+command = "ip -s neigh show dev ens33"
+summary = "显示邻居使用统计，辅助确认最近活动"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -s"
+desc = "显示统计计数"
+
+[[commands.tokens]]
+text = " neigh"
+desc = "显示邻居使用统计，辅助确认最近活动；指定 neigh"
+
+[[commands.tokens]]
+text = " show"
+desc = "显示邻居使用统计，辅助确认最近活动；指定 show"
+
+[[commands.tokens]]
+text = " dev"
+desc = "显示邻居使用统计，辅助确认最近活动；指定 dev"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "显示邻居使用统计，辅助确认最近活动；指定 ens33"
+
+[commands.dictation]
+prompt = "显示邻居使用统计，辅助确认最近活动"
+answers = ["ip -s neigh show dev ens33"]
+
+[[commands]]
+id = "v04-neighbor-304f441ba2"
+command = "cat /proc/net/arp"
+summary = "读取 IPv4 ARP 缓存；IPv6 邻居不在此文件中"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /proc/net/arp"
+desc = "本次操作指定的路径：/proc/net/arp"
+
+[commands.dictation]
+prompt = "读取 IPv4 ARP 缓存；IPv6 邻居不在此文件中"
+answers = ["cat /proc/net/arp"]

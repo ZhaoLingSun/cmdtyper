@@ -1,0 +1,813 @@
+
+[meta]
+category = "search"
+difficulty = "beginner"
+description = "基础用法的短练习：目标已在隔离实验环境中准备，按提示完成单一任务。"
+
+[[commands]]
+id = "v04-ex-f2cb348cdf"
+command = "find ~/ops-lab -type f -name '*.txt'"
+summary = "在实验目录查找 txt 普通文件，引号阻止 shell 提前展开"
+
+[[commands.tokens]]
+text = "find"
+desc = "按路径、类型或属性筛选文件"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作指定的路径：~/ops-lab"
+
+[[commands.tokens]]
+text = " -type"
+desc = "在实验目录查找 txt 普通文件，引号阻止 shell 提前展开；此处使用 -type 选项"
+
+[[commands.tokens]]
+text = " f"
+desc = "在实验目录查找 txt 普通文件，引号阻止 shell 提前展开；指定 f"
+
+[[commands.tokens]]
+text = " -name"
+desc = "在实验目录查找 txt 普通文件，引号阻止 shell 提前展开；此处使用 -name 选项"
+
+[[commands.tokens]]
+text = " '*.txt'"
+desc = "引号保护此参数中的空格或特殊符号；在实验目录查找 txt 普通文件，引号阻止 shell 提前展开"
+
+[commands.dictation]
+prompt = "在实验目录查找 txt 普通文件，引号阻止 shell 提前展开"
+answers = ["find ~/ops-lab -type f -name '*.txt'"]
+
+[[commands]]
+id = "v04-ex-a97633e2ea"
+command = "find ~/ops-lab -type f -iname '*.LOG'"
+summary = "忽略大小写查找实验日志扩展名"
+
+[[commands.tokens]]
+text = "find"
+desc = "按路径、类型或属性筛选文件"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "本次操作指定的路径：~/ops-lab"
+
+[[commands.tokens]]
+text = " -type"
+desc = "忽略大小写查找实验日志扩展名；此处使用 -type 选项"
+
+[[commands.tokens]]
+text = " f"
+desc = "忽略大小写查找实验日志扩展名；指定 f"
+
+[[commands.tokens]]
+text = " -iname"
+desc = "忽略大小写查找实验日志扩展名；此处使用 -iname 选项"
+
+[[commands.tokens]]
+text = " '*.LOG'"
+desc = "引号保护此参数中的空格或特殊符号；忽略大小写查找实验日志扩展名"
+
+[commands.dictation]
+prompt = "忽略大小写查找实验日志扩展名"
+answers = ["find ~/ops-lab -type f -iname '*.LOG'"]
+
+[[commands]]
+id = "v04-ex-1551ed06a6"
+command = "find ~/ops-lab -maxdepth 2 -type f -name '*.pdf'"
+summary = "在实验目录两层以内按名称模式查找 PDF 普通文件，引号防止 shell 提前展开"
+
+[[commands.tokens]]
+text = "find"
+desc = "按条件查找文件"
+
+[[commands.tokens]]
+text = " ~/ops-lab"
+desc = "隔离实验目录"
+
+[[commands.tokens]]
+text = " -maxdepth"
+desc = "限制遍历深度"
+
+[[commands.tokens]]
+text = " 2"
+desc = "最多向下两层"
+
+[[commands.tokens]]
+text = " -type"
+desc = "按类型筛选"
+
+[[commands.tokens]]
+text = " f"
+desc = "只选择普通文件"
+
+[[commands.tokens]]
+text = " -name"
+desc = "匹配文件基本名称"
+
+[[commands.tokens]]
+text = " '*.pdf'"
+desc = "引用通配模式，由 find 匹配 PDF 扩展名"
+
+[commands.dictation]
+prompt = "在实验目录两层以内按名称模式查找 PDF 普通文件，引号防止 shell 提前展开"
+answers = ["find ~/ops-lab -maxdepth 2 -type f -name '*.pdf'"]
+
+[[commands]]
+id = "v04-ex-37145bd0d0"
+command = "grep 'warning' backend.log"
+summary = "筛选实验后端日志中的小写 warning 行"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " 'warning'"
+desc = "引号保护此参数中的空格或特殊符号；筛选实验后端日志中的小写 warning 行"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "筛选实验后端日志中的小写 warning 行；指定 backend.log"
+
+[commands.dictation]
+prompt = "筛选实验后端日志中的小写 warning 行"
+answers = ["grep 'warning' backend.log"]
+
+[[commands]]
+id = "v04-ex-a5813cea1a"
+command = "grep -i 'timeout' backend.log"
+summary = "忽略大小写筛选实验超时记录"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " -i"
+desc = "忽略大小写"
+
+[[commands.tokens]]
+text = " 'timeout'"
+desc = "引号保护此参数中的空格或特殊符号；忽略大小写筛选实验超时记录"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "忽略大小写筛选实验超时记录；指定 backend.log"
+
+[commands.dictation]
+prompt = "忽略大小写筛选实验超时记录"
+answers = ["grep -i 'timeout' backend.log"]
+
+[[commands]]
+id = "v04-ex-a8b11965c5"
+command = "locate sshd_config"
+summary = "从文件索引查找 SSH 服务端配置，结果可能滞后于磁盘"
+
+[[commands.tokens]]
+text = "locate"
+desc = "从文件索引查找 SSH 服务端配置，结果可能滞后于磁盘"
+
+[[commands.tokens]]
+text = " sshd_config"
+desc = "从文件索引查找 SSH 服务端配置，结果可能滞后于磁盘；指定 sshd_config"
+
+[commands.dictation]
+prompt = "从文件索引查找 SSH 服务端配置，结果可能滞后于磁盘"
+answers = ["locate sshd_config"]
+
+[[commands]]
+id = "v04-ex-2e0dbcfe56"
+command = "locate -b '\\nginx.conf'"
+summary = "按基本文件名查找 nginx 配置"
+
+[[commands.tokens]]
+text = "locate"
+desc = "按基本文件名查找 nginx 配置"
+
+[[commands.tokens]]
+text = " -b"
+desc = "按基本文件名查找 nginx 配置；此处使用 -b 选项"
+
+[[commands.tokens]]
+text = " '\\nginx.conf'"
+desc = "引号保护此参数中的空格或特殊符号；按基本文件名查找 nginx 配置"
+
+[commands.dictation]
+prompt = "按基本文件名查找 nginx 配置"
+answers = ["locate -b '\\nginx.conf'"]
+
+[[commands]]
+id = "v04-ex-e6f9f5f8c1"
+command = "locate -e hosts"
+summary = "只显示索引中当前仍存在的匹配路径"
+
+[[commands.tokens]]
+text = "locate"
+desc = "只显示索引中当前仍存在的匹配路径"
+
+[[commands.tokens]]
+text = " -e"
+desc = "只显示索引中当前仍存在的匹配路径；此处使用 -e 选项"
+
+[[commands.tokens]]
+text = " hosts"
+desc = "只显示索引中当前仍存在的匹配路径；指定 hosts"
+
+[commands.dictation]
+prompt = "只显示索引中当前仍存在的匹配路径"
+answers = ["locate -e hosts"]
+
+[[commands]]
+id = "v04-ex-2a0b8c6b33"
+command = "printf 'cat\\ncut\\ncoat\\n' | grep '^c.t$'"
+summary = "正则点匹配单个字符，锚点限制整行"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'cat\\ncut\\ncoat\\n'"
+desc = "引号保护此参数中的空格或特殊符号；正则点匹配单个字符，锚点限制整行"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " grep"
+desc = "正则点匹配单个字符，锚点限制整行；指定 grep"
+
+[[commands.tokens]]
+text = " '^c.t$'"
+desc = "引号保护此参数中的空格或特殊符号；正则点匹配单个字符，锚点限制整行"
+
+[commands.dictation]
+prompt = "正则点匹配单个字符，锚点限制整行"
+answers = ["printf 'cat\\ncut\\ncoat\\n' | grep '^c.t$'"]
+
+[[commands]]
+id = "v04-ex-89ffe7b2e7"
+command = "printf 'log\\nlag\\nlg\\n' | grep '^l.g$'"
+summary = "比较单字符位置缺失时是否匹配"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'log\\nlag\\nlg\\n'"
+desc = "引号保护此参数中的空格或特殊符号；比较单字符位置缺失时是否匹配"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " grep"
+desc = "比较单字符位置缺失时是否匹配；指定 grep"
+
+[[commands.tokens]]
+text = " '^l.g$'"
+desc = "引号保护此参数中的空格或特殊符号；比较单字符位置缺失时是否匹配"
+
+[commands.dictation]
+prompt = "比较单字符位置缺失时是否匹配"
+answers = ["printf 'log\\nlag\\nlg\\n' | grep '^l.g$'"]
+
+[[commands]]
+id = "v04-ex-b262b8a970"
+command = "grep '5.0' status.txt"
+summary = "在实验状态文本中练习点匹配任意一个字符，不是字面小数点"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " '5.0'"
+desc = "引号保护此参数中的空格或特殊符号；在实验状态文本中练习点匹配任意一个字符，不是字面小数点"
+
+[[commands.tokens]]
+text = " status.txt"
+desc = "在实验状态文本中练习点匹配任意一个字符，不是字面小数点；指定 status.txt"
+
+[commands.dictation]
+prompt = "在实验状态文本中练习点匹配任意一个字符，不是字面小数点"
+answers = ["grep '5.0' status.txt"]
+
+[[commands]]
+id = "v04-ex-1c38215917"
+command = "printf 'ac\\nabc\\nabbc\\n' | grep '^ab*c$'"
+summary = "星号重复前面的 b 零次或多次"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'ac\\nabc\\nabbc\\n'"
+desc = "引号保护此参数中的空格或特殊符号；星号重复前面的 b 零次或多次"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " grep"
+desc = "星号重复前面的 b 零次或多次；指定 grep"
+
+[[commands.tokens]]
+text = " '^ab*c$'"
+desc = "引号保护此参数中的空格或特殊符号；星号重复前面的 b 零次或多次"
+
+[commands.dictation]
+prompt = "星号重复前面的 b 零次或多次"
+answers = ["printf 'ac\\nabc\\nabbc\\n' | grep '^ab*c$'"]
+
+[[commands]]
+id = "v04-ex-ccad047039"
+command = "grep 'ERROR.*timeout' backend.log"
+summary = "点星组合匹配错误与 timeout 之间任意长度文本"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " 'ERROR.*timeout'"
+desc = "引号保护此参数中的空格或特殊符号；点星组合匹配错误与 timeout 之间任意长度文本"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "点星组合匹配错误与 timeout 之间任意长度文本；指定 backend.log"
+
+[commands.dictation]
+prompt = "点星组合匹配错误与 timeout 之间任意长度文本"
+answers = ["grep 'ERROR.*timeout' backend.log"]
+
+[[commands]]
+id = "v04-ex-d6b283af47"
+command = "printf 'ab\\nabb\\nac\\n' | grep '^abb*$'"
+summary = "观察星号只作用于紧邻的前一个 b"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'ab\\nabb\\nac\\n'"
+desc = "引号保护此参数中的空格或特殊符号；观察星号只作用于紧邻的前一个 b"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " grep"
+desc = "观察星号只作用于紧邻的前一个 b；指定 grep"
+
+[[commands.tokens]]
+text = " '^abb*$'"
+desc = "引号保护此参数中的空格或特殊符号；观察星号只作用于紧邻的前一个 b"
+
+[commands.dictation]
+prompt = "观察星号只作用于紧邻的前一个 b"
+answers = ["printf 'ab\\nabb\\nac\\n' | grep '^abb*$'"]
+
+[[commands]]
+id = "v04-ex-d2cb99820f"
+command = "printf 'ac\\nabc\\nabbc\\n' | grep -E '^ab+c$'"
+summary = "扩展正则加号要求 b 至少出现一次"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'ac\\nabc\\nabbc\\n'"
+desc = "引号保护此参数中的空格或特殊符号；扩展正则加号要求 b 至少出现一次"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " grep"
+desc = "扩展正则加号要求 b 至少出现一次；指定 grep"
+
+[[commands.tokens]]
+text = " -E"
+desc = "扩展正则加号要求 b 至少出现一次；此处使用 -E 选项"
+
+[[commands.tokens]]
+text = " '^ab+c$'"
+desc = "引号保护此参数中的空格或特殊符号；扩展正则加号要求 b 至少出现一次"
+
+[commands.dictation]
+prompt = "扩展正则加号要求 b 至少出现一次"
+answers = ["printf 'ac\\nabc\\nabbc\\n' | grep -E '^ab+c$'"]
+
+[[commands]]
+id = "v04-ex-0e8b7e59d9"
+command = "grep -E '^[0-9]+$' ports.txt"
+summary = "只选择完全由一位或多位数字组成的行"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " -E"
+desc = "使用扩展正则表达式"
+
+[[commands.tokens]]
+text = " '^[0-9]+$'"
+desc = "引号保护此参数中的空格或特殊符号；只选择完全由一位或多位数字组成的行"
+
+[[commands.tokens]]
+text = " ports.txt"
+desc = "只选择完全由一位或多位数字组成的行；指定 ports.txt"
+
+[commands.dictation]
+prompt = "只选择完全由一位或多位数字组成的行"
+answers = ["grep -E '^[0-9]+$' ports.txt"]
+
+[[commands]]
+id = "v04-ex-9af499c8f1"
+command = "grep -E 'WARN[[:space:]]+' backend.log"
+summary = "匹配 WARN 后至少一个空白字符"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " -E"
+desc = "使用扩展正则表达式"
+
+[[commands.tokens]]
+text = " 'WARN[[:space:]]+'"
+desc = "引号保护此参数中的空格或特殊符号；匹配 WARN 后至少一个空白字符"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "匹配 WARN 后至少一个空白字符；指定 backend.log"
+
+[commands.dictation]
+prompt = "匹配 WARN 后至少一个空白字符"
+answers = ["grep -E 'WARN[[:space:]]+' backend.log"]
+
+[[commands]]
+id = "v04-ex-d25105a575"
+command = "printf 'color\\ncolour\\ncolouur\\n' | grep -E '^colou?r$'"
+summary = "问号让 u 可出现零次或一次"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'color\\ncolour\\ncolouur\\n'"
+desc = "引号保护此参数中的空格或特殊符号；问号让 u 可出现零次或一次"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " grep"
+desc = "问号让 u 可出现零次或一次；指定 grep"
+
+[[commands.tokens]]
+text = " -E"
+desc = "问号让 u 可出现零次或一次；此处使用 -E 选项"
+
+[[commands.tokens]]
+text = " '^colou?r$'"
+desc = "引号保护此参数中的空格或特殊符号；问号让 u 可出现零次或一次"
+
+[commands.dictation]
+prompt = "问号让 u 可出现零次或一次"
+answers = ["printf 'color\\ncolour\\ncolouur\\n' | grep -E '^colou?r$'"]
+
+[[commands]]
+id = "v04-ex-7ffa152e57"
+command = "grep -E '^https?://' urls.txt"
+summary = "同时匹配 HTTP 和 HTTPS 行首协议"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " -E"
+desc = "使用扩展正则表达式"
+
+[[commands.tokens]]
+text = " '^https?://'"
+desc = "引号保护此参数中的空格或特殊符号；同时匹配 HTTP 和 HTTPS 行首协议"
+
+[[commands.tokens]]
+text = " urls.txt"
+desc = "同时匹配 HTTP 和 HTTPS 行首协议；指定 urls.txt"
+
+[commands.dictation]
+prompt = "同时匹配 HTTP 和 HTTPS 行首协议"
+answers = ["grep -E '^https?://' urls.txt"]
+
+[[commands]]
+id = "v04-ex-4ec71d870f"
+command = "grep -E '^-?[0-9]+$' numbers.txt"
+summary = "让负号可选，后面至少一位数字"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " -E"
+desc = "使用扩展正则表达式"
+
+[[commands.tokens]]
+text = " '^-?[0-9]+$'"
+desc = "引号保护此参数中的空格或特殊符号；让负号可选，后面至少一位数字"
+
+[[commands.tokens]]
+text = " numbers.txt"
+desc = "让负号可选，后面至少一位数字；指定 numbers.txt"
+
+[commands.dictation]
+prompt = "让负号可选，后面至少一位数字"
+answers = ["grep -E '^-?[0-9]+$' numbers.txt"]
+
+[[commands]]
+id = "v04-ex-023a074040"
+command = "grep '^root:' /etc/passwd"
+summary = "只选择以 root: 开头的账号记录"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " '^root:'"
+desc = "引号保护此参数中的空格或特殊符号；只选择以 root: 开头的账号记录"
+
+[[commands.tokens]]
+text = " /etc/passwd"
+desc = "本次操作指定的路径：/etc/passwd"
+
+[commands.dictation]
+prompt = "只选择以 root: 开头的账号记录"
+answers = ["grep '^root:' /etc/passwd"]
+
+[[commands]]
+id = "v04-ex-e3bddcc3d0"
+command = "grep '^#' ~/ops-lab/settings.ini"
+summary = "选出从行首开始的注释"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " '^#'"
+desc = "引号保护此参数中的空格或特殊符号；选出从行首开始的注释"
+
+[[commands.tokens]]
+text = " ~/ops-lab/settings.ini"
+desc = "本次操作指定的路径：~/ops-lab/settings.ini"
+
+[commands.dictation]
+prompt = "选出从行首开始的注释"
+answers = ["grep '^#' ~/ops-lab/settings.ini"]
+
+[[commands]]
+id = "v04-ex-eb62885d3b"
+command = "grep '^ERROR' backend.log"
+summary = "只找以 ERROR 开头的实验日志"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " '^ERROR'"
+desc = "引号保护此参数中的空格或特殊符号；只找以 ERROR 开头的实验日志"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "只找以 ERROR 开头的实验日志；指定 backend.log"
+
+[commands.dictation]
+prompt = "只找以 ERROR 开头的实验日志"
+answers = ["grep '^ERROR' backend.log"]
+
+[[commands]]
+id = "v04-ex-63134b5756"
+command = "grep '/bash$' /etc/passwd"
+summary = "只匹配登录 shell 以 /bash 结尾的账号记录"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " '/bash$'"
+desc = "引号保护此参数中的空格或特殊符号；只匹配登录 shell 以 /bash 结尾的账号记录"
+
+[[commands.tokens]]
+text = " /etc/passwd"
+desc = "本次操作指定的路径：/etc/passwd"
+
+[commands.dictation]
+prompt = "只匹配登录 shell 以 /bash 结尾的账号记录"
+answers = ["grep '/bash$' /etc/passwd"]
+
+[[commands]]
+id = "v04-ex-45ce0ba7eb"
+command = "grep '\\.log$' filenames.txt"
+summary = "选择以字面 .log 结尾的文件名行"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " '\\.log$'"
+desc = "引号保护此参数中的空格或特殊符号；选择以字面 .log 结尾的文件名行"
+
+[[commands.tokens]]
+text = " filenames.txt"
+desc = "选择以字面 .log 结尾的文件名行；指定 filenames.txt"
+
+[commands.dictation]
+prompt = "选择以字面 .log 结尾的文件名行"
+answers = ["grep '\\.log$' filenames.txt"]
+
+[[commands]]
+id = "v04-ex-8b0beaae01"
+command = "grep 'done$' status.txt"
+summary = "只匹配末尾为 done 的实验状态行"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " 'done$'"
+desc = "引号保护此参数中的空格或特殊符号；只匹配末尾为 done 的实验状态行"
+
+[[commands.tokens]]
+text = " status.txt"
+desc = "只匹配末尾为 done 的实验状态行；指定 status.txt"
+
+[commands.dictation]
+prompt = "只匹配末尾为 done 的实验状态行"
+answers = ["grep 'done$' status.txt"]
+
+[[commands]]
+id = "v04-ex-ceb1361c2c"
+command = "grep '^[0-9]' ports.txt"
+summary = "匹配第一字符是数字的行"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " '^[0-9]'"
+desc = "引号保护此参数中的空格或特殊符号；匹配第一字符是数字的行"
+
+[[commands.tokens]]
+text = " ports.txt"
+desc = "匹配第一字符是数字的行；指定 ports.txt"
+
+[commands.dictation]
+prompt = "匹配第一字符是数字的行"
+answers = ["grep '^[0-9]' ports.txt"]
+
+[[commands]]
+id = "v04-ex-a63d3e3aa3"
+command = "grep '[A-Z]' labels.txt"
+summary = "匹配包含大写拉丁字母的实验标签"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " '[A-Z]'"
+desc = "引号保护此参数中的空格或特殊符号；匹配包含大写拉丁字母的实验标签"
+
+[[commands.tokens]]
+text = " labels.txt"
+desc = "匹配包含大写拉丁字母的实验标签；指定 labels.txt"
+
+[commands.dictation]
+prompt = "匹配包含大写拉丁字母的实验标签"
+answers = ["grep '[A-Z]' labels.txt"]
+
+[[commands]]
+id = "v04-ex-28c40b5e9c"
+command = "grep '[^0-9]' ports.txt"
+summary = "找出包含非数字字符的行，和全数字行区别"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " '[^0-9]'"
+desc = "引号保护此参数中的空格或特殊符号；找出包含非数字字符的行，和全数字行区别"
+
+[[commands.tokens]]
+text = " ports.txt"
+desc = "找出包含非数字字符的行，和全数字行区别；指定 ports.txt"
+
+[commands.dictation]
+prompt = "找出包含非数字字符的行，和全数字行区别"
+answers = ["grep '[^0-9]' ports.txt"]
+
+[[commands]]
+id = "v04-ex-228bc8298d"
+command = "grep -E '(ERROR|WARN)' backend.log"
+summary = "分组和或匹配两类日志等级"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " -E"
+desc = "使用扩展正则表达式"
+
+[[commands.tokens]]
+text = " '(ERROR|WARN)'"
+desc = "引号保护此参数中的空格或特殊符号；分组和或匹配两类日志等级"
+
+[[commands.tokens]]
+text = " backend.log"
+desc = "分组和或匹配两类日志等级；指定 backend.log"
+
+[commands.dictation]
+prompt = "分组和或匹配两类日志等级"
+answers = ["grep -E '(ERROR|WARN)' backend.log"]
+
+[[commands]]
+id = "v04-ex-b3ee3caba0"
+command = "printf 'ab\\nabab\\naabb\\n' | grep -E '^(ab)+$'"
+summary = "加号作用于整个 ab 分组"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按明确格式输出文本"
+
+[[commands.tokens]]
+text = " 'ab\\nabab\\naabb\\n'"
+desc = "引号保护此参数中的空格或特殊符号；加号作用于整个 ab 分组"
+
+[[commands.tokens]]
+text = " |"
+desc = "把前一命令的标准输出传给下一命令的标准输入"
+
+[[commands.tokens]]
+text = " grep"
+desc = "加号作用于整个 ab 分组；指定 grep"
+
+[[commands.tokens]]
+text = " -E"
+desc = "加号作用于整个 ab 分组；此处使用 -E 选项"
+
+[[commands.tokens]]
+text = " '^(ab)+$'"
+desc = "引号保护此参数中的空格或特殊符号；加号作用于整个 ab 分组"
+
+[commands.dictation]
+prompt = "加号作用于整个 ab 分组"
+answers = ["printf 'ab\\nabab\\naabb\\n' | grep -E '^(ab)+$'"]
+
+[[commands]]
+id = "v04-ex-e4a87aaa36"
+command = "grep -E '^(GET|POST) ' requests.txt"
+summary = "只匹配以 GET 或 POST 加空格开头的请求行"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选匹配指定模式的文本行"
+
+[[commands.tokens]]
+text = " -E"
+desc = "使用扩展正则表达式"
+
+[[commands.tokens]]
+text = " '^(GET|POST) '"
+desc = "引号保护此参数中的空格或特殊符号；只匹配以 GET 或 POST 加空格开头的请求行"
+
+[[commands.tokens]]
+text = " requests.txt"
+desc = "只匹配以 GET 或 POST 加空格开头的请求行；指定 requests.txt"
+
+[commands.dictation]
+prompt = "只匹配以 GET 或 POST 加空格开头的请求行"
+answers = ["grep -E '^(GET|POST) ' requests.txt"]

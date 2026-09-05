@@ -1,0 +1,116 @@
+id = "loss_mtu"
+title = "小请求成功、大请求卡住：MTU 与丢包"
+category = "网络"
+difficulty = "basic"
+background = "隧道刚上线，小 ping 正常，较大 HTTPS 请求时常卡住。隧道接口 wg0 配置 MTU 1500，实际可用内层 MTU 1420。"
+objective = "区分随机丢包与路径 MTU 限制，测量可用大小，修改后验证大包和业务。"
+environment = "Ubuntu 24.04 LTS 教学主机 web-01（192.0.2.10），客户端 ops-01（192.0.2.50），网关 192.0.2.1。文档保留地址与 example.test 域名只用于模拟；每例独立还原起始状态，全部输出预置。"
+recap = "分层比较小包和禁止分片的大包；结合路径与隧道证据估算 MTU，验证真实大请求并保存配置。"
+sources = ["https://man7.org/linux/man-pages/man8/ss.8.html", "https://man7.org/linux/man-pages/man8/tcpdump.8.html"]
+
+[[steps]]
+title = "测试小包"
+output = "4 packets transmitted, 4 received, 0% packet loss"
+explanation = "小 ICMP 成功不证明大 TCP 流量正常。"
+instruction = "请跟打，测试小包。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_01"
+command_id = "shared-60ac8e7804425c9b"
+
+[[steps]]
+title = "查看选用路由"
+output = "198.51.100.20 dev wg0 src 10.10.0.1"
+explanation = "目标走隧道 wg0，封装会占用外层空间。"
+instruction = "请跟打，查看选用路由。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_02"
+command_id = "v04-route-e16f841d41"
+
+[[steps]]
+title = "禁止分片测试 1500 字节 IP 包"
+output = "3 packets transmitted, 0 received, 100% packet loss"
+explanation = "IPv4 20 字节头加 ICMP 8 字节头，1472 载荷对应 1500 字节；大包失败与小包形成对照。"
+instruction = "请跟打，禁止分片测试 1500 字节 IP 包。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_03"
+command_id = "shared-be12d454381ddf6b"
+
+[steps.decision]
+question = "该优先验证哪种解释？"
+
+[[steps.decision.choices]]
+text = "路径 MTU 或 ICMP 必须分片消息受阻"
+correct = true
+feedback = "对，应缩小载荷并查看隧道参数。"
+
+[[steps.decision.choices]]
+text = "DNS 没有 AAAA 记录"
+correct = false
+feedback = "直接 IP 的 ICMP 探测不依赖 AAAA 解析。"
+
+[[steps]]
+title = "测试较小的无分片包"
+output = "3 packets transmitted, 3 received, 0% packet loss"
+explanation = "1392+28=1420；本实验这个内层大小可以通过。"
+instruction = "请跟打，测试较小的无分片包。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_04"
+command_id = "shared-dc608f1de2de40ae"
+
+[[steps]]
+title = "查看隧道 MTU"
+output = "wg0: <POINTOPOINT,NOARP,UP,LOWER_UP> mtu 1500 qdisc noqueue\n    wireguard"
+explanation = "接口 MTU 高于测得可用大小，应用可能持续发出无法通过的报文。"
+instruction = "请跟打，查看隧道 MTU。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_05"
+command_id = "shared-e7fafbcb0cee95fc"
+
+[[steps]]
+title = "检查路径 MTU 线索"
+output = "1?: [LOCALHOST] pmtu 1500\n1: 10.10.0.2 2.1ms pmtu 1420\nResume: pmtu 1420"
+explanation = "本例路径反馈明确报告 1420；其他网络可能不回复探测，需要结合抓包。"
+instruction = "请跟打，检查路径 MTU 线索。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_06"
+command_id = "v04-path-16a71150b1"
+
+[[steps]]
+title = "临时调整隧道 MTU"
+output = "[模拟：wg0 MTU 已设为 1420]"
+explanation = "只改变当前接口运行状态，重启可能恢复配置文件的旧值。"
+instruction = "请跟打，临时调整隧道 MTU。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_07"
+command_id = "shared-d4710f65181ec894"
+
+[steps.decision]
+question = "修复后还需要什么？"
+
+[[steps.decision.choices]]
+text = "验证大请求并把 MTU 写入隧道配置"
+correct = true
+feedback = "对，运行态验证和持久化缺一不可。"
+
+[[steps.decision.choices]]
+text = "测试成功一次后忽略持久化"
+correct = false
+feedback = "ip link 的运行态变更不保证重启后存在。"
+
+[[steps]]
+title = "验证原始业务"
+output = "200 10485760"
+explanation = "下载 10 MiB 成功，更接近原来失败的大流量场景。"
+instruction = "请跟打，验证原始业务。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_08"
+command_id = "shared-89a1ad159cd601b8"
+
+[[steps]]
+title = "在隧道配置中保存 MTU"
+output = "[模拟编辑器保存：在现有 [Interface] 段增加 MTU = 1420，其余密钥和 Peer 配置不变]"
+explanation = "本实验编辑器展示并保存目标修改；现场需结合封装、IPv6 和路径特征确定 MTU，不能把 1420 当作通用答案。"
+instruction = "请跟打，在隧道配置中保存 MTU。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_09"
+command_id = "shared-0159ad44496229ff"

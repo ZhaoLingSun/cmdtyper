@@ -1,9 +1,8 @@
 use chrono::Utc;
-use crossterm::event::{KeyCode, KeyEvent};
+use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 
 use crate::app::{App, AppState, SymbolPhase};
 use crate::core::matcher::{self, MatchResult};
-use crate::core::scorer;
 use crate::data::models::{DeepSource, ExerciseKind, RecordMode, SessionRecord};
 
 pub fn handle_symbol_topics_key(app: &mut App, key: KeyEvent) {
@@ -278,6 +277,42 @@ fn handle_symbol_typing_key(
         }
     };
 
+    if key.modifiers.contains(KeyModifiers::CONTROL)
+        && !key.modifiers.contains(KeyModifiers::ALT)
+        && key.code == KeyCode::Char('r')
+    {
+        if let Some(command) = extract_typing_command(&exercise) {
+            app.typing_engine.reset(&command);
+            app.symbol_practice.typing_showing_output = false;
+        }
+        return;
+    }
+    if key
+        .modifiers
+        .intersects(KeyModifiers::CONTROL | KeyModifiers::ALT)
+    {
+        return;
+    }
+
+    if app.symbol_practice.typing_showing_output && matches!(key.code, KeyCode::Char(_)) {
+        advance_symbol_typing(app, topic_index, symbol_index, exercise_idx);
+        if app.symbol_practice.completed {
+            return;
+        }
+        match app.state.clone() {
+            AppState::SymbolLesson {
+                phase: SymbolPhase::TypingPractice { exercise_idx: next },
+                ..
+            } => handle_symbol_typing_key(app, key, topic_index, symbol_index, next),
+            AppState::SymbolLesson {
+                phase: SymbolPhase::Practice,
+                ..
+            } => handle_symbol_practice_key(app, key, topic_index, symbol_index),
+            _ => {}
+        }
+        return;
+    }
+
     match key.code {
         KeyCode::Esc => app.state = AppState::SymbolTopics,
         KeyCode::Backspace if !app.typing_engine.is_complete() => {
@@ -302,43 +337,51 @@ fn handle_symbol_typing_key(
                 return;
             }
 
-            finalize_symbol_typing_exercise(app, topic_index, exercise_idx);
-
-            let next = exercise_idx + 1;
-            if next < app.symbol_practice.typing_indices.len() {
-                if let Some(next_command) = app
-                    .current_symbol_typing_exercise(topic_index, next)
-                    .and_then(extract_typing_command)
-                {
-                    app.typing_engine.reset(&next_command);
-                }
-                app.symbol_practice.typing_showing_output = false;
-                app.state = AppState::SymbolLesson {
-                    topic_index,
-                    symbol_index,
-                    phase: SymbolPhase::TypingPractice { exercise_idx: next },
-                };
-            } else {
-                app.symbol_practice.typing_showing_output = false;
-                app.symbol_practice.current_index = 0;
-                app.symbol_practice.current_input.clear();
-                app.symbol_practice.submitted = false;
-                app.symbol_practice.last_correct = None;
-                app.symbol_practice.show_answer = false;
-                app.symbol_practice.error_count = 0;
-
-                if app.symbol_practice.dictation_indices.is_empty() {
-                    finish_symbol_practice(app, topic_index);
-                } else {
-                    app.state = AppState::SymbolLesson {
-                        topic_index,
-                        symbol_index,
-                        phase: SymbolPhase::Practice,
-                    };
-                }
-            }
+            advance_symbol_typing(app, topic_index, symbol_index, exercise_idx);
         }
         _ => {}
+    }
+}
+
+fn advance_symbol_typing(
+    app: &mut App,
+    topic_index: usize,
+    symbol_index: usize,
+    exercise_idx: usize,
+) {
+    finalize_symbol_typing_exercise(app, topic_index, exercise_idx);
+    app.symbol_practice.typing_showing_output = false;
+
+    let next = exercise_idx + 1;
+    if next < app.symbol_practice.typing_indices.len() {
+        if let Some(next_command) = app
+            .current_symbol_typing_exercise(topic_index, next)
+            .and_then(extract_typing_command)
+        {
+            app.typing_engine.reset(&next_command);
+        }
+        app.state = AppState::SymbolLesson {
+            topic_index,
+            symbol_index,
+            phase: SymbolPhase::TypingPractice { exercise_idx: next },
+        };
+    } else {
+        app.symbol_practice.current_index = 0;
+        app.symbol_practice.current_input.clear();
+        app.symbol_practice.submitted = false;
+        app.symbol_practice.last_correct = None;
+        app.symbol_practice.show_answer = false;
+        app.symbol_practice.error_count = 0;
+
+        if app.symbol_practice.dictation_indices.is_empty() {
+            finish_symbol_practice(app, topic_index);
+        } else {
+            app.state = AppState::SymbolLesson {
+                topic_index,
+                symbol_index,
+                phase: SymbolPhase::Practice,
+            };
+        }
     }
 }
 
@@ -369,10 +412,7 @@ fn finalize_symbol_typing_exercise(app: &mut App, topic_index: usize, exercise_i
     app.symbol_practice.typing_accuracy_sum += record.accuracy;
     app.symbol_practice.typing_wpm_sum += record.wpm;
 
-    scorer::update_stats(&mut app.user_stats, &record);
-    let _ = app.progress_store.save_stats(&app.user_stats);
-    let _ = app.progress_store.append_record(&record);
-    app.history.push(record);
+    app.persist_record(record);
 }
 
 fn advance_symbol_practice(app: &mut App, topic_index: usize) {
@@ -407,6 +447,7 @@ fn finish_symbol_practice(app: &mut App, topic_index: usize) {
         };
         let now_ms = Utc::now().timestamp_millis();
         let record = SessionRecord {
+            typing: None,
             id: format!("{}", now_ms),
             command_id: format!("symbol:{}", topic.meta.id),
             mode: RecordMode::SymbolPractice,
@@ -423,10 +464,7 @@ fn finish_symbol_practice(app: &mut App, topic_index: usize) {
                 as u32,
             difficulty: topic.meta.difficulty,
         };
-        scorer::update_stats(&mut app.user_stats, &record);
-        let _ = app.progress_store.save_stats(&app.user_stats);
-        let _ = app.progress_store.append_record(&record);
-        app.history.push(record);
+        app.persist_record(record);
         app.symbol_practice.stats_recorded = true;
     }
 }
@@ -437,6 +475,12 @@ fn handle_symbol_practice_key(
     topic_index: usize,
     _symbol_index: usize,
 ) {
+    if key
+        .modifiers
+        .intersects(KeyModifiers::CONTROL | KeyModifiers::ALT)
+    {
+        return;
+    }
     if app.symbol_practice.completed {
         match key.code {
             KeyCode::Esc | KeyCode::Enter => app.state = AppState::SymbolTopics,

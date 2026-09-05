@@ -42,10 +42,24 @@ pub fn enter_typing_filtered(
 }
 
 pub fn handle_typing_key(app: &mut App, key: KeyEvent) {
+    if key.code == KeyCode::F(2) {
+        cycle_typing_mode(app);
+        return;
+    }
+    if key.code == KeyCode::F(3) {
+        app.show_hint = !app.show_hint;
+        return;
+    }
+    if key.code == KeyCode::Char('r') && key.modifiers.contains(KeyModifiers::CONTROL) {
+        typing_retry(app);
+        return;
+    }
     if app.typing_showing_output && app.terminal_auto_advance {
         app.terminal_auto_advance = false;
         typing_finalize_current_command(app);
-        return;
+        if matches!(key.code, KeyCode::Enter | KeyCode::Tab) {
+            return;
+        }
     }
 
     match key.code {
@@ -60,26 +74,8 @@ pub fn handle_typing_key(app: &mut App, key: KeyEvent) {
             app.state = AppState::Home;
         }
         KeyCode::Enter => typing_submit_or_advance(app),
-        KeyCode::Char('m') | KeyCode::Char('M')
-            if !app.typing_showing_output
-                && (app.typing_engine.start_time.is_none()
-                    || app.typing_engine.is_complete())
-                && (key.modifiers == KeyModifiers::NONE
-                    || key.modifiers == KeyModifiers::SHIFT) =>
-        {
-            cycle_typing_mode(app);
-        }
-        KeyCode::Char('h') | KeyCode::Char('H')
-            if key.modifiers == KeyModifiers::NONE || key.modifiers == KeyModifiers::SHIFT =>
-        {
-            // If engine hasn't started or is complete, toggle hint
-            if app.typing_engine.start_time.is_none() || app.typing_engine.is_complete() {
-                app.show_hint = !app.show_hint;
-            } else if !app.typing_showing_output {
-                // Otherwise it's a regular char input
-                handle_typing_char_input(app, key.code);
-            }
-        }
+        KeyCode::F(2) => cycle_typing_mode(app),
+        KeyCode::F(3) => app.show_hint = !app.show_hint,
         KeyCode::Tab if !app.typing_is_finished() => typing_skip(app),
         KeyCode::Char('r') if key.modifiers.contains(KeyModifiers::CONTROL) => {
             typing_retry(app);
@@ -142,6 +138,7 @@ fn typing_submit_or_advance(app: &mut App) {
     app.terminal_auto_advance = false;
     if has_output {
         app.typing_showing_output = true;
+        app.terminal_auto_advance = true;
     } else {
         typing_finalize_current_command(app);
     }
@@ -163,10 +160,7 @@ fn typing_finalize_current_command(app: &mut App) {
     let record = app
         .typing_engine
         .finish(&command_id, difficulty, RecordMode::Typing);
-    scorer::update_stats(&mut app.user_stats, &record);
-    let _ = app.progress_store.save_stats(&app.user_stats);
-    let _ = app.progress_store.append_record(&record);
-    app.history.push(record.clone());
+    app.persist_record(record.clone());
     app.typing_round_records.push(record);
 
     // Advance to next command

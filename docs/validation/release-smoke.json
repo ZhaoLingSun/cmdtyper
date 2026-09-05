@@ -1,0 +1,11 @@
+{
+  "environment": "release",
+  "exit_code": 0,
+  "records": 4,
+  "completed": 3,
+  "partial": 1,
+  "same_position_errors": 1,
+  "wrong_decision_returns_to_evidence": true,
+  "resume_step": 4,
+  "elapsed_seconds": 13.26
+}

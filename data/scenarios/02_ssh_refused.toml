@@ -1,0 +1,116 @@
+id = "ssh_refused"
+title = "SSH 连不上：从客户端到监听地址"
+category = "网络"
+difficulty = "basic"
+background = "ops-01 连接 web-01 的 22 端口被拒绝。带外控制台可用，SSH 近期被改成只监听回环地址。"
+objective = "识别 refused 与 timeout，检查监听、配置并在保留带外入口的条件下修复。"
+environment = "Ubuntu 24.04 LTS 教学主机 web-01（192.0.2.10），客户端 ops-01（192.0.2.50），网关 192.0.2.1。文档保留地址与 example.test 域名只用于模拟；每例独立还原起始状态，全部输出预置。"
+recap = "refused 优先查监听；timeout 优先查路径和过滤；认证错误另查密钥及权限。保持原管理入口直到新连接验证成功。"
+sources = ["https://man7.org/linux/man-pages/man8/ss.8.html", "https://man7.org/linux/man-pages/man8/tcpdump.8.html", "https://man.openbsd.org/sshd_config"]
+
+[[steps]]
+title = "从客户端确认连接阶段"
+output = "debug1: Connecting to 192.0.2.10 port 22.\nssh: connect to host 192.0.2.10 port 22: Connection refused"
+explanation = "尚未进入密钥认证阶段，先查服务与监听而不是更换密码。"
+instruction = "请跟打，从客户端确认连接阶段。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_01"
+command_id = "shared-90f3ddc4f7d3ced8"
+
+[[steps]]
+title = "在带外控制台检查 SSH 服务"
+output = "active"
+explanation = "服务运行不代表它监听了外部地址。"
+instruction = "请跟打，在带外控制台检查 SSH 服务。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_02"
+command_id = "shared-706bdc2584bdf4bd"
+
+[[steps]]
+title = "查找 22 端口监听"
+output = "LISTEN 0 128 127.0.0.1:22 0.0.0.0:* users:((\"sshd\",pid=900,fd=3))"
+explanation = "127.0.0.1 只接受本机连接，客户端访问的是 192.0.2.10。"
+instruction = "请跟打，查找 22 端口监听。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_03"
+command_id = "v04-port_process-a0859e9a3e"
+
+[steps.decision]
+question = "原因更可能是什么？"
+
+[[steps.decision.choices]]
+text = "sshd 仅监听回环地址"
+correct = true
+feedback = "对，需要检查 ListenAddress 的生效值。"
+
+[[steps.decision.choices]]
+text = "authorized_keys 文件为空"
+correct = false
+feedback = "认证尚未发生，公钥文件不能解释 TCP 连接被拒绝。"
+
+[[steps]]
+title = "检查生效监听配置"
+output = "listenaddress 127.0.0.1:22"
+explanation = "-T 解析有效配置，能发现 Include 覆盖带来的差异。"
+instruction = "请跟打，检查生效监听配置。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_04"
+command_id = "shared-fa2af17a19c023d4"
+
+[[steps]]
+title = "备份监听配置"
+output = "[模拟：备份已创建]"
+explanation = "先留可恢复副本；.bak 后缀不匹配默认 *.conf Include。"
+instruction = "请跟打，备份监听配置。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_05"
+command_id = "shared-00fa26564a477187"
+
+[[steps]]
+title = "修正监听地址"
+output = "ListenAddress 0.0.0.0"
+explanation = "本实验允许本机全部 IPv4 地址；实际可改为管理地址并用网络访问控制限定来源。"
+instruction = "请跟打，修正监听地址。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_06"
+command_id = "shared-0ed4fcf6353c4cd5"
+
+[[steps]]
+title = "校验 SSH 配置"
+output = "[退出状态 0，无语法错误]"
+explanation = "语法检查成功才能安全重载；现有带外入口保持开启。"
+instruction = "请跟打，校验 SSH 配置。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_07"
+command_id = "shared-e431d5ade2e6e1f5"
+
+[steps.decision]
+question = "接下来如何应用修改？"
+
+[[steps.decision.choices]]
+text = "重载 ssh 并从另一连接验证"
+correct = true
+feedback = "对，保留可用管理入口直到新的 SSH 会话验证通过。"
+
+[[steps.decision.choices]]
+text = "先关闭带外控制台再重启主机"
+correct = false
+feedback = "关闭唯一可用入口会让错误修复难以回退，请保留它。"
+
+[[steps]]
+title = "重载服务"
+output = "[模拟：reload 成功]"
+explanation = "本例是常驻 ssh.service；若使用 ssh.socket，需同时核对 socket 的监听设置。"
+instruction = "请跟打，重载服务。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_08"
+command_id = "shared-0fc93373209c2316"
+
+[[steps]]
+title = "从客户端重新验证"
+output = "web-01"
+explanation = "成功执行远端 hostname 证明网络、SSH 认证和远端会话都已通过。"
+instruction = "请跟打，从客户端重新验证。先观察输出，再决定下一步。"
+prompt = "$ "
+id = "step_09"
+command_id = "shared-c5a3784f8873aa34"

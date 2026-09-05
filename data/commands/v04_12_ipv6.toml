@@ -1,0 +1,370 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "IPv4 成功并不能证明 IPv6 成功，逐项核对地址、路由和邻居。"
+
+[meta.topic]
+id = "v04_ipv6"
+title = "IPv6 地址路由与双栈"
+icon = "🌐"
+order = 112
+
+[[commands]]
+id = "v04-ipv6-7d0837eb37"
+command = "ip -6 address show dev ens33"
+summary = "检查实验网卡 IPv6 地址及 tentative、dadfailed 等标志"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -6"
+desc = "限制为 IPv6"
+
+[[commands.tokens]]
+text = " address"
+desc = "检查实验网卡 IPv6 地址及 tentative、dadfailed 等标志；指定 address"
+
+[[commands.tokens]]
+text = " show"
+desc = "检查实验网卡 IPv6 地址及 tentative、dadfailed 等标志；指定 show"
+
+[[commands.tokens]]
+text = " dev"
+desc = "检查实验网卡 IPv6 地址及 tentative、dadfailed 等标志；指定 dev"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "检查实验网卡 IPv6 地址及 tentative、dadfailed 等标志；指定 ens33"
+
+[commands.dictation]
+prompt = "检查实验网卡 IPv6 地址及 tentative、dadfailed 等标志"
+answers = ["ip -6 address show dev ens33"]
+
+[[commands]]
+id = "v04-ipv6-616f222008"
+command = "ip -6 route show"
+summary = "查看 IPv6 路由与默认网关"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -6"
+desc = "限制为 IPv6"
+
+[[commands.tokens]]
+text = " route"
+desc = "查看 IPv6 路由与默认网关；指定 route"
+
+[[commands.tokens]]
+text = " show"
+desc = "查看 IPv6 路由与默认网关；指定 show"
+
+[commands.dictation]
+prompt = "查看 IPv6 路由与默认网关"
+answers = ["ip -6 route show"]
+
+[[commands]]
+id = "v04-ipv6-dfb491586e"
+command = "ip -6 route get 2001:db8:2::20"
+summary = "检查到实验 IPv6 业务目标的源地址和出口"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -6"
+desc = "限制为 IPv6"
+
+[[commands.tokens]]
+text = " route"
+desc = "检查到实验 IPv6 业务目标的源地址和出口；指定 route"
+
+[[commands.tokens]]
+text = " get"
+desc = "检查到实验 IPv6 业务目标的源地址和出口；指定 get"
+
+[[commands.tokens]]
+text = " 2001:db8:2::20"
+desc = "检查到实验 IPv6 业务目标的源地址和出口；指定 2001:db8:2::20"
+
+[commands.dictation]
+prompt = "检查到实验 IPv6 业务目标的源地址和出口"
+answers = ["ip -6 route get 2001:db8:2::20"]
+
+[[commands]]
+id = "v04-ipv6-815804bd2a"
+command = "ip -6 neigh show dev ens33"
+summary = "查看实验接口的 NDP 邻居状态"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -6"
+desc = "限制为 IPv6"
+
+[[commands.tokens]]
+text = " neigh"
+desc = "查看实验接口的 NDP 邻居状态；指定 neigh"
+
+[[commands.tokens]]
+text = " show"
+desc = "查看实验接口的 NDP 邻居状态；指定 show"
+
+[[commands.tokens]]
+text = " dev"
+desc = "查看实验接口的 NDP 邻居状态；指定 dev"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "查看实验接口的 NDP 邻居状态；指定 ens33"
+
+[commands.dictation]
+prompt = "查看实验接口的 NDP 邻居状态"
+answers = ["ip -6 neigh show dev ens33"]
+
+[[commands]]
+id = "v04-ipv6-24c993ee3a"
+command = "ping -6 -c 3 ::1"
+summary = "测试 IPv6 本机回环栈"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -6"
+desc = "只使用 IPv6"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " ::1"
+desc = "测试 IPv6 本机回环栈；指定 ::1"
+
+[commands.dictation]
+prompt = "测试 IPv6 本机回环栈"
+answers = ["ping -6 -c 3 ::1"]
+
+[[commands]]
+id = "v04-ipv6-17fa2510ca"
+command = "ping -6 -c 3 -I ens33 fe80::1"
+summary = "用指定接口测试链路本地 IPv6 网关"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -6"
+desc = "只使用 IPv6"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -I"
+desc = "指定源接口或源地址"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "用指定接口测试链路本地 IPv6 网关；指定 ens33"
+
+[[commands.tokens]]
+text = " fe80::1"
+desc = "用指定接口测试链路本地 IPv6 网关；指定 fe80::1"
+
+[commands.dictation]
+prompt = "用指定接口测试链路本地 IPv6 网关"
+answers = ["ping -6 -c 3 -I ens33 fe80::1"]
+
+[[commands]]
+id = "v04-ipv6-56aefd7132"
+command = "ping -6 -c 3 2001:db8:2::20"
+summary = "向实验 IPv6 主机发送三次回显请求"
+
+[[commands.tokens]]
+text = "ping"
+desc = "通过 ICMP 回显测试目标响应和往返时间"
+
+[[commands.tokens]]
+text = " -6"
+desc = "只使用 IPv6"
+
+[[commands.tokens]]
+text = " -c"
+desc = "设置发送回显请求的次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " 2001:db8:2::20"
+desc = "向实验 IPv6 主机发送三次回显请求；指定 2001:db8:2::20"
+
+[commands.dictation]
+prompt = "向实验 IPv6 主机发送三次回显请求"
+answers = ["ping -6 -c 3 2001:db8:2::20"]
+
+[[commands]]
+id = "v04-ipv6-a33b812108"
+command = "curl -6 --connect-timeout 3 --max-time 8 https://example.com/"
+summary = "强制 IPv6 发起 HTTPS 请求，和 IPv4 结果对照"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " -6"
+desc = "强制 IPv6 发起 HTTPS 请求，和 IPv4 结果对照；此处使用 -6 选项"
+
+[[commands.tokens]]
+text = " --connect-timeout"
+desc = "限定连接阶段等待秒数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " --max-time"
+desc = "限定整个请求总秒数"
+
+[[commands.tokens]]
+text = " 8"
+desc = "本次练习的数值参数 8；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "强制 IPv6 发起 HTTPS 请求，和 IPv4 结果对照"
+answers = ["curl -6 --connect-timeout 3 --max-time 8 https://example.com/"]
+
+[[commands]]
+id = "v04-ipv6-67ebeb5946"
+command = "curl -4 --connect-timeout 3 --max-time 8 https://example.com/"
+summary = "强制 IPv4 发起同一 HTTPS 请求"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " -4"
+desc = "强制 IPv4 发起同一 HTTPS 请求；此处使用 -4 选项"
+
+[[commands.tokens]]
+text = " --connect-timeout"
+desc = "限定连接阶段等待秒数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " --max-time"
+desc = "限定整个请求总秒数"
+
+[[commands.tokens]]
+text = " 8"
+desc = "本次练习的数值参数 8；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "强制 IPv4 发起同一 HTTPS 请求"
+answers = ["curl -4 --connect-timeout 3 --max-time 8 https://example.com/"]
+
+[[commands]]
+id = "v04-ipv6-4b94f8182c"
+command = "sysctl net.ipv6.conf.all.disable_ipv6"
+summary = "查看全局 IPv6 禁用开关，不改动配置"
+
+[[commands.tokens]]
+text = "sysctl"
+desc = "读取内核参数；无 -w 时不写入配置"
+
+[[commands.tokens]]
+text = " net.ipv6.conf.all.disable_ipv6"
+desc = "查看全局 IPv6 禁用开关，不改动配置；指定 net.ipv6.conf.all.disable_ipv6"
+
+[commands.dictation]
+prompt = "查看全局 IPv6 禁用开关，不改动配置"
+answers = ["sysctl net.ipv6.conf.all.disable_ipv6"]
+
+[[commands]]
+id = "v04-ipv6-d67f46225d"
+command = "sysctl net.ipv6.conf.ens33.accept_ra"
+summary = "检查 ens33 是否接收路由通告，结合转发模式解释"
+
+[[commands.tokens]]
+text = "sysctl"
+desc = "读取内核参数；无 -w 时不写入配置"
+
+[[commands.tokens]]
+text = " net.ipv6.conf.ens33.accept_ra"
+desc = "检查 ens33 是否接收路由通告，结合转发模式解释；指定 net.ipv6.conf.ens33.accept_ra"
+
+[commands.dictation]
+prompt = "检查 ens33 是否接收路由通告，结合转发模式解释"
+answers = ["sysctl net.ipv6.conf.ens33.accept_ra"]
+
+[[commands]]
+id = "v04-ipv6-b4eadc9660"
+command = "sudo tcpdump -ni ens33 -c 20 icmp6"
+summary = "捕获 ICMPv6，包括邻居发现与差错报文"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " tcpdump"
+desc = "按过滤表达式采集或读取网络报文"
+
+[[commands.tokens]]
+text = " -ni"
+desc = "禁用名称解析并指定抓包接口"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "捕获 ICMPv6，包括邻居发现与差错报文；指定 ens33"
+
+[[commands.tokens]]
+text = " -c"
+desc = "达到指定报文数后结束"
+
+[[commands.tokens]]
+text = " 20"
+desc = "本次练习的数值参数 20；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " icmp6"
+desc = "捕获 ICMPv6，包括邻居发现与差错报文；指定 icmp6"
+
+[commands.dictation]
+prompt = "捕获 ICMPv6，包括邻居发现与差错报文"
+answers = ["sudo tcpdump -ni ens33 -c 20 icmp6"]

@@ -1,0 +1,300 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "恢复后先核对载波、速率、双工和错误增量；示例使用 ens33，接口名需要按机器调整。"
+
+[meta.topic]
+id = "v04_link"
+title = "网卡物理链路与错误计数"
+icon = "🌐"
+order = 101
+
+[[commands]]
+id = "v04-link-f688863bb7"
+command = "ip -br link show"
+summary = "快速核对网卡状态；UP 是管理状态，LOWER_UP 才表示下层载波存在"
+simulated_output = "lo UNKNOWN 00:00:00:00:00:00 <LOOPBACK,UP,LOWER_UP>\nens33 UP 02:00:00:00:00:10 <BROADCAST,MULTICAST,UP,LOWER_UP>"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -br"
+desc = "使用紧凑单行格式"
+
+[[commands.tokens]]
+text = " link"
+desc = "快速核对网卡状态；UP 是管理状态，LOWER_UP 才表示下层载波存在；指定 link"
+
+[[commands.tokens]]
+text = " show"
+desc = "快速核对网卡状态；UP 是管理状态，LOWER_UP 才表示下层载波存在；指定 show"
+
+[commands.dictation]
+prompt = "快速核对网卡状态；UP 是管理状态，LOWER_UP 才表示下层载波存在"
+answers = ["ip -br link show"]
+
+[[commands]]
+id = "v04-link-de19588951"
+command = "ip -s link show dev ens33"
+summary = "读取 ens33 接收发送计数；连续观察 errors、dropped 的增量"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -s"
+desc = "显示统计计数"
+
+[[commands.tokens]]
+text = " link"
+desc = "读取 ens33 接收发送计数；连续观察 errors、dropped 的增量；指定 link"
+
+[[commands.tokens]]
+text = " show"
+desc = "读取 ens33 接收发送计数；连续观察 errors、dropped 的增量；指定 show"
+
+[[commands.tokens]]
+text = " dev"
+desc = "读取 ens33 接收发送计数；连续观察 errors、dropped 的增量；指定 dev"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "读取 ens33 接收发送计数；连续观察 errors、dropped 的增量；指定 ens33"
+
+[commands.dictation]
+prompt = "读取 ens33 接收发送计数；连续观察 errors、dropped 的增量"
+answers = ["ip -s link show dev ens33"]
+
+[[commands]]
+id = "v04-link-a27d5ac30c"
+command = "ip -s -s link show dev ens33"
+summary = "展开详细链路错误统计，区分接收错误和丢弃"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -s"
+desc = "显示统计计数"
+
+[[commands.tokens]]
+text = " -s"
+desc = "显示统计计数"
+
+[[commands.tokens]]
+text = " link"
+desc = "展开详细链路错误统计，区分接收错误和丢弃；指定 link"
+
+[[commands.tokens]]
+text = " show"
+desc = "展开详细链路错误统计，区分接收错误和丢弃；指定 show"
+
+[[commands.tokens]]
+text = " dev"
+desc = "展开详细链路错误统计，区分接收错误和丢弃；指定 dev"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "展开详细链路错误统计，区分接收错误和丢弃；指定 ens33"
+
+[commands.dictation]
+prompt = "展开详细链路错误统计，区分接收错误和丢弃"
+answers = ["ip -s -s link show dev ens33"]
+
+[[commands]]
+id = "v04-link-7ce0ae2f66"
+command = "ip -d link show dev ens33"
+summary = "显示链路详细属性，识别 VLAN、隧道等链路类型"
+
+[[commands.tokens]]
+text = "ip"
+desc = "使用 iproute2 查询或管理 Linux 网络对象"
+
+[[commands.tokens]]
+text = " -d"
+desc = "显示详细属性"
+
+[[commands.tokens]]
+text = " link"
+desc = "显示链路详细属性，识别 VLAN、隧道等链路类型；指定 link"
+
+[[commands.tokens]]
+text = " show"
+desc = "显示链路详细属性，识别 VLAN、隧道等链路类型；指定 show"
+
+[[commands.tokens]]
+text = " dev"
+desc = "显示链路详细属性，识别 VLAN、隧道等链路类型；指定 dev"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "显示链路详细属性，识别 VLAN、隧道等链路类型；指定 ens33"
+
+[commands.dictation]
+prompt = "显示链路详细属性，识别 VLAN、隧道等链路类型"
+answers = ["ip -d link show dev ens33"]
+
+[[commands]]
+id = "v04-link-54dafe3add"
+command = "cat /sys/class/net/ens33/carrier"
+summary = "读取网卡载波：1 表示检测到物理连接，0 表示无载波"
+simulated_output = "1"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /sys/class/net/ens33/carrier"
+desc = "本次操作指定的路径：/sys/class/net/ens33/carrier"
+
+[commands.dictation]
+prompt = "读取网卡载波：1 表示检测到物理连接，0 表示无载波"
+answers = ["cat /sys/class/net/ens33/carrier"]
+
+[[commands]]
+id = "v04-link-1fd5a6fe42"
+command = "cat /sys/class/net/ens33/operstate"
+summary = "读取内核运行状态，不把管理 UP 误认为链路可用"
+simulated_output = "up"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /sys/class/net/ens33/operstate"
+desc = "本次操作指定的路径：/sys/class/net/ens33/operstate"
+
+[commands.dictation]
+prompt = "读取内核运行状态，不把管理 UP 误认为链路可用"
+answers = ["cat /sys/class/net/ens33/operstate"]
+
+[[commands]]
+id = "v04-link-a09d1fc016"
+command = "cat /sys/class/net/ens33/mtu"
+summary = "读取接口当前 MTU，后续与路径 MTU 对照"
+simulated_output = "1500"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /sys/class/net/ens33/mtu"
+desc = "本次操作指定的路径：/sys/class/net/ens33/mtu"
+
+[commands.dictation]
+prompt = "读取接口当前 MTU，后续与路径 MTU 对照"
+answers = ["cat /sys/class/net/ens33/mtu"]
+
+[[commands]]
+id = "v04-link-a0253f4861"
+command = "sudo ethtool ens33"
+summary = "检查协商速度、双工与 Link detected；通常需要安装 ethtool"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ethtool"
+desc = "检查协商速度、双工与 Link detected；通常需要安装 ethtool"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "检查协商速度、双工与 Link detected；通常需要安装 ethtool；指定 ens33"
+
+[commands.dictation]
+prompt = "检查协商速度、双工与 Link detected；通常需要安装 ethtool"
+answers = ["sudo ethtool ens33"]
+
+[[commands]]
+id = "v04-link-5123ca3c5e"
+command = "sudo ethtool -i ens33"
+summary = "核对驱动、固件和总线信息，关联驱动故障日志"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ethtool"
+desc = "核对驱动、固件和总线信息，关联驱动故障日志"
+
+[[commands.tokens]]
+text = " -i"
+desc = "核对驱动、固件和总线信息，关联驱动故障日志；此处使用 -i 选项"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "核对驱动、固件和总线信息，关联驱动故障日志；指定 ens33"
+
+[commands.dictation]
+prompt = "核对驱动、固件和总线信息，关联驱动故障日志"
+answers = ["sudo ethtool -i ens33"]
+
+[[commands]]
+id = "v04-link-c8af3a198b"
+command = "sudo ethtool -S ens33"
+summary = "查看驱动提供的网卡统计，字段随驱动变化"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以被授权的管理身份执行后续命令"
+
+[[commands.tokens]]
+text = " ethtool"
+desc = "查看驱动提供的网卡统计，字段随驱动变化"
+
+[[commands.tokens]]
+text = " -S"
+desc = "查看驱动提供的网卡统计，字段随驱动变化；此处使用 -S 选项"
+
+[[commands.tokens]]
+text = " ens33"
+desc = "查看驱动提供的网卡统计，字段随驱动变化；指定 ens33"
+
+[commands.dictation]
+prompt = "查看驱动提供的网卡统计，字段随驱动变化"
+answers = ["sudo ethtool -S ens33"]
+
+[[commands]]
+id = "v04-link-41830c63f4"
+command = "cat /sys/class/net/ens33/statistics/rx_errors"
+summary = "读取接收错误累计值；单次非零不能确定现在仍在故障"
+simulated_output = "12"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /sys/class/net/ens33/statistics/rx_errors"
+desc = "本次操作指定的路径：/sys/class/net/ens33/statistics/rx_errors"
+
+[commands.dictation]
+prompt = "读取接收错误累计值；单次非零不能确定现在仍在故障"
+answers = ["cat /sys/class/net/ens33/statistics/rx_errors"]
+
+[[commands]]
+id = "v04-link-25a90a9761"
+command = "cat /sys/class/net/ens33/statistics/tx_dropped"
+summary = "读取发送丢弃累计值，需与时间区间和负载关联"
+simulated_output = "0"
+
+[[commands.tokens]]
+text = "cat"
+desc = "读取文件内容到标准输出"
+
+[[commands.tokens]]
+text = " /sys/class/net/ens33/statistics/tx_dropped"
+desc = "本次操作指定的路径：/sys/class/net/ens33/statistics/tx_dropped"
+
+[commands.dictation]
+prompt = "读取发送丢弃累计值，需与时间区间和负载关联"
+answers = ["cat /sys/class/net/ens33/statistics/tx_dropped"]

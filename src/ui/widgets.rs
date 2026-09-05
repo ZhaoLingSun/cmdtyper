@@ -182,3 +182,50 @@ mod tests {
         assert_eq!(visible_menu_window(99, 5, 1, 2), 3..5);
     }
 }
+
+/// Render actual typing targets, preserving sequential Enter boundaries and cursor offsets.
+pub fn typing_lines(
+    prompt: &str,
+    engine: &crate::core::engine::TypingEngine,
+) -> Vec<Line<'static>> {
+    let mut lines = Vec::new();
+    let mut spans = vec![Span::styled(
+        prompt.to_owned(),
+        Style::default().fg(PROMPT_COLOR),
+    )];
+    let current_line = engine
+        .target
+        .iter()
+        .take(engine.cursor)
+        .filter(|c| **c == '\n')
+        .count();
+    for (index, ch) in engine.target.iter().enumerate() {
+        let style = if index < engine.cursor {
+            Style::default().fg(TYPED_CORRECT)
+        } else if index == engine.cursor && engine.is_error_flashing() {
+            Style::default().fg(ERROR_FLASH).bg(ERROR_FLASH_BG)
+        } else if index == engine.cursor {
+            Style::default().fg(CURSOR).bg(CURSOR_BG)
+        } else {
+            Style::default().fg(PENDING).bg(PENDING_BG)
+        };
+        if *ch == '\n' {
+            spans.push(Span::styled(" [Enter]", style));
+            lines.push(Line::from(spans));
+            spans = vec![Span::styled(
+                prompt.to_owned(),
+                Style::default().fg(PROMPT_COLOR),
+            )];
+        } else {
+            spans.push(Span::styled(ch.to_string(), style));
+        }
+    }
+    lines.push(Line::from(spans));
+    // Keep the active command visible even for long preparation workflows.
+    let start = current_line.saturating_sub(3);
+    lines
+        .into_iter()
+        .skip(start)
+        .take(current_line.saturating_sub(start) + 1)
+        .collect()
+}

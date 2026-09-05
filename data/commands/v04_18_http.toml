@@ -1,0 +1,434 @@
+[meta]
+category = "network"
+difficulty = "basic"
+description = "分别观察 DNS、TCP、TLS、首字节和总耗时，避免把所有慢请求归因于网络。"
+
+[meta.topic]
+id = "v04_http"
+title = "HTTP 状态、重定向与耗时"
+icon = "🌐"
+order = 118
+
+[[commands]]
+id = "v04-http-5087444afb"
+command = "curl -sS -o /dev/null -w '%{http_code}\\n' https://example.com/"
+summary = "只显示 HTTP 状态码，响应体丢弃但错误仍可见"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " -sS"
+desc = "隐藏进度条，仍显示失败错误"
+
+[[commands.tokens]]
+text = " -o"
+desc = "指定响应体输出目标"
+
+[[commands.tokens]]
+text = " /dev/null"
+desc = "本次操作指定的路径：/dev/null"
+
+[[commands.tokens]]
+text = " -w"
+desc = "请求完成后按给定格式输出测量值"
+
+[[commands.tokens]]
+text = " '%{http_code}\\n'"
+desc = "引号保护此参数中的空格或特殊符号；只显示 HTTP 状态码，响应体丢弃但错误仍可见"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "只显示 HTTP 状态码，响应体丢弃但错误仍可见"
+answers = ["curl -sS -o /dev/null -w '%{http_code}\\n' https://example.com/"]
+
+[[commands]]
+id = "v04-http-ede02d19e5"
+command = "curl -sS -o /dev/null -w 'dns=%{time_namelookup}\\n' https://example.com/"
+summary = "显示 DNS 阶段耗时，单位为秒"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " -sS"
+desc = "隐藏进度条，仍显示失败错误"
+
+[[commands.tokens]]
+text = " -o"
+desc = "指定响应体输出目标"
+
+[[commands.tokens]]
+text = " /dev/null"
+desc = "本次操作指定的路径：/dev/null"
+
+[[commands.tokens]]
+text = " -w"
+desc = "请求完成后按给定格式输出测量值"
+
+[[commands.tokens]]
+text = " 'dns=%{time_namelookup}\\n'"
+desc = "引号保护此参数中的空格或特殊符号；显示 DNS 阶段耗时，单位为秒"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "显示 DNS 阶段耗时，单位为秒"
+answers = ["curl -sS -o /dev/null -w 'dns=%{time_namelookup}\\n' https://example.com/"]
+
+[[commands]]
+id = "v04-http-212080573b"
+command = "curl -sS -o /dev/null -w 'connect=%{time_connect}\\n' https://example.com/"
+summary = "显示从开始到 TCP 建连完成的累计耗时"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " -sS"
+desc = "隐藏进度条，仍显示失败错误"
+
+[[commands.tokens]]
+text = " -o"
+desc = "指定响应体输出目标"
+
+[[commands.tokens]]
+text = " /dev/null"
+desc = "本次操作指定的路径：/dev/null"
+
+[[commands.tokens]]
+text = " -w"
+desc = "请求完成后按给定格式输出测量值"
+
+[[commands.tokens]]
+text = " 'connect=%{time_connect}\\n'"
+desc = "引号保护此参数中的空格或特殊符号；显示从开始到 TCP 建连完成的累计耗时"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "显示从开始到 TCP 建连完成的累计耗时"
+answers = ["curl -sS -o /dev/null -w 'connect=%{time_connect}\\n' https://example.com/"]
+
+[[commands]]
+id = "v04-http-c5dc4503a3"
+command = "curl -sS -o /dev/null -w 'tls=%{time_appconnect}\\n' https://example.com/"
+summary = "显示从开始到 TLS 握手完成的累计耗时"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " -sS"
+desc = "隐藏进度条，仍显示失败错误"
+
+[[commands.tokens]]
+text = " -o"
+desc = "指定响应体输出目标"
+
+[[commands.tokens]]
+text = " /dev/null"
+desc = "本次操作指定的路径：/dev/null"
+
+[[commands.tokens]]
+text = " -w"
+desc = "请求完成后按给定格式输出测量值"
+
+[[commands.tokens]]
+text = " 'tls=%{time_appconnect}\\n'"
+desc = "引号保护此参数中的空格或特殊符号；显示从开始到 TLS 握手完成的累计耗时"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "显示从开始到 TLS 握手完成的累计耗时"
+answers = ["curl -sS -o /dev/null -w 'tls=%{time_appconnect}\\n' https://example.com/"]
+
+[[commands]]
+id = "v04-http-3c30326b61"
+command = "curl -sS -o /dev/null -w 'ttfb=%{time_starttransfer}\\n' https://example.com/"
+summary = "显示到首字节的累计耗时，包含服务器处理等待"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " -sS"
+desc = "隐藏进度条，仍显示失败错误"
+
+[[commands.tokens]]
+text = " -o"
+desc = "指定响应体输出目标"
+
+[[commands.tokens]]
+text = " /dev/null"
+desc = "本次操作指定的路径：/dev/null"
+
+[[commands.tokens]]
+text = " -w"
+desc = "请求完成后按给定格式输出测量值"
+
+[[commands.tokens]]
+text = " 'ttfb=%{time_starttransfer}\\n'"
+desc = "引号保护此参数中的空格或特殊符号；显示到首字节的累计耗时，包含服务器处理等待"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "显示到首字节的累计耗时，包含服务器处理等待"
+answers = ["curl -sS -o /dev/null -w 'ttfb=%{time_starttransfer}\\n' https://example.com/"]
+
+[[commands]]
+id = "v04-http-6acadb653c"
+command = "curl -sS -o /dev/null -w 'total=%{time_total}\\n' https://example.com/"
+summary = "显示整个请求总耗时"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " -sS"
+desc = "隐藏进度条，仍显示失败错误"
+
+[[commands.tokens]]
+text = " -o"
+desc = "指定响应体输出目标"
+
+[[commands.tokens]]
+text = " /dev/null"
+desc = "本次操作指定的路径：/dev/null"
+
+[[commands.tokens]]
+text = " -w"
+desc = "请求完成后按给定格式输出测量值"
+
+[[commands.tokens]]
+text = " 'total=%{time_total}\\n'"
+desc = "引号保护此参数中的空格或特殊符号；显示整个请求总耗时"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "显示整个请求总耗时"
+answers = ["curl -sS -o /dev/null -w 'total=%{time_total}\\n' https://example.com/"]
+
+[[commands]]
+id = "v04-http-b9f61a8b33"
+command = "curl -sS -D - -o /dev/null https://example.com/"
+summary = "用 GET 获取响应头并丢弃正文，避免 HEAD 行为差异"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " -sS"
+desc = "隐藏进度条，仍显示失败错误"
+
+[[commands.tokens]]
+text = " -D"
+desc = "把响应头写入指定目标，- 表示标准输出"
+
+[[commands.tokens]]
+text = " -"
+desc = "用 GET 获取响应头并丢弃正文，避免 HEAD 行为差异；此处使用 - 选项"
+
+[[commands.tokens]]
+text = " -o"
+desc = "指定响应体输出目标"
+
+[[commands.tokens]]
+text = " /dev/null"
+desc = "本次操作指定的路径：/dev/null"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "用 GET 获取响应头并丢弃正文，避免 HEAD 行为差异"
+answers = ["curl -sS -D - -o /dev/null https://example.com/"]
+
+[[commands]]
+id = "v04-http-7e0b9721a6"
+command = "curl -sS -L --max-redirs 3 -o /dev/null -w '%{url_effective}\\n' http://example.com/"
+summary = "最多跟随三次重定向并显示最终 URL"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " -sS"
+desc = "隐藏进度条，仍显示失败错误"
+
+[[commands.tokens]]
+text = " -L"
+desc = "跟随重定向"
+
+[[commands.tokens]]
+text = " --max-redirs"
+desc = "设置最大重定向次数"
+
+[[commands.tokens]]
+text = " 3"
+desc = "本次练习的数值参数 3；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " -o"
+desc = "指定响应体输出目标"
+
+[[commands.tokens]]
+text = " /dev/null"
+desc = "本次操作指定的路径：/dev/null"
+
+[[commands.tokens]]
+text = " -w"
+desc = "请求完成后按给定格式输出测量值"
+
+[[commands.tokens]]
+text = " '%{url_effective}\\n'"
+desc = "引号保护此参数中的空格或特殊符号；最多跟随三次重定向并显示最终 URL"
+
+[[commands.tokens]]
+text = " http://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "最多跟随三次重定向并显示最终 URL"
+answers = ["curl -sS -L --max-redirs 3 -o /dev/null -w '%{url_effective}\\n' http://example.com/"]
+
+[[commands]]
+id = "v04-http-e2fa25d275"
+command = "curl --fail-with-body --max-time 5 http://192.0.2.20/health"
+summary = "在 HTTP 错误时返回失败仍保留正文，适合健康检查诊断"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " --fail-with-body"
+desc = "HTTP 错误时返回非零状态并保留响应体"
+
+[[commands.tokens]]
+text = " --max-time"
+desc = "限定整个请求总秒数"
+
+[[commands.tokens]]
+text = " 5"
+desc = "本次练习的数值参数 5；含义由紧邻的选项决定"
+
+[[commands.tokens]]
+text = " http://192.0.2.20/health"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "在 HTTP 错误时返回失败仍保留正文，适合健康检查诊断"
+answers = ["curl --fail-with-body --max-time 5 http://192.0.2.20/health"]
+
+[[commands]]
+id = "v04-http-bba3383f94"
+command = "curl -H 'Accept: application/json' https://example.com/api/status"
+summary = "请求 JSON 表示并观察接口内容协商"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " -H"
+desc = "设置请求头"
+
+[[commands.tokens]]
+text = " 'Accept: application/json'"
+desc = "引号保护此参数中的空格或特殊符号；请求 JSON 表示并观察接口内容协商"
+
+[[commands.tokens]]
+text = " https://example.com/api/status"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "请求 JSON 表示并观察接口内容协商"
+answers = ["curl -H 'Accept: application/json' https://example.com/api/status"]
+
+[[commands]]
+id = "v04-http-fa353d66aa"
+command = "curl --resolve example.com:443:192.0.2.20 https://example.com/"
+summary = "固定实验 IP 同时保留 Host 和 TLS 域名校验"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " --resolve"
+desc = "为指定域名和端口固定连接 IP，保留域名校验"
+
+[[commands.tokens]]
+text = " example.com:443:192.0.2.20"
+desc = "固定实验 IP 同时保留 Host 和 TLS 域名校验；指定 example.com:443:192.0.2.20"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "固定实验 IP 同时保留 Host 和 TLS 域名校验"
+answers = ["curl --resolve example.com:443:192.0.2.20 https://example.com/"]
+
+[[commands]]
+id = "v04-http-20a4c4edd4"
+command = "curl -sS -o /dev/null -w 'peer=%{remote_ip}:%{remote_port}\\n' https://example.com/"
+summary = "输出实际连接的远端地址与端口"
+
+[[commands.tokens]]
+text = "curl"
+desc = "使用 URL 发起请求并观察协议结果"
+
+[[commands.tokens]]
+text = " -sS"
+desc = "隐藏进度条，仍显示失败错误"
+
+[[commands.tokens]]
+text = " -o"
+desc = "指定响应体输出目标"
+
+[[commands.tokens]]
+text = " /dev/null"
+desc = "本次操作指定的路径：/dev/null"
+
+[[commands.tokens]]
+text = " -w"
+desc = "请求完成后按给定格式输出测量值"
+
+[[commands.tokens]]
+text = " 'peer=%{remote_ip}:%{remote_port}\\n'"
+desc = "引号保护此参数中的空格或特殊符号；输出实际连接的远端地址与端口"
+
+[[commands.tokens]]
+text = " https://example.com/"
+desc = "本次请求的目标 URL；域名、路径和协议均影响结果"
+
+[commands.dictation]
+prompt = "输出实际连接的远端地址与端口"
+answers = ["curl -sS -o /dev/null -w 'peer=%{remote_ip}:%{remote_port}\\n' https://example.com/"]
