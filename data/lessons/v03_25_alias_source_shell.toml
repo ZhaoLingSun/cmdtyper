@@ -1,0 +1,87 @@
+[meta]
+command = "v03-alias-source-shell"
+full_name = "Shell 状态、别名与配置重载"
+category = "system"
+difficulty = "basic"
+importance = "common"
+
+[overview]
+summary = "区分当前 shell 状态、临时别名与启动文件持久化"
+explanation = """排查 shell 行为时，应先确认上一条命令的退出状态、当前调用名以及目标解释器版本。退出状态通常以零表示成功、非零表示失败，但具体含义由命令定义，而且每执行一条新命令都会更新。别名是当前交互 shell 中的文本替换规则，定义或取消别名不会自动修改启动文件。若要持久化，应先阅读并备份对应 shell 的配置，再做最小修改。source 会让配置在当前 shell 中执行并立即改变会话，因此只能加载可信、已审查的文件；若只是验证配置，开启一个新的测试 shell 往往更容易隔离问题。"""
+
+[syntax]
+basic = "状态查询；alias 名称=替换文本；unalias 名称；source 已审查配置文件"
+
+[[syntax.parts]]
+name = "退出状态"
+desc = "只代表紧邻的上一条命令；读取后执行的其他命令会产生新的状态"
+
+[[syntax.parts]]
+name = "别名名称"
+desc = "仅在支持别名展开的当前交互 shell 中生效，脚本通常不应依赖它"
+
+[[syntax.parts]]
+name = "启动文件"
+desc = "不同 shell、登录方式和交互模式读取的文件可能不同，修改前先确认目标"
+
+[[options]]
+flag = "$?"
+name = "上一条命令状态"
+note = "应在目标命令之后立即读取；零通常表示成功，但不能脱离命令文档解释"
+
+[[options]]
+flag = "$0"
+name = "调用名"
+note = "交互 shell 与脚本中的含义不同，也不总能准确描述当前 shell 的全部模式"
+
+[[options]]
+flag = "alias"
+name = "定义会话内快捷写法"
+note = "只修改当前 shell 状态；先检查名称是否会遮蔽真实命令"
+
+[[options]]
+flag = "source"
+name = "在当前 shell 执行文件"
+note = "会立即继承其中的变量、函数和副作用；只加载可信且已审查的内容"
+
+[[examples]]
+id = "v03-25-alias-source-shell-01"
+command_id = "shell-last-exit-status"
+level = 1
+
+[[examples]]
+id = "v03-25-alias-source-shell-02"
+command_id = "shell-invocation-name"
+level = 1
+
+[[examples]]
+id = "v03-25-alias-source-shell-03"
+command_id = "bash-show-version"
+level = 1
+
+[[examples]]
+id = "v03-25-alias-source-shell-04"
+command_id = "bashrc-list-aliases"
+level = 2
+
+[[examples]]
+id = "v03-25-alias-source-shell-05"
+command_id = "bashrc-persist-ll-alias"
+level = 2
+
+[[examples]]
+id = "v03-25-alias-source-shell-06"
+command_id = "bashrc-reload-check-ll"
+level = 2
+
+[[gotchas]]
+title = "读取状态必须紧跟目标命令"
+content = "提示、输出或检查步骤本身也可能运行命令并覆盖状态。需要诊断时，立即记录目标命令的退出状态，不要隔着其他操作再读。"
+
+[[gotchas]]
+title = "别名可能遮蔽真实命令"
+content = "同名别名会改变交互输入的展开结果，导致文档示例和脚本行为不一致。排查时先查看别名定义，必要时只在当前会话取消。"
+
+[[gotchas]]
+title = "source 会在当前会话产生副作用"
+content = "它不是只读解析器。被加载文件可以修改 PATH、覆盖函数、改变选项或执行其他操作；来源不明或含凭据的配置绝不能直接加载或分享。"

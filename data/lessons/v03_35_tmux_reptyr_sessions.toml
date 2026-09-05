@@ -1,0 +1,204 @@
+[meta]
+command = "tmux-reptyr-sessions"
+full_name = "Terminal sessions, tmux recovery, and cautious reptyr attachment"
+category = "process"
+difficulty = "practical"
+importance = "common"
+
+[overview]
+summary = "优先用 tmux 保持任务；遗留进程接管必须按身份、会话与 ptrace 约束逐步核对"
+explanation = """终端恢复分两类。预防性方案是 tmux：服务端保存会话（session），会话包含窗口（window），窗口再包含窗格（pane）；客户端断开通常不结束服务端中的任务。`tmux new -s dev` 会创建命名会话并让当前客户端立即进入，并非分离启动。恢复时先 `list-sessions` 核对当前用户可见的会话，再 `list-windows` 和 `list-panes` 定位窗口、窗格、启动 PID、TTY 与前台命令，必要时用 `capture-pane` 只读恢复最近输出。`detach-client` 只分离客户端视图，`kill-session` 则永久删除目标会话：仅由该会话独占的窗口和窗格会随之关闭，同时链接到其他会话的窗口仍保留在那些会话中；使用前必须核对链接关系、会话名、所有权、任务可终止性和输出保存状态。
+
+补救性方案是 reptyr：它尝试把已运行进程重新关联到当前终端，会改变目标的终端关系，不能当作普通查看命令。先用 `tty` 记录当前 TTY，再用 `ps ww` 同时检查 USER、PID、PPID、SID、TTY、STAT 和完整 ARGS。PID 可被复用，必须使用最新快照；目标必须属于当前同一用户，命令行、父进程、会话 ID 与原 TTY 都应符合预期。随后只读确认 reptyr 可用并查看 Yama `ptrace_scope`。内核、容器、能力、dumpable 状态和 Yama 都可能阻止附加；失败时应尊重策略，而不是关闭安全限制或随手 sudo。本课只展示普通 `reptyr PID` 尝试；配套静态场景不仅给出 `ptrace_scope=1`，还明确规定目标不是跟踪者的后代、没有通过 `PR_SET_PTRACER` 授权该跟踪者，且调用者在目标用户命名空间没有 `CAP_SYS_PTRACE`，因此预设结果才是 `Operation not permitted`，失败后立即停止。本课有意不练习 `reptyr -T`：它捕获的是整条 TTY，而不是单个 PID，可能影响该终端上的全部相关进程；绝不能用它绕过 Yama、权限或所有权策略。任何整条 TTY 操作前，都应先用 `ps -t TTY -o ...` 只读盘点所有者与进程范围。"""
+
+[syntax]
+basic = "tmux 对象操作；tty；ps ww -o user,pid,ppid,sid,tty,stat,args -p PID；ps -t TTY -o user,pid,ppid,sid,tty,stat,cmd；reptyr PID"
+[[syntax.parts]]
+name = "会话 session"
+desc = "tmux 服务端中的顶层工作区，可包含多个窗口；连接与分离客户端通常不终止会话任务"
+[[syntax.parts]]
+name = "窗口 window"
+desc = "会话中的编号或命名工作区；目标常写成 session:window，例如 dev:0"
+[[syntax.parts]]
+name = "窗格 pane"
+desc = "窗口中的独立伪终端区域；目标可写 session:window.pane，例如 dev:0.0"
+[[syntax.parts]]
+name = "进程关系"
+desc = "PID 标识进程，PPID 指向父进程，SID 标识会话，TTY 表示控制终端；四者结合命令行判断归属"
+[[syntax.parts]]
+name = "所有权"
+desc = "普通接管应限定当前同一用户拥有的目标；跨用户附加涉及权限和安全边界，不以 sudo 绕过"
+[[syntax.parts]]
+name = "ptrace 策略"
+desc = "ptrace_scope=1 下不能只看直接父子关系：还要判断目标是否为跟踪者后代、是否有 PR_SET_PTRACER 授权，以及调用者是否具备 CAP_SYS_PTRACE"
+[[syntax.parts]]
+name = "整条 TTY 操作边界"
+desc = "reptyr -T 会捕获整条 TTY 而非单个 PID，本课不练习；不得用它绕过 Yama、权限或所有权策略"
+
+[[options]]
+flag = "new -s 名称"
+name = "创建命名会话"
+example = "tmux new -s dev"
+note = "命令会创建命名会话并立即进入；提前在 tmux 中启动长期任务，比事后接管裸终端进程更可预测"
+
+[[options]]
+flag = "attach -t 名称"
+name = "连接已有会话"
+example = "tmux attach -t dev"
+note = "先用 list-sessions 确认名称、状态和当前用户所有权，避免连接错误目标"
+
+[[options]]
+flag = "list-sessions"
+name = "会话清单"
+example = "tmux list-sessions"
+note = "只读查看当前用户 tmux 服务端中的名称、窗口数和 attached/detached 状态"
+
+[[options]]
+flag = "list-windows -t"
+name = "窗口清单"
+example = "tmux list-windows -t dev"
+note = "在进入或清理前确认窗口编号、名称、窗格数与活动状态"
+
+[[options]]
+flag = "list-panes -F"
+name = "窗格诊断字段"
+example = "tmux list-panes -t dev:0 -F '#{pane_id} #{pane_pid} #{pane_tty} #{pane_current_command}'"
+note = "窗格 PID 通常是窗格 shell/启动进程，不保证就是需要接管的最终子进程；继续用 ps 检查进程树"
+
+[[options]]
+flag = "capture-pane -p -S -50 | tail -n 50"
+name = "打印最新 50 行"
+example = "tmux capture-pane -p -t dev:0.0 -S -50 | tail -n 50"
+note = "capture-pane 的候选范围包含历史和当前可见区域，tail 再从合并输出末端精确保留最新 50 行；仍受 tmux history-limit 和应用 alternate screen 行为影响"
+
+[[options]]
+flag = "detach-client -s"
+name = "分离客户端"
+example = "tmux detach-client -s dev"
+note = "保留会话任务，但会中断其他连接者当前视图；仍需确认并沟通影响"
+
+[[options]]
+flag = "kill-session -t"
+name = "永久结束会话"
+example = "tmux kill-session -t dev"
+note = "破坏性：删除目标会话；仅由它独占的窗口和窗格会随之关闭，同时链接到其他会话的窗口仍保留。执行前必须核对链接关系、多层清单、任务状态和输出保存"
+
+[[options]]
+flag = "ps ww -o user,pid,ppid,sid,tty,stat,args"
+name = "接管前宽幅进程快照"
+example = "ps ww -o user,pid,ppid,sid,tty,stat,args -p 4242"
+note = "重复 w 避免长参数按终端宽度截断；必须重新获取最新结果，核对同一用户、PID 未复用、父子关系、SID、TTY、状态和完整命令"
+
+[[options]]
+flag = "reptyr PID"
+name = "普通接管"
+example = "reptyr 4242"
+note = "本课预设 EPERM 的前提是：ptrace_scope=1、目标不是跟踪者后代、无 PR_SET_PTRACER 授权且调用者无目标用户命名空间中的 CAP_SYS_PTRACE。缺少任一事实时都不能仅凭“不是父进程”保证失败；失败后不 sudo、不降策略、不改用 -T"
+
+[[options]]
+flag = "ps -t TTY -o user,pid,ppid,sid,tty,stat,cmd"
+name = "整条 TTY 的只读范围清单"
+example = "ps -t pts/7 -o user,pid,ppid,sid,tty,stat,cmd"
+note = "在考虑任何整条 TTY 操作前，先核对该终端上的全部进程、所有者和会话关系；清单本身不修改任务"
+
+[[examples]]
+id = "v03-l35-tmux-new"
+command_id = "tmux-new-session"
+level = 1
+
+[[examples]]
+id = "v03-l35-tmux-attach"
+command_id = "tmux-attach-session"
+level = 1
+
+[[examples]]
+id = "v03-l35-tmux-sessions"
+command_id = "tmux-list-sessions-recovery"
+level = 1
+
+[[examples]]
+id = "v03-l35-tmux-detach"
+command_id = "tmux-detach-dev-clients"
+level = 3
+
+[[examples]]
+id = "v03-l35-tmux-windows"
+command_id = "tmux-list-windows-dev"
+level = 2
+
+[[examples]]
+id = "v03-l35-tmux-panes"
+command_id = "tmux-list-panes-recovery-format"
+level = 3
+
+[[examples]]
+id = "v03-l35-tmux-capture"
+command_id = "tmux-capture-pane-recent-output"
+level = 3
+
+[[examples]]
+id = "v03-l35-tmux-kill"
+command_id = "tmux-kill-session-dev-confirmed"
+level = 4
+
+[[examples]]
+id = "v03-l35-current-tty"
+command_id = "tty-current-terminal"
+level = 1
+
+[[examples]]
+id = "v03-l35-process-session-review"
+command_id = "ps-session-terminal-review"
+level = 3
+
+[[examples]]
+id = "v03-l35-reptyr-available"
+command_id = "command-v-reptyr"
+level = 1
+
+[[examples]]
+id = "v03-l35-yama-read"
+command_id = "yama-ptrace-scope-read"
+level = 2
+
+[[examples]]
+id = "v03-l35-reptyr-normal"
+command_id = "reptyr-attach-normal"
+level = 4
+
+[[examples]]
+id = "v03-l35-reptyr-tty-steal"
+command_id = "ps-tty-session-scope-review"
+level = 4
+
+[[gotchas]]
+title = "session、window、pane 是三层不同对象"
+content = """会话包含窗口，窗口包含窗格。`dev`、`dev:0`、`dev:0.0` 分别指向不同粒度；只看到窗口名相同不能证明窗格相同。恢复前按 session → window → pane 顺序列出，记录唯一目标和当前命令，再连接或操作。"""
+
+[[gotchas]]
+title = "detach 与 kill 的后果完全不同"
+content = """detach-client 只断开客户端视图，任务继续；kill-session 会删除目标会话，并关闭只由它独占的窗口、窗格及其前台任务。若某窗口同时链接到其他会话，它会在那些会话中继续存在，不能把“结束会话”笼统描述为销毁所有关联窗口。即使 kill 命令语法简单，也必须先核对当前用户所有权、精确会话名、窗口链接关系、窗口/窗格内容、其他连接者、未保存工作和输出备份。无法证明安全时只分离或保持现状。"""
+
+[[gotchas]]
+title = "窗格 PID 不一定是目标业务进程"
+content = """tmux 的 pane_pid 常是窗格启动的 shell，业务程序可能是其子进程。接管前通过最新 `ps` 检查 USER、PID、PPID、SID、TTY、STAT 和完整 ARGS，必要时沿父子关系继续观察。仅凭一个旧 PID 或进程名不能排除 PID 复用和同名进程。"""
+
+[[gotchas]]
+title = "同用户所有权是普通接管的基本边界"
+content = """reptyr 不应被用来接管其他用户的任务。先把目标 USER 与当前身份对照，并确认进程不是敏感服务、容器边界内任务或其他人的共享终端工作。权限不足不是自动使用 sudo 的理由；应停止并由任务所有者或系统策略负责人处理。"""
+
+[[gotchas]]
+title = "SID 与 TTY 解释进程为何仍绑在旧终端"
+content = """PID 是进程本身，PPID 表示直接父进程，SID 表示登录/作业控制会话，TTY 是控制终端。目标和当前 shell 的 TTY 不同本身很常见；关键是这些字段是否与预期来源一致。reptyr 会改变终端关联，前后台作业控制、信号和输入输出都可能受影响。"""
+
+[[gotchas]]
+title = "Yama/ptrace 限制不应为方便而降低"
+content = """`/proc/sys/kernel/yama/ptrace_scope` 是只读诊断入口。值 1 通常允许满足基础条件的后代跟踪，也可能允许目标通过 `PR_SET_PTRACER` 指定的跟踪者，或在目标用户命名空间具备 `CAP_SYS_PTRACE` 的调用者。只有在本课静态场景明确排除后代关系、显式授权和能力覆盖三条路径后，才把普通 reptyr 的结果预设为 `Operation not permitted`；“不是直接父进程”本身不够。容器、SELinux/AppArmor、dumpable 状态等还可能进一步限制操作。不要写 procfs、关闭 Yama 或扩大 capabilities。"""
+
+[[gotchas]]
+title = "本课有意不练习 reptyr -T"
+content = """`reptyr -T` 捕获的是整条控制 TTY，而不是只处理一个 PID，因此可能扰动该终端上的 shell、前台任务和其他相关进程。它不能作为普通模式失败后的练习升级路径，更不能用来绕过 Yama、权限、能力或所有权策略。遇到失败应保留错误并停止；若现实流程确需评估任何整条 TTY 操作，先用最新的 `ps -t TTY -o user,pid,ppid,sid,tty,stat,cmd` 只读盘点全部所有者与进程范围，再交由任务所有者和策略负责人决定。"""
+
+[[gotchas]]
+title = "capture-pane 不是应用完整日志"
+content = """tmux 历史可能被上限裁剪，程序使用 alternate screen 时可见内容也可能有限。捕获近期输出适合恢复上下文，但不能替代应用日志、事务状态或数据一致性检查。做破坏性会话清理前，应确认真正需要保存的输出已落在可靠位置。"""

@@ -1,0 +1,508 @@
+[meta]
+category = "text_process"
+difficulty = "basic"
+description = "文本处理工具箱"
+
+[meta.topic]
+id = "text_toolkit"
+title = "文本处理工具箱"
+icon = "🧰"
+order = 14
+
+[[commands]]
+id = "text-cut-group-names"
+command = "cut -d: -f1 /etc/group"
+summary = "读取组数据库中冒号分隔的组名列"
+simulated_output = """root
+daemon
+sudo
+users
+docker"""
+
+[[commands.tokens]]
+text = "cut"
+desc = "按字节、字符或字段截取每一行"
+
+[[commands.tokens]]
+text = " -d:"
+desc = "把冒号设为字段分隔符"
+
+[[commands.tokens]]
+text = " -f1"
+desc = "只输出第 1 个字段"
+
+[[commands.tokens]]
+text = " /etc/group"
+desc = "以系统组数据库作为输入文件"
+
+[commands.dictation]
+prompt = "从 /etc/group 中提取以冒号分隔的第一列组名"
+answers = ["cut -d: -f1 /etc/group"]
+
+[[commands]]
+id = "text-sort-response-times-numeric"
+command = "sort -n response_times.txt"
+summary = "按数值而非字符顺序排列响应时间"
+simulated_output = """2
+9
+15.5
+120"""
+
+[[commands.tokens]]
+text = "sort"
+desc = "逐行读取并排列文本"
+
+[[commands.tokens]]
+text = " -n"
+desc = "按数值而不是按字符顺序比较"
+
+[[commands.tokens]]
+text = " response_times.txt"
+desc = "每行保存一个响应时间的输入文件"
+
+[commands.dictation]
+prompt = "把 response_times.txt 中的响应时间按数值从小到大排列"
+answers = ["sort -n response_times.txt"]
+
+[[commands]]
+id = "text-sort-regions-reverse"
+command = "sort -r regions.txt"
+summary = "按当前语言环境的规则降序排列文本"
+simulated_output = """west
+south
+north
+east"""
+
+[[commands.tokens]]
+text = "sort"
+desc = "逐行读取并排列文本"
+
+[[commands.tokens]]
+text = " -r"
+desc = "反转比较结果，改为降序输出"
+
+[[commands.tokens]]
+text = " regions.txt"
+desc = "保存区域名称的输入文件"
+
+[commands.dictation]
+prompt = "将 regions.txt 的每行文本按当前语言环境的规则降序排列"
+answers = ["sort -r regions.txt"]
+
+[[commands]]
+id = "text-sort-artifact-sizes-human"
+command = "sort -h artifact_sizes.txt"
+summary = "按 K、M、G 等易读大小值升序排列"
+simulated_output = """900K
+2M
+12M
+1G"""
+
+[[commands.tokens]]
+text = "sort"
+desc = "逐行读取并排列文本"
+
+[[commands.tokens]]
+text = " -h"
+desc = "GNU 扩展：识别 K、M、G 等易读大小后按数值比较"
+
+[[commands.tokens]]
+text = " artifact_sizes.txt"
+desc = "每行保存一个带单位大小值的输入文件"
+
+[commands.dictation]
+prompt = "把 artifact_sizes.txt 中带 K、M、G 单位的大小值从小到大排列"
+answers = ["sort -h artifact_sizes.txt"]
+
+[[commands]]
+id = "text-sort-team-second-field"
+command = "sort -k2 team.txt"
+summary = "从第二字段起选取排序键排列人员"
+simulated_output = """li Backend
+wang Frontend
+chen Operations"""
+
+[[commands.tokens]]
+text = "sort"
+desc = "逐行读取并排列文本"
+
+[[commands.tokens]]
+text = " -k2"
+desc = "把第 2 个字段起直到行末作为排序键"
+
+[[commands.tokens]]
+text = " team.txt"
+desc = "包含姓名和团队字段的输入文件"
+
+[commands.dictation]
+prompt = "以 team.txt 每行第二个字段起的内容作为键升序排列"
+answers = ["sort -k2 team.txt"]
+
+[[commands]]
+id = "text-uniq-count-status-runs"
+command = "uniq -c status_runs.txt"
+summary = "统计每一段连续重复状态出现了几次"
+simulated_output = """      3 failed
+      2 pending
+      5 running"""
+
+[[commands.tokens]]
+text = "uniq"
+desc = "合并相邻的重复行"
+
+[[commands.tokens]]
+text = " -c"
+desc = "在每组输出前显示该相邻重复行的次数"
+
+[[commands.tokens]]
+text = " status_runs.txt"
+desc = "相同状态已经相邻排列的输入文件"
+
+[commands.dictation]
+prompt = "status_runs.txt 中相同状态已经排在一起；合并相邻重复行并显示每段次数"
+answers = ["uniq -c status_runs.txt"]
+
+[[commands]]
+id = "text-pipeline-endpoint-frequency"
+command = "sort endpoints.txt | uniq -c | sort -nr"
+summary = "统计各接口出现次数并按频次降序"
+simulated_output = """     18 /health
+      9 /api/orders
+      4 /api/users"""
+
+[[commands.tokens]]
+text = "sort"
+desc = "先让相同接口路径相邻"
+
+[[commands.tokens]]
+text = " endpoints.txt"
+desc = "每行保存一个接口路径的输入文件"
+
+[[commands.tokens]]
+text = " |"
+desc = "把排列后的文本交给下一步"
+
+[[commands.tokens]]
+text = " uniq"
+desc = "合并相邻的重复接口路径"
+
+[[commands.tokens]]
+text = " -c"
+desc = "给每个接口路径加上出现次数"
+
+[[commands.tokens]]
+text = " |"
+desc = "把带计数的结果交给最后一步"
+
+[[commands.tokens]]
+text = " sort"
+desc = "排列统计结果"
+
+[[commands.tokens]]
+text = " -nr"
+desc = "按开头计数进行数值降序排列"
+
+[commands.dictation]
+prompt = "统计 endpoints.txt 中每种接口路径的次数，并按次数从高到低显示"
+answers = ["sort endpoints.txt | uniq -c | sort -nr"]
+
+[[commands]]
+id = "text-tr-greeting-uppercase"
+command = "tr '[:lower:]' '[:upper:]' < greeting.txt"
+summary = "把输入中的小写字母转换为大写"
+simulated_output = "HELLO, LINUX!"
+
+[[commands.tokens]]
+text = "tr"
+desc = "转换或删除输入中的字符"
+
+[[commands.tokens]]
+text = " '[:lower:]'"
+desc = "选择当前语言环境中的小写字符类"
+
+[[commands.tokens]]
+text = " '[:upper:]'"
+desc = "把选中的字符映射为对应的大写字符"
+
+[[commands.tokens]]
+text = " < greeting.txt"
+desc = "从 greeting.txt 重定向读取输入"
+
+[commands.dictation]
+prompt = "把 greeting.txt 中的小写英文字母转换为大写并输出"
+answers = ["tr '[:lower:]' '[:upper:]' < greeting.txt"]
+
+[[commands]]
+id = "text-tr-delete-ticket-digits"
+command = "tr -d '[:digit:]' < ticket.txt"
+summary = "从文本中删除所有数字字符"
+simulated_output = "INC: database unavailable"
+
+[[commands.tokens]]
+text = "tr"
+desc = "转换或删除输入中的字符"
+
+[[commands.tokens]]
+text = " -d"
+desc = "删除指定集合中的字符，不进行替换"
+
+[[commands.tokens]]
+text = " '[:digit:]'"
+desc = "选择当前语言环境中的数字字符类"
+
+[[commands.tokens]]
+text = " < ticket.txt"
+desc = "从 ticket.txt 重定向读取输入"
+
+[commands.dictation]
+prompt = "删除 ticket.txt 内容中的所有数字字符并输出结果"
+answers = ["tr -d '[:digit:]' < ticket.txt"]
+
+[[commands]]
+id = "text-head-app-fifteen"
+command = "head -n 15 app.log"
+summary = "只读查看应用日志开头 15 行"
+simulated_output = """2026-07-25 18:40:02 INFO application starting
+2026-07-25 18:40:03 INFO configuration loaded
+2026-07-25 18:40:05 INFO listening on :8080"""
+
+[[commands.tokens]]
+text = "head"
+desc = "显示文件开头部分，不修改文件"
+
+[[commands.tokens]]
+text = " -n"
+desc = "按指定行数限制输出"
+
+[[commands.tokens]]
+text = " 15"
+desc = "最多显示开头 15 行"
+
+[[commands.tokens]]
+text = " app.log"
+desc = "要快速检查开头内容的应用日志"
+
+[commands.dictation]
+prompt = "不修改文件，只读显示 app.log 开头最多 15 行"
+answers = ["head -n 15 app.log"]
+
+[[commands]]
+id = "text-tail-service-twenty"
+command = "tail -n 20 service.log"
+summary = "只读查看服务日志末尾 20 行"
+simulated_output = """2026-07-25 18:42:11 INFO cache connected
+2026-07-25 18:42:14 INFO routes loaded
+2026-07-25 18:42:19 INFO ready"""
+
+[[commands.tokens]]
+text = "tail"
+desc = "显示文件末尾部分，不修改文件"
+
+[[commands.tokens]]
+text = " -n"
+desc = "按指定行数限制输出"
+
+[[commands.tokens]]
+text = " 20"
+desc = "最多显示末尾 20 行"
+
+[[commands.tokens]]
+text = " service.log"
+desc = "要读取的日志文件"
+
+[commands.dictation]
+prompt = "不修改文件，只读显示 service.log 末尾最多 20 行"
+answers = ["tail -n 20 service.log"]
+
+[[commands]]
+id = "text-wc-settings-lines"
+command = "wc -l settings.ini"
+summary = "只读统计配置文件的行数"
+simulated_output = "12 settings.ini"
+
+[[commands.tokens]]
+text = "wc"
+desc = "统计输入的行、单词或字节数量，本题只读取文件"
+
+[[commands.tokens]]
+text = " -l"
+desc = "只统计换行符数量，并与文件名一起输出"
+
+[[commands.tokens]]
+text = " settings.ini"
+desc = "要只读统计的练习配置文件"
+
+[commands.dictation]
+prompt = "不修改 settings.ini，只显示它的行数和文件名"
+answers = ["wc -l settings.ini"]
+
+[[commands]]
+id = "text-cut-process-first-field"
+command = "cut -d' ' -f1 processes.txt"
+summary = "提取单个空格分隔的进程表第一列"
+simulated_output = """PID
+1024
+1187
+2046"""
+
+[[commands.tokens]]
+text = "cut"
+desc = "按分隔符提取文本字段"
+
+[[commands.tokens]]
+text = " -d' '"
+desc = "明确使用一个空格作为字段分隔符；本题输入已保证字段间只有一个空格"
+
+[[commands.tokens]]
+text = " -f1"
+desc = "只输出第 1 个字段"
+
+[[commands.tokens]]
+text = " processes.txt"
+desc = "字段间使用单个空格的练习进程表"
+
+[commands.dictation]
+prompt = "processes.txt 的字段间恰好是一个空格；提取并输出第一列"
+answers = ["cut -d' ' -f1 processes.txt"]
+
+[[commands]]
+id = "text-head-passwd-five"
+command = "head -n 5 /etc/passwd"
+summary = "查看账户数据库开头 5 行"
+simulated_output = """root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync"""
+
+[[commands.tokens]]
+text = "head"
+desc = "显示文件开头部分"
+
+[[commands.tokens]]
+text = " -n"
+desc = "按行数限制输出"
+
+[[commands.tokens]]
+text = " 5"
+desc = "只显示开头 5 行"
+
+[[commands.tokens]]
+text = " /etc/passwd"
+desc = "系统账户数据库文件"
+
+[commands.dictation]
+prompt = "显示 /etc/passwd 开头的 5 行"
+answers = ["head -n 5 /etc/passwd"]
+
+[[commands]]
+id = "text-tail-app-default"
+command = "tail app.log"
+summary = "查看应用日志末尾默认 10 行"
+simulated_output = """2026-07-26 10:20:01 INFO request id=8f31 status=200
+2026-07-26 10:20:03 INFO request id=8f32 status=200
+2026-07-26 10:20:04 WARN retry id=8f33 attempt=1
+2026-07-26 10:20:05 INFO request id=8f33 status=200
+2026-07-26 10:20:07 INFO request id=8f34 status=201
+2026-07-26 10:20:09 INFO request id=8f35 status=200
+2026-07-26 10:20:10 WARN queue depth=87
+2026-07-26 10:20:12 INFO request id=8f36 status=200
+2026-07-26 10:20:14 INFO request id=8f37 status=204
+2026-07-26 10:20:15 INFO health status=ok"""
+
+[[commands.tokens]]
+text = "tail"
+desc = "默认显示文件末尾 10 行"
+
+[[commands.tokens]]
+text = " app.log"
+desc = "要查看末尾内容的应用日志"
+
+[commands.dictation]
+prompt = "显示 app.log 末尾默认的 10 行"
+answers = ["tail app.log"]
+
+[[commands]]
+id = "text-tail-follow-app-twenty"
+command = "tail -n 20 -f app.log"
+summary = "先显示应用日志末尾 20 行，再持续观察新增内容"
+simulated_output = """2026-07-25 18:53:02 INFO request id=a17 status=200
+2026-07-25 18:53:07 WARN retry id=a18 attempt=1
+2026-07-25 18:53:13 INFO request id=a18 status=200"""
+
+[[commands.tokens]]
+text = "tail"
+desc = "显示文件末尾部分"
+
+[[commands.tokens]]
+text = " -n 20"
+desc = "开始跟踪前先显示末尾 20 行"
+
+[[commands.tokens]]
+text = " -f"
+desc = "到达文件末尾后继续等待并输出新追加的内容"
+
+[[commands.tokens]]
+text = " app.log"
+desc = "本章练习用的应用日志，不依赖发行版是否提供 /var/log/syslog 或系统日志读取权限"
+
+[commands.dictation]
+prompt = "先显示练习文件 app.log 末尾 20 行，再等待并持续输出新追加的日志"
+answers = ["tail -n 20 -f app.log"]
+
+[[commands]]
+id = "text-diff-unified-settings"
+command = "diff -u settings.old settings.new"
+summary = "以统一补丁格式比较两版配置"
+simulated_output = """--- settings.old	2026-07-26 09:10:00.000000000 -0700
++++ settings.new	2026-07-26 09:12:00.000000000 -0700
+@@ -1,3 +1,3 @@
+ port=8080
+-debug=true
++debug=false
+ workers=4"""
+
+[[commands.tokens]]
+text = "diff"
+desc = "逐行比较两个文件的内容"
+
+[[commands.tokens]]
+text = " -u"
+desc = "使用带上下文的统一差异格式，便于阅读或生成补丁"
+
+[[commands.tokens]]
+text = " settings.old"
+desc = "比较前的旧版配置"
+
+[[commands.tokens]]
+text = " settings.new"
+desc = "比较后的新版配置"
+
+[commands.dictation]
+prompt = "以统一补丁格式比较 settings.old 与 settings.new 的差异"
+answers = ["diff -u settings.old settings.new"]
+
+[[commands]]
+id = "text-column-inventory-table"
+command = "column -t inventory.txt"
+summary = "把空白分隔的库存字段对齐成表格"
+simulated_output = """NAME      COUNT  LOCATION
+keyboard  12     A-03
+monitor   7      B-11
+mouse     25     A-08"""
+
+[[commands.tokens]]
+text = "column"
+desc = "util-linux 提供的表格排版工具，不属于 POSIX 标准命令"
+
+[[commands.tokens]]
+text = " -t"
+desc = "识别输入字段数量并按表格模式对齐各列"
+
+[[commands.tokens]]
+text = " inventory.txt"
+desc = "包含空白分隔库存字段的输入文件"
+
+[commands.dictation]
+prompt = "把 inventory.txt 中以空白分隔的字段对齐成表格"
+answers = ["column -t inventory.txt"]

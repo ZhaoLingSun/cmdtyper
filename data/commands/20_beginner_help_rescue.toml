@@ -1,0 +1,390 @@
+[meta]
+category = "system"
+difficulty = "beginner"
+description = "求助自救与终端急救"
+
+[meta.topic]
+id = "help_rescue"
+title = "求助自救与终端急救"
+icon = "🛟"
+order = 1
+
+[[commands]]
+id = "man-list-files"
+command = "man ls"
+summary = "忘记 ls 选项时查看完整本机手册"
+simulated_output = """
+LS(1)                        User Commands                       LS(1)
+
+NAME
+       ls - list directory contents
+
+SYNOPSIS
+       ls [OPTION]... [FILE]...
+"""
+
+[[commands.tokens]]
+text = "man"
+desc = "分页打开本机已安装的手册；阅读完通常按 q 退出"
+
+[[commands.tokens]]
+text = " ls"
+desc = "要查询的手册页名称"
+
+[commands.dictation]
+prompt = "忘记怎样列出隐藏文件时，打开 ls 的完整本机手册页"
+answers = ["man ls"]
+
+[[commands]]
+id = "man-passwd-section-five"
+command = "man 5 passwd"
+summary = "查看第 5 章的账号数据库文件格式手册"
+simulated_output = """
+PASSWD(5)                 File Formats Manual                 PASSWD(5)
+
+NAME
+       passwd - the password file
+
+DESCRIPTION
+       /etc/passwd contains one line for each user account.
+"""
+
+[[commands.tokens]]
+text = "man"
+desc = "打开指定的本机手册页"
+
+[[commands.tokens]]
+text = " 5"
+desc = "指定第 5 章，即文件格式与约定；可避开同名的第 1 章命令"
+
+[[commands.tokens]]
+text = " passwd"
+desc = "要查询的页面名，这里对应 /etc/passwd 文件格式"
+
+[commands.dictation]
+prompt = "查看账号数据库文件格式对应的第 5 章手册"
+answers = ["man 5 passwd"]
+
+[[commands]]
+id = "grep-help-options"
+command = "grep --help"
+summary = "忘记文本搜索选项时查看简明帮助"
+simulated_output = """
+Usage: grep [OPTION]... PATTERNS [FILE]...
+Search for PATTERNS in each FILE.
+
+Pattern selection and interpretation:
+  -E, --extended-regexp     PATTERNS are extended regular expressions
+  -F, --fixed-strings       PATTERNS are strings
+  -i, --ignore-case         ignore case distinctions
+"""
+
+[[commands.tokens]]
+text = "grep"
+desc = "在文件或标准输入中查找匹配文本"
+
+[[commands.tokens]]
+text = " --help"
+desc = "直接在终端显示用法和常用选项，适合快速查参数"
+
+[commands.dictation]
+prompt = "忘记文本搜索工具有哪些选项时，直接查看它的简明帮助"
+answers = ["grep --help"]
+
+[[commands]]
+id = "bash-help-cd"
+command = "help cd"
+summary = "在 Bash 内查看切换目录功能的帮助"
+simulated_output = """
+cd: cd [-L|[-P [-e]] [-@]] [dir]
+    Change the shell working directory.
+
+    Change the current directory to DIR.  The default DIR is the value of the
+    HOME shell variable.
+"""
+
+[[commands.tokens]]
+text = "help"
+desc = "Bash 的内建帮助；查询 shell 内建命令时比 --help 更直接"
+
+[[commands.tokens]]
+text = " cd"
+desc = "要查询的 Bash 内建功能：切换当前目录"
+
+[commands.dictation]
+prompt = "在 Bash 中查询切换目录这个内建功能的用法"
+answers = ["help cd"]
+
+[[commands]]
+id = "type-echo"
+command = "type echo"
+summary = "确认一个名称在 Bash 中属于哪类命令"
+simulated_output = "echo is a shell builtin"
+
+[[commands.tokens]]
+text = "type"
+desc = "说明名称是别名、函数、内建命令还是外部程序"
+
+[[commands.tokens]]
+text = " echo"
+desc = "要判断类型的名称；在 Bash 中通常是内建命令"
+
+[commands.dictation]
+prompt = "确认输出文本这个名称在当前 Bash 中会被解释成哪类命令"
+answers = ["type echo"]
+
+[[commands]]
+id = "which-ssh"
+command = "which ssh"
+summary = "从 PATH 中定位远程登录程序的路径"
+simulated_output = "/usr/bin/ssh"
+
+[[commands.tokens]]
+text = "which"
+desc = "主要从 PATH 中查找外部可执行文件；别名和内建命令宜用 type"
+
+[[commands.tokens]]
+text = " ssh"
+desc = "要定位的安全远程登录程序"
+
+[commands.dictation]
+prompt = "从 PATH 中查找安全远程登录程序的可执行文件路径"
+answers = ["which ssh", "type -P ssh"]
+
+[[commands]]
+id = "whatis-tar"
+command = "whatis tar"
+summary = "只查看归档工具手册的一行简介"
+simulated_output = "tar (1)              - an archiving utility"
+
+[[commands.tokens]]
+text = "whatis"
+desc = "按准确的手册页名称查找一行简短说明"
+
+[[commands.tokens]]
+text = " tar"
+desc = "要查询简介的归档工具名称"
+
+[commands.dictation]
+prompt = "只查看归档工具手册的一行简介"
+answers = ["whatis tar", "man -f tar"]
+
+[[commands]]
+id = "apropos-archive"
+command = "apropos archive"
+summary = "不知道命令名时按关键词搜索手册简介"
+simulated_output = """
+ar (1)               - create, modify, and extract from archives
+cpio (1)             - copy files to and from archives
+tar (1)              - an archiving utility
+"""
+
+[[commands.tokens]]
+text = "apropos"
+desc = "在手册页名称和简短说明中搜索关键词"
+
+[[commands.tokens]]
+text = " archive"
+desc = "描述目标用途的搜索关键词"
+
+[commands.dictation]
+prompt = "还不知道具体命令名时，按 archive 关键词搜索手册简介"
+answers = ["apropos archive", "man -k archive"]
+
+[[commands]]
+id = "history-list"
+command = "history"
+summary = "列出当前 Bash 会话的带编号命令历史"
+simulated_output = """
+ 1003  pwd
+ 1004  ls -la
+ 1005  grep -n TODO src/main.rs
+ 1006  git status
+ 1007  history
+"""
+
+[[commands.tokens]]
+text = "history"
+desc = "Bash 内建命令；不加参数时显示带编号的历史列表"
+
+[commands.dictation]
+prompt = "列出当前 Bash 会话的命令历史并显示编号"
+answers = ["history"]
+
+[[commands]]
+id = "history-repeat-last"
+command = "!!"
+summary = "重执行上一条 Bash 命令，先确认它安全"
+simulated_output = """
+git status
+On branch main
+nothing to commit, working tree clean
+"""
+
+[[commands.tokens]]
+text = "!!"
+desc = "Bash 历史展开：立即替换并执行上一条命令；使用前务必确认其安全"
+
+[commands.dictation]
+prompt = "确认上一条命令安全后，在交互式 Bash 中原样重执行它"
+answers = ["!!"]
+
+[[commands]]
+id = "alias-list"
+command = "alias"
+summary = "列出当前 Bash 会话中已有的全部别名"
+simulated_output = """
+alias grep='grep --color=auto'
+alias ll='ls -alF'
+"""
+
+[[commands.tokens]]
+text = "alias"
+desc = "不加参数时列出当前 shell 已定义的所有别名"
+
+[commands.dictation]
+prompt = "列出当前 Bash 会话中已经定义的全部命令别名"
+answers = ["alias"]
+
+[[commands]]
+id = "alias-git-status"
+command = "alias gs='git status'"
+summary = "把常用状态查看暂时定义为 gs 别名"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "alias"
+desc = "查看或定义当前 shell 的命令别名"
+
+[[commands.tokens]]
+text = " gs='git status'"
+desc = "把 gs 展开为 git status；只在当前会话生效，持久化需写入启动文件"
+
+[commands.dictation]
+prompt = "在当前 Bash 会话把 gs 定义为查看 Git 工作区状态的快捷写法"
+answers = ["alias gs='git status'", "alias gs=\"git status\""]
+
+[[commands]]
+id = "clear-keep-scrollback"
+command = "history 10"
+summary = "只查看最近十条 Bash 命令历史"
+simulated_output = """  998  cd ~/projects
+  999  git status
+ 1000  cargo test
+ 1001  history 10"""
+
+[[commands.tokens]]
+text = "history"
+desc = "Bash 内建命令；显示当前会话保存的命令历史"
+
+[[commands.tokens]]
+text = " 10"
+desc = "只显示列表末尾最近 10 条，避免较长历史刷屏"
+
+[commands.dictation]
+prompt = "只查看当前 Bash 会话最近的 10 条命令历史"
+answers = ["history 10"]
+
+[[commands]]
+id = "exit-shell"
+command = "exit"
+summary = "退出当前 shell，远程登录也会随之断开"
+simulated_output = "exit"
+
+[[commands.tokens]]
+text = "exit"
+desc = "结束当前 shell；在终端或 SSH 中使用前先确认工作已保存"
+
+[commands.dictation]
+prompt = "正常结束当前 shell 会话，远程登录会随之断开"
+answers = ["exit"]
+
+[[commands]]
+id = "reset-terminal-quiet"
+command = "stty echo"
+summary = "输入字符不可见时重新开启终端回显"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "stty"
+desc = "查看或修改当前终端输入规则"
+
+[[commands.tokens]]
+text = " echo"
+desc = "重新开启本地输入回显；若只是误按 Ctrl+S 后无输出，应先按 Ctrl+Q"
+
+[commands.dictation]
+prompt = "当前终端输入的字符突然不可见时，重新开启输入回显"
+answers = ["stty echo"]
+
+[[commands]]
+id = "stty-show-all"
+command = "stty -a"
+summary = "核对 Ctrl+C、Ctrl+S/Q、Ctrl+Z 的终端绑定"
+simulated_output = """
+speed 38400 baud; rows 42; columns 120; line = 0;
+intr = ^C; erase = ^?; kill = ^U; eof = ^D;
+start = ^Q; stop = ^S; susp = ^Z;
+"""
+
+[[commands.tokens]]
+text = "stty"
+desc = "查看或修改终端输入规则（手册称 line discipline 或行规程）；这里仅查看"
+
+[[commands.tokens]]
+text = " -a"
+desc = "列出全部设置：^C 中断前台任务，^S 暂停输出，^Q 恢复，^Z 挂起"
+
+[commands.dictation]
+prompt = "查看 Ctrl+C、Ctrl+S/Q、Ctrl+Z 等控制键当前怎样绑定"
+answers = ["stty -a"]
+
+[[commands]]
+id = "jobs-with-pids"
+command = "jobs -l"
+summary = "误按 Ctrl+Z 后查看暂停任务及进程号"
+simulated_output = "[1]+  18472 Stopped                 less server.log"
+
+[[commands.tokens]]
+text = "jobs"
+desc = "列出当前 shell 管理的后台或暂停任务；Ctrl+Z 会挂起前台任务"
+
+[[commands.tokens]]
+text = " -l"
+desc = "同时显示进程号，Stopped 表示任务已暂停"
+
+[commands.dictation]
+prompt = "误按 Ctrl+Z 后，列出暂停任务并同时显示进程号"
+answers = ["jobs -l"]
+
+[[commands]]
+id = "fg-current-job"
+command = "fg"
+summary = "误按 Ctrl+Z 后让当前任务回到前台继续"
+simulated_output = "less server.log"
+
+[[commands.tokens]]
+text = "fg"
+desc = "继续运行当前暂停任务并把它放回前台；常用于撤销误按 Ctrl+Z"
+
+[commands.dictation]
+prompt = "误按 Ctrl+Z 后，让当前暂停任务回到前台继续运行"
+answers = ["fg"]
+
+[[commands]]
+id = "stty-sane"
+command = "stty sane"
+summary = "输入或回显混乱时恢复常用终端模式"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "stty"
+desc = "查看或修改终端行规程"
+
+[[commands.tokens]]
+text = " sane"
+desc = "启用一组合理的常用终端设置，用于修复输入或回显异常"
+
+[commands.dictation]
+prompt = "输入或回显混乱时，把终端模式恢复为合理的常用设置"
+answers = ["stty sane"]

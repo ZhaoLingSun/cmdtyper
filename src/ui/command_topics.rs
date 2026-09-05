@@ -2,6 +2,7 @@ use ratatui::prelude::*;
 use ratatui::widgets::{Block, Borders, Paragraph};
 
 use crate::app::App;
+use crate::data::models::lesson_example_progress_key;
 use crate::ui::widgets::*;
 
 pub fn render(frame: &mut Frame, app: &App) {
@@ -39,10 +40,11 @@ pub fn render(frame: &mut Frame, app: &App) {
         .alignment(Alignment::Center);
         frame.render_widget(empty, chunks[1]);
     } else {
+        let selected = app.command_topics_index.min(categories.len() - 1);
         let mut lines: Vec<Line> = Vec::new();
 
         for (i, cat) in categories.iter().enumerate() {
-            let is_selected = i == app.command_topics_index;
+            let is_selected = i == selected;
             let prefix = if is_selected { " \u{25b6} " } else { "   " };
 
             let lesson_count = app
@@ -51,13 +53,20 @@ pub fn render(frame: &mut Frame, app: &App) {
                 .filter(|l| l.meta.category == *cat)
                 .count();
             let practiced = app
-                .user_stats
-                .command_progress
+                .lessons
                 .iter()
-                .filter(|p| {
-                    app.lessons
+                .filter(|lesson| lesson.meta.category == *cat)
+                .filter(|lesson| {
+                    lesson
+                        .examples
                         .iter()
-                        .any(|l| l.meta.category == *cat && l.meta.command == p.command_id)
+                        .enumerate()
+                        .any(|(example_index, _)| {
+                            let progress_key = lesson_example_progress_key(lesson, example_index);
+                            app.user_stats.command_progress.iter().any(|progress| {
+                                progress.command_id == progress_key && progress.times_practiced > 0
+                            })
+                        })
                 })
                 .count();
 
@@ -92,7 +101,8 @@ pub fn render(frame: &mut Frame, app: &App) {
             ]));
         }
 
-        let list = Paragraph::new(lines);
+        let window = visible_menu_window(selected, categories.len(), 1, chunks[1].height);
+        let list = Paragraph::new(lines).scroll((window.start as u16, 0));
         frame.render_widget(list, chunks[1]);
     }
 

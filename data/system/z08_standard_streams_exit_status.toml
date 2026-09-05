@@ -1,0 +1,126 @@
+[meta]
+id = "standard_streams_exit_status"
+topic = "标准流、重定向与退出状态"
+description = "理解 stdin/stdout/stderr、文件描述符、管道边界和退出状态如何驱动可靠流程"
+difficulty = "basic"
+icon = "0>1>2"
+
+overview = """每个进程通常从三个标准文件描述符开始：0 是标准输入，1 是标准输出，2 是标准错误。
+Shell 在启动命令前建立重定向和管道；命令结束后用退出状态表达成功或失败。这里所有命令与输出都是静态教材，不会访问真实文件或进程。"""
+
+[[sections]]
+id = "three-standard-streams"
+title = "stdin、stdout、stderr 与文件描述符"
+description = """标准输入 stdin（fd 0）提供数据来源，标准输出 stdout（fd 1）承载正常结果，标准错误 stderr（fd 2）承载诊断信息。
+终端里它们看起来可能混在同一屏幕，但仍是独立通道。程序可以把正常结果送入管道，同时让错误保留在终端。
+文件描述符只是进程内部的整数句柄；重定向改变句柄指向，不改变命令本身的业务语义。
+排查时先问“这行来自哪个流”，再问“Shell 把该流连接到了哪里”。"""
+
+[[sections.commands]]
+id = "stdin-from-file"
+command_id = "redirect-file-to-stdin"
+deep_explanation = "< 把文件连接到 fd 0；sort 读取标准输入，而不是要求文件名参数。"
+
+[[sections.commands]]
+id = "stdout-to-file"
+command_id = "redirect-overwrite-config"
+deep_explanation = "> 重定向 fd 1 并覆盖目标；本应用只展示字符串，绝不创建该文件。"
+
+[[sections.commands]]
+id = "stderr-to-file"
+command_id = "redirect-silence-stderr"
+deep_explanation = "2> 只移动 fd 2。规范命令会先创建唯一 0700 私有练习目录，再把诊断写入其中的 grep-errors.log。"
+
+[[sections]]
+id = "redirection-pipeline-order"
+title = "重定向从左到右，管道默认只接 stdout"
+description = """Shell 按从左到右处理重定向。> file 2>&1 先让 stdout 指向文件，再让 stderr 复制 stdout 当前目标，因此两者都进入文件。
+2>&1 > file 则先让 stderr 复制当时的终端目标，随后只改变 stdout，所以 stderr 仍留在终端。
+管道 A | B 默认把 A 的 stdout 接到 B 的 stdin，不自动传递 stderr。
+要分析结果必须同时观察命令结构和流向，不能只凭屏幕上“看到了什么”推断。"""
+
+[[sections.commands]]
+id = "redirect-both-canonical"
+command_id = "redirect-both-after-stdout"
+deep_explanation = "规范命令在各自新建的唯一 0700 私有练习目录中使用相对 listing.log，重点仍是从左到右的描述符复制顺序。"
+
+[[sections.commands]]
+id = "redirect-order-canonical"
+command_id = "redirect-order-stderr-terminal"
+deep_explanation = "规范命令在各自新建的唯一 0700 私有练习目录中使用相对 listing.log，重点仍是从左到右的描述符复制顺序。"
+
+[[sections.commands]]
+id = "pipe-stdout-only-canonical"
+command_id = "pipe-stdout-only-count"
+
+[[sections.commands]]
+id = "pipe-merged-stderr-canonical"
+command_id = "pipe-merge-stderr-count"
+
+[[sections]]
+id = "exit-status-and-short-circuit"
+title = "退出状态：0 表示成功，非 0 表示未完成预期"
+description = """退出状态是一个小整数，0 通常表示命令完成了约定目标，非 0 表示失败、未匹配或其他条件结果。
+$? 只保存最近一个前台管道/命令的状态，执行 echo $? 本身后，下一次 $? 又会改变。
+&& 只在左侧状态为 0 时继续，|| 只在左侧非 0 时继续。管道默认通常报告最后一个命令的状态；Bash 的 pipefail 可改变这一规则。
+不要把所有非 0 都解释成系统故障，例如 grep 未找到匹配通常返回 1，这是可处理的业务结果。"""
+
+[[sections.commands]]
+id = "last-exit-status"
+command_id = "shell-last-exit-status"
+
+[[sections.commands]]
+id = "pipe-count-errors"
+command_id = "pipe-count-error-lines"
+
+[[sections.commands]]
+id = "status-static-table"
+command = "printf '0 success\\n1 no-match\\n2 usage-error\\n'"
+summary = "展示静态退出状态解释表"
+simulated_output = "0 success\n1 no-match\n2 usage-error"
+deep_explanation = "不同程序对具体非零值有自己的文档约定；这张表只是教学示例。"
+
+[[sections]]
+id = "stream-diagnosis-scenario"
+title = "六步场景：命令有报错但统计结果仍是 0"
+description = """按顺序排查：
+1. 观察原始命令，区分正常输出和错误文本。
+2. 验证管道只接 stdout，确认 stderr 是否绕过统计程序。
+3. 观察当前写法得到的计数与屏幕错误。
+4. 显式合并 stderr 后再次比较静态结果，理解 2>&1 的位置。
+5. 查看退出状态，区分“计数为 0”与“命令成功”。
+6. 选择安全动作：保留错误日志或明确合并流，不用丢弃错误来制造成功假象。"""
+
+[[sections.commands]]
+id = "scenario-step-1-observe-command"
+command = "ls /srv/missing"
+summary = "步骤 1：观察错误属于 stderr"
+simulated_output = "ls: cannot access '/srv/missing': No such file or directory"
+
+[[sections.commands]]
+id = "scenario-step-2-stdout-pipe"
+command_id = "pipe-stdout-only-count"
+deep_explanation = "wc 只收到 stdout，所以计数可以是 0，同时 ls 的 stderr 仍显示。"
+
+[[sections.commands]]
+id = "scenario-step-3-verify-routing"
+command = "printf 'stdout -> pipe; stderr -> terminal\\n'"
+summary = "步骤 3：用静态说明核对当前流向"
+simulated_output = "stdout -> pipe; stderr -> terminal"
+
+[[sections.commands]]
+id = "scenario-step-4-merge-explicitly"
+command_id = "pipe-merge-stderr-count"
+deep_explanation = "2>&1 位于管道前，把 ls 的 stderr 复制到 stdout，随后一起进入 wc。"
+
+[[sections.commands]]
+id = "scenario-step-5-check-status"
+command_id = "shell-last-exit-status"
+deep_explanation = "真实排查应立即读取相关命令的状态；这里的输出固定为教材值。"
+
+[[sections.commands]]
+id = "scenario-step-6-safe-report"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && ls missing >out.log 2>error.log)"
+summary = "步骤 6：在唯一私有练习目录中分别保存正常输出和错误"
+simulated_output = ""
+deep_explanation = "命令先用 mktemp -d 建立当前用户拥有的唯一 0700 目录，再在其中把两个标准流分别写入 out.log 和 error.log；固定共享 /tmp 名称不会被截断或被符号链接劫持。"

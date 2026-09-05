@@ -1,0 +1,135 @@
+[meta]
+command = "du / ls（目录占用与排序）"
+full_name = "disk usage summaries and ranking workflows"
+category = "system"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "从目录汇总逐层下钻到大项排名，并区分实际分配空间与表观文件长度"
+explanation = """du 从指定路径沿目录树累计文件系统分配的空间，适合回答“这个目录树实际占了多少磁盘块”。可靠的容量排查从 du -sh 的单点汇总开始，再用 --max-depth=1 比较一级子目录；需要限制在同一文件系统时加 -x；需要同时看到普通文件和目录时加 -a，最后用 sort -rh 与 head 聚焦大项。ls -lhS 只是按目录项的表观大小快速排序，不递归计算目录内容，因此不能替代 du。稀疏文件、硬链接、权限不足、隐藏项和挂载边界都可能影响结果，清理前必须确认路径、业务用途与统计口径。"""
+
+[syntax]
+basic = "du [选项] 路径... | sort -rh | head [-n N]"
+[[syntax.parts]]
+name = "汇总范围"
+desc = "-s 只给参数路径汇总；--max-depth=1 展示起点与一级子目录，便于逐层下钻"
+[[syntax.parts]]
+name = "统计对象"
+desc = "默认主要显示目录；-a 同时列出普通文件，适合在目录树中找具体大文件"
+[[syntax.parts]]
+name = "文件系统边界"
+desc = "-x 不跨入其他挂载，避免家目录中的挂载点把外部文件系统容量混进来"
+[[syntax.parts]]
+name = "排序与截取"
+desc = "sort -rh 识别 K/M/G 等易读数值并降序排列，head 只保留最大的若干行"
+
+[[options]]
+flag = "-s"
+name = "只显示汇总"
+example = "du -sh ~/Downloads"
+note = "多个参数会分别汇总；不会展开每个子目录的明细"
+
+[[options]]
+flag = "-h"
+name = "使用易读单位"
+example = "du -sh ~/.cache"
+note = "适合人工阅读，并可由 GNU sort -h 识别；数值经过换算和舍入"
+
+[[options]]
+flag = "--max-depth=1"
+name = "只展开一层"
+example = "du -h --max-depth=1 ~/projects"
+note = "输出通常包含起点总计和一级子目录；起点顶层普通文件不会逐个单列"
+
+[[options]]
+flag = "-x"
+name = "限制在起点所在文件系统"
+example = "du -xh --max-depth=1 ~"
+note = "遇到其他挂载点时不跨越，适合让统计边界与 df 的某个文件系统对应"
+
+[[options]]
+flag = "-a"
+name = "同时列出文件和目录"
+example = "du -ah ~/Downloads"
+note = "结果可能很长；通常再排序并截取。硬链接和文件系统语义会影响累计方式"
+
+[[options]]
+flag = "sort -rh"
+name = "按易读大小降序排序"
+example = "du -sh ~/Downloads/* | sort -rh"
+note = "-h 识别 K/M/G 后缀，-r 从大到小；排序只依据文本中的大小字段"
+
+[[options]]
+flag = "ls -lhS"
+name = "按目录项表观大小快速排序"
+example = "ls -lhS ~/Downloads | head"
+note = "不会递归统计目录内容；目录条目的大小是目录元数据长度，不代表其内部文件总占用"
+
+[[examples]]
+id = "v03-27-du-usage-ranking-downloads-summary"
+command_id = "disk-du-summary-downloads"
+level = 1
+deep_explanation = "du -sh 是最小可用的目录占用检查：-s 避免展开，-h 让结果易读。它统计 Downloads 目录树可访问对象的已分配空间，适合与清理前后的结果比较。权限不足或跨挂载内容可能改变可见范围，因此结果必须结合当前用户与挂载结构解释。"
+
+[[examples]]
+id = "v03-27-du-usage-ranking-project-depth"
+command_id = "disk-du-project-depth-one"
+level = 2
+deep_explanation = "项目集合过大时，一次展开一级目录能迅速判断哪个项目值得继续下钻。输出还会包含 ~/projects 自身汇总。顶层普通文件通常计入总计，却不会在 --max-depth=1 的目录汇总中逐项出现；需要逐个文件时改用 -a。"
+
+[[examples]]
+id = "v03-27-du-usage-ranking-downloads-top10"
+command_id = "disk-du-largest-downloads"
+level = 2
+deep_explanation = "shell 的 ~/Downloads/* 只匹配非隐藏的顶层项目，du -sh 对每项汇总，sort -rh 按易读数值降序，head 默认保留十行。它不会显示点开头项目；若大占用藏在 .cache 类名称中，这个工作流会漏掉，必须单独检查隐藏项。"
+
+[[examples]]
+id = "v03-27-du-usage-ranking-cache"
+command_id = "disk-mount-root-filter"
+level = 1
+deep_explanation = "规范命令与历史 ID 的 mount 字样无关，它只读汇总 ~/.cache。缓存常是安全排查对象，但“可以重新生成”不等于可以盲删：应用可能正在使用，重建也可能消耗网络和时间。本课只建立占用事实，不执行删除。"
+
+[[examples]]
+id = "v03-27-du-usage-ranking-videos"
+command_id = "disk-mount-ext4-filter"
+level = 1
+deep_explanation = "视频目录通常由少量大文件构成，先用汇总确认其量级，再决定是否需要 -a 下钻。du 展示的是实际分配空间，不负责判断视频内容是否可删，也不说明文件位于 ext4；历史 command_id 不能替代规范命令的真实语义。"
+
+[[examples]]
+id = "v03-27-du-usage-ranking-home-one-fs"
+command_id = "disk-free-human-wide"
+level = 2
+deep_explanation = "-x 把统计限制在家目录起点所在文件系统，避免跨入网络盘、外置盘或 bind 之外的其他挂载。--max-depth=1 形成家庭目录的一级占用地图。家目录顶层普通文件会进入总计，但默认不会各占一行，差额可能来自这些文件。"
+
+[[examples]]
+id = "v03-27-du-usage-ranking-ls-apparent"
+command_id = "disk-blkid-root-device"
+level = 2
+deep_explanation = "ls -lhS 快速比较 Downloads 当前层目录项的表观大小。普通文件的 size 是逻辑文件长度；目录这一行只是目录元数据长度，绝不能代表目录内部总量。稀疏文件也可能表观很大但分配很少，因此容量归因仍应以 du 为主。"
+
+[[examples]]
+id = "v03-27-du-usage-ranking-tree-top20"
+command_id = "disk-blkid-uuid-value"
+level = 3
+deep_explanation = "-a 让 du 输出目录树中的文件和目录，再按已分配空间降序截取前二十项。目录总计与其中大文件可能同时出现，所以不能把前二十行简单相加，否则会重复计量。此清单用于定位候选，不是可直接删除列表。"
+
+[[gotchas]]
+title = "du 的已分配空间与 ls/find 的表观大小不同"
+content = "du 通常按文件系统分配块统计，ls -l 的 size 与 find -size 更接近逻辑文件长度。稀疏文件可能表观巨大而实际占用较小；块大小、压缩和写时复制也会造成差异。报告时必须写清采用哪种口径。"
+
+[[gotchas]]
+title = "目录行不能用 ls 判断内容总量"
+content = "ls -lhS 中目录的大小是目录对象自身的元数据长度，不会递归累计内部文件。想比较多个目录，应对每个目录使用 du -sh，或用 du --max-depth 分层展开。"
+
+[[gotchas]]
+title = "通配符通常漏掉隐藏项"
+content = "~/Downloads/* 默认不匹配点开头条目，因此排序结果可能漏掉隐藏缓存或临时目录。不要因为 top 列表看起来完整就直接下结论；应核对 shell 展开范围和目录总计差额。"
+
+[[gotchas]]
+title = "排名清单存在父子重复"
+content = "du -ah 会同时输出文件、子目录汇总和起点总计。一个大文件的空间已包含在父目录汇总中，把排名行相加会重复计算。排名用于定位下钻方向，df 或顶层 du 汇总才用于总体口径。"
+
+[[gotchas]]
+title = "权限和挂载边界会隐藏占用"
+content = "当前用户无权读取的目录可能无法完整统计；不加 -x 时还可能跨入其他文件系统。对比 df 时应保持同一文件系统边界，并记录执行身份，不能把看不到误判成不存在。"

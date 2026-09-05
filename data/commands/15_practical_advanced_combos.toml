@@ -23,24 +23,24 @@ answers = ["awk '{sum += $3} END {print sum}' data.csv"]
 
 [[commands]]
 id = "sed-global-replace"
-command = "sed -i 's/http:/https:/g' config.yml"
-summary = "在 config.yml 中把所有 http: 替换为 https:"
+command = "sed -i.bak 's#http://#https://#g' config.yml"
+summary = "备份 config.yml 后，把明确的 http:// URL scheme 替换为 https://"
 simulated_output = ""
 [[commands.tokens]]
 text = "sed"
 desc = "流编辑器：按规则逐行处理文本"
 [[commands.tokens]]
-text = " -i"
-desc = "直接修改原文件"
+text = " -i.bak"
+desc = "原地修改前创建 config.yml.bak 备份"
 [[commands.tokens]]
-text = " 's/http:/https:/g'"
-desc = "把每行中所有的 http: 替换为 https:"
+text = " 's#http://#https://#g'"
+desc = "仅替换明确的 http:// URL scheme；使用 # 分隔以避免转义斜杠"
 [[commands.tokens]]
 text = " config.yml"
-desc = "要修改的配置文件"
+desc = "要修改的配置文件；修改后应与 .bak 备份比较并验证配置"
 [commands.dictation]
-prompt = "在 config.yml 中把所有 http: 替换为 https:"
-answers = ["sed -i 's/http:/https:/g' config.yml"]
+prompt = "先创建 config.yml.bak，再把配置中明确的 http:// URL scheme 全部替换为 https://，不要改写其他 http: 文本"
+answers = ["sed -i.bak 's#http://#https://#g' config.yml"]
 
 [[commands]]
 id = "tr-lowercase"
@@ -119,33 +119,42 @@ answers = ["diff --color old.conf new.conf"]
 
 [[commands]]
 id = "find-mtime-delete"
-command = "find /var/log -name '*.log' -mtime +30 -delete"
-summary = "删除 /var/log 下超过 30 天的 .log 文件"
-simulated_output = ""
+command = "find /var/log -type f -name '*.log' -mtime +30 -print"
+summary = "只读列出 /var/log 下超过 30 天的 .log 普通文件，交给日志保留策略审核"
+simulated_output = """
+/var/log/app/archive-2026-05-14.log
+/var/log/nginx/access-2026-06-01.log
+"""
 [[commands.tokens]]
 text = "find"
 desc = "在目录树中递归查找文件和目录"
 [[commands.tokens]]
 text = " /var/log"
-desc = "文件路径： /var/log"
+desc = "只读检查的日志目录起点"
+[[commands.tokens]]
+text = " -type"
+desc = "按文件类型过滤"
+[[commands.tokens]]
+text = " f"
+desc = "只匹配普通文件"
 [[commands.tokens]]
 text = " -name"
 desc = "按文件名模式匹配"
 [[commands.tokens]]
 text = " '*.log'"
-desc = "匹配所有 .log 文件"
+desc = "用引号保护模式，只匹配 .log 名称"
 [[commands.tokens]]
 text = " -mtime"
 desc = "按修改时间过滤"
 [[commands.tokens]]
 text = " +30"
-desc = "超过 30 天未修改"
+desc = "匹配修改时间超过 30 个整天的文件"
 [[commands.tokens]]
-text = " -delete"
-desc = "直接删除匹配到的文件"
+text = " -print"
+desc = "只打印候选路径，不删除文件；日志清理由轮转和保留策略另行决定"
 [commands.dictation]
-prompt = "删除 /var/log 下修改时间超过 30 天的所有 .log 文件"
-answers = ["find /var/log -name '*.log' -mtime +30 -delete"]
+prompt = "只读列出 /var/log 下修改时间超过 30 天的 .log 普通文件，供核对日志轮转、合规保留和备份策略；不要直接删除"
+answers = ["find /var/log -type f -name '*.log' -mtime +30 -print"]
 
 [[commands]]
 id = "jq-array-map"
@@ -198,42 +207,33 @@ answers = ["jq '.[] | select(.age > 18)' users.json"]
 
 [[commands]]
 id = "docker-system-prune"
-command = "docker system prune -af"
-summary = "清理所有未使用的容器、镜像和网络"
+command = "docker image prune"
+summary = "交互式清理悬空镜像，不扩大到全部未使用镜像、容器和网络"
 simulated_output = """
-Deleted Containers:
-8e3f6d3a9f2b
+WARNING! This will remove all dangling images.
+Are you sure you want to continue? [y/N] y
 Deleted Images:
-untagged: app:old
-Total reclaimed space: 1.42GB
+deleted: sha256:7ab3c1d9e4f0
+Total reclaimed space: 186.4MB
 """
 [[commands.tokens]]
 text = "docker"
 desc = "容器管理工具"
 [[commands.tokens]]
-text = " system"
-desc = "系统级操作子命令"
+text = " image"
+desc = "把操作范围限制在镜像资源"
 [[commands.tokens]]
 text = " prune"
-desc = "清理未使用的资源"
-[[commands.tokens]]
-text = " -af"
-desc = "-a 包含所有未使用镜像 + -f 跳过确认"
+desc = "默认只清理悬空镜像并保留交互确认；不会使用 -a 或 -f 扩大范围、跳过确认"
 [commands.dictation]
-prompt = "清理 Docker 中所有未使用的容器、镜像和网络"
-answers = ["docker system prune -af"]
+prompt = "只交互式清理 Docker 悬空镜像，保留确认提示；不要使用 broad system prune，也不要添加 -a 或 -f"
+answers = ["docker image prune"]
 
 [[commands]]
 id = "docker-compose-up"
-command = "docker compose up -d --build"
-summary = "重新构建并后台启动所有服务"
-simulated_output = """
-[+] Building 12.4s (12/12) FINISHED
-[+] Running 3/3
- ✔ Container app    Started
- ✔ Container db     Healthy
- ✔ Container redis  Started
-"""
+command = "docker compose config --quiet"
+summary = "只验证 Docker Compose 配置，不构建、创建或启动服务"
+simulated_output = ""
 [[commands.tokens]]
 text = "docker"
 desc = "容器管理工具"
@@ -241,17 +241,14 @@ desc = "容器管理工具"
 text = " compose"
 desc = "多容器编排子命令"
 [[commands.tokens]]
-text = " up"
-desc = "创建并启动服务"
+text = " config"
+desc = "解析、合并并验证 Compose 配置，不执行部署"
 [[commands.tokens]]
-text = " -d"
-desc = "后台运行"
-[[commands.tokens]]
-text = " --build"
-desc = "启动前先重新构建镜像"
+text = " --quiet"
+desc = "配置有效时保持安静；有错误时报告问题，不输出完整渲染配置"
 [commands.dictation]
-prompt = "重新构建并后台启动 Docker Compose 中的所有服务"
-answers = ["docker compose up -d --build"]
+prompt = "只验证当前 Docker Compose 配置是否能正确解析；不要构建镜像，也不要创建或启动任何服务"
+answers = ["docker compose config --quiet"]
 
 [[commands]]
 id = "watch-docker-ps"
@@ -284,18 +281,27 @@ answers = ["watch -n 5 docker ps"]
 
 [[commands]]
 id = "tar-exclude-vcs"
-command = "tar czf release.tar.gz --exclude=.git --exclude=node_modules project"
-summary = "打包 project 目录但排除 .git 和 node_modules"
-simulated_output = ""
+command = "archive=$(mktemp ./release-XXXXXX.tar.gz) && tar czf \"$archive\" --exclude=.git --exclude=node_modules project && printf '%s\\n' \"$archive\""
+summary = "用唯一目标打包 project，排除 .git 和 node_modules，并输出实际归档名"
+simulated_output = "./release-R4k9Wp.tar.gz"
 [[commands.tokens]]
-text = "tar"
+text = "archive="
+desc = "保存本次唯一 release 归档路径"
+[[commands.tokens]]
+text = "$(mktemp ./release-XXXXXX.tar.gz)"
+desc = "原子创建唯一的新目标，重复运行不会覆盖已有 release 归档"
+[[commands.tokens]]
+text = " &&"
+desc = "只有唯一目标创建成功后才继续"
+[[commands.tokens]]
+text = " tar"
 desc = "归档工具：将多个文件打包或从归档中提取"
 [[commands.tokens]]
 text = " czf"
-desc = "创建 gzip 压缩归档"
+desc = "创建 gzip 压缩 tar 归档"
 [[commands.tokens]]
-text = " release.tar.gz"
-desc = "归档文件： release.tar.gz"
+text = " \"$archive\""
+desc = "引用刚创建的唯一空文件，不会截断已有有效归档"
 [[commands.tokens]]
 text = " --exclude=.git"
 desc = "排除 .git 目录"
@@ -305,9 +311,21 @@ desc = "排除 node_modules 目录"
 [[commands.tokens]]
 text = " project"
 desc = "要打包的源目录"
+[[commands.tokens]]
+text = " &&"
+desc = "只有归档成功后才输出路径"
+[[commands.tokens]]
+text = " printf"
+desc = "输出实际生成的归档名"
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "按一行一个字符串的格式输出"
+[[commands.tokens]]
+text = " \"$archive\""
+desc = "本次唯一 release 归档路径"
 [commands.dictation]
-prompt = "打包 project 目录为 gzip 归档，但排除 .git 和 node_modules"
-answers = ["tar czf release.tar.gz --exclude=.git --exclude=node_modules project"]
+prompt = "用 mktemp 生成唯一 release 归档路径，打包 project 但排除 .git 和 node_modules，成功后输出实际文件名，重复运行不得覆盖已有归档"
+answers = ["archive=$(mktemp ./release-XXXXXX.tar.gz) && tar czf \"$archive\" --exclude=.git --exclude=node_modules project && printf '%s\\n' \"$archive\""]
 
 [[commands]]
 id = "crontab-edit"

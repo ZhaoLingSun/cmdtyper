@@ -81,7 +81,7 @@ pub fn render(frame: &mut Frame, app: &App) {
                 }
                 MatchResult::Normalized(_) => {
                     lines.push(Line::from(Span::styled(
-                            "\u{2705} \u{6b63}\u{786e}\u{ff08}\u{5ffd}\u{7565}\u{5927}\u{5c0f}\u{5199}/\u{7a7a}\u{683c}\u{5dee}\u{5f02}\u{ff09}",
+                            "\u{2705} \u{6b63}\u{786e}\u{ff08}\u{5ffd}\u{7565}\u{7a7a}\u{767d}\u{5dee}\u{5f02}\u{ff09}",
                             Style::default().fg(SUCCESS),
                         )));
                 }

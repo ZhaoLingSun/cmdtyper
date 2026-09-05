@@ -1,0 +1,77 @@
+[meta]
+command = "v03-deletion-inventory"
+full_name = "删除前清点与安全边界"
+category = "file_ops"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "先清点范围，再选择空目录删除或交互式递归删除"
+explanation = """删除操作通常不可通过简单的“撤销”恢复，因此安全流程应把只读清点放在删除之前。顶层清单只回答目标目录直接包含什么：它能发现隐藏项，却不会自动说明子目录深处还有哪些内容。递归清单才会展开后代；树形展示可配合深度限制先建立结构感，再对关键子目录继续检查。确认目标为空时优先使用只删除空目录的工具；确实需要删除非空目录时，明确递归边界并启用逐项确认。任何强制递归删除都不应从未经验证的变量、通配符或模糊路径开始。"""
+
+[syntax]
+basic = "只读清单 [显示选项] 目标目录；删除命令 [递归与确认选项] 已核对路径"
+
+[[syntax.parts]]
+name = "顶层清单"
+desc = "只列出目标目录直接子项；应包含隐藏项，但不会展开子目录内部"
+
+[[syntax.parts]]
+name = "递归清单"
+desc = "展开全部或限定深度的后代，用于确认真实删除范围"
+
+[[syntax.parts]]
+name = "已核对路径"
+desc = "应是明确、非空、无意外通配展开的目标，最好位于受控临时区域"
+
+[[options]]
+flag = "-a"
+name = "包含隐藏项"
+note = "顶层核对时避免漏掉点号开头的对象；它本身不会递归展开子目录"
+
+[[options]]
+flag = "-L"
+name = "限制树形深度"
+note = "适合先查看结构概览；达到深度边界的目录仍可能包含更多对象"
+
+[[options]]
+flag = "-r"
+name = "递归处理目录"
+note = "把删除范围扩展到全部后代，只有完成递归清点后才应考虑"
+
+[[options]]
+flag = "-i"
+name = "逐项询问"
+note = "帮助在每一步重新确认，但输入确认后仍是不可恢复的真实删除"
+
+[[examples]]
+id = "v03-23-deletion-inventory-01"
+command_id = "fileops-tree-temp-depth-two"
+level = 1
+
+[[examples]]
+id = "v03-23-deletion-inventory-02"
+command_id = "fileops-rmdir-empty-temp"
+level = 1
+
+[[examples]]
+id = "v03-23-deletion-inventory-03"
+command_id = "fileops-rm-recursive-interactive"
+level = 3
+
+[[examples]]
+id = "v03-23-deletion-inventory-04"
+command_id = "fileops-rm-force-recursive-warning"
+level = 2
+
+[[gotchas]]
+title = "顶层可见不等于递归范围已知"
+content = "顶层长清单能显示直接子项和隐藏项，但其中每个子目录都可能继续包含数据。删除非空目录前，必须对嵌套目录做递归或分层检查。"
+
+[[gotchas]]
+title = "深度限制之外仍有内容"
+content = "树形清单的深度上限只是显示边界，不是目录真实边界。看到两层并不代表第三层不存在；关键分支需要继续展开。"
+
+[[gotchas]]
+title = "空目录删除应优先失败关闭"
+content = "只删除空目录的工具在发现内容时会拒绝操作，这种失败是保护信号。不要为了绕过它直接切换到强制递归；先返回清点步骤。"

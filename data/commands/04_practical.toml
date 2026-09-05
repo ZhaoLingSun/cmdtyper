@@ -133,9 +133,9 @@ answers = [
 
 [[commands]]
 id = "find-logs-xargs-grep-error"
-command = "find /var/log -type f -name '*.log' | xargs grep -H ERROR"
-summary = "在 /var/log 下所有 .log 文件中查找 ERROR，并显示文件名"
-display = "find /var/log -type f -name '*.log' | \\\n  xargs grep -H ERROR"
+command = "find /var/log -type f -name '*.log' -exec grep -H ERROR {} +"
+summary = "安全地把找到的 .log 文件路径批量交给 grep 查找 ERROR，并显示文件名"
+display = "find /var/log -type f -name '*.log' \\\n  -exec grep -H ERROR {} +"
 simulated_output = """
 /var/log/syslog:Mar 09 08:03:01 server app[2045]: [ERROR] Connection refused
 /var/log/auth.log:Mar 09 08:12:30 server sshd[3120]: [ERROR] Authentication failure
@@ -167,16 +167,12 @@ text = " '*.log'"
 desc = "只匹配以 .log 结尾的日志文件"
 
 [[commands.tokens]]
-text = " |"
-desc = "把 find 找到的文件列表传给 xargs"
-
-[[commands.tokens]]
-text = " xargs"
-desc = "把标准输入转换为命令参数列表"
+text = " -exec"
+desc = "把 find 产生的路径直接作为参数传递，不经过换行分隔的文本解析"
 
 [[commands.tokens]]
 text = " grep"
-desc = "在传入的文件中查找关键字"
+desc = "在匹配到的文件中查找关键字"
 
 [[commands.tokens]]
 text = " -H"
@@ -186,46 +182,93 @@ desc = "输出匹配结果时强制显示文件名"
 text = " ERROR"
 desc = "要查找的错误关键字"
 
+[[commands.tokens]]
+text = " {}"
+desc = "代表 find 找到的各个完整路径，包括含空格或换行的文件名"
+
+[[commands.tokens]]
+text = " +"
+desc = "把多个路径安全地批量传给尽量少的 grep 调用；无匹配文件时不运行 grep"
+
 [commands.dictation]
-prompt = "在 /var/log 下所有 .log 文件中查找 ERROR，并显示所属文件名"
+prompt = "在 /var/log 下所有 .log 普通文件中查找 ERROR；使用 find -exec 的批量形式安全传递任意文件名，并显示所属文件"
 answers = [
-    "find /var/log -type f -name '*.log' | xargs grep -H ERROR",
-    "find /var/log -type f -name '*.log' | xargs grep --with-filename ERROR",
+    "find /var/log -type f -name '*.log' -exec grep -H ERROR {} +",
+    "find /var/log -type f -name '*.log' -exec grep --with-filename ERROR {} +",
 ]
 
 [[commands]]
 id = "tar-backup-etc"
-command = "tar czf etc-backup.tar.gz /etc"
-summary = "把 /etc 目录打包并压缩成 etc-backup.tar.gz"
-simulated_output = ""
+command = "archive=$(mktemp ./etc-backup-XXXXXX.tar.gz) && sudo tar -czf \"$archive\" -C / etc && printf '%s\\n' \"$archive\""
+summary = "创建唯一归档路径后，以所需权限从根目录相对打包 etc，并输出新归档名"
+simulated_output = "./etc-backup-A1b2C3.tar.gz"
 
 [[commands.tokens]]
-text = "tar"
-desc = "归档工具：将多个文件打包或从归档中提取"
+text = "archive="
+desc = "把唯一归档路径保存到当前 shell 变量"
 
 [[commands.tokens]]
-text = " czf"
-desc = "c 创建归档 + z 使用 gzip 压缩 + f 指定输出文件名"
+text = "$(mktemp ./etc-backup-XXXXXX.tar.gz)"
+desc = "在当前目录原子创建一个唯一的新文件，不覆盖任何已有归档"
 
 [[commands.tokens]]
-text = " etc-backup.tar.gz"
-desc = "生成的配置备份压缩包"
+text = " &&"
+desc = "只有唯一目标创建成功后才继续"
 
 [[commands.tokens]]
-text = " /etc"
-desc = "要备份的系统配置目录"
+text = " sudo"
+desc = "读取完整 /etc 树通常需要管理员权限，只为 tar 这一步提权"
+
+[[commands.tokens]]
+text = " tar"
+desc = "创建归档的工具"
+
+[[commands.tokens]]
+text = " -czf"
+desc = "创建 gzip 压缩归档并指定目标文件"
+
+[[commands.tokens]]
+text = " \"$archive\""
+desc = "引用刚由 mktemp 创建的唯一目标；只截断这个新空文件，不碰已有有效归档"
+
+[[commands.tokens]]
+text = " -C"
+desc = "先切换 tar 的读取基准目录"
+
+[[commands.tokens]]
+text = " /"
+desc = "把根目录设为归档读取基准"
+
+[[commands.tokens]]
+text = " etc"
+desc = "以相对名称 etc 写入成员，避免归档中出现前导斜杠"
+
+[[commands.tokens]]
+text = " &&"
+desc = "只有归档成功后才输出目标路径"
+
+[[commands.tokens]]
+text = " printf"
+desc = "明确输出新建归档的实际文件名"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "每行输出一个字符串"
+
+[[commands.tokens]]
+text = " \"$archive\""
+desc = "显示本次唯一归档路径，便于后续校验"
 
 [commands.dictation]
-prompt = "把 /etc 打包成名为 etc-backup.tar.gz 的 gzip 压缩包"
+prompt = "用 mktemp 创建唯一且不覆盖已有文件的 etc-backup 归档路径，再以管理员权限从 / 切换基准、用相对成员名 etc 打包，成功后输出归档名"
 answers = [
-    "tar czf etc-backup.tar.gz /etc",
-    "tar -czf etc-backup.tar.gz /etc",
+    "archive=$(mktemp ./etc-backup-XXXXXX.tar.gz) && sudo tar -czf \"$archive\" -C / etc && printf '%s\\n' \"$archive\"",
 ]
 
 [[commands]]
 id = "rsync-www-backup"
-command = "rsync -av --delete /srv/www/ /backup/www/"
-summary = "把网站目录同步到备份目录，并删除目标中多余文件"
+command = "rsync -av --delete --dry-run /srv/www/ /backup/www/"
+summary = "只预演网站目录镜像，列出将更新和删除的目标项供审核"
 simulated_output = """
 sending incremental file list
 ./
@@ -235,34 +278,38 @@ js/app.js
 images/logo.png
 deleting old/removed-page.html
 
-sent 1,245,832 bytes  received 312 bytes  2,492,288.00 bytes/sec
-total size is 1,240,560  speedup is 1.00"""
+sent 214 bytes  received 32 bytes  492.00 bytes/sec
+total size is 1,240,560  speedup is 5,043.00 (DRY RUN)"""
 
 [[commands.tokens]]
 text = "rsync"
-desc = "高效的远程/本地文件同步和备份工具"
+desc = "高效的远程或本地文件同步工具；带删除的镜像必须先预演"
 
 [[commands.tokens]]
 text = " -av"
-desc = "-a 归档模式保留属性 + -v 输出详细过程"
+desc = "-a 使用归档模式保留属性，-v 输出详细计划"
 
 [[commands.tokens]]
 text = " --delete"
-desc = "删除目标目录中源目录已不存在的文件"
+desc = "把目标中源端不存在的项目列为删除对象；风险高于普通同步"
+
+[[commands.tokens]]
+text = " --dry-run"
+desc = "只显示计划，不写入、覆盖或删除任何目标文件"
 
 [[commands.tokens]]
 text = " /srv/www/"
-desc = "文件路径： /srv/www/"
+desc = "源目录内容；末尾斜杠表示同步目录中的内容"
 
 [[commands.tokens]]
 text = " /backup/www/"
-desc = "文件路径： /backup/www/"
+desc = "已核对的目标目录；预演清单中的 deleting 不代表已经删除"
 
 [commands.dictation]
-prompt = "把 /srv/www/ 同步到 /backup/www/，并删除目标端多余文件"
+prompt = "只预演把 /srv/www/ 镜像到 /backup/www/：列出目标端多余项，但不实际更新或删除，供逐项审核"
 answers = [
-    "rsync -av --delete /srv/www/ /backup/www/",
-    "rsync --archive --verbose --delete /srv/www/ /backup/www/",
+    "rsync -av --delete --dry-run /srv/www/ /backup/www/",
+    "rsync -avn --delete /srv/www/ /backup/www/",
 ]
 
 [[commands]]
@@ -382,9 +429,13 @@ answers = [
 
 [[commands]]
 id = "curl-health-check"
-command = "curl -fsSL https://example.com/health"
-summary = "安静地请求健康检查接口，失败时返回错误"
-simulated_output = """{"status":"ok","uptime":86432,"version":"2.1.0"}"""
+command = "curl -fsSL https://example.com/"
+summary = "请求 IANA 保留示例域名的稳定示例页面，并在 HTTP 错误时失败"
+simulated_output = """<!doctype html>
+<html>
+<head>
+    <title>Example Domain</title>
+</head>"""
 
 [[commands.tokens]]
 text = "curl"
@@ -392,17 +443,17 @@ desc = "命令行 HTTP 客户端：发送请求并获取响应"
 
 [[commands.tokens]]
 text = " -fsSL"
-desc = "-f 失败时返回错误 + -s 静默模式 + -S 显示错误 + -L 跟随重定向"
+desc = "-f HTTP 错误时失败 + -s 静默 + -S 显示错误 + -L 跟随重定向"
 
 [[commands.tokens]]
-text = " https://example.com/health"
-desc = "健康检查接口地址"
+text = " https://example.com/"
+desc = "IANA 保留的文档示例域名根页面；不是虚构的健康检查 API"
 
 [commands.dictation]
-prompt = "静默请求健康检查接口，失败时报错并跟随重定向"
+prompt = "静默请求 IANA 保留的 https://example.com/ 示例页面，HTTP 错误时失败、仍显示错误并跟随重定向"
 answers = [
-    "curl -fsSL https://example.com/health",
-    "curl --fail --silent --show-error --location https://example.com/health",
+    "curl -fsSL https://example.com/",
+    "curl --fail --silent --show-error --location https://example.com/",
 ]
 
 [[commands]]
@@ -443,27 +494,28 @@ answers = [
 
 [[commands]]
 id = "systemctl-restart-nginx"
-command = "systemctl restart nginx"
-summary = "重启 nginx 服务"
-simulated_output = ""
+command = "sudo nginx -t"
+summary = "在任何 reload 或 restart 前，只验证 nginx 配置语法和引用文件"
+simulated_output = """
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful"""
 
 [[commands.tokens]]
-text = "systemctl"
-desc = "systemd 服务管理器"
-
-[[commands.tokens]]
-text = " restart"
-desc = "停止后重新启动指定服务"
+text = "sudo"
+desc = "仅为读取完整 nginx 配置和密钥引用请求管理员权限；本命令不重启服务"
 
 [[commands.tokens]]
 text = " nginx"
-desc = "要重启的服务名称"
+desc = "nginx 可执行程序，用于解析当前配置"
+
+[[commands.tokens]]
+text = " -t"
+desc = "测试配置语法并尝试打开引用文件，不应用配置、不 reload、不 restart"
 
 [commands.dictation]
-prompt = "重启 nginx 服务"
+prompt = "在考虑 reload 或 restart nginx 前，只验证当前配置语法和引用文件是否可读取，不改变服务运行状态"
 answers = [
-    "systemctl restart nginx",
-    "systemctl restart nginx.service",
+    "sudo nginx -t",
 ]
 
 [[commands]]

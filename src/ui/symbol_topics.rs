@@ -16,9 +16,8 @@ pub fn render(frame: &mut Frame, app: &App) {
         ])
         .split(area);
 
-    // Title
     let title = Paragraph::new(Line::from(Span::styled(
-        " \u{7b26}\u{53f7}\u{4e13}\u{9898} ",
+        " 符号专题 ",
         Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
     )))
     .alignment(Alignment::Center)
@@ -31,57 +30,108 @@ pub fn render(frame: &mut Frame, app: &App) {
 
     if app.symbol_topics.is_empty() {
         let empty = Paragraph::new(Line::from(Span::styled(
-            "\u{6682}\u{65e0}\u{7b26}\u{53f7}\u{4e13}\u{9898}\u{6570}\u{636e}",
+            "暂无符号专题数据",
             Style::default().fg(DIM),
         )))
         .alignment(Alignment::Center);
         frame.render_widget(empty, chunks[1]);
     } else {
-        let mut lines: Vec<Line> = Vec::new();
-
-        for (i, topic) in app.symbol_topics.iter().enumerate() {
-            let is_selected = i == app.symbol_topics_index;
-            let prefix = if is_selected { " \u{25b6} " } else { "   " };
-
-            let icon = topic.meta.icon.as_deref().unwrap_or("\u{2328}\u{fe0f}");
-            let style = if is_selected {
-                Style::default()
-                    .fg(ACCENT)
-                    .add_modifier(Modifier::BOLD)
-                    .bg(MENU_SELECTED_BG)
-            } else {
-                Style::default().fg(MENU_NORMAL)
-            };
-
-            lines.push(Line::from(vec![
-                Span::styled(prefix.to_string(), style),
-                Span::styled(format!("{} ", icon), style),
-                Span::styled(topic.meta.topic.clone(), style),
-                Span::styled(
-                    format!("  {} ", topic.meta.difficulty.stars()),
-                    Style::default().fg(WARNING),
-                ),
-                Span::styled(
-                    format!("  {}\u{4e2a}\u{7b26}\u{53f7}", topic.symbols.len()),
-                    Style::default().fg(DIM),
-                ),
-            ]));
-            lines.push(Line::from(Span::styled(
-                format!("      {}", topic.meta.description),
-                Style::default().fg(DIM),
-            )));
-        }
-
-        frame.render_widget(Paragraph::new(lines), chunks[1]);
+        render_topic_menu(frame, app, chunks[1]);
     }
 
-    let hints = hint_line(&[
-        ("\u{2191}\u{2193}", "\u{79fb}\u{52a8}"),
-        ("Enter", "\u{8fdb}\u{5165}"),
-        ("Esc", "\u{8fd4}\u{56de}"),
-    ]);
+    let hints = hint_line(&[("↑↓", "移动"), ("Enter", "进入"), ("Esc", "返回")]);
     frame.render_widget(
         Paragraph::new(hints).alignment(Alignment::Center),
         chunks[2],
     );
+}
+
+fn render_topic_menu(frame: &mut Frame, app: &App, area: Rect) {
+    let selected = app.symbol_topics_index.min(app.symbol_topics.len() - 1);
+    let show_description = area.height >= 4;
+    let description_height = u16::from(show_description);
+    let show_continuations = area.height.saturating_sub(description_height) >= 3;
+    let continuation_height = u16::from(show_continuations);
+    let menu_height = area
+        .height
+        .saturating_sub(description_height + continuation_height * 2);
+
+    let above_area = Rect::new(area.x, area.y, area.width, continuation_height);
+    let menu_area = Rect::new(
+        area.x,
+        area.y + continuation_height,
+        area.width,
+        menu_height,
+    );
+    let below_area = Rect::new(
+        area.x,
+        menu_area.y + menu_area.height,
+        area.width,
+        continuation_height,
+    );
+    let description_area = Rect::new(
+        area.x,
+        below_area.y + below_area.height,
+        area.width,
+        description_height,
+    );
+
+    let window = visible_menu_window(selected, app.symbol_topics.len(), 1, menu_area.height);
+    let mut lines = Vec::with_capacity(window.len());
+    for topic_index in window.clone() {
+        let topic = &app.symbol_topics[topic_index];
+        let is_selected = topic_index == selected;
+        let prefix = if is_selected { " ▶ " } else { "   " };
+        let icon = topic.meta.icon.as_deref().unwrap_or("⌨️");
+        let style = if is_selected {
+            Style::default()
+                .fg(ACCENT)
+                .add_modifier(Modifier::BOLD)
+                .bg(MENU_SELECTED_BG)
+        } else {
+            Style::default().fg(MENU_NORMAL)
+        };
+
+        lines.push(Line::from(vec![
+            Span::styled(prefix, style),
+            Span::styled(format!("{} {}", icon, topic.meta.topic), style),
+            Span::styled(
+                format!("  {}", topic.meta.difficulty.stars()),
+                Style::default().fg(WARNING),
+            ),
+            Span::styled(
+                format!("  {}个符号", topic.symbols.len()),
+                Style::default().fg(DIM),
+            ),
+        ]));
+    }
+    frame.render_widget(Paragraph::new(lines), menu_area);
+
+    if show_continuations {
+        if window.start > 0 {
+            frame.render_widget(
+                Paragraph::new(Span::styled("↑ 上方还有专题", Style::default().fg(DIM)))
+                    .alignment(Alignment::Center),
+                above_area,
+            );
+        }
+        if window.end < app.symbol_topics.len() {
+            frame.render_widget(
+                Paragraph::new(Span::styled("↓ 下方还有专题", Style::default().fg(DIM)))
+                    .alignment(Alignment::Center),
+                below_area,
+            );
+        }
+    }
+
+    if show_description {
+        let topic = &app.symbol_topics[selected];
+        frame.render_widget(
+            Paragraph::new(Line::from(vec![
+                Span::styled("简介: ", Style::default().fg(ACCENT)),
+                Span::styled(topic.meta.description.clone(), Style::default().fg(DIM)),
+            ])),
+            description_area,
+        );
+    }
 }

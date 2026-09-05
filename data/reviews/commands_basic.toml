@@ -1,0 +1,2929 @@
+# commands_basic.toml — Beginner + Basic
+# 自动生成 2026-03-28
+
+[[exercises]]
+command = "ls"
+prompt = "列出当前目录中的文件和目录"
+difficulty = "beginner"
+type = "typing"
+answer = "ls"
+
+[[exercises]]
+command = "ls"
+prompt = "执行命令: ls"
+difficulty = "beginner"
+type = "typing"
+answer = "ls ."
+
+[[exercises]]
+command = "ls"
+prompt = "键入: ls"
+difficulty = "beginner"
+type = "typing"
+answer = "ls"
+
+[[exercises]]
+command = "ls -la /var/log"
+prompt = "显示 /var/log 目录下所有文件（包含隐藏文件）的详细信息"
+difficulty = "beginner"
+type = "typing"
+answer = "ls -la /var/log"
+
+[[exercises]]
+command = "ls -la /var/log"
+prompt = "执行命令: ls -la /var/log"
+difficulty = "beginner"
+type = "typing"
+answer = "ls -al /var/log"
+
+[[exercises]]
+command = "ls -la /var/log"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "ls --all -l /var/log"
+
+[[exercises]]
+command = "ls -la /var/log"
+prompt = "键入: ls -la /var/log"
+difficulty = "beginner"
+type = "typing"
+answer = "ls -l -a /var/log"
+
+[[exercises]]
+command = "ls -lhS downloads"
+prompt = "以易读单位显示 downloads 目录内容，并按文件大小排序"
+difficulty = "beginner"
+type = "typing"
+answer = "ls -lhS downloads"
+
+[[exercises]]
+command = "ls -lhS downloads"
+prompt = "执行命令: ls -lhS downloads"
+difficulty = "beginner"
+type = "typing"
+answer = "ls -l -h -S downloads"
+
+[[exercises]]
+command = "ls -lhS downloads"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "ls -lh --sort=size downloads"
+
+[[exercises]]
+command = "ls -R src"
+prompt = "递归查看 src 目录及其子目录中的内容"
+difficulty = "beginner"
+type = "typing"
+answer = "ls -R src"
+
+[[exercises]]
+command = "ls -R src"
+prompt = "执行命令: ls -R src"
+difficulty = "beginner"
+type = "typing"
+answer = "ls --recursive src"
+
+[[exercises]]
+command = "ls -R src"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "ls -R ./src"
+
+[[exercises]]
+command = "cd"
+prompt = "不带任何参数切换到当前用户的家目录"
+difficulty = "beginner"
+type = "typing"
+answer = "cd"
+
+[[exercises]]
+command = "cd"
+prompt = "执行命令: cd"
+difficulty = "beginner"
+type = "typing"
+answer = "cd ~"
+
+[[exercises]]
+command = "cd"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "cd $HOME"
+
+[[exercises]]
+command = "cd .."
+prompt = "切换到当前目录的上一级目录"
+difficulty = "beginner"
+type = "typing"
+answer = "cd .."
+
+[[exercises]]
+command = "cd .."
+prompt = "执行命令: cd .."
+difficulty = "beginner"
+type = "typing"
+answer = "cd ../"
+
+[[exercises]]
+command = "cd .."
+prompt = "键入: cd .."
+difficulty = "beginner"
+type = "typing"
+answer = "cd .."
+
+[[exercises]]
+command = "cd ~"
+prompt = "使用波浪号切换到当前用户的家目录"
+difficulty = "beginner"
+type = "typing"
+answer = "cd ~"
+
+[[exercises]]
+command = "cd ~"
+prompt = "执行命令: cd ~"
+difficulty = "beginner"
+type = "typing"
+answer = "cd $HOME"
+
+[[exercises]]
+command = "cd ~"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "cd ~/"
+
+[[exercises]]
+command = "cd -"
+prompt = "切换回刚才所在的目录"
+difficulty = "beginner"
+type = "typing"
+answer = "cd -"
+
+[[exercises]]
+command = "cd -"
+prompt = "执行命令: cd -"
+difficulty = "beginner"
+type = "typing"
+answer = "cd $OLDPWD"
+
+[[exercises]]
+command = "cd -"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "cd \"$OLDPWD\""
+
+[[exercises]]
+command = "pwd"
+prompt = "显示当前所在目录的绝对路径"
+difficulty = "beginner"
+type = "typing"
+answer = "pwd"
+
+[[exercises]]
+command = "pwd"
+prompt = "执行命令: pwd"
+difficulty = "beginner"
+type = "typing"
+answer = "/bin/pwd"
+
+[[exercises]]
+command = "pwd"
+prompt = "键入: pwd"
+difficulty = "beginner"
+type = "typing"
+answer = "pwd"
+
+[[exercises]]
+command = "mkdir -p project/src"
+prompt = "递归创建 project/src 目录结构"
+difficulty = "beginner"
+type = "typing"
+answer = "mkdir -p project/src"
+
+[[exercises]]
+command = "mkdir -p project/src"
+prompt = "执行命令: mkdir -p project/src"
+difficulty = "beginner"
+type = "typing"
+answer = "mkdir --parents project/src"
+
+[[exercises]]
+command = "mkdir -p project/src"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "mkdir -p ./project/src"
+
+[[exercises]]
+command = "touch notes.txt"
+prompt = "创建一个名为 notes.txt 的空文件"
+difficulty = "beginner"
+type = "typing"
+answer = "touch notes.txt"
+
+[[exercises]]
+command = "touch notes.txt"
+prompt = "执行命令: touch notes.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "touch ./notes.txt"
+
+[[exercises]]
+command = "touch notes.txt"
+prompt = "键入: touch notes.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "touch notes.txt"
+
+[[exercises]]
+command = "cat README.md"
+prompt = "把 README.md 文件内容输出到终端"
+difficulty = "beginner"
+type = "typing"
+answer = "cat README.md"
+
+[[exercises]]
+command = "cat README.md"
+prompt = "执行命令: cat README.md"
+difficulty = "beginner"
+type = "typing"
+answer = "cat ./README.md"
+
+[[exercises]]
+command = "cat README.md"
+prompt = "键入: cat README.md"
+difficulty = "beginner"
+type = "typing"
+answer = "cat README.md"
+
+[[exercises]]
+command = "echo 'hello world'"
+prompt = "在终端输出 hello world 这段文本"
+difficulty = "beginner"
+type = "typing"
+answer = "echo 'hello world'"
+
+[[exercises]]
+command = "echo 'hello world'"
+prompt = "执行命令: echo 'hello world'"
+difficulty = "beginner"
+type = "typing"
+answer = "echo \"hello world\""
+
+[[exercises]]
+command = "echo 'hello world'"
+prompt = "键入: echo 'hello world'"
+difficulty = "beginner"
+type = "typing"
+answer = "echo 'hello world'"
+
+[[exercises]]
+command = "cp file.txt backup/file.txt"
+prompt = "把 file.txt 复制到 backup/file.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "cp file.txt backup/file.txt"
+
+[[exercises]]
+command = "cp file.txt backup/file.txt"
+prompt = "执行命令: cp file.txt backup/file.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "cp ./file.txt backup/file.txt"
+
+[[exercises]]
+command = "cp file.txt backup/file.txt"
+prompt = "键入: cp file.txt backup/file.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "cp file.txt backup/file.txt"
+
+[[exercises]]
+command = "mv old.txt new.txt"
+prompt = "把 old.txt 重命名为 new.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "mv old.txt new.txt"
+
+[[exercises]]
+command = "mv old.txt new.txt"
+prompt = "执行命令: mv old.txt new.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "mv ./old.txt new.txt"
+
+[[exercises]]
+command = "mv old.txt new.txt"
+prompt = "键入: mv old.txt new.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "mv old.txt new.txt"
+
+[[exercises]]
+command = "rm temp.log"
+prompt = "删除名为 temp.log 的文件"
+difficulty = "beginner"
+type = "typing"
+answer = "rm temp.log"
+
+[[exercises]]
+command = "rm temp.log"
+prompt = "执行命令: rm temp.log"
+difficulty = "beginner"
+type = "typing"
+answer = "rm ./temp.log"
+
+[[exercises]]
+command = "rm temp.log"
+prompt = "键入: rm temp.log"
+difficulty = "beginner"
+type = "typing"
+answer = "rm temp.log"
+
+[[exercises]]
+command = "head -n 20 app.log"
+prompt = "查看 app.log 文件的前 20 行"
+difficulty = "beginner"
+type = "typing"
+answer = "head -n 20 app.log"
+
+[[exercises]]
+command = "head -n 20 app.log"
+prompt = "执行命令: head -n 20 app.log"
+difficulty = "beginner"
+type = "typing"
+answer = "head -20 app.log"
+
+[[exercises]]
+command = "head -n 20 app.log"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "head --lines 20 app.log"
+
+[[exercises]]
+command = "tail -f app.log"
+prompt = "持续跟踪 app.log 文件末尾新增的内容"
+difficulty = "beginner"
+type = "typing"
+answer = "tail -f app.log"
+
+[[exercises]]
+command = "tail -f app.log"
+prompt = "执行命令: tail -f app.log"
+difficulty = "beginner"
+type = "typing"
+answer = "tail --follow app.log"
+
+[[exercises]]
+command = "tail -f app.log"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "tail -f ./app.log"
+
+[[exercises]]
+command = "ln -s /var/log logs"
+prompt = "创建一个名为 logs 的符号链接，指向 /var/log"
+difficulty = "beginner"
+type = "typing"
+answer = "ln -s /var/log logs"
+
+[[exercises]]
+command = "ln -s /var/log logs"
+prompt = "执行命令: ln -s /var/log logs"
+difficulty = "beginner"
+type = "typing"
+answer = "ln --symbolic /var/log logs"
+
+[[exercises]]
+command = "ln -s /var/log logs"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "ln -s /var/log ./logs"
+
+[[exercises]]
+command = "cp notes.txt notes.bak"
+prompt = "把 notes.txt 复制为 notes.bak"
+difficulty = "beginner"
+type = "typing"
+answer = "cp notes.txt notes.bak"
+
+[[exercises]]
+command = "cp notes.txt notes.bak"
+prompt = "执行命令: cp notes.txt notes.bak"
+difficulty = "beginner"
+type = "typing"
+answer = "cp ./notes.txt ./notes.bak"
+
+[[exercises]]
+command = "cp notes.txt notes.bak"
+prompt = "键入: cp notes.txt notes.bak"
+difficulty = "beginner"
+type = "typing"
+answer = "cp notes.txt notes.bak"
+
+[[exercises]]
+command = "cp -r assets backup-assets"
+prompt = "递归复制 assets 目录为 backup-assets"
+difficulty = "beginner"
+type = "typing"
+answer = "cp -r assets backup-assets"
+
+[[exercises]]
+command = "cp -r assets backup-assets"
+prompt = "执行命令: cp -r assets backup-assets"
+difficulty = "beginner"
+type = "typing"
+answer = "cp --recursive assets backup-assets"
+
+[[exercises]]
+command = "cp -r assets backup-assets"
+prompt = "键入: cp -r assets backup-assets"
+difficulty = "beginner"
+type = "typing"
+answer = "cp -r assets backup-assets"
+
+[[exercises]]
+command = "mv draft.txt final.txt"
+prompt = "把 draft.txt 重命名为 final.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "mv draft.txt final.txt"
+
+[[exercises]]
+command = "mv draft.txt final.txt"
+prompt = "执行命令: mv draft.txt final.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "mv ./draft.txt ./final.txt"
+
+[[exercises]]
+command = "mv draft.txt final.txt"
+prompt = "键入: mv draft.txt final.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "mv draft.txt final.txt"
+
+[[exercises]]
+command = "mv report.txt archive/"
+prompt = "把 report.txt 移动到 archive 目录"
+difficulty = "beginner"
+type = "typing"
+answer = "mv report.txt archive/"
+
+[[exercises]]
+command = "mv report.txt archive/"
+prompt = "执行命令: mv report.txt archive/"
+difficulty = "beginner"
+type = "typing"
+answer = "mv ./report.txt ./archive/"
+
+[[exercises]]
+command = "mv report.txt archive/"
+prompt = "键入: mv report.txt archive/"
+difficulty = "beginner"
+type = "typing"
+answer = "mv report.txt archive/"
+
+[[exercises]]
+command = "rm temp.txt"
+prompt = "删除 temp.txt 文件"
+difficulty = "beginner"
+type = "typing"
+answer = "rm temp.txt"
+
+[[exercises]]
+command = "rm temp.txt"
+prompt = "执行命令: rm temp.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "rm ./temp.txt"
+
+[[exercises]]
+command = "rm temp.txt"
+prompt = "键入: rm temp.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "rm temp.txt"
+
+[[exercises]]
+command = "rm -r build"
+prompt = "递归删除 build 目录及其所有内容"
+difficulty = "beginner"
+type = "typing"
+answer = "rm -r build"
+
+[[exercises]]
+command = "rm -r build"
+prompt = "执行命令: rm -r build"
+difficulty = "beginner"
+type = "typing"
+answer = "rm --recursive build"
+
+[[exercises]]
+command = "rm -r build"
+prompt = "键入: rm -r build"
+difficulty = "beginner"
+type = "typing"
+answer = "rm -r build"
+
+[[exercises]]
+command = "rmdir old-cache"
+prompt = "删除空目录 old-cache"
+difficulty = "beginner"
+type = "typing"
+answer = "rmdir old-cache"
+
+[[exercises]]
+command = "rmdir old-cache"
+prompt = "执行命令: rmdir old-cache"
+difficulty = "beginner"
+type = "typing"
+answer = "rmdir ./old-cache"
+
+[[exercises]]
+command = "rmdir old-cache"
+prompt = "键入: rmdir old-cache"
+difficulty = "beginner"
+type = "typing"
+answer = "rmdir old-cache"
+
+[[exercises]]
+command = "file app.tar.gz"
+prompt = "检测 app.tar.gz 是什么类型的文件"
+difficulty = "beginner"
+type = "typing"
+answer = "file app.tar.gz"
+
+[[exercises]]
+command = "file app.tar.gz"
+prompt = "执行命令: file app.tar.gz"
+difficulty = "beginner"
+type = "typing"
+answer = "file ./app.tar.gz"
+
+[[exercises]]
+command = "file app.tar.gz"
+prompt = "键入: file app.tar.gz"
+difficulty = "beginner"
+type = "typing"
+answer = "file app.tar.gz"
+
+[[exercises]]
+command = "stat notes.txt"
+prompt = "查看 notes.txt 的详细元数据"
+difficulty = "beginner"
+type = "typing"
+answer = "stat notes.txt"
+
+[[exercises]]
+command = "stat notes.txt"
+prompt = "执行命令: stat notes.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "stat ./notes.txt"
+
+[[exercises]]
+command = "stat notes.txt"
+prompt = "键入: stat notes.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "stat notes.txt"
+
+[[exercises]]
+command = "less server.log"
+prompt = "分页查看 server.log 文件内容"
+difficulty = "beginner"
+type = "typing"
+answer = "less server.log"
+
+[[exercises]]
+command = "less server.log"
+prompt = "执行命令: less server.log"
+difficulty = "beginner"
+type = "typing"
+answer = "less ./server.log"
+
+[[exercises]]
+command = "less server.log"
+prompt = "键入: less server.log"
+difficulty = "beginner"
+type = "typing"
+answer = "less server.log"
+
+[[exercises]]
+command = "head -n 10 server.log"
+prompt = "查看 server.log 的前 10 行"
+difficulty = "beginner"
+type = "typing"
+answer = "head -n 10 server.log"
+
+[[exercises]]
+command = "head -n 10 server.log"
+prompt = "执行命令: head -n 10 server.log"
+difficulty = "beginner"
+type = "typing"
+answer = "head -10 server.log"
+
+[[exercises]]
+command = "head -n 10 server.log"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "head --lines 10 server.log"
+
+[[exercises]]
+command = "tail -n 50 server.log"
+prompt = "查看 server.log 的最后 50 行"
+difficulty = "beginner"
+type = "typing"
+answer = "tail -n 50 server.log"
+
+[[exercises]]
+command = "tail -n 50 server.log"
+prompt = "执行命令: tail -n 50 server.log"
+difficulty = "beginner"
+type = "typing"
+answer = "tail -50 server.log"
+
+[[exercises]]
+command = "tail -n 50 server.log"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "tail --lines 50 server.log"
+
+[[exercises]]
+command = "wc -l access.log"
+prompt = "统计 access.log 一共有多少行"
+difficulty = "beginner"
+type = "typing"
+answer = "wc -l access.log"
+
+[[exercises]]
+command = "wc -l access.log"
+prompt = "执行命令: wc -l access.log"
+difficulty = "beginner"
+type = "typing"
+answer = "wc --lines access.log"
+
+[[exercises]]
+command = "wc -l access.log"
+prompt = "键入: wc -l access.log"
+difficulty = "beginner"
+type = "typing"
+answer = "wc -l access.log"
+
+[[exercises]]
+command = "tree -L 2 project"
+prompt = "以树形结构显示 project 目录的前两层"
+difficulty = "beginner"
+type = "typing"
+answer = "tree -L 2 project"
+
+[[exercises]]
+command = "tree -L 2 project"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "tree -L 2 project"
+
+[[exercises]]
+command = "tree -L 2 project"
+prompt = "键入: tree -L 2 project"
+difficulty = "beginner"
+type = "typing"
+answer = "tree -L 2 project"
+
+[[exercises]]
+command = "basename /var/log/syslog"
+prompt = "从 /var/log/syslog 中取出最后的文件名部分"
+difficulty = "beginner"
+type = "typing"
+answer = "basename /var/log/syslog"
+
+[[exercises]]
+command = "basename /var/log/syslog"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "basename /var/log/syslog"
+
+[[exercises]]
+command = "basename /var/log/syslog"
+prompt = "键入: basename /var/log/syslog"
+difficulty = "beginner"
+type = "typing"
+answer = "basename /var/log/syslog"
+
+[[exercises]]
+command = "dirname /var/log/syslog"
+prompt = "从 /var/log/syslog 中取出目录路径部分"
+difficulty = "beginner"
+type = "typing"
+answer = "dirname /var/log/syslog"
+
+[[exercises]]
+command = "dirname /var/log/syslog"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "dirname /var/log/syslog"
+
+[[exercises]]
+command = "dirname /var/log/syslog"
+prompt = "键入: dirname /var/log/syslog"
+difficulty = "beginner"
+type = "typing"
+answer = "dirname /var/log/syslog"
+
+[[exercises]]
+command = "nano config.yml"
+prompt = "用 nano 编辑器打开 config.yml"
+difficulty = "beginner"
+type = "typing"
+answer = "nano config.yml"
+
+[[exercises]]
+command = "nano config.yml"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "nano config.yml"
+
+[[exercises]]
+command = "nano config.yml"
+prompt = "键入: nano config.yml"
+difficulty = "beginner"
+type = "typing"
+answer = "nano config.yml"
+
+[[exercises]]
+command = "vim main.py"
+prompt = "用 vim 编辑器打开 main.py"
+difficulty = "beginner"
+type = "typing"
+answer = "vim main.py"
+
+[[exercises]]
+command = "vim main.py"
+prompt = "执行命令: vim main.py"
+difficulty = "beginner"
+type = "typing"
+answer = "vi main.py"
+
+[[exercises]]
+command = "vim main.py"
+prompt = "键入: vim main.py"
+difficulty = "beginner"
+type = "typing"
+answer = "vim main.py"
+
+[[exercises]]
+command = "cat -n main.py"
+prompt = "显示 main.py 的内容并带上行号"
+difficulty = "beginner"
+type = "typing"
+answer = "cat -n main.py"
+
+[[exercises]]
+command = "cat -n main.py"
+prompt = "执行命令: cat -n main.py"
+difficulty = "beginner"
+type = "typing"
+answer = "cat --number main.py"
+
+[[exercises]]
+command = "cat -n main.py"
+prompt = "键入: cat -n main.py"
+difficulty = "beginner"
+type = "typing"
+answer = "cat -n main.py"
+
+[[exercises]]
+command = "echo $HOME"
+prompt = "输出当前用户的家目录路径"
+difficulty = "beginner"
+type = "typing"
+answer = "echo $HOME"
+
+[[exercises]]
+command = "echo $HOME"
+prompt = "执行命令: echo $HOME"
+difficulty = "beginner"
+type = "typing"
+answer = "echo \"$HOME\""
+
+[[exercises]]
+command = "echo $HOME"
+prompt = "键入: echo $HOME"
+difficulty = "beginner"
+type = "typing"
+answer = "echo $HOME"
+
+[[exercises]]
+command = "echo $SHELL"
+prompt = "显示当前使用的 shell 路径"
+difficulty = "beginner"
+type = "typing"
+answer = "echo $SHELL"
+
+[[exercises]]
+command = "echo $SHELL"
+prompt = "执行命令: echo $SHELL"
+difficulty = "beginner"
+type = "typing"
+answer = "echo \"$SHELL\""
+
+[[exercises]]
+command = "echo $SHELL"
+prompt = "键入: echo $SHELL"
+difficulty = "beginner"
+type = "typing"
+answer = "echo $SHELL"
+
+[[exercises]]
+command = "history | tail -20"
+prompt = "查看最近 20 条命令历史记录"
+difficulty = "beginner"
+type = "typing"
+answer = "history | tail -20"
+
+[[exercises]]
+command = "history | tail -20"
+prompt = "执行命令: history | tail -20"
+difficulty = "beginner"
+type = "typing"
+answer = "history | tail -n 20"
+
+[[exercises]]
+command = "history | tail -20"
+prompt = "键入: history | tail -20"
+difficulty = "beginner"
+type = "typing"
+answer = "history | tail -20"
+
+[[exercises]]
+command = "clear"
+prompt = "清除终端屏幕"
+difficulty = "beginner"
+type = "typing"
+answer = "clear"
+
+[[exercises]]
+command = "clear"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "clear"
+
+[[exercises]]
+command = "clear"
+prompt = "键入: clear"
+difficulty = "beginner"
+type = "typing"
+answer = "clear"
+
+[[exercises]]
+command = "reset"
+prompt = "重置终端到初始状态"
+difficulty = "beginner"
+type = "typing"
+answer = "reset"
+
+[[exercises]]
+command = "reset"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "reset"
+
+[[exercises]]
+command = "reset"
+prompt = "键入: reset"
+difficulty = "beginner"
+type = "typing"
+answer = "reset"
+
+[[exercises]]
+command = "echo 'new entry' | tee -a log.txt"
+prompt = "把 new entry 同时输出到终端并追加到 log.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "echo 'new entry' | tee -a log.txt"
+
+[[exercises]]
+command = "echo 'new entry' | tee -a log.txt"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "echo 'new entry' | tee -a log.txt"
+
+[[exercises]]
+command = "echo 'new entry' | tee -a log.txt"
+prompt = "键入: echo 'new entry' | tee -a log.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "echo 'new entry' | tee -a log.txt"
+
+[[exercises]]
+command = "sort -rn scores.txt"
+prompt = "按数值从大到小排序 scores.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "sort -rn scores.txt"
+
+[[exercises]]
+command = "sort -rn scores.txt"
+prompt = "执行命令: sort -rn scores.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "sort -n -r scores.txt"
+
+[[exercises]]
+command = "sort -rn scores.txt"
+prompt = "键入: sort -rn scores.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "sort -rn scores.txt"
+
+[[exercises]]
+command = "uniq -c sorted.txt"
+prompt = "统计 sorted.txt 中每种相邻重复行的出现次数"
+difficulty = "beginner"
+type = "typing"
+answer = "uniq -c sorted.txt"
+
+[[exercises]]
+command = "uniq -c sorted.txt"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "uniq -c sorted.txt"
+
+[[exercises]]
+command = "uniq -c sorted.txt"
+prompt = "键入: uniq -c sorted.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "uniq -c sorted.txt"
+
+[[exercises]]
+command = "du -sh * | sort -rh | head"
+prompt = "查看当前目录下各项大小，按从大到小排列显示前几项"
+difficulty = "beginner"
+type = "typing"
+answer = "du -sh * | sort -rh | head"
+
+[[exercises]]
+command = "du -sh * | sort -rh | head"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "du -sh * | sort -rh | head"
+
+[[exercises]]
+command = "du -sh * | sort -rh | head"
+prompt = "键入: du -sh * | sort -rh | head"
+difficulty = "beginner"
+type = "typing"
+answer = "du -sh * | sort -rh | head"
+
+[[exercises]]
+command = "readlink -f /usr/bin/python3"
+prompt = "解析 /usr/bin/python3 符号链接到最终的真实路径"
+difficulty = "beginner"
+type = "typing"
+answer = "readlink -f /usr/bin/python3"
+
+[[exercises]]
+command = "readlink -f /usr/bin/python3"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "readlink -f /usr/bin/python3"
+
+[[exercises]]
+command = "readlink -f /usr/bin/python3"
+prompt = "键入: readlink -f /usr/bin/python3"
+difficulty = "beginner"
+type = "typing"
+answer = "readlink -f /usr/bin/python3"
+
+[[exercises]]
+command = "chmod 644 notes.txt"
+prompt = "把 notes.txt 的权限设置为 644"
+difficulty = "basic"
+type = "typing"
+answer = "chmod 644 notes.txt"
+
+[[exercises]]
+command = "chmod 644 notes.txt"
+prompt = "执行命令: chmod 644 notes.txt"
+difficulty = "basic"
+type = "typing"
+answer = "chmod 0644 notes.txt"
+
+[[exercises]]
+command = "chmod 644 notes.txt"
+prompt = "键入: chmod 644 notes.txt"
+difficulty = "basic"
+type = "typing"
+answer = "chmod 644 notes.txt"
+
+[[exercises]]
+command = "chmod +x deploy.sh"
+prompt = "给 deploy.sh 增加可执行权限"
+difficulty = "basic"
+type = "typing"
+answer = "chmod +x deploy.sh"
+
+[[exercises]]
+command = "chmod +x deploy.sh"
+prompt = "执行命令: chmod +x deploy.sh"
+difficulty = "basic"
+type = "typing"
+answer = "chmod a+x deploy.sh"
+
+[[exercises]]
+command = "chmod +x deploy.sh"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "chmod ugo+x deploy.sh"
+
+[[exercises]]
+command = "chmod -R 755 scripts"
+prompt = "递归把 scripts 目录及其内容的权限设置为 755"
+difficulty = "basic"
+type = "typing"
+answer = "chmod -R 755 scripts"
+
+[[exercises]]
+command = "chmod -R 755 scripts"
+prompt = "执行命令: chmod -R 755 scripts"
+difficulty = "basic"
+type = "typing"
+answer = "chmod -R 0755 scripts"
+
+[[exercises]]
+command = "chmod -R 755 scripts"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "chmod --recursive 755 scripts"
+
+[[exercises]]
+command = "chown alice:alice app.log"
+prompt = "把 app.log 的所有者和所属组都改为 alice"
+difficulty = "basic"
+type = "typing"
+answer = "chown alice:alice app.log"
+
+[[exercises]]
+command = "chown alice:alice app.log"
+prompt = "执行命令: chown alice:alice app.log"
+difficulty = "basic"
+type = "typing"
+answer = "chown alice:alice ./app.log"
+
+[[exercises]]
+command = "chown alice:alice app.log"
+prompt = "键入: chown alice:alice app.log"
+difficulty = "basic"
+type = "typing"
+answer = "chown alice:alice app.log"
+
+[[exercises]]
+command = "grep 'ERROR' app.log"
+prompt = "在 app.log 中查找包含 ERROR 的行"
+difficulty = "basic"
+type = "typing"
+answer = "grep 'ERROR' app.log"
+
+[[exercises]]
+command = "grep 'ERROR' app.log"
+prompt = "执行命令: grep 'ERROR' app.log"
+difficulty = "basic"
+type = "typing"
+answer = "grep \"ERROR\" app.log"
+
+[[exercises]]
+command = "grep 'ERROR' app.log"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "grep ERROR app.log"
+
+[[exercises]]
+command = "grep -R 'TODO' src"
+prompt = "递归查找 src 目录中包含 TODO 的内容"
+difficulty = "basic"
+type = "typing"
+answer = "grep -R 'TODO' src"
+
+[[exercises]]
+command = "grep -R 'TODO' src"
+prompt = "执行命令: grep -R 'TODO' src"
+difficulty = "basic"
+type = "typing"
+answer = "grep --recursive 'TODO' src"
+
+[[exercises]]
+command = "grep -R 'TODO' src"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "grep -R \"TODO\" src"
+
+[[exercises]]
+command = "grep -n 'main' src/main.rs"
+prompt = "查找 src/main.rs 中包含 main 的行，并显示行号"
+difficulty = "basic"
+type = "typing"
+answer = "grep -n 'main' src/main.rs"
+
+[[exercises]]
+command = "grep -n 'main' src/main.rs"
+prompt = "执行命令: grep -n 'main' src/main.rs"
+difficulty = "basic"
+type = "typing"
+answer = "grep --line-number 'main' src/main.rs"
+
+[[exercises]]
+command = "grep -n 'main' src/main.rs"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "grep -n \"main\" src/main.rs"
+
+[[exercises]]
+command = "find . -name '*.log'"
+prompt = "在当前目录及其子目录中查找所有 .log 文件"
+difficulty = "basic"
+type = "typing"
+answer = "find . -name '*.log'"
+
+[[exercises]]
+command = "find . -name '*.log'"
+prompt = "执行命令: find . -name '*.log'"
+difficulty = "basic"
+type = "typing"
+answer = "find ./ -name '*.log'"
+
+[[exercises]]
+command = "find . -name '*.log'"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "find . -name \"*.log\""
+
+[[exercises]]
+command = "find /var/log -type f"
+prompt = "在 /var/log 目录下查找所有普通文件"
+difficulty = "basic"
+type = "typing"
+answer = "find /var/log -type f"
+
+[[exercises]]
+command = "find /var/log -type f"
+prompt = "执行命令: find /var/log -type f"
+difficulty = "basic"
+type = "typing"
+answer = "find /var/log/ -type f"
+
+[[exercises]]
+command = "find /var/log -type f"
+prompt = "键入: find /var/log -type f"
+difficulty = "basic"
+type = "typing"
+answer = "find /var/log -type f"
+
+[[exercises]]
+command = "tar -czf backup.tar.gz project"
+prompt = "把 project 目录打包并压缩成 backup.tar.gz"
+difficulty = "basic"
+type = "typing"
+answer = "tar -czf backup.tar.gz project"
+
+[[exercises]]
+command = "tar -czf backup.tar.gz project"
+prompt = "执行命令: tar -czf backup.tar.gz project"
+difficulty = "basic"
+type = "typing"
+answer = "tar -zcf backup.tar.gz project"
+
+[[exercises]]
+command = "tar -czf backup.tar.gz project"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "tar --create --gzip --file backup.tar.gz project"
+
+[[exercises]]
+command = "tar -xzf backup.tar.gz"
+prompt = "解压 backup.tar.gz 压缩归档文件"
+difficulty = "basic"
+type = "typing"
+answer = "tar -xzf backup.tar.gz"
+
+[[exercises]]
+command = "tar -xzf backup.tar.gz"
+prompt = "执行命令: tar -xzf backup.tar.gz"
+difficulty = "basic"
+type = "typing"
+answer = "tar -zxf backup.tar.gz"
+
+[[exercises]]
+command = "tar -xzf backup.tar.gz"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "tar --extract --gzip --file backup.tar.gz"
+
+[[exercises]]
+command = "ps aux"
+prompt = "以详细格式显示系统中的所有进程"
+difficulty = "basic"
+type = "typing"
+answer = "ps aux"
+
+[[exercises]]
+command = "ps aux"
+prompt = "执行命令: ps aux"
+difficulty = "basic"
+type = "typing"
+answer = "ps axu"
+
+[[exercises]]
+command = "ps aux"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "/bin/ps aux"
+
+[[exercises]]
+command = "kill -9 1234"
+prompt = "强制终止 PID 为 1234 的进程"
+difficulty = "basic"
+type = "typing"
+answer = "kill -9 1234"
+
+[[exercises]]
+command = "kill -9 1234"
+prompt = "执行命令: kill -9 1234"
+difficulty = "basic"
+type = "typing"
+answer = "kill -KILL 1234"
+
+[[exercises]]
+command = "kill -9 1234"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "kill -s KILL 1234"
+
+[[exercises]]
+command = "top"
+prompt = "实时查看系统进程和资源占用情况"
+difficulty = "basic"
+type = "typing"
+answer = "top"
+
+[[exercises]]
+command = "top"
+prompt = "执行命令: top"
+difficulty = "basic"
+type = "typing"
+answer = "/usr/bin/top"
+
+[[exercises]]
+command = "top"
+prompt = "键入: top"
+difficulty = "basic"
+type = "typing"
+answer = "top"
+
+[[exercises]]
+command = "sudo systemctl status nginx"
+prompt = "以管理员权限查看 nginx 服务状态"
+difficulty = "basic"
+type = "typing"
+answer = "sudo systemctl status nginx"
+
+[[exercises]]
+command = "sudo systemctl status nginx"
+prompt = "执行命令: sudo systemctl status nginx"
+difficulty = "basic"
+type = "typing"
+answer = "sudo /usr/bin/systemctl status nginx"
+
+[[exercises]]
+command = "sudo systemctl status nginx"
+prompt = "键入: sudo systemctl status nginx"
+difficulty = "basic"
+type = "typing"
+answer = "sudo systemctl status nginx"
+
+[[exercises]]
+command = "df -h"
+prompt = "以易读单位查看磁盘分区使用情况"
+difficulty = "basic"
+type = "typing"
+answer = "df -h"
+
+[[exercises]]
+command = "df -h"
+prompt = "执行命令: df -h"
+difficulty = "basic"
+type = "typing"
+answer = "df --human-readable"
+
+[[exercises]]
+command = "df -h"
+prompt = "键入: df -h"
+difficulty = "basic"
+type = "typing"
+answer = "df -h"
+
+[[exercises]]
+command = "du -sh /var/log"
+prompt = "以易读单位汇总查看 /var/log 目录占用空间"
+difficulty = "basic"
+type = "typing"
+answer = "du -sh /var/log"
+
+[[exercises]]
+command = "du -sh /var/log"
+prompt = "执行命令: du -sh /var/log"
+difficulty = "basic"
+type = "typing"
+answer = "du -s -h /var/log"
+
+[[exercises]]
+command = "du -sh /var/log"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "du --summarize --human-readable /var/log"
+
+[[exercises]]
+command = "free -h"
+prompt = "以易读单位查看内存使用情况"
+difficulty = "basic"
+type = "typing"
+answer = "free -h"
+
+[[exercises]]
+command = "free -h"
+prompt = "执行命令: free -h"
+difficulty = "basic"
+type = "typing"
+answer = "free --human"
+
+[[exercises]]
+command = "free -h"
+prompt = "键入: free -h"
+difficulty = "basic"
+type = "typing"
+answer = "free -h"
+
+[[exercises]]
+command = "which python3"
+prompt = "查看 python3 命令对应的可执行文件路径"
+difficulty = "basic"
+type = "typing"
+answer = "which python3"
+
+[[exercises]]
+command = "which python3"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "which python3"
+
+[[exercises]]
+command = "which python3"
+prompt = "键入: which python3"
+difficulty = "basic"
+type = "typing"
+answer = "which python3"
+
+[[exercises]]
+command = "whereis nginx"
+prompt = "查找 nginx 的可执行文件和文档位置"
+difficulty = "basic"
+type = "typing"
+answer = "whereis nginx"
+
+[[exercises]]
+command = "whereis nginx"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "whereis nginx"
+
+[[exercises]]
+command = "whereis nginx"
+prompt = "键入: whereis nginx"
+difficulty = "basic"
+type = "typing"
+answer = "whereis nginx"
+
+[[exercises]]
+command = "type cd"
+prompt = "检查 cd 属于什么类型的命令"
+difficulty = "basic"
+type = "typing"
+answer = "type cd"
+
+[[exercises]]
+command = "type cd"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "type cd"
+
+[[exercises]]
+command = "type cd"
+prompt = "键入: type cd"
+difficulty = "basic"
+type = "typing"
+answer = "type cd"
+
+[[exercises]]
+command = "man grep"
+prompt = "打开 grep 的手册页"
+difficulty = "basic"
+type = "typing"
+answer = "man grep"
+
+[[exercises]]
+command = "man grep"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "man grep"
+
+[[exercises]]
+command = "man grep"
+prompt = "键入: man grep"
+difficulty = "basic"
+type = "typing"
+answer = "man grep"
+
+[[exercises]]
+command = "apropos password"
+prompt = "按关键字搜索和 password 相关的 man 手册条目"
+difficulty = "basic"
+type = "typing"
+answer = "apropos password"
+
+[[exercises]]
+command = "apropos password"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "apropos password"
+
+[[exercises]]
+command = "apropos password"
+prompt = "键入: apropos password"
+difficulty = "basic"
+type = "typing"
+answer = "apropos password"
+
+[[exercises]]
+command = "find . -iname *.jpg"
+prompt = "不区分大小写地查找当前目录下所有 jpg 图片"
+difficulty = "basic"
+type = "typing"
+answer = "find . -iname *.jpg"
+
+[[exercises]]
+command = "find . -iname *.jpg"
+prompt = "执行命令: find . -iname *.jpg"
+difficulty = "basic"
+type = "typing"
+answer = "find . -iname \"*.jpg\""
+
+[[exercises]]
+command = "find . -iname *.jpg"
+prompt = "键入: find . -iname *.jpg"
+difficulty = "basic"
+type = "typing"
+answer = "find . -iname *.jpg"
+
+[[exercises]]
+command = "locate bashrc"
+prompt = "快速查找系统中名称包含 bashrc 的路径"
+difficulty = "basic"
+type = "typing"
+answer = "locate bashrc"
+
+[[exercises]]
+command = "locate bashrc"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "locate bashrc"
+
+[[exercises]]
+command = "locate bashrc"
+prompt = "键入: locate bashrc"
+difficulty = "basic"
+type = "typing"
+answer = "locate bashrc"
+
+[[exercises]]
+command = "uname -a"
+prompt = "显示完整的系统内核与架构信息"
+difficulty = "basic"
+type = "typing"
+answer = "uname -a"
+
+[[exercises]]
+command = "uname -a"
+prompt = "执行命令: uname -a"
+difficulty = "basic"
+type = "typing"
+answer = "uname --all"
+
+[[exercises]]
+command = "uname -a"
+prompt = "键入: uname -a"
+difficulty = "basic"
+type = "typing"
+answer = "uname -a"
+
+[[exercises]]
+command = "df -h"
+prompt = "以易读单位查看磁盘空间使用情况"
+difficulty = "basic"
+type = "typing"
+answer = "df -h"
+
+[[exercises]]
+command = "df -h"
+prompt = "执行命令: df -h"
+difficulty = "basic"
+type = "typing"
+answer = "df --human-readable"
+
+[[exercises]]
+command = "df -h"
+prompt = "键入: df -h"
+difficulty = "basic"
+type = "typing"
+answer = "df -h"
+
+[[exercises]]
+command = "du -sh /var/log"
+prompt = "汇总查看 /var/log 目录占用的磁盘空间，并用易读单位显示"
+difficulty = "basic"
+type = "typing"
+answer = "du -sh /var/log"
+
+[[exercises]]
+command = "du -sh /var/log"
+prompt = "执行命令: du -sh /var/log"
+difficulty = "basic"
+type = "typing"
+answer = "du -hs /var/log"
+
+[[exercises]]
+command = "du -sh /var/log"
+prompt = "键入: du -sh /var/log"
+difficulty = "basic"
+type = "typing"
+answer = "du -sh /var/log"
+
+[[exercises]]
+command = "free -h"
+prompt = "以易读单位查看当前内存和 swap 使用情况"
+difficulty = "basic"
+type = "typing"
+answer = "free -h"
+
+[[exercises]]
+command = "free -h"
+prompt = "执行命令: free -h"
+difficulty = "basic"
+type = "typing"
+answer = "free --human"
+
+[[exercises]]
+command = "free -h"
+prompt = "键入: free -h"
+difficulty = "basic"
+type = "typing"
+answer = "free -h"
+
+[[exercises]]
+command = "lsblk"
+prompt = "查看当前系统的磁盘和分区设备列表"
+difficulty = "basic"
+type = "typing"
+answer = "lsblk"
+
+[[exercises]]
+command = "lsblk"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "lsblk"
+
+[[exercises]]
+command = "lsblk"
+prompt = "键入: lsblk"
+difficulty = "basic"
+type = "typing"
+answer = "lsblk"
+
+[[exercises]]
+command = "ip addr show"
+prompt = "查看所有网络接口的地址信息"
+difficulty = "basic"
+type = "typing"
+answer = "ip addr show"
+
+[[exercises]]
+command = "ip addr show"
+prompt = "执行命令: ip addr show"
+difficulty = "basic"
+type = "typing"
+answer = "ip a"
+
+[[exercises]]
+command = "ip addr show"
+prompt = "键入: ip addr show"
+difficulty = "basic"
+type = "typing"
+answer = "ip addr show"
+
+[[exercises]]
+command = "ss -lnt"
+prompt = "查看当前系统正在监听的 TCP 端口"
+difficulty = "basic"
+type = "typing"
+answer = "ss -lnt"
+
+[[exercises]]
+command = "ss -lnt"
+prompt = "执行命令: ss -lnt"
+difficulty = "basic"
+type = "typing"
+answer = "ss -tln"
+
+[[exercises]]
+command = "ss -lnt"
+prompt = "键入: ss -lnt"
+difficulty = "basic"
+type = "typing"
+answer = "ss -lnt"
+
+[[exercises]]
+command = "ping -c 4 8.8.8.8"
+prompt = "向 8.8.8.8 发送 4 次 ping 请求"
+difficulty = "basic"
+type = "typing"
+answer = "ping -c 4 8.8.8.8"
+
+[[exercises]]
+command = "ping -c 4 8.8.8.8"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "ping -c 4 8.8.8.8"
+
+[[exercises]]
+command = "ping -c 4 8.8.8.8"
+prompt = "键入: ping -c 4 8.8.8.8"
+difficulty = "basic"
+type = "typing"
+answer = "ping -c 4 8.8.8.8"
+
+[[exercises]]
+command = "curl -I https://example.com"
+prompt = "只获取 https://example.com 的响应头"
+difficulty = "basic"
+type = "typing"
+answer = "curl -I https://example.com"
+
+[[exercises]]
+command = "curl -I https://example.com"
+prompt = "执行命令: curl -I https://example.com"
+difficulty = "basic"
+type = "typing"
+answer = "curl --head https://example.com"
+
+[[exercises]]
+command = "curl -I https://example.com"
+prompt = "键入: curl -I https://example.com"
+difficulty = "basic"
+type = "typing"
+answer = "curl -I https://example.com"
+
+[[exercises]]
+command = "wget -O index.html https://example.com"
+prompt = "下载 https://example.com 并保存为 index.html"
+difficulty = "basic"
+type = "typing"
+answer = "wget -O index.html https://example.com"
+
+[[exercises]]
+command = "wget -O index.html https://example.com"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "wget -O index.html https://example.com"
+
+[[exercises]]
+command = "wget -O index.html https://example.com"
+prompt = "键入: wget -O index.html https://example.com"
+difficulty = "basic"
+type = "typing"
+answer = "wget -O index.html https://example.com"
+
+[[exercises]]
+command = "dig +short example.com"
+prompt = "快速查询 example.com 的 DNS 解析结果"
+difficulty = "basic"
+type = "typing"
+answer = "dig +short example.com"
+
+[[exercises]]
+command = "dig +short example.com"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "dig +short example.com"
+
+[[exercises]]
+command = "dig +short example.com"
+prompt = "键入: dig +short example.com"
+difficulty = "basic"
+type = "typing"
+answer = "dig +short example.com"
+
+[[exercises]]
+command = "whoami"
+prompt = "显示当前登录的用户名"
+difficulty = "basic"
+type = "typing"
+answer = "whoami"
+
+[[exercises]]
+command = "whoami"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "whoami"
+
+[[exercises]]
+command = "whoami"
+prompt = "键入: whoami"
+difficulty = "basic"
+type = "typing"
+answer = "whoami"
+
+[[exercises]]
+command = "id"
+prompt = "显示当前用户的 UID、GID 和所属组信息"
+difficulty = "basic"
+type = "typing"
+answer = "id"
+
+[[exercises]]
+command = "id"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "id"
+
+[[exercises]]
+command = "id"
+prompt = "键入: id"
+difficulty = "basic"
+type = "typing"
+answer = "id"
+
+[[exercises]]
+command = "groups"
+prompt = "显示当前用户所属的所有用户组"
+difficulty = "basic"
+type = "typing"
+answer = "groups"
+
+[[exercises]]
+command = "groups"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "groups"
+
+[[exercises]]
+command = "groups"
+prompt = "键入: groups"
+difficulty = "basic"
+type = "typing"
+answer = "groups"
+
+[[exercises]]
+command = "chmod u+x deploy.sh"
+prompt = "给 deploy.sh 的所有者增加执行权限"
+difficulty = "basic"
+type = "typing"
+answer = "chmod u+x deploy.sh"
+
+[[exercises]]
+command = "chmod u+x deploy.sh"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "chmod u+x deploy.sh"
+
+[[exercises]]
+command = "chmod u+x deploy.sh"
+prompt = "键入: chmod u+x deploy.sh"
+difficulty = "basic"
+type = "typing"
+answer = "chmod u+x deploy.sh"
+
+[[exercises]]
+command = "chgrp www-data /srv/www/index.html"
+prompt = "把 /srv/www/index.html 的所属组改为 www-data"
+difficulty = "basic"
+type = "typing"
+answer = "chgrp www-data /srv/www/index.html"
+
+[[exercises]]
+command = "chgrp www-data /srv/www/index.html"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "chgrp www-data /srv/www/index.html"
+
+[[exercises]]
+command = "chgrp www-data /srv/www/index.html"
+prompt = "键入: chgrp www-data /srv/www/index.html"
+difficulty = "basic"
+type = "typing"
+answer = "chgrp www-data /srv/www/index.html"
+
+[[exercises]]
+command = "umask"
+prompt = "查看当前 shell 的默认权限掩码"
+difficulty = "basic"
+type = "typing"
+answer = "umask"
+
+[[exercises]]
+command = "umask"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "umask"
+
+[[exercises]]
+command = "umask"
+prompt = "键入: umask"
+difficulty = "basic"
+type = "typing"
+answer = "umask"
+
+[[exercises]]
+command = "export EDITOR=vim"
+prompt = "把环境变量 EDITOR 设置为 vim"
+difficulty = "basic"
+type = "typing"
+answer = "export EDITOR=vim"
+
+[[exercises]]
+command = "export EDITOR=vim"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "export EDITOR=vim"
+
+[[exercises]]
+command = "export EDITOR=vim"
+prompt = "键入: export EDITOR=vim"
+difficulty = "basic"
+type = "typing"
+answer = "export EDITOR=vim"
+
+[[exercises]]
+command = "env | grep ^PATH="
+prompt = "查看当前环境变量中的 PATH 这一项"
+difficulty = "basic"
+type = "typing"
+answer = "env | grep ^PATH="
+
+[[exercises]]
+command = "env | grep ^PATH="
+prompt = "执行命令: env | grep ^PATH="
+difficulty = "basic"
+type = "typing"
+answer = "env | grep \"^PATH=\""
+
+[[exercises]]
+command = "env | grep ^PATH="
+prompt = "键入: env | grep ^PATH="
+difficulty = "basic"
+type = "typing"
+answer = "env | grep ^PATH="
+
+[[exercises]]
+command = "ps -ef"
+prompt = "以完整格式查看系统中的所有进程"
+difficulty = "basic"
+type = "typing"
+answer = "ps -ef"
+
+[[exercises]]
+command = "ps -ef"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "ps -ef"
+
+[[exercises]]
+command = "ps -ef"
+prompt = "键入: ps -ef"
+difficulty = "basic"
+type = "typing"
+answer = "ps -ef"
+
+[[exercises]]
+command = "pgrep sshd"
+prompt = "查找 sshd 进程的 PID"
+difficulty = "basic"
+type = "typing"
+answer = "pgrep sshd"
+
+[[exercises]]
+command = "pgrep sshd"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "pgrep sshd"
+
+[[exercises]]
+command = "pgrep sshd"
+prompt = "键入: pgrep sshd"
+difficulty = "basic"
+type = "typing"
+answer = "pgrep sshd"
+
+[[exercises]]
+command = "pkill nginx"
+prompt = "按进程名结束 nginx 进程"
+difficulty = "basic"
+type = "typing"
+answer = "pkill nginx"
+
+[[exercises]]
+command = "pkill nginx"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "pkill nginx"
+
+[[exercises]]
+command = "pkill nginx"
+prompt = "键入: pkill nginx"
+difficulty = "basic"
+type = "typing"
+answer = "pkill nginx"
+
+[[exercises]]
+command = "kill -9 12345"
+prompt = "向 PID 12345 发送 SIGKILL 强制终止它"
+difficulty = "basic"
+type = "typing"
+answer = "kill -9 12345"
+
+[[exercises]]
+command = "kill -9 12345"
+prompt = "执行命令: kill -9 12345"
+difficulty = "basic"
+type = "typing"
+answer = "kill -KILL 12345"
+
+[[exercises]]
+command = "kill -9 12345"
+prompt = "键入: kill -9 12345"
+difficulty = "basic"
+type = "typing"
+answer = "kill -9 12345"
+
+[[exercises]]
+command = "killall node"
+prompt = "结束所有名为 node 的进程"
+difficulty = "basic"
+type = "typing"
+answer = "killall node"
+
+[[exercises]]
+command = "killall node"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "killall node"
+
+[[exercises]]
+command = "killall node"
+prompt = "键入: killall node"
+difficulty = "basic"
+type = "typing"
+answer = "killall node"
+
+[[exercises]]
+command = "jobs"
+prompt = "查看当前 shell 的后台作业列表"
+difficulty = "basic"
+type = "typing"
+answer = "jobs"
+
+[[exercises]]
+command = "jobs"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "jobs"
+
+[[exercises]]
+command = "jobs"
+prompt = "键入: jobs"
+difficulty = "basic"
+type = "typing"
+answer = "jobs"
+
+[[exercises]]
+command = "bg %1"
+prompt = "让作业号 1 在后台继续运行"
+difficulty = "basic"
+type = "typing"
+answer = "bg %1"
+
+[[exercises]]
+command = "bg %1"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "bg %1"
+
+[[exercises]]
+command = "bg %1"
+prompt = "键入: bg %1"
+difficulty = "basic"
+type = "typing"
+answer = "bg %1"
+
+[[exercises]]
+command = "fg %1"
+prompt = "把作业号 1 切回前台运行"
+difficulty = "basic"
+type = "typing"
+answer = "fg %1"
+
+[[exercises]]
+command = "fg %1"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "fg %1"
+
+[[exercises]]
+command = "fg %1"
+prompt = "键入: fg %1"
+difficulty = "basic"
+type = "typing"
+answer = "fg %1"
+
+[[exercises]]
+command = "nohup python3 -m http.server 8000 &"
+prompt = "让 Python 简单 HTTP 服务在 8000 端口后台运行，并在退出终端后继续保持"
+difficulty = "basic"
+type = "typing"
+answer = "nohup python3 -m http.server 8000 &"
+
+[[exercises]]
+command = "nohup python3 -m http.server 8000 &"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "nohup python3 -m http.server 8000 &"
+
+[[exercises]]
+command = "nohup python3 -m http.server 8000 &"
+prompt = "键入: nohup python3 -m http.server 8000 &"
+difficulty = "basic"
+type = "typing"
+answer = "nohup python3 -m http.server 8000 &"
+
+[[exercises]]
+command = "sudo apt update"
+prompt = "更新 APT 的软件包索引"
+difficulty = "basic"
+type = "typing"
+answer = "sudo apt update"
+
+[[exercises]]
+command = "sudo apt update"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sudo apt update"
+
+[[exercises]]
+command = "sudo apt update"
+prompt = "键入: sudo apt update"
+difficulty = "basic"
+type = "typing"
+answer = "sudo apt update"
+
+[[exercises]]
+command = "sudo apt install -y vim"
+prompt = "自动确认安装 vim"
+difficulty = "basic"
+type = "typing"
+answer = "sudo apt install -y vim"
+
+[[exercises]]
+command = "sudo apt install -y vim"
+prompt = "执行命令: sudo apt install -y vim"
+difficulty = "basic"
+type = "typing"
+answer = "sudo apt-get install -y vim"
+
+[[exercises]]
+command = "sudo apt install -y vim"
+prompt = "键入: sudo apt install -y vim"
+difficulty = "basic"
+type = "typing"
+answer = "sudo apt install -y vim"
+
+[[exercises]]
+command = "sudo apt remove nginx"
+prompt = "卸载 nginx 但保留其配置文件"
+difficulty = "basic"
+type = "typing"
+answer = "sudo apt remove nginx"
+
+[[exercises]]
+command = "sudo apt remove nginx"
+prompt = "执行命令: sudo apt remove nginx"
+difficulty = "basic"
+type = "typing"
+answer = "sudo apt-get remove nginx"
+
+[[exercises]]
+command = "sudo apt remove nginx"
+prompt = "键入: sudo apt remove nginx"
+difficulty = "basic"
+type = "typing"
+answer = "sudo apt remove nginx"
+
+[[exercises]]
+command = "apt search docker"
+prompt = "在 APT 仓库中搜索包含 docker 的软件包"
+difficulty = "basic"
+type = "typing"
+answer = "apt search docker"
+
+[[exercises]]
+command = "apt search docker"
+prompt = "执行命令: apt search docker"
+difficulty = "basic"
+type = "typing"
+answer = "apt-cache search docker"
+
+[[exercises]]
+command = "apt search docker"
+prompt = "键入: apt search docker"
+difficulty = "basic"
+type = "typing"
+answer = "apt search docker"
+
+[[exercises]]
+command = "dpkg -l | grep nginx"
+prompt = "列出与 nginx 相关的已安装 deb 包"
+difficulty = "basic"
+type = "typing"
+answer = "dpkg -l | grep nginx"
+
+[[exercises]]
+command = "dpkg -l | grep nginx"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "dpkg -l | grep nginx"
+
+[[exercises]]
+command = "dpkg -l | grep nginx"
+prompt = "键入: dpkg -l | grep nginx"
+difficulty = "basic"
+type = "typing"
+answer = "dpkg -l | grep nginx"
+
+[[exercises]]
+command = "tar tf backup.tar.gz"
+prompt = "列出 backup.tar.gz 中包含的文件清单"
+difficulty = "basic"
+type = "typing"
+answer = "tar tf backup.tar.gz"
+
+[[exercises]]
+command = "tar tf backup.tar.gz"
+prompt = "执行命令: tar tf backup.tar.gz"
+difficulty = "basic"
+type = "typing"
+answer = "tar -tf backup.tar.gz"
+
+[[exercises]]
+command = "tar tf backup.tar.gz"
+prompt = "键入: tar tf backup.tar.gz"
+difficulty = "basic"
+type = "typing"
+answer = "tar tf backup.tar.gz"
+
+[[exercises]]
+command = "tar xzf backup.tar.gz -C /tmp"
+prompt = "把 backup.tar.gz 解压到 /tmp 目录"
+difficulty = "basic"
+type = "typing"
+answer = "tar xzf backup.tar.gz -C /tmp"
+
+[[exercises]]
+command = "tar xzf backup.tar.gz -C /tmp"
+prompt = "执行命令: tar xzf backup.tar.gz -C /tmp"
+difficulty = "basic"
+type = "typing"
+answer = "tar -xzf backup.tar.gz -C /tmp"
+
+[[exercises]]
+command = "tar xzf backup.tar.gz -C /tmp"
+prompt = "键入: tar xzf backup.tar.gz -C /tmp"
+difficulty = "basic"
+type = "typing"
+answer = "tar xzf backup.tar.gz -C /tmp"
+
+[[exercises]]
+command = "gzip access.log"
+prompt = "把 access.log 压缩为 gzip 格式"
+difficulty = "basic"
+type = "typing"
+answer = "gzip access.log"
+
+[[exercises]]
+command = "gzip access.log"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "gzip access.log"
+
+[[exercises]]
+command = "gzip access.log"
+prompt = "键入: gzip access.log"
+difficulty = "basic"
+type = "typing"
+answer = "gzip access.log"
+
+[[exercises]]
+command = "gunzip access.log.gz"
+prompt = "把 access.log.gz 解压还原"
+difficulty = "basic"
+type = "typing"
+answer = "gunzip access.log.gz"
+
+[[exercises]]
+command = "gunzip access.log.gz"
+prompt = "执行命令: gunzip access.log.gz"
+difficulty = "basic"
+type = "typing"
+answer = "gzip -d access.log.gz"
+
+[[exercises]]
+command = "gunzip access.log.gz"
+prompt = "键入: gunzip access.log.gz"
+difficulty = "basic"
+type = "typing"
+answer = "gunzip access.log.gz"
+
+[[exercises]]
+command = "zip -r project.zip project"
+prompt = "把 project 目录递归压缩为 project.zip"
+difficulty = "basic"
+type = "typing"
+answer = "zip -r project.zip project"
+
+[[exercises]]
+command = "zip -r project.zip project"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "zip -r project.zip project"
+
+[[exercises]]
+command = "zip -r project.zip project"
+prompt = "键入: zip -r project.zip project"
+difficulty = "basic"
+type = "typing"
+answer = "zip -r project.zip project"
+
+[[exercises]]
+command = "unzip project.zip -d /tmp"
+prompt = "把 project.zip 解压到 /tmp 目录"
+difficulty = "basic"
+type = "typing"
+answer = "unzip project.zip -d /tmp"
+
+[[exercises]]
+command = "unzip project.zip -d /tmp"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "unzip project.zip -d /tmp"
+
+[[exercises]]
+command = "unzip project.zip -d /tmp"
+prompt = "键入: unzip project.zip -d /tmp"
+difficulty = "basic"
+type = "typing"
+answer = "unzip project.zip -d /tmp"
+
+[[exercises]]
+command = "xz -d kernel.tar.xz"
+prompt = "解压 kernel.tar.xz"
+difficulty = "basic"
+type = "typing"
+answer = "xz -d kernel.tar.xz"
+
+[[exercises]]
+command = "xz -d kernel.tar.xz"
+prompt = "执行命令: xz -d kernel.tar.xz"
+difficulty = "basic"
+type = "typing"
+answer = "unxz kernel.tar.xz"
+
+[[exercises]]
+command = "xz -d kernel.tar.xz"
+prompt = "键入: xz -d kernel.tar.xz"
+difficulty = "basic"
+type = "typing"
+answer = "xz -d kernel.tar.xz"
+
+[[exercises]]
+command = "zstd -T0 database.sql"
+prompt = "使用所有 CPU 核心以 zstd 压缩 database.sql"
+difficulty = "basic"
+type = "typing"
+answer = "zstd -T0 database.sql"
+
+[[exercises]]
+command = "zstd -T0 database.sql"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "zstd -T0 database.sql"
+
+[[exercises]]
+command = "zstd -T0 database.sql"
+prompt = "键入: zstd -T0 database.sql"
+difficulty = "basic"
+type = "typing"
+answer = "zstd -T0 database.sql"
+
+[[exercises]]
+command = "uptime"
+prompt = "查看系统运行了多久和当前负载"
+difficulty = "basic"
+type = "typing"
+answer = "uptime"
+
+[[exercises]]
+command = "uptime"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "uptime"
+
+[[exercises]]
+command = "uptime"
+prompt = "键入: uptime"
+difficulty = "basic"
+type = "typing"
+answer = "uptime"
+
+[[exercises]]
+command = "w"
+prompt = "查看当前系统上的登录用户和他们的活动"
+difficulty = "basic"
+type = "typing"
+answer = "w"
+
+[[exercises]]
+command = "w"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "w"
+
+[[exercises]]
+command = "w"
+prompt = "键入: w"
+difficulty = "basic"
+type = "typing"
+answer = "w"
+
+[[exercises]]
+command = "top"
+prompt = "实时查看系统进程和资源占用"
+difficulty = "basic"
+type = "typing"
+answer = "top"
+
+[[exercises]]
+command = "top"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "top"
+
+[[exercises]]
+command = "top"
+prompt = "键入: top"
+difficulty = "basic"
+type = "typing"
+answer = "top"
+
+[[exercises]]
+command = "htop"
+prompt = "启动 htop 交互式进程管理器"
+difficulty = "basic"
+type = "typing"
+answer = "htop"
+
+[[exercises]]
+command = "htop"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "htop"
+
+[[exercises]]
+command = "htop"
+prompt = "键入: htop"
+difficulty = "basic"
+type = "typing"
+answer = "htop"
+
+[[exercises]]
+command = "dmesg | tail -30"
+prompt = "查看内核消息日志的最后 30 行"
+difficulty = "basic"
+type = "typing"
+answer = "dmesg | tail -30"
+
+[[exercises]]
+command = "dmesg | tail -30"
+prompt = "执行命令: dmesg | tail -30"
+difficulty = "basic"
+type = "typing"
+answer = "dmesg | tail -n 30"
+
+[[exercises]]
+command = "dmesg | tail -30"
+prompt = "键入: dmesg | tail -30"
+difficulty = "basic"
+type = "typing"
+answer = "dmesg | tail -30"
+
+[[exercises]]
+command = "sudo systemctl enable docker"
+prompt = "设置 docker 服务开机自启"
+difficulty = "basic"
+type = "typing"
+answer = "sudo systemctl enable docker"
+
+[[exercises]]
+command = "sudo systemctl enable docker"
+prompt = "执行命令: sudo systemctl enable docker"
+difficulty = "basic"
+type = "typing"
+answer = "sudo systemctl enable docker.service"
+
+[[exercises]]
+command = "sudo systemctl enable docker"
+prompt = "键入: sudo systemctl enable docker"
+difficulty = "basic"
+type = "typing"
+answer = "sudo systemctl enable docker"
+
+[[exercises]]
+command = "sudo systemctl disable bluetooth"
+prompt = "取消蓝牙服务的开机自启"
+difficulty = "basic"
+type = "typing"
+answer = "sudo systemctl disable bluetooth"
+
+[[exercises]]
+command = "sudo systemctl disable bluetooth"
+prompt = "执行命令: sudo systemctl disable bluetooth"
+difficulty = "basic"
+type = "typing"
+answer = "sudo systemctl disable bluetooth.service"
+
+[[exercises]]
+command = "sudo systemctl disable bluetooth"
+prompt = "键入: sudo systemctl disable bluetooth"
+difficulty = "basic"
+type = "typing"
+answer = "sudo systemctl disable bluetooth"
+
+[[exercises]]
+command = "sudo systemctl daemon-reload"
+prompt = "修改了 systemd 配置后重新加载"
+difficulty = "basic"
+type = "typing"
+answer = "sudo systemctl daemon-reload"
+
+[[exercises]]
+command = "sudo systemctl daemon-reload"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sudo systemctl daemon-reload"
+
+[[exercises]]
+command = "sudo systemctl daemon-reload"
+prompt = "键入: sudo systemctl daemon-reload"
+difficulty = "basic"
+type = "typing"
+answer = "sudo systemctl daemon-reload"
+
+[[exercises]]
+command = "journalctl -p err -b"
+prompt = "查看本次启动以来的所有 error 级别日志"
+difficulty = "basic"
+type = "typing"
+answer = "journalctl -p err -b"
+
+[[exercises]]
+command = "journalctl -p err -b"
+prompt = "执行命令: journalctl -p err -b"
+difficulty = "basic"
+type = "typing"
+answer = "journalctl --priority err --boot"
+
+[[exercises]]
+command = "journalctl -p err -b"
+prompt = "键入: journalctl -p err -b"
+difficulty = "basic"
+type = "typing"
+answer = "journalctl -p err -b"
+
+[[exercises]]
+command = "journalctl --since '1 hour ago'"
+prompt = "查看最近 1 小时的系统日志"
+difficulty = "basic"
+type = "typing"
+answer = "journalctl --since '1 hour ago'"
+
+[[exercises]]
+command = "journalctl --since '1 hour ago'"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "journalctl --since '1 hour ago'"
+
+[[exercises]]
+command = "journalctl --since '1 hour ago'"
+prompt = "键入: journalctl --since '1 hour ago'"
+difficulty = "basic"
+type = "typing"
+answer = "journalctl --since '1 hour ago'"
+
+[[exercises]]
+command = "lscpu"
+prompt = "查看 CPU 架构和核心数信息"
+difficulty = "basic"
+type = "typing"
+answer = "lscpu"
+
+[[exercises]]
+command = "lscpu"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "lscpu"
+
+[[exercises]]
+command = "lscpu"
+prompt = "键入: lscpu"
+difficulty = "basic"
+type = "typing"
+answer = "lscpu"
+
+[[exercises]]
+command = "hostname"
+prompt = "查看当前主机名"
+difficulty = "basic"
+type = "typing"
+answer = "hostname"
+
+[[exercises]]
+command = "hostname"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "hostname"
+
+[[exercises]]
+command = "hostname"
+prompt = "键入: hostname"
+difficulty = "basic"
+type = "typing"
+answer = "hostname"
+
+[[exercises]]
+command = "date '+%Y-%m-%d %H:%M:%S'"
+prompt = "以年-月-日 时:分:秒的格式输出当前时间"
+difficulty = "basic"
+type = "typing"
+answer = "date '+%Y-%m-%d %H:%M:%S'"
+
+[[exercises]]
+command = "date '+%Y-%m-%d %H:%M:%S'"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "date '+%Y-%m-%d %H:%M:%S'"
+
+[[exercises]]
+command = "date '+%Y-%m-%d %H:%M:%S'"
+prompt = "键入: date '+%Y-%m-%d %H:%M:%S'"
+difficulty = "basic"
+type = "typing"
+answer = "date '+%Y-%m-%d %H:%M:%S'"
+
+[[exercises]]
+command = "sudo ufw status verbose"
+prompt = "查看 ufw 防火墙的详细状态和规则"
+difficulty = "basic"
+type = "typing"
+answer = "sudo ufw status verbose"
+
+[[exercises]]
+command = "sudo ufw status verbose"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sudo ufw status verbose"
+
+[[exercises]]
+command = "sudo ufw status verbose"
+prompt = "键入: sudo ufw status verbose"
+difficulty = "basic"
+type = "typing"
+answer = "sudo ufw status verbose"
+
+[[exercises]]
+command = "sudo ufw allow 22/tcp"
+prompt = "用 ufw 允许 SSH 端口的入站连接"
+difficulty = "basic"
+type = "typing"
+answer = "sudo ufw allow 22/tcp"
+
+[[exercises]]
+command = "sudo ufw allow 22/tcp"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sudo ufw allow 22/tcp"
+
+[[exercises]]
+command = "sudo ufw allow 22/tcp"
+prompt = "键入: sudo ufw allow 22/tcp"
+difficulty = "basic"
+type = "typing"
+answer = "sudo ufw allow 22/tcp"
+
+[[exercises]]
+command = "sudo ufw deny 3306"
+prompt = "用 ufw 拒绝 3306 端口的入站连接"
+difficulty = "basic"
+type = "typing"
+answer = "sudo ufw deny 3306"
+
+[[exercises]]
+command = "sudo ufw deny 3306"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sudo ufw deny 3306"
+
+[[exercises]]
+command = "sudo ufw deny 3306"
+prompt = "键入: sudo ufw deny 3306"
+difficulty = "basic"
+type = "typing"
+answer = "sudo ufw deny 3306"
+
+[[exercises]]
+command = "sudo ufw enable"
+prompt = "启用 ufw 防火墙"
+difficulty = "basic"
+type = "typing"
+answer = "sudo ufw enable"
+
+[[exercises]]
+command = "sudo ufw enable"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sudo ufw enable"
+
+[[exercises]]
+command = "sudo ufw enable"
+prompt = "键入: sudo ufw enable"
+difficulty = "basic"
+type = "typing"
+answer = "sudo ufw enable"
+
+[[exercises]]
+command = "sudo useradd -m -s /bin/bash deploy"
+prompt = "创建 deploy 用户，自动创建家目录，使用 bash 作为 shell"
+difficulty = "basic"
+type = "typing"
+answer = "sudo useradd -m -s /bin/bash deploy"
+
+[[exercises]]
+command = "sudo useradd -m -s /bin/bash deploy"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sudo useradd -m -s /bin/bash deploy"
+
+[[exercises]]
+command = "sudo useradd -m -s /bin/bash deploy"
+prompt = "键入: sudo useradd -m -s /bin/bash deploy"
+difficulty = "basic"
+type = "typing"
+answer = "sudo useradd -m -s /bin/bash deploy"
+
+[[exercises]]
+command = "sudo passwd deploy"
+prompt = "设置或修改 deploy 用户的密码"
+difficulty = "basic"
+type = "typing"
+answer = "sudo passwd deploy"
+
+[[exercises]]
+command = "sudo passwd deploy"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sudo passwd deploy"
+
+[[exercises]]
+command = "sudo passwd deploy"
+prompt = "键入: sudo passwd deploy"
+difficulty = "basic"
+type = "typing"
+answer = "sudo passwd deploy"
+
+[[exercises]]
+command = "sudo usermod -aG docker deploy"
+prompt = "把 deploy 用户添加到 docker 用户组"
+difficulty = "basic"
+type = "typing"
+answer = "sudo usermod -aG docker deploy"
+
+[[exercises]]
+command = "sudo usermod -aG docker deploy"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sudo usermod -aG docker deploy"
+
+[[exercises]]
+command = "sudo usermod -aG docker deploy"
+prompt = "键入: sudo usermod -aG docker deploy"
+difficulty = "basic"
+type = "typing"
+answer = "sudo usermod -aG docker deploy"
+
+[[exercises]]
+command = "sudo userdel -r olduser"
+prompt = "删除 olduser 用户并移除其家目录"
+difficulty = "basic"
+type = "typing"
+answer = "sudo userdel -r olduser"
+
+[[exercises]]
+command = "sudo userdel -r olduser"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sudo userdel -r olduser"
+
+[[exercises]]
+command = "sudo userdel -r olduser"
+prompt = "键入: sudo userdel -r olduser"
+difficulty = "basic"
+type = "typing"
+answer = "sudo userdel -r olduser"
+
+[[exercises]]
+command = "su - deploy"
+prompt = "切换到 deploy 用户并加载完整登录环境"
+difficulty = "basic"
+type = "typing"
+answer = "su - deploy"
+
+[[exercises]]
+command = "su - deploy"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "su - deploy"
+
+[[exercises]]
+command = "su - deploy"
+prompt = "键入: su - deploy"
+difficulty = "basic"
+type = "typing"
+answer = "su - deploy"
+
+[[exercises]]
+command = "sudo !!"
+prompt = "用 sudo 重新执行上一条命令"
+difficulty = "basic"
+type = "typing"
+answer = "sudo !!"
+
+[[exercises]]
+command = "sudo !!"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sudo !!"
+
+[[exercises]]
+command = "sudo !!"
+prompt = "键入: sudo !!"
+difficulty = "basic"
+type = "typing"
+answer = "sudo !!"
+
+[[exercises]]
+command = "sudo visudo"
+prompt = "安全地编辑 sudoers 配置文件"
+difficulty = "basic"
+type = "typing"
+answer = "sudo visudo"
+
+[[exercises]]
+command = "sudo visudo"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sudo visudo"
+
+[[exercises]]
+command = "sudo visudo"
+prompt = "键入: sudo visudo"
+difficulty = "basic"
+type = "typing"
+answer = "sudo visudo"
+
+[[exercises]]
+command = "last -10"
+prompt = "查看最近 10 条用户登录记录"
+difficulty = "basic"
+type = "typing"
+answer = "last -10"
+
+[[exercises]]
+command = "last -10"
+prompt = "执行命令: last -10"
+difficulty = "basic"
+type = "typing"
+answer = "last -n 10"
+
+[[exercises]]
+command = "last -10"
+prompt = "键入: last -10"
+difficulty = "basic"
+type = "typing"
+answer = "last -10"
+

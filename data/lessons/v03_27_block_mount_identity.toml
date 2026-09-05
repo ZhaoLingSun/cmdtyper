@@ -1,0 +1,129 @@
+[meta]
+command = "lsblk / findmnt / blkid（块设备与挂载身份）"
+full_name = "block device, filesystem, and mount identity"
+category = "system"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "把物理或虚拟块设备、文件系统身份、来源设备和当前挂载点连接成一张只读关系图"
+explanation = """容量问题常因“看的不是同一层”而混乱：lsblk 展示块设备层级和分区；lsblk -f、blkid 展示文件系统类型、LABEL、UUID 等持久身份；findmnt 查询当前系统挂载表，把目标路径映射到来源、类型和选项；df --total 则从已挂载文件系统视角汇总容量。可靠工作流通常从实际路径 findmnt -T 开始，确认它落在哪个挂载点，再用 lsblk 或 blkid 识别底层对象。设备名可能随硬件发现顺序变化，脚本和配置不应凭想象写死 sda、nvme 或 /dev/root。全部示例只读，不会分区、格式化或挂载设备。"""
+
+[syntax]
+basic = "lsblk [列选项] | findmnt [-T 路径 | 挂载点] | blkid | df -h --total"
+[[syntax.parts]]
+name = "块设备拓扑"
+desc = "lsblk 以树展示磁盘、分区及其父子关系；MOUNTPOINTS 可显示一个对象的多个挂载点"
+[[syntax.parts]]
+name = "文件系统身份"
+desc = "lsblk -f 和 blkid 展示 TYPE、LABEL、UUID 等属性，但可见范围受权限和系统环境影响"
+[[syntax.parts]]
+name = "挂载关系"
+desc = "findmnt 查询当前挂载表；-T 接受任意路径并定位其所属文件系统"
+[[syntax.parts]]
+name = "容量汇总"
+desc = "df -h --total 汇总已报告的文件系统容量，不等于把所有物理磁盘原始容量相加"
+
+[[options]]
+flag = "lsblk -o NAME,SIZE,TYPE,MOUNTPOINTS"
+name = "自定义块设备拓扑列"
+example = "lsblk -o NAME,SIZE,TYPE,MOUNTPOINTS"
+note = "看清磁盘、分区、映射设备与全部挂载点；SIZE 是设备容量，不是目录占用"
+
+[[options]]
+flag = "lsblk -f"
+name = "显示文件系统属性"
+example = "lsblk -f"
+note = "常见列包括 FSTYPE、FSVER、LABEL、UUID、FSAVAIL、FSUSE% 和 MOUNTPOINTS"
+
+[[options]]
+flag = "findmnt TARGET"
+name = "按挂载目标查询"
+example = "findmnt /"
+note = "返回来源、文件系统类型和挂载选项；适合检查明确挂载点"
+
+[[options]]
+flag = "findmnt -T PATH"
+name = "按任意路径查所属文件系统"
+example = "findmnt -T /var/log"
+note = "路径不必本身是挂载点；findmnt 会查找覆盖该路径的最具体挂载"
+
+[[options]]
+flag = "findmnt -no SOURCE TARGET"
+name = "机器友好地只输出来源列"
+example = "findmnt -no SOURCE /"
+note = "-n 去表头，-o 选择列；短选项可合写，但 SOURCE 仍是 -o 的参数"
+
+[[options]]
+flag = "blkid"
+name = "探测块设备文件系统标识"
+example = "blkid"
+note = "只读输出可见设备的 TYPE、LABEL、UUID 等；无输出或缺项可能与权限、缓存或设备类型有关"
+
+[[options]]
+flag = "df -h --total"
+name = "汇总已报告文件系统容量"
+example = "df -h --total"
+note = "total 行是 df 统计口径的汇总；伪文件系统和重复设备可能被排除，不能替代拓扑识别"
+
+[[examples]]
+id = "v03-27-block-mount-identity-lsblk-tree"
+command_id = "disk-lsblk-size-mountpoints"
+level = 1
+deep_explanation = "自定义列把设备名、容量、类型和挂载点放在同一棵树中。disk、part 等 TYPE 描述块设备层级，MOUNTPOINTS 说明当前使用位置。设备 SIZE 不代表已用空间，也不说明目录内容；容量使用率仍应看 df 或 lsblk -f 的文件系统字段。"
+
+[[examples]]
+id = "v03-27-block-mount-identity-lsblk-fs"
+command_id = "disk-lsblk-filesystems"
+level = 1
+deep_explanation = "-f 把重点转向文件系统身份：类型、版本、标签和 UUID。UUID 通常比 /dev/sdb1 这类枚举名更稳定，常用于持久配置；但克隆文件系统可能复制 UUID，任何自动化都应先核对唯一性和目标环境。"
+
+[[examples]]
+id = "v03-27-block-mount-identity-df-total"
+command_id = "disk-findmnt-tree"
+level = 2
+deep_explanation = "规范 command_id 的历史名称含 findmnt-tree，但实际命令是 df -h --total。它逐项显示已挂载文件系统容量，并增加 total 行。这个汇总受 df 的去重和排除规则影响，不是块设备原始容量的算术总和，也不能说明设备父子结构。"
+
+[[examples]]
+id = "v03-27-block-mount-identity-findmnt-root"
+command_id = "disk-findmnt-root"
+level = 1
+deep_explanation = "直接查询 / 这个挂载目标，可以确认根文件系统当前来自何处、是什么类型、采用哪些挂载选项。SOURCE 可能是普通分区、LVM、加密映射、网络来源或容器抽象，不能预设一定叫 /dev/nvme0n1p2。"
+
+[[examples]]
+id = "v03-27-block-mount-identity-findmnt-path"
+command_id = "disk-findmnt-path-target"
+level = 2
+deep_explanation = "-T 接受 /var/log 这样的任意路径，并返回覆盖它的文件系统。如果 /var/log 是独立挂载，结果会指向该挂载；否则通常回到根文件系统。排查日志容量时先做这一步，可避免在错误的文件系统上读取 df 或 du 结果。"
+
+[[examples]]
+id = "v03-27-block-mount-identity-source-only"
+command_id = "disk-findmnt-ext4-only"
+level = 2
+deep_explanation = "-n 去掉表头，-o SOURCE 只选择来源列，合写后形成 -no SOURCE。它不筛选 ext4，历史 ID 不能改变规范命令语义。输出 /dev/root 等抽象名称时也不要自行替换成猜测的硬件名，可再结合 lsblk 和 blkid 建立映射。"
+
+[[examples]]
+id = "v03-27-block-mount-identity-blkid"
+command_id = "disk-blkid-all"
+level = 2
+deep_explanation = "blkid 只读探测可见块设备内容，并报告 LABEL、UUID、TYPE、PARTUUID 等属性。它不会格式化设备。普通用户可能看不到全部设备或得到缓存结果；将输出用于配置前应确保目标设备明确，并避免把文件系统 UUID 与分区 PARTUUID 混为一谈。"
+
+[[gotchas]]
+title = "设备名不是持久身份"
+content = "/dev/sdb1 等名称可能因启动顺序、控制器或热插拔而变化。需要持久引用时通常考虑 UUID 或 LABEL，并在当前机器上用 lsblk -f/blkid 核对。仍要防范克隆导致的重复标识。"
+
+[[gotchas]]
+title = "文件系统 UUID 与 PARTUUID 不同"
+content = "UUID 通常标识分区内容里的文件系统，PARTUUID 标识分区表中的分区记录。两者来源和用途不同，配置时必须使用目标机制要求的字段，不能只因为字符串都像 UUID 就互换。"
+
+[[gotchas]]
+title = "findmnt -T 查路径，findmnt / 查目标"
+content = "给明确挂载点 / 时可直接查询；面对 /var/log 这类可能不是挂载点的路径，-T 会寻找其所属文件系统。遗漏 -T 可能把普通路径当作目标匹配，得到空结果或不同语义。"
+
+[[gotchas]]
+title = "权限不足会隐藏设备或进程级细节"
+content = "块设备属性的可见性受权限、容器命名空间和系统策略影响。结果缺失不必然表示设备不存在；应记录执行环境，并优先使用最小必要权限进行只读核实。"
+
+[[gotchas]]
+title = "df total 不是物理磁盘总容量"
+content = "df 汇总的是其统计口径中的已挂载文件系统，可能排除伪文件系统和重复设备；同一物理盘也可能有多个分区。要理解硬件/虚拟设备拓扑应看 lsblk，不能只读 total 行。"

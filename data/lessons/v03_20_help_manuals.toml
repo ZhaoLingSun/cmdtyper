@@ -1,0 +1,103 @@
+[meta]
+command = "help-manuals"
+full_name = "本机帮助与手册检索"
+category = "system"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "按已知程度选择 --help、help、man、whatis 与 apropos"
+explanation = """Linux 的求助工具不是互相替代，而是一条由快到深的检索路径。已经知道命令名、只想确认常用参数时，先看程序自己的 --help；查询 cd 这类 Bash 内建功能时，应使用 shell 的 help。需要完整说明、退出状态或相关文件时，再进入 man 手册。若只记得名称而想确认用途，可用 whatis 读取一行简介；连命令名都不知道时，则用 apropos 按任务关键词搜索。手册页还分章节，同名主题可能同时是可执行命令、配置文件或系统调用，因此章节号是消除歧义的重要信息。掌握这套顺序后，遇到陌生命令应先阅读、再缩小问题、最后才考虑操作，而不是从网络片段中盲目复制高权限命令。"""
+
+[syntax]
+basic = "帮助工具 [章节或选项] 主题"
+
+[[syntax.parts]]
+name = "帮助工具"
+desc = "根据对象选择程序的 --help、Bash 的 help、完整 man、简述 whatis 或关键词检索 apropos"
+
+[[syntax.parts]]
+name = "章节或选项"
+desc = "可选限定信息；例如 man 的章节号用于区分同名命令与文件格式"
+
+[[syntax.parts]]
+name = "主题"
+desc = "已知命令名、内建名称，或描述目标用途的关键词"
+
+[[options]]
+flag = "--help"
+name = "查看程序简明用法"
+example = "grep --help"
+note = "适合快速找参数；不同程序的输出格式和完整程度并不统一"
+
+[[options]]
+flag = "help"
+name = "查看 Bash 内建帮助"
+example = "help cd"
+note = "cd、alias、history 等由 shell 自己实现，通常不能靠外部程序的 --help 查询"
+
+[[options]]
+flag = "man [章节]"
+name = "阅读指定手册页"
+example = "man 5 passwd"
+note = "章节号可明确要看的是文件格式而不是同名命令"
+
+[[options]]
+flag = "whatis"
+name = "读取准确名称的一行简介"
+example = "whatis tar"
+note = "适合确认一个已知名称大致做什么，不提供完整操作说明"
+
+[[options]]
+flag = "apropos"
+name = "按用途关键词搜索手册"
+example = "apropos archive"
+note = "结果可能很多，应继续选择最贴近任务的页面并阅读完整手册"
+
+[[examples]]
+id = "v03-20-help-manuals-01"
+command_id = "man-list-files"
+level = 1
+output_explanation = "手册开头的 NAME 与 SYNOPSIS 先说明 ls 的用途和基本参数结构，适合在继续查选项前建立全貌。"
+
+[[examples]]
+id = "v03-20-help-manuals-02"
+command_id = "grep-help-options"
+level = 1
+output_explanation = "简明帮助会列出匹配模式、文件参数与常用选项；它用于查语法，不代表已经验证了目标文件或匹配范围。"
+
+[[examples]]
+id = "v03-20-help-manuals-03"
+command_id = "bash-help-cd"
+level = 1
+output_explanation = "输出来自当前 Bash，自然能解释 cd 的默认目录、逻辑路径与物理路径等 shell 内建语义。"
+
+[[examples]]
+id = "v03-20-help-manuals-04"
+command_id = "whatis-tar"
+level = 2
+output_explanation = "一行结果只用于确认 tar 是归档工具；创建、查看和提取的具体选项仍应转到完整手册。"
+
+[[examples]]
+id = "v03-20-help-manuals-05"
+command_id = "apropos-archive"
+level = 2
+output_explanation = "搜索结果展示多个可能工具，下一步应依据任务选择页面，而不是把列表中的名称逐个试运行。"
+
+[[examples]]
+id = "v03-20-help-manuals-06"
+command_id = "man-passwd-section-five"
+level = 2
+output_explanation = "标题中的 (5) 表示文件格式章节，可避免误入用于修改密码的 passwd(1) 命令手册。"
+
+[[gotchas]]
+title = "先判断对象是不是 shell 内建"
+content = """看到命令名后不要机械地追加 --help。cd、alias、history、jobs、fg 等功能由当前 shell 提供，外部可执行文件可能根本不存在。先用 type 判断名称类型，再对 Bash 内建使用 help；若是外部程序，再考虑 --help 或 man。这样可以避免把“找不到文件”误判成软件未安装，也能确保读到与当前 shell 一致的说明。"""
+
+[[gotchas]]
+title = "手册章节决定你读到的对象"
+content = """同一个名称可能存在于多个章节，例如命令、系统调用和配置文件格式各有不同页面。涉及 /etc 下的文件结构时，应核对标题后的章节号，并在引用说明时保留它。只看搜索引擎摘要容易混淆不同发行版或不同章节；优先阅读本机手册，因为它更接近当前已安装版本。"""
+
+[[gotchas]]
+title = "帮助文本不是执行许可"
+content = """--help、man 与 apropos 只帮助理解语法，不会替你判断数据是否已备份、路径是否正确或管理员权限是否必要。遇到删除、覆盖、软件安装等操作，应先确认对象和影响范围，再阅读对应选项；不要因为示例出现在手册里就直接照抄到重要环境。"""

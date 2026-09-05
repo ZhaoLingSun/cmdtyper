@@ -1,0 +1,77 @@
+[meta]
+command = "v03-path-command-diagnostics"
+full_name = "PATH 与环境诊断"
+category = "system"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "最小化查看环境，安全调整当前会话的命令搜索路径"
+explanation = """PATH 是按顺序排列的目录列表，shell 会依次在这些目录中查找可执行文件。修改 PATH 时应保留原值、使用正确分隔符，并把新增目录放在符合信任关系的位置；越靠前的目录优先级越高，错误排序可能让同名程序被意外遮蔽。环境诊断应遵循最小披露原则：优先只读取 PATH 或目标变量，不要为了一个问题就打印全部环境。列出所有已导出变量或整个环境时，输出很可能包含 API 令牌、代理认证和其他凭据，禁止未经审查地粘贴、录屏或提交到版本库。当前 shell 中的 PATH 修改通常只影响本会话及其后续子进程。"""
+
+[syntax]
+basic = "读取指定变量；审查导出环境；在当前 shell 中保留原 PATH 并增加可信目录"
+
+[[syntax.parts]]
+name = "目录顺序"
+desc = "从左到右决定查找优先级；同名程序会使用最先匹配到的版本"
+
+[[syntax.parts]]
+name = "原 PATH"
+desc = "调整时应显式保留，避免丢失系统命令所在目录"
+
+[[syntax.parts]]
+name = "最小诊断"
+desc = "只查询解决问题所需的变量，减少凭据暴露和无关噪声"
+
+[[options]]
+flag = "printenv 变量名"
+name = "读取单个已导出变量"
+note = "比打印完整环境更适合日常诊断；输出前仍要判断该变量是否敏感"
+
+[[options]]
+flag = "export -p"
+name = "审查全部导出声明"
+note = "信息完整但可能含密钥，只应在可信本机查看，不应原样分享"
+
+[[options]]
+flag = "env"
+name = "查看子进程环境"
+note = "无参数输出范围很大；排障时优先缩小到目标变量"
+
+[[options]]
+flag = "PATH 顺序"
+name = "控制命令搜索优先级"
+note = "新增可写目录前先确认所有者和内容，避免不可信程序抢先匹配"
+
+[[examples]]
+id = "v03-25-path-command-diagnostics-01"
+command_id = "env-echo-path"
+level = 2
+
+[[examples]]
+id = "v03-25-path-command-diagnostics-02"
+command_id = "env-extend-path-home-bin"
+level = 2
+
+[[examples]]
+id = "v03-25-path-command-diagnostics-03"
+command_id = "env-list-all"
+level = 2
+
+[[examples]]
+id = "v03-25-path-command-diagnostics-04"
+command_id = "env-print-path"
+level = 1
+
+[[gotchas]]
+title = "完整环境输出可能是秘密清单"
+content = "环境中可能含令牌、密码、私有端点和用户名。只在本机查看，分享时采用允许列表保留必要字段，而不是事后尝试从整份输出中删秘密。"
+
+[[gotchas]]
+title = "PATH 顺序会改变实际运行的程序"
+content = "把个人或项目目录放到系统目录之前，会让同名程序优先被选中。只加入可信目录，并在异常时检查是否存在名称遮蔽。"
+
+[[gotchas]]
+title = "会话内修改不是全局配置"
+content = "当前终端修改 PATH 后，新子进程可以继承，但其他终端和已运行程序不会自动更新。持久化前应确认正确的 shell 启动文件并避免重复追加。"

@@ -1,0 +1,16 @@
+target/
+.git/
+data/reviews/
+docs/
+review/
+.claude/
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+*.tmp
+*.temp
+.env
+.env.*

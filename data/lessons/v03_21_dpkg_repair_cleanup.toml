@@ -1,0 +1,109 @@
+[meta]
+command = "dpkg-repair-cleanup"
+full_name = "dpkg 审计、依赖修复与谨慎清理"
+category = "system"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "先只读审计和定位，再审查修复或清理方案"
+explanation = """软件包故障处理最危险的做法，是看到锁或依赖错误就删除文件、杀进程或连续尝试清理命令。更稳妥的顺序从只读证据开始：dpkg -L 查看某个已安装包登记了哪些路径，dpkg --audit 检查部分安装和状态异常；遇到锁冲突时，用 fuser 识别持锁进程，确认它是否是正常更新任务并耐心等待。只有审计确实显示依赖不完整时，才让 apt --fix-broken install 计算修复方案，而且必须逐项审查它准备安装、配置或移除什么。清理同样需要区分目的：autoremove 根据自动安装标记提出无用依赖，purge 则删除包及受管理配置，后者尤其需要备份与停机评估。把诊断、方案、确认和复核分成明确阶段，才能避免为了修一个包而扩大为系统级故障。"""
+
+[syntax]
+basic = "诊断工具 [只读目标]；确认异常后再使用修复或清理动作"
+
+[[syntax.parts]]
+name = "诊断工具"
+desc = "使用 dpkg 查询数据库状态，或用 fuser 识别软件包锁的实际持有者"
+
+[[syntax.parts]]
+name = "修复动作"
+desc = "apt --fix-broken install 根据当前依赖关系提出方案，不应在缺少审计证据时盲用"
+
+[[syntax.parts]]
+name = "清理动作"
+desc = "autoremove 处理无用自动依赖，purge 删除包及受管理配置，影响范围不同"
+
+[[options]]
+flag = "dpkg -L"
+name = "列出包登记的文件路径"
+example = "dpkg -L curl"
+note = "只读查询；适合确认某个文件是否由该包提供，不显示用户运行后创建的数据"
+
+[[options]]
+flag = "dpkg --audit"
+name = "审计不完整包状态"
+example = "dpkg --audit"
+note = "无输出通常表示未发现此类异常；先审计再选择修复动作"
+
+[[options]]
+flag = "apt --fix-broken install"
+name = "提出依赖修复方案"
+example = "sudo apt --fix-broken install"
+note = "可能安装、配置或移除软件包，确认前必须审查全部变化"
+
+[[options]]
+flag = "fuser -v"
+name = "诊断锁文件持有者"
+example = "sudo fuser -v /var/lib/dpkg/lock-frontend"
+note = "本用法只查看进程；不要删除锁文件来绕过包管理器互斥"
+
+[[options]]
+flag = "autoremove"
+name = "清理无用自动依赖"
+example = "sudo apt autoremove"
+note = "依据当前依赖图生成清单，仍可能包含你希望保留的工具或库"
+
+[[options]]
+flag = "purge"
+name = "删除包及受管理配置"
+example = "sudo apt purge nginx nginx-common"
+note = "高影响操作；先备份配置、确认服务可中断，并核对共享包与站点数据"
+
+[[examples]]
+id = "v03-21-dpkg-repair-cleanup-01"
+command_id = "dpkg-listfiles-curl"
+level = 1
+output_explanation = "路径列表反映包数据库登记内容，可用于追溯二进制、文档和手册归属，但不涵盖运行时生成的全部文件。"
+
+[[examples]]
+id = "v03-21-dpkg-repair-cleanup-02"
+command_id = "dpkg-audit-packages"
+level = 1
+output_explanation = "审计无输出通常是好信号；若列出异常，应记录包名和状态，再选择针对性的恢复步骤。"
+
+[[examples]]
+id = "v03-21-dpkg-repair-cleanup-03"
+command_id = "dpkg-lock-fuser-diagnose"
+level = 2
+output_explanation = "用户、PID 和进程名帮助判断锁是否被正常的自动升级持有；看到进程后应先等待或按服务流程处理。"
+
+[[examples]]
+id = "v03-21-dpkg-repair-cleanup-04"
+command_id = "apt-fix-broken-dependencies"
+level = 2
+output_explanation = "Correcting dependencies 后列出的新增包与未完成状态就是修复提案，确认前应判断它是否符合审计结果。"
+
+[[examples]]
+id = "v03-21-dpkg-repair-cleanup-05"
+command_id = "apt-autoremove-unused"
+level = 3
+output_explanation = "自动依赖清单和预计释放空间只是建议；输入确认前仍应逐项识别是否有手工工作流依赖这些包。"
+
+[[examples]]
+id = "v03-21-dpkg-repair-cleanup-06"
+command_id = "apt-purge-nginx-config"
+level = 3
+output_explanation = "星号与 REMOVED 清单提示配置清除范围；Web 服务停机、站点文件和自建配置必须在包管理器之外单独评估。"
+
+[[gotchas]]
+title = "绝不要通过删除锁文件解决锁冲突"
+content = """锁表示另一个包管理进程正在维护共享数据库。直接删除 /var/lib/dpkg 下的锁不会安全终止持锁进程，反而允许两个写操作并发，可能破坏数据库。先用 fuser 查看持有者；若是 unattended-upgrades 或其他正常任务就等待，若进程异常则按系统服务和变更流程正常处理，而不是删锁或随意 kill -9。"""
+
+[[gotchas]]
+title = "--fix-broken 不是通用的第一步"
+content = """修复依赖可能引入新包、完成待配置包，也可能建议移除冲突项。应先保存错误信息并运行只读审计，理解异常从何而来，再审查 APT 提案。如果变更清单与预期不符，应取消并调查软件源、版本固定或第三方包冲突，不要连续重复确认。"""
+
+[[gotchas]]
+title = "autoremove 与 purge 都必须把清单当成高风险输入"
+content = """自动安装标记并不了解你在包管理器之外的真实用途，某个库或工具即使不再被包依赖，也可能被脚本直接调用。purge 还会清除受管理配置并可能停止服务。清理前备份关键配置，记录拟删除包，确认业务和恢复方法；清理后再审计包状态与服务健康。"""

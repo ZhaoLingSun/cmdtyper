@@ -1,0 +1,115 @@
+[meta]
+command = "systemd 服务观察与变更"
+full_name = "systemd service inspection and controlled lifecycle changes"
+category = "system"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "先用只读查询建立证据，再把即时状态变更与开机策略变更分别审批"
+explanation = """systemctl 既能观察也能改变系统状态，必须先按动词分类。status 和 list-units 属于观察：它们读取单元加载状态、当前活动状态、失败状态和近期日志，不会启动、停止或改写开机策略。start、stop、restart、reload 属于当前运行状态变更；enable、disable 属于以后开机时的持久策略变更，且 enable --now 同时改变持久策略与当前状态。排障顺序应是先确认主机、单元全名、依赖者、当前会话和备用访问，再根据授权选择最小动作。restart 会先停后启，可能中断 SSH 等现有连接；reload 只在服务支持时请求重读配置，也应先完成配置校验。所有 sudo 示例都只适用于已获授权的自有练习机，本课展示的是语义边界，不鼓励在真实服务上试验。"""
+
+[syntax]
+basic = "systemctl 查询动作 单元；sudo systemctl 变更动作 单元"
+[[syntax.parts]]
+name = "查询动作"
+desc = "status、list-units、is-active 和 is-enabled 读取状态；先用它们回答现在发生了什么"
+[[syntax.parts]]
+name = "即时变更"
+desc = "start、stop、restart、reload 影响当前进程；它们不自动等同于改变开机启用策略"
+[[syntax.parts]]
+name = "持久变更"
+desc = "enable、disable 修改开机链接；--now 会额外立即改变当前运行状态"
+[[syntax.parts]]
+name = "单元名"
+desc = "使用完整的 nginx.service、ssh.service 等名称，避免把相似服务或用户单元当成目标"
+
+[[options]]
+flag = "status"
+name = "观察单元详情"
+example = "systemctl status ssh.service"
+note = "只读查看 Loaded、Active、PID 与近期日志；状态输出可能分页，退出查看器不会改变服务"
+
+[[options]]
+flag = "list-units --type=service --state=failed"
+name = "筛选失败服务"
+example = "systemctl list-units --type=service --state=failed"
+note = "列出当前已加载且失败的服务，适合作为排障入口；未列出不等于历史上从未失败"
+
+[[options]]
+flag = "start / stop"
+name = "改变当前运行状态"
+example = "sudo systemctl start nginx.service"
+note = "start 不自动启用开机启动，stop 不自动取消开机启动；停止前确认依赖者和恢复办法"
+
+[[options]]
+flag = "restart / reload"
+name = "重启或重读配置"
+example = "sudo systemctl reload nginx.service"
+note = "restart 可能中断连接；reload 依赖服务支持且不能替代变更前的配置语法校验"
+
+[[options]]
+flag = "enable --now / disable"
+name = "调整开机策略"
+example = "sudo systemctl enable --now nginx.service"
+note = "enable --now 同时持久启用并立即启动；disable 只取消以后开机启动，不自动停止当前进程"
+
+[[examples]]
+id = "v03-30-systemd-observe-ssh-status"
+command_id = "systemctl-status-ssh-service"
+level = 1
+
+[[examples]]
+id = "v03-30-systemd-change-start-nginx"
+command_id = "systemctl-start-nginx-service"
+level = 2
+
+[[examples]]
+id = "v03-30-systemd-change-stop-nginx"
+command_id = "systemctl-stop-nginx-service"
+level = 2
+
+[[examples]]
+id = "v03-30-systemd-change-restart-ssh"
+command_id = "systemctl-restart-ssh-service"
+level = 3
+
+[[examples]]
+id = "v03-30-systemd-change-reload-nginx"
+command_id = "systemctl-reload-nginx-service"
+level = 2
+
+[[examples]]
+id = "v03-30-systemd-change-enable-now-nginx"
+command_id = "systemctl-enable-now-nginx-service"
+level = 3
+
+[[examples]]
+id = "v03-30-systemd-change-disable-nginx"
+command_id = "systemctl-disable-nginx-service"
+level = 3
+
+[[examples]]
+id = "v03-30-systemd-observe-failed-services"
+command_id = "systemctl-list-failed-services"
+level = 1
+
+[[gotchas]]
+title = "观察命令不是变更授权"
+content = "status 或失败列表只建立现状证据。看到 failed 后仍要读取日志、确认单元来源与依赖，并取得相应授权；不能因为能查询就直接 restart、disable 或编辑配置。"
+
+[[gotchas]]
+title = "start/stop 与 enable/disable 是不同轴"
+content = "前者控制当前会话中的运行状态，后者控制未来开机策略。服务可以当前运行但未启用，也可以已启用但当前失败。报告应分别写清 active 状态和 enabled 状态。"
+
+[[gotchas]]
+title = "--now 合并了两类变更"
+content = "enable --now 不只是建立开机链接，还会立即启动服务。若审批只允许调整下次启动策略，就不应附加 --now；任何组合选项都要拆开说明即时影响与持久影响。"
+
+[[gotchas]]
+title = "远程重启 SSH 需要备用通道"
+content = "restart ssh.service 可能让现有连接和新连接同时受影响。仅在自有练习机、确认配置有效并准备控制台或独立备用会话后考虑；不要把当前唯一 SSH 会话当成恢复方案。"
+
+[[gotchas]]
+title = "reload 不代表配置一定正确"
+content = "服务是否支持 reload、失败时如何报告、旧配置是否继续运行都因单元而异。应先用该服务自己的只读配置检查方式验证，再观察 reload 后的状态与日志。"

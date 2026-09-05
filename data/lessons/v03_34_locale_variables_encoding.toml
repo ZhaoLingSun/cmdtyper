@@ -1,0 +1,125 @@
+[meta]
+command = "locale-variables-encoding"
+full_name = "Locale precedence, categories, and character encoding"
+category = "system"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "读懂 LANG、LC_ALL、各 LC_* 分类的优先级，并确认实际字符集"
+explanation = """Locale 把语言、字符分类、排序、日期格式和消息语言拆成多个分类。优先级不是“最后看到哪个变量就用哪个”：若 `LC_ALL` 已设置，它整体覆盖各个 `LC_*` 和 `LANG`；否则某个非空的分类变量（如 LC_TIME、LC_MESSAGES、LC_CTYPE）只覆盖对应分类；仍未设置的分类才回退到 LANG，最终还可能回退到系统默认。`LANGUAGE` 是部分 gettext 程序使用的消息语言列表，不取代通用 POSIX 优先级。`locale` 显示各分类的有效值，`printenv` 只显示变量是否被导出，两者回答的问题不同；无输出通常表示未导出，不代表有效值为空，因为仍可能继承 LANG。`locale -a` 只列本机已经生成的 locale，拼写和大小写应以清单为准。`locale charmap` 查询当前有效字符集，UTF-8 是编码，不等于中文语言环境。`export LANG=...` 是本课唯一会改变状态的示例：它只影响当前 shell 和之后的子进程，不修改系统级配置，而且仍可能被 LC_ALL 或分类变量覆盖。"""
+
+[syntax]
+basic = "locale [-a|charmap]；printenv LANG|LC_ALL|LC_TIME|LC_MESSAGES；export LANG=可用项"
+[[syntax.parts]]
+name = "有效值"
+desc = "locale 汇总每个分类最终生效的值，适合判断覆盖链的结果"
+[[syntax.parts]]
+name = "环境变量"
+desc = "printenv 查看是否导出；未导出的 LC_* 仍可通过 LANG 获得有效值"
+[[syntax.parts]]
+name = "优先级"
+desc = "LC_ALL 最高，其次对应分类的 LC_*，再到 LANG；LANGUAGE 仅影响部分消息翻译实现"
+[[syntax.parts]]
+name = "可用项"
+desc = "locale -a 查询已生成名称；设置前应匹配清单，而不是凭空假设 zh_CN.UTF-8 一定存在"
+[[syntax.parts]]
+name = "字符集"
+desc = "locale charmap 给出当前编码名称；字符编码与日期、排序、消息语言是不同维度"
+
+[[options]]
+flag = "locale"
+name = "查看各分类有效值"
+example = "locale"
+note = "只查询，不导出或修改变量；输出可包含根据优先级计算出的值"
+
+[[options]]
+flag = "-a"
+name = "列出已生成 locale"
+example = "locale -a"
+note = "只读枚举；列表不代表当前正在使用，也不安装缺失语言包"
+
+[[options]]
+flag = "charmap"
+name = "查询当前字符集"
+example = "locale charmap"
+note = "只读返回编码名称；UTF-8 不自动说明 LC_MESSAGES 或 LC_TIME 使用中文"
+
+[[options]]
+flag = "printenv LC_ALL"
+name = "检查整体覆盖"
+example = "printenv LC_ALL"
+note = "无输出通常是未导出；此时应继续检查分类变量和 LANG"
+
+[[options]]
+flag = "printenv LC_TIME"
+name = "检查日期分类覆盖"
+example = "printenv LC_TIME"
+note = "只读查询变量本身，不显示回退后有效值；有效值应与 locale 输出对照"
+
+[[options]]
+flag = "export LANG=..."
+name = "设置当前 shell 默认值"
+example = "export LANG=zh_CN.utf8"
+note = "有会话级副作用：影响后续子进程的默认 locale；不会覆盖已有 LC_ALL/分类变量，也不改系统配置"
+
+[[examples]]
+id = "v03-l34-locale-effective"
+command_id = "locale-current-settings"
+level = 1
+
+[[examples]]
+id = "v03-l34-locale-lang"
+command_id = "locale-lang-variable"
+level = 1
+
+[[examples]]
+id = "v03-l34-locale-available"
+command_id = "locale-list-available"
+level = 1
+
+[[examples]]
+id = "v03-l34-locale-charmap"
+command_id = "locale-current-charmap"
+level = 1
+
+[[examples]]
+id = "v03-l34-locale-export"
+command_id = "locale-export-zh-cn-utf8"
+level = 2
+
+[[examples]]
+id = "v03-l34-locale-lc-all"
+command_id = "locale-lc-all-variable"
+level = 2
+
+[[examples]]
+id = "v03-l34-locale-lc-time"
+command_id = "locale-lc-time-variable"
+level = 2
+
+[[examples]]
+id = "v03-l34-locale-lc-messages"
+command_id = "locale-lc-messages-variable"
+level = 2
+
+[[examples]]
+id = "v03-l34-locale-weekday"
+command_id = "date-localized-weekday"
+level = 2
+
+[[gotchas]]
+title = "变量值与有效分类值不是一回事"
+content = """`printenv LC_TIME` 无输出仅说明变量未导出，日期分类仍可能从 LANG 继承中文值。相反，LANG 显示 zh_CN.utf8 也不保证日期为中文，因为 LC_ALL 或 LC_TIME 可能覆盖。诊断时同时保留 `locale` 汇总与关键变量查询。"""
+
+[[gotchas]]
+title = "LC_ALL 是临时强制覆盖，不宜长期滥用"
+content = """LC_ALL 会压过所有分类，方便让单条命令得到可复现行为，但长期写入 shell 配置会让分别设置消息、排序和日期变得困难。需要单命令固定排序时可写在该命令前，完成后自然失效；不要为排障永久覆盖整个会话而忘记恢复。"""
+
+[[gotchas]]
+title = "查询命令与 export 的副作用不同"
+content = """`locale`、`locale -a`、`locale charmap`、`printenv` 和 `echo "$LANG"` 都只读取并输出，不会改变 locale。`export LANG=...` 会修改当前 shell 的环境并被后续子进程继承，但不会追溯改变已启动进程，也不会生成缺失 locale 或修改系统全局配置。"""
+
+[[gotchas]]
+title = "UTF-8、中文界面和中文排序不是同一设置"
+content = """UTF-8 只描述字符编码；LC_MESSAGES 影响程序消息，LC_TIME 影响日期名称，LC_COLLATE 影响排序，LC_CTYPE 影响字符分类。终端字体缺字也可能显示方框，即使 charmap 已是 UTF-8。排查乱码要分别检查字节编码、locale 分类与显示字体。"""

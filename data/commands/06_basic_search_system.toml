@@ -113,7 +113,7 @@ answers = [
 
 [[commands]]
 id = "find-case-insensitive"
-command = "find . -iname *.jpg"
+command = "find . -iname '*.jpg'"
 summary = "不区分大小写地查找当前目录下的 jpg 图片"
 simulated_output = """
 ./photos/IMG_1024.JPG
@@ -134,13 +134,13 @@ text = " -iname"
 desc = "按文件名匹配且忽略大小写"
 
 [[commands.tokens]]
-text = " *.jpg"
-desc = "匹配所有 jpg 图片文件名"
+text = " '*.jpg'"
+desc = "用引号保护 jpg 名称模式，避免 shell 在 find 运行前先展开"
 
 [commands.dictation]
-prompt = "不区分大小写地查找当前目录下所有 jpg 图片"
+prompt = "不区分大小写地查找当前目录下所有 jpg 图片，并用引号保护名称模式"
 answers = [
-    "find . -iname *.jpg",
+    "find . -iname '*.jpg'",
     "find . -iname \"*.jpg\"",
 ]
 
@@ -190,12 +190,11 @@ answers = [
 
 [[commands]]
 id = "df-human-search"
-command = "df -h"
-summary = "以易读单位查看各文件系统磁盘使用情况"
+command = "df -h /home"
+summary = "以易读单位查看 /home 所在文件系统的磁盘使用情况"
 simulated_output = """
 Filesystem      Size  Used Avail Use% Mounted on
 /dev/nvme0n1p2   1.8T  612G  1.1T  36% /
-tmpfs            126G  2.0M  126G   1% /run
 """
 
 [[commands.tokens]]
@@ -206,18 +205,22 @@ desc = "显示文件系统的磁盘空间使用情况"
 text = " -h"
 desc = "以 KB、MB、GB 等易读单位显示"
 
+[[commands.tokens]]
+text = " /home"
+desc = "只查询包含 /home 目录的文件系统"
+
 [commands.dictation]
-prompt = "以易读单位查看磁盘空间使用情况"
+prompt = "以易读单位查看 /home 所在文件系统的磁盘空间使用情况"
 answers = [
-    "df -h",
-    "df --human-readable",
+    "df -h /home",
+    "df --human-readable /home",
 ]
 
 [[commands]]
 id = "du-human-summary"
-command = "du -sh /var/log"
-summary = "汇总查看 /var/log 目录占用了多少磁盘空间"
-simulated_output = "2.1G	/var/log"
+command = "du -sh /var/log/journal"
+summary = "汇总查看持久化 systemd 日志目录占用了多少磁盘空间"
+simulated_output = "1.6G	/var/log/journal"
 
 [[commands.tokens]]
 text = "du"
@@ -228,23 +231,23 @@ text = " -sh"
 desc = "-s 只给出汇总 + -h 以易读单位显示"
 
 [[commands.tokens]]
-text = " /var/log"
-desc = "要统计大小的目录"
+text = " /var/log/journal"
+desc = "要统计的持久化 systemd 日志目录；读取权限可能限制结果"
 
 [commands.dictation]
-prompt = "汇总查看 /var/log 目录占用的磁盘空间，并用易读单位显示"
+prompt = "汇总查看 /var/log/journal 目录占用的磁盘空间，并用易读单位显示"
 answers = [
-    "du -sh /var/log",
-    "du -hs /var/log",
+    "du -sh /var/log/journal",
+    "du -hs /var/log/journal",
 ]
 
 [[commands]]
 id = "free-human-search"
-command = "free -h"
-summary = "以易读单位查看内存和 swap 使用情况"
+command = "free -h -w"
+summary = "以易读单位分别查看内存缓冲区、缓存和 swap"
 simulated_output = """
-               total        used        free      shared  buff/cache   available
-Mem:           1.5Ti       112Gi       1.1Ti       512Mi       302Gi       1.3Ti
+               total        used        free      shared     buffers       cache   available
+Mem:           1.5Ti       112Gi       1.1Ti       512Mi       1.2Gi       301Gi       1.3Ti
 Swap:           32Gi          0B        32Gi
 """
 
@@ -256,12 +259,13 @@ desc = "显示系统内存（RAM + Swap）使用情况"
 text = " -h"
 desc = "以易读单位显示内存大小"
 
+[[commands.tokens]]
+text = " -w"
+desc = "使用宽格式，分别显示 buffers 和 cache 列"
+
 [commands.dictation]
-prompt = "以易读单位查看当前内存和 swap 使用情况"
-answers = [
-    "free -h",
-    "free --human",
-]
+prompt = "以易读宽格式查看内存和 swap，并分别显示 buffers 与 cache"
+answers = ["free -h -w"]
 
 [[commands]]
 id = "lsblk-basic"
@@ -375,8 +379,8 @@ answers = [
 
 [[commands]]
 id = "curl-head-search"
-command = "curl -I https://example.com"
-summary = "只获取 https://example.com 的响应头"
+command = "curl -I https://example.com/"
+summary = "只获取 IANA 保留示例域名根页面的 HTTP 响应头"
 simulated_output = """
 HTTP/2 200
 content-type: text/html; charset=UTF-8
@@ -392,49 +396,44 @@ text = " -I"
 desc = "只请求并显示响应头"
 
 [[commands.tokens]]
-text = " https://example.com"
-desc = "文件路径： https://example.com"
+text = " https://example.com/"
+desc = "IANA 保留的文档示例域名根页面；不假设存在 /health API"
 
 [commands.dictation]
-prompt = "只获取 https://example.com 的响应头"
+prompt = "只获取 IANA 保留的 https://example.com/ 示例页面响应头"
 answers = [
-    "curl -I https://example.com",
-    "curl --head https://example.com",
+    "curl -I https://example.com/",
+    "curl --head https://example.com/",
 ]
 
 [[commands]]
 id = "wget-output-file"
-command = "wget -O index.html https://example.com"
-summary = "下载网页并保存为 index.html"
-simulated_output = """
---2026-03-14 08:30:12--  https://example.com/
-Resolving example.com... 93.184.216.34
-Saving to: index.html
-
-index.html 100%[===================>] 1.23K  --.-KB/s in 0s
-"""
+command = "(output=$(mktemp ./index-XXXXXX.html) && if wget -q -O \"$output\" https://example.com/; then printf '%s\\n' \"$output\"; else status=$?; rm -f -- \"$output\"; exit \"$status\"; fi)"
+summary = "在子 Shell 中下载到唯一 HTML 文件，失败时清理且不关闭当前终端"
+simulated_output = "./index-Q7m2Xa.html"
 
 [[commands.tokens]]
-text = "wget"
-desc = "下载文件的命令行工具"
+text = "(output=$(mktemp ./index-XXXXXX.html)"
+desc = "在子 Shell 中原子创建当前目录的唯一新文件；不会打开、截断或跟随已有 index.html 或悬空符号链接"
 
 [[commands.tokens]]
-text = " -O"
-desc = "指定输出文件名"
+text = " && if wget -q -O \"$output\" https://example.com/;"
+desc = "把 -O 指向刚创建的唯一空文件；-O 会在打开目标时截断，所以不能直接用于已有文件"
 
 [[commands.tokens]]
-text = " index.html"
-desc = "保存后的文件名"
+text = " then printf '%s\\n' \"$output\";"
+desc = "下载成功后报告实际随机文件名"
 
 [[commands.tokens]]
-text = " https://example.com"
-desc = "要下载的 URL"
+text = " else status=$?; rm -f -- \"$output\"; exit \"$status\";"
+desc = "下载失败时删除不完整临时文件并保留 wget 的失败状态"
 
+[[commands.tokens]]
+text = " fi)"
+desc = "结束条件分支和子 Shell；失败分支的 exit 只终止子 Shell，不会关闭当前终端或 SSH 会话"
 [commands.dictation]
-prompt = "下载 https://example.com 并保存为 index.html"
-answers = [
-    "wget -O index.html https://example.com",
-]
+prompt = "在子 Shell 中用 mktemp 创建不会覆盖现有文件的唯一 HTML 路径，把 https://example.com/ 下载到该路径；明确 -O 会截断它打开的目标，因此只指向这个新文件，失败时删除不完整结果并让 exit 只结束子 Shell，成功后输出实际路径"
+answers = ["(output=$(mktemp ./index-XXXXXX.html) && if wget -q -O \"$output\" https://example.com/; then printf '%s\\n' \"$output\"; else status=$?; rm -f -- \"$output\"; exit \"$status\"; fi)"]
 
 [[commands]]
 id = "dig-short-domain"

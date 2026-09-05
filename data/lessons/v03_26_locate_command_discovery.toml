@@ -1,0 +1,74 @@
+[meta]
+command = "locate / command -v / whereis"
+full_name = "indexed path lookup and command discovery"
+category = "search"
+difficulty = "basic"
+importance = "common"
+
+[overview]
+summary = "根据问题选择索引路径搜索、shell 命令解析或标准位置文件发现"
+explanation = """“某个东西在哪里”至少有三种不同问题。locate 查询预先构建的路径名索引，速度快但结果可能陈旧，也可能未安装；command -v 询问当前 shell 会怎样解析一个命令名，能识别内建、函数、别名或 PATH 中程序；whereis 则在一组标准位置寻找程序的二进制、源码和手册。家庭电脑上可快速找配置路径，开发环境中可确认工具是否可调用，系统排查时可同时查看程序和手册位置。三者都不是文件正文搜索，也不能仅凭“无输出”断言目标绝对不存在。"""
+
+[syntax]
+basic = "locate 路径子串 | command -v 命令名 | whereis 程序名"
+[[syntax.parts]]
+name = "locate 路径子串"
+desc = "从索引记录的完整路径中匹配子串，速度快但受索引新鲜度和可见性策略影响"
+[[syntax.parts]]
+name = "command -v 命令名"
+desc = "由当前 shell 报告名称如何解析；这里只查询，不运行目标程序"
+[[syntax.parts]]
+name = "whereis 程序名"
+desc = "在标准系统位置查找相关二进制、源码和手册文件，范围不等同于全盘搜索"
+
+[[options]]
+flag = "locate PATTERN"
+name = "查询文件名数据库"
+example = "locate ssh_config"
+note = "匹配完整路径中的子串；索引过旧、未初始化或策略排除都可能造成漏报"
+
+[[options]]
+flag = "command -v NAME"
+name = "检查当前 shell 的命令解析"
+example = "command -v updatedb"
+note = "不会执行 NAME；输出可能是路径，也可能表明它是内建、函数或别名，具体格式依 shell 而异"
+
+[[options]]
+flag = "whereis NAME"
+name = "查找标准位置中的程序相关文件"
+example = "whereis python3"
+note = "常用于发现二进制和 man 页，不是任意路径的实时递归遍历"
+
+[[examples]]
+id = "v03-26-locate-command-discovery-ssh-config"
+command_id = "locate-ssh-config"
+level = 1
+deep_explanation = "locate 适合先快速获得候选路径。它匹配完整路径中的 ssh_config 子串，所以可能同时返回主配置、配置目录和压缩手册。输出来自索引而不是实时遍历：刚创建的文件可能尚未进入索引，已删除路径也可能暂时残留。"
+
+[[examples]]
+id = "v03-26-locate-command-discovery-updatedb"
+command_id = "updatedb-refresh-locate-index"
+level = 1
+deep_explanation = "这条规范命令只用 command -v 检查 updatedb 是否可由当前 shell 找到，绝不会刷新索引。command 是 shell 内建查询接口，-v 返回名称解析结果。即使找到了 updatedb，是否有权限更新系统索引、由谁定时更新以及数据库位置仍取决于发行版配置。"
+
+[[examples]]
+id = "v03-26-locate-command-discovery-python3"
+command_id = "whereis-python3-files"
+level = 2
+deep_explanation = "whereis 面向程序相关文件，通常同时给出可执行文件和手册页候选。它不告诉你当前 shell 最终会运行哪一个 python3；若 PATH 中有虚拟环境、别名或函数，应使用 command -v 回答命令解析问题。也不要把 whereis 当作全盘文件名搜索。"
+
+[[gotchas]]
+title = "locate 的无结果不是存在性证明"
+content = "索引可能未建立、尚未更新，或按配置跳过某些文件系统和私有目录。需要实时、可解释的路径遍历时使用 find，并准备处理权限不足；需要正文搜索则使用 grep。"
+
+[[gotchas]]
+title = "检查 updatedb 不等于运行 updatedb"
+content = "command -v updatedb 只是查询名称解析，不会更新数据库，不会触发全盘扫描，也不需要把后续操作想象进命令。是否更新系统索引属于独立的管理动作，通常还涉及权限和发行版服务。"
+
+[[gotchas]]
+title = "command -v 与 whereis 回答不同问题"
+content = "command -v 站在当前 shell 和 PATH 的视角，回答“输入这个名字会解析成什么”；whereis 站在标准系统目录的视角，回答“这个程序有哪些相关文件位置”。虚拟环境或别名存在时，两者结果不同完全正常。"
+
+[[gotchas]]
+title = "路径名搜索不读取文件正文"
+content = "locate ssh_config 只在索引路径字符串中匹配，whereis 也只定位相关文件。要判断配置正文是否包含某个设置，应在确认文件后使用 grep 等文本工具。"

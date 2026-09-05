@@ -1,0 +1,99 @@
+[meta]
+command = "scp 与 rsync 文件同步"
+full_name = "Secure copy and reviewed incremental synchronization"
+category = "network"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "先确认源、目标和同名文件策略，再选择一次复制或可预演的增量同步"
+explanation = """scp 适合直接通过 SSH 复制文件或目录，但它不是交互式冲突解决器：目标位置已有同名文件时，通常会直接替换内容；递归复制到已有目录还可能合并目录树并覆盖其中同名文件。因此上传和下载前都要分别检查目标端，不能只确认源文件存在。rsync 会比较差异并更新目标端同名文件，源目录末尾的斜杠尤其重要：photos/ 表示同步目录内容，而没有斜杠时通常包含目录本身这一层。带 --delete 的镜像逻辑会把目标端多余项目列为删除对象，风险远高于普通复制。本课程只保留带 n 的 dry-run 形式，让学习者阅读将传输、更新和删除的清单；不得去掉 n，也不得把预演结果直接当成执行授权。所有远程复制仍建立在已独立核验 SSH 主机指纹的前提上。"""
+
+[syntax]
+basic = "scp [选项] 源 目标；rsync [选项] 源目录/ 用户@主机:目标目录/"
+[[syntax.parts]]
+name = "本地与远端路径"
+desc = "远端写作 用户@主机:路径；冒号把主机标识与远端路径分开"
+[[syntax.parts]]
+name = "方向"
+desc = "远端在目标位置表示上传，远端在源位置表示下载；动手前用自然语言复述方向"
+[[syntax.parts]]
+name = "目录边界"
+desc = "scp -r 复制整棵树；rsync 源路径末尾斜杠决定同步目录内容还是目录节点"
+[[syntax.parts]]
+name = "冲突与删除"
+desc = "scp 和 rsync 都可能更新同名文件；--delete 还涉及目标端额外项目，本课只允许 dry-run"
+
+[[options]]
+flag = "scp -r"
+name = "递归复制目录"
+example = "scp -r website/ alice@server.example.com:/home/alice/backups/"
+note = "目标已有同名目录时可能合并内容并替换同名文件，不会替你创建冲突备份"
+
+[[options]]
+flag = "scp -P"
+name = "指定 scp 的远端端口"
+example = "scp -P 2222 backup.tar.gz alice@server.example.com:/home/alice/backups/"
+note = "scp 使用大写 -P，SSH 登录使用小写 -p；大小写错误会改变含义或直接失败"
+
+[[options]]
+flag = "rsync -av"
+name = "归档式详细增量同步"
+example = "rsync -av photos/ alice@server.example.com:/home/alice/photos/"
+note = "允许按源端更新目标同名文件；照片通常已经压缩，示例不额外使用 -z"
+
+[[options]]
+flag = "rsync -avzn --delete"
+name = "只预演带删除的镜像计划"
+example = "rsync -avzn --delete website/ alice@server.example.com:/home/alice/staging-site/"
+note = "n 是不可省略的安全边界：只显示将更新和删除什么，不进行写入或删除"
+
+[[examples]]
+id = "v03-29-scp-upload-single-file"
+command_id = "scp-upload-file"
+level = 1
+
+[[examples]]
+id = "v03-29-scp-download-single-file"
+command_id = "scp-download-file"
+level = 1
+
+[[examples]]
+id = "v03-29-scp-upload-directory-tree"
+command_id = "scp-upload-directory"
+level = 2
+
+[[examples]]
+id = "v03-29-scp-upload-custom-port"
+command_id = "scp-custom-port-upload"
+level = 2
+
+[[examples]]
+id = "v03-29-rsync-archive-update"
+command_id = "rsync-archive-compress"
+level = 2
+
+[[examples]]
+id = "v03-29-rsync-delete-dry-run"
+command_id = "rsync-delete-remote-extra"
+level = 3
+
+[[gotchas]]
+title = "scp 不会安全地询问是否覆盖"
+content = "上传时目标端同名文件可能被替换，下载到当前目录时本地同名文件也可能被替换。目录递归复制还可能把两棵树合并。应在目标端独立检查名称、路径和备份，而不是把没有提示误认为没有冲突。"
+
+[[gotchas]]
+title = "源与目标写反会改变数据流向"
+content = "scp 两侧语法相似，远端标记只靠 用户@主机:。输入前明确说出“从哪里到哪里”，并核对远端路径是否为目录。主机指纹尚未独立核验时，不进行传输。"
+
+[[gotchas]]
+title = "rsync 的末尾斜杠有结构含义"
+content = "photos/ 表示把 photos 的内容放入目标目录；photos 通常表示连同 photos 目录节点一起复制。错误的斜杠可能产生额外嵌套层级，后续再配合 --delete 会放大影响范围。"
+
+[[gotchas]]
+title = "--delete 永远停留在 dry-run"
+content = "示例中的 n 必须保留。预演输出出现 deleting 只表示删除计划，没有实际删除；逐项确认源目录、目标主机、目标路径、斜杠和清单后，也仍需在真实环境走单独审批与备份流程。本课不教授去掉 n 的执行版本。"
+
+[[gotchas]]
+title = "压缩选项不等于总会更快"
+content = "JPEG、PNG、压缩包等数据已经压缩，再启用传输压缩可能增加 CPU 而收益很小。先识别数据类型和链路瓶颈；-a 的归档语义、-v 的详细输出与压缩是不同维度。"

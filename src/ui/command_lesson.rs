@@ -7,7 +7,13 @@ use crate::data::models::TokenKind;
 use crate::ui::widgets::*;
 
 /// Render overview phase: explanation + syntax + options
-pub fn render_overview(frame: &mut Frame, app: &App, category_index: usize, command_index: usize, scroll: usize) {
+pub fn render_overview(
+    frame: &mut Frame,
+    app: &App,
+    category_index: usize,
+    command_index: usize,
+    scroll: usize,
+) {
     let area = frame.area();
     let categories = app.get_lesson_categories();
     let cat = match categories.get(category_index) {
@@ -137,7 +143,7 @@ pub fn render_overview(frame: &mut Frame, app: &App, category_index: usize, comm
         }
     }
 
-    let total_lines = lines.len();
+    let total_lines = rendered_wrapped_line_count(&lines, content_area.width, false);
     let clamped_scroll = clamp_scroll(scroll, total_lines, visible_height);
     let content = Paragraph::new(lines)
         .wrap(Wrap { trim: false })
@@ -241,7 +247,7 @@ pub fn render_practice(
         Line::from(""),
     ];
 
-        // 三级 fallback: lesson token_details > lexicon > command tokens
+    // 三级 fallback: lesson token_details > lexicon > command tokens
     let cmd_name = example.command.split_whitespace().next().unwrap_or("");
     let mut token_entries: Vec<(String, String, TokenKind)> = Vec::new();
 
@@ -272,15 +278,13 @@ pub fn render_practice(
         for (token_text, desc, kind) in &token_entries {
             let kind_color = match kind {
                 TokenKind::Command | TokenKind::Subcommand => Color::Cyan,
-                TokenKind::ShortOption | TokenKind::ShortOptionBundle
-                    | TokenKind::LongOption => Color::Yellow,
-                TokenKind::Pipe | TokenKind::Operator
-                    | TokenKind::Redirection => Color::Magenta,
-                TokenKind::Path | TokenKind::Directory
-                    | TokenKind::Filename => Color::Blue,
+                TokenKind::ShortOption | TokenKind::ShortOptionBundle | TokenKind::LongOption => {
+                    Color::Yellow
+                }
+                TokenKind::Pipe | TokenKind::Operator | TokenKind::Redirection => Color::Magenta,
+                TokenKind::Path | TokenKind::Directory | TokenKind::Filename => Color::Blue,
                 TokenKind::PermissionMode | TokenKind::Number => Color::Red,
-                TokenKind::Pattern | TokenKind::Regex
-                    | TokenKind::QuotedExpr => Color::Green,
+                TokenKind::Pattern | TokenKind::Regex | TokenKind::QuotedExpr => Color::Green,
                 TokenKind::Variable | TokenKind::Substitution => Color::LightCyan,
                 TokenKind::Placeholder => Color::LightMagenta,
                 TokenKind::ServiceName => Color::LightBlue,
@@ -343,7 +347,10 @@ pub fn render_practice(
     // Hints
     let has_deep = example.deep_explanation.is_some();
     let hints = if engine.is_complete() {
-        let mut hint_items = vec![("Enter", "\u{4e0b}\u{4e00}\u{4e2a}"), ("Ctrl+R", "\u{91cd}\u{7ec3}")];
+        let mut hint_items = vec![
+            ("Enter", "\u{4e0b}\u{4e00}\u{4e2a}"),
+            ("Ctrl+R", "\u{91cd}\u{7ec3}"),
+        ];
         if has_deep {
             hint_items.push(("D", "\u{67e5}\u{770b}\u{8be6}\u{89e3}"));
         }
@@ -357,7 +364,6 @@ pub fn render_practice(
         chunks[2],
     );
 }
-
 
 fn clamp_scroll(scroll: usize, total_lines: usize, visible_height: usize) -> usize {
     if total_lines <= visible_height {

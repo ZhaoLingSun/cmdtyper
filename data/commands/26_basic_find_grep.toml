@@ -1,0 +1,522 @@
+[meta]
+category = "search"
+difficulty = "basic"
+description = "find 与 grep 高频姿势"
+
+[meta.topic]
+id = "find_grep"
+title = "find 与 grep 搜索"
+icon = "🔎"
+order = 7
+
+[[commands]]
+id = "find-pdf-by-name"
+command = "find ~/Documents -type f -name '*.pdf'"
+summary = "按名称查找文档目录中的 PDF 文件"
+simulated_output = """
+/home/alice/Documents/manuals/linux-basics.pdf
+/home/alice/Documents/reports/quarterly-report.pdf
+"""
+
+[[commands.tokens]]
+text = "find"
+desc = "递归查找目录树中的文件和目录"
+
+[[commands.tokens]]
+text = " ~/Documents"
+desc = "从当前用户的 Documents 目录开始查找"
+
+[[commands.tokens]]
+text = " -type f"
+desc = "只匹配普通文件，不把同名目录、链接或其他对象算作 PDF 文件"
+
+[[commands.tokens]]
+text = " -name"
+desc = "按文件名区分大小写地匹配"
+
+[[commands.tokens]]
+text = " '*.pdf'"
+desc = "匹配所有以 .pdf 结尾的名称，引号防止 shell 提前展开通配符"
+
+[commands.dictation]
+prompt = "在当前用户的 Documents 目录树中查找所有 PDF 文件"
+answers = ["find ~/Documents -type f -name '*.pdf'"]
+
+[[commands]]
+id = "find-zip-ignore-case"
+command = "find ~/Downloads -type f -iname '*.zip'"
+summary = "忽略大小写查找下载目录中的 ZIP 包"
+simulated_output = """
+/home/alice/Downloads/photos.ZIP
+/home/alice/Downloads/releases/toolkit.zip
+"""
+
+[[commands.tokens]]
+text = "find"
+desc = "递归查找目录树中的文件和目录"
+
+[[commands.tokens]]
+text = " ~/Downloads"
+desc = "从当前用户的 Downloads 目录开始查找"
+
+[[commands.tokens]]
+text = " -type f"
+desc = "只匹配普通文件，不把名称以 .zip 结尾的目录或链接算作 ZIP 文件"
+
+[[commands.tokens]]
+text = " -iname"
+desc = "按文件名匹配并忽略大小写"
+
+[[commands.tokens]]
+text = " '*.zip'"
+desc = "匹配 .zip、.ZIP 等名称，引号保护通配符"
+
+[commands.dictation]
+prompt = "忽略大小写查找当前用户 Downloads 目录树中的所有 ZIP 包"
+answers = ["find ~/Downloads -type f -iname '*.zip'"]
+
+[[commands]]
+id = "find-source-regular-files"
+command = "find src -type f"
+summary = "递归列出 src 中的普通文件"
+simulated_output = """
+src/main.rs
+src/app.rs
+src/ui/mod.rs
+src/ui/home.rs
+"""
+
+[[commands.tokens]]
+text = "find"
+desc = "递归查找目录树中的文件和目录"
+
+[[commands.tokens]]
+text = " src"
+desc = "从 src 目录开始查找"
+
+[[commands.tokens]]
+text = " -type"
+desc = "按文件类型筛选"
+
+[[commands.tokens]]
+text = " f"
+desc = "只匹配普通文件，不包含目录"
+
+[commands.dictation]
+prompt = "递归列出 src 目录树中的所有普通文件"
+answers = ["find src -type f"]
+
+[[commands]]
+id = "find-tests-directories"
+command = "find . -type d -name 'tests'"
+summary = "查找当前目录树中名为 tests 的目录"
+simulated_output = """
+./tests
+./crates/parser/tests
+./vendor/codec/tests
+"""
+
+[[commands.tokens]]
+text = "find"
+desc = "递归查找目录树中的文件和目录"
+
+[[commands.tokens]]
+text = " ."
+desc = "从当前目录开始查找"
+
+[[commands.tokens]]
+text = " -type d"
+desc = "只匹配目录"
+
+[[commands.tokens]]
+text = " -name 'tests'"
+desc = "名称必须为 tests"
+
+[commands.dictation]
+prompt = "查找当前目录树中所有名为 tests 的目录"
+answers = ["find . -type d -name 'tests'"]
+
+[[commands]]
+id = "find-logs-modified-seven-days"
+command = "find /var/log -type f -mtime -7"
+summary = "查找最近七天修改过的日志文件"
+simulated_output = """
+/var/log/syslog
+/var/log/auth.log
+/var/log/nginx/access.log
+/var/log/nginx/error.log
+"""
+
+[[commands.tokens]]
+text = "find"
+desc = "递归查找目录树中的文件和目录"
+
+[[commands.tokens]]
+text = " /var/log"
+desc = "从系统日志目录开始查找"
+
+[[commands.tokens]]
+text = " -type f"
+desc = "只匹配普通文件"
+
+[[commands.tokens]]
+text = " -mtime -7"
+desc = "匹配数据修改时间距今不足 7 个 24 小时周期的文件"
+
+[commands.dictation]
+prompt = "在 /var/log 中查找最近七天修改过的普通文件"
+answers = ["find /var/log -type f -mtime -7"]
+
+[[commands]]
+id = "find-large-backup-files"
+command = "find /srv/backups -type f -size +100M"
+summary = "定位表观大小超过 100 MiB 的备份文件"
+simulated_output = """
+/srv/backups/database-2026-07-25.sql.gz
+/srv/backups/media-weekly.tar.zst
+"""
+
+[[commands.tokens]]
+text = "find"
+desc = "递归查找目录树中的文件和目录"
+
+[[commands.tokens]]
+text = " /srv/backups"
+desc = "从备份目录开始查找"
+
+[[commands.tokens]]
+text = " -type f"
+desc = "只匹配普通文件"
+
+[[commands.tokens]]
+text = " -size +100M"
+desc = "按 st_size 文件长度匹配表观大小超过 100 MiB 的文件，不表示实际分配的磁盘块"
+
+[commands.dictation]
+prompt = "在 /srv/backups 中找出表观大小（文件长度）超过 100 MiB 的普通文件"
+answers = ["find /srv/backups -type f -size +100M"]
+
+[[commands]]
+id = "find-exec-list-configs"
+command = "find . -type f -name '*.conf'"
+summary = "按名称查找当前目录树中的配置文件"
+simulated_output = """
+./config/app.conf
+./deploy/nginx.conf
+"""
+
+[[commands.tokens]]
+text = "find"
+desc = "递归查找目录树中的文件和目录"
+
+[[commands.tokens]]
+text = " ."
+desc = "从当前目录开始查找"
+
+[[commands.tokens]]
+text = " -type f"
+desc = "只匹配普通文件"
+
+[[commands.tokens]]
+text = " -name '*.conf'"
+desc = "只匹配名称以 .conf 结尾的文件，引号保护通配符"
+
+[commands.dictation]
+prompt = "递归查找当前目录树中名称以 .conf 结尾的普通文件"
+answers = ["find . -type f -name '*.conf'"]
+
+[[commands]]
+id = "find-javascript-prune-vcs-deps"
+command = "find src -type f -name '*.js'"
+summary = "查找 src 目录树中的 JavaScript 文件"
+simulated_output = """
+src/index.js
+src/lib/request.js
+"""
+
+[[commands.tokens]]
+text = "find"
+desc = "递归查找目录树中的文件和目录"
+
+[[commands.tokens]]
+text = " src"
+desc = "从 src 目录开始查找"
+
+[[commands.tokens]]
+text = " -type f"
+desc = "只匹配普通文件"
+
+[[commands.tokens]]
+text = " -name '*.js'"
+desc = "只匹配名称以 .js 结尾的文件，引号保护通配符"
+
+[commands.dictation]
+prompt = "递归查找 src 目录树中名称以 .js 结尾的普通文件"
+answers = ["find src -type f -name '*.js'"]
+
+[[commands]]
+id = "grep-recursive-api-url"
+command = "grep -r 'api_url' config"
+summary = "递归查找配置目录中的 api_url 设置"
+simulated_output = """
+config/app.conf:api_url = https://api.internal.example
+config/staging/app.conf:api_url = https://staging-api.internal.example
+"""
+
+[[commands.tokens]]
+text = "grep"
+desc = "按文本模式筛选匹配行"
+
+[[commands.tokens]]
+text = " -r"
+desc = "递归读取目录下的文件，不跟随遍历中遇到的符号链接"
+
+[[commands.tokens]]
+text = " 'api_url'"
+desc = "要搜索的文本模式"
+
+[[commands.tokens]]
+text = " config"
+desc = "要递归搜索的目录"
+
+[commands.dictation]
+prompt = "递归搜索 config 目录中包含 api_url 的行"
+answers = ["grep -r 'api_url' config"]
+
+[[commands]]
+id = "grep-error-line-numbers"
+command = "grep -n 'ERROR' app.log"
+summary = "显示错误日志及其行号"
+simulated_output = """
+48:2026-07-26T09:12:04Z ERROR database connection timed out
+113:2026-07-26T09:18:37Z ERROR request failed with status 502
+"""
+
+[[commands.tokens]]
+text = "grep"
+desc = "按文本模式筛选匹配行"
+
+[[commands.tokens]]
+text = " -n"
+desc = "在每条匹配结果前显示从 1 开始的行号"
+
+[[commands.tokens]]
+text = " 'ERROR'"
+desc = "要搜索的错误级别文本"
+
+[[commands.tokens]]
+text = " app.log"
+desc = "要搜索的日志文件"
+
+[commands.dictation]
+prompt = "从 app.log 中找出包含 ERROR 的行，并在结果前显示行号"
+answers = ["grep -n 'ERROR' app.log"]
+
+[[commands]]
+id = "grep-warning-ignore-case"
+command = "grep -i 'warning' server.log"
+summary = "忽略大小写查找警告日志"
+simulated_output = """
+2026-07-26 10:03:11 WARNING disk usage reached 85%
+2026-07-26 10:05:42 Warning retrying upstream request
+"""
+
+[[commands.tokens]]
+text = "grep"
+desc = "按文本模式筛选匹配行"
+
+[[commands.tokens]]
+text = " -i"
+desc = "匹配时忽略大小写差异"
+
+[[commands.tokens]]
+text = " 'warning'"
+desc = "要搜索的警告文本"
+
+[[commands.tokens]]
+text = " server.log"
+desc = "要搜索的日志文件"
+
+[commands.dictation]
+prompt = "从 server.log 中找出 warning 行，匹配时忽略大小写"
+answers = ["grep -i 'warning' server.log"]
+
+[[commands]]
+id = "grep-config-without-comments"
+command = "grep -v '^#' app.conf"
+summary = "过滤掉配置文件中的井号注释行"
+simulated_output = """
+listen = 8080
+workers = 4
+log_level = info
+"""
+
+[[commands.tokens]]
+text = "grep"
+desc = "按文本模式筛选匹配行"
+
+[[commands.tokens]]
+text = " -v"
+desc = "反向选择，只输出不匹配模式的行"
+
+[[commands.tokens]]
+text = " '^#'"
+desc = "匹配以 # 开头的行，^ 表示行首"
+
+[[commands.tokens]]
+text = " app.conf"
+desc = "要读取的配置文件"
+
+[commands.dictation]
+prompt = "查看 app.conf 时过滤掉所有以 # 开头的注释行"
+answers = ["grep -v '^#' app.conf"]
+
+[[commands]]
+id = "grep-error-or-warning"
+command = "grep -E 'ERROR|WARN' app.log"
+summary = "用扩展正则同时查找错误与警告"
+simulated_output = """
+2026-07-26T09:12:04Z ERROR database connection timed out
+2026-07-26T09:14:26Z WARN cache response was slow
+"""
+
+[[commands.tokens]]
+text = "grep"
+desc = "按文本模式筛选匹配行"
+
+[[commands.tokens]]
+text = " -E"
+desc = "把模式解释为扩展正则表达式"
+
+[[commands.tokens]]
+text = " 'ERROR|WARN'"
+desc = "用 | 匹配 ERROR 或 WARN"
+
+[[commands.tokens]]
+text = " app.log"
+desc = "要搜索的日志文件"
+
+[commands.dictation]
+prompt = "从 app.log 中同时找出包含 ERROR 或 WARN 的行"
+answers = ["grep -E 'ERROR|WARN' app.log"]
+
+[[commands]]
+id = "grep-count-http-404-lines"
+command = "grep -c '404' access.log"
+summary = "统计访问日志中含字面文本 404 的行数"
+simulated_output = "27"
+
+[[commands.tokens]]
+text = "grep"
+desc = "按文本模式筛选匹配行"
+
+[[commands.tokens]]
+text = " -c"
+desc = "不显示匹配内容，只输出匹配行数"
+
+[[commands.tokens]]
+text = " '404'"
+desc = "要查找的字面文本；不会识别访问日志中的状态码字段"
+
+[[commands.tokens]]
+text = " access.log"
+desc = "要统计的访问日志"
+
+[commands.dictation]
+prompt = "不解析日志字段，只统计 access.log 中包含字面文本 404 的行数"
+answers = ["grep -c '404' access.log"]
+
+[[commands]]
+id = "grep-timeout-log-files-only"
+command = "grep -r --include=\"*.log\" 'timeout' logs"
+summary = "只在日志目录的 .log 文件中递归搜索"
+simulated_output = """
+logs/api/app.log:upstream timeout after 30s
+logs/worker/jobs.log:task timeout while waiting for lock
+"""
+
+[[commands.tokens]]
+text = "grep"
+desc = "按文本模式筛选匹配行"
+
+[[commands.tokens]]
+text = " -r"
+desc = "递归读取目录下的文件"
+
+[[commands.tokens]]
+text = " --include=\"*.log\""
+desc = "只搜索基本名称匹配 *.log 的文件，引号防止 shell 展开通配符"
+
+[[commands.tokens]]
+text = " 'timeout'"
+desc = "要搜索的超时文本"
+
+[[commands.tokens]]
+text = " logs"
+desc = "要递归搜索的日志目录"
+
+[commands.dictation]
+prompt = "递归搜索 logs 目录，但只在扩展名为 .log 的文件中查找 timeout"
+answers = ["grep -r --include=\"*.log\" 'timeout' logs"]
+
+[[commands]]
+id = "locate-ssh-config"
+command = "locate ssh_config"
+summary = "已安装且索引可用时，按路径名快速定位 SSH 配置"
+simulated_output = """
+/etc/ssh/ssh_config
+/etc/ssh/ssh_config.d
+/usr/share/man/man5/ssh_config.5.gz
+"""
+
+[[commands.tokens]]
+text = "locate"
+desc = "查询预先建立的文件名索引；无结果也可能是索引过旧，不等于文件一定不存在"
+
+[[commands.tokens]]
+text = " ssh_config"
+desc = "要在完整路径中查找的子串"
+
+[commands.dictation]
+prompt = "在已安装 locate 且索引可用的系统上，快速查找路径中含有 ssh_config 的条目"
+answers = ["locate ssh_config"]
+
+[[commands]]
+id = "updatedb-refresh-locate-index"
+command = "command -v updatedb"
+summary = "只读检查系统是否提供 locate 索引更新程序"
+simulated_output = "/usr/bin/updatedb"
+
+[[commands.tokens]]
+text = "command"
+desc = "Bash 内建命令；这里仅查询名称怎样解析，不运行目标程序"
+
+[[commands.tokens]]
+text = " -v"
+desc = "显示名称对应的命令或路径"
+
+[[commands.tokens]]
+text = " updatedb"
+desc = "要检查是否可用的索引更新程序；本题不会刷新系统索引"
+
+[commands.dictation]
+prompt = "不更新系统索引，只读检查当前 shell 能否找到 updatedb 程序"
+answers = ["command -v updatedb"]
+
+[[commands]]
+id = "whereis-python3-files"
+command = "whereis python3"
+summary = "查找 Python 3 的程序与手册位置"
+simulated_output = "python3: /usr/bin/python3 /usr/share/man/man1/python3.1.gz"
+
+[[commands.tokens]]
+text = "whereis"
+desc = "在标准位置查找程序的二进制、源码和手册文件"
+
+[[commands.tokens]]
+text = " python3"
+desc = "要查找相关文件的程序名"
+
+[commands.dictation]
+prompt = "查找 Python 3 的可执行文件、源码和手册页位置"
+answers = ["whereis python3"]

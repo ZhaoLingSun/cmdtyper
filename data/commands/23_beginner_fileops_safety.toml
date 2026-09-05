@@ -1,0 +1,388 @@
+[meta]
+category = "file_ops"
+difficulty = "beginner"
+description = "文件操作与安全边界"
+
+[meta.topic]
+id = "fileops_safety"
+title = "文件操作与安全边界"
+icon = "🗂️"
+order = 4
+
+[[commands]]
+id = "fileops-mkdir-work-parents"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && mkdir -p \"$practice_dir/work/docs\")"
+summary = "在唯一私有练习目录中一次创建多级目录"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && mkdir -p \"$practice_dir/work/docs\""
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "在 mktemp -d 新建的唯一 0700 练习目录中，一次创建 work/docs 多级目录"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && mkdir -p \"$practice_dir/work/docs\")"]
+
+[[commands]]
+id = "fileops-touch-batch-notes"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && touch \"$practice_dir/notes.txt\" \"$practice_dir/todo.txt\")"
+summary = "在唯一私有练习目录中创建两个空文件"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && touch \"$practice_dir/notes.txt\" \"$practice_dir/todo.txt\""
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "在新建的唯一 0700 练习目录中一次创建 notes.txt 和 todo.txt"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && touch \"$practice_dir/notes.txt\" \"$practice_dir/todo.txt\")"]
+
+[[commands]]
+id = "fileops-cp-assets-recursive"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && mkdir -p \"$practice_dir/assets/icons\" && touch \"$practice_dir/assets/logo.png\" && cp -r \"$practice_dir/assets\" \"$practice_dir/assets-backup\")"
+summary = "在私有练习目录中准备素材夹具并递归复制到新目标"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && mkdir -p \"$practice_dir/assets/icons\" && touch \"$practice_dir/assets/logo.png\" && cp -r \"$practice_dir/assets\" \"$practice_dir/assets-backup\""
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录，准备 assets/icons 和 logo.png，再把 assets 递归复制为同目录下不存在的 assets-backup"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && mkdir -p \"$practice_dir/assets/icons\" && touch \"$practice_dir/assets/logo.png\" && cp -r \"$practice_dir/assets\" \"$practice_dir/assets-backup\")"]
+
+[[commands]]
+id = "fileops-cp-config-interactive"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir backup && printf 'new\\n' > settings.ini && printf 'old\\n' > backup/settings.ini && cp -i settings.ini backup/settings.ini)"
+summary = "在私有夹具中演示覆盖前交互确认"
+simulated_output = "cp: overwrite 'backup/settings.ini'? "
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && mkdir backup && printf 'new\\n' > settings.ini && printf 'old\\n' > backup/settings.ini && cp -i settings.ini backup/settings.ini"
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录并准备新旧 settings.ini，再用 cp -i 复制到 backup，目标存在时先询问"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir backup && printf 'new\\n' > settings.ini && printf 'old\\n' > backup/settings.ini && cp -i settings.ini backup/settings.ini)"]
+
+[[commands]]
+id = "fileops-mv-rename-interactive"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && touch draft.md final.md && mv -i draft.md final.md)"
+summary = "在私有夹具中演示重命名覆盖前确认"
+simulated_output = "mv: overwrite 'final.md'? "
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && touch draft.md final.md && mv -i draft.md final.md"
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录并准备 draft.md 与已有 final.md，再用 mv -i 重命名并在覆盖前询问"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && touch draft.md final.md && mv -i draft.md final.md)"]
+
+[[commands]]
+id = "fileops-mv-archive-interactive"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir archive && touch report.csv archive/report.csv && mv -i report.csv archive/)"
+summary = "在私有夹具中演示移动同名报表前确认"
+simulated_output = "mv: overwrite 'archive/report.csv'? "
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && mkdir archive && touch report.csv archive/report.csv && mv -i report.csv archive/"
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录，准备 report.csv 和 archive 中的同名文件，再交互确认移动"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir archive && touch report.csv archive/report.csv && mv -i report.csv archive/)"]
+
+[[commands]]
+id = "fileops-ln-shared-directory"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir shared && ln -s shared current)"
+summary = "在唯一私有练习目录中创建相对符号链接"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && mkdir shared && ln -s shared current"
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录和 shared 子目录，再创建名为 current 的相对符号链接"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir shared && ln -s shared current)"]
+
+[[commands]]
+id = "fileops-ln-guide-file"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir shared && ln -s shared current && printf 'current -> %s\\n' \"$(readlink current)\")"
+summary = "自建私有夹具并稳定显示链接名称和目标"
+simulated_output = "current -> shared"
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && mkdir shared && ln -s shared current && printf 'current -> %s\\n' \"$(readlink current)\""
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录和 current -> shared 链接，再输出链接名称与记录的目标"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir shared && ln -s shared current && printf 'current -> %s\\n' \"$(readlink current)\")"]
+
+[[commands]]
+id = "fileops-readlink-current-canonical"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir shared && ln -s shared current && resolved=$(readlink -f current) && printf '%s\\n' \"${resolved#\"$practice_dir\"/}\")"
+summary = "自建私有链接并确认规范化目标位于 shared"
+simulated_output = "shared"
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && mkdir shared && ln -s shared current && resolved=$(readlink -f current) && printf '%s\\n' \"${resolved#\"$practice_dir\"/}\""
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录和 current 链接，解析最终路径并只输出练习目录内的相对目标 shared"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir shared && ln -s shared current && resolved=$(readlink -f current) && printf '%s\\n' \"${resolved#\"$practice_dir\"/}\")"]
+
+[[commands]]
+id = "fileops-readlink-normalize-path"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir shared && ln -s shared current && rm -i current)"
+summary = "在私有夹具中确认后只删除链接本身"
+simulated_output = "rm: remove symbolic link 'current'? "
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && mkdir shared && ln -s shared current && rm -i current"
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录和 current -> shared 链接，再用 rm -i 确认后只删除链接"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir shared && ln -s shared current && rm -i current)"]
+
+[[commands]]
+id = "fileops-stat-settings-metadata"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && printf 'mode=safe\\n' > settings.ini && stat -c '%F %a %s %n' settings.ini)"
+summary = "在私有夹具中查看稳定的文件类型、权限和大小字段"
+simulated_output = "regular file 600 10 settings.ini"
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && printf 'mode=safe\\n' > settings.ini && stat -c '%F %a %s %n' settings.ini"
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录和内容固定的 settings.ini，再显示其类型、权限、字节数和名称"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && printf 'mode=safe\\n' > settings.ini && stat -c '%F %a %s %n' settings.ini)"]
+
+[[commands]]
+id = "fileops-stat-report-size"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && truncate -s 24K report.csv && stat -c '%n %s bytes' report.csv)"
+summary = "在私有夹具中查看报表的精确字节大小"
+simulated_output = "report.csv 24576 bytes"
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && truncate -s 24K report.csv && stat -c '%n %s bytes' report.csv"
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录和 24K 的 report.csv，再显示名称与精确字节数"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && truncate -s 24K report.csv && stat -c '%n %s bytes' report.csv)"]
+
+[[commands]]
+id = "fileops-file-shell-script"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && printf '#!/bin/sh\\nexit 0\\n' > run.sh && chmod 700 run.sh && file run.sh)"
+summary = "在私有夹具中识别真实脚本类型"
+simulated_output = "run.sh: POSIX shell script, ASCII text executable"
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && printf '#!/bin/sh\\nexit 0\\n' > run.sh && chmod 700 run.sh && file run.sh"
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录和最小 shell 脚本，再用 file 识别内容类型"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && printf '#!/bin/sh\\nexit 0\\n' > run.sh && chmod 700 run.sh && file run.sh)"]
+
+[[commands]]
+id = "fileops-file-extensionless-image"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && printf 'sample\\n' > download && file download)"
+summary = "在私有夹具中识别无扩展名文本的实际类型"
+simulated_output = "download: ASCII text"
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && printf 'sample\\n' > download && file download"
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录和无扩展名 download 文本，再用 file 按内容识别类型"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && printf 'sample\\n' > download && file download)"]
+
+[[commands]]
+id = "fileops-tree-temp-depth-two"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir -p archive assets/icons backup shared work/docs && touch archive/report.csv assets/logo.png backup/settings.ini settings.ini && ln -s shared current && tree -L 2 .)"
+summary = "自建私有目录树并只查看前两层"
+simulated_output = ".\n├── archive\n│   └── report.csv\n├── assets\n│   ├── icons\n│   └── logo.png\n├── backup\n│   └── settings.ini\n├── current -> shared\n├── settings.ini\n├── shared\n└── work\n    └── docs\n\n7 directories, 5 files"
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && mkdir -p archive assets/icons backup shared work/docs && touch archive/report.csv assets/logo.png backup/settings.ini settings.ini && ln -s shared current && tree -L 2 ."
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录并准备固定结构，再从该目录用 tree -L 2 查看前两层"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir -p archive assets/icons backup shared work/docs && touch archive/report.csv assets/logo.png backup/settings.ini settings.ini && ln -s shared current && tree -L 2 .)"]
+
+[[commands]]
+id = "fileops-rmdir-empty-temp"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir empty && rmdir empty)"
+summary = "在私有夹具中仅删除刚创建的空目录"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && mkdir empty && rmdir empty"
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录和 empty 子目录，再用 rmdir 删除；非空时应失败并保留内容"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir empty && rmdir empty)"]
+
+[[commands]]
+id = "fileops-rm-recursive-interactive"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir trash-review && touch trash-review/old.log && rm -ri trash-review)"
+summary = "在唯一私有夹具中逐项确认递归删除"
+simulated_output = "rm: descend into directory 'trash-review'? y\nrm: remove regular empty file 'trash-review/old.log'? y\nrm: remove directory 'trash-review'? y"
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && mkdir trash-review && touch trash-review/old.log && rm -ri trash-review"
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录和含 old.log 的 trash-review，再用 rm -ri 逐项确认删除"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir trash-review && touch trash-review/old.log && rm -ri trash-review)"]
+
+[[commands]]
+id = "fileops-rm-force-recursive-warning"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir -p disposable-cache/thumbnails && touch disposable-cache/.keep && find disposable-cache -mindepth 1 -maxdepth 1 -printf '%f\\n' | sort)"
+summary = "递归删除前在私有夹具中列出顶层名称和隐藏项"
+simulated_output = ".keep\nthumbnails"
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && mkdir -p disposable-cache/thumbnails && touch disposable-cache/.keep && find disposable-cache -mindepth 1 -maxdepth 1 -printf '%f\\n' | sort"
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录和 disposable-cache 夹具，再只读列出顶层名称，包括 .keep 隐藏项；嵌套目录仍需另行检查"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir -p disposable-cache/thumbnails && touch disposable-cache/.keep && find disposable-cache -mindepth 1 -maxdepth 1 -printf '%f\\n' | sort)"]

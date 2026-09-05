@@ -84,7 +84,12 @@ pub fn render(
             };
 
             let title = Paragraph::new(Line::from(Span::styled(
-                format!(" {} 示例 {}/{} ", symbol.name, idx + 1, symbol.examples.len()),
+                format!(
+                    " {} 示例 {}/{} ",
+                    symbol.name,
+                    idx + 1,
+                    symbol.examples.len()
+                ),
                 Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
             )))
             .alignment(Alignment::Center)
@@ -193,7 +198,10 @@ fn render_typing_practice(
         lines.push(render_typing_line("$ ", &app.typing_engine));
         lines.push(Line::from(""));
         lines.push(Line::from(Span::styled(
-            format!("当前准确率: {:.0}%", app.typing_engine.current_accuracy() * 100.0),
+            format!(
+                "当前准确率: {:.0}%",
+                app.typing_engine.current_accuracy() * 100.0
+            ),
             Style::default().fg(DIM),
         )));
         lines.push(Line::from(Span::styled(
@@ -203,7 +211,10 @@ fn render_typing_practice(
 
         if app.typing_engine.is_complete() && sp.typing_showing_output {
             lines.push(Line::from(""));
-            lines.push(Line::from(Span::styled("模拟输出:", Style::default().fg(ACCENT))));
+            lines.push(Line::from(Span::styled(
+                "模拟输出:",
+                Style::default().fg(ACCENT),
+            )));
             if let Some(output) = &ex.simulated_output {
                 for line in output.lines() {
                     lines.push(Line::from(Span::styled(
@@ -214,7 +225,10 @@ fn render_typing_practice(
             }
         }
     } else {
-        lines.push(Line::from(Span::styled("暂无打字练习", Style::default().fg(DIM))));
+        lines.push(Line::from(Span::styled(
+            "暂无打字练习",
+            Style::default().fg(DIM),
+        )));
     }
 
     let content = Paragraph::new(lines).wrap(Wrap { trim: false });
@@ -285,7 +299,10 @@ fn render_dictation_practice(frame: &mut Frame, app: &App, topic_index: usize, c
         )));
         lines.push(Line::from(format!("  {}", ex.prompt)));
         lines.push(Line::from(""));
-        lines.push(Line::from(Span::styled("你的答案:", Style::default().fg(ACCENT))));
+        lines.push(Line::from(Span::styled(
+            "你的答案:",
+            Style::default().fg(ACCENT),
+        )));
 
         let input_display = if sp.submitted {
             sp.current_input.clone()
@@ -315,7 +332,10 @@ fn render_dictation_practice(frame: &mut Frame, app: &App, topic_index: usize, c
             }
         }
     } else {
-        lines.push(Line::from(Span::styled("暂无默写练习", Style::default().fg(DIM))));
+        lines.push(Line::from(Span::styled(
+            "暂无默写练习",
+            Style::default().fg(DIM),
+        )));
     }
 
     let content = Paragraph::new(lines).wrap(Wrap { trim: false });

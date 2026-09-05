@@ -1,0 +1,109 @@
+[meta]
+command = "shell-history-jobs"
+full_name = "Shell 历史、别名与作业恢复"
+category = "system"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "看清历史展开与作业状态，再决定重复、缩写或恢复"
+explanation = """交互式 Bash 会记住近期输入，也会管理由当前 shell 启动的前台、后台和暂停作业。history 用编号帮助回顾操作，限制条数可以避免长列表淹没当前上下文；!! 会在执行前由 shell 展开成上一条命令，因此速度很快但也最容易重复危险操作。alias 只改变当前 shell 对短名称的展开方式，适合减少重复输入，却不应隐藏带删除或提权效果的复杂命令。误按 Ctrl+Z 时，程序通常不是退出，而是被暂停；此时先用 jobs -l 查状态和进程号，再用 fg 恢复当前作业。把历史、别名和作业控制视为同一套“先观察、后动作”的交互工作流，可以避免因紧张而重复执行、另开程序或遗失未保存内容。"""
+
+[syntax]
+basic = "shell 内建 [参数或作业标识]"
+
+[[syntax.parts]]
+name = "shell 内建"
+desc = "history、alias、jobs、fg 与历史展开均由当前交互式 Bash 解释"
+
+[[syntax.parts]]
+name = "参数"
+desc = "可用于限制历史条数、定义别名或要求 jobs 显示进程号"
+
+[[syntax.parts]]
+name = "作业标识"
+desc = "fg 可省略标识处理当前作业；存在多个暂停任务时应先通过 jobs 核对"
+
+[[options]]
+flag = "history [数量]"
+name = "查看命令历史"
+example = "history 10"
+note = "先查看最近记录，再决定是否重新输入；历史可能包含敏感参数"
+
+[[options]]
+flag = "!!"
+name = "展开并执行上一条命令"
+example = "!!"
+note = "不会先弹出确认；必须在心里或历史列表中确认上一条命令安全"
+
+[[options]]
+flag = "alias"
+name = "列出或定义当前别名"
+example = "alias gs='git status'"
+note = "定义默认只在当前 shell 有效，退出后通常消失"
+
+[[options]]
+flag = "jobs -l"
+name = "列出作业及进程号"
+example = "jobs -l"
+note = "Stopped 表示暂停，不等于进程已经结束"
+
+[[options]]
+flag = "fg"
+name = "把当前作业恢复到前台"
+example = "fg"
+note = "多个作业并存时先确认当前标记，避免恢复错任务"
+
+[[examples]]
+id = "v03-20-shell-history-jobs-01"
+command_id = "history-list"
+level = 1
+output_explanation = "编号列表用于回顾操作顺序；阅读时也要留意历史中可能出现的路径、主机名或其他敏感参数。"
+
+[[examples]]
+id = "v03-20-shell-history-jobs-02"
+command_id = "clear-keep-scrollback"
+level = 1
+output_explanation = "只显示末尾十条有助于聚焦刚才发生的事情，比清空屏幕或翻阅整份历史更适合快速排错。"
+
+[[examples]]
+id = "v03-20-shell-history-jobs-03"
+command_id = "alias-list"
+level = 1
+output_explanation = "列表揭示短名称会怎样展开；排查同名命令行为异常时，应把别名因素纳入检查。"
+
+[[examples]]
+id = "v03-20-shell-history-jobs-04"
+command_id = "alias-git-status"
+level = 2
+output_explanation = "定义成功通常没有输出；它仅为当前会话建立便于记忆的只读状态查询缩写。"
+
+[[examples]]
+id = "v03-20-shell-history-jobs-05"
+command_id = "jobs-with-pids"
+level = 2
+output_explanation = "作业号、PID 和 Stopped 状态共同说明程序仍存在，只是暂时离开了前台运行。"
+
+[[examples]]
+id = "v03-20-shell-history-jobs-06"
+command_id = "fg-current-job"
+level = 2
+output_explanation = "恢复后，终端会重新连接到该程序；应继续在原程序中保存或正常退出，而不是再次按 Ctrl+Z。"
+
+[[examples]]
+id = "v03-20-shell-history-jobs-07"
+command_id = "history-repeat-last"
+level = 3
+output_explanation = "显示出的上一条命令是历史展开后的实际内容；真正操作时应在执行前确认它不是删除、覆盖或提权命令。"
+
+[[gotchas]]
+title = "!! 会直接执行，不是只负责显示"
+content = """历史展开发生在命令提交阶段，!! 通常会被替换成上一条命令并立即运行。若上一条是带 sudo 的修改、删除或覆盖操作，重复一次可能造成第二次变更。安全习惯是先用 history 10 看清末尾记录，必要时手工重新输入可控版本；不要把 !! 当作无害的“撤销输入”。"""
+
+[[gotchas]]
+title = "别名会遮住你以为正在调用的名称"
+content = """alias 可以让 grep、ls 等常见名称自动附加选项，也可能让自定义短名展开为一长串操作。排错时先列出别名并结合 type 判断解析结果。不要为 rm、sudo 或批量修改命令设计含糊别名；便利性不应牺牲对影响范围的可见性。要持久化别名前，还应确认启动文件位置和团队约定。"""
+
+[[gotchas]]
+title = "Ctrl+Z 是暂停，不是退出"
+content = """误按 Ctrl+Z 后直接重新启动程序，可能造成两个编辑器或两个维护任务同时操作同一资源。正确顺序是 jobs -l 查看作业，再用 fg 恢复需要的那个；如果有多个作业，应明确选择而不是依赖默认当前项。恢复后通过程序自身的保存和退出流程结束工作。"""

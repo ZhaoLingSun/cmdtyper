@@ -1,0 +1,110 @@
+[meta]
+command = "Vim 导航、模式与安全编辑"
+full_name = "Vim modes, navigation, editing, and read-only inspection tools"
+category = "system"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "先识别当前模式，再移动、编辑、保存或退出；只想看时优先使用只读查看器"
+explanation = """Vim 是模式编辑器：启动后通常处于普通模式，字母键用于移动和操作；按 i 才进入插入模式，此时输入会写入缓冲区；按 Esc 回到普通模式；在普通模式按 : 进入命令行模式，才能输入 :w、:q、:wq 或 :q!。保存是把缓冲区写回文件，退出只是关闭编辑器，两者必须分别理解：:wq 保存后退出，:q 只在无未保存修改时退出，:q! 丢弃本次缓冲区修改后退出。方向键可用，但 h/j/k/l 能帮助理解普通模式导航。只需要观察文件时，less 或 cat 更直接：less 支持分页、/模式搜索、n 跳到下一处和 q 退出；cat -n 直接输出并编号，不进入编辑器。vimtutor 提供可修改的练习副本，适合练习模式切换、撤销和保存，不应在系统配置上第一次尝试。"""
+
+[syntax]
+basic = "vim 文件；普通模式 i→插入，Esc→普通，:w/:q/:wq/:q!；less [选项] 文件"
+[[syntax.parts]]
+name = "普通模式"
+desc = "用于移动、删除、复制、粘贴和发起 : 命令；误触字母时先按 Esc 回到已知状态"
+[[syntax.parts]]
+name = "插入模式"
+desc = "按 i 后输入文本；状态栏通常提示 INSERT，结束输入后按 Esc"
+[[syntax.parts]]
+name = "命令行模式"
+desc = "在普通模式按 : 后输入写入或退出命令；回车执行，Esc 可取消未提交的命令行"
+[[syntax.parts]]
+name = "只读查看"
+desc = "less 分页且可搜索，cat -n 直接输出；二者不会把普通按键解释成文件编辑操作"
+
+[[options]]
+flag = "i / Esc"
+name = "进入插入与返回普通模式"
+example = "在 Vim 中按 i 输入，完成后按 Esc"
+note = "不确定当前模式时可先按 Esc；不要连续随机按键试图退出"
+
+[[options]]
+flag = ":w / :q / :wq / :q!"
+name = "写入与退出组合"
+example = "在普通模式输入 :wq 并回车"
+note = ":q! 会丢弃当前缓冲区未保存修改；叹号不是装饰，确认无需保留后才使用"
+
+[[options]]
+flag = "less -N"
+name = "分页查看并显示行号"
+example = "less -N deploy.sh"
+note = "大写 -N 显示行号；选项区分大小写，不能随意写成 -n"
+
+[[options]]
+flag = "/模式、n、q"
+name = "less 内搜索与退出"
+example = "打开后输入 /TODO，回车，再按 n"
+note = "斜杠搜索和 n 发生在 less 内部，不是 shell 命令；q 退出查看器"
+
+[[options]]
+flag = "cat -n"
+name = "直接输出并给所有行编号"
+example = "cat -n deploy.sh"
+note = "适合较短文件；长文件会快速滚屏，分页阅读优先使用 less"
+
+[[examples]]
+id = "v03-31-vim-open-notes-edit"
+command_id = "vim-open-notes"
+level = 1
+
+[[examples]]
+id = "v03-31-less-numbered-deploy"
+command_id = "less-numbered-deploy"
+level = 1
+
+[[examples]]
+id = "v03-31-less-search-source"
+command_id = "less-search-source"
+level = 1
+
+[[examples]]
+id = "v03-31-less-services-observe"
+command_id = "less-services-readonly"
+level = 1
+
+[[examples]]
+id = "v03-31-less-nginx-preflight"
+command_id = "less-nginx-config"
+level = 1
+
+[[examples]]
+id = "v03-31-vimtutor-practice-copy"
+command_id = "vimtutor-basic"
+level = 2
+
+[[examples]]
+id = "v03-31-cat-number-deploy"
+command_id = "cat-number-deploy"
+level = 1
+
+[[gotchas]]
+title = "同一个键在不同模式含义不同"
+content = "插入模式的 x 会输入字符，普通模式的 x 会删除光标处字符。卡住时先按 Esc 回到普通模式，再决定移动、撤销还是进入 : 命令；模式不明时不要靠连续输入猜测。"
+
+[[gotchas]]
+title = "保存和退出不是同一动作"
+content = ":w 写入但不退出，:q 退出但要求没有未保存修改，:wq 组合两者，:q! 明确丢弃修改。看到 E37 等警告应停下来判断内容是否需要保存，而不是条件反射加 !。"
+
+[[gotchas]]
+title = "只读查看优先于误入编辑"
+content = "检查脚本、服务表或配置时，less 能分页搜索且不写回文件。真正编辑前先只读核对目标路径、行号和现状，并准备备份或版本控制；不要在不确定模式时打开关键配置练习。"
+
+[[gotchas]]
+title = "Vim 与 less 的内部按键不是 shell 命令"
+content = "i、Esc、:wq、/TODO、n 和 q 都是在对应程序界面中按下。退出回到 shell 后再输入它们会有完全不同结果；学习时应明确提示符是否可见。"
+
+[[gotchas]]
+title = "大小写会改变选项或按键"
+content = "less -N 的 N 是大写，Vim 普通模式中的命令也常区分大小写。教程中应按原样输入，不根据发音替换；如果效果不符，先检查模式和大小写。"

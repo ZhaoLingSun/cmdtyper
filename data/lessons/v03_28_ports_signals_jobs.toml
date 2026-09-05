@@ -1,0 +1,149 @@
+[meta]
+command = "kill / pkill / jobs（信号与作业控制）"
+full_name = "safe signals and shell job control"
+category = "process"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "先精确核对目标，再以 TERM 请求退出；仅在确认无效并再次核对后才把 KILL 作为最后手段"
+explanation = """进程控制的核心不是记住 -9，而是建立安全顺序。单个 PID 来自端口或进程调查后，先用 ps 立即复核所有者、运行时长和命令行，再用默认 SIGTERM 请求程序清理并退出；批量目标则先用 pgrep -a -x -u USER NAME 只读列清单，逐项确认后，让 pkill 使用完全相同的 -x 与 -u 选择器发送 TERM。等待并验证退出后，只有目标仍存在、TERM 确认无效且 PID 身份再次核对无误，才考虑 SIGKILL。作业控制是另一层：nohup 处理终端挂断，& 才让命令后台运行；jobs、bg、fg 只管理当前 shell 的作业编号，%2 不是系统 PID。所有命令仍受进程所有权和权限约束。"""
+
+[syntax]
+basic = "核对目标 -> kill [-TERM] PID | pgrep 精确条件 -> pkill -TERM 相同条件 | jobs/bg/fg 管理当前 shell 作业"
+[[syntax.parts]]
+name = "单 PID 信号"
+desc = "kill PID 默认发送 SIGTERM；PID 必须来自刚刚完成的身份复核，而不是陈旧记录"
+[[syntax.parts]]
+name = "批量选择"
+desc = "pgrep 先只读预览，pkill 再复用同一组 -x、-u 与名称条件，防止选择范围漂移"
+[[syntax.parts]]
+name = "升级信号"
+desc = "SIGKILL 无法捕获或忽略，不给清理机会；仅在 TERM 无效并再次复核身份后使用"
+[[syntax.parts]]
+name = "作业控制"
+desc = "jobs/bg/fg 操作当前交互 shell 的作业表；%N 是作业号，与全系统 PID 不同"
+
+[[options]]
+flag = "kill PID / kill -TERM PID"
+name = "请求指定进程正常退出"
+example = "kill 31452"
+note = "省略信号默认 SIGTERM；不会绕过所有权检查。发送后应等待并验证，而不是立刻升级"
+
+[[options]]
+flag = "pgrep -a -x -u USER NAME"
+name = "精确预览批量目标"
+example = "pgrep -a -x -u chen node"
+note = "-a 显示命令行，-x 要求进程名完整匹配，-u 按有效用户限制；这里只查询"
+
+[[options]]
+flag = "pkill -TERM -x -u USER NAME"
+name = "按已核对的相同条件发送 TERM"
+example = "pkill -TERM -x -u chen node"
+note = "该用户所有进程名恰为 NAME 的进程都可能收到信号；必须先逐项检查 pgrep 清单"
+
+[[options]]
+flag = "kill -9 PID"
+name = "最后手段发送 SIGKILL"
+example = "kill -9 31452"
+note = "进程无法清理临时文件、刷新缓冲或正常释放资源；使用前必须再次核对 PID 身份"
+
+[[options]]
+flag = "nohup COMMAND &"
+name = "忽略挂断并放到后台"
+example = "nohup ./worker.sh &"
+note = "nohup 不会自动后台运行，& 才是后台控制；默认输出可能追加到 nohup.out"
+
+[[options]]
+flag = "jobs -p"
+name = "列出当前 shell 活动作业的 PID"
+example = "jobs -p"
+note = "作业表属于当前 shell，会话之外的后台进程不一定出现；输出通常是作业进程组首进程 PID"
+
+[[options]]
+flag = "bg %N"
+name = "让已暂停作业在后台继续"
+example = "bg %2"
+note = "%2 是当前 shell 的作业号；作业必须存在且通常处于停止状态"
+
+[[options]]
+flag = "fg %N"
+name = "把作业调到前台"
+example = "fg %2"
+note = "会把终端控制权交给该作业，直到它结束、停止或再次被转移"
+
+[[examples]]
+id = "v03-28-ports-signals-jobs-term-pid"
+command_id = "kill-term-pid-31452"
+level = 2
+deep_explanation = "规范情境已要求刚刚确认 PID 31452 仍由 chen 拥有且命令行是目标 HTTP 服务。kill 省略信号时发送 SIGTERM，让程序有机会关闭监听、刷新缓冲并清理资源。发送后应等待合理时间，并重新检查进程和端口状态。"
+
+[[examples]]
+id = "v03-28-ports-signals-jobs-pgrep-review"
+command_id = "pgrep-user-node-review"
+level = 2
+deep_explanation = "这是批量操作前的只读清单。-x 约束进程名完整等于 node，排除 node_exporter 等仅包含该字符串的名称；-u chen 把有效用户限定为 chen；-a 显示命令行供逐项核对。它匹配的是进程名，不是 -f 的完整命令行模式。"
+
+[[examples]]
+id = "v03-28-ports-signals-jobs-pkill-term"
+command_id = "pkill-term-user-node"
+level = 3
+deep_explanation = "只有上一题清单逐项确认后，才让 pkill 使用相同的 -x -u chen node 条件发送 TERM。条件完全一致是安全关键：预览若精确、执行却删掉 -x 或 -u，范围会突然扩大。省略 -TERM 虽仍默认 TERM，但显式写出更利于审阅意图。"
+
+[[examples]]
+id = "v03-28-ports-signals-jobs-nohup-worker"
+command_id = "nohup-worker-background"
+level = 2
+deep_explanation = "nohup 让程序忽略终端挂断信号，& 才指示当前 shell 不等待它并把它作为后台作业。默认标准输出/错误可能进入 nohup.out，应关注文件增长。nohup 不是服务管理器，不提供自动重启、依赖关系、日志轮转或启动状态管理。"
+
+[[examples]]
+id = "v03-28-ports-signals-jobs-pids"
+command_id = "jobs-pids-only"
+level = 1
+deep_explanation = "jobs 查询当前 shell 自己维护的作业表，-p 只输出每个活动作业的进程组首进程 PID。另一个终端启动的进程、由服务管理器启动的守护进程通常不会出现。关闭当前 shell 后，作业表语境也随之消失。"
+
+[[examples]]
+id = "v03-28-ports-signals-jobs-bg-two"
+command_id = "bg-job-two-process-port"
+level = 1
+deep_explanation = "%2 表示当前 shell 作业表中的编号 2，不是 PID 2。bg 让已停止作业在后台继续运行，常见于先用终端暂停键停止前台任务后恢复。若作业已结束、属于另一个 shell 或编号变化，%2 就不是预想对象。"
+
+[[examples]]
+id = "v03-28-ports-signals-jobs-fg-two"
+command_id = "fg-job-two-process-port"
+level = 1
+deep_explanation = "fg 把当前 shell 的作业 2 调到前台，并把终端输入与控制权交给它。它不会按系统 PID 搜索进程。调回前台前应先用 jobs 确认编号和命令，避免作业表变化后操作了另一项任务。"
+
+[[examples]]
+id = "v03-28-ports-signals-jobs-kill-last-resort"
+command_id = "kill-sigkill-last-resort-31452"
+level = 4
+deep_explanation = "SIGKILL 是无法捕获、屏蔽或优雅处理的最后手段。规范情境要求 TERM 已失败，并再次确认 PID 31452 仍属于 chen 且命令行未变，以防等待期间发生 PID 复用。KILL 后仍需检查端口、子进程和上层管理器是否重新拉起服务。"
+
+[[gotchas]]
+title = "永远先 TERM，后 KILL"
+content = "TERM 给程序保存状态、关闭连接、删除临时资源和刷新数据的机会。KILL 会立即由内核终止，可能留下未完成事务或残留资源。只有 TERM 无效、等待和验证完成后，才评估最后手段。"
+
+[[gotchas]]
+title = "升级前必须再次防范 PID 复用"
+content = "TERM 后等待的时间里，原进程可能已经退出，PID 被新进程取得。不能因为旧 ps 输出和旧端口记录还在手边就直接 kill -9；应重新核对 USER、ETIME、CMD 与目标关系。"
+
+[[gotchas]]
+title = "pgrep 与 pkill 的选择器必须完全对应"
+content = "预览使用 -a -x -u chen node，执行至少应保留影响匹配集合的 -x、-u chen 和 node。-a 仅用于展示，pkill 不需要；若去掉 -x 或用户条件，信号范围会扩大到未核对对象。"
+
+[[gotchas]]
+title = "进程名精确匹配不等于完整命令行匹配"
+content = "pgrep/pkill -x 默认约束进程名完整匹配；-f 会改为完整命令行匹配，语义和风险范围都不同。本工作流明确选择 chen 名下进程名恰为 node 的对象，不应擅自加 -f。"
+
+[[gotchas]]
+title = "作业号不是 PID"
+content = "%2 只在当前 shell 的作业表中有意义，jobs 显示的 [2] 与系统 PID 是两个编号空间。跨终端、重开 shell 或作业结束后，编号可能不存在或指向不同任务。"
+
+[[gotchas]]
+title = "nohup、后台运行和服务托管是三件事"
+content = "nohup 处理挂断信号，& 让 shell 后台运行；两者都不等于 systemd 等服务管理器。长期工作负载通常还需要重启策略、日志管理、健康检查和明确身份。"
+
+[[gotchas]]
+title = "权限不会因 SIGKILL 而消失"
+content = "kill、pkill 无论发送 TERM 还是 KILL，都要经过进程所有权和权限检查。-9 不是超级权限开关，也不能绕过用户边界；权限错误应先核对执行身份和目标所有者。"

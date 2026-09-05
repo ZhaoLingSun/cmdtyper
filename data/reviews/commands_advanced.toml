@@ -1,0 +1,2817 @@
+# commands_advanced.toml — Advanced + Practical
+# 自动生成 2026-03-28
+
+[[exercises]]
+command = "awk '{print $1}' access.log"
+prompt = "打印 access.log 中每一行的第一个字段"
+difficulty = "advanced"
+type = "typing"
+answer = "awk '{print $1}' access.log"
+
+[[exercises]]
+command = "awk '{print $1}' access.log"
+prompt = "执行命令: awk '{print $1}' access.log"
+difficulty = "advanced"
+type = "typing"
+answer = "awk '{ print $1 }' access.log"
+
+[[exercises]]
+command = "awk '{print $1}' access.log"
+prompt = "键入: awk '{print $1}' access.log"
+difficulty = "advanced"
+type = "typing"
+answer = "awk '{print $1}' access.log"
+
+[[exercises]]
+command = "awk -F: '{print $1}' /etc/passwd"
+prompt = "从 /etc/passwd 中按冒号分隔取出第一列用户名"
+difficulty = "advanced"
+type = "typing"
+answer = "awk -F: '{print $1}' /etc/passwd"
+
+[[exercises]]
+command = "awk -F: '{print $1}' /etc/passwd"
+prompt = "执行命令: awk -F: '{print $1}' /etc/passwd"
+difficulty = "advanced"
+type = "typing"
+answer = "awk -F ':' '{print $1}' /etc/passwd"
+
+[[exercises]]
+command = "awk -F: '{print $1}' /etc/passwd"
+prompt = "键入: awk -F: '{print $1}' /etc/passwd"
+difficulty = "advanced"
+type = "typing"
+answer = "awk -F: '{print $1}' /etc/passwd"
+
+[[exercises]]
+command = "awk 'NR==1 {print $0}' data.csv"
+prompt = "只打印 data.csv 的第一行"
+difficulty = "advanced"
+type = "typing"
+answer = "awk 'NR==1 {print $0}' data.csv"
+
+[[exercises]]
+command = "awk 'NR==1 {print $0}' data.csv"
+prompt = "执行命令: awk 'NR==1 {print $0}' data.csv"
+difficulty = "advanced"
+type = "typing"
+answer = "awk 'NR == 1 {print $0}' data.csv"
+
+[[exercises]]
+command = "awk 'NR==1 {print $0}' data.csv"
+prompt = "键入: awk 'NR==1 {print $0}' data.csv"
+difficulty = "advanced"
+type = "typing"
+answer = "awk 'NR==1 {print $0}' data.csv"
+
+[[exercises]]
+command = "sed 's/foo/bar/' app.conf"
+prompt = "把 app.conf 每行中的第一个 foo 替换成 bar"
+difficulty = "advanced"
+type = "typing"
+answer = "sed 's/foo/bar/' app.conf"
+
+[[exercises]]
+command = "sed 's/foo/bar/' app.conf"
+prompt = "执行命令: sed 's/foo/bar/' app.conf"
+difficulty = "advanced"
+type = "typing"
+answer = "sed -e 's/foo/bar/' app.conf"
+
+[[exercises]]
+command = "sed 's/foo/bar/' app.conf"
+prompt = "键入: sed 's/foo/bar/' app.conf"
+difficulty = "advanced"
+type = "typing"
+answer = "sed 's/foo/bar/' app.conf"
+
+[[exercises]]
+command = "sed -i 's/localhost/127.0.0.1/' .env"
+prompt = "直接修改 .env，把 localhost 替换成 127.0.0.1"
+difficulty = "advanced"
+type = "typing"
+answer = "sed -i 's/localhost/127.0.0.1/' .env"
+
+[[exercises]]
+command = "sed -i 's/localhost/127.0.0.1/' .env"
+prompt = "执行命令: sed -i 's/localhost/127.0.0.1/' .env"
+difficulty = "advanced"
+type = "typing"
+answer = "sed --in-place 's/localhost/127.0.0.1/' .env"
+
+[[exercises]]
+command = "sed -i 's/localhost/127.0.0.1/' .env"
+prompt = "键入: sed -i 's/localhost/127.0.0.1/' .env"
+difficulty = "advanced"
+type = "typing"
+answer = "sed -i 's/localhost/127.0.0.1/' .env"
+
+[[exercises]]
+command = "sed -n '1,5p' server.log"
+prompt = "只显示 server.log 的第 1 到第 5 行"
+difficulty = "advanced"
+type = "typing"
+answer = "sed -n '1,5p' server.log"
+
+[[exercises]]
+command = "sed -n '1,5p' server.log"
+prompt = "执行命令: sed -n '1,5p' server.log"
+difficulty = "advanced"
+type = "typing"
+answer = "sed --quiet '1,5p' server.log"
+
+[[exercises]]
+command = "sed -n '1,5p' server.log"
+prompt = "键入: sed -n '1,5p' server.log"
+difficulty = "advanced"
+type = "typing"
+answer = "sed -n '1,5p' server.log"
+
+[[exercises]]
+command = "cat ids.txt | xargs -n 1 echo"
+prompt = "把 ids.txt 中的每一项依次传给 echo，一次一个参数"
+difficulty = "advanced"
+type = "typing"
+answer = "cat ids.txt | xargs -n 1 echo"
+
+[[exercises]]
+command = "cat ids.txt | xargs -n 1 echo"
+prompt = "执行命令: cat ids.txt | xargs -n 1 echo"
+difficulty = "advanced"
+type = "typing"
+answer = "cat ids.txt | xargs --max-args 1 echo"
+
+[[exercises]]
+command = "cat ids.txt | xargs -n 1 echo"
+prompt = "键入: cat ids.txt | xargs -n 1 echo"
+difficulty = "advanced"
+type = "typing"
+answer = "cat ids.txt | xargs -n 1 echo"
+
+[[exercises]]
+command = "sort users.txt | uniq"
+prompt = "对 users.txt 排序后去重"
+difficulty = "advanced"
+type = "typing"
+answer = "sort users.txt | uniq"
+
+[[exercises]]
+command = "sort users.txt | uniq"
+prompt = "执行命令: sort users.txt | uniq"
+difficulty = "advanced"
+type = "typing"
+answer = "sort ./users.txt | uniq"
+
+[[exercises]]
+command = "sort users.txt | uniq"
+prompt = "键入: sort users.txt | uniq"
+difficulty = "advanced"
+type = "typing"
+answer = "sort users.txt | uniq"
+
+[[exercises]]
+command = "sort access.log | uniq -c"
+prompt = "对 access.log 排序后统计每种重复行出现多少次"
+difficulty = "advanced"
+type = "typing"
+answer = "sort access.log | uniq -c"
+
+[[exercises]]
+command = "sort access.log | uniq -c"
+prompt = "执行命令: sort access.log | uniq -c"
+difficulty = "advanced"
+type = "typing"
+answer = "sort ./access.log | uniq -c"
+
+[[exercises]]
+command = "sort access.log | uniq -c"
+prompt = "键入: sort access.log | uniq -c"
+difficulty = "advanced"
+type = "typing"
+answer = "sort access.log | uniq -c"
+
+[[exercises]]
+command = "grep ERROR app.log | sort | uniq -c | sort -rn"
+prompt = "统计 app.log 中 ERROR 行出现的次数，并按次数从高到低排序"
+difficulty = "advanced"
+type = "typing"
+answer = "grep ERROR app.log | sort | uniq -c | sort -rn"
+
+[[exercises]]
+command = "grep ERROR app.log | sort | uniq -c | sort -rn"
+prompt = "执行命令: grep ERROR app.log | sort | uniq -c | sort -rn"
+difficulty = "advanced"
+type = "typing"
+answer = "grep 'ERROR' app.log | sort | uniq -c | sort -rn"
+
+[[exercises]]
+command = "grep ERROR app.log | sort | uniq -c | sort -rn"
+prompt = "键入: grep ERROR app.log | sort | uniq -c | sort -rn"
+difficulty = "advanced"
+type = "typing"
+answer = "grep ERROR app.log | sort | uniq -c | sort -rn"
+
+[[exercises]]
+command = "wc -l access.log"
+prompt = "统计 access.log 的总行数"
+difficulty = "advanced"
+type = "typing"
+answer = "wc -l access.log"
+
+[[exercises]]
+command = "wc -l access.log"
+prompt = "执行命令: wc -l access.log"
+difficulty = "advanced"
+type = "typing"
+answer = "wc --lines access.log"
+
+[[exercises]]
+command = "wc -l access.log"
+prompt = "键入: wc -l access.log"
+difficulty = "advanced"
+type = "typing"
+answer = "wc -l access.log"
+
+[[exercises]]
+command = "cut -d: -f1 /etc/passwd"
+prompt = "从 /etc/passwd 中按冒号分隔取出第一列"
+difficulty = "advanced"
+type = "typing"
+answer = "cut -d: -f1 /etc/passwd"
+
+[[exercises]]
+command = "cut -d: -f1 /etc/passwd"
+prompt = "执行命令: cut -d: -f1 /etc/passwd"
+difficulty = "advanced"
+type = "typing"
+answer = "cut --delimiter=: --fields=1 /etc/passwd"
+
+[[exercises]]
+command = "cut -d: -f1 /etc/passwd"
+prompt = "键入: cut -d: -f1 /etc/passwd"
+difficulty = "advanced"
+type = "typing"
+answer = "cut -d: -f1 /etc/passwd"
+
+[[exercises]]
+command = "cat names.txt | tr 'a-z' 'A-Z'"
+prompt = "把 names.txt 的小写字母全部转成大写"
+difficulty = "advanced"
+type = "typing"
+answer = "cat names.txt | tr 'a-z' 'A-Z'"
+
+[[exercises]]
+command = "cat names.txt | tr 'a-z' 'A-Z'"
+prompt = "执行命令: cat names.txt | tr 'a-z' 'A-Z'"
+difficulty = "advanced"
+type = "typing"
+answer = "cat ./names.txt | tr 'a-z' 'A-Z'"
+
+[[exercises]]
+command = "cat names.txt | tr 'a-z' 'A-Z'"
+prompt = "键入: cat names.txt | tr 'a-z' 'A-Z'"
+difficulty = "advanced"
+type = "typing"
+answer = "cat names.txt | tr 'a-z' 'A-Z'"
+
+[[exercises]]
+command = "cut -d, -f2 sales.csv | sort | uniq"
+prompt = "提取 sales.csv 的第二列，排序后去重"
+difficulty = "advanced"
+type = "typing"
+answer = "cut -d, -f2 sales.csv | sort | uniq"
+
+[[exercises]]
+command = "cut -d, -f2 sales.csv | sort | uniq"
+prompt = "执行命令: cut -d, -f2 sales.csv | sort | uniq"
+difficulty = "advanced"
+type = "typing"
+answer = "cut --delimiter=, --fields=2 sales.csv | sort | uniq"
+
+[[exercises]]
+command = "cut -d, -f2 sales.csv | sort | uniq"
+prompt = "键入: cut -d, -f2 sales.csv | sort | uniq"
+difficulty = "advanced"
+type = "typing"
+answer = "cut -d, -f2 sales.csv | sort | uniq"
+
+[[exercises]]
+command = "rg -n TODO src"
+prompt = "用 ripgrep 在 src 目录中递归查找 TODO，并显示行号"
+difficulty = "advanced"
+type = "typing"
+answer = "rg -n TODO src"
+
+[[exercises]]
+command = "rg -n TODO src"
+prompt = "执行命令: rg -n TODO src"
+difficulty = "advanced"
+type = "typing"
+answer = "rg --line-number TODO src"
+
+[[exercises]]
+command = "rg -n TODO src"
+prompt = "键入: rg -n TODO src"
+difficulty = "advanced"
+type = "typing"
+answer = "rg -n TODO src"
+
+[[exercises]]
+command = "rg -uuu api_key ."
+prompt = "在当前目录中，包括隐藏和忽略文件，一起搜索 api_key"
+difficulty = "advanced"
+type = "typing"
+answer = "rg -uuu api_key ."
+
+[[exercises]]
+command = "rg -uuu api_key ."
+prompt = "执行命令: rg -uuu api_key ."
+difficulty = "advanced"
+type = "typing"
+answer = "rg -uuu \"api_key\" ."
+
+[[exercises]]
+command = "rg -uuu api_key ."
+prompt = "键入: rg -uuu api_key ."
+difficulty = "advanced"
+type = "typing"
+answer = "rg -uuu api_key ."
+
+[[exercises]]
+command = "fd -e rs main src"
+prompt = "在 src 目录中查找名字包含 main 的 Rust 文件"
+difficulty = "advanced"
+type = "typing"
+answer = "fd -e rs main src"
+
+[[exercises]]
+command = "fd -e rs main src"
+prompt = "执行命令: fd -e rs main src"
+difficulty = "advanced"
+type = "typing"
+answer = "fd --extension rs main src"
+
+[[exercises]]
+command = "fd -e rs main src"
+prompt = "键入: fd -e rs main src"
+difficulty = "advanced"
+type = "typing"
+answer = "fd -e rs main src"
+
+[[exercises]]
+command = "bat -n README.md"
+prompt = "使用 bat 带行号查看 README.md"
+difficulty = "advanced"
+type = "typing"
+answer = "bat -n README.md"
+
+[[exercises]]
+command = "bat -n README.md"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "bat -n README.md"
+
+[[exercises]]
+command = "bat -n README.md"
+prompt = "键入: bat -n README.md"
+difficulty = "advanced"
+type = "typing"
+answer = "bat -n README.md"
+
+[[exercises]]
+command = "bat -A /etc/hosts"
+prompt = "用 bat 查看 /etc/hosts，并显示不可见字符"
+difficulty = "advanced"
+type = "typing"
+answer = "bat -A /etc/hosts"
+
+[[exercises]]
+command = "bat -A /etc/hosts"
+prompt = "执行命令: bat -A /etc/hosts"
+difficulty = "advanced"
+type = "typing"
+answer = "bat --show-all /etc/hosts"
+
+[[exercises]]
+command = "bat -A /etc/hosts"
+prompt = "键入: bat -A /etc/hosts"
+difficulty = "advanced"
+type = "typing"
+answer = "bat -A /etc/hosts"
+
+[[exercises]]
+command = "eza -la --icons"
+prompt = "用 eza 详细显示当前目录，包括隐藏文件和图标"
+difficulty = "advanced"
+type = "typing"
+answer = "eza -la --icons"
+
+[[exercises]]
+command = "eza -la --icons"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "eza -la --icons"
+
+[[exercises]]
+command = "eza -la --icons"
+prompt = "键入: eza -la --icons"
+difficulty = "advanced"
+type = "typing"
+answer = "eza -la --icons"
+
+[[exercises]]
+command = "jq . response.json"
+prompt = "用 jq 格式化输出 response.json 的 JSON 内容"
+difficulty = "advanced"
+type = "typing"
+answer = "jq . response.json"
+
+[[exercises]]
+command = "jq . response.json"
+prompt = "执行命令: jq . response.json"
+difficulty = "advanced"
+type = "typing"
+answer = "jq \".\" response.json"
+
+[[exercises]]
+command = "jq . response.json"
+prompt = "键入: jq . response.json"
+difficulty = "advanced"
+type = "typing"
+answer = "jq . response.json"
+
+[[exercises]]
+command = "jq -r .name package.json"
+prompt = "从 package.json 中提取 name 字段，并按原始字符串输出"
+difficulty = "advanced"
+type = "typing"
+answer = "jq -r .name package.json"
+
+[[exercises]]
+command = "jq -r .name package.json"
+prompt = "执行命令: jq -r .name package.json"
+difficulty = "advanced"
+type = "typing"
+answer = "jq --raw-output .name package.json"
+
+[[exercises]]
+command = "jq -r .name package.json"
+prompt = "键入: jq -r .name package.json"
+difficulty = "advanced"
+type = "typing"
+answer = "jq -r .name package.json"
+
+[[exercises]]
+command = "fzf --preview bat --color=always --line-range=:200 {}"
+prompt = "使用 fzf 并用 bat 预览选中文件的前 200 行"
+difficulty = "advanced"
+type = "typing"
+answer = "fzf --preview bat --color=always --line-range=:200 {}"
+
+[[exercises]]
+command = "fzf --preview bat --color=always --line-range=:200 {}"
+prompt = "执行命令: fzf --preview bat --color=always --line-range=:200 {}"
+difficulty = "advanced"
+type = "typing"
+answer = "fzf --preview \"bat --color=always --line-range=:200 {}\""
+
+[[exercises]]
+command = "fzf --preview bat --color=always --line-range=:200 {}"
+prompt = "键入: fzf --preview bat --color=always --line-range=:200 {}"
+difficulty = "advanced"
+type = "typing"
+answer = "fzf --preview bat --color=always --line-range=:200 {}"
+
+[[exercises]]
+command = "find . -name *.log -print0 | xargs -0 rm"
+prompt = "安全地删除当前目录下所有 .log 文件，兼容文件名中的空格"
+difficulty = "advanced"
+type = "typing"
+answer = "find . -name *.log -print0 | xargs -0 rm"
+
+[[exercises]]
+command = "find . -name *.log -print0 | xargs -0 rm"
+prompt = "执行命令: find . -name *.log -print0 | xargs -0 rm"
+difficulty = "advanced"
+type = "typing"
+answer = "find . -name \"*.log\" -print0 | xargs -0 rm"
+
+[[exercises]]
+command = "find . -name *.log -print0 | xargs -0 rm"
+prompt = "键入: find . -name *.log -print0 | xargs -0 rm"
+difficulty = "advanced"
+type = "typing"
+answer = "find . -name *.log -print0 | xargs -0 rm"
+
+[[exercises]]
+command = "grep -C 2 ERROR app.log"
+prompt = "查找 app.log 中的 ERROR，并显示匹配行前后各 2 行"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -C 2 ERROR app.log"
+
+[[exercises]]
+command = "grep -C 2 ERROR app.log"
+prompt = "执行命令: grep -C 2 ERROR app.log"
+difficulty = "advanced"
+type = "typing"
+answer = "grep --context 2 ERROR app.log"
+
+[[exercises]]
+command = "grep -C 2 ERROR app.log"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -C 2 \"ERROR\" app.log"
+
+[[exercises]]
+command = "cut -d: -f1 /etc/passwd"
+prompt = "从 /etc/passwd 中按冒号分隔取出第一列"
+difficulty = "advanced"
+type = "typing"
+answer = "cut -d: -f1 /etc/passwd"
+
+[[exercises]]
+command = "cut -d: -f1 /etc/passwd"
+prompt = "执行命令: cut -d: -f1 /etc/passwd"
+difficulty = "advanced"
+type = "typing"
+answer = "cut -d : -f1 /etc/passwd"
+
+[[exercises]]
+command = "cut -d: -f1 /etc/passwd"
+prompt = "键入: cut -d: -f1 /etc/passwd"
+difficulty = "advanced"
+type = "typing"
+answer = "cut -d: -f1 /etc/passwd"
+
+[[exercises]]
+command = "cut -d  -f1 access.log | sort | uniq -c | sort -rn | head"
+prompt = "统计 access.log 中访问次数最多的 IP 地址"
+difficulty = "advanced"
+type = "typing"
+answer = "cut -d  -f1 access.log | sort | uniq -c | sort -rn | head"
+
+[[exercises]]
+command = "cut -d  -f1 access.log | sort | uniq -c | sort -rn | head"
+prompt = "执行命令: cut -d  -f1 access.log | sort | uniq -c | sort -rn | head"
+difficulty = "advanced"
+type = "typing"
+answer = "cut -d\" \" -f1 access.log | sort | uniq -c | sort -rn | head"
+
+[[exercises]]
+command = "cut -d  -f1 access.log | sort | uniq -c | sort -rn | head"
+prompt = "键入: cut -d  -f1 access.log | sort | uniq -c | sort -rn | head"
+difficulty = "advanced"
+type = "typing"
+answer = "cut -d  -f1 access.log | sort | uniq -c | sort -rn | head"
+
+[[exercises]]
+command = "echo hello > hello.txt"
+prompt = "把 hello 这段文本写入 hello.txt，并覆盖原内容"
+difficulty = "advanced"
+type = "typing"
+answer = "echo hello > hello.txt"
+
+[[exercises]]
+command = "echo hello > hello.txt"
+prompt = "执行命令: echo hello > hello.txt"
+difficulty = "advanced"
+type = "typing"
+answer = "echo \"hello\" > hello.txt"
+
+[[exercises]]
+command = "echo hello > hello.txt"
+prompt = "键入: echo hello > hello.txt"
+difficulty = "advanced"
+type = "typing"
+answer = "echo hello > hello.txt"
+
+[[exercises]]
+command = "echo done >> build.log"
+prompt = "把 done 追加到 build.log 文件末尾"
+difficulty = "advanced"
+type = "typing"
+answer = "echo done >> build.log"
+
+[[exercises]]
+command = "echo done >> build.log"
+prompt = "执行命令: echo done >> build.log"
+difficulty = "advanced"
+type = "typing"
+answer = "echo \"done\" >> build.log"
+
+[[exercises]]
+command = "echo done >> build.log"
+prompt = "键入: echo done >> build.log"
+difficulty = "advanced"
+type = "typing"
+answer = "echo done >> build.log"
+
+[[exercises]]
+command = "grep ERROR app.log 2> errors.log"
+prompt = "把 grep 搜索 app.log 时产生的错误输出写到 errors.log"
+difficulty = "advanced"
+type = "typing"
+answer = "grep ERROR app.log 2> errors.log"
+
+[[exercises]]
+command = "grep ERROR app.log 2> errors.log"
+prompt = "执行命令: grep ERROR app.log 2> errors.log"
+difficulty = "advanced"
+type = "typing"
+answer = "grep \"ERROR\" app.log 2> errors.log"
+
+[[exercises]]
+command = "grep ERROR app.log 2> errors.log"
+prompt = "键入: grep ERROR app.log 2> errors.log"
+difficulty = "advanced"
+type = "typing"
+answer = "grep ERROR app.log 2> errors.log"
+
+[[exercises]]
+command = "python3 app.py > app.log 2>&1"
+prompt = "运行 python3 app.py，并把标准输出和标准错误都写入 app.log"
+difficulty = "advanced"
+type = "typing"
+answer = "python3 app.py > app.log 2>&1"
+
+[[exercises]]
+command = "python3 app.py > app.log 2>&1"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "python3 app.py > app.log 2>&1"
+
+[[exercises]]
+command = "python3 app.py > app.log 2>&1"
+prompt = "键入: python3 app.py > app.log 2>&1"
+difficulty = "advanced"
+type = "typing"
+answer = "python3 app.py > app.log 2>&1"
+
+[[exercises]]
+command = "make 2>&1 | tee build.log"
+prompt = "运行 make，并把输出一边显示在终端一边写入 build.log"
+difficulty = "advanced"
+type = "typing"
+answer = "make 2>&1 | tee build.log"
+
+[[exercises]]
+command = "make 2>&1 | tee build.log"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "make 2>&1 | tee build.log"
+
+[[exercises]]
+command = "make 2>&1 | tee build.log"
+prompt = "键入: make 2>&1 | tee build.log"
+difficulty = "advanced"
+type = "typing"
+answer = "make 2>&1 | tee build.log"
+
+[[exercises]]
+command = "echo 2026-03-08"
+prompt = "使用命令替换输出当前日期，格式为年-月-日"
+difficulty = "advanced"
+type = "typing"
+answer = "echo 2026-03-08"
+
+[[exercises]]
+command = "echo 2026-03-08"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "echo 2026-03-08"
+
+[[exercises]]
+command = "echo 2026-03-08"
+prompt = "键入: echo 2026-03-08"
+difficulty = "advanced"
+type = "typing"
+answer = "echo 2026-03-08"
+
+[[exercises]]
+command = "test -f .env && echo exists"
+prompt = "如果 .env 是普通文件，就输出 exists"
+difficulty = "advanced"
+type = "typing"
+answer = "test -f .env && echo exists"
+
+[[exercises]]
+command = "test -f .env && echo exists"
+prompt = "执行命令: test -f .env && echo exists"
+difficulty = "advanced"
+type = "typing"
+answer = "test -f .env && echo \"exists\""
+
+[[exercises]]
+command = "test -f .env && echo exists"
+prompt = "键入: test -f .env && echo exists"
+difficulty = "advanced"
+type = "typing"
+answer = "test -f .env && echo exists"
+
+[[exercises]]
+command = "command -v curl >/dev/null || sudo apt install -y curl"
+prompt = "如果系统中没有 curl，就用 apt 自动安装 curl"
+difficulty = "advanced"
+type = "typing"
+answer = "command -v curl >/dev/null || sudo apt install -y curl"
+
+[[exercises]]
+command = "command -v curl >/dev/null || sudo apt install -y curl"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "command -v curl >/dev/null || sudo apt install -y curl"
+
+[[exercises]]
+command = "command -v curl >/dev/null || sudo apt install -y curl"
+prompt = "键入: command -v curl >/dev/null || sudo apt install -y curl"
+difficulty = "advanced"
+type = "typing"
+answer = "command -v curl >/dev/null || sudo apt install -y curl"
+
+[[exercises]]
+command = "for f in *.jpg; do echo \"\"; done"
+prompt = "遍历当前目录下所有 jpg 文件，并逐个输出文件名"
+difficulty = "advanced"
+type = "typing"
+answer = "for f in *.jpg; do echo \"\"; done"
+
+[[exercises]]
+command = "for f in *.jpg; do echo \"\"; done"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "for f in *.jpg; do echo \"\"; done"
+
+[[exercises]]
+command = "for f in *.jpg; do echo \"\"; done"
+prompt = "键入: for f in *.jpg; do echo \"\"; done"
+difficulty = "advanced"
+type = "typing"
+answer = "for f in *.jpg; do echo \"\"; done"
+
+[[exercises]]
+command = "while read -r line; do echo \"\"; done < names.txt"
+prompt = "逐行读取 names.txt，并原样输出每一行"
+difficulty = "advanced"
+type = "typing"
+answer = "while read -r line; do echo \"\"; done < names.txt"
+
+[[exercises]]
+command = "while read -r line; do echo \"\"; done < names.txt"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "while read -r line; do echo \"\"; done < names.txt"
+
+[[exercises]]
+command = "while read -r line; do echo \"\"; done < names.txt"
+prompt = "键入: while read -r line; do echo \"\"; done < names.txt"
+difficulty = "advanced"
+type = "typing"
+answer = "while read -r line; do echo \"\"; done < names.txt"
+
+[[exercises]]
+command = "cat hosts.txt | xargs -I{} ssh root@{} hostname"
+prompt = "读取 hosts.txt 中的主机列表，并逐台 SSH 执行 hostname"
+difficulty = "advanced"
+type = "typing"
+answer = "cat hosts.txt | xargs -I{} ssh root@{} hostname"
+
+[[exercises]]
+command = "cat hosts.txt | xargs -I{} ssh root@{} hostname"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "cat hosts.txt | xargs -I{} ssh root@{} hostname"
+
+[[exercises]]
+command = "cat hosts.txt | xargs -I{} ssh root@{} hostname"
+prompt = "键入: cat hosts.txt | xargs -I{} ssh root@{} hostname"
+difficulty = "advanced"
+type = "typing"
+answer = "cat hosts.txt | xargs -I{} ssh root@{} hostname"
+
+[[exercises]]
+command = "find . -name *.tmp -exec rm {} +"
+prompt = "查找当前目录下所有 .tmp 文件，并用 find 直接批量删除"
+difficulty = "advanced"
+type = "typing"
+answer = "find . -name *.tmp -exec rm {} +"
+
+[[exercises]]
+command = "find . -name *.tmp -exec rm {} +"
+prompt = "执行命令: find . -name *.tmp -exec rm {} +"
+difficulty = "advanced"
+type = "typing"
+answer = "find . -name \"*.tmp\" -exec rm {} +"
+
+[[exercises]]
+command = "find . -name *.tmp -exec rm {} +"
+prompt = "键入: find . -name *.tmp -exec rm {} +"
+difficulty = "advanced"
+type = "typing"
+answer = "find . -name *.tmp -exec rm {} +"
+
+[[exercises]]
+command = "source ~/.bashrc"
+prompt = "重新加载当前用户的 ~/.bashrc 配置"
+difficulty = "advanced"
+type = "typing"
+answer = "source ~/.bashrc"
+
+[[exercises]]
+command = "source ~/.bashrc"
+prompt = "执行命令: source ~/.bashrc"
+difficulty = "advanced"
+type = "typing"
+answer = ". ~/.bashrc"
+
+[[exercises]]
+command = "source ~/.bashrc"
+prompt = "键入: source ~/.bashrc"
+difficulty = "advanced"
+type = "typing"
+answer = "source ~/.bashrc"
+
+[[exercises]]
+command = "cat <<EOF > note.txt"
+prompt = "开始一个 here document，并把后续多行内容写入 note.txt"
+difficulty = "advanced"
+type = "typing"
+answer = "cat <<EOF > note.txt"
+
+[[exercises]]
+command = "cat <<EOF > note.txt"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "cat <<EOF > note.txt"
+
+[[exercises]]
+command = "cat <<EOF > note.txt"
+prompt = "键入: cat <<EOF > note.txt"
+difficulty = "advanced"
+type = "typing"
+answer = "cat <<EOF > note.txt"
+
+[[exercises]]
+command = "git switch dev"
+prompt = "使用 switch 切换到 dev 分支"
+difficulty = "advanced"
+type = "typing"
+answer = "git switch dev"
+
+[[exercises]]
+command = "git switch dev"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "git switch dev"
+
+[[exercises]]
+command = "git switch dev"
+prompt = "键入: git switch dev"
+difficulty = "advanced"
+type = "typing"
+answer = "git switch dev"
+
+[[exercises]]
+command = "git switch -c feature/auth"
+prompt = "创建并切换到 feature/auth 分支"
+difficulty = "advanced"
+type = "typing"
+answer = "git switch -c feature/auth"
+
+[[exercises]]
+command = "git switch -c feature/auth"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "git switch -c feature/auth"
+
+[[exercises]]
+command = "git switch -c feature/auth"
+prompt = "键入: git switch -c feature/auth"
+difficulty = "advanced"
+type = "typing"
+answer = "git switch -c feature/auth"
+
+[[exercises]]
+command = "git restore src/main.rs"
+prompt = "撤销工作区中 src/main.rs 的修改"
+difficulty = "advanced"
+type = "typing"
+answer = "git restore src/main.rs"
+
+[[exercises]]
+command = "git restore src/main.rs"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "git restore src/main.rs"
+
+[[exercises]]
+command = "git restore src/main.rs"
+prompt = "键入: git restore src/main.rs"
+difficulty = "advanced"
+type = "typing"
+answer = "git restore src/main.rs"
+
+[[exercises]]
+command = "git restore --staged config.toml"
+prompt = "把 config.toml 从暂存区取消暂存"
+difficulty = "advanced"
+type = "typing"
+answer = "git restore --staged config.toml"
+
+[[exercises]]
+command = "git restore --staged config.toml"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "git restore --staged config.toml"
+
+[[exercises]]
+command = "git restore --staged config.toml"
+prompt = "键入: git restore --staged config.toml"
+difficulty = "advanced"
+type = "typing"
+answer = "git restore --staged config.toml"
+
+[[exercises]]
+command = "git fetch --all --prune"
+prompt = "获取所有远程仓库更新，并清理已删除的远程分支引用"
+difficulty = "advanced"
+type = "typing"
+answer = "git fetch --all --prune"
+
+[[exercises]]
+command = "git fetch --all --prune"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "git fetch --all --prune"
+
+[[exercises]]
+command = "git fetch --all --prune"
+prompt = "键入: git fetch --all --prune"
+difficulty = "advanced"
+type = "typing"
+answer = "git fetch --all --prune"
+
+[[exercises]]
+command = "git stash push -u -m 'wip: refactor auth'"
+prompt = "把工作区改动和未跟踪文件一起暂存到 stash，并附上说明"
+difficulty = "advanced"
+type = "typing"
+answer = "git stash push -u -m 'wip: refactor auth'"
+
+[[exercises]]
+command = "git stash push -u -m 'wip: refactor auth'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "git stash push -u -m 'wip: refactor auth'"
+
+[[exercises]]
+command = "git stash push -u -m 'wip: refactor auth'"
+prompt = "键入: git stash push -u -m 'wip: refactor auth'"
+difficulty = "advanced"
+type = "typing"
+answer = "git stash push -u -m 'wip: refactor auth'"
+
+[[exercises]]
+command = "git stash pop"
+prompt = "恢复最近一次暂存的改动并从 stash 中移除"
+difficulty = "advanced"
+type = "typing"
+answer = "git stash pop"
+
+[[exercises]]
+command = "git stash pop"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "git stash pop"
+
+[[exercises]]
+command = "git stash pop"
+prompt = "键入: git stash pop"
+difficulty = "advanced"
+type = "typing"
+answer = "git stash pop"
+
+[[exercises]]
+command = "git rebase main"
+prompt = "把当前分支的提交变基到 main 的最新位置"
+difficulty = "advanced"
+type = "typing"
+answer = "git rebase main"
+
+[[exercises]]
+command = "git rebase main"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "git rebase main"
+
+[[exercises]]
+command = "git rebase main"
+prompt = "键入: git rebase main"
+difficulty = "advanced"
+type = "typing"
+answer = "git rebase main"
+
+[[exercises]]
+command = "git cherry-pick abc1234"
+prompt = "把提交 abc1234 应用到当前分支"
+difficulty = "advanced"
+type = "typing"
+answer = "git cherry-pick abc1234"
+
+[[exercises]]
+command = "git cherry-pick abc1234"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "git cherry-pick abc1234"
+
+[[exercises]]
+command = "git cherry-pick abc1234"
+prompt = "键入: git cherry-pick abc1234"
+difficulty = "advanced"
+type = "typing"
+answer = "git cherry-pick abc1234"
+
+[[exercises]]
+command = "git remote -v"
+prompt = "查看所有 Git 远程仓库的 URL"
+difficulty = "advanced"
+type = "typing"
+answer = "git remote -v"
+
+[[exercises]]
+command = "git remote -v"
+prompt = "执行命令: git remote -v"
+difficulty = "advanced"
+type = "typing"
+answer = "git remote --verbose"
+
+[[exercises]]
+command = "git remote -v"
+prompt = "键入: git remote -v"
+difficulty = "advanced"
+type = "typing"
+answer = "git remote -v"
+
+[[exercises]]
+command = "git add -p"
+prompt = "交互式逐块选择要暂存的修改"
+difficulty = "advanced"
+type = "typing"
+answer = "git add -p"
+
+[[exercises]]
+command = "git add -p"
+prompt = "执行命令: git add -p"
+difficulty = "advanced"
+type = "typing"
+answer = "git add --patch"
+
+[[exercises]]
+command = "git add -p"
+prompt = "键入: git add -p"
+difficulty = "advanced"
+type = "typing"
+answer = "git add -p"
+
+[[exercises]]
+command = "git commit --amend --no-edit"
+prompt = "把暂存区改动追加到上一次提交，保持原来的提交信息"
+difficulty = "advanced"
+type = "typing"
+answer = "git commit --amend --no-edit"
+
+[[exercises]]
+command = "git commit --amend --no-edit"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "git commit --amend --no-edit"
+
+[[exercises]]
+command = "git commit --amend --no-edit"
+prompt = "键入: git commit --amend --no-edit"
+difficulty = "advanced"
+type = "typing"
+answer = "git commit --amend --no-edit"
+
+[[exercises]]
+command = "git blame src/main.rs"
+prompt = "查看 src/main.rs 每一行最后是被谁修改的"
+difficulty = "advanced"
+type = "typing"
+answer = "git blame src/main.rs"
+
+[[exercises]]
+command = "git blame src/main.rs"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "git blame src/main.rs"
+
+[[exercises]]
+command = "git blame src/main.rs"
+prompt = "键入: git blame src/main.rs"
+difficulty = "advanced"
+type = "typing"
+answer = "git blame src/main.rs"
+
+[[exercises]]
+command = "curl -F 'file=@photo.jpg' https://api.example.com/upload"
+prompt = "通过表单方式把 photo.jpg 上传到 https://api.example.com/upload"
+difficulty = "advanced"
+type = "typing"
+answer = "curl -F 'file=@photo.jpg' https://api.example.com/upload"
+
+[[exercises]]
+command = "curl -F 'file=@photo.jpg' https://api.example.com/upload"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "curl -F 'file=@photo.jpg' https://api.example.com/upload"
+
+[[exercises]]
+command = "curl -F 'file=@photo.jpg' https://api.example.com/upload"
+prompt = "键入: curl -F 'file=@photo.jpg' https://api.example.com/upload"
+difficulty = "advanced"
+type = "typing"
+answer = "curl -F 'file=@photo.jpg' https://api.example.com/upload"
+
+[[exercises]]
+command = "curl -u admin:secret https://api.example.com/status"
+prompt = "使用 Basic Auth 用 admin:secret 认证请求 API"
+difficulty = "advanced"
+type = "typing"
+answer = "curl -u admin:secret https://api.example.com/status"
+
+[[exercises]]
+command = "curl -u admin:secret https://api.example.com/status"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "curl -u admin:secret https://api.example.com/status"
+
+[[exercises]]
+command = "curl -u admin:secret https://api.example.com/status"
+prompt = "键入: curl -u admin:secret https://api.example.com/status"
+difficulty = "advanced"
+type = "typing"
+answer = "curl -u admin:secret https://api.example.com/status"
+
+[[exercises]]
+command = "curl -c cookies.txt https://example.com/login"
+prompt = "请求登录页面并把 cookie 保存到 cookies.txt"
+difficulty = "advanced"
+type = "typing"
+answer = "curl -c cookies.txt https://example.com/login"
+
+[[exercises]]
+command = "curl -c cookies.txt https://example.com/login"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "curl -c cookies.txt https://example.com/login"
+
+[[exercises]]
+command = "curl -c cookies.txt https://example.com/login"
+prompt = "键入: curl -c cookies.txt https://example.com/login"
+difficulty = "advanced"
+type = "typing"
+answer = "curl -c cookies.txt https://example.com/login"
+
+[[exercises]]
+command = "curl -b cookies.txt https://example.com/dashboard"
+prompt = "带上 cookies.txt 中的 cookie 访问 dashboard 页面"
+difficulty = "advanced"
+type = "typing"
+answer = "curl -b cookies.txt https://example.com/dashboard"
+
+[[exercises]]
+command = "curl -b cookies.txt https://example.com/dashboard"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "curl -b cookies.txt https://example.com/dashboard"
+
+[[exercises]]
+command = "curl -b cookies.txt https://example.com/dashboard"
+prompt = "键入: curl -b cookies.txt https://example.com/dashboard"
+difficulty = "advanced"
+type = "typing"
+answer = "curl -b cookies.txt https://example.com/dashboard"
+
+[[exercises]]
+command = "curl -sSfL -o app.tar.gz https://github.com/user/repo/releases/download/v1.0/app.tar.gz"
+prompt = "静默下载 GitHub release 包并保存为 app.tar.gz"
+difficulty = "advanced"
+type = "typing"
+answer = "curl -sSfL -o app.tar.gz https://github.com/user/repo/releases/download/v1.0/app.tar.gz"
+
+[[exercises]]
+command = "curl -sSfL -o app.tar.gz https://github.com/user/repo/releases/download/v1.0/app.tar.gz"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "curl -sSfL -o app.tar.gz https://github.com/user/repo/releases/download/v1.0/app.tar.gz"
+
+[[exercises]]
+command = "curl -sSfL -o app.tar.gz https://github.com/user/repo/releases/download/v1.0/app.tar.gz"
+prompt = "键入: curl -sSfL -o app.tar.gz https://github.com/user/repo/releases/download/v1.0/app.tar.gz"
+difficulty = "advanced"
+type = "typing"
+answer = "curl -sSfL -o app.tar.gz https://github.com/user/repo/releases/download/v1.0/app.tar.gz"
+
+[[exercises]]
+command = "pip install -r requirements.txt"
+prompt = "安装 requirements.txt 中的所有 Python 依赖"
+difficulty = "advanced"
+type = "typing"
+answer = "pip install -r requirements.txt"
+
+[[exercises]]
+command = "pip install -r requirements.txt"
+prompt = "执行命令: pip install -r requirements.txt"
+difficulty = "advanced"
+type = "typing"
+answer = "pip3 install -r requirements.txt"
+
+[[exercises]]
+command = "pip install -r requirements.txt"
+prompt = "键入: pip install -r requirements.txt"
+difficulty = "advanced"
+type = "typing"
+answer = "pip install -r requirements.txt"
+
+[[exercises]]
+command = "python3 -m venv .venv"
+prompt = "创建一个名为 .venv 的 Python 虚拟环境"
+difficulty = "advanced"
+type = "typing"
+answer = "python3 -m venv .venv"
+
+[[exercises]]
+command = "python3 -m venv .venv"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "python3 -m venv .venv"
+
+[[exercises]]
+command = "python3 -m venv .venv"
+prompt = "键入: python3 -m venv .venv"
+difficulty = "advanced"
+type = "typing"
+answer = "python3 -m venv .venv"
+
+[[exercises]]
+command = "source .venv/bin/activate"
+prompt = "激活当前目录下的 Python 虚拟环境"
+difficulty = "advanced"
+type = "typing"
+answer = "source .venv/bin/activate"
+
+[[exercises]]
+command = "source .venv/bin/activate"
+prompt = "执行命令: source .venv/bin/activate"
+difficulty = "advanced"
+type = "typing"
+answer = ". .venv/bin/activate"
+
+[[exercises]]
+command = "source .venv/bin/activate"
+prompt = "键入: source .venv/bin/activate"
+difficulty = "advanced"
+type = "typing"
+answer = "source .venv/bin/activate"
+
+[[exercises]]
+command = "npm install"
+prompt = "安装 package.json 中的所有 Node.js 依赖"
+difficulty = "advanced"
+type = "typing"
+answer = "npm install"
+
+[[exercises]]
+command = "npm install"
+prompt = "执行命令: npm install"
+difficulty = "advanced"
+type = "typing"
+answer = "npm i"
+
+[[exercises]]
+command = "npm install"
+prompt = "键入: npm install"
+difficulty = "advanced"
+type = "typing"
+answer = "npm install"
+
+[[exercises]]
+command = "npm run dev"
+prompt = "运行 package.json 中的 dev 脚本"
+difficulty = "advanced"
+type = "typing"
+answer = "npm run dev"
+
+[[exercises]]
+command = "npm run dev"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "npm run dev"
+
+[[exercises]]
+command = "npm run dev"
+prompt = "键入: npm run dev"
+difficulty = "advanced"
+type = "typing"
+answer = "npm run dev"
+
+[[exercises]]
+command = "cargo build --release"
+prompt = "以 release 模式编译 Rust 项目"
+difficulty = "advanced"
+type = "typing"
+answer = "cargo build --release"
+
+[[exercises]]
+command = "cargo build --release"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "cargo build --release"
+
+[[exercises]]
+command = "cargo build --release"
+prompt = "键入: cargo build --release"
+difficulty = "advanced"
+type = "typing"
+answer = "cargo build --release"
+
+[[exercises]]
+command = "make clean && make -j$(nproc)"
+prompt = "清理构建产物后用全部 CPU 核心重新编译"
+difficulty = "advanced"
+type = "typing"
+answer = "make clean && make -j$(nproc)"
+
+[[exercises]]
+command = "make clean && make -j$(nproc)"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "make clean && make -j$(nproc)"
+
+[[exercises]]
+command = "make clean && make -j$(nproc)"
+prompt = "键入: make clean && make -j$(nproc)"
+difficulty = "advanced"
+type = "typing"
+answer = "make clean && make -j$(nproc)"
+
+[[exercises]]
+command = "strace -p 12345 -f"
+prompt = "跟踪 PID 12345 及其子进程的系统调用"
+difficulty = "advanced"
+type = "typing"
+answer = "strace -p 12345 -f"
+
+[[exercises]]
+command = "strace -p 12345 -f"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "strace -p 12345 -f"
+
+[[exercises]]
+command = "strace -p 12345 -f"
+prompt = "键入: strace -p 12345 -f"
+difficulty = "advanced"
+type = "typing"
+answer = "strace -p 12345 -f"
+
+[[exercises]]
+command = "tail -f /var/log/nginx/access.log | grep 500"
+prompt = "实时跟踪 nginx 访问日志，只看状态码 500 的请求"
+difficulty = "practical"
+type = "typing"
+answer = "tail -f /var/log/nginx/access.log | grep 500"
+
+[[exercises]]
+command = "tail -f /var/log/nginx/access.log | grep 500"
+prompt = "执行命令: tail -f /var/log/nginx/access.log | grep 500"
+difficulty = "practical"
+type = "typing"
+answer = "tail --follow /var/log/nginx/access.log | grep 500"
+
+[[exercises]]
+command = "tail -f /var/log/nginx/access.log | grep 500"
+prompt = "键入: tail -f /var/log/nginx/access.log | grep 500"
+difficulty = "practical"
+type = "typing"
+answer = "tail -f /var/log/nginx/access.log | grep 500"
+
+[[exercises]]
+command = "journalctl -u nginx -n 100"
+prompt = "查看 nginx 服务最近的 100 条日志"
+difficulty = "practical"
+type = "typing"
+answer = "journalctl -u nginx -n 100"
+
+[[exercises]]
+command = "journalctl -u nginx -n 100"
+prompt = "执行命令: journalctl -u nginx -n 100"
+difficulty = "practical"
+type = "typing"
+answer = "journalctl --unit nginx --lines 100"
+
+[[exercises]]
+command = "journalctl -u nginx -n 100"
+prompt = "键入: journalctl -u nginx -n 100"
+difficulty = "practical"
+type = "typing"
+answer = "journalctl -u nginx -n 100"
+
+[[exercises]]
+command = "journalctl -u nginx --since today | grep ERROR"
+prompt = "查看 nginx 今天以来的日志，并只保留包含 ERROR 的行"
+difficulty = "practical"
+type = "typing"
+answer = "journalctl -u nginx --since today | grep ERROR"
+
+[[exercises]]
+command = "journalctl -u nginx --since today | grep ERROR"
+prompt = "执行命令: journalctl -u nginx --since today | grep ERROR"
+difficulty = "practical"
+type = "typing"
+answer = "journalctl --unit nginx --since today | grep ERROR"
+
+[[exercises]]
+command = "journalctl -u nginx --since today | grep ERROR"
+prompt = "键入: journalctl -u nginx --since today | grep ERROR"
+difficulty = "practical"
+type = "typing"
+answer = "journalctl -u nginx --since today | grep ERROR"
+
+[[exercises]]
+command = "find /var/log -type f -name '*.log' | xargs grep -H ERROR"
+prompt = "在 /var/log 下所有 .log 文件中查找 ERROR，并显示所属文件名"
+difficulty = "practical"
+type = "typing"
+answer = "find /var/log -type f -name '*.log' | xargs grep -H ERROR"
+
+[[exercises]]
+command = "find /var/log -type f -name '*.log' | xargs grep -H ERROR"
+prompt = "执行命令: find /var/log -type f -name '*.log' | xargs grep -H ERROR"
+difficulty = "practical"
+type = "typing"
+answer = "find /var/log -type f -name '*.log' | xargs grep --with-filename ERROR"
+
+[[exercises]]
+command = "find /var/log -type f -name '*.log' | xargs grep -H ERROR"
+prompt = "键入: find /var/log -type f -name '*.log' | xargs grep -H ERROR"
+difficulty = "practical"
+type = "typing"
+answer = "find /var/log -type f -name '*.log' | xargs grep -H ERROR"
+
+[[exercises]]
+command = "tar czf etc-backup.tar.gz /etc"
+prompt = "把 /etc 打包成名为 etc-backup.tar.gz 的 gzip 压缩包"
+difficulty = "practical"
+type = "typing"
+answer = "tar czf etc-backup.tar.gz /etc"
+
+[[exercises]]
+command = "tar czf etc-backup.tar.gz /etc"
+prompt = "执行命令: tar czf etc-backup.tar.gz /etc"
+difficulty = "practical"
+type = "typing"
+answer = "tar -czf etc-backup.tar.gz /etc"
+
+[[exercises]]
+command = "tar czf etc-backup.tar.gz /etc"
+prompt = "键入: tar czf etc-backup.tar.gz /etc"
+difficulty = "practical"
+type = "typing"
+answer = "tar czf etc-backup.tar.gz /etc"
+
+[[exercises]]
+command = "rsync -av --delete /srv/www/ /backup/www/"
+prompt = "把 /srv/www/ 同步到 /backup/www/，并删除目标端多余文件"
+difficulty = "practical"
+type = "typing"
+answer = "rsync -av --delete /srv/www/ /backup/www/"
+
+[[exercises]]
+command = "rsync -av --delete /srv/www/ /backup/www/"
+prompt = "执行命令: rsync -av --delete /srv/www/ /backup/www/"
+difficulty = "practical"
+type = "typing"
+answer = "rsync --archive --verbose --delete /srv/www/ /backup/www/"
+
+[[exercises]]
+command = "rsync -av --delete /srv/www/ /backup/www/"
+prompt = "键入: rsync -av --delete /srv/www/ /backup/www/"
+difficulty = "practical"
+type = "typing"
+answer = "rsync -av --delete /srv/www/ /backup/www/"
+
+[[exercises]]
+command = "ps aux | grep '[n]ginx'"
+prompt = "查找 nginx 进程，并避免把 grep 自己也匹配出来"
+difficulty = "practical"
+type = "typing"
+answer = "ps aux | grep '[n]ginx'"
+
+[[exercises]]
+command = "ps aux | grep '[n]ginx'"
+prompt = "执行命令: ps aux | grep '[n]ginx'"
+difficulty = "practical"
+type = "typing"
+answer = "ps axu | grep '[n]ginx'"
+
+[[exercises]]
+command = "ps aux | grep '[n]ginx'"
+prompt = "键入: ps aux | grep '[n]ginx'"
+difficulty = "practical"
+type = "typing"
+answer = "ps aux | grep '[n]ginx'"
+
+[[exercises]]
+command = "du -sh /var/log/* | sort -h"
+prompt = "查看 /var/log 下各子项大小，并按大小顺序排序"
+difficulty = "practical"
+type = "typing"
+answer = "du -sh /var/log/* | sort -h"
+
+[[exercises]]
+command = "du -sh /var/log/* | sort -h"
+prompt = "执行命令: du -sh /var/log/* | sort -h"
+difficulty = "practical"
+type = "typing"
+answer = "du -s -h /var/log/* | sort -h"
+
+[[exercises]]
+command = "du -sh /var/log/* | sort -h"
+prompt = "键入: du -sh /var/log/* | sort -h"
+difficulty = "practical"
+type = "typing"
+answer = "du -sh /var/log/* | sort -h"
+
+[[exercises]]
+command = "curl -I https://example.com"
+prompt = "只获取 https://example.com 的 HTTP 响应头"
+difficulty = "practical"
+type = "typing"
+answer = "curl -I https://example.com"
+
+[[exercises]]
+command = "curl -I https://example.com"
+prompt = "执行命令: curl -I https://example.com"
+difficulty = "practical"
+type = "typing"
+answer = "curl --head https://example.com"
+
+[[exercises]]
+command = "curl -I https://example.com"
+prompt = "键入: curl -I https://example.com"
+difficulty = "practical"
+type = "typing"
+answer = "curl -I https://example.com"
+
+[[exercises]]
+command = "curl -fsSL https://example.com/health"
+prompt = "静默请求健康检查接口，失败时报错并跟随重定向"
+difficulty = "practical"
+type = "typing"
+answer = "curl -fsSL https://example.com/health"
+
+[[exercises]]
+command = "curl -fsSL https://example.com/health"
+prompt = "执行命令: curl -fsSL https://example.com/health"
+difficulty = "practical"
+type = "typing"
+answer = "curl --fail --silent --show-error --location https://example.com/health"
+
+[[exercises]]
+command = "curl -fsSL https://example.com/health"
+prompt = "键入: curl -fsSL https://example.com/health"
+difficulty = "practical"
+type = "typing"
+answer = "curl -fsSL https://example.com/health"
+
+[[exercises]]
+command = "systemctl status nginx"
+prompt = "查看 nginx 服务当前运行状态"
+difficulty = "practical"
+type = "typing"
+answer = "systemctl status nginx"
+
+[[exercises]]
+command = "systemctl status nginx"
+prompt = "执行命令: systemctl status nginx"
+difficulty = "practical"
+type = "typing"
+answer = "systemctl status nginx.service"
+
+[[exercises]]
+command = "systemctl status nginx"
+prompt = "键入: systemctl status nginx"
+difficulty = "practical"
+type = "typing"
+answer = "systemctl status nginx"
+
+[[exercises]]
+command = "systemctl restart nginx"
+prompt = "重启 nginx 服务"
+difficulty = "practical"
+type = "typing"
+answer = "systemctl restart nginx"
+
+[[exercises]]
+command = "systemctl restart nginx"
+prompt = "执行命令: systemctl restart nginx"
+difficulty = "practical"
+type = "typing"
+answer = "systemctl restart nginx.service"
+
+[[exercises]]
+command = "systemctl restart nginx"
+prompt = "键入: systemctl restart nginx"
+difficulty = "practical"
+type = "typing"
+answer = "systemctl restart nginx"
+
+[[exercises]]
+command = "journalctl -xeu sshd"
+prompt = "查看 sshd 服务最近的详细日志，并附带解释信息"
+difficulty = "practical"
+type = "typing"
+answer = "journalctl -xeu sshd"
+
+[[exercises]]
+command = "journalctl -xeu sshd"
+prompt = "执行命令: journalctl -xeu sshd"
+difficulty = "practical"
+type = "typing"
+answer = "journalctl -x -e -u sshd"
+
+[[exercises]]
+command = "journalctl -xeu sshd"
+prompt = "键入: journalctl -xeu sshd"
+difficulty = "practical"
+type = "typing"
+answer = "journalctl -xeu sshd"
+
+[[exercises]]
+command = "git status -sb"
+prompt = "用简洁格式查看当前 Git 工作区状态，并带上分支信息"
+difficulty = "practical"
+type = "typing"
+answer = "git status -sb"
+
+[[exercises]]
+command = "git status -sb"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "git status -sb"
+
+[[exercises]]
+command = "git status -sb"
+prompt = "键入: git status -sb"
+difficulty = "practical"
+type = "typing"
+answer = "git status -sb"
+
+[[exercises]]
+command = "git log --oneline --graph --decorate -10"
+prompt = "图形化地查看最近 10 条 Git 提交，每条只显示一行"
+difficulty = "practical"
+type = "typing"
+answer = "git log --oneline --graph --decorate -10"
+
+[[exercises]]
+command = "git log --oneline --graph --decorate -10"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "git log --oneline --graph --decorate -10"
+
+[[exercises]]
+command = "git log --oneline --graph --decorate -10"
+prompt = "键入: git log --oneline --graph --decorate -10"
+difficulty = "practical"
+type = "typing"
+answer = "git log --oneline --graph --decorate -10"
+
+[[exercises]]
+command = "git diff --staged"
+prompt = "查看已经暂存但还没提交的 Git 改动"
+difficulty = "practical"
+type = "typing"
+answer = "git diff --staged"
+
+[[exercises]]
+command = "git diff --staged"
+prompt = "执行命令: git diff --staged"
+difficulty = "practical"
+type = "typing"
+answer = "git diff --cached"
+
+[[exercises]]
+command = "git diff --staged"
+prompt = "键入: git diff --staged"
+difficulty = "practical"
+type = "typing"
+answer = "git diff --staged"
+
+[[exercises]]
+command = "git grep -n TODO"
+prompt = "在当前 Git 仓库已跟踪文件中搜索 TODO，并显示行号"
+difficulty = "practical"
+type = "typing"
+answer = "git grep -n TODO"
+
+[[exercises]]
+command = "git grep -n TODO"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "git grep -n TODO"
+
+[[exercises]]
+command = "git grep -n TODO"
+prompt = "键入: git grep -n TODO"
+difficulty = "practical"
+type = "typing"
+answer = "git grep -n TODO"
+
+[[exercises]]
+command = "tmux new -s dev"
+prompt = "创建一个名为 dev 的 tmux 会话"
+difficulty = "practical"
+type = "typing"
+answer = "tmux new -s dev"
+
+[[exercises]]
+command = "tmux new -s dev"
+prompt = "执行命令: tmux new -s dev"
+difficulty = "practical"
+type = "typing"
+answer = "tmux new-session -s dev"
+
+[[exercises]]
+command = "tmux new -s dev"
+prompt = "键入: tmux new -s dev"
+difficulty = "practical"
+type = "typing"
+answer = "tmux new -s dev"
+
+[[exercises]]
+command = "tmux attach -t dev"
+prompt = "重新连接到名为 dev 的 tmux 会话"
+difficulty = "practical"
+type = "typing"
+answer = "tmux attach -t dev"
+
+[[exercises]]
+command = "tmux attach -t dev"
+prompt = "执行命令: tmux attach -t dev"
+difficulty = "practical"
+type = "typing"
+answer = "tmux attach-session -t dev"
+
+[[exercises]]
+command = "tmux attach -t dev"
+prompt = "键入: tmux attach -t dev"
+difficulty = "practical"
+type = "typing"
+answer = "tmux attach -t dev"
+
+[[exercises]]
+command = "docker ps --format {{.Names}} {{.Status}}"
+prompt = "用自定义格式列出 Docker 容器名称和状态"
+difficulty = "practical"
+type = "typing"
+answer = "docker ps --format {{.Names}} {{.Status}}"
+
+[[exercises]]
+command = "docker ps --format {{.Names}} {{.Status}}"
+prompt = "执行命令: docker ps --format {{.Names}} {{.Status}}"
+difficulty = "practical"
+type = "typing"
+answer = "docker ps --format \"{{.Names}} {{.Status}}\""
+
+[[exercises]]
+command = "docker ps --format {{.Names}} {{.Status}}"
+prompt = "键入: docker ps --format {{.Names}} {{.Status}}"
+difficulty = "practical"
+type = "typing"
+answer = "docker ps --format {{.Names}} {{.Status}}"
+
+[[exercises]]
+command = "docker logs -f --tail 100 web"
+prompt = "持续跟踪 web 容器最近 100 行日志"
+difficulty = "practical"
+type = "typing"
+answer = "docker logs -f --tail 100 web"
+
+[[exercises]]
+command = "docker logs -f --tail 100 web"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "docker logs -f --tail 100 web"
+
+[[exercises]]
+command = "docker logs -f --tail 100 web"
+prompt = "键入: docker logs -f --tail 100 web"
+difficulty = "practical"
+type = "typing"
+answer = "docker logs -f --tail 100 web"
+
+[[exercises]]
+command = "docker exec -it web sh"
+prompt = "进入 web 容器的交互式 shell"
+difficulty = "practical"
+type = "typing"
+answer = "docker exec -it web sh"
+
+[[exercises]]
+command = "docker exec -it web sh"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "docker exec -it web sh"
+
+[[exercises]]
+command = "docker exec -it web sh"
+prompt = "键入: docker exec -it web sh"
+difficulty = "practical"
+type = "typing"
+answer = "docker exec -it web sh"
+
+[[exercises]]
+command = "ssh -p 2222 admin@example.com"
+prompt = "使用 2222 端口 SSH 登录 admin@example.com"
+difficulty = "practical"
+type = "typing"
+answer = "ssh -p 2222 admin@example.com"
+
+[[exercises]]
+command = "ssh -p 2222 admin@example.com"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "ssh -p 2222 admin@example.com"
+
+[[exercises]]
+command = "ssh -p 2222 admin@example.com"
+prompt = "键入: ssh -p 2222 admin@example.com"
+difficulty = "practical"
+type = "typing"
+answer = "ssh -p 2222 admin@example.com"
+
+[[exercises]]
+command = "scp -r dist/ admin@example.com:/srv/www/"
+prompt = "把本地 dist 目录递归上传到 admin@example.com 的 /srv/www/"
+difficulty = "practical"
+type = "typing"
+answer = "scp -r dist/ admin@example.com:/srv/www/"
+
+[[exercises]]
+command = "scp -r dist/ admin@example.com:/srv/www/"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "scp -r dist/ admin@example.com:/srv/www/"
+
+[[exercises]]
+command = "scp -r dist/ admin@example.com:/srv/www/"
+prompt = "键入: scp -r dist/ admin@example.com:/srv/www/"
+difficulty = "practical"
+type = "typing"
+answer = "scp -r dist/ admin@example.com:/srv/www/"
+
+[[exercises]]
+command = "rsync -avzP -e ssh dist/ admin@example.com:/srv/www/"
+prompt = "通过 SSH 压缩同步 dist 目录到远程站点，并显示进度"
+difficulty = "practical"
+type = "typing"
+answer = "rsync -avzP -e ssh dist/ admin@example.com:/srv/www/"
+
+[[exercises]]
+command = "rsync -avzP -e ssh dist/ admin@example.com:/srv/www/"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "rsync -avzP -e ssh dist/ admin@example.com:/srv/www/"
+
+[[exercises]]
+command = "rsync -avzP -e ssh dist/ admin@example.com:/srv/www/"
+prompt = "键入: rsync -avzP -e ssh dist/ admin@example.com:/srv/www/"
+difficulty = "practical"
+type = "typing"
+answer = "rsync -avzP -e ssh dist/ admin@example.com:/srv/www/"
+
+[[exercises]]
+command = "journalctl -fu docker"
+prompt = "实时跟踪 docker 服务日志"
+difficulty = "practical"
+type = "typing"
+answer = "journalctl -fu docker"
+
+[[exercises]]
+command = "journalctl -fu docker"
+prompt = "执行命令: journalctl -fu docker"
+difficulty = "practical"
+type = "typing"
+answer = "journalctl -f -u docker"
+
+[[exercises]]
+command = "journalctl -fu docker"
+prompt = "键入: journalctl -fu docker"
+difficulty = "practical"
+type = "typing"
+answer = "journalctl -fu docker"
+
+[[exercises]]
+command = "find /var/log -type f -size +100M"
+prompt = "查找 /var/log 目录下所有大于 100MB 的文件"
+difficulty = "practical"
+type = "typing"
+answer = "find /var/log -type f -size +100M"
+
+[[exercises]]
+command = "find /var/log -type f -size +100M"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "find /var/log -type f -size +100M"
+
+[[exercises]]
+command = "find /var/log -type f -size +100M"
+prompt = "键入: find /var/log -type f -size +100M"
+difficulty = "practical"
+type = "typing"
+answer = "find /var/log -type f -size +100M"
+
+[[exercises]]
+command = "ncdu /"
+prompt = "使用 ncdu 交互式分析根目录的磁盘占用情况"
+difficulty = "practical"
+type = "typing"
+answer = "ncdu /"
+
+[[exercises]]
+command = "ncdu /"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "ncdu /"
+
+[[exercises]]
+command = "ncdu /"
+prompt = "键入: ncdu /"
+difficulty = "practical"
+type = "typing"
+answer = "ncdu /"
+
+[[exercises]]
+command = "btop"
+prompt = "启动 btop 交互式系统监控界面"
+difficulty = "practical"
+type = "typing"
+answer = "btop"
+
+[[exercises]]
+command = "btop"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "btop"
+
+[[exercises]]
+command = "btop"
+prompt = "键入: btop"
+difficulty = "practical"
+type = "typing"
+answer = "btop"
+
+[[exercises]]
+command = "ip route show"
+prompt = "查看当前系统的路由表"
+difficulty = "practical"
+type = "typing"
+answer = "ip route show"
+
+[[exercises]]
+command = "ip route show"
+prompt = "执行命令: ip route show"
+difficulty = "practical"
+type = "typing"
+answer = "ip r"
+
+[[exercises]]
+command = "ip route show"
+prompt = "键入: ip route show"
+difficulty = "practical"
+type = "typing"
+answer = "ip route show"
+
+[[exercises]]
+command = "ss -tunlp"
+prompt = "查看 TCP 和 UDP 的监听端口及对应进程信息"
+difficulty = "practical"
+type = "typing"
+answer = "ss -tunlp"
+
+[[exercises]]
+command = "ss -tunlp"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "ss -tunlp"
+
+[[exercises]]
+command = "ss -tunlp"
+prompt = "键入: ss -tunlp"
+difficulty = "practical"
+type = "typing"
+answer = "ss -tunlp"
+
+[[exercises]]
+command = "lsof -i :80"
+prompt = "查看哪个进程占用了 80 端口"
+difficulty = "practical"
+type = "typing"
+answer = "lsof -i :80"
+
+[[exercises]]
+command = "lsof -i :80"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "lsof -i :80"
+
+[[exercises]]
+command = "lsof -i :80"
+prompt = "键入: lsof -i :80"
+difficulty = "practical"
+type = "typing"
+answer = "lsof -i :80"
+
+[[exercises]]
+command = "nc -vz 127.0.0.1 5432"
+prompt = "测试本机 5432 端口是否开放并可连接"
+difficulty = "practical"
+type = "typing"
+answer = "nc -vz 127.0.0.1 5432"
+
+[[exercises]]
+command = "nc -vz 127.0.0.1 5432"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "nc -vz 127.0.0.1 5432"
+
+[[exercises]]
+command = "nc -vz 127.0.0.1 5432"
+prompt = "键入: nc -vz 127.0.0.1 5432"
+difficulty = "practical"
+type = "typing"
+answer = "nc -vz 127.0.0.1 5432"
+
+[[exercises]]
+command = "traceroute example.com"
+prompt = "跟踪到 example.com 的网络路径"
+difficulty = "practical"
+type = "typing"
+answer = "traceroute example.com"
+
+[[exercises]]
+command = "traceroute example.com"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "traceroute example.com"
+
+[[exercises]]
+command = "traceroute example.com"
+prompt = "键入: traceroute example.com"
+difficulty = "practical"
+type = "typing"
+answer = "traceroute example.com"
+
+[[exercises]]
+command = "host example.com"
+prompt = "查询 example.com 的 DNS 解析结果"
+difficulty = "practical"
+type = "typing"
+answer = "host example.com"
+
+[[exercises]]
+command = "host example.com"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "host example.com"
+
+[[exercises]]
+command = "host example.com"
+prompt = "键入: host example.com"
+difficulty = "practical"
+type = "typing"
+answer = "host example.com"
+
+[[exercises]]
+command = "curl -s -o /dev/null -w %{http_code}n https://example.com"
+prompt = "只输出 https://example.com 的 HTTP 状态码"
+difficulty = "practical"
+type = "typing"
+answer = "curl -s -o /dev/null -w %{http_code}  https://example.com"
+
+[[exercises]]
+command = "curl -s -o /dev/null -w %{http_code}n https://example.com"
+prompt = "执行命令: curl -s -o /dev/null -w %{http_code}n https://example.com"
+difficulty = "practical"
+type = "typing"
+answer = "curl -s -o /dev/null -w \"%{http_code} \" https://example.com"
+
+[[exercises]]
+command = "curl -s -o /dev/null -w %{http_code}n https://example.com"
+prompt = "键入: curl -s -o /dev/null -w %{http_code}n https://example.com"
+difficulty = "practical"
+type = "typing"
+answer = "curl -s -o /dev/null -w %{http_code}  https://example.com"
+
+[[exercises]]
+command = "curl -X POST -H 'Content-Type: application/json' -d '{\"name\":\"alice\"}' https://api.example.com/users"
+prompt = "向 https://api.example.com/users 发送一个 JSON POST 请求，内容为 name=alice"
+difficulty = "practical"
+type = "typing"
+answer = "curl -X POST -H 'Content-Type: application/json' -d '{\"name\":\"alice\"}' https://api.example.com/users"
+
+[[exercises]]
+command = "curl -X POST -H 'Content-Type: application/json' -d '{\"name\":\"alice\"}' https://api.example.com/users"
+prompt = "键入: curl -X POST -H 'Content-Type: application/json' -d '{\"name\":\"alice\"}' https://api.example.com/users"
+difficulty = "practical"
+type = "typing"
+answer = "curl -X POST -H 'Content-Type: application/json' -d '{\"name\":\"alice\"}' https://api.example.com/users"
+
+[[exercises]]
+command = "curl -X POST -H 'Content-Type: application/json' -d '{\"name\":\"alice\"}' https://api.example.com/users"
+prompt = "练习: curl -X POST -H 'Content-Type: application/json' -d '{\"name\":\"alice\"}' https://api.example.com/users"
+difficulty = "practical"
+type = "typing"
+answer = "curl -X POST -H 'Content-Type: application/json' -d '{\"name\":\"alice\"}' https://api.example.com/users"
+
+[[exercises]]
+command = "curl -L https://example.com"
+prompt = "请求 https://example.com 并自动跟随重定向"
+difficulty = "practical"
+type = "typing"
+answer = "curl -L https://example.com"
+
+[[exercises]]
+command = "curl -L https://example.com"
+prompt = "执行命令: curl -L https://example.com"
+difficulty = "practical"
+type = "typing"
+answer = "curl --location https://example.com"
+
+[[exercises]]
+command = "curl -L https://example.com"
+prompt = "键入: curl -L https://example.com"
+difficulty = "practical"
+type = "typing"
+answer = "curl -L https://example.com"
+
+[[exercises]]
+command = "wget -c https://example.com/big.iso"
+prompt = "断点续传下载 https://example.com/big.iso"
+difficulty = "practical"
+type = "typing"
+answer = "wget -c https://example.com/big.iso"
+
+[[exercises]]
+command = "wget -c https://example.com/big.iso"
+prompt = "执行命令: wget -c https://example.com/big.iso"
+difficulty = "practical"
+type = "typing"
+answer = "wget --continue https://example.com/big.iso"
+
+[[exercises]]
+command = "wget -c https://example.com/big.iso"
+prompt = "键入: wget -c https://example.com/big.iso"
+difficulty = "practical"
+type = "typing"
+answer = "wget -c https://example.com/big.iso"
+
+[[exercises]]
+command = "ssh -L 5432:127.0.0.1:5432 admin@example.com"
+prompt = "建立 SSH 本地端口转发，把远程的 5432 映射到本地 5432"
+difficulty = "practical"
+type = "typing"
+answer = "ssh -L 5432:127.0.0.1:5432 admin@example.com"
+
+[[exercises]]
+command = "ssh -L 5432:127.0.0.1:5432 admin@example.com"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "ssh -L 5432:127.0.0.1:5432 admin@example.com"
+
+[[exercises]]
+command = "ssh -L 5432:127.0.0.1:5432 admin@example.com"
+prompt = "键入: ssh -L 5432:127.0.0.1:5432 admin@example.com"
+difficulty = "practical"
+type = "typing"
+answer = "ssh -L 5432:127.0.0.1:5432 admin@example.com"
+
+[[exercises]]
+command = "ssh -R 8080:127.0.0.1:3000 admin@example.com"
+prompt = "建立 SSH 反向端口转发，把本地 3000 暴露到远程 8080"
+difficulty = "practical"
+type = "typing"
+answer = "ssh -R 8080:127.0.0.1:3000 admin@example.com"
+
+[[exercises]]
+command = "ssh -R 8080:127.0.0.1:3000 admin@example.com"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "ssh -R 8080:127.0.0.1:3000 admin@example.com"
+
+[[exercises]]
+command = "ssh -R 8080:127.0.0.1:3000 admin@example.com"
+prompt = "键入: ssh -R 8080:127.0.0.1:3000 admin@example.com"
+difficulty = "practical"
+type = "typing"
+answer = "ssh -R 8080:127.0.0.1:3000 admin@example.com"
+
+[[exercises]]
+command = "echo | openssl s_client -servername example.com -connect example.com:443 2>/dev/null | openssl x509 -noout -dates"
+prompt = "查看 example.com 的 HTTPS 证书生效时间和过期时间"
+difficulty = "practical"
+type = "typing"
+answer = "echo | openssl s_client -servername example.com -connect example.com:443 2>/dev/null | openssl x509 -noout -dates"
+
+[[exercises]]
+command = "echo | openssl s_client -servername example.com -connect example.com:443 2>/dev/null | openssl x509 -noout -dates"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "echo | openssl s_client -servername example.com -connect example.com:443 2>/dev/null | openssl x509 -noout -dates"
+
+[[exercises]]
+command = "echo | openssl s_client -servername example.com -connect example.com:443 2>/dev/null | openssl x509 -noout -dates"
+prompt = "键入: echo | openssl s_client -servername example.com -connect example.com:443 2>/dev/null | openssl x509 -noout -dates"
+difficulty = "practical"
+type = "typing"
+answer = "echo | openssl s_client -servername example.com -connect example.com:443 2>/dev/null | openssl x509 -noout -dates"
+
+[[exercises]]
+command = "awk '{sum += $3} END {print sum}' data.csv"
+prompt = "用 awk 计算 data.csv 中第三列的合计值"
+difficulty = "practical"
+type = "typing"
+answer = "awk '{sum += $3} END {print sum}' data.csv"
+
+[[exercises]]
+command = "awk '{sum += $3} END {print sum}' data.csv"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "awk '{sum += $3} END {print sum}' data.csv"
+
+[[exercises]]
+command = "awk '{sum += $3} END {print sum}' data.csv"
+prompt = "键入: awk '{sum += $3} END {print sum}' data.csv"
+difficulty = "practical"
+type = "typing"
+answer = "awk '{sum += $3} END {print sum}' data.csv"
+
+[[exercises]]
+command = "sed -i 's/http:/https:/g' config.yml"
+prompt = "在 config.yml 中把所有 http: 替换为 https:"
+difficulty = "practical"
+type = "typing"
+answer = "sed -i 's/http:/https:/g' config.yml"
+
+[[exercises]]
+command = "sed -i 's/http:/https:/g' config.yml"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "sed -i 's/http:/https:/g' config.yml"
+
+[[exercises]]
+command = "sed -i 's/http:/https:/g' config.yml"
+prompt = "键入: sed -i 's/http:/https:/g' config.yml"
+difficulty = "practical"
+type = "typing"
+answer = "sed -i 's/http:/https:/g' config.yml"
+
+[[exercises]]
+command = "echo 'Hello World' | tr '[:upper:]' '[:lower:]'"
+prompt = "把 Hello World 全部转为小写"
+difficulty = "practical"
+type = "typing"
+answer = "echo 'Hello World' | tr '[:upper:]' '[:lower:]'"
+
+[[exercises]]
+command = "echo 'Hello World' | tr '[:upper:]' '[:lower:]'"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "echo 'Hello World' | tr '[:upper:]' '[:lower:]'"
+
+[[exercises]]
+command = "echo 'Hello World' | tr '[:upper:]' '[:lower:]'"
+prompt = "键入: echo 'Hello World' | tr '[:upper:]' '[:lower:]'"
+difficulty = "practical"
+type = "typing"
+answer = "echo 'Hello World' | tr '[:upper:]' '[:lower:]'"
+
+[[exercises]]
+command = "paste names.txt scores.txt"
+prompt = "把 names.txt 和 scores.txt 按行并排合并"
+difficulty = "practical"
+type = "typing"
+answer = "paste names.txt scores.txt"
+
+[[exercises]]
+command = "paste names.txt scores.txt"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "paste names.txt scores.txt"
+
+[[exercises]]
+command = "paste names.txt scores.txt"
+prompt = "键入: paste names.txt scores.txt"
+difficulty = "practical"
+type = "typing"
+answer = "paste names.txt scores.txt"
+
+[[exercises]]
+command = "diff --color old.conf new.conf"
+prompt = "用颜色高亮比较 old.conf 和 new.conf 的差异"
+difficulty = "practical"
+type = "typing"
+answer = "diff --color old.conf new.conf"
+
+[[exercises]]
+command = "diff --color old.conf new.conf"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "diff --color old.conf new.conf"
+
+[[exercises]]
+command = "diff --color old.conf new.conf"
+prompt = "键入: diff --color old.conf new.conf"
+difficulty = "practical"
+type = "typing"
+answer = "diff --color old.conf new.conf"
+
+[[exercises]]
+command = "find /var/log -name '*.log' -mtime +30 -delete"
+prompt = "删除 /var/log 下修改时间超过 30 天的所有 .log 文件"
+difficulty = "practical"
+type = "typing"
+answer = "find /var/log -name '*.log' -mtime +30 -delete"
+
+[[exercises]]
+command = "find /var/log -name '*.log' -mtime +30 -delete"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "find /var/log -name '*.log' -mtime +30 -delete"
+
+[[exercises]]
+command = "find /var/log -name '*.log' -mtime +30 -delete"
+prompt = "键入: find /var/log -name '*.log' -mtime +30 -delete"
+difficulty = "practical"
+type = "typing"
+answer = "find /var/log -name '*.log' -mtime +30 -delete"
+
+[[exercises]]
+command = "jq '.[].name' users.json"
+prompt = "从 users.json 数组中提取每个元素的 name 字段"
+difficulty = "practical"
+type = "typing"
+answer = "jq '.[].name' users.json"
+
+[[exercises]]
+command = "jq '.[].name' users.json"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "jq '.[].name' users.json"
+
+[[exercises]]
+command = "jq '.[].name' users.json"
+prompt = "键入: jq '.[].name' users.json"
+difficulty = "practical"
+type = "typing"
+answer = "jq '.[].name' users.json"
+
+[[exercises]]
+command = "jq '.[] | select(.age > 18)' users.json"
+prompt = "从 users.json 中筛选出年龄大于 18 的记录"
+difficulty = "practical"
+type = "typing"
+answer = "jq '.[] | select(.age > 18)' users.json"
+
+[[exercises]]
+command = "jq '.[] | select(.age > 18)' users.json"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "jq '.[] | select(.age > 18)' users.json"
+
+[[exercises]]
+command = "jq '.[] | select(.age > 18)' users.json"
+prompt = "键入: jq '.[] | select(.age > 18)' users.json"
+difficulty = "practical"
+type = "typing"
+answer = "jq '.[] | select(.age > 18)' users.json"
+
+[[exercises]]
+command = "docker system prune -af"
+prompt = "清理 Docker 中所有未使用的容器、镜像和网络"
+difficulty = "practical"
+type = "typing"
+answer = "docker system prune -af"
+
+[[exercises]]
+command = "docker system prune -af"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "docker system prune -af"
+
+[[exercises]]
+command = "docker system prune -af"
+prompt = "键入: docker system prune -af"
+difficulty = "practical"
+type = "typing"
+answer = "docker system prune -af"
+
+[[exercises]]
+command = "docker compose up -d --build"
+prompt = "重新构建并后台启动 Docker Compose 中的所有服务"
+difficulty = "practical"
+type = "typing"
+answer = "docker compose up -d --build"
+
+[[exercises]]
+command = "docker compose up -d --build"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "docker compose up -d --build"
+
+[[exercises]]
+command = "docker compose up -d --build"
+prompt = "键入: docker compose up -d --build"
+difficulty = "practical"
+type = "typing"
+answer = "docker compose up -d --build"
+
+[[exercises]]
+command = "watch -n 5 docker ps"
+prompt = "每 5 秒刷新一次 Docker 容器列表"
+difficulty = "practical"
+type = "typing"
+answer = "watch -n 5 docker ps"
+
+[[exercises]]
+command = "watch -n 5 docker ps"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "watch -n 5 docker ps"
+
+[[exercises]]
+command = "watch -n 5 docker ps"
+prompt = "键入: watch -n 5 docker ps"
+difficulty = "practical"
+type = "typing"
+answer = "watch -n 5 docker ps"
+
+[[exercises]]
+command = "tar czf release.tar.gz --exclude=.git --exclude=node_modules project"
+prompt = "打包 project 目录为 gzip 归档，但排除 .git 和 node_modules"
+difficulty = "practical"
+type = "typing"
+answer = "tar czf release.tar.gz --exclude=.git --exclude=node_modules project"
+
+[[exercises]]
+command = "tar czf release.tar.gz --exclude=.git --exclude=node_modules project"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "tar czf release.tar.gz --exclude=.git --exclude=node_modules project"
+
+[[exercises]]
+command = "tar czf release.tar.gz --exclude=.git --exclude=node_modules project"
+prompt = "键入: tar czf release.tar.gz --exclude=.git --exclude=node_modules project"
+difficulty = "practical"
+type = "typing"
+answer = "tar czf release.tar.gz --exclude=.git --exclude=node_modules project"
+
+[[exercises]]
+command = "crontab -e"
+prompt = "编辑当前用户的定时任务列表"
+difficulty = "practical"
+type = "typing"
+answer = "crontab -e"
+
+[[exercises]]
+command = "crontab -e"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "crontab -e"
+
+[[exercises]]
+command = "crontab -e"
+prompt = "键入: crontab -e"
+difficulty = "practical"
+type = "typing"
+answer = "crontab -e"
+
+[[exercises]]
+command = "crontab -l"
+prompt = "列出当前用户已配置的定时任务"
+difficulty = "practical"
+type = "typing"
+answer = "crontab -l"
+
+[[exercises]]
+command = "crontab -l"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "crontab -l"
+
+[[exercises]]
+command = "crontab -l"
+prompt = "键入: crontab -l"
+difficulty = "practical"
+type = "typing"
+answer = "crontab -l"
+
+[[exercises]]
+command = "alias ll='ls -latr'"
+prompt = "创建别名 ll，展开为 ls -latr"
+difficulty = "practical"
+type = "typing"
+answer = "alias ll='ls -latr'"
+
+[[exercises]]
+command = "alias ll='ls -latr'"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "alias ll='ls -latr'"
+
+[[exercises]]
+command = "alias ll='ls -latr'"
+prompt = "键入: alias ll='ls -latr'"
+difficulty = "practical"
+type = "typing"
+answer = "alias ll='ls -latr'"
+
+[[exercises]]
+command = "for f in *.jpeg; do mv -- \"$f\" \"${f%.jpeg}.jpg\"; done"
+prompt = "把当前目录下所有 .jpeg 文件批量重命名为 .jpg"
+difficulty = "practical"
+type = "typing"
+answer = "for f in *.jpeg; do mv -- \"$f\" \"${f%.jpeg}.jpg\"; done"
+
+[[exercises]]
+command = "for f in *.jpeg; do mv -- \"$f\" \"${f%.jpeg}.jpg\"; done"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "for f in *.jpeg; do mv -- \"$f\" \"${f%.jpeg}.jpg\"; done"
+
+[[exercises]]
+command = "for f in *.jpeg; do mv -- \"$f\" \"${f%.jpeg}.jpg\"; done"
+prompt = "键入: for f in *.jpeg; do mv -- \"$f\" \"${f%.jpeg}.jpg\"; done"
+difficulty = "practical"
+type = "typing"
+answer = "for f in *.jpeg; do mv -- \"$f\" \"${f%.jpeg}.jpg\"; done"
+
+[[exercises]]
+command = "du -h --max-depth=1 / 2>/dev/null | sort -rh | head -20"
+prompt = "查看根目录下各一级子目录的空间占用，按大小排列取前 20"
+difficulty = "practical"
+type = "typing"
+answer = "du -h --max-depth=1 / 2>/dev/null | sort -rh | head -20"
+
+[[exercises]]
+command = "du -h --max-depth=1 / 2>/dev/null | sort -rh | head -20"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "du -h --max-depth=1 / 2>/dev/null | sort -rh | head -20"
+
+[[exercises]]
+command = "du -h --max-depth=1 / 2>/dev/null | sort -rh | head -20"
+prompt = "键入: du -h --max-depth=1 / 2>/dev/null | sort -rh | head -20"
+difficulty = "practical"
+type = "typing"
+answer = "du -h --max-depth=1 / 2>/dev/null | sort -rh | head -20"
+
+[[exercises]]
+command = "find . -type d -empty -delete"
+prompt = "查找并删除当前目录下所有空目录"
+difficulty = "practical"
+type = "typing"
+answer = "find . -type d -empty -delete"
+
+[[exercises]]
+command = "find . -type d -empty -delete"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "find . -type d -empty -delete"
+
+[[exercises]]
+command = "find . -type d -empty -delete"
+prompt = "键入: find . -type d -empty -delete"
+difficulty = "practical"
+type = "typing"
+answer = "find . -type d -empty -delete"
+
+[[exercises]]
+command = "grep 'ERROR' app.log | awk '{print substr($2,1,13)}' | sort | uniq -c"
+prompt = "按小时统计 app.log 中 ERROR 出现的次数"
+difficulty = "practical"
+type = "typing"
+answer = "grep 'ERROR' app.log | awk '{print substr($2,1,13)}' | sort | uniq -c"
+
+[[exercises]]
+command = "grep 'ERROR' app.log | awk '{print substr($2,1,13)}' | sort | uniq -c"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "grep 'ERROR' app.log | awk '{print substr($2,1,13)}' | sort | uniq -c"
+
+[[exercises]]
+command = "grep 'ERROR' app.log | awk '{print substr($2,1,13)}' | sort | uniq -c"
+prompt = "键入: grep 'ERROR' app.log | awk '{print substr($2,1,13)}' | sort | uniq -c"
+difficulty = "practical"
+type = "typing"
+answer = "grep 'ERROR' app.log | awk '{print substr($2,1,13)}' | sort | uniq -c"
+
+[[exercises]]
+command = "ssh-keygen -t ed25519 -C 'deploy@server'"
+prompt = "生成一个 ed25519 类型的 SSH 密钥对，附带注释 deploy@server"
+difficulty = "practical"
+type = "typing"
+answer = "ssh-keygen -t ed25519 -C 'deploy@server'"
+
+[[exercises]]
+command = "ssh-keygen -t ed25519 -C 'deploy@server'"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "ssh-keygen -t ed25519 -C 'deploy@server'"
+
+[[exercises]]
+command = "ssh-keygen -t ed25519 -C 'deploy@server'"
+prompt = "键入: ssh-keygen -t ed25519 -C 'deploy@server'"
+difficulty = "practical"
+type = "typing"
+answer = "ssh-keygen -t ed25519 -C 'deploy@server'"
+
+[[exercises]]
+command = "ssh-copy-id admin@example.com"
+prompt = "把本机公钥复制到 admin@example.com 实现免密登录"
+difficulty = "practical"
+type = "typing"
+answer = "ssh-copy-id admin@example.com"
+
+[[exercises]]
+command = "ssh-copy-id admin@example.com"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "ssh-copy-id admin@example.com"
+
+[[exercises]]
+command = "ssh-copy-id admin@example.com"
+prompt = "键入: ssh-copy-id admin@example.com"
+difficulty = "practical"
+type = "typing"
+answer = "ssh-copy-id admin@example.com"
+
+[[exercises]]
+command = "awk -F, '$3 > 100 {print $1, $3}' sales.csv"
+prompt = "从 sales.csv 中筛出第三列大于 100 的行，输出第一和第三列"
+difficulty = "practical"
+type = "typing"
+answer = "awk -F, '$3 > 100 {print $1, $3}' sales.csv"
+
+[[exercises]]
+command = "awk -F, '$3 > 100 {print $1, $3}' sales.csv"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "awk -F, '$3 > 100 {print $1, $3}' sales.csv"
+
+[[exercises]]
+command = "awk -F, '$3 > 100 {print $1, $3}' sales.csv"
+prompt = "键入: awk -F, '$3 > 100 {print $1, $3}' sales.csv"
+difficulty = "practical"
+type = "typing"
+answer = "awk -F, '$3 > 100 {print $1, $3}' sales.csv"
+
+[[exercises]]
+command = "sed -i '/^$/d' notes.txt"
+prompt = "原地删除 notes.txt 中的所有空行"
+difficulty = "practical"
+type = "typing"
+answer = "sed -i '/^$/d' notes.txt"
+
+[[exercises]]
+command = "sed -i '/^$/d' notes.txt"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "sed -i '/^$/d' notes.txt"
+
+[[exercises]]
+command = "sed -i '/^$/d' notes.txt"
+prompt = "键入: sed -i '/^$/d' notes.txt"
+difficulty = "practical"
+type = "typing"
+answer = "sed -i '/^$/d' notes.txt"
+
+[[exercises]]
+command = "seq 1 254 | xargs -P 50 -I{} ping -c 1 -W 1 192.168.1.{}"
+prompt = "并行 ping 192.168.1.0/24 子网中的所有 254 台主机"
+difficulty = "practical"
+type = "typing"
+answer = "seq 1 254 | xargs -P 50 -I{} ping -c 1 -W 1 192.168.1.{}"
+
+[[exercises]]
+command = "seq 1 254 | xargs -P 50 -I{} ping -c 1 -W 1 192.168.1.{}"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "seq 1 254 | xargs -P 50 -I{} ping -c 1 -W 1 192.168.1.{}"
+
+[[exercises]]
+command = "seq 1 254 | xargs -P 50 -I{} ping -c 1 -W 1 192.168.1.{}"
+prompt = "键入: seq 1 254 | xargs -P 50 -I{} ping -c 1 -W 1 192.168.1.{}"
+difficulty = "practical"
+type = "typing"
+answer = "seq 1 254 | xargs -P 50 -I{} ping -c 1 -W 1 192.168.1.{}"
+
+[[exercises]]
+command = "tar czf backup-$(date +%F).tar.gz --newer-mtime='1 day ago' /srv/data"
+prompt = "只打包 /srv/data 中最近一天修改过的文件，做增量备份"
+difficulty = "practical"
+type = "typing"
+answer = "tar czf backup-$(date +%F).tar.gz --newer-mtime='1 day ago' /srv/data"
+
+[[exercises]]
+command = "tar czf backup-$(date +%F).tar.gz --newer-mtime='1 day ago' /srv/data"
+prompt = "完整输入该命令"
+difficulty = "practical"
+type = "typing"
+answer = "tar czf backup-$(date +%F).tar.gz --newer-mtime='1 day ago' /srv/data"
+
+[[exercises]]
+command = "tar czf backup-$(date +%F).tar.gz --newer-mtime='1 day ago' /srv/data"
+prompt = "键入: tar czf backup-$(date +%F).tar.gz --newer-mtime='1 day ago' /srv/data"
+difficulty = "practical"
+type = "typing"
+answer = "tar czf backup-$(date +%F).tar.gz --newer-mtime='1 day ago' /srv/data"
+

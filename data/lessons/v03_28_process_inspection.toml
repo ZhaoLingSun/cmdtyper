@@ -1,0 +1,141 @@
+[meta]
+command = "ps / pgrep / ss / lsof（进程与监听检查）"
+full_name = "read-only process and listening-port inspection"
+category = "process"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "先只读建立系统、进程、PID 与监听端口证据链，再考虑任何控制动作"
+explanation = """进程与端口排查不应从 kill 开始。先用 uptime -p 了解系统是否刚重启；用 ps 查看瞬时进程快照、按用户或 PID精确选择，并自定义所有者、父进程、状态、运行时长和命令行；用 pgrep -af 按完整命令行发现候选；用 ss 查看监听套接字，用 lsof 从端口反查打开套接字的进程。端口、PID、进程名与命令行是不同维度，任何单一线索都不足以证明身份。PID 会被回收复用，因此从端口得到 PID 后，发送信号前必须立即再次用 ps 核对所有者和命令行。普通用户还可能因权限不足看不到其他用户的进程详情，空白 Process 列不等于无人监听。"""
+
+[syntax]
+basic = "uptime -p | ps [选择条件] -o 字段 | pgrep [条件] 模式 | ss [套接字条件] | lsof -i:端口"
+[[syntax.parts]]
+name = "系统上下文"
+desc = "uptime -p 只显示持续运行时长，帮助判断异常是否可能与最近重启有关"
+[[syntax.parts]]
+name = "进程选择"
+desc = "ps aux 看全局快照，ps -u USER 按有效用户选择，ps -p PID 按具体 PID 复核"
+[[syntax.parts]]
+name = "名称发现"
+desc = "pgrep -f 匹配完整命令行，-a 同时显示 PID 与命令行；宽匹配只能作为候选发现"
+[[syntax.parts]]
+name = "端口证据"
+desc = "ss 从套接字视角看监听状态，lsof 从进程打开的文件描述符视角反查端口"
+
+[[options]]
+flag = "uptime -p"
+name = "易读显示运行时长"
+example = "uptime -p"
+note = "不显示常规 uptime 中的负载均值；运行很久或刚启动都只是背景线索"
+
+[[options]]
+flag = "ps aux --sort=-%cpu"
+name = "全量快照按 CPU 降序"
+example = "ps aux --sort=-%cpu"
+note = "ps 是瞬时快照，排序靠采样字段；权限或内核策略可能隐藏部分命令行细节"
+
+[[options]]
+flag = "ps -u USER -o FIELDS"
+name = "按有效用户选择并自定义列"
+example = "ps -u chen -o pid,stat,cmd"
+note = "直接使用 ps 选择器比 ps | grep 更精确，不会额外匹配 grep 自身"
+
+[[options]]
+flag = "ps -p PID -o FIELDS"
+name = "按 PID 复核身份"
+example = "ps -p 31452 -o user,pid,ppid,stat,etime,cmd"
+note = "必须在控制动作前重新查询，因为旧 PID 可能已退出并被其他进程复用"
+
+[[options]]
+flag = "pgrep -af PATTERN"
+name = "按完整命令行发现候选"
+example = "pgrep -af nginx"
+note = "-f 扩大到完整命令行，模式可能命中参数或包装器；不等同于进程名精确匹配"
+
+[[options]]
+flag = "ss -tlnp"
+name = "列出 TCP 监听套接字及进程"
+example = "ss -tlnp"
+note = "t=TCP，l=监听，n=数字端口，p=进程；普通用户可能看不到其他用户的进程字段"
+
+[[options]]
+flag = "ss -tlnp 'sport = :PORT'"
+name = "按本地源端口过滤监听"
+example = "ss -tlnp 'sport = :8080'"
+note = "过滤表达式加引号交给 ss；sport 指本地端口，不是远端对等端口"
+
+[[options]]
+flag = "lsof -i:PORT"
+name = "查看使用端口的网络文件描述符"
+example = "lsof -i:8080"
+note = "可能包含监听和已连接套接字；应查看 NAME 状态、FD、协议和 PID，而不只看首行"
+
+[[examples]]
+id = "v03-28-process-inspection-uptime"
+command_id = "uptime-pretty-process"
+level = 1
+deep_explanation = "系统刚重启时，进程消失、端口未监听或缓存变冷可能有共同原因。uptime -p 只提供持续运行时长，不显示负载，也不能证明服务健康。它是建立时间背景的第一条证据，而不是进程诊断结论。"
+
+[[examples]]
+id = "v03-28-process-inspection-cpu-sort"
+command_id = "ps-aux-sort-cpu"
+level = 1
+deep_explanation = "ps aux 展示所有用户及无终端进程的 BSD 风格快照，--sort=-%cpu 把当前 CPU 百分比高的候选排到前面。瞬时排序可能受短任务和采样窗口影响，持续性能问题还需多次观察；COMMAND 列也可能因权限或终端宽度被截断。"
+
+[[examples]]
+id = "v03-28-process-inspection-user-chen"
+command_id = "ps-user-chen-processes"
+level = 1
+deep_explanation = "-u chen 由 ps 自身按有效用户选择，避免文本 grep 把用户名参数、标题或无关命令行混入。-o 只保留 PID、状态和命令行，适合建立清晰清单。看不到其他用户详情可能是权限限制，不能据此断言不存在。"
+
+[[examples]]
+id = "v03-28-process-inspection-pid-review"
+command_id = "ps-pid-owner-command-review"
+level = 2
+deep_explanation = "这是信号前最关键的身份复核：USER 确认所有者，PPID 提供父子线索，STAT 显示状态，ETIME 区分新旧实例，CMD 核对完整目标。PID 31452 只是某个时刻的编号；旧进程退出后，该编号可能很快属于另一个进程。"
+
+[[examples]]
+id = "v03-28-process-inspection-pgrep-nginx"
+command_id = "pgrep-full-nginx"
+level = 2
+deep_explanation = "-f 让 nginx 模式匹配完整命令行，-a 同时显示 PID 和命令行，因此能发现 master、worker 或包装器候选。它不是精确进程名选择器：参数中含 nginx 的其他进程也可能命中。需要批量信号时必须改用明确用户和 -x 等边界。"
+
+[[examples]]
+id = "v03-28-process-inspection-lsof-8080"
+command_id = "lsof-port-8080"
+level = 2
+deep_explanation = "lsof 把套接字视为进程打开的文件，-i:8080 选择涉及端口 8080 的网络对象。应核对 COMMAND、PID、USER、FD、协议以及 NAME 中的 LISTEN 状态；仅看到某 PID 还不够，下一步仍需用 ps 重新确认身份。"
+
+[[examples]]
+id = "v03-28-process-inspection-ss-listeners"
+command_id = "ss-tcp-listen-process"
+level = 2
+deep_explanation = "ss -tlnp 从系统套接字表列出 TCP 监听：保留数字端口，避免服务名解析造成歧义，并尝试显示关联进程。普通用户通常只能完整看到自己进程的详情，其他监听项的 Process 可能空白；监听本身仍然存在。"
+
+[[examples]]
+id = "v03-28-process-inspection-ss-8080"
+command_id = "ss-listen-port-8080"
+level = 3
+deep_explanation = "过滤表达式 sport = :8080 只保留本地端口 8080 的 TCP 监听套接字，比查看全表更聚焦。引号让整个表达式作为参数传给 ss。得到 PID 后必须立刻执行身份复核，因为端口关闭、进程退出与 PID 复用都可能在操作间发生。"
+
+[[gotchas]]
+title = "PID 会复用，旧截图不是授权"
+content = "PID 只在进程生命周期内标识当前实例。端口调查与控制动作之间，原进程可能退出，编号被新进程复用。发送任何信号前都要重新查看 USER、ETIME、CMD 等字段，确认对象仍是同一个。"
+
+[[gotchas]]
+title = "pgrep -f 是宽匹配，不是精确进程名"
+content = "-f 匹配完整命令行，模式可能出现在脚本路径、参数或包装器中。发现候选时很方便，但不能直接把结果当作批量控制范围。精确选择应明确 -x、用户条件以及匹配的是进程名还是完整命令行。"
+
+[[gotchas]]
+title = "权限会隐藏进程详情"
+content = "ss -p、lsof 和 ps 对其他用户进程的可见字段受 UID、procfs 挂载选项、能力和容器命名空间影响。Process 列空白或命令行缩短不等于端口没有进程；应以最小必要权限在正确命名空间核实。"
+
+[[gotchas]]
+title = "监听端口与活跃连接不是一回事"
+content = "ss -l 只看监听套接字；lsof -i:8080 还可能列出已连接网络对象。核对状态、Local Address、Peer Address 和 NAME，不能只凭端口数字把所有行当作同一种角色。"
+
+[[gotchas]]
+title = "ps 是瞬时快照"
+content = "排序结果会随采样时刻变化，短时 CPU 峰值不一定代表持续问题。需要趋势时应多次观测或使用监控工具；本课的 ps 结果用于身份和当前状态检查。"

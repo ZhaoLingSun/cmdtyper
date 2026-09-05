@@ -80,16 +80,16 @@ answers = ["echo $HOME", "echo \"$HOME\""]
 [[commands]]
 id = "echo-var-shell"
 command = "echo $SHELL"
-summary = "显示当前使用的 shell 路径"
+summary = "显示用户账户配置的登录 shell 路径，不保证它就是当前正在运行的 shell"
 simulated_output = "/bin/bash"
 [[commands.tokens]]
 text = "echo"
 desc = "将文本输出到标准输出"
 [[commands.tokens]]
 text = " $SHELL"
-desc = "保存当前 shell 路径的环境变量"
+desc = "通常保存账户的登录 shell 路径；子 shell 或手动启动其他解释器后，它可能与当前进程不同"
 [commands.dictation]
-prompt = "显示当前使用的 shell 路径"
+prompt = "显示 SHELL 变量记录的用户登录 shell 路径，并理解它不一定代表当前正在运行的解释器"
 answers = ["echo $SHELL", "echo \"$SHELL\""]
 
 [[commands]]

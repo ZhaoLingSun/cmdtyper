@@ -1,0 +1,131 @@
+[meta]
+command = "grep（递归、上下文与正则）"
+full_name = "grep text-search workflows"
+category = "text_process"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "在已知文件或目录中按文本模式定位行，并用范围、行号、反选、计数和正则控制结果"
+explanation = """grep 回答的是“哪些文本行匹配模式”，与按文件名和元数据工作的 find 不同。典型工作流从单个日志文件开始，用 -n 保留定位信息；需要兼容大小写时加 -i；查看配置有效行时用 -v 反选；表达多个候选模式时用 -E；搜索目录时才使用 -r，并可用 --include 限制文件名范围。grep 默认输出整条匹配行，-c 统计的是匹配行数，不是模式出现总次数。排障时先确认输入范围与模式语义，再根据需要增加 -A、-B、-C 查看上下文，避免只看孤立的一行就下结论。"""
+
+[syntax]
+basic = "grep [选项] 模式 文件... | grep [选项] 模式 目录"
+[[syntax.parts]]
+name = "模式"
+desc = "默认按基本正则解释；需要 | 等扩展语法时使用 -E，纯字面量场景可考虑固定字符串模式"
+[[syntax.parts]]
+name = "输入"
+desc = "可以是一个或多个文件；指定目录时通常配合 -r 递归读取"
+[[syntax.parts]]
+name = "结果形态"
+desc = "默认输出匹配行；-n 增加行号，-v 反选，-c 只给每个输入的匹配行数"
+[[syntax.parts]]
+name = "上下文"
+desc = "-A N 显示后文，-B N 显示前文，-C N 同时显示前后文；上下文行本身不一定匹配"
+
+[[options]]
+flag = "-r"
+name = "递归搜索目录"
+example = "grep -r 'api_url' config"
+note = "会读取目录树中的文件；默认不跟随遍历途中遇到的符号链接，权限和二进制文件会影响结果"
+
+[[options]]
+flag = "-n"
+name = "显示行号"
+example = "grep -n 'ERROR' app.log"
+note = "单文件输出通常是 行号:内容；递归或多文件输出还会带文件名"
+
+[[options]]
+flag = "-i"
+name = "忽略大小写"
+example = "grep -i 'warning' server.log"
+note = "便于兼容 WARNING、Warning、warning，但可能扩大结果，仍需核对上下文"
+
+[[options]]
+flag = "-v"
+name = "反向选择不匹配的行"
+example = "grep -v '^#' app.conf"
+note = "模式仍是正则；^# 只排除第一个字符就是 # 的行，不排除缩进后才出现 # 的行"
+
+[[options]]
+flag = "-E"
+name = "使用扩展正则表达式"
+example = "grep -E 'ERROR|WARN' app.log"
+note = "| 表示或；引号同时保护模式中的 shell 特殊字符"
+
+[[options]]
+flag = "-c"
+name = "输出匹配行数"
+example = "grep -c '404' access.log"
+note = "统计含模式的行，一行出现多次通常仍只计一行；字面 404 也不等于日志状态码字段"
+
+[[options]]
+flag = "--include=GLOB"
+name = "递归时只读取名称匹配的文件"
+example = "grep -r --include=\"*.log\" 'timeout' logs"
+note = "GLOB 应加引号，避免 shell 在当前目录提前展开；它约束文件名，不改变正文匹配模式"
+
+[[options]]
+flag = "-A N / -B N / -C N"
+name = "显示匹配行附近的上下文"
+example = "grep -n -C 2 'ERROR' app.log"
+note = "上下文帮助理解事件前因后果，但不是本专题规范命令的一部分；不要把上下文行误计为匹配行"
+
+[[examples]]
+id = "v03-26-grep-context-regex-api-url"
+command_id = "grep-recursive-api-url"
+level = 1
+deep_explanation = "配置项可能分散在 config 的环境子目录中，因此使用 -r 递归读取正文。输出通常带文件路径，使你知道 api_url 来自哪个配置文件。它不会按文件名找 api_url，也不会理解配置优先级；后续还需结合应用加载规则判断哪一行实际生效。"
+
+[[examples]]
+id = "v03-26-grep-context-regex-error-lines"
+command_id = "grep-error-line-numbers"
+level = 1
+deep_explanation = "单文件日志排查最有价值的附加信息往往是行号。-n 让匹配结果可被编辑器或后续人工检查精确定位。grep 只返回含 ERROR 的整行；如果错误原因在相邻行，可在同类调查中增加 -A、-B 或 -C，但要区分匹配行与上下文行。"
+
+[[examples]]
+id = "v03-26-grep-context-regex-warning-case"
+command_id = "grep-warning-ignore-case"
+level = 1
+deep_explanation = "不同组件可能输出 WARNING、Warning 或 warning。-i 消除大小写差异，适合先做宽范围发现；代价是也可能匹配正文中普通语义的 warning。结果较多时，应再增加更精确的字段、边界或日志范围，而不是直接把所有命中都判为同一级告警。"
+
+[[examples]]
+id = "v03-26-grep-context-regex-without-comments"
+command_id = "grep-config-without-comments"
+level = 2
+deep_explanation = "-v 把选择逻辑反转，'^#' 中 ^ 锚定行首，因此只过滤首字符为 # 的注释。前面有空格的注释行仍会保留，空行也会保留。这条命令适合快速降噪，却不是配置解析器，不能处理续行、内联注释、包含文件或条件语法。"
+
+[[examples]]
+id = "v03-26-grep-context-regex-error-or-warn"
+command_id = "grep-error-or-warning"
+level = 2
+deep_explanation = "-E 启用扩展正则，ERROR|WARN 表示两种模式任选其一。引号防止 shell 解释竖线为管道，并让整个表达式作为一个参数交给 grep。该模式也会匹配 WARNING 中的 WARN；若要求完整字段，需要根据日志格式增加边界或分隔符。"
+
+[[examples]]
+id = "v03-26-grep-context-regex-count-404"
+command_id = "grep-count-http-404-lines"
+level = 2
+deep_explanation = "-c 返回包含字面文本 404 的行数，适合快速估算，但它不解析访问日志字段：URL、字节数或用户代理中的 404 也会命中。并且同一行即使出现两次 404，匹配行数通常仍增加一。准确统计 HTTP 状态码应先确认日志列结构。"
+
+[[examples]]
+id = "v03-26-grep-context-regex-timeout-logs"
+command_id = "grep-timeout-log-files-only"
+level = 3
+deep_explanation = "这是“目录范围 + 文件名范围 + 正文模式”的三层筛选：-r 遍历 logs，--include 只让基本名称匹配 *.log 的文件参与读取，最后在正文中匹配 timeout。双引号保护星号不被当前 shell 展开。没有结果可能意味着无匹配、文件被排除或权限不足。"
+
+[[gotchas]]
+title = "名称条件与正文条件必须分开"
+content = "--include='*.log' 只决定哪些文件会被读取，'timeout' 才是正文模式。find -name '*.log' 同样只看名称。排查前明确每个条件作用在哪一层，避免把文件名过滤误当成内容搜索。"
+
+[[gotchas]]
+title = "正则元字符不是普通标点"
+content = "默认模式是基本正则，^ 表示行首，. 可匹配任意字符，* 表示重复。-E 还让 |、+、?、() 更直接地具有特殊含义。若目标只是精确字面文本，应意识到正则解释可能扩大匹配。"
+
+[[gotchas]]
+title = "-c 数的是行，不是事件字段或出现次数"
+content = "grep -c '404' access.log 只回答多少行含 404，无法保证 404 位于状态码列，也不会把同一行的多次出现分别计数。报告指标前应先验证日志格式和统计口径。"
+
+[[gotchas]]
+title = "上下文行不等于命中行"
+content = "-A/-B/-C 会把附近行一起显示，并用分隔符区分不连续结果组。上下文适合读事件链，但不能把所有显示行都当作匹配数量；自动统计时应使用清晰的模式和专门计数步骤。"

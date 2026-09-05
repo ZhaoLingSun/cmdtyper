@@ -1,0 +1,77 @@
+[meta]
+command = "df（容量、类型与 inode）"
+full_name = "disk free capacity and inode diagnostics"
+category = "system"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "从文件系统整体视角区分容量耗尽、inode 耗尽和文件系统类型问题"
+explanation = """df 查看的是已挂载文件系统的总体统计，不负责告诉你某个目录具体占了多少。磁盘告警的第一步通常是对目标路径执行 df：-h 查看容量总量、已用、可用和使用率；-i 改看 inode 数量；-T 增加文件系统类型。这样可以先判断是数据块接近耗尽、海量小文件消耗了 inode，还是路径落在与预期不同的文件系统。df 的参数可以直接给路径，它会定位该路径所在的文件系统，比猜设备名更稳妥。若要继续找“谁占空间”，再进入 du 分层统计。"""
+
+[syntax]
+basic = "df [选项] [路径...]"
+[[syntax.parts]]
+name = "路径"
+desc = "选择该路径所在的文件系统；例如 / 只查看根目录所在文件系统"
+[[syntax.parts]]
+name = "容量视角"
+desc = "默认按块显示，-h 转为易读单位；Use% 是文件系统统计，不是某个目录的占比"
+[[syntax.parts]]
+name = "inode 视角"
+desc = "-i 把容量列替换为 inode 总数、已用、可用和使用率，用于小文件过多的场景"
+[[syntax.parts]]
+name = "类型视角"
+desc = "-T 增加文件系统类型，帮助识别 ext4、xfs、tmpfs 等不同来源"
+
+[[options]]
+flag = "-h"
+name = "易读显示容量"
+example = "df -h /"
+note = "便于人工查看 KiB、MiB、GiB 级数值；舍入后的展示不适合做精确字节计算"
+
+[[options]]
+flag = "-i"
+name = "显示 inode 使用情况"
+example = "df -i /"
+note = "容量仍有余量但无法创建新文件时尤其重要；某些文件系统对 inode 的管理方式不同"
+
+[[options]]
+flag = "-T"
+name = "显示文件系统类型"
+example = "df -T /"
+note = "输出仍包含块容量字段，并额外提供 Type 列；设备来源与挂载选项可再用 findmnt 核实"
+
+[[examples]]
+id = "v03-27-disk-capacity-inodes-root-human"
+command_id = "disk-df-human-root"
+level = 1
+deep_explanation = "从路径 / 出发，df 会选择根目录所在的文件系统。-h 让总容量、已用和可用空间适合人工阅读。它反映整个文件系统，而不是根目录树每个子目录的逐项合计；若使用率过高，下一步应按实际挂载边界使用 du。"
+
+[[examples]]
+id = "v03-27-disk-capacity-inodes-root-type"
+command_id = "disk-df-type-root"
+level = 1
+deep_explanation = "-T 用于确认根文件系统类型，并保留块容量统计。文件系统类型会影响功能、保留空间和统计解释，但看到 ext4 等标签并不能单独说明问题原因。若要确认来源设备和挂载选项，应查询挂载表而不是只读 df 的设备列。"
+
+[[examples]]
+id = "v03-27-disk-capacity-inodes-root-inodes"
+command_id = "disk-df-inodes-root"
+level = 2
+deep_explanation = "每个文件和目录通常都需要元数据对象。海量小文件可能让 inode 用尽，即使按字节计算仍有大量空闲空间，也会出现无法创建文件的现象。-i 专门检查这一维度；它不能告诉你哪个目录拥有最多文件，需要后续有针对性地盘点目录树。"
+
+[[gotchas]]
+title = "df 与 du 的统计对象不同"
+content = "df 从文件系统分配器看整体已用和可用空间，du 从目录树可达路径累计文件占用。已删除但仍被进程打开的文件、挂载覆盖、权限和快照等因素都可能让二者不完全相等。不要强求简单相加完全一致。"
+
+[[gotchas]]
+title = "有可用 GiB 仍可能无法新建文件"
+content = "容量块和 inode 是两个独立约束。大量缓存、小邮件、构建碎片或会话文件可能先耗尽 inode。排障必须同时看 df -h 与 df -i，不能只盯 Use% 的容量视角。"
+
+[[gotchas]]
+title = "路径参数比猜设备名可靠"
+content = "设备可能叫 nvme、LVM 映射名、/dev/root、UUID 对应设备或容器内虚拟来源。把实际路径交给 df，可以直接检查它所在的文件系统；需要精确来源时再用 findmnt。"
+
+[[gotchas]]
+title = "易读单位包含舍入"
+content = "-h 为人类阅读而换算并舍入，适合排障概览，不适合把显示值当成严格字节账本。阈值自动化应使用稳定的机器可读格式和明确单位。"

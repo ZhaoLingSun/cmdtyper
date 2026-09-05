@@ -1,0 +1,108 @@
+[meta]
+command = "join-transform"
+full_name = "Stream continuation, character transforms, diffs, and tables"
+category = "text_process"
+difficulty = "basic"
+importance = "common"
+
+[overview]
+summary = "区分持续读取、字符级转换、逐行差异与纯展示对齐"
+explanation = """文本工具虽然都接收字符流，但语义层级不同。`tr` 按字符集合逐字符映射或删除，不理解单词、字段和正则；POSIX 字符类会受 locale 影响，输入编码必须与当前字符环境一致。`tail -f` 先按行显示尾部样本，再持续等待追加内容；它不会解析字段，也不是可靠的日志传输协议，轮转或截断行为需要单独考虑。`diff -u` 按行比较两份完整文本，输出中的 `-`、`+` 和上下文是差异标记，不是直接修改文件。`column -t` 根据空白划分字段并做视觉对齐，它不改变源文件，也不能正确解析所有带引号或含空格字段的数据格式。贯穿这些命令的原则是：明确记录边界、字段 delimiter、字符编码和 locale；明确排序是否发生以及按什么语义发生。本课示例没有隐式排序，不能把 column 对齐后的视觉顺序误认为排序结果。"""
+
+[syntax]
+basic = "tr [选项] 集合1 [集合2] < 输入；tail [-n N] -f 文件；diff -u 旧 新；column -t 输入"
+[[syntax.parts]]
+name = "字符集合"
+desc = "tr 操作字符而非字段；[:lower:]、[:upper:]、[:digit:] 的成员由当前 locale 定义"
+[[syntax.parts]]
+name = "输入重定向"
+desc = "< 把文件内容作为标准输入，不会改写源文件；tr 不接受本课中的文件名作为普通输入参数"
+[[syntax.parts]]
+name = "持续模式"
+desc = "tail -f 在读到末尾后等待新增行；退出观察不会删除日志，但轮转语义需按实现选择"
+[[syntax.parts]]
+name = "差异记录"
+desc = "diff -u 以行作为比较单位，显示文件头、块范围和上下文"
+[[syntax.parts]]
+name = "表格字段"
+desc = "column -t 默认按空白识别字段，只负责布局；delimiter 与带空格值必须事先处理"
+
+[[options]]
+flag = "'[:lower:]' '[:upper:]'"
+name = "大小写字符映射"
+example = "tr '[:lower:]' '[:upper:]' < greeting.txt"
+note = "字符类受 locale 影响；这是字符级转换，不保证语言学意义上的所有 Unicode 大小写规则"
+
+[[options]]
+flag = "-d '[:digit:]'"
+name = "删除数字字符"
+example = "tr -d '[:digit:]' < ticket.txt"
+note = "会删除每个匹配字符，不会只删除完整数字字段；可能让原字段粘连"
+
+[[options]]
+flag = "-n 20 -f"
+name = "先取尾部再跟随"
+example = "tail -n 20 -f app.log"
+note = "先显示 20 行，再等待追加；无需排序，输出次序就是观察到的追加次序"
+
+[[options]]
+flag = "-u"
+name = "统一差异格式"
+example = "diff -u settings.old settings.new"
+note = "适合阅读和补丁语境；退出状态可表达相同、不同或错误，不能只看是否有标准输出"
+
+[[options]]
+flag = "-t"
+name = "表格对齐"
+example = "column -t inventory.txt"
+note = "按识别出的字段宽度排版；不排序、不聚合，也不修改输入文件"
+
+[[examples]]
+id = "v03-l33-transform-uppercase"
+command_id = "text-tr-greeting-uppercase"
+level = 1
+
+[[examples]]
+id = "v03-l33-transform-delete-digits"
+command_id = "text-tr-delete-ticket-digits"
+level = 2
+
+[[examples]]
+id = "v03-l33-tail-default"
+command_id = "text-tail-app-default"
+level = 1
+
+[[examples]]
+id = "v03-l33-tail-follow"
+command_id = "text-tail-follow-app-twenty"
+level = 2
+
+[[examples]]
+id = "v03-l33-diff-unified"
+command_id = "text-diff-unified-settings"
+level = 2
+
+[[examples]]
+id = "v03-l33-column-table"
+command_id = "text-column-inventory-table"
+level = 2
+
+[[gotchas]]
+title = "tr 不理解字段和词"
+content = """删除数字字符会把 `rack12slot3` 变成 `rackslot`，不会保留“数字字段”的边界。若需求按列处理，应先确认 delimiter 并使用字段感知工具；若需求按模式替换，也应选择支持模式语义的工具。"""
+
+[[gotchas]]
+title = "字符类和编码受 locale 影响"
+content = """`[:lower:]`、`[:upper:]` 与 `[:digit:]` 的分类可能随 LC_CTYPE 改变，字节流编码不匹配时还可能出现不可预期结果。对多字节中文文本尤其要先用 locale/charmap 确认环境，而不是假定每个字符都是一个字节。"""
+
+[[gotchas]]
+title = "tail -f 不是永久可靠的日志订阅"
+content = """文件可能被重命名轮转、截断或重新创建，不同 tail 选项对“跟随文件描述符”与“跟随文件名”的行为不同。观察前先明确日志轮转方式；结束观察只停止当前读取，不代表服务或写入者停止。"""
+
+[[gotchas]]
+title = "column 的对齐不是数据清洗"
+content = """默认空白分字段时，值内部的空格会改变列数。column 只改善展示，不验证 schema、不进行数值排序，也不会把输出变成可靠 CSV。若下游机器要继续处理，应保留明确 delimiter 的结构化数据。"""
+
+[[gotchas]]
+title = "diff 输出不是已应用的修改"
+content = """统一差异中的减号表示旧文件行、加号表示新文件行；命令本身只读比较。路径、时间戳和上下文都需要核对，不能因为看到期望的 + 行就认为配置已经部署。"""

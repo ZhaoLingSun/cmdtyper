@@ -1,0 +1,82 @@
+[meta]
+command = "v03-file-create-copy-move"
+full_name = "文件创建、复制与移动"
+category = "file_ops"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "先确认路径与冲突，再创建、复制或移动文件"
+explanation = """创建和搬运文件时，真正需要判断的不只是“用哪个命令”，而是源路径、目标路径和目标是否已经存在。mkdir 负责建立目录，touch 可建立空文件或更新时间戳，cp 保留源对象并生成副本，mv 则改变对象的位置或名称。初学者应在操作前确认当前目录、源对象类型以及目标父目录；涉及已有目标时，先做碰撞检查，再使用交互确认，避免静默覆盖。复制目录还必须明确递归范围，并在完成后核对目标层级，防止把整个源目录意外嵌套进已有目录。"""
+
+[syntax]
+basic = "创建命令 [安全选项] 路径...；复制或移动命令 [安全选项] 源路径 目标路径"
+
+[[syntax.parts]]
+name = "源路径"
+desc = "要复制、移动或重命名的对象；操作前确认它存在且类型符合预期"
+
+[[syntax.parts]]
+name = "目标路径"
+desc = "既可能表示新名称，也可能表示接收对象的已有目录；目标是否存在会改变结果"
+
+[[syntax.parts]]
+name = "碰撞检查"
+desc = "先只读查看目标及其父目录，确认没有同名对象，或明确接受交互式覆盖"
+
+[[options]]
+flag = "-p"
+name = "按需创建父目录"
+note = "用于多级目录创建；已存在的目录不会因此报错，但仍要确认路径拼写"
+
+[[options]]
+flag = "-i"
+name = "覆盖前询问"
+note = "复制或移动遇到已有目标时请求确认；它是最后一道提示，不替代事前检查"
+
+[[options]]
+flag = "-r"
+name = "递归复制目录"
+note = "会处理目录中的全部后代；使用前先了解源目录范围和目标层级"
+
+[[examples]]
+id = "v03-23-create-copy-move-01"
+command_id = "fileops-mkdir-work-parents"
+level = 1
+
+[[examples]]
+id = "v03-23-create-copy-move-02"
+command_id = "fileops-touch-batch-notes"
+level = 1
+
+[[examples]]
+id = "v03-23-create-copy-move-03"
+command_id = "fileops-cp-assets-recursive"
+level = 2
+
+[[examples]]
+id = "v03-23-create-copy-move-04"
+command_id = "fileops-cp-config-interactive"
+level = 2
+
+[[examples]]
+id = "v03-23-create-copy-move-05"
+command_id = "fileops-mv-rename-interactive"
+level = 2
+
+[[examples]]
+id = "v03-23-create-copy-move-06"
+command_id = "fileops-mv-archive-interactive"
+level = 2
+
+[[gotchas]]
+title = "同一目标写法可能有不同含义"
+content = "目标不存在时，它常被当作新名称；目标已经是目录时，源对象通常会进入该目录。复制或移动前应分别核对目标本身与目标父目录，不能只看命令拼写。"
+
+[[gotchas]]
+title = "交互确认不是碰撞检查的替代品"
+content = "-i 只会在工具检测到覆盖时询问。先只读列出目标位置、确认同名项和对象类型，再执行操作；完成后再次核对结果。"
+
+[[gotchas]]
+title = "递归复制要检查层级"
+content = "目录复制不仅涉及内容数量，也涉及目标是否已存在。操作前确认顶层目标，操作后查看新目录的第一层；若要验证全部后代，再使用递归清单。"

@@ -1,0 +1,571 @@
+[meta]
+category = "system"
+difficulty = "basic"
+description = "apt 软件安装全工作流"
+
+[meta.topic]
+id = "apt_workflow"
+title = "APT 软件管理工作流"
+icon = "📦"
+order = 2
+
+[[commands]]
+id = "apt-update-fail-any-source"
+command = "sudo apt-get update"
+summary = "安装或升级前刷新本机的软件包索引"
+simulated_output = """Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease
+Get:2 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Hit:3 http://security.ubuntu.com/ubuntu noble-security InRelease
+Fetched 126 kB in 1s (181 kB/s)
+Reading package lists... Done
+"""
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限执行后面的索引更新"
+
+[[commands.tokens]]
+text = " apt-get"
+desc = "Debian/Ubuntu 的脚本友好型 APT 命令行工具"
+
+[[commands.tokens]]
+text = " update"
+desc = "从所有已配置软件源刷新软件包索引"
+
+[commands.dictation]
+prompt = "在 Debian/Ubuntu 中，安装软件前先从已配置的软件源刷新软件包索引"
+answers = ["sudo apt-get update", "sudo apt update"]
+
+[[commands]]
+id = "apt-list-upgradable"
+command = "apt list --upgradable"
+summary = "查看当前可升级的软件包及版本差异"
+simulated_output = """Listing... Done
+curl/noble-updates,noble-security 8.5.0-2ubuntu10.11 amd64 [upgradable from: 8.5.0-2ubuntu10.10]
+libcurl4t64/noble-updates,noble-security 8.5.0-2ubuntu10.11 amd64 [upgradable from: 8.5.0-2ubuntu10.10]
+nginx/noble-updates,noble-security 1.24.0-2ubuntu7.15 amd64 [upgradable from: 1.24.0-2ubuntu7.14]
+nginx-common/noble-updates,noble-security 1.24.0-2ubuntu7.15 all [upgradable from: 1.24.0-2ubuntu7.14]
+"""
+
+[[commands.tokens]]
+text = "apt"
+desc = "读取本机的软件包索引"
+
+[[commands.tokens]]
+text = " list"
+desc = "按条件列出软件包版本"
+
+[[commands.tokens]]
+text = " --upgradable"
+desc = "只显示已安装且存在更新版本的软件包"
+
+[commands.dictation]
+prompt = "查看软件包索引中当前可升级的软件包及新旧版本"
+answers = ["apt list --upgradable"]
+
+[[commands]]
+id = "apt-upgrade-review"
+command = "sudo apt upgrade"
+summary = "审查方案后升级已安装软件包，不自动移除现有包"
+simulated_output = """Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+Calculating upgrade... Done
+The following packages will be upgraded:
+  curl libcurl4t64 nginx nginx-common
+4 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Need to get 3,376 kB of archives.
+After this operation, 12.3 kB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Fetched 3,376 kB in 2s (1,688 kB/s)
+"""
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限修改已安装的软件包"
+
+[[commands.tokens]]
+text = " apt"
+desc = "解析软件包版本和依赖关系"
+
+[[commands.tokens]]
+text = " upgrade"
+desc = "升级现有软件包，不自动移除已安装的软件包"
+
+[commands.dictation]
+prompt = "先阅读下载、安装和保留清单，再升级 APT 当前可处理的已安装软件包；生产服务还需另做备份与变更评估"
+answers = ["sudo apt upgrade"]
+
+[[commands]]
+id = "apt-search-ripgrep"
+command = "apt search ripgrep"
+summary = "按名称和描述搜索 ripgrep"
+simulated_output = """Sorting... Done
+Full Text Search... Done
+ripgrep/noble 14.1.0-1 amd64
+  Recursively searches directories for a regex pattern
+"""
+
+[[commands.tokens]]
+text = "apt"
+desc = "查询已下载的软件包索引，不需要管理员权限"
+
+[[commands.tokens]]
+text = " search"
+desc = "在软件包名称和描述中搜索"
+
+[[commands.tokens]]
+text = " ripgrep"
+desc = "要查找的关键词"
+
+[commands.dictation]
+prompt = "在已配置的软件源中按名称或描述查找 ripgrep"
+answers = ["apt search ripgrep"]
+
+[[commands]]
+id = "apt-show-ripgrep"
+command = "apt show ripgrep"
+summary = "安装前查看 ripgrep 的依赖与大小"
+simulated_output = """Package: ripgrep
+Version: 14.1.0-1
+Priority: optional
+Section: universe/utils
+Origin: Ubuntu
+Architecture: amd64
+Installed-Size: 5,335 kB
+Depends: libc6 (>= 2.34), libgcc-s1 (>= 4.2), libpcre2-8-0 (>= 10.22)
+Homepage: https://github.com/BurntSushi/ripgrep
+Download-Size: 1,551 kB
+APT-Sources: http://archive.ubuntu.com/ubuntu noble/universe amd64 Packages
+Description: recursively searches directories for a regex pattern
+"""
+
+[[commands.tokens]]
+text = "apt"
+desc = "读取软件源中的软件包元数据"
+
+[[commands.tokens]]
+text = " show"
+desc = "显示版本、依赖、大小和说明等详情"
+
+[[commands.tokens]]
+text = " ripgrep"
+desc = "要查看详情的软件包名"
+
+[commands.dictation]
+prompt = "查看 ripgrep 的版本、依赖关系、下载大小和软件说明"
+answers = ["apt show ripgrep"]
+
+[[commands]]
+id = "apt-install-ripgrep"
+command = "sudo apt install ripgrep"
+summary = "从软件源安装 ripgrep"
+simulated_output = """Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following NEW packages will be installed:
+  ripgrep
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Need to get 1,551 kB of archives.
+After this operation, 5,335 kB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://archive.ubuntu.com/ubuntu noble/universe amd64 ripgrep amd64 14.1.0-1 [1,551 kB]
+Setting up ripgrep (14.1.0-1) ...
+"""
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限写入系统软件目录和包数据库"
+
+[[commands.tokens]]
+text = " apt"
+desc = "自动下载软件包并处理依赖关系"
+
+[[commands.tokens]]
+text = " install"
+desc = "安装指定软件包"
+
+[[commands.tokens]]
+text = " ripgrep"
+desc = "要安装的软件包名"
+
+[commands.dictation]
+prompt = "从已配置的软件源安装 ripgrep 搜索工具"
+answers = ["sudo apt install ripgrep"]
+
+[[commands]]
+id = "apt-list-installed-ripgrep"
+command = "apt list --installed ripgrep"
+summary = "确认 ripgrep 已安装及其版本"
+simulated_output = """Listing... Done
+ripgrep/noble,now 14.1.0-1 amd64 [installed]
+"""
+
+[[commands.tokens]]
+text = "apt"
+desc = "查询本机软件包状态"
+
+[[commands.tokens]]
+text = " list"
+desc = "列出符合条件的软件包"
+
+[[commands.tokens]]
+text = " --installed"
+desc = "只匹配当前已安装的软件包"
+
+[[commands.tokens]]
+text = " ripgrep"
+desc = "把结果限定为 ripgrep，避免输出完整长列表"
+
+[commands.dictation]
+prompt = "确认 ripgrep 是否已安装，并查看本机安装的版本"
+answers = ["apt list --installed ripgrep"]
+
+[[commands]]
+id = "apt-reinstall-ca-certificates"
+command = "sudo apt install --reinstall ca-certificates"
+summary = "重装 CA 证书包以恢复被改动的普通文件"
+simulated_output = """Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+0 upgraded, 0 newly installed, 1 reinstalled, 0 to remove and 0 not upgraded.
+Need to get 139 kB of archives.
+Get:1 http://security.ubuntu.com/ubuntu noble-security/main amd64 ca-certificates all 20260601~24.04.1 [139 kB]
+Preparing to unpack .../ca-certificates_20260601~24.04.1_all.deb ...
+Unpacking ca-certificates (20260601~24.04.1) over (20260601~24.04.1) ...
+Setting up ca-certificates (20260601~24.04.1) ...
+Updating certificates in /etc/ssl/certs...
+"""
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限重新写入软件包提供的系统文件"
+
+[[commands.tokens]]
+text = " apt"
+desc = "从配置的软件源获取并管理软件包"
+
+[[commands.tokens]]
+text = " install"
+desc = "进入安装流程"
+
+[[commands.tokens]]
+text = " --reinstall"
+desc = "即使版本未变也重新下载并解包，配置文件仍按包管理规则处理"
+
+[[commands.tokens]]
+text = " ca-certificates"
+desc = "要恢复的软件包名"
+
+[commands.dictation]
+prompt = "重新解包系统 CA 证书包，以恢复被误改的普通包文件"
+answers = ["sudo apt install --reinstall ca-certificates"]
+
+[[commands]]
+id = "apt-remove-ripgrep"
+command = "sudo apt remove ripgrep"
+summary = "卸载 ripgrep 并保留系统配置"
+simulated_output = """Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following packages will be REMOVED:
+  ripgrep
+0 upgraded, 0 newly installed, 1 to remove and 0 not upgraded.
+After this operation, 5,335 kB disk space will be freed.
+Do you want to continue? [Y/n] y
+Removing ripgrep (14.1.0-1) ...
+"""
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限卸载系统软件包"
+
+[[commands.tokens]]
+text = " apt"
+desc = "在卸载时维护依赖关系和包数据库"
+
+[[commands.tokens]]
+text = " remove"
+desc = "删除软件包文件，但保留受管理的系统配置文件"
+
+[[commands.tokens]]
+text = " ripgrep"
+desc = "要卸载的软件包名"
+
+[commands.dictation]
+prompt = "卸载 ripgrep，同时保留它可能存在的系统级配置文件"
+answers = ["sudo apt remove ripgrep"]
+
+[[commands]]
+id = "apt-purge-nginx-config"
+command = "sudo apt purge nginx nginx-common"
+summary = "高风险：停止并清除 nginx 包及受管理配置，先备份并核对清单"
+simulated_output = """Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following packages will be REMOVED:
+  nginx* nginx-common*
+0 upgraded, 0 newly installed, 2 to remove and 0 not upgraded.
+After this operation, 2,748 kB disk space will be freed.
+Do you want to continue? [Y/n]
+"""
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限删除软件和系统配置"
+
+[[commands.tokens]]
+text = " apt"
+desc = "协调相关软件包的卸载"
+
+[[commands.tokens]]
+text = " purge"
+desc = "删除软件包和 dpkg 管理的配置；不等于替你判断站点数据或自建文件是否安全"
+
+[[commands.tokens]]
+text = " nginx nginx-common"
+desc = "会中断服务并清除共享配置；先备份 /etc/nginx，再逐项核对拟删除清单"
+
+[commands.dictation]
+prompt = "确认已备份 /etc/nginx 且可以中断服务后，清除 nginx 与 nginx-common 的受管理配置；执行确认前逐项核对删除清单"
+answers = ["sudo apt purge nginx nginx-common"]
+
+[[commands]]
+id = "apt-autoremove-unused"
+command = "sudo apt autoremove"
+summary = "清理无用自动依赖，确认前务必核对清单"
+simulated_output = """Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following packages will be REMOVED:
+  libuchardet0
+0 upgraded, 0 newly installed, 1 to remove and 0 not upgraded.
+After this operation, 212 kB disk space will be freed.
+Do you want to continue? [Y/n] y
+Removing libuchardet0:amd64 (0.0.8-1build1) ...
+"""
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限删除不再需要的软件包"
+
+[[commands.tokens]]
+text = " apt"
+desc = "依据自动安装标记和当前依赖关系生成清理清单"
+
+[[commands.tokens]]
+text = " autoremove"
+desc = "移除不再被依赖的自动安装包；必须先核对拟删除清单"
+
+[commands.dictation]
+prompt = "清理不再被任何已安装软件需要的自动依赖，并在确认前核对清单"
+answers = ["sudo apt autoremove"]
+
+[[commands]]
+id = "apt-policy-curl"
+command = "apt policy curl"
+summary = "比较 curl 的已安装版、候选版与来源"
+simulated_output = """curl:
+  Installed: 8.5.0-2ubuntu10.10
+  Candidate: 8.5.0-2ubuntu10.11
+  Version table:
+     8.5.0-2ubuntu10.11 500
+        500 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages
+ *** 8.5.0-2ubuntu10.10 100
+        100 /var/lib/dpkg/status
+     8.5.0-2ubuntu10 500
+        500 http://archive.ubuntu.com/ubuntu noble/main amd64 Packages
+"""
+
+[[commands.tokens]]
+text = "apt"
+desc = "查询软件源优先级和版本选择结果"
+
+[[commands.tokens]]
+text = " policy"
+desc = "显示已安装版本、候选版本及各软件源优先级"
+
+[[commands.tokens]]
+text = " curl"
+desc = "要检查版本来源的软件包名"
+
+[commands.dictation]
+prompt = "查看 curl 的已安装版本、候选版本以及候选版本来自哪个软件源"
+answers = ["apt policy curl"]
+
+[[commands]]
+id = "dpkg-list-curl"
+command = "dpkg -l curl"
+summary = "查看 curl 的底层安装状态与架构"
+simulated_output = """Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name           Version                 Architecture Description
++++-==============-=======================-============-=======================================================
+ii  curl           8.5.0-2ubuntu10.11     amd64        command line tool for transferring data with URL syntax
+"""
+
+[[commands.tokens]]
+text = "dpkg"
+desc = "直接查询 Debian 底层软件包数据库"
+
+[[commands.tokens]]
+text = " -l"
+desc = "按名称模式列出软件包及其状态、版本和架构"
+
+[[commands.tokens]]
+text = " curl"
+desc = "只查看 curl，避免列出整个包数据库"
+
+[commands.dictation]
+prompt = "用底层软件包数据库确认 curl 的安装状态、版本和架构"
+answers = ["dpkg -l curl"]
+
+[[commands]]
+id = "dpkg-listfiles-curl"
+command = "dpkg -L curl"
+summary = "列出 curl 软件包安装的所有文件"
+simulated_output = """/.
+/usr
+/usr/bin
+/usr/bin/curl
+/usr/share
+/usr/share/doc
+/usr/share/doc/curl
+/usr/share/doc/curl/changelog.Debian.gz
+/usr/share/doc/curl/copyright
+/usr/share/man/man1/curl.1.gz
+"""
+
+[[commands.tokens]]
+text = "dpkg"
+desc = "读取本机已安装软件包的文件清单"
+
+[[commands.tokens]]
+text = " -L"
+desc = "列出指定已安装软件包登记的全部路径"
+
+[[commands.tokens]]
+text = " curl"
+desc = "要查询文件清单的软件包名"
+
+[commands.dictation]
+prompt = "列出 curl 软件包安装到系统中的全部文件和目录路径"
+answers = ["dpkg -L curl"]
+
+[[commands]]
+id = "dpkg-install-local-gdebi"
+command = "sudo apt install ./downloads/tool.deb"
+summary = "用 APT 安装可信本地 deb，并一并解析依赖"
+simulated_output = """Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+Note, selecting 'tool' instead of './downloads/tool.deb'
+The following NEW packages will be installed:
+  tool
+0 upgraded, 1 newly installed, 0 to remove and 5 not upgraded.
+Do you want to continue? [Y/n] y
+Setting up tool (1.0-1) ...
+"""
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限安装软件；执行前核对来源与变更清单"
+
+[[commands.tokens]]
+text = " apt"
+desc = "使用高层包管理器处理本地 deb 及其依赖关系"
+
+[[commands.tokens]]
+text = " install"
+desc = "安装指定软件包，并从已配置的软件源解析所需依赖"
+
+[[commands.tokens]]
+text = " ./downloads/tool.deb"
+desc = "./ 表明这是本地文件；只安装已核验来源和校验值的 deb"
+
+[commands.dictation]
+prompt = "确认来源可信后，用高层包管理器安装 downloads 中的 tool.deb，并让它同时处理依赖"
+answers = ["sudo apt install ./downloads/tool.deb"]
+
+[[commands]]
+id = "dpkg-audit-packages"
+command = "dpkg --audit"
+summary = "只读检查是否有部分安装或状态异常的软件包"
+
+[[commands.tokens]]
+text = "dpkg"
+desc = "检查 Debian 底层软件包数据库"
+
+[[commands.tokens]]
+text = " --audit"
+desc = "查找部分安装、控制数据缺失或状态异常的软件包"
+
+[commands.dictation]
+prompt = "检查包数据库中是否存在仅部分安装、控制数据缺失或状态异常的软件包"
+answers = ["dpkg --audit"]
+
+[[commands]]
+id = "apt-fix-broken-dependencies"
+command = "sudo apt --fix-broken install"
+summary = "仅在审计确认异常后，审查 APT 提出的依赖修复方案"
+simulated_output = """Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+Correcting dependencies... Done
+The following additional packages will be installed:
+  python3-chardet python3-debian zstd
+0 upgraded, 3 newly installed, 0 to remove and 0 not upgraded.
+1 not fully installed or removed.
+Need to get 927 kB of archives.
+Do you want to continue? [Y/n]
+"""
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限修复系统软件包状态"
+
+[[commands.tokens]]
+text = " apt"
+desc = "利用软件源和依赖解析器寻找修复方案"
+
+[[commands.tokens]]
+text = " --fix-broken"
+desc = "尝试修复未满足的依赖关系；它可能安装或移除包，不能盲目确认"
+
+[[commands.tokens]]
+text = " install"
+desc = "不指定包名，让解析器补齐依赖并完成待配置软件包"
+
+[commands.dictation]
+prompt = "仅在 dpkg --audit 已确认包状态不完整时，让 APT 提出修复方案；执行确认前核对所有安装、移除与配置变化"
+answers = ["sudo apt --fix-broken install"]
+
+[[commands]]
+id = "dpkg-lock-fuser-diagnose"
+command = "sudo fuser -v /var/lib/dpkg/lock-frontend"
+summary = "只诊断锁持有者；严禁删除软件包锁文件"
+simulated_output = """                     USER        PID ACCESS COMMAND
+/var/lib/dpkg/lock-frontend:
+                     root       2468 F.... unattended-upgr
+"""
+
+[[commands.tokens]]
+text = "sudo"
+desc = "以管理员权限查看其他用户进程打开的文件"
+
+[[commands.tokens]]
+text = " fuser"
+desc = "识别正在使用指定文件的进程，不会在此用法中结束进程"
+
+[[commands.tokens]]
+text = " -v"
+desc = "详细显示用户、PID、访问方式和进程名"
+
+[[commands.tokens]]
+text = " /var/lib/dpkg/lock-frontend"
+desc = "只检查前端锁；绝不要删除锁文件，应等待或正常结束持锁程序"
+
+[commands.dictation]
+prompt = "遇到无法获得软件包锁的报错时，只查看占用前端锁的进程，绝不删除锁文件"
+answers = ["sudo fuser -v /var/lib/dpkg/lock-frontend"]

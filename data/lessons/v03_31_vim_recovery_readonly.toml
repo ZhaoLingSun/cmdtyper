@@ -1,0 +1,111 @@
+[meta]
+command = "Vim 恢复、只读与编辑器选择"
+full_name = "Vim recovery, read-only entry points, help, and editor selection"
+category = "system"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "把只读入口、崩溃恢复、保存退出和系统编辑器选择当作不同问题处理"
+explanation = """view（等价于 vim -R）以只读意图打开文件，适合检查 /etc/hosts 等内容；大写 -R 很重要，而且只读模式只是防误写提示，不是操作系统权限隔离，强制写入仍可能绕过，因此不要把它当安全沙箱。Vim 检测到交换文件时，可能提示另一个编辑会话仍在运行，也可能表示上次崩溃留下了可恢复内容。先确认是否存在活跃进程和正确文件，再选择只读查看、恢复到缓冲区或退出；不要直接删除交换文件。恢复出的内容尚未自动写回原文件，应比较、另存或确认后再 :w；需要放弃则退出而不写。vim -h 与 vim --version 是终端中的只读信息查询。readlink -f /usr/bin/editor 和 update-alternatives --display editor 只观察默认编辑器链，不改变选择。crontab -e 则不同：即使只是临时指定 Vim，保存退出后任务表会被安装，必须先只读核对并明确保存语义。"""
+
+[syntax]
+basic = "view 文件（vim -R 文件）；vim -h|--version；只读查询 editor 链；受控使用 crontab -e"
+[[syntax.parts]]
+name = "只读入口"
+desc = "view 或 vim -R 表达查看意图并减少误写；-R 是大写，且不构成权限隔离"
+[[syntax.parts]]
+name = "交换文件"
+desc = "提示可能来自活跃编辑会话或异常退出；先确认进程、文件路径、主机和时间"
+[[syntax.parts]]
+name = "恢复缓冲区"
+desc = "恢复先把内容带回 Vim 缓冲区，不自动覆盖原文件；应比较后决定保存或另存"
+[[syntax.parts]]
+name = "编辑器选择"
+desc = "readlink/update-alternatives --display 只查询系统默认入口；VISUAL/EDITOR 可仅为单次命令临时覆盖"
+
+[[options]]
+flag = "view / vim -R"
+name = "Vim 只读入口"
+example = "view /etc/hosts"
+note = "-R 必须大写；只读状态仍不可替代文件权限和变更流程，普通模式用 :q 退出"
+
+[[options]]
+flag = "vim -h"
+name = "启动帮助"
+example = "vim -h"
+note = "小写 -h 在终端打印帮助；不要与大写 -R 或其他程序的选项推断混用"
+
+[[options]]
+flag = "vim --version"
+name = "版本与功能查询"
+example = "vim --version"
+note = "只显示版本、编译功能和配置位置，不打开文件；功能前的 + 与 - 表示编译支持情况"
+
+[[options]]
+flag = "readlink -f /usr/bin/editor"
+name = "跟随默认编辑器链接"
+example = "readlink -f /usr/bin/editor"
+note = "只读解析最终路径，不说明当前 shell 的 EDITOR/VISUAL 是否覆盖该默认值"
+
+[[options]]
+flag = "update-alternatives --display editor"
+name = "查看替代组"
+example = "update-alternatives --display editor"
+note = "--display 只展示当前链接与候选，不进入配置，也不更改系统默认编辑器"
+
+[[options]]
+flag = "VISUAL=vim EDITOR=vim crontab -e"
+name = "仅本次选择 Vim 编辑 crontab"
+example = "VISUAL=vim EDITOR=vim crontab -e"
+note = "变量覆盖是临时的，但 :wq 保存退出会让 crontab 安装修改；:q! 才会放弃缓冲区修改"
+
+[[examples]]
+id = "v03-31-vim-readonly-hosts"
+command_id = "vim-readonly-hosts"
+level = 1
+
+[[examples]]
+id = "v03-31-vim-version-observe"
+command_id = "vim-version-check"
+level = 1
+
+[[examples]]
+id = "v03-31-editor-link-observe"
+command_id = "editor-symlink-target"
+level = 1
+
+[[examples]]
+id = "v03-31-vim-quick-help"
+command_id = "vim-quick-help"
+level = 1
+
+[[examples]]
+id = "v03-31-vim-crontab-controlled-edit"
+command_id = "crontab-edit-with-vim"
+level = 3
+
+[[examples]]
+id = "v03-31-editor-alternatives-display"
+command_id = "editor-alternative-display"
+level = 2
+
+[[gotchas]]
+title = "只读模式不是权限边界"
+content = "view/vim -R 主要防止无意写入。拥有文件写权限的用户仍可能通过强制命令或另一个程序改写文件；真正的保护来自操作系统权限、最小授权、备份和审计流程。"
+
+[[gotchas]]
+title = "交换文件提示先判断是否有人正在编辑"
+content = "若另一个 Vim 会话仍活跃，直接恢复或删除交换文件可能制造两个竞争版本。先核对提示中的文件路径、用户、主机、进程号和时间；不能确认时只读查看并联系所有者。"
+
+[[gotchas]]
+title = "恢复不等于自动保存"
+content = "恢复内容进入缓冲区后，应与磁盘文件比较，确认哪部分有效。可以另存到新路径保留证据，确认后再替换；若判断恢复内容不需要，用不写入的方式退出。最后只有在确认没有其他活跃会话时才处理旧交换文件。"
+
+[[gotchas]]
+title = "crontab 保存退出会产生系统行为变化"
+content = "临时设置 VISUAL/EDITOR 只决定打开哪个编辑器，不会把编辑变成草稿。:wq 后 crontab 会安装保存内容；编辑前应先列出现状，编辑后再列出复核，并考虑任务运行环境与回滚。"
+
+[[gotchas]]
+title = "选项和 Ex 命令都区分大小写与标点"
+content = "vim -R 的 R 是大写，vim -h 的 h 是小写，--version 和 --display 使用两个连字符。:q、:q!、:w 与 :wq 也有不同后果，感叹号不能省略或随意添加。"

@@ -135,66 +135,8 @@ answers = [
 ]
 
 [[commands]]
-id = "tmux-new-session"
-command = "tmux new -s dev"
-summary = "创建一个名为 dev 的 tmux 新会话"
-simulated_output = "[detached (from session dev)]"
-
-[[commands.tokens]]
-text = "tmux"
-desc = "终端复用器，可保持长期会话（通常需要额外安装）"
-
-[[commands.tokens]]
-text = " new"
-desc = "创建新会话"
-
-[[commands.tokens]]
-text = " -s"
-desc = "指定会话名称"
-
-[[commands.tokens]]
-text = " dev"
-desc = "新建的会话名"
-
-[commands.dictation]
-prompt = "创建一个名为 dev 的 tmux 会话"
-answers = [
-    "tmux new -s dev",
-    "tmux new-session -s dev",
-]
-
-[[commands]]
-id = "tmux-attach-session"
-command = "tmux attach -t dev"
-summary = "重新连接到名为 dev 的 tmux 会话"
-simulated_output = "[attached to session dev]"
-
-[[commands.tokens]]
-text = "tmux"
-desc = "终端复用器"
-
-[[commands.tokens]]
-text = " attach"
-desc = "连接到已有会话"
-
-[[commands.tokens]]
-text = " -t"
-desc = "指定目标会话"
-
-[[commands.tokens]]
-text = " dev"
-desc = "要连接的会话名"
-
-[commands.dictation]
-prompt = "重新连接到名为 dev 的 tmux 会话"
-answers = [
-    "tmux attach -t dev",
-    "tmux attach-session -t dev",
-]
-
-[[commands]]
 id = "docker-ps-format"
-command = "docker ps --format {{.Names}} {{.Status}}"
+command = "docker ps --format '{{.Names}} {{.Status}}'"
 summary = "只显示容器名称和状态"
 simulated_output = """
 web Up 3 hours
@@ -215,13 +157,13 @@ text = " --format"
 desc = "自定义输出格式"
 
 [[commands.tokens]]
-text = " {{.Names}} {{.Status}}"
-desc = "只输出容器名称和状态字段"
+text = " '{{.Names}} {{.Status}}'"
+desc = "用引号把包含空格的 Go 模板作为一个格式参数，只输出名称和状态字段"
 
 [commands.dictation]
-prompt = "用自定义格式列出 Docker 容器名称和状态"
+prompt = "用带引号的自定义格式参数列出 Docker 容器名称和状态"
 answers = [
-    "docker ps --format {{.Names}} {{.Status}}",
+    "docker ps --format '{{.Names}} {{.Status}}'",
     "docker ps --format \"{{.Names}} {{.Status}}\"",
 ]
 
@@ -331,8 +273,8 @@ answers = [
 
 [[commands]]
 id = "scp-recursive-upload"
-command = "scp -r dist/ admin@example.com:/srv/www/"
-summary = "把 dist 目录递归上传到远程站点目录"
+command = "scp -r dist/ admin@example.com:~/staging/"
+summary = "把 dist 目录上传到远程用户的 staging 区，而不是直接覆盖站点目录"
 simulated_output = """
 index.html 100% 12KB 72.4KB/s 00:00
 assets/app.js 100% 356KB 1.8MB/s 00:00
@@ -341,30 +283,30 @@ assets/style.css 100% 42KB 234.9KB/s 00:00
 
 [[commands.tokens]]
 text = "scp"
-desc = "通过 SSH 安全复制文件的命令"
+desc = "通过 SSH 安全复制文件的命令；传输前仍需独立核验主机指纹"
 
 [[commands.tokens]]
 text = " -r"
-desc = "递归复制目录"
+desc = "递归复制目录树"
 
 [[commands.tokens]]
 text = " dist/"
-desc = "文件路径： dist/"
+desc = "本地构建产物目录；上传前应先检查内容"
 
 [[commands.tokens]]
-text = " admin@example.com:/srv/www/"
-desc = "文件路径： admin@example.com:/srv/www/"
+text = " admin@example.com:~/staging/"
+desc = "远程 admin 用户家目录中的 staging 区；不直接写入 /srv/www 等在线目录"
 
 [commands.dictation]
-prompt = "把本地 dist 目录递归上传到 admin@example.com 的 /srv/www/"
+prompt = "把本地 dist 目录递归上传到 admin@example.com 的 ~/staging/，供远程检查；不要直接部署到在线站点目录"
 answers = [
-    "scp -r dist/ admin@example.com:/srv/www/",
+    "scp -r dist/ admin@example.com:~/staging/",
 ]
 
 [[commands]]
 id = "rsync-ssh-progress"
-command = "rsync -avzP -e ssh dist/ admin@example.com:/srv/www/"
-summary = "通过 SSH 压缩同步 dist 目录，并显示进度"
+command = "rsync -avzn -e ssh dist/ admin@example.com:~/staging/"
+summary = "通过 SSH 只预演 dist 到远程 staging 区的同步计划"
 simulated_output = """
 sending incremental file list
 ./
@@ -372,16 +314,17 @@ index.html
 assets/app.js
 assets/style.css
 
-sent 421,012 bytes  received 94 bytes  842,212.00 bytes/sec
+sent 172 bytes  received 28 bytes  400.00 bytes/sec
+total size is 421,012  speedup is 2,105.06 (DRY RUN)
 """
 
 [[commands.tokens]]
 text = "rsync"
-desc = "高效的远程/本地文件同步和备份工具"
+desc = "高效的远程或本地文件同步工具"
 
 [[commands.tokens]]
-text = " -avzP"
-desc = "归档 + 详细输出 + 压缩传输 + 显示进度"
+text = " -avzn"
+desc = "归档 + 详细清单 + 压缩协商 + dry-run；只计算计划，不传输文件内容"
 
 [[commands.tokens]]
 text = " -e"
@@ -389,20 +332,20 @@ desc = "指定远程 shell 命令"
 
 [[commands.tokens]]
 text = " ssh"
-desc = "使用 ssh 作为远程传输通道"
+desc = "使用 SSH 作为远程传输通道，并要求事先核验主机身份"
 
 [[commands.tokens]]
 text = " dist/"
-desc = "文件路径： dist/"
+desc = "本地源目录内容；末尾斜杠表示同步其中内容"
 
 [[commands.tokens]]
-text = " admin@example.com:/srv/www/"
-desc = "文件路径： admin@example.com:/srv/www/"
+text = " admin@example.com:~/staging/"
+desc = "远程用户的 staging 目录；dry-run 不写入，也不直接触碰在线站点目录"
 
 [commands.dictation]
-prompt = "通过 SSH 压缩同步 dist 目录到远程站点，并显示进度"
+prompt = "通过 SSH 只预演把 dist/ 同步到 admin@example.com 的 ~/staging/，显示文件清单但不实际传输或部署"
 answers = [
-    "rsync -avzP -e ssh dist/ admin@example.com:/srv/www/",
+    "rsync -avzn -e ssh dist/ admin@example.com:~/staging/",
 ]
 
 [[commands]]

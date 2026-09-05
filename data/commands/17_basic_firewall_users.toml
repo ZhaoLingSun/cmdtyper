@@ -35,7 +35,7 @@ answers = ["sudo ufw status verbose"]
 [[commands]]
 id = "ufw-allow-ssh"
 command = "sudo ufw allow 22/tcp"
-summary = "允许 TCP 22 端口的入站连接（SSH）"
+summary = "仅在已确认 SSH 管理端口确为 22 时，先允许该入站端口"
 simulated_output = """
 Rule added
 Rule added (v6)
@@ -51,39 +51,43 @@ text = " allow"
 desc = "添加允许规则"
 [[commands.tokens]]
 text = " 22/tcp"
-desc = "TCP 协议的 22 端口"
+desc = "仅当 sshd 实际监听 TCP 22 时才是正确的管理端口；自定义端口必须改用真实值"
 [commands.dictation]
-prompt = "用 ufw 允许 SSH 端口的入站连接"
+prompt = "已从 sshd 配置和监听状态确认当前 SSH 管理端口就是 TCP 22；在启用或收紧 UFW 前先允许该端口"
 answers = ["sudo ufw allow 22/tcp"]
 
 [[commands]]
 id = "ufw-deny-port"
-command = "sudo ufw deny 3306"
-summary = "禁止 3306 端口的入站连接（MySQL）"
+command = "sudo ufw status numbered"
+summary = "只读检查 UFW 当前状态和编号规则，再评估是否能安全限制数据库端口"
 simulated_output = """
-Rule added
-Rule added (v6)
+Status: active
+
+     To                         Action      From
+     --                         ------      ----
+[ 1] 22/tcp                     ALLOW IN    Anywhere
+[ 2] 443/tcp                    ALLOW IN    Anywhere
 """
 [[commands.tokens]]
 text = "sudo"
-desc = "以超级用户（root）权限执行后续命令"
+desc = "仅为读取完整防火墙状态请求管理员权限；本命令不添加或删除规则"
 [[commands.tokens]]
 text = " ufw"
 desc = "简易防火墙管理工具"
 [[commands.tokens]]
-text = " deny"
-desc = "添加拒绝规则"
+text = " status"
+desc = "只读显示当前启用状态和规则"
 [[commands.tokens]]
-text = " 3306"
-desc = "MySQL 默认端口"
+text = " numbered"
+desc = "给规则编号，便于同时核对管理端口、数据库监听地址、现有客户端和规则顺序"
 [commands.dictation]
-prompt = "用 ufw 拒绝 3306 端口的入站连接"
-answers = ["sudo ufw deny 3306"]
+prompt = "在考虑限制 3306 前，只读查看带编号的 UFW 状态；先核对数据库监听地址、合法客户端、管理端口和现有规则，不直接添加 deny"
+answers = ["sudo ufw status numbered"]
 
 [[commands]]
 id = "ufw-enable"
 command = "sudo ufw enable"
-summary = "启用 ufw 防火墙"
+summary = "在当前管理端口已明确放行且有带外恢复方案后启用 ufw"
 simulated_output = """
 Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
 Firewall is active and enabled on system startup
@@ -96,9 +100,9 @@ text = " ufw"
 desc = "简易防火墙管理工具"
 [[commands.tokens]]
 text = " enable"
-desc = "启用防火墙"
+desc = "启用防火墙；远程操作前必须先放行实际 SSH/管理端口并准备带外恢复"
 [commands.dictation]
-prompt = "启用 ufw 防火墙"
+prompt = "已确认当前 SSH 或其他远程管理端口存在允许规则，并准备好控制台等带外恢复方式；现在启用 ufw"
 answers = ["sudo ufw enable"]
 
 [[commands]]
@@ -153,7 +157,7 @@ answers = ["sudo passwd deploy"]
 [[commands]]
 id = "usermod-add-group"
 command = "sudo usermod -aG docker deploy"
-summary = "把 deploy 用户添加到 docker 组"
+summary = "在完成授权审查后把 deploy 加入 docker 组；该组通常具有近似 root 的主机控制能力"
 simulated_output = ""
 [[commands.tokens]]
 text = "sudo"
@@ -163,37 +167,34 @@ text = " usermod"
 desc = "修改用户信息的命令"
 [[commands.tokens]]
 text = " -aG"
-desc = "-a 追加 + -G 指定附加组"
+desc = "-a 追加 + -G 指定附加组，避免覆盖其他附加组"
 [[commands.tokens]]
 text = " docker"
-desc = "要加入的用户组"
+desc = "Docker 守护进程控制组；成员通常可借助容器获得近似 root 的主机访问，不能当普通低权限组"
 [[commands.tokens]]
 text = " deploy"
-desc = "要修改的用户名"
+desc = "已通过最小权限和职责审查的目标用户名；新组通常在重新登录后生效"
 [commands.dictation]
-prompt = "把 deploy 用户添加到 docker 用户组"
+prompt = "已确认 deploy 的职责确实需要直接控制 Docker，并已按近似 root 权限完成审批；追加到 docker 组且不覆盖现有附加组"
 answers = ["sudo usermod -aG docker deploy"]
 
 [[commands]]
 id = "userdel-remove"
-command = "sudo userdel -r olduser"
-summary = "删除 olduser 用户并移除其家目录"
-simulated_output = "userdel: olduser mail spool (/var/mail/olduser) not found"
+command = "sudo userdel olduser"
+summary = "在审计会话、进程、文件归属和备份后删除 olduser 账号，但保留家目录"
+simulated_output = ""
 [[commands.tokens]]
 text = "sudo"
-desc = "以超级用户（root）权限执行后续命令"
+desc = "仅为已审批的单账号生命周期操作请求管理员权限"
 [[commands.tokens]]
 text = " userdel"
-desc = "删除用户的命令"
-[[commands.tokens]]
-text = " -r"
-desc = "同时删除用户的家目录和邮件"
+desc = "删除账号记录；执行前必须检查活跃会话、进程、定时任务和该 UID 拥有的文件"
 [[commands.tokens]]
 text = " olduser"
-desc = "要删除的用户名"
+desc = "已核对的目标账号；未使用 -r，因此家目录和邮件不会在同一步直接删除"
 [commands.dictation]
-prompt = "删除 olduser 用户并移除其家目录"
-answers = ["sudo userdel -r olduser"]
+prompt = "已审计 olduser 的活跃会话、进程、定时任务、文件归属和数据备份；只删除账号记录并保留家目录供后续独立审核"
+answers = ["sudo userdel olduser"]
 
 [[commands]]
 id = "su-switch-user"
@@ -218,21 +219,24 @@ answers = ["su - deploy"]
 
 [[commands]]
 id = "sudo-last-command"
-command = "sudo !!"
-summary = "用 sudo 重新执行上一条命令"
-simulated_output = """
-[sudo] password for ace:
-<previous command output ...>
-"""
+command = "sudo systemctl is-active nginx"
+summary = "显式写出并复核要提权执行的只读命令，不使用 sudo !! 重放历史"
+simulated_output = "active"
 [[commands.tokens]]
 text = "sudo"
-desc = "以超级用户（root）权限执行后续命令"
+desc = "仅为后面这条已明确写出并审查的命令请求管理员权限"
 [[commands.tokens]]
-text = " !!"
-desc = "引用上一条执行的命令"
+text = " systemctl"
+desc = "管理或查询 systemd 单元；具体风险由后续子命令决定"
+[[commands.tokens]]
+text = " is-active"
+desc = "只读检查服务当前是否处于 active 状态"
+[[commands.tokens]]
+text = " nginx"
+desc = "已明确写出的目标服务名，避免历史展开隐藏实际命令"
 [commands.dictation]
-prompt = "用 sudo 重新执行上一条命令"
-answers = ["sudo !!"]
+prompt = "不要用 sudo !! 直接提权重放上一条历史；显式写出并复核只读的 nginx 活动状态查询"
+answers = ["sudo systemctl is-active nginx"]
 
 [[commands]]
 id = "visudo-basic"

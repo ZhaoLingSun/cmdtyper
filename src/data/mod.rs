@@ -1,3 +1,4 @@
+pub mod catalog;
 pub mod command_loader;
 pub mod lesson_loader;
 pub mod lexicon;

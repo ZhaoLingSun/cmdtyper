@@ -143,14 +143,29 @@ fn typing_engine_finish_records_difficulty_and_mode() {
 
 #[test]
 fn matcher_normalize_and_check_behave_correctly() {
-    assert_eq!(normalize("  LS   -LA\t/VAR/LOG  "), "ls -la /var/log");
+    assert_eq!(normalize("  LS   -LA\t/VAR/LOG  "), "LS -LA /VAR/LOG");
 
     let answers = vec!["ls -la /var/log".to_string(), "pwd".to_string()];
     assert_eq!(check("pwd", &answers), MatchResult::Exact(1));
     assert_eq!(
-        check(" ls   -la /VAR/LOG ", &answers),
+        check(" ls   -la /var/log ", &answers),
         MatchResult::Normalized(0)
     );
+
+    for (input, answer) in [
+        ("less -n", "less -N"),
+        ("vim -r notes.txt", "vim -R notes.txt"),
+        (
+            "visual=vim editor=vim command",
+            "VISUAL=vim EDITOR=vim command",
+        ),
+        ("cat /var/log/syslog", "cat /Var/Log/syslog"),
+    ] {
+        assert!(matches!(
+            check(input, &[answer.to_string()]),
+            MatchResult::NoMatch { .. }
+        ));
+    }
 
     match check("ls /tmp", &answers) {
         MatchResult::NoMatch { closest, diff } => {

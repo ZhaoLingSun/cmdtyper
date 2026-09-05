@@ -135,7 +135,11 @@ pub fn render_detail(frame: &mut Frame, app: &App, topic_index: usize, section_i
     let content = Paragraph::new(lines).wrap(Wrap { trim: false });
     frame.render_widget(content, chunks[1]);
 
-    let hints = hint_line(&[("↑↓", "上下章节"), ("Enter/→", "开始命令练习"), ("Esc", "返回")]);
+    let hints = hint_line(&[
+        ("↑↓", "上下章节"),
+        ("Enter/→", "开始命令练习"),
+        ("Esc", "返回"),
+    ]);
     frame.render_widget(
         Paragraph::new(hints).alignment(Alignment::Center),
         chunks[2],
@@ -149,6 +153,7 @@ pub fn render_typing_practice(
     topic_index: usize,
     section_index: usize,
     cmd_idx: usize,
+    scroll: usize,
 ) {
     let area = frame.area();
     let topic = match app.system_topics.get(topic_index) {
@@ -174,7 +179,12 @@ pub fn render_typing_practice(
         .split(area);
 
     let title = Paragraph::new(Line::from(Span::styled(
-        format!(" {} — 命令练习 {}/{} ", section.title, cmd_idx + 1, section.commands.len()),
+        format!(
+            " {} — 命令练习 {}/{} ",
+            section.title,
+            cmd_idx + 1,
+            section.commands.len()
+        ),
         Style::default().fg(HEADER).add_modifier(Modifier::BOLD),
     )))
     .alignment(Alignment::Center)
@@ -188,13 +198,18 @@ pub fn render_typing_practice(
     let mut lines: Vec<Line> = vec![
         Line::from(Span::styled(
             cmd.summary.clone(),
-            Style::default().fg(Color::White).add_modifier(Modifier::BOLD),
+            Style::default()
+                .fg(Color::White)
+                .add_modifier(Modifier::BOLD),
         )),
         Line::from(""),
         render_typing_line("$ ", &app.typing_engine),
         Line::from(""),
         Line::from(Span::styled(
-            format!("当前准确率: {:.0}%", app.typing_engine.current_accuracy() * 100.0),
+            format!(
+                "当前准确率: {:.0}%",
+                app.typing_engine.current_accuracy() * 100.0
+            ),
             Style::default().fg(DIM),
         )),
         Line::from(Span::styled(
@@ -205,7 +220,10 @@ pub fn render_typing_practice(
 
     if app.typing_engine.is_complete() && app.system_typing_showing_output {
         lines.push(Line::from(""));
-        lines.push(Line::from(Span::styled("模拟输出:", Style::default().fg(ACCENT))));
+        lines.push(Line::from(Span::styled(
+            "模拟输出:",
+            Style::default().fg(ACCENT),
+        )));
         if let Some(output) = &cmd.simulated_output {
             for line in output.lines() {
                 lines.push(Line::from(Span::styled(
@@ -216,7 +234,12 @@ pub fn render_typing_practice(
         }
     }
 
-    let content = Paragraph::new(lines).wrap(Wrap { trim: false });
+    let total_lines = rendered_wrapped_line_count(&lines, chunks[1].width, false);
+    let visible_height = usize::from(chunks[1].height);
+    let clamped_scroll = clamp_scroll(scroll, total_lines, visible_height);
+    let content = Paragraph::new(lines)
+        .wrap(Wrap { trim: false })
+        .scroll((clamped_scroll as u16, 0));
     frame.render_widget(content, chunks[1]);
 
     let has_output = cmd
@@ -236,6 +259,10 @@ pub fn render_typing_practice(
         vec![("输入字符", "继续")]
     };
 
+    if app.system_typing_showing_output {
+        hint_items.push(("↑↓/j k", "滚动"));
+        hint_items.push(("PgUp/PgDn", "翻页"));
+    }
     if cmd.deep_explanation.is_some() {
         hint_items.push(("D", "查看详解"));
     }
@@ -254,6 +281,7 @@ pub fn render_config_file(
     topic_index: usize,
     section_index: usize,
     cf_idx: usize,
+    scroll: usize,
 ) {
     let area = frame.area();
     let topic = match app.system_topics.get(topic_index) {
@@ -297,7 +325,10 @@ pub fn render_config_file(
     )));
     lines.push(Line::from(""));
 
-    lines.push(Line::from(Span::styled("示例内容:", Style::default().fg(HEADER))));
+    lines.push(Line::from(Span::styled(
+        "示例内容:",
+        Style::default().fg(HEADER),
+    )));
     for line in cf.sample_content.lines() {
         lines.push(Line::from(Span::styled(
             format!("  {}", line),
@@ -309,7 +340,9 @@ pub fn render_config_file(
     for lesson in &cf.lessons {
         lines.push(Line::from(Span::styled(
             format!("• {}", lesson.title),
-            Style::default().fg(Color::White).add_modifier(Modifier::BOLD),
+            Style::default()
+                .fg(Color::White)
+                .add_modifier(Modifier::BOLD),
         )));
         lines.push(Line::from(vec![
             Span::styled("  前: ", Style::default().fg(ERROR)),
@@ -328,14 +361,28 @@ pub fn render_config_file(
         lines.push(Line::from(""));
     }
 
-    let content = Paragraph::new(lines).wrap(Wrap { trim: false });
+    let total_lines = rendered_wrapped_line_count(&lines, chunks[1].width, false);
+    let visible_height = usize::from(chunks[1].height);
+    let clamped_scroll = clamp_scroll(scroll, total_lines, visible_height);
+    let content = Paragraph::new(lines)
+        .wrap(Wrap { trim: false })
+        .scroll((clamped_scroll as u16, 0));
     frame.render_widget(content, chunks[1]);
 
-    let hints = hint_line(&[("Enter/→", "下一个"), ("Esc", "返回")]);
+    let hints = hint_line(&[
+        ("↑↓/j k", "滚动"),
+        ("PgUp/PgDn", "翻页"),
+        ("Enter/→", "下一个"),
+        ("Esc", "返回"),
+    ]);
     frame.render_widget(
         Paragraph::new(hints).alignment(Alignment::Center),
         chunks[2],
     );
+}
+
+fn clamp_scroll(scroll: usize, total_lines: usize, visible_height: usize) -> usize {
+    scroll.min(total_lines.saturating_sub(visible_height))
 }
 
 fn render_typing_line<'a>(prompt: &str, engine: &crate::core::engine::TypingEngine) -> Line<'a> {

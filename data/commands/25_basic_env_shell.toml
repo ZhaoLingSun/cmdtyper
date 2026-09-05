@@ -1,0 +1,327 @@
+[meta]
+category = "system"
+difficulty = "basic"
+description = "环境变量与 shell 配置"
+
+[meta.topic]
+id = "env_shell"
+title = "环境变量与 Shell 配置"
+icon = "🐚"
+order = 6
+
+[[commands]]
+id = "env-echo-path"
+command = "export -p"
+summary = "列出已导出变量；完整结果可能含凭据，不要直接分享"
+simulated_output = """
+declare -x HOME="/home/ace"
+declare -x LANG="zh_CN.UTF-8"
+declare -x PATH="/home/ace/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+declare -x USER="ace"
+"""
+
+[[commands.tokens]]
+text = "export"
+desc = "设置变量的导出属性；这里只查询，不修改变量"
+
+[[commands.tokens]]
+text = " -p"
+desc = "以 shell 可重新读取的格式列出全部已导出变量；结果可能含 API token 或代理凭据，分享前必须审查"
+
+[commands.dictation]
+prompt = "以 shell 可重新读取的声明格式列出全部已导出变量；完整输出可能含凭据，不要未经审查便分享或录屏"
+answers = ["export -p"]
+
+[[commands]]
+id = "env-extend-path-home-bin"
+command = "export PATH=\"$PATH:$HOME/bin\""
+summary = "把个人 bin 目录追加到当前命令搜索路径"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "export"
+desc = "设置并导出变量，使后续子进程也能继承"
+
+[[commands.tokens]]
+text = " PATH=\"$PATH:$HOME/bin\""
+desc = "保留原路径，并在双引号内展开家目录后追加 bin"
+
+[commands.dictation]
+prompt = "把 $HOME/bin 追加到现有 PATH，并让后续子进程继承"
+answers = ["export PATH=\"$PATH:$HOME/bin\""]
+
+[[commands]]
+id = "env-list-all"
+command = "env"
+summary = "列出可传给子进程的环境变量；完整输出可能含密钥"
+simulated_output = """SHELL=/bin/bash
+USER=ace
+HOME=/home/ace
+LANG=zh_CN.UTF-8
+PATH=/home/ace/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"""
+
+[[commands.tokens]]
+text = "env"
+desc = "无参数时打印环境名称和值；结果可能含令牌或凭据，不要未经审查分享、录屏或粘贴完整输出"
+
+[commands.dictation]
+prompt = "在本机查看可传给子进程的全部环境变量；完整输出可能含密钥或令牌，不要未经审查分享"
+answers = ["env"]
+
+[[commands]]
+id = "env-print-path"
+command = "printenv PATH"
+summary = "只查看已导出的 PATH 环境变量值"
+simulated_output = "/home/ace/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+[[commands.tokens]]
+text = "printenv"
+desc = "打印全部或指定的环境变量值"
+
+[[commands.tokens]]
+text = " PATH"
+desc = "只选择已导出的 PATH 变量"
+
+[commands.dictation]
+prompt = "显示当前 PATH 命令搜索路径的值"
+answers = ["printenv PATH", "echo \"$PATH\"", "printf '%s\\n' \"$PATH\""]
+
+[[commands]]
+id = "env-echo-home-quoted"
+command = "echo \"$HOME\""
+summary = "用双引号安全展开并显示用户家目录"
+simulated_output = "/home/ace"
+
+[[commands.tokens]]
+text = "echo"
+desc = "把展开后的参数输出到终端"
+
+[[commands.tokens]]
+text = " \"$HOME\""
+desc = "双引号保留变量展开，并避免结果被分词或通配"
+
+[commands.dictation]
+prompt = "安全展开并显示当前用户家目录变量的值"
+answers = ["echo \"$HOME\""]
+
+[[commands]]
+id = "env-echo-home-literal"
+command = "echo '$HOME'"
+summary = "用单引号原样显示变量名而不展开"
+simulated_output = "$HOME"
+
+[[commands.tokens]]
+text = "echo"
+desc = "把参数内容输出到终端"
+
+[[commands.tokens]]
+text = " '$HOME'"
+desc = "单引号保留其中每个字符的字面值，禁止变量展开"
+
+[commands.dictation]
+prompt = "原样显示 $HOME 这段文本，不把它展开为目录"
+answers = ["echo '$HOME'"]
+
+[[commands]]
+id = "env-echo-user"
+command = "echo \"$USER\""
+summary = "显示当前会话的用户名变量"
+simulated_output = "ace"
+
+[[commands.tokens]]
+text = "echo"
+desc = "把展开后的参数输出到终端"
+
+[[commands.tokens]]
+text = " \"$USER\""
+desc = "双引号内展开当前用户名变量"
+
+[commands.dictation]
+prompt = "显示当前会话用户名环境变量的值"
+answers = ["echo \"$USER\""]
+
+[[commands]]
+id = "env-echo-login-shell"
+command = "echo \"$SHELL\""
+summary = "显示用户登录 shell 的完整路径"
+simulated_output = "/bin/bash"
+
+[[commands.tokens]]
+text = "echo"
+desc = "把展开后的参数输出到终端"
+
+[[commands.tokens]]
+text = " \"$SHELL\""
+desc = "展开登录 shell 路径；它不保证就是当前正在运行的 shell"
+
+[commands.dictation]
+prompt = "显示用户登录 shell 对应的完整路径变量"
+answers = ["echo \"$SHELL\""]
+
+[[commands]]
+id = "shell-last-exit-status"
+command = "echo $?"
+summary = "查看上一条命令是否成功及其退出状态"
+simulated_output = "0"
+
+[[commands.tokens]]
+text = "echo"
+desc = "把展开后的状态码输出到终端"
+
+[[commands.tokens]]
+text = " $?"
+desc = "展开最近执行命令的退出状态，0 通常表示成功"
+
+[commands.dictation]
+prompt = "显示上一条命令的退出状态码"
+answers = ["echo $?"]
+
+[[commands]]
+id = "shell-invocation-name"
+command = "echo $0"
+summary = "在交互会话中查看当前 shell 的调用名"
+simulated_output = "bash"
+
+[[commands.tokens]]
+text = "echo"
+desc = "把展开后的调用名输出到终端"
+
+[[commands.tokens]]
+text = " $0"
+desc = "展开 shell 或脚本的调用名；在脚本中通常是脚本名"
+
+[commands.dictation]
+prompt = "在交互会话中显示当前 shell 的调用名"
+answers = ["echo $0"]
+
+[[commands]]
+id = "bash-show-version"
+command = "bash --version"
+summary = "查看 Bash 版本与构建平台"
+simulated_output = """GNU bash, version 5.2.21(1)-release (x86_64-pc-linux-gnu)
+Copyright (C) 2022 Free Software Foundation, Inc."""
+
+[[commands.tokens]]
+text = "bash"
+desc = "启动 GNU Bourne Again Shell 的程序"
+
+[[commands.tokens]]
+text = " --version"
+desc = "输出版本信息后成功退出"
+
+[commands.dictation]
+prompt = "排查脚本兼容性时，查看当前要使用的 Bash 程序版本与构建平台"
+answers = ["bash --version"]
+
+[[commands]]
+id = "env-export-project-mode"
+command = "export PROJECT_ENV=development"
+summary = "设置并导出项目运行环境标识"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "export"
+desc = "为变量添加导出属性，使子进程能够继承"
+
+[[commands.tokens]]
+text = " PROJECT_ENV=development"
+desc = "把项目环境标识设置为 development"
+
+[commands.dictation]
+prompt = "创建项目环境标识 PROJECT_ENV，值为 development，并让子进程继承"
+answers = ["export PROJECT_ENV=development"]
+
+[[commands]]
+id = "env-print-project-mode"
+command = "printenv PROJECT_ENV"
+summary = "确认项目环境标识已导出"
+simulated_output = "development"
+
+[[commands.tokens]]
+text = "printenv"
+desc = "读取指定环境变量的值"
+
+[[commands.tokens]]
+text = " PROJECT_ENV"
+desc = "要检查的项目环境变量名"
+
+[commands.dictation]
+prompt = "查看已导出的 PROJECT_ENV 环境变量值"
+answers = ["printenv PROJECT_ENV"]
+
+[[commands]]
+id = "env-unset-project-mode"
+command = "unset PROJECT_ENV"
+summary = "移除当前 shell 中的项目环境标识"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "unset"
+desc = "从当前 shell 中移除变量或函数"
+
+[[commands.tokens]]
+text = " PROJECT_ENV"
+desc = "要移除的变量；后续子进程也不会再收到它"
+
+[commands.dictation]
+prompt = "从当前 shell 和后续子进程环境中移除 PROJECT_ENV"
+answers = ["unset PROJECT_ENV"]
+
+[[commands]]
+id = "bashrc-list-aliases"
+command = "grep '^alias ' ~/.bashrc"
+summary = "检查 Bash 用户配置中已有的别名定义"
+simulated_output = """alias grep='grep --color=auto'
+alias la='ls -A'"""
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选文本中符合模式的行"
+
+[[commands.tokens]]
+text = " '^alias '"
+desc = "只匹配行首以 alias 和空格开头的定义"
+
+[[commands.tokens]]
+text = " ~/.bashrc"
+desc = "当前用户的 Bash 交互配置文件"
+
+[commands.dictation]
+prompt = "在用户 Bash 配置中查找以 alias 开头的别名定义"
+answers = ["grep '^alias ' ~/.bashrc"]
+
+[[commands]]
+id = "bashrc-persist-ll-alias"
+command = "alias ll='ls -lah'"
+summary = "在当前 Bash 会话创建查看文件详情的 ll 别名"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "alias"
+desc = "在当前 shell 中查看或定义命令别名"
+
+[[commands.tokens]]
+text = " ll='ls -lah'"
+desc = "让 ll 展开为包含隐藏项的详细列表；只在当前 Bash 会话生效，不修改启动文件"
+
+[commands.dictation]
+prompt = "在当前 Bash 会话创建 ll 快捷写法，用它显示包含隐藏项的详细文件列表；不要修改启动文件"
+answers = ["alias ll='ls -lah'", "alias ll=\"ls -lah\""]
+
+[[commands]]
+id = "bashrc-reload-check-ll"
+command = "unalias ll"
+summary = "从当前 Bash 会话移除 ll 别名"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "unalias"
+desc = "移除当前 shell 中已定义的别名，不修改启动文件"
+
+[[commands.tokens]]
+text = " ll"
+desc = "要从当前会话移除的别名名称"
+
+[commands.dictation]
+prompt = "当前会话已经定义 ll 后，只从这个 Bash 会话移除它，不修改 ~/.bashrc"
+answers = ["unalias ll"]

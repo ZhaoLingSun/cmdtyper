@@ -23,7 +23,9 @@ pub fn handle_symbol_topics_key(app: &mut App, key: KeyEvent) {
         }
         KeyCode::Enter => {
             if app.symbol_topics_index < count
-                && !app.symbol_topics[app.symbol_topics_index].symbols.is_empty()
+                && !app.symbol_topics[app.symbol_topics_index]
+                    .symbols
+                    .is_empty()
             {
                 app.state = AppState::SymbolLesson {
                     topic_index: app.symbol_topics_index,
@@ -344,14 +346,24 @@ fn finalize_symbol_typing_exercise(app: &mut App, topic_index: usize, exercise_i
     let Some(topic) = app.symbol_topics.get(topic_index) else {
         return;
     };
-    let Some(raw_idx) = app.symbol_practice.typing_indices.get(exercise_idx).copied() else {
+    let Some(raw_idx) = app
+        .symbol_practice
+        .typing_indices
+        .get(exercise_idx)
+        .copied()
+    else {
         return;
     };
 
-    let command_id = format!("symbol:{}:typing:{}", topic.meta.id, raw_idx);
+    let Some(exercise) = topic.exercises.get(raw_idx) else {
+        return;
+    };
+    let command_id = symbol_exercise_progress_key(topic, exercise, raw_idx);
+    let difficulty =
+        app.effective_record_difficulty(exercise.command_id.as_deref(), topic.meta.difficulty);
     let record = app
         .typing_engine
-        .finish(&command_id, topic.meta.difficulty, RecordMode::SymbolTyping);
+        .finish(&command_id, difficulty, RecordMode::SymbolTyping);
 
     app.symbol_practice.typing_count += 1;
     app.symbol_practice.typing_accuracy_sum += record.accuracy;
@@ -491,6 +503,30 @@ fn handle_symbol_practice_key(
         }
         _ => {}
     }
+}
+
+pub(crate) fn symbol_exercise_progress_key(
+    topic: &crate::data::models::SymbolTopic,
+    exercise: &crate::data::models::Exercise,
+    raw_index: usize,
+) -> String {
+    if let Some(command_id) = exercise
+        .command_id
+        .as_deref()
+        .filter(|command_id| !command_id.trim().is_empty())
+    {
+        return command_id.to_string();
+    }
+
+    if let Some(exercise_id) = exercise
+        .id
+        .as_deref()
+        .filter(|exercise_id| !exercise_id.trim().is_empty())
+    {
+        return format!("symbol:{}:{}", topic.meta.id, exercise_id);
+    }
+
+    format!("symbol:{}:typing:{}", topic.meta.id, raw_index)
 }
 
 fn extract_typing_command(exercise: &crate::data::models::Exercise) -> Option<String> {

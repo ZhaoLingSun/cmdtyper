@@ -1,0 +1,96 @@
+[meta]
+command = "sudo-audit"
+full_name = "Read-only privilege and ownership preflight audit"
+category = "permission"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "在任何高权限变更前，用只读证据确认对象、范围和现有授权"
+explanation = """管理员操作的安全流程不是先获得 root shell，而是先证明目标正确、现状清楚、授权足够且范围最小。`stat` 可精确显示单个文件的所有者与组，`ls -laR` 可在教学树中暴露隐藏项和递归范围；二者用于归属变更前的预检，不会改变对象。`passwd -S` 只报告密码状态，状态字母要结合发行版手册解释，不能把“锁定密码”简单等同于“账号绝对无法登录”。`sudo -l` 与 `sudo -l -U 用户` 查询当前策略允许的命令，查询其他用户通常本身需要既有管理员授权。sudo 规则可能包含命令路径、参数、运行身份、主机和标签约束，因此看到一行许可不等于获得通用管理员能力。本课只做审计，不授予权限、不重置密码、不递归改归属，也不建议 `sudo -i`、`sudo su` 等持续 root-shell 习惯。"""
+
+[syntax]
+basic = "stat|ls 目标；sudo passwd -S 用户；sudo -l [-U 用户]"
+[[syntax.parts]]
+name = "对象证据"
+desc = "先记录路径、所有者、组、隐藏项和递归边界，避免对同名错误对象实施变更"
+[[syntax.parts]]
+name = "状态查询"
+desc = "passwd -S 读取密码字段状态，不设置密码；结果需结合 PAM、SSH 密钥和账号过期策略理解"
+[[syntax.parts]]
+name = "策略查询"
+desc = "sudo -l 展示当前用户规则，-U 指定另一个待审计账号；它们不自动授予新能力"
+[[syntax.parts]]
+name = "最小授权"
+desc = "真正需要变更时优先单条命令、明确绝对路径和可复核目标，不进入长期高权限 shell"
+
+[[options]]
+flag = "stat -c"
+name = "精确格式化元数据"
+example = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir ownership && printf 'notes\\n' > ownership/notes.txt && stat -c '%U:%G %n' ownership/notes.txt)"
+note = "%U/%G 显示解析后的名称；审计严谨时还可关注数字 UID/GID，防止名称服务变化"
+
+[[options]]
+flag = "ls -laR"
+name = "递归范围预览"
+example = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir -p ownership/project/config && printf 'MODE=demo\\n' > ownership/project/.env && printf 'port=8080\\n' > ownership/project/config/app.conf && find ownership/project -maxdepth 2 -printf '%M %u:%g %p\\n' | sort)"
+note = "包含隐藏项并递归展示；输出量可能很大，真实环境应限制在已确认的小范围"
+
+[[options]]
+flag = "passwd -S"
+name = "密码状态"
+example = "sudo passwd -S training"
+note = "只查询状态；不使用 passwd 的设置、删除或解锁形式"
+
+[[options]]
+flag = "sudo -l"
+name = "当前账号授权清单"
+example = "sudo -l"
+note = "阅读 RunAs、命令路径、参数和标签，不把某条许可泛化为任意 root 权限"
+
+[[options]]
+flag = "sudo -l -U"
+name = "指定用户策略审计"
+example = "sudo -l -U training"
+note = "通常需要已有管理员授权；用于核对而不是创建规则"
+
+[[examples]]
+id = "v03-l32-audit-file-owner"
+command_id = "ownership-notes-audit"
+level = 1
+
+[[examples]]
+id = "v03-l32-audit-tree-scope"
+command_id = "ownership-project-tree-audit"
+level = 2
+
+[[examples]]
+id = "v03-l32-audit-password-status"
+command_id = "passwd-training-status-audit"
+level = 2
+
+[[examples]]
+id = "v03-l32-audit-user-sudo"
+command_id = "sudo-training-rules-audit"
+level = 3
+
+[[examples]]
+id = "v03-l32-audit-current-sudo"
+command_id = "sudo-current-rules-audit"
+level = 2
+
+[[gotchas]]
+title = "密码锁定不等于所有登录路径都关闭"
+content = "递归清单能帮助发现隐藏文件和子目录，但不证明整棵树都应被改归属。真实变更前还需确认挂载点、符号链接、服务账号、备份与回滚方案；示例在 mktemp -d 新建的唯一 0700 私有教学目录中自建夹具，不触碰真实 /srv、共享 /tmp 名称或系统目录。"
+
+[[gotchas]]
+title = "sudo -l 的规则必须完整阅读"
+content = """规则中的运行身份、主机、命令绝对路径、参数模式、NOPASSWD/SETENV 等标签都会改变实际能力。通配符规则还可能有参数匹配风险。只读查询后应按原文核对，不把允许查看某服务状态误写成允许任意 systemctl 操作。"""
+
+[[gotchas]]
+title = "递归清单是预检，不是变更许可"
+content = """`ls -laR` 能帮助发现隐藏文件和子目录，但它不证明整棵树都应该被改归属。真实变更前还需确认挂载点、符号链接、服务账号、备份与回滚方案；示例刻意使用 /tmp 下的教学树，避免把真实 /srv 或系统目录当练习对象。"""
+
+[[gotchas]]
+title = "避免长期 root shell"
+content = """`sudo -i` 或 `sudo su` 会让后续每条命令都处于高权限上下文，降低提示符与审计线索的保护作用。优先使用 `sudo -l` 确认可用规则，再仅对经过复核的必要单条操作提权；如果规则不足，应走正式授权流程，而不是扩大组成员或修改 sudoers 绕过。"""

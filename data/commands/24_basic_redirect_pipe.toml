@@ -1,0 +1,517 @@
+[meta]
+category = "pipeline"
+difficulty = "basic"
+description = "重定向与管道基础"
+
+[meta.topic]
+id = "redirect_pipe"
+title = "重定向与管道基础"
+icon = "🔀"
+order = 5
+
+[[commands]]
+id = "redirect-overwrite-config"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && echo 'mode=production' > \"$practice_dir/app.conf\")"
+summary = "在唯一私有练习目录中演示覆盖重定向"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && echo 'mode=production' > \"$practice_dir/app.conf\""
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录，把 mode=production 覆盖写入其中的 app.conf"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && echo 'mode=production' > \"$practice_dir/app.conf\")"]
+
+[[commands]]
+id = "redirect-append-date"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && printf 'deployment started\\n' > \"$practice_dir/deploy.log\" && date >> \"$practice_dir/deploy.log\")"
+summary = "在唯一私有日志夹具中演示追加重定向"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && printf 'deployment started\\n' > \"$practice_dir/deploy.log\" && date >> \"$practice_dir/deploy.log\""
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录和初始 deploy.log，再把当前日期时间追加到末尾"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && printf 'deployment started\\n' > \"$practice_dir/deploy.log\" && date >> \"$practice_dir/deploy.log\")"]
+
+[[commands]]
+id = "redirect-silence-stderr"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && grep 'ERROR' missing.log 2>grep-errors.log)"
+summary = "把读取失败诊断保存到私有练习目录"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && grep 'ERROR' missing.log 2>grep-errors.log"
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录，在其中查找不存在的 missing.log，并把标准错误写入 grep-errors.log 而不丢弃诊断"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && grep 'ERROR' missing.log 2>grep-errors.log)"]
+
+[[commands]]
+id = "redirect-file-to-stdin"
+command = "sort < names.txt"
+summary = "把文件内容作为排序操作的标准输入"
+simulated_output = """alice
+bob
+chen"""
+
+[[commands.tokens]]
+text = "sort"
+desc = "按行对文本排序"
+
+[[commands.tokens]]
+text = " <"
+desc = "把文件内容连接到命令的标准输入"
+
+[[commands.tokens]]
+text = " names.txt"
+desc = "提供输入内容的文件"
+
+[commands.dictation]
+prompt = "通过标准输入读取 names.txt，并按行排序"
+answers = ["sort < names.txt"]
+
+[[commands]]
+id = "pipe-process-list-head"
+command = "ps aux | head -n 5"
+summary = "只查看进程列表开头五行"
+simulated_output = """USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.1 169356 13280 ?        Ss   09:10   0:03 /sbin/init
+root         412  0.0  0.2  72312 20148 ?        Ss   09:11   0:01 /usr/sbin/sshd -D
+www-data    1024  0.2  0.5 145892 42360 ?        S    09:12   2:15 nginx: worker process
+ace         1587  0.0  0.1  10864  5440 pts/0    Ss   10:00   0:00 -bash"""
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示进程信息"
+
+[[commands.tokens]]
+text = " aux"
+desc = "列出所有用户的进程及详细字段"
+
+[[commands.tokens]]
+text = " |"
+desc = "把左侧的标准输出连接到右侧的标准输入"
+
+[[commands.tokens]]
+text = " head"
+desc = "读取输入开头的若干行"
+
+[[commands.tokens]]
+text = " -n 5"
+desc = "只保留前 5 行"
+
+[commands.dictation]
+prompt = "查看详细进程列表的开头 5 行"
+answers = ["ps aux | head -n 5"]
+
+[[commands]]
+id = "pipe-count-error-lines"
+command = "grep 'ERROR' app.log | wc -l"
+summary = "统计日志中错误记录的行数"
+simulated_output = "3"
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选包含指定文本的行"
+
+[[commands.tokens]]
+text = " 'ERROR'"
+desc = "要匹配的错误关键字"
+
+[[commands.tokens]]
+text = " app.log"
+desc = "要检查的应用日志"
+
+[[commands.tokens]]
+text = " |"
+desc = "把匹配到的行传给右侧进行计数"
+
+[[commands.tokens]]
+text = " wc"
+desc = "统计输入的行、单词或字节数量"
+
+[[commands.tokens]]
+text = " -l"
+desc = "只统计行数"
+
+[commands.dictation]
+prompt = "练习管道：不用 grep 自带计数选项，把 app.log 中匹配 ERROR 的行交给行数统计工具"
+answers = ["grep 'ERROR' app.log | wc -l"]
+
+[[commands]]
+id = "tee-display-and-save"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && echo 'build complete' | tee \"$practice_dir/build.status\")"
+summary = "显示状态并保存到唯一私有练习文件"
+simulated_output = "build complete"
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && echo 'build complete' | tee \"$practice_dir/build.status\""
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录，让 build complete 同时显示并覆盖保存到其中的 build.status"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && echo 'build complete' | tee \"$practice_dir/build.status\")"]
+
+[[commands]]
+id = "tee-append-monitor-log"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && printf 'previous check\\n' > \"$practice_dir/monitor.log\" && echo 'health check passed' | tee -a \"$practice_dir/monitor.log\")"
+summary = "显示状态并追加到唯一私有监控日志"
+simulated_output = "health check passed"
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && printf 'previous check\\n' > \"$practice_dir/monitor.log\" && echo 'health check passed' | tee -a \"$practice_dir/monitor.log\""
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录和含旧记录的 monitor.log，再让 health check passed 同时显示并追加"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && printf 'previous check\\n' > \"$practice_dir/monitor.log\" && echo 'health check passed' | tee -a \"$practice_dir/monitor.log\")"]
+
+[[commands]]
+id = "xargs-collect-words"
+command = "printf '%s\\n' red green blue | xargs echo"
+summary = "把三个无空格示例词整理为命令参数"
+simulated_output = "red green blue"
+
+[[commands.tokens]]
+text = "printf"
+desc = "按指定格式输出后面的单词"
+
+[[commands.tokens]]
+text = " '%s\\n'"
+desc = "每个单词输出一行"
+
+[[commands.tokens]]
+text = " red green blue"
+desc = "作为三行输入的颜色单词"
+
+[[commands.tokens]]
+text = " |"
+desc = "把三行文本传给右侧命令"
+
+[[commands.tokens]]
+text = " xargs"
+desc = "从标准输入组装后续命令的参数；本基础例只处理无空格词，不用于传递文件路径"
+
+[[commands.tokens]]
+text = " echo"
+desc = "接收组装好的参数并在一行中输出"
+
+[commands.dictation]
+prompt = "把 red、green、blue 这三个安全的无空格示例词整理为 echo 参数并在一行中输出"
+answers = ["printf '%s\\n' red green blue | xargs echo"]
+
+[[commands]]
+id = "xargs-one-argument-each"
+command = "sort names.txt | uniq"
+summary = "先排序姓名，再合并相同的相邻行"
+simulated_output = """alice
+bob
+chen"""
+
+[[commands.tokens]]
+text = "sort"
+desc = "按行排序文件内容，让重复姓名排到一起"
+
+[[commands.tokens]]
+text = " names.txt"
+desc = "包含可能重复姓名的输入文件"
+
+[[commands.tokens]]
+text = " |"
+desc = "把排序结果交给右侧命令"
+
+[[commands.tokens]]
+text = " uniq"
+desc = "合并相邻的重复行；先排序才能合并文件中分散的重复姓名"
+
+[commands.dictation]
+prompt = "先对 names.txt 排序，再通过管道合并重复姓名"
+answers = ["sort names.txt | uniq"]
+
+[[commands]]
+id = "xargs-null-delimited-files"
+command = "grep 'ERROR' app.log | head -n 3"
+summary = "只查看日志中最先出现的三条错误"
+simulated_output = """2026-07-25T08:14:03Z ERROR database connection timed out
+2026-07-25T09:07:41Z ERROR request failed with status 502
+2026-07-25T09:22:18Z ERROR worker exited unexpectedly"""
+
+[[commands.tokens]]
+text = "grep"
+desc = "筛选包含指定文本的行"
+
+[[commands.tokens]]
+text = " 'ERROR'"
+desc = "要查找的错误级别文本"
+
+[[commands.tokens]]
+text = " app.log"
+desc = "要检查的应用日志"
+
+[[commands.tokens]]
+text = " |"
+desc = "把匹配行交给右侧命令"
+
+[[commands.tokens]]
+text = " head"
+desc = "只读取输入开头的若干行"
+
+[[commands.tokens]]
+text = " -n 3"
+desc = "最多显示前 3 条匹配结果"
+
+[commands.dictation]
+prompt = "从 app.log 筛选 ERROR 行，并通过管道只查看最先出现的 3 条"
+answers = ["grep 'ERROR' app.log | head -n 3"]
+
+[[commands]]
+id = "xargs-skip-empty-input"
+command = "ps aux | less"
+summary = "分页阅读较长的进程列表"
+simulated_output = """USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.1 169356 13280 ?        Ss   09:10   0:03 /sbin/init
+root         412  0.0  0.2  72312 20148 ?        Ss   09:11   0:01 /usr/sbin/sshd -D"""
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示进程信息"
+
+[[commands.tokens]]
+text = " aux"
+desc = "列出所有用户的进程及详细字段"
+
+[[commands.tokens]]
+text = " |"
+desc = "把较长的标准输出交给右侧分页器"
+
+[[commands.tokens]]
+text = " less"
+desc = "分页阅读输入；按空格翻页，按 q 退出"
+
+[commands.dictation]
+prompt = "把详细进程列表通过管道交给分页器阅读"
+answers = ["ps aux | less"]
+
+[[commands]]
+id = "yes-limited-by-head"
+command = "yes demo | head -n 5"
+summary = "把无限重复输出限制为五行演示"
+simulated_output = """demo
+demo
+demo
+demo
+demo"""
+
+[[commands.tokens]]
+text = "yes"
+desc = "持续重复输出文本；单独运行会无限输出"
+
+[[commands.tokens]]
+text = " demo"
+desc = "要重复输出的演示文本"
+
+[[commands.tokens]]
+text = " |"
+desc = "把重复输出传给右侧进行截断"
+
+[[commands.tokens]]
+text = " head"
+desc = "读取开头若干行后退出，使演示保持有限"
+
+[[commands.tokens]]
+text = " -n 5"
+desc = "只保留前 5 行"
+
+[commands.dictation]
+prompt = "有限演示重复输出 demo，只显示 5 行后停止"
+answers = ["yes demo | head -n 5"]
+
+[[commands]]
+id = "redirect-both-after-stdout"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && ls missing > listing.log 2>&1)"
+summary = "在私有夹具中按正确顺序合并两类输出"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && ls missing > listing.log 2>&1"
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录，在其中列出不存在的 missing；先覆盖 listing.log，再让标准错误复制标准输出去向"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && ls missing > listing.log 2>&1)"]
+
+[[commands]]
+id = "redirect-order-stderr-terminal"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && ls missing 2>&1 > listing.log)"
+summary = "在私有夹具中演示相反顺序让错误留在终端"
+simulated_output = "ls: cannot access 'missing': No such file or directory"
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && ls missing 2>&1 > listing.log"
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录，在其中先让标准错误复制终端，再把标准输出重定向到 listing.log，观察错误仍显示"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && ls missing 2>&1 > listing.log)"]
+
+[[commands]]
+id = "pipe-stdout-only-count"
+command = "ls /srv/missing | wc -l"
+summary = "管道只传标准输出，错误仍直达终端"
+simulated_output = """ls: cannot access '/srv/missing': No such file or directory
+0"""
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出目标路径的内容"
+
+[[commands.tokens]]
+text = " /srv/missing"
+desc = "不存在的路径会产生一行标准错误"
+
+[[commands.tokens]]
+text = " |"
+desc = "默认只传递标准输出，不会传递标准错误"
+
+[[commands.tokens]]
+text = " wc"
+desc = "统计收到的输入"
+
+[[commands.tokens]]
+text = " -l"
+desc = "只统计行数；这里没有收到标准输出，所以结果为 0"
+
+[commands.dictation]
+prompt = "统计 /srv/missing 的列表行数，并让访问错误仍直接显示"
+answers = ["ls /srv/missing | wc -l"]
+
+[[commands]]
+id = "pipe-merge-stderr-count"
+command = "ls /srv/missing 2>&1 | wc -l"
+summary = "先合并错误输出，再通过管道统计"
+simulated_output = "1"
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出目标路径的内容"
+
+[[commands.tokens]]
+text = " /srv/missing"
+desc = "不存在的路径会产生一行标准错误"
+
+[[commands.tokens]]
+text = " 2>&1"
+desc = "把标准错误并入即将进入管道的标准输出；& 不可省略"
+
+[[commands.tokens]]
+text = " |"
+desc = "把合并后的输出传给右侧"
+
+[[commands.tokens]]
+text = " wc"
+desc = "统计收到的输入"
+
+[[commands.tokens]]
+text = " -l"
+desc = "统计合并后的行数，因此错误信息也计为一行"
+
+[commands.dictation]
+prompt = "把 /srv/missing 的标准输出和标准错误一起送去统计行数"
+answers = ["ls /srv/missing 2>&1 | wc -l"]
+
+[[commands]]
+id = "xargs-safe-file-checksums"
+command = "cut -d: -f1 /etc/passwd | head"
+summary = "查看账号数据库开头的用户名"
+simulated_output = """root
+daemon
+bin
+sys
+sync
+games
+man
+lp
+mail
+news"""
+
+[[commands.tokens]]
+text = "cut"
+desc = "按字段提取每行内容"
+
+[[commands.tokens]]
+text = " -d:"
+desc = "把冒号设为字段分隔符"
+
+[[commands.tokens]]
+text = " -f1"
+desc = "只输出第 1 个字段，也就是用户名"
+
+[[commands.tokens]]
+text = " /etc/passwd"
+desc = "只读读取本机账号数据库"
+
+[[commands.tokens]]
+text = " |"
+desc = "把用户名列表交给右侧命令"
+
+[[commands.tokens]]
+text = " head"
+desc = "默认只显示开头 10 行"
+
+[commands.dictation]
+prompt = "从 /etc/passwd 提取用户名字段，并通过管道只查看开头 10 个"
+answers = ["cut -d: -f1 /etc/passwd | head"]

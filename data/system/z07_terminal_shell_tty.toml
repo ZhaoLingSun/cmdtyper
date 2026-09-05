@@ -1,0 +1,133 @@
+[meta]
+id = "terminal_shell_tty"
+topic = "终端、Shell、TTY 与会话恢复"
+description = "从 PID/PPID/SID/TTY 识别终端会话，理解 tmux 分离重连，并以安全边界学习 reptyr"
+difficulty = "practical"
+icon = "TTY"
+
+overview = """终端问题不能只看“进程还在不在”。应同时观察终端设备、进程父子关系、会话 ID、所有者与复用器状态。
+本专题中的命令全部只作为静态学习字符串展示，应用不会执行它们。排障顺序始终是：观察事实 -> 交叉验证身份和归属 -> 选择最小、可逆的安全动作。"""
+
+[[sections]]
+id = "process-session-tty-model"
+title = "PID、PPID、SID 与 TTY：先确认进程属于哪个会话"
+description = """PID 标识单个进程；PPID 指向创建它的父进程；SID 标识会话，通常由登录 Shell 或会话领导者建立；TTY 表示控制终端。
+TTY 为 pts/3 一类伪终端时，说明进程与某个终端端点关联；显示 ? 往往表示没有控制终端，但不等于进程异常。
+同一终端中的 Shell、前台程序和作业通常共享会话/进程组关系。仅凭 PID 猜测归属很危险，应使用 `ps ww` 同时查看 USER、PPID、SID、TTY、STAT 与完整参数，避免长命令行按终端宽度截断。
+观察命令不会改变进程。验证阶段要确认目标 PID 仍存在、所有者与当前用户一致、命令行确实是预期程序，再考虑后续动作。"""
+
+[[sections.commands]]
+id = "tty-observe-current"
+command_id = "tty-current-terminal"
+deep_explanation = "tty 只报告当前标准输入连接的终端设备。它是观察起点，不证明目标进程也连接到同一 TTY。"
+
+[[sections.commands]]
+id = "ps-review-session-fields"
+command_id = "ps-session-terminal-review"
+deep_explanation = "同时阅读 USER、PID、PPID、SID、TTY、STAT、ARGS；先验证身份和会话关系，不对目标发送信号。"
+
+[[sections.commands]]
+id = "ps-tree-static"
+command = "ps ww -o pid,ppid,sid,pgid,tpgid,tty,stat,args --forest -p 4242"
+summary = "以宽幅静态示例查看目标进程的父进程、会话、进程组、前台进程组和完整参数"
+simulated_output = "  PID  PPID   SID  PGID TPGID TT       STAT COMMAND\n 4242  4100  4100  4242  4242 pts/7    S+   python3 worker.py --queue demo"
+deep_explanation = "重复 w 防止长参数按终端宽度截断；PGID/TPGID 帮助判断作业控制位置。这里仅展示预设输出，不能据此操作真实 PID。"
+
+[[sections]]
+id = "tmux-detach-reattach"
+title = "tmux：让程序依附于可分离的伪终端"
+description = """tmux 服务器持有会话、窗口和窗格；客户端只是连接到这些对象的终端界面。
+网络断开或客户端关闭时，tmux 中的程序继续连接到窗格自己的 PTY，因此可以稍后重连。
+“detach”只是断开客户端，不等于停止任务；“attach”恢复观察同一会话，也不会重新启动程序。
+安全使用时先 list-sessions，再核对窗口、窗格 PID、TTY 和当前命令，最后才 attach。不要看到同名会话就直接 kill-session。"""
+
+[[sections.commands]]
+id = "tmux-create-dev"
+command_id = "tmux-new-session"
+deep_explanation = "tmux new -s dev 创建后会立即进入 dev 会话，并非分离创建；需要离开但保留任务时再执行分离。真实环境中还应避免覆盖或混淆已有同名会话。"
+
+[[sections.commands]]
+id = "tmux-detach-clients"
+command_id = "tmux-detach-dev-clients"
+deep_explanation = "分离客户端不终止窗格程序。先确认会话名和其他使用者，避免把同事的客户端意外踢出。"
+
+[[sections.commands]]
+id = "tmux-list-windows"
+command_id = "tmux-list-windows-dev"
+
+[[sections.commands]]
+id = "tmux-capture-output"
+command_id = "tmux-capture-pane-recent-output"
+deep_explanation = "capture-pane 用于观察最近屏幕文本；敏感终端可能包含令牌或口令，真实环境需控制输出去向。"
+
+[[sections]]
+id = "reptyr-safety-boundaries"
+title = "reptyr：仅在身份、所有权与内核策略都验证后考虑"
+description = """reptyr 尝试把已运行进程迁移到新的终端，通常依赖 ptrace 能力。它比 tmux 事后恢复更脆弱，不能替代预先使用 tmux。
+安全检查至少包括：工具来源可信；目标 PID 未变化；目标 USER 与当前用户一致；目标不是系统关键服务；命令行与预期一致；当前会话有明确授权。
+/proc/sys/kernel/yama/ptrace_scope 限制可跟踪关系。值 1 下仍要分别判断目标是否为跟踪者后代、是否通过 PR_SET_PTRACER 显式授权，以及调用者是否在目标用户命名空间具备 CAP_SYS_PTRACE。本专题静态场景明确排除这三种许可路径，因此普通附加才预设为 Operation not permitted；仅仅“不是直接父进程”不足以保证失败。不要降低策略或用 sudo 绕过检查。
+本专题有意不提供 reptyr -T 的可执行示例：该模式会接管整个 TTY，影响范围超出单个进程，也不得用它绕过 ptrace_scope 或其他安全策略。需要评估影响范围时，先用只读 ps 清单盘点该 TTY 上的所有者、父子关系、会话、状态与命令。"""
+
+[[sections.commands]]
+id = "reptyr-availability"
+command_id = "command-v-reptyr"
+
+[[sections.commands]]
+id = "ptrace-scope-observe"
+command_id = "yama-ptrace-scope-read"
+deep_explanation = "读取策略是观察动作；还要核对后代关系、PR_SET_PTRACER 与 CAP_SYS_PTRACE，不能由数值 1 单独推导结果。不要写 sysctl 或修改 /proc。"
+
+[[sections.commands]]
+id = "reptyr-normal-attach"
+command_id = "reptyr-attach-normal"
+deep_explanation = "本课预设 EPERM 的完整前提是 ptrace_scope=1、目标不是跟踪者后代、没有 PR_SET_PTRACER 授权，且调用者在目标用户命名空间没有 CAP_SYS_PTRACE。缺少任一事实时不能仅凭非父子关系下结论；失败后停止，不扩大权限或降低策略。"
+
+[[sections.commands]]
+id = "ps-tty-session-scope-review"
+command_id = "ps-tty-session-scope-review"
+deep_explanation = "按 TTY 只读盘点该终端上的 USER、PID、PPID、SID、TTY、STAT 和 CMD，用于确认所有者与进程范围；它不发送信号、不附加进程，也不绕过安全策略。"
+
+[[sections]]
+id = "detached-task-recovery-scenario"
+title = "七步场景：SSH 断开后恢复长期任务"
+description = """按顺序执行思考，不跳步：
+1. 观察当前终端：确认自己位于哪个 TTY，避免把本地与远端会话混为一谈。
+2. 观察 tmux 清单：先找是否已有可恢复会话；有 tmux 就优先使用 tmux。
+3. 验证会话内容：核对窗格 PID、TTY、当前命令与最近输出。
+4. 安全重连：确认会话归属后 attach，不新建重复任务。
+5. 若无 tmux，再验证裸进程：核对 USER、PID、PPID、SID、TTY、ARGS，确保目标由当前用户拥有。
+6. 验证 reptyr 与 ptrace_scope：只读取能力和策略，不修改系统限制。
+7. 选择最小动作：本场景明确给出 ptrace_scope=1、目标不是跟踪者后代、无 PR_SET_PTRACER 授权且调用者在目标用户命名空间无 CAP_SYS_PTRACE，因此普通 reptyr 预期失败后立即停止，不自动升级权限。TTY-wide 接管模式因会影响整个终端而被明确排除。"""
+
+[[sections.commands]]
+id = "scenario-step-1-current-tty"
+command_id = "tty-current-terminal"
+
+[[sections.commands]]
+id = "scenario-step-2-list-tmux"
+command_id = "tmux-list-sessions-recovery"
+deep_explanation = "若 dev 会话存在，优先恢复它，而不是搜索并迁移裸进程。"
+
+[[sections.commands]]
+id = "scenario-step-3-verify-pane"
+command_id = "tmux-list-panes-recovery-format"
+deep_explanation = "核对 pane PID、pane TTY 和当前命令，确认观察对象就是预期任务。"
+
+[[sections.commands]]
+id = "scenario-step-4-safe-attach"
+command_id = "tmux-attach-session"
+deep_explanation = "attach 是可逆的客户端连接动作；退出时应分离而不是终止会话。"
+
+[[sections.commands]]
+id = "scenario-step-5-verify-owner-session"
+command_id = "ps-session-terminal-review"
+deep_explanation = "只有 USER 与当前身份一致且 ARGS 符合预期，才继续评估迁移。PID 可能复用，应在动作前再次核对。"
+
+[[sections.commands]]
+id = "scenario-step-6-verify-policy"
+command_id = "yama-ptrace-scope-read"
+
+[[sections.commands]]
+id = "scenario-step-7-minimal-action"
+command_id = "reptyr-attach-normal"
+deep_explanation = "静态示例明确排除后代关系、PR_SET_PTRACER 授权和 CAP_SYS_PTRACE 三条许可路径，所以预设结果为 Operation not permitted。真实系统必须先验证这些事实；失败后停止，不扩大权限。"

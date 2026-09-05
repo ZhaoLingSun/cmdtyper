@@ -42,7 +42,7 @@ pub fn render(frame: &mut Frame, app: &App) {
     // Title
     let title = Paragraph::new(Line::from(vec![
         Span::styled(
-            " cmdtyper v0.2 ",
+            concat!(" cmdtyper v", env!("CARGO_PKG_VERSION"), " "),
             Style::default()
                 .fg(HEADER)
                 .add_modifier(Modifier::BOLD),

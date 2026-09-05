@@ -1,0 +1,105 @@
+[meta]
+command = "wget、curl 与网络观察"
+full_name = "Network downloads, headers, reachability, and interface observation"
+category = "network"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "把下载落盘、HTTP 元数据、连通测试和本机地址检查分成四种任务"
+explanation = """wget 和 curl 都能从 URL 获取内容，但保存策略不同。wget 使用 URL 末尾名称保存时，如果本地同名文件已存在，常见行为是改用带编号的新文件名；这避免了简单覆盖，却也可能让脚本继续读取旧文件，所以仍应先确认目标名称。wget -c 会把服务器返回的数据接到已有文件后，只有在 URL、远端对象和本地部分确实属于同一文件时才安全，否则可能得到损坏的拼接结果。curl -O 沿用远端文件名，并默认截断、覆盖本地同名目标，必须先确认不存在或另行选择安全输出路径。curl -I 只查看 HTTP 响应头，不保存正文。ping -c 4 观察 ICMP 可达性、丢包和时延，但服务仍可能不可用，网络设备也可能过滤 ICMP。ip a 只读展示本机接口与地址，是定位“本机有没有地址”的观察步骤，不代表公网连通。"""
+
+[syntax]
+basic = "wget [-c] URL；curl [-O|-I] URL；ping -c 次数 地址；ip a"
+[[syntax.parts]]
+name = "URL"
+desc = "确认协议、主机名、完整路径和预期文件；下载完成后还应按可信来源校验摘要或签名"
+[[syntax.parts]]
+name = "落盘名称"
+desc = "wget 与 curl -O 都可能从 URL 推导文件名，但遇到本地同名文件时行为不同"
+[[syntax.parts]]
+name = "请求范围"
+desc = "curl -I 请求响应头而非正文；它用于观察状态和元数据，不等于验证下载内容"
+[[syntax.parts]]
+name = "网络观察"
+desc = "ping 观察 ICMP 路径，ip a 观察本机接口；两者都不会证明具体应用服务健康"
+
+[[options]]
+flag = "wget"
+name = "按网址下载"
+example = "wget https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz"
+note = "若同名文件已存在，常见 wget 会创建 .1 等新名称而非直接覆盖；这仍可能造成误用旧文件，应先检查"
+
+[[options]]
+flag = "wget -c"
+name = "继续已有部分"
+example = "wget -c https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.12.1.tar.xz"
+note = "已有文件必须确实是同一 URL 同一对象的未完成部分；远端变化时应重新验证，不能盲目拼接"
+
+[[options]]
+flag = "curl -O"
+name = "沿用远端文件名保存"
+example = "curl -O https://ftp.gnu.org/gnu/hello/hello-2.12.2.tar.gz"
+note = "默认会覆盖同名本地文件；执行前确认目标不存在，或明确采用其他受控文件名策略"
+
+[[options]]
+flag = "curl -I"
+name = "只取 HTTP 响应头"
+example = "curl -I https://www.kernel.org"
+note = "可观察状态码、类型、长度和缓存等字段，但重定向、代理和服务端行为仍需结合上下文解释"
+
+[[options]]
+flag = "ping -c"
+name = "限制回显请求数量"
+example = "ping -c 4 1.1.1.1"
+note = "四次样本只提供短时观察；ICMP 成功不代表 DNS、TLS 或应用端口正常"
+
+[[examples]]
+id = "v03-29-wget-new-download"
+command_id = "wget-download-file"
+level = 1
+
+[[examples]]
+id = "v03-29-wget-resume-partial"
+command_id = "wget-resume-kernel"
+level = 2
+
+[[examples]]
+id = "v03-29-curl-remote-name"
+command_id = "curl-remote-name-download"
+level = 2
+
+[[examples]]
+id = "v03-29-curl-headers-observe"
+command_id = "curl-headers-only"
+level = 1
+
+[[examples]]
+id = "v03-29-ping-four-observations"
+command_id = "ping-four-packets"
+level = 1
+
+[[examples]]
+id = "v03-29-ip-address-observe"
+command_id = "ip-address-short"
+level = 1
+
+[[gotchas]]
+title = "wget 避免简单覆盖不等于没有同名风险"
+content = "常见 wget 会在同名文件存在时保存为 .1、.2 等名称，但旧文件仍留在原名，自动化流程可能继续读取旧内容。下载前检查目录，下载后确认实际保存名称、大小和校验结果。"
+
+[[gotchas]]
+title = "curl -O 会覆盖同名目标"
+content = "curl 沿用 URL 末尾名称时通常直接打开并截断已有文件。不要依赖交互提示；先确认文件不存在。若任务需要保留旧版本，应先设计明确的新文件名、临时文件和原子替换流程。"
+
+[[gotchas]]
+title = "续传要求两端仍是同一个对象"
+content = "wget -c 不是通用修复器。若远端文件已更新、本地部分来自不同镜像，或服务器不正确支持范围请求，拼接结果可能无效。应核对 URL、响应、最终大小，并使用发布者提供的摘要或签名验证。"
+
+[[gotchas]]
+title = "HTTP 200 与内容可信是两回事"
+content = "响应头能说明服务器当次回应，却不能单独证明文件来自预期发布者或未被替换。使用 HTTPS、核对最终 URL，并按可信渠道取得摘要或签名；文件扩展名也不是内容类型的安全证明。"
+
+[[gotchas]]
+title = "ping 失败不等于主机宕机"
+content = "防火墙可能过滤 ICMP，而 Web 或 SSH 仍正常；反过来，ping 成功也只说明回显路径可用。排障应分层记录本机地址、路由、名称解析、端口和应用响应，不从单一信号下结论。"

@@ -1,18 +1,22 @@
+use std::collections::{HashMap, HashSet};
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use anyhow::{Context, Result};
+use anyhow::{Context, Result, bail};
 
-use crate::data::models::{Category, Command, CommandFile, Difficulty};
+use crate::data::catalog::validate_canonical_commands;
+use crate::data::models::{
+    Category, Command, CommandCatalog, CommandFile, CommandTrainingTopic, Difficulty,
+};
 
-/// Load all commands from `data_dir/commands/*.toml`, propagating file-level
-/// metadata (category, difficulty) into each individual [`Command`].
-pub fn load_commands(data_dir: &Path) -> Result<Vec<Command>> {
+/// Load all commands and optional one-topic-per-file metadata from
+/// `data_dir/commands/*.toml`.
+pub fn load_command_catalog(data_dir: &Path) -> Result<CommandCatalog> {
     let commands_dir = data_dir.join("commands");
-    let mut all_commands = Vec::new();
+    let mut catalog = CommandCatalog::default();
 
     if !commands_dir.exists() {
-        return Ok(all_commands);
+        return Ok(catalog);
     }
 
     let mut entries: Vec<PathBuf> = fs::read_dir(&commands_dir)
@@ -37,15 +41,74 @@ pub fn load_commands(data_dir: &Path) -> Result<Vec<Command>> {
 
         let category = file.meta.category;
         let difficulty = file.meta.difficulty;
+        let command_ids = file
+            .commands
+            .iter()
+            .map(|command| command.id.clone())
+            .collect();
 
-        for mut cmd in file.commands {
-            cmd.category = category;
-            cmd.difficulty = difficulty;
-            all_commands.push(cmd);
+        if let Some(topic) = file.meta.topic {
+            catalog.topics.push(CommandTrainingTopic {
+                id: topic.id,
+                title: topic.title,
+                icon: topic.icon,
+                order: topic.order,
+                description: file.meta.description,
+                category,
+                difficulty,
+                command_ids,
+            });
+        }
+
+        for mut command in file.commands {
+            command.category = category;
+            command.difficulty = difficulty;
+            catalog.commands.push(command);
         }
     }
 
-    Ok(all_commands)
+    validate_canonical_commands(&catalog.commands)?;
+    validate_topics(&catalog.topics)?;
+    catalog.topics.sort_by_key(|topic| topic.order);
+    Ok(catalog)
+}
+
+/// Load the same flat command list exposed before topic metadata existed.
+pub fn load_commands(data_dir: &Path) -> Result<Vec<Command>> {
+    Ok(load_command_catalog(data_dir)?.commands)
+}
+
+fn validate_topics(topics: &[CommandTrainingTopic]) -> Result<()> {
+    let mut topic_ids = HashSet::new();
+    let mut topic_orders = HashMap::new();
+
+    for topic in topics {
+        if topic.id.trim().is_empty() {
+            bail!("command training topic ID must not be empty");
+        }
+        if topic.title.trim().is_empty() {
+            bail!("command training topic {:?} has an empty title", topic.id);
+        }
+        if !topic_ids.insert(topic.id.as_str()) {
+            bail!("duplicate command training topic ID {:?}", topic.id);
+        }
+        if let Some(previous_id) = topic_orders.insert(topic.order, topic.id.as_str()) {
+            bail!(
+                "duplicate command training topic order {} for {:?} and {:?}",
+                topic.order,
+                previous_id,
+                topic.id
+            );
+        }
+        if topic.command_ids.is_empty() {
+            bail!(
+                "command training topic {:?} must contain at least one command",
+                topic.id
+            );
+        }
+    }
+
+    Ok(())
 }
 
 /// Filter commands by difficulty.
@@ -81,27 +144,35 @@ mod tests {
         dir
     }
 
-    #[test]
-    fn load_commands_propagates_metadata() {
-        let dir = temp_data_dir();
-        let fixture = r#"
+    fn command_fixture(id: &str, command: &str) -> String {
+        format!(
+            r#"
 [meta]
 category = "search"
 difficulty = "advanced"
 description = "Search commands"
 
 [[commands]]
-id = "grep-basic"
-command = "grep foo file.txt"
-summary = "Search for foo"
+id = "{id}"
+command = "{command}"
+summary = "Search"
 tokens = []
 
 [commands.dictation]
-prompt = "Search for foo in file.txt"
-answers = ["grep foo file.txt"]
-"#;
+prompt = "Search"
+answers = ["{command}"]
+"#
+        )
+    }
 
-        fs::write(dir.join("commands/search.toml"), fixture).expect("fixture should write");
+    #[test]
+    fn load_commands_propagates_metadata() {
+        let dir = temp_data_dir();
+        fs::write(
+            dir.join("commands/search.toml"),
+            command_fixture("grep-basic", "grep foo file.txt"),
+        )
+        .expect("fixture should write");
 
         let commands = load_commands(&dir).expect("should load commands");
         assert_eq!(commands.len(), 1);
@@ -113,14 +184,160 @@ answers = ["grep foo file.txt"]
     }
 
     #[test]
-    fn missing_dir_returns_empty() {
-        let dir = Path::new("/tmp/nonexistent-cmdtyper-dir-99999");
-        let commands = load_commands(dir).expect("should not error on missing dir");
-        assert!(commands.is_empty());
+    fn meta_topic_derives_runtime_topic_and_file_command_mapping() {
+        let dir = temp_data_dir();
+        let fixture = r#"
+[meta]
+category = "search"
+difficulty = "advanced"
+description = "Search commands"
+
+[meta.topic]
+id = "search-tools"
+title = "Search Tools"
+icon = "search-icon"
+order = 20
+
+[[commands]]
+id = "grep-basic"
+command = "grep foo file.txt"
+summary = "Search"
+tokens = []
+[commands.dictation]
+prompt = "Search"
+answers = ["grep foo file.txt"]
+
+[[commands]]
+id = "find-basic"
+command = "find . -name foo"
+summary = "Find"
+tokens = []
+[commands.dictation]
+prompt = "Find"
+answers = ["find . -name foo"]
+"#;
+        fs::write(dir.join("commands/search.toml"), fixture).expect("fixture should write");
+
+        let catalog = load_command_catalog(&dir).expect("catalog should load");
+        assert_eq!(catalog.topics.len(), 1);
+        let topic = &catalog.topics[0];
+        assert_eq!(topic.id, "search-tools");
+        assert_eq!(topic.title, "Search Tools");
+        assert_eq!(topic.icon.as_deref(), Some("search-icon"));
+        assert_eq!(topic.order, 20);
+        assert_eq!(topic.description, "Search commands");
+        assert_eq!(topic.category, Category::Search);
+        assert_eq!(topic.difficulty, Difficulty::Advanced);
+        assert_eq!(topic.command_ids, ["grep-basic", "find-basic"]);
+
+        fs::remove_dir_all(dir).expect("cleanup");
     }
 
     #[test]
-    fn v02_optional_fields_have_defaults() {
+    fn topics_are_sorted_by_order_across_files() {
+        let dir = temp_data_dir();
+        let later = command_fixture("grep-basic", "grep foo").replace(
+            "description = \"Search commands\"",
+            "description = \"Search commands\"\n\n[meta.topic]\nid = \"later\"\ntitle = \"Later\"\norder = 20",
+        );
+        let earlier = command_fixture("find-basic", "find .").replace(
+            "description = \"Search commands\"",
+            "description = \"Search commands\"\n\n[meta.topic]\nid = \"earlier\"\ntitle = \"Earlier\"\norder = 10",
+        );
+        fs::write(dir.join("commands/a.toml"), later).expect("write");
+        fs::write(dir.join("commands/b.toml"), earlier).expect("write");
+
+        let catalog = load_command_catalog(&dir).expect("catalog should load");
+        assert_eq!(catalog.topics[0].id, "earlier");
+        assert_eq!(catalog.topics[1].id, "later");
+
+        fs::remove_dir_all(dir).expect("cleanup");
+    }
+
+    #[test]
+    fn duplicate_topic_id_and_order_are_rejected() {
+        let dir = temp_data_dir();
+        let first = command_fixture("grep-basic", "grep foo").replace(
+            "description = \"Search commands\"",
+            "description = \"Search commands\"\n\n[meta.topic]\nid = \"search\"\ntitle = \"Search\"\norder = 1",
+        );
+        let duplicate_id = command_fixture("find-basic", "find .").replace(
+            "description = \"Search commands\"",
+            "description = \"Search commands\"\n\n[meta.topic]\nid = \"search\"\ntitle = \"Find\"\norder = 2",
+        );
+        fs::write(dir.join("commands/a.toml"), &first).expect("write");
+        fs::write(dir.join("commands/b.toml"), duplicate_id).expect("write");
+        let error = load_command_catalog(&dir).expect_err("duplicate topic ID should fail");
+        assert!(
+            error
+                .to_string()
+                .contains("duplicate command training topic ID")
+        );
+
+        let duplicate_order = command_fixture("find-basic", "find .").replace(
+            "description = \"Search commands\"",
+            "description = \"Search commands\"\n\n[meta.topic]\nid = \"find\"\ntitle = \"Find\"\norder = 1",
+        );
+        fs::write(dir.join("commands/b.toml"), duplicate_order).expect("rewrite");
+        let error = load_command_catalog(&dir).expect_err("duplicate topic order should fail");
+        assert!(
+            error
+                .to_string()
+                .contains("duplicate command training topic order")
+        );
+
+        fs::remove_dir_all(dir).expect("cleanup");
+    }
+
+    #[test]
+    fn blank_canonical_fields_and_answers_are_rejected() {
+        let cases = [
+            (
+                "command = \"grep foo\"",
+                "command = \"   \"",
+                "empty command",
+            ),
+            ("summary = \"Search\"", "summary = \" \"", "empty summary"),
+            (
+                "prompt = \"Search\"",
+                "prompt = \"\"",
+                "empty dictation prompt",
+            ),
+            (
+                "answers = [\"grep foo\"]",
+                "answers = []",
+                "no dictation answers",
+            ),
+            (
+                "answers = [\"grep foo\"]",
+                "answers = [\"grep foo\", \"  \"]",
+                "empty dictation answer",
+            ),
+        ];
+
+        for (needle, replacement, expected) in cases {
+            let dir = temp_data_dir();
+            let fixture = command_fixture("grep-basic", "grep foo").replace(needle, replacement);
+            fs::write(dir.join("commands/search.toml"), fixture).expect("write");
+            let error = load_command_catalog(&dir).expect_err("blank canonical field should fail");
+            assert!(
+                error.to_string().contains(expected),
+                "expected {expected:?}, got {error:#}"
+            );
+            fs::remove_dir_all(dir).expect("cleanup");
+        }
+    }
+
+    #[test]
+    fn missing_dir_returns_empty() {
+        let dir = Path::new("/tmp/nonexistent-cmdtyper-dir-99999");
+        let catalog = load_command_catalog(dir).expect("should not error on missing dir");
+        assert!(catalog.commands.is_empty());
+        assert!(catalog.topics.is_empty());
+    }
+
+    #[test]
+    fn v02_optional_fields_have_defaults_and_legacy_files_have_no_topic() {
         let dir = temp_data_dir();
         let fixture = r#"
 [meta]
@@ -148,13 +365,17 @@ answers = ["ls"]
 
         fs::write(dir.join("commands/file_ops.toml"), fixture).expect("fixture should write");
 
-        let commands = load_commands(&dir).expect("should load");
-        assert_eq!(commands[0].display.as_deref(), Some("ls -la"));
-        assert_eq!(commands[0].summary_short.as_deref(), Some("list"));
-        assert_eq!(commands[0].simulated_output.as_deref(), Some("total 0"));
-        assert_eq!(commands[0].output_annotations.len(), 1);
-        assert_eq!(commands[0].display_text(), "ls -la");
-        assert_eq!(commands[0].short_summary(), "list");
+        let catalog = load_command_catalog(&dir).expect("should load");
+        assert!(catalog.topics.is_empty());
+        assert_eq!(catalog.commands[0].display.as_deref(), Some("ls -la"));
+        assert_eq!(catalog.commands[0].summary_short.as_deref(), Some("list"));
+        assert_eq!(
+            catalog.commands[0].simulated_output.as_deref(),
+            Some("total 0")
+        );
+        assert_eq!(catalog.commands[0].output_annotations.len(), 1);
+        assert_eq!(catalog.commands[0].display_text(), "ls -la");
+        assert_eq!(catalog.commands[0].short_summary(), "list");
 
         fs::remove_dir_all(dir).expect("cleanup");
     }
@@ -162,21 +383,11 @@ answers = ["ls"]
     #[test]
     fn filters_work() {
         let dir = temp_data_dir();
-        let fixture1 = r#"
-[meta]
-category = "search"
-difficulty = "advanced"
-description = "Search"
-
-[[commands]]
-id = "grep-basic"
-command = "grep foo"
-summary = "grep"
-tokens = []
-[commands.dictation]
-prompt = "grep"
-answers = ["grep foo"]
-"#;
+        fs::write(
+            dir.join("commands/search.toml"),
+            command_fixture("grep-basic", "grep foo"),
+        )
+        .expect("write");
         let fixture2 = r#"
 [meta]
 category = "archive"
@@ -192,8 +403,6 @@ tokens = []
 prompt = "tar"
 answers = ["tar -tf a.tar"]
 "#;
-
-        fs::write(dir.join("commands/search.toml"), fixture1).expect("write");
         fs::write(dir.join("commands/archive.toml"), fixture2).expect("write");
 
         let commands = load_commands(&dir).expect("load");

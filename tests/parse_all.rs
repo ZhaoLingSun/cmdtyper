@@ -13,7 +13,10 @@ fn data_dir() -> &'static Path {
 #[test]
 fn parse_all_command_files() {
     let dir = data_dir().join("commands");
-    let mut count = 0;
+    let mut file_count = 0;
+    let mut command_count = 0;
+    let mut topic_command_count = 0;
+    let mut topics = Vec::new();
     for entry in fs::read_dir(&dir).unwrap_or_else(|e| panic!("Cannot read {}: {e}", dir.display()))
     {
         let entry = entry.unwrap();
@@ -34,6 +37,10 @@ fn parse_all_command_files() {
                 "{}: commands array is empty",
                 path.display()
             );
+            if let Some(topic) = &cf.meta.topic {
+                topics.push((topic.order, topic.id.clone()));
+                topic_command_count += cf.commands.len();
+            }
             for cmd in &cf.commands {
                 assert!(
                     !cmd.id.is_empty(),
@@ -64,15 +71,54 @@ fn parse_all_command_files() {
                     path.display(),
                     cmd.id
                 );
+                assert_eq!(
+                    cmd.dictation.answers[0],
+                    cmd.command,
+                    "{}: command '{}' must use its canonical command as answers[0]",
+                    path.display(),
+                    cmd.id
+                );
+                command_count += 1;
             }
-            count += 1;
+            file_count += 1;
         }
     }
-    assert!(
-        count >= 19,
-        "Expected at least 19 command files, found {count}"
+    assert_eq!(file_count, 35, "unexpected command file inventory");
+    assert_eq!(command_count, 554, "unexpected canonical command inventory");
+    assert_eq!(topics.len(), 16, "unexpected command topic inventory");
+    assert_eq!(
+        topic_command_count, 283,
+        "unexpected topic-mapped command inventory"
     );
-    println!("Successfully parsed {count} command files");
+
+    topics.sort_by_key(|(order, _)| *order);
+    assert_eq!(
+        topics,
+        vec![
+            (1, "help_rescue".to_string()),
+            (2, "apt_workflow".to_string()),
+            (3, "tar_zip".to_string()),
+            (4, "fileops_safety".to_string()),
+            (5, "redirect_pipe".to_string()),
+            (6, "env_shell".to_string()),
+            (7, "find_grep".to_string()),
+            (8, "disk_space".to_string()),
+            (9, "process_port".to_string()),
+            (10, "ssh_remote".to_string()),
+            (11, "systemd_cron".to_string()),
+            (12, "vim_survival".to_string()),
+            (13, "users_permission".to_string()),
+            (14, "text_toolkit".to_string()),
+            (15, "zh_locale".to_string()),
+            (16, "terminal_session_recovery".to_string()),
+        ],
+        "command topic IDs or orders changed"
+    );
+
+    println!(
+        "Parsed {file_count} command files, {command_count} commands, {} topics, and {topic_command_count} topic-mapped commands",
+        topics.len()
+    );
 }
 
 #[test]

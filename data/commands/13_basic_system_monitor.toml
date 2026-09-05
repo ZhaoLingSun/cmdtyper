@@ -37,8 +37,8 @@ answers = ["w"]
 
 [[commands]]
 id = "top-basic-monitor"
-command = "top"
-summary = "实时查看系统进程和资源占用"
+command = "top -o %CPU"
+summary = "实时查看系统进程，并按 CPU 占用字段排序"
 simulated_output = """
 top - 08:51:23 up 12 days,  4:32,  3 users,  load average: 0.42, 0.55, 0.61
 Tasks: 842 total,   1 running, 841 sleeping,   0 stopped,   0 zombie
@@ -49,9 +49,17 @@ Tasks: 842 total,   1 running, 841 sleeping,   0 stopped,   0 zombie
 text = "top"
 desc = "实时显示系统进程列表和资源使用的命令"
 
+[[commands.tokens]]
+text = " -o"
+desc = "指定交互界面启动时使用的排序字段"
+
+[[commands.tokens]]
+text = " %CPU"
+desc = "按进程 CPU 使用率字段排序"
+
 [commands.dictation]
-prompt = "实时查看系统进程和资源占用"
-answers = ["top"]
+prompt = "实时查看系统进程和资源占用，并让进程列表按 CPU 使用率排序"
+answers = ["top -o %CPU"]
 
 [[commands]]
 id = "htop-basic"

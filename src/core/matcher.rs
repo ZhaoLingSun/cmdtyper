@@ -25,6 +25,12 @@ pub enum DiffKind {
 
 pub struct Matcher;
 
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum ShellQuote {
+    Single,
+    Double,
+}
+
 pub fn normalize(input: &str) -> String {
     Matcher::normalize(input)
 }
@@ -34,13 +40,63 @@ pub fn check(input: &str, answers: &[String]) -> MatchResult {
 }
 
 impl Matcher {
-    /// Normalize input: trim whitespace, collapse multiple spaces, lowercase.
+    /// Normalize input by trimming and collapsing unquoted, unescaped separator whitespace.
+    ///
+    /// Whitespace inside shell quotes or escaped with a backslash remains significant.
+    /// Command names, options, environment variables, and paths remain case-sensitive.
     pub fn normalize(input: &str) -> String {
-        input
-            .split_whitespace()
-            .collect::<Vec<_>>()
-            .join(" ")
-            .to_lowercase()
+        let mut normalized = String::with_capacity(input.len());
+        let mut quote = None;
+        let mut escaped = false;
+        let mut pending_separator = false;
+
+        for ch in input.chars() {
+            match quote {
+                Some(ShellQuote::Single) => {
+                    normalized.push(ch);
+                    if ch == '\'' {
+                        quote = None;
+                    }
+                }
+                Some(ShellQuote::Double) => {
+                    normalized.push(ch);
+                    if escaped {
+                        escaped = false;
+                    } else if ch == '\\' {
+                        escaped = true;
+                    } else if ch == '"' {
+                        quote = None;
+                    }
+                }
+                None if escaped => {
+                    normalized.push(ch);
+                    escaped = false;
+                }
+                None if ch == '\\' => {
+                    push_separator(&mut normalized, &mut pending_separator);
+                    normalized.push(ch);
+                    escaped = true;
+                }
+                None if ch == '\'' || ch == '"' => {
+                    push_separator(&mut normalized, &mut pending_separator);
+                    normalized.push(ch);
+                    quote = Some(if ch == '\'' {
+                        ShellQuote::Single
+                    } else {
+                        ShellQuote::Double
+                    });
+                }
+                None if ch.is_whitespace() => {
+                    pending_separator = !normalized.is_empty();
+                }
+                None => {
+                    push_separator(&mut normalized, &mut pending_separator);
+                    normalized.push(ch);
+                }
+            }
+        }
+
+        normalized
     }
 
     /// Check user input against a list of accepted answers.
@@ -94,6 +150,13 @@ impl Matcher {
                 diff: diff_strings(&normalized_input, ""),
             },
         }
+    }
+}
+
+fn push_separator(normalized: &mut String, pending_separator: &mut bool) {
+    if *pending_separator {
+        normalized.push(' ');
+        *pending_separator = false;
     }
 }
 
@@ -213,9 +276,39 @@ mod tests {
     }
 
     #[test]
-    fn normalize_trims_collapses_spaces_and_lowercases() {
-        assert_eq!(normalize("  LS   -LA   /Var/Log  "), "ls -la /var/log");
-        assert_eq!(Matcher::normalize("A\tB\nC"), "a b c");
+    fn normalize_trims_and_collapses_spaces_without_changing_case() {
+        assert_eq!(normalize("  LS   -LA   /Var/Log  "), "LS -LA /Var/Log");
+        assert_eq!(Matcher::normalize("A\tB\nC"), "A B C");
+    }
+
+    #[test]
+    fn normalize_preserves_quoted_and_escaped_whitespace() {
+        assert_eq!(
+            normalize("  echo   'build  complete'  "),
+            "echo 'build  complete'"
+        );
+        assert_eq!(
+            normalize("  echo   \"build\t complete\"  "),
+            "echo \"build\t complete\""
+        );
+        assert_eq!(
+            normalize("  echo   build\\\tcomplete  "),
+            "echo build\\\tcomplete"
+        );
+    }
+
+    #[test]
+    fn check_rejects_extra_whitespace_inside_quotes() {
+        let answers = vec!["echo 'build complete'".to_string()];
+
+        assert_eq!(
+            check("  echo   'build complete'  ", &answers),
+            MatchResult::Normalized(0)
+        );
+        assert!(matches!(
+            check("echo 'build  complete'", &answers),
+            MatchResult::NoMatch { .. }
+        ));
     }
 
     #[test]
@@ -226,7 +319,7 @@ mod tests {
 
     #[test]
     fn normalize_single_word() {
-        assert_eq!(normalize("  PWD  "), "pwd");
+        assert_eq!(normalize("  PWD  "), "PWD");
     }
 
     #[test]
@@ -242,12 +335,35 @@ mod tests {
     }
 
     #[test]
-    fn check_falls_back_to_normalized_match() {
+    fn check_falls_back_to_whitespace_normalized_match() {
         let answers = vec!["ls -la /var/log".to_string(), "pwd".to_string()];
         assert_eq!(
-            check("  LS   -LA   /VAR/LOG  ", &answers),
+            check("  ls   -la   /var/log  ", &answers),
             MatchResult::Normalized(0)
         );
+    }
+
+    #[test]
+    fn check_rejects_case_changes_in_options_variables_and_paths() {
+        let cases = [
+            ("less -n", "less -N"),
+            ("vim -r notes.txt", "vim -R notes.txt"),
+            (
+                "visual=vim editor=vim command",
+                "VISUAL=vim EDITOR=vim command",
+            ),
+            ("cat /var/log/syslog", "cat /Var/Log/syslog"),
+        ];
+
+        for (input, answer) in cases {
+            assert!(
+                matches!(
+                    check(input, &[answer.to_string()]),
+                    MatchResult::NoMatch { .. }
+                ),
+                "case-changing input {input:?} must not match {answer:?}"
+            );
+        }
     }
 
     #[test]

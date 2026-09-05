@@ -1,0 +1,109 @@
+[meta]
+command = "tar-extract-safety"
+full_name = "tar 与 ZIP 安全检查和定向提取"
+category = "archive"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "先列表和校验，再提取到隔离目录并复核覆盖风险"
+explanation = "解压会创建目录和文件，也可能与已有路径碰撞。未知或外部归档应先验证来源与校验值，再用 tar -tzf 或 unzip -l 做名称预检；清单不能证明成员类型、链接目标或内容安全。确认没有绝对路径、.. 跳转和异常布局后，以普通用户在 mktemp -d 新建的唯一 0700 空目录中提取，并禁止恢复归档所有者和宽松权限。提取后继续检查实际文件类型、链接、权限和所需内容，再把经过选择的文件移动到正式位置。"
+
+[syntax]
+basic = "归档工具 [列表、校验或提取选项] 归档文件 [目标目录]"
+
+[[syntax.parts]]
+name = "预检动作"
+desc = "使用 tar -tzf 或 unzip -l 检查成员名称/基础大小，或用 unzip -t 检查数据与 CRC；这些预检不能证明链接或文件类型安全"
+
+[[syntax.parts]]
+name = "归档文件"
+desc = "要查看或提取的 tar、tar.gz 或 ZIP；外部来源应先验证发布方和校验值"
+
+[[syntax.parts]]
+name = "目标目录"
+desc = "优先选择已创建且为空的隔离目录，避免与当前工作目录中的文件碰撞"
+
+[[options]]
+flag = "tar -xzf"
+name = "提取 gzip tar 归档"
+example = "(tar -tzf website.tar.gz && printf '清单确认安全后输入 yes: ' && read -r ok && [ \"$ok\" = yes ] && umask 077 && dest=$(mktemp -d) && chmod 700 \"$dest\" && tar --extract --gzip --no-same-owner --no-same-permissions --file website.tar.gz --directory \"$dest\" && printf '提取目录：%s\\n' \"$dest\")"
+note = "先列表并人工确认，再在新建的私有空目录中以普通用户提取；不要写入当前目录或现有 public/"
+
+[[options]]
+flag = "tar -xvf"
+name = "详细提取未压缩 tar"
+example = "tar -xvf logs.tar"
+note = "v 显示正在写出的路径，不提供额外的覆盖保护"
+
+[[options]]
+flag = "tar -C"
+name = "切换提取基准目录"
+example = "tar -xzf website.tar.gz -C restore"
+note = "目标目录应事先存在且最好为空；选项位置会影响后续路径解释"
+
+[[options]]
+flag = "unzip -l"
+name = "列出 ZIP 成员"
+example = "unzip -l source-code.zip"
+note = "只查看文件名、基础大小和时间，不创建文件；不能据此确认符号链接或文件类型安全"
+
+[[options]]
+flag = "unzip -t"
+name = "校验 ZIP 数据"
+example = "unzip -t source-code.zip"
+note = "不落盘检查数据和 CRC；通过校验不代表成员路径、链接或文件类型安全"
+
+[[options]]
+flag = "unzip -d"
+name = "提取到指定目录"
+example = "unzip source-code.zip -d restored"
+note = "使用隔离目录并在遇到覆盖提示时停下来核对，不要盲目选择全部覆盖"
+
+[[examples]]
+id = "v03-22-tar-extract-safety-01"
+command_id = "unzip-list-source-code"
+level = 1
+output_explanation = "列表显示 ZIP 成员名称统一位于 src 目录下，并提供基础大小/时间；仍需留意异常路径和名称冲突，而且该清单不能证明链接或文件类型安全。"
+
+[[examples]]
+id = "v03-22-tar-extract-safety-02"
+command_id = "unzip-test-source-code"
+level = 1
+output_explanation = "逐项 OK 和最终无错误只说明数据与 CRC 检查通过，不能证明内容可信、成员是普通文件，也不能证明链接或提取路径安全。"
+
+[[examples]]
+id = "v03-22-tar-extract-safety-03"
+command_id = "tar-xzf-website"
+level = 2
+output_explanation = "命令先显示清单并等待明确 yes；随后才创建唯一 0700 空目录，以普通用户提取并报告实际路径。该隔离步骤避免覆盖当前目录的 public/，但提取后仍要检查链接、类型和内容。"
+
+[[examples]]
+id = "v03-22-tar-extract-safety-04"
+command_id = "tar-xvf-logs"
+level = 2
+output_explanation = "详细输出逐条展示写出的路径，便于复核提取范围；它不会在覆盖发生前自动生成备份。"
+
+[[examples]]
+id = "v03-22-tar-extract-safety-05"
+command_id = "tar-xzf-to-restore"
+level = 3
+output_explanation = "-C 把写入限制到事先准备的 restore 基准目录，使检查和后续挑选文件更可控。"
+
+[[examples]]
+id = "v03-22-tar-extract-safety-06"
+command_id = "unzip-source-to-restored"
+level = 3
+output_explanation = "creating 与 inflating 行表明 ZIP 内容被写到 restored 下；完成后仍要检查文件类型、权限和预期目录层级。"
+
+[[gotchas]]
+title = "通过完整性校验不等于可以安全提取"
+content = """CRC 或压缩流校验主要发现传输损坏；`tar -tzf`、`unzip -l` 和 CRC 结果也不能证明成员是普通文件、链接目标安全或内容无害，更无法阻止路径穿越、危险符号链接或覆盖。外部归档仍需验证来源和校验值，先用名称/基础大小清单排除明显异常，再在低权限、空的隔离目录中处理并检查提取后的实际文件类型。不要直接把未知归档解到主目录、项目根目录或系统路径。"""
+
+[[gotchas]]
+title = "当前目录提取最容易发生名称碰撞"
+content = "归档没有统一根目录时，许多文件会直接散落；即使有根目录，也可能与现有项目同名。不要提取到当前目录或复用已有 restore，优先在确认清单后用 mktemp -d 新建唯一 0700 空目录。若工具询问是否覆盖，应暂停核对，而不是选择全部覆盖。"
+
+[[gotchas]]
+title = "详细输出只是观察手段，不是保护选项"
+content = """tar 的 v 会打印路径，让过程更透明，但写入已经在发生。安全顺序仍然是来源验证、只读列表、完整性检查、空目录提取、结果复核。不要因为看见每个文件名就误以为可以及时人工阻止所有危险成员，批量提取速度通常远快于阅读速度。"""

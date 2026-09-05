@@ -19,7 +19,10 @@ ENV LC_ALL=C.UTF-8
 ENV TERM=xterm-256color
 
 COPY --from=builder /build/target/release/cmdtyper /usr/local/bin/cmdtyper
-COPY data/ /usr/local/share/cmdtyper/data/
+COPY data/commands/ /usr/local/share/cmdtyper/data/commands/
+COPY data/lessons/ /usr/local/share/cmdtyper/data/lessons/
+COPY data/symbols/ /usr/local/share/cmdtyper/data/symbols/
+COPY data/system/ /usr/local/share/cmdtyper/data/system/
 
 # User data volume
 VOLUME /userdata

@@ -1,0 +1,94 @@
+[meta]
+command = "ssh 主机身份与密钥"
+full_name = "SSH host identity verification and key authentication"
+category = "network"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "先独立确认远端主机身份，再保护本地私钥并明确选择公钥"
+explanation = "SSH 同时验证远端主机身份和本地用户身份。首次连接的 SHA256 主机指纹必须与管理员、主机控制台或受保护资产记录提供的值独立核对。生成用户密钥时，用 umask 077 与 mktemp -d 原子创建唯一 0700 私有目录，再在其中运行 ssh-keygen；这样不会碰到固定路径、悬空符号链接或覆盖提示。保留交互口令提示，并记录命令成功后报告的实际私钥与 .pub 路径。ssh-copy-id 应在本命令内读取该实际路径，以 -i \"$key.pub\" 精确选择公钥；同时把远端呈现的主机密钥与独立指纹比较，并用临时 known_hosts 固定通过核验的密钥。ssh -i 的固定路径示例仅代表另一个已存在且受保护的身份文件，不是本课随机生成密钥的路径。"
+
+[syntax]
+basic = "ssh [身份与连接选项] 用户@主机；ssh-keygen ...；ssh-copy-id ..."
+[[syntax.parts]]
+name = "远端身份"
+desc = "用户@主机决定登录目标；非默认端口必须与管理员提供的信息一致"
+[[syntax.parts]]
+name = "主机指纹"
+desc = "首次连接或主机密钥变化时，把屏幕上的算法与 SHA256 指纹同独立可信来源逐字核对"
+[[syntax.parts]]
+name = "用户私钥"
+desc = "-i 后是本地私钥路径；私钥只用于本机签名，不应上传到服务器或交给他人"
+[[syntax.parts]]
+name = "可分发公钥"
+desc = "ssh-copy-id 的 -i 应指向 .pub 文件；公钥可安装到经核验的远端账户"
+
+[[options]]
+flag = "ssh -p"
+name = "指定 SSH 登录端口"
+example = "ssh -p 2222 alice@server.example.com"
+note = "ssh 使用小写 -p；端口变化不替代主机指纹核验，二者都必须确认"
+
+[[options]]
+flag = "ssh -i"
+name = "选择身份私钥"
+example = "ssh -i ~/.ssh/work_ed25519 alice@server.example.com"
+note = "该固定路径仅代表已存在的受保护私钥；随机生成的练习密钥应使用 ssh-keygen 实际报告的路径"
+
+[[options]]
+flag = "ssh-keygen -t ed25519 -f"
+name = "在明确的新路径生成 Ed25519 密钥对"
+example = "(umask 077; key_dir=$(mktemp -d \"${TMPDIR:-/tmp}/cmdtyper-work-key.XXXXXX\") && chmod 700 \"$key_dir\" && key=\"$key_dir/work_ed25519\" && ssh-keygen -t ed25519 -f \"$key\" -C 'alice@laptop' && printf 'Key directory: %s\\nPrivate key: %s\\nPublic key: %s\\n' \"$key_dir\" \"$key\" \"$key.pub\")"
+note = "在新建的唯一 0700 私有目录内生成，保留交互口令提示并报告实际私钥与 .pub 路径；不会出现覆盖旧密钥的正常路径"
+
+[[options]]
+flag = "ssh-copy-id -i"
+name = "只安装指定公钥"
+example = "(umask 077; printf 'Private key path printed by ssh-keygen: ' && IFS= read -r key && [ -f \"$key.pub\" ] && [ ! -L \"$key.pub\" ] && printf 'Expected ED25519 SHA256 host fingerprint from an independent trusted source: ' && IFS= read -r expected && host=server.example.com && kh=$(mktemp) && trap 'rm -f -- \"$kh\"' EXIT HUP INT TERM && ssh-keyscan -t ed25519 \"$host\" >\"$kh\" 2>/dev/null && actual=$(ssh-keygen -lf \"$kh\" -E sha256 | awk '{print $2}' | sort -u) && [ \"$actual\" = \"$expected\" ] && ssh-copy-id -i \"$key.pub\" -o HostKeyAlgorithms=ssh-ed25519 -o UserKnownHostsFile=\"$kh\" -o GlobalKnownHostsFile=/dev/null -o StrictHostKeyChecking=yes \"alice@$host\")"
+note = "读取上一题报告的实际私钥路径并使用 -i \"$key.pub\"；连接前还要用独立可信指纹核验并固定主机密钥"
+
+[[examples]]
+id = "v03-29-ssh-host-basic-login"
+command_id = "ssh-login-basic"
+level = 1
+
+[[examples]]
+id = "v03-29-ssh-host-custom-port"
+command_id = "ssh-login-custom-port"
+level = 2
+
+[[examples]]
+id = "v03-29-ssh-key-identity-file"
+command_id = "ssh-identity-file"
+level = 2
+
+[[examples]]
+id = "v03-29-ssh-key-generate-ed25519"
+command_id = "ssh-keygen-ed25519-basic"
+level = 2
+
+[[examples]]
+id = "v03-29-ssh-key-install-public"
+command_id = "ssh-copy-id-basic"
+level = 3
+
+[[gotchas]]
+title = "主机指纹必须独立核验"
+content = "连接窗口告诉你的指纹与连接本身来自同一条未验证通道，不能自证可信。通过管理员、主机控制台或受保护资产记录获得预期指纹；若不一致或无法取得预期值，就中止连接并调查 DNS、地址、端口和主机重装记录。"
+
+[[gotchas]]
+title = "主机密钥变化不是自动接受的日常提示"
+content = "合法重装或轮换会改变指纹，但中间人攻击也会产生相同警告。不要直接删除 known_hosts 记录来消除提示；先从独立渠道确认变更原因、新指纹和资产归属，再按组织流程更新记录。"
+
+[[gotchas]]
+title = "私钥与公钥不可混淆"
+content = "没有 .pub 后缀的文件是秘密私钥，配套 .pub 才能安装到远端。mktemp -d 生成的实际随机路径会在成功后打印；下一步应输入该私钥路径，并让 ssh-copy-id 明确使用 \"$key.pub\"，不要猜测固定文件名。"
+
+[[gotchas]]
+title = "覆盖密钥可能切断已有访问"
+content = "固定路径可能已有普通文件、悬空符号链接，检查与使用之间也可能变化。不要依赖 test ! -e 或看到 overwrite 提示后再处理；应先用 mktemp -d 原子创建唯一 0700 私有目录，再把带用途的密钥基名放在目录内。"
+
+[[gotchas]]
+title = "端口选项区分大小写"
+content = "SSH 登录用小写 -p。后续 scp 指定端口却用大写 -P。命令行选项区分大小写，不能根据读音互换；先确认正在使用的程序，再选择对应选项。"

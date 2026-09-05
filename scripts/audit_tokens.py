@@ -9,14 +9,10 @@
 """
 
 import sys
-import os
-from pathlib import Path
 from collections import Counter, defaultdict
+from pathlib import Path
 
-try:
-    import tomllib
-except ImportError:
-    import tomli as tomllib
+import tomllib
 
 DATA_DIR = Path(__file__).parent.parent / "data"
 
@@ -79,19 +75,64 @@ def audit():
     print(f"  lesson token_details 总数: {lesson_token_details_count}")
 
     # 2. Coverage
-    lesson_cmds = set()
-    for lesson in lessons:
-        for ex in lesson.get("examples", []):
-            if ex.get("token_details"):
-                lesson_cmds.add(ex.get("command", ""))
+    command_ids_by_text = defaultdict(set)
+    canonical_ids = set()
+    for cmd in commands:
+        command_id = cmd.get("id")
+        if command_id:
+            canonical_ids.add(command_id)
+            command_ids_by_text[cmd.get("command", "")].add(command_id)
 
-    covered = sum(1 for c in commands if c.get("command", "") in lesson_cmds)
+    inline_covered_ids = set()
+    command_id_covered_ids = set()
+    command_id_ref_locations = defaultdict(list)
+    dangling_refs = []
+
+    for lesson in lessons:
+        for example_index, ex in enumerate(lesson.get("examples", []), start=1):
+            inline_command = ex.get("command")
+            if inline_command is not None:
+                inline_covered_ids.update(command_ids_by_text.get(inline_command, ()))
+
+            if "command_id" not in ex:
+                continue
+
+            command_id = ex.get("command_id")
+            location = f"{lesson['_file']} example #{example_index}"
+            command_id_ref_locations[command_id].append(location)
+            if command_id in canonical_ids:
+                command_id_covered_ids.add(command_id)
+            else:
+                dangling_refs.append((command_id, location))
+
+    duplicate_refs = {
+        command_id: locations
+        for command_id, locations in command_id_ref_locations.items()
+        if len(locations) > 1
+    }
+    duplicate_ref_count = sum(len(locations) - 1 for locations in duplicate_refs.values())
+    covered_ids = inline_covered_ids | command_id_covered_ids
+    covered = len(covered_ids)
     uncovered = total_cmds - covered
 
-    print(f"\n📈 Lesson token_details 覆盖率:")
+    print(f"\n📈 Lesson 命令覆盖率:")
     pct = 100 * covered // max(total_cmds, 1)
-    print(f"  有精细拆解的命令: {covered}/{total_cmds} ({pct}%)")
-    print(f"  缺少精细拆解的命令: {uncovered}")
+    print(f"  内联命令链接: {len(inline_covered_ids)}")
+    print(f"  command_id 链接: {len(command_id_covered_ids)}")
+    print(f"  唯一覆盖命令: {covered}/{total_cmds} ({pct}%)")
+    print(f"  缺少 Lesson 链接的命令: {uncovered}")
+    print(f"  悬空 command_id 引用: {len(dangling_refs)}")
+    print(f"  重复 command_id 引用: {duplicate_ref_count}")
+
+    for command_id, location in sorted(
+        dangling_refs, key=lambda item: (str(item[0]), item[1])
+    ):
+        print(f"    dangling {command_id!r}: {location}")
+
+    for command_id, locations in sorted(
+        duplicate_refs.items(), key=lambda item: str(item[0])
+    ):
+        print(f"    duplicate {command_id!r}: {', '.join(locations)}")
 
     # 3. Generic descriptions
     generic_tokens = []
@@ -161,7 +202,7 @@ def audit():
     family_stats = []
     for family, cmds in sorted(families.items(), key=lambda x: -len(x[1])):
         total = len(cmds)
-        with_details = sum(1 for c in cmds if c.get("command", "") in lesson_cmds)
+        with_details = sum(1 for c in cmds if c.get("id") in covered_ids)
         family_stats.append((family, total, with_details))
 
     for family, total, with_details in sorted(family_stats, key=lambda x: -(x[1] - x[2]))[:20]:
@@ -170,7 +211,11 @@ def audit():
 
     print(f"\n{'='*60}")
     print("审计完成")
-    return len(generic_tokens) == 0 and covered > total_cmds * 0.5
+    return (
+        len(generic_tokens) == 0
+        and covered > total_cmds * 0.5
+        and len(dangling_refs) == 0
+    )
 
 
 if __name__ == "__main__":

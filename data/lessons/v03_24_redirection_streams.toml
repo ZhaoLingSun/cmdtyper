@@ -1,0 +1,87 @@
+[meta]
+command = "v03-redirection-streams"
+full_name = "标准流与重定向顺序"
+category = "pipeline"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "分清输入、正常输出和错误输出，并按从左到右的顺序连接"
+explanation = """shell 通常为命令提供三个标准流：标准输入、标准输出和标准错误。输入重定向让命令从文件读取；输出重定向把标准输出写入文件；错误重定向只处理诊断信息。单大于号会先截断已有文件再写入，双大于号则保留旧内容并追加。文件描述符复制是按从左到右立即生效的：先把标准输出指向文件，再让标准错误复制当前的标准输出，两者才会进入同一文件；若顺序相反，标准错误会保留它当时指向的终端。重定向前应确认目标文件是否允许覆盖，并保留诊断信息用于排查。"""
+
+[syntax]
+basic = "命令 [输入重定向 文件] [输出重定向 文件] [描述符复制]"
+
+[[syntax.parts]]
+name = "标准输入"
+desc = "文件描述符 0；输入重定向让命令从指定文件获得数据"
+
+[[syntax.parts]]
+name = "标准输出"
+desc = "文件描述符 1；承载正常结果，可覆盖写入或追加写入"
+
+[[syntax.parts]]
+name = "标准错误"
+desc = "文件描述符 2；承载诊断信息，可与正常输出分开保存或显式合并"
+
+[[options]]
+flag = ">"
+name = "覆盖重定向"
+note = "目标存在时先截断；使用前检查文件路径和是否需要保留旧内容"
+
+[[options]]
+flag = ">>"
+name = "追加重定向"
+note = "把新输出写到末尾，不清空已有内容；仍需关注日志增长与重复记录"
+
+[[options]]
+flag = "2>"
+name = "仅重定向标准错误"
+note = "正常输出保持原去向，诊断写入指定文件"
+
+[[options]]
+flag = "2>&1"
+name = "复制当前标准输出去向"
+note = "含义取决于它出现时文件描述符 1 指向哪里，因此顺序不能随意交换"
+
+[[examples]]
+id = "v03-24-redirection-streams-01"
+command_id = "redirect-overwrite-config"
+level = 1
+
+[[examples]]
+id = "v03-24-redirection-streams-02"
+command_id = "redirect-append-date"
+level = 1
+
+[[examples]]
+id = "v03-24-redirection-streams-03"
+command_id = "redirect-silence-stderr"
+level = 2
+
+[[examples]]
+id = "v03-24-redirection-streams-04"
+command_id = "redirect-file-to-stdin"
+level = 1
+
+[[examples]]
+id = "v03-24-redirection-streams-05"
+command_id = "redirect-both-after-stdout"
+level = 3
+
+[[examples]]
+id = "v03-24-redirection-streams-06"
+command_id = "redirect-order-stderr-terminal"
+level = 3
+
+[[gotchas]]
+title = "覆盖与追加只差一个字符"
+content = "单大于号会清空原内容，双大于号才追加。处理已有配置或日志前，先确认目标并决定是否需要备份；不要靠事后观察来猜旧内容是否还在。"
+
+[[gotchas]]
+title = "描述符复制不是永久绑定"
+content = "描述符复制会取得当时的去向。后续再改变标准输出，不会追溯更新标准错误，所以两种书写顺序可能产生不同结果。"
+
+[[gotchas]]
+title = "不要把诊断无条件丢弃"
+content = "隐藏错误会让失败看起来像空结果。练习和排障时优先保留错误到终端或单独日志，并留意日志本身是否包含敏感路径或数据。"

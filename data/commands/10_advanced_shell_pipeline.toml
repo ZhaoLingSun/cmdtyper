@@ -165,8 +165,8 @@ answers = [
 
 [[commands]]
 id = "command-substitution-date"
-command = "echo 2026-03-08"
-summary = "输出当前日期，格式为年-月-日"
+command = "echo \"$(date +%F)\""
+summary = "使用命令替换输出当前日期，格式为年-月-日"
 simulated_output = "2026-03-08"
 
 [[commands.tokens]]
@@ -174,13 +174,14 @@ text = "echo"
 desc = "将文本输出到标准输出"
 
 [[commands.tokens]]
-text = " 2026-03-08"
-desc = "命令替换：先执行 date，再把结果插入命令行"
+text = " \"$(date +%F)\""
+desc = "先执行 date +%F，再把结果作为一个带引号的参数传给 echo"
 
 [commands.dictation]
-prompt = "使用命令替换输出当前日期，格式为年-月-日"
+prompt = "使用带双引号的命令替换输出当前日期，格式为年-月-日"
 answers = [
-    "echo 2026-03-08",
+    "echo \"$(date +%F)\"",
+    "printf '%s\\n' \"$(date +%F)\"",
 ]
 
 [[commands]]
@@ -222,8 +223,8 @@ answers = [
 
 [[commands]]
 id = "or-install-curl"
-command = "command -v curl >/dev/null || sudo apt install -y curl"
-summary = "如果系统里没有 curl，就用 apt 安装它"
+command = "command -v curl >/dev/null || sudo apt install curl"
+summary = "如果系统里没有 curl，就让 apt 显示安装计划并等待人工确认"
 simulated_output = ""
 
 [[commands.tokens]]
@@ -240,15 +241,15 @@ desc = "要检查的命令名"
 
 [[commands.tokens]]
 text = " >/dev/null"
-desc = "文件路径： >/dev/null"
+desc = "丢弃找到命令时的路径输出，只使用退出状态判断是否存在"
 
 [[commands.tokens]]
 text = " ||"
-desc = "前一个命令失败时才执行后一个命令"
+desc = "前一个检查失败时才进入右侧安装流程"
 
 [[commands.tokens]]
 text = " sudo"
-desc = "以更高权限执行后续命令"
+desc = "仅为经过审核的软件包安装请求管理员权限"
 
 [[commands.tokens]]
 text = " apt"
@@ -256,25 +257,21 @@ desc = "Debian/Ubuntu 包管理命令"
 
 [[commands.tokens]]
 text = " install"
-desc = "安装软件包"
-
-[[commands.tokens]]
-text = " -y"
-desc = "自动回答 yes"
+desc = "计算安装计划并在变更前显示依赖、下载量和磁盘影响"
 
 [[commands.tokens]]
 text = " curl"
-desc = "要安装的软件包名"
+desc = "要安装的软件包名；未使用 -y，因此仍需人工审查并确认"
 
 [commands.dictation]
-prompt = "如果系统中没有 curl，就用 apt 自动安装 curl"
+prompt = "如果系统中没有 curl，就让 apt 显示 curl 的安装与依赖计划并等待人工确认；不要用 -y 跳过审查"
 answers = [
-    "command -v curl >/dev/null || sudo apt install -y curl",
+    "command -v curl >/dev/null || sudo apt install curl",
 ]
 
 [[commands]]
 id = "for-loop-jpg"
-command = "for f in *.jpg; do echo \"\"; done"
+command = "for f in *.jpg; do echo \"$f\"; done"
 summary = "遍历当前目录下所有 jpg 文件并逐个输出文件名"
 simulated_output = """
 img001.jpg
@@ -307,8 +304,8 @@ text = " echo"
 desc = "输出变量内容"
 
 [[commands.tokens]]
-text = " \"\""
-desc = "引用当前循环变量，保留可能的空格"
+text = " \"$f\""
+desc = "展开并引用当前循环变量，保留文件名中的空格"
 
 [[commands.tokens]]
 text = ";"
@@ -319,19 +316,19 @@ text = " done"
 desc = "循环体结束"
 
 [commands.dictation]
-prompt = "遍历当前目录下所有 jpg 文件，并逐个输出文件名"
+prompt = "遍历当前目录下所有 jpg 文件，并通过带双引号的 $f 逐个输出文件名"
 answers = [
-    "for f in *.jpg; do echo \"\"; done",
+    "for f in *.jpg; do echo \"$f\"; done",
 ]
 
 [[commands]]
 id = "while-read-file"
-command = "while read -r line; do echo \"\"; done < names.txt"
-summary = "逐行读取 names.txt，并原样输出每一行"
+command = "while IFS= read -r line || [ -n \"$line\" ]; do printf '%s\\n' \"$line\"; done < file.txt"
+summary = "逐行读取 file.txt，保留空白、反斜杠以及没有结尾换行的最后一行"
 simulated_output = """
-buy milk
-finish report
-call alice
+  buy milk
+path\\to\\file
+final line
 """
 
 [[commands.tokens]]
@@ -339,36 +336,64 @@ text = "while"
 desc = "shell 的循环关键字"
 
 [[commands.tokens]]
+text = " IFS="
+desc = "把本次 read 的字段分隔符设为空，保留行首和行尾空白"
+
+[[commands.tokens]]
 text = " read"
 desc = "从标准输入读取一行文本"
 
 [[commands.tokens]]
 text = " -r"
-desc = "按原始方式读取，不处理反斜杠转义"
+desc = "不把反斜杠当作转义符，按原样读取"
 
 [[commands.tokens]]
 text = " line"
-desc = "接收每一行内容的变量名"
+desc = "接收当前行内容的变量名"
+
+[[commands.tokens]]
+text = " ||"
+desc = "read 因文件末尾无换行而返回失败时，继续检查是否仍读到了内容"
+
+[[commands.tokens]]
+text = " ["
+desc = "开始最后一行内容检查"
+
+[[commands.tokens]]
+text = " -n"
+desc = "判断字符串长度是否非零"
+
+[[commands.tokens]]
+text = " \"$line\""
+desc = "引用当前行，保留空白并避免额外展开"
+
+[[commands.tokens]]
+text = " ]"
+desc = "结束最后一行内容检查"
 
 [[commands.tokens]]
 text = ";"
-desc = "命令分隔符"
+desc = "结束 while 条件"
 
 [[commands.tokens]]
 text = " do"
 desc = "循环体开始"
 
 [[commands.tokens]]
-text = " echo"
-desc = "输出读取到的变量内容"
+text = " printf"
+desc = "按明确格式输出文本，不依赖 echo 的实现差异"
 
 [[commands.tokens]]
-text = " \"\""
-desc = "引用当前读取到的一行文本"
+text = " '%s\\n'"
+desc = "把每一行作为字符串输出并补一个换行"
+
+[[commands.tokens]]
+text = " \"$line\""
+desc = "按原样传递当前行内容"
 
 [[commands.tokens]]
 text = ";"
-desc = "命令分隔符"
+desc = "结束本轮输出"
 
 [[commands.tokens]]
 text = " done"
@@ -376,16 +401,16 @@ desc = "循环体结束"
 
 [[commands.tokens]]
 text = " <"
-desc = "把文件作为标准输入重定向给 while 循环"
+desc = "把文件作为 while 循环的标准输入"
 
 [[commands.tokens]]
-text = " names.txt"
+text = " file.txt"
 desc = "要逐行读取的输入文件"
 
 [commands.dictation]
-prompt = "逐行读取 names.txt，并原样输出每一行"
+prompt = "逐行读取 file.txt：保留行首行尾空白和反斜杠，并且即使最后一行没有结尾换行也要输出"
 answers = [
-    "while read -r line; do echo \"\"; done < names.txt",
+    "while IFS= read -r line || [ -n \"$line\" ]; do printf '%s\\n' \"$line\"; done < file.txt",
 ]
 
 [[commands]]
@@ -438,9 +463,9 @@ answers = [
 
 [[commands]]
 id = "find-exec-rm"
-command = "find . -name *.tmp -exec rm {} +"
-summary = "查找当前目录下所有 .tmp 文件并批量删除"
-simulated_output = ""
+command = "find . -type f -name '*.tmp' -ok rm -- {} \\;"
+summary = "查找 .tmp 普通文件，并在逐个显示路径、获得确认后才删除"
+simulated_output = "< rm ... ./cache/build.tmp > ? n"
 
 [[commands.tokens]]
 text = "find"
@@ -451,34 +476,46 @@ text = " ."
 desc = "从当前目录开始查找"
 
 [[commands.tokens]]
+text = " -type"
+desc = "按文件类型筛选"
+
+[[commands.tokens]]
+text = " f"
+desc = "只匹配普通文件，排除同名目录等其他对象"
+
+[[commands.tokens]]
 text = " -name"
 desc = "按文件名模式匹配"
 
 [[commands.tokens]]
-text = " *.tmp"
-desc = "匹配所有 .tmp 文件"
+text = " '*.tmp'"
+desc = "用引号保护模式，避免 shell 在 find 运行前先展开"
 
 [[commands.tokens]]
-text = " -exec"
-desc = "对查找到的结果执行命令"
+text = " -ok"
+desc = "对每个候选显示将运行的命令并等待人工确认，不做无提示批量删除"
 
 [[commands.tokens]]
 text = " rm"
-desc = "删除匹配到的文件"
+desc = "仅在当前候选获得确认后删除文件"
+
+[[commands.tokens]]
+text = " --"
+desc = "结束 rm 的选项解析，保护以连字符开头的路径"
 
 [[commands.tokens]]
 text = " {}"
-desc = "代表当前 find 匹配到的文件路径"
+desc = "代表当前 find 匹配到的单个文件路径"
 
 [[commands.tokens]]
-text = " +"
-desc = "把多个匹配结果批量传给一次 rm 调用"
+text = " \\;"
+desc = "结束 -ok 动作；每个候选单独询问，而不是批量自动执行"
 
 [commands.dictation]
-prompt = "查找当前目录下所有 .tmp 文件，并用 find 直接批量删除"
+prompt = "查找当前目录下的 .tmp 普通文件，用引号保护模式，并让 find 在逐个显示路径、等待确认后才调用 rm"
 answers = [
-    "find . -name *.tmp -exec rm {} +",
-    "find . -name \"*.tmp\" -exec rm {} +",
+    "find . -type f -name '*.tmp' -ok rm -- {} \\;",
+    "find . -type f -name \"*.tmp\" -ok rm -- {} \\;",
 ]
 
 [[commands]]
@@ -504,28 +541,28 @@ answers = [
 
 [[commands]]
 id = "here-doc-cat"
-command = "cat <<EOF > note.txt"
-summary = "开始一个 here document，把多行内容写入 note.txt"
+command = "printf 'first line\\nsecond line\\n' > note.txt"
+summary = "用一条完整的非交互命令把两行文本写入 note.txt"
 simulated_output = ""
 
 [[commands.tokens]]
-text = "cat"
-desc = "连接并显示一个或多个文件的内容"
+text = "printf"
+desc = "按明确格式输出文本；整条命令语法完整，不依赖后续交互输入或未闭合的 here document"
 
 [[commands.tokens]]
-text = " <<EOF"
-desc = "开始 here document，多行输入直到 EOF 结束"
+text = " 'first line\\nsecond line\\n'"
+desc = "单引号中的格式字符串包含两行文本及各自的换行符"
 
 [[commands.tokens]]
 text = " >"
-desc = "把 here document 输出写入文件"
+desc = "把标准输出重定向到文件，并覆盖原内容"
 
 [[commands.tokens]]
 text = " note.txt"
-desc = "接收多行内容的文件"
+desc = "接收两行文本的目标文件"
 
 [commands.dictation]
-prompt = "开始一个 here document，并把后续多行内容写入 note.txt"
+prompt = "使用完整的 printf 命令把 first line 和 second line 两行写入 note.txt，并覆盖原内容"
 answers = [
-    "cat <<EOF > note.txt",
+    "printf 'first line\\nsecond line\\n' > note.txt",
 ]

@@ -1,0 +1,97 @@
+[meta]
+command = "v03-links-metadata"
+full_name = "链接、元数据与文件识别"
+category = "file_ops"
+difficulty = "basic"
+importance = "common"
+
+[overview]
+summary = "区分链接本身、链接目标与文件元数据"
+explanation = """符号链接是一个独立的目录项，保存对另一路径的引用；它不是目标内容的副本。排查链接时应分三步：先观察链接本身及箭头指向，再解析最终规范路径，最后按需要检查目标对象。删除符号链接通常只移除链接这个目录项，不会删除它指向的文件或目录，但路径末尾斜杠、跟随链接的工具选项和操作对象选择都可能改变语义。stat 用于查看大小、权限、索引节点和时间戳等元数据，ls 的长格式适合快速浏览，file 则依据内容特征识别类型，不能只凭扩展名判断。"""
+
+[syntax]
+basic = "链接命令 [选项] 目标路径 链接路径；检查命令 [选项] 路径"
+
+[[syntax.parts]]
+name = "目标路径"
+desc = "符号链接记录并指向的位置；目标日后移动后，链接可能失效"
+
+[[syntax.parts]]
+name = "链接路径"
+desc = "新建的独立目录项；创建前要检查该名称是否已被占用"
+
+[[syntax.parts]]
+name = "检查层次"
+desc = "明确是在看链接本身、解析后的最终路径，还是最终目标的属性"
+
+[[options]]
+flag = "-s"
+name = "创建符号链接"
+note = "链接可跨文件系统并可指向目录；相对目标按链接所在目录解释"
+
+[[options]]
+flag = "-l"
+name = "长格式观察"
+note = "可看到类型、权限、所有者、大小、时间和符号链接箭头"
+
+[[options]]
+flag = "-f"
+name = "规范化最终路径"
+note = "解析路径中的链接和相对成分；若路径链不完整，结果可能为空或失败"
+
+[[options]]
+flag = "-h"
+name = "易读大小"
+note = "与长格式配合可快速阅读表观大小，但不等同于磁盘实际占用块数"
+
+[[examples]]
+id = "v03-23-links-metadata-01"
+command_id = "fileops-ln-shared-directory"
+level = 1
+
+[[examples]]
+id = "v03-23-links-metadata-02"
+command_id = "fileops-ln-guide-file"
+level = 1
+
+[[examples]]
+id = "v03-23-links-metadata-03"
+command_id = "fileops-readlink-current-canonical"
+level = 2
+
+[[examples]]
+id = "v03-23-links-metadata-04"
+command_id = "fileops-readlink-normalize-path"
+level = 2
+
+[[examples]]
+id = "v03-23-links-metadata-05"
+command_id = "fileops-stat-settings-metadata"
+level = 2
+
+[[examples]]
+id = "v03-23-links-metadata-06"
+command_id = "fileops-stat-report-size"
+level = 1
+
+[[examples]]
+id = "v03-23-links-metadata-07"
+command_id = "fileops-file-shell-script"
+level = 1
+
+[[examples]]
+id = "v03-23-links-metadata-08"
+command_id = "fileops-file-extensionless-image"
+level = 1
+
+[[gotchas]]
+title = "创建链接也要检查名称碰撞"
+content = "链接路径若已存在，创建会失败或在某些强制选项下被替换。先检查链接名称及父目录，不要把“目标存在”与“链接名称可用”混为一谈。"
+
+[[gotchas]]
+title = "删除链接与删除目标不是一回事"
+content = "应把操作对象明确到链接路径本身，并先用长格式确认它确实是链接。不要随意给指向目录的链接补尾随斜杠，也不要在未理解跟随规则时使用递归删除。"
+
+[[gotchas]]
+title = "大小、占用与类型是不同问题"
+content = "长格式展示的通常是文件长度，磁盘占用还受块大小和稀疏文件影响；扩展名只是命名习惯，识别真实类型应结合 file 或更深入的格式检查。"

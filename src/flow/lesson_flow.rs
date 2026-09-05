@@ -2,7 +2,7 @@ use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 
 use crate::app::{App, AppState};
 use crate::core::scorer;
-use crate::data::models::{DeepSource, RecordMode};
+use crate::data::models::{DeepSource, RecordMode, lesson_example_progress_key};
 
 pub fn handle_command_lesson_overview_key(
     app: &mut App,
@@ -113,17 +113,20 @@ pub fn handle_command_lesson_practice_key(
             }
         }
         KeyCode::Enter if app.typing_engine.is_complete() => {
-            // Save lesson practice stats using lesson difficulty.
             let lesson_meta = {
                 let cats = app.get_lesson_categories();
                 if category_index < cats.len() {
                     let lessons = app.get_lessons_for_category(cats[category_index]);
-                    lessons.get(command_index).map(|lesson| {
-                        (
-                            lesson.meta.command.clone(),
-                            lesson.meta.difficulty,
+                    lessons.get(command_index).and_then(|lesson| {
+                        let example = lesson.examples.get(example_index)?;
+                        Some((
+                            lesson_example_progress_key(lesson, example_index),
+                            app.effective_record_difficulty(
+                                example.command_id.as_deref(),
+                                lesson.meta.difficulty,
+                            ),
                             lesson.examples.len(),
-                        )
+                        ))
                     })
                 } else {
                     None

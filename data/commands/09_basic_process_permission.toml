@@ -214,67 +214,103 @@ answers = [
 
 [[commands]]
 id = "pkill-nginx"
-command = "pkill nginx"
-summary = "按进程名向 nginx 发送终止信号"
+command = "pkill -TERM -x -u \"$USER\" nginx"
+summary = "在先审查清单后，只向当前用户拥有且进程名精确为 nginx 的目标发送 SIGTERM"
 simulated_output = ""
 
 [[commands.tokens]]
 text = "pkill"
-desc = "按进程名发送信号的命令"
+desc = "按条件向进程发送信号；执行前应先用对应的 pgrep -a 条件只读预览"
+
+[[commands.tokens]]
+text = " -TERM"
+desc = "请求匹配进程正常退出，而不是立即强制终止"
+
+[[commands.tokens]]
+text = " -x"
+desc = "要求进程名完整匹配，避免命中仅包含 nginx 的其他名称"
+
+[[commands.tokens]]
+text = " -u"
+desc = "按有效用户限制匹配范围"
+
+[[commands.tokens]]
+text = " \"$USER\""
+desc = "把范围限制为当前登录用户名；双引号保护变量展开"
 
 [[commands.tokens]]
 text = " nginx"
-desc = "要发送信号的进程名"
+desc = "已通过相同 -x 与 -u 条件逐项核对的进程名"
 
 [commands.dictation]
-prompt = "按进程名结束 nginx 进程"
+prompt = "已先用 pgrep -a -x -u \"$USER\" nginx 逐项核对目标；使用完全相同的精确名称和当前用户范围，只发送 SIGTERM"
 answers = [
-    "pkill nginx",
+    "pkill -TERM -x -u \"$USER\" nginx",
 ]
 
 [[commands]]
 id = "kill-sigkill"
-command = "kill -9 12345"
-summary = "向 PID 12345 发送 SIGKILL"
+command = "kill -TERM 12345"
+summary = "在即时核对 PID 身份后，先向 12345 发送 SIGTERM"
 simulated_output = ""
 
 [[commands.tokens]]
 text = "kill"
-desc = "向进程发送信号（默认 SIGTERM）"
+desc = "向指定 PID 发送信号；目标必须来自最新的只读进程清单"
 
 [[commands.tokens]]
-text = " -9"
-desc = "发送 SIGKILL 信号，强制终止进程"
+text = " -TERM"
+desc = "请求进程正常退出并清理资源；只有 TERM 无效且再次核对后才评估 SIGKILL"
 
 [[commands.tokens]]
 text = " 12345"
-desc = "目标进程 PID"
+desc = "教学用虚构 PID；真实 PID 可能复用，不能依赖旧记录"
 
 [commands.dictation]
-prompt = "向 PID 12345 发送 SIGKILL 强制终止它"
+prompt = "已用最新进程信息确认 PID 12345 的所有者和完整命令行；先发送 SIGTERM 请求正常退出"
 answers = [
-    "kill -9 12345",
-    "kill -KILL 12345",
+    "kill -TERM 12345",
+    "kill 12345",
 ]
 
 [[commands]]
 id = "killall-node"
-command = "killall node"
-summary = "结束所有名为 node 的进程"
-simulated_output = ""
+command = "killall -i -u \"$USER\" -s TERM node"
+summary = "把范围限制为当前用户，并在向每个 node 进程发送 SIGTERM 前逐项确认"
+simulated_output = "Kill node(31452) ? (y/N)"
 
 [[commands.tokens]]
 text = "killall"
-desc = "按进程名结束所有匹配进程的命令"
+desc = "按进程名向所有匹配项发送信号；批量范围必须先预览并限制"
+
+[[commands.tokens]]
+text = " -i"
+desc = "在向每个匹配进程发送信号前交互确认"
+
+[[commands.tokens]]
+text = " -u"
+desc = "按用户限制匹配范围"
+
+[[commands.tokens]]
+text = " \"$USER\""
+desc = "只考虑当前用户名下的匹配进程"
+
+[[commands.tokens]]
+text = " -s"
+desc = "显式指定要发送的信号"
+
+[[commands.tokens]]
+text = " TERM"
+desc = "请求正常退出，不把 SIGKILL 作为默认动作"
 
 [[commands.tokens]]
 text = " node"
-desc = "要结束的进程名"
+desc = "已通过只读清单逐项核对的进程名；同名进程仍可能有多个"
 
 [commands.dictation]
-prompt = "结束所有名为 node 的进程"
+prompt = "已先只读列出当前用户名下所有名为 node 的进程；用 killall 保留当前用户范围，并在逐项发送 SIGTERM 前询问确认"
 answers = [
-    "killall node",
+    "killall -i -u \"$USER\" -s TERM node",
 ]
 
 [[commands]]
@@ -338,16 +374,21 @@ answers = [
 
 [[commands]]
 id = "nohup-python-server"
-command = "nohup python3 -m http.server 8000 &"
-summary = "让 Python HTTP 服务脱离终端在后台运行"
-simulated_output = """
-[1] 31452
-nohup: ignoring input and appending output to 'nohup.out'
-"""
+command = "nohup timeout 300s python3 -m http.server 8000 --bind 127.0.0.1 --directory ./public >http-server.log 2>&1 &"
+summary = "在回环地址上临时后台共享 ./public，并在 5 分钟后自动停止"
+simulated_output = "[1] 31452"
 
 [[commands.tokens]]
 text = "nohup"
-desc = "让命令在退出终端后继续运行"
+desc = "让命令忽略终端挂断；本例仍由 timeout 限制最长运行时间"
+
+[[commands.tokens]]
+text = " timeout"
+desc = "限制后续命令的运行时长，建立明确的自动停止边界"
+
+[[commands.tokens]]
+text = " 300s"
+desc = "最多运行 300 秒；需要提前停止时只针对 shell 返回的准确 PID 发送 TERM"
 
 [[commands.tokens]]
 text = " python3"
@@ -359,18 +400,42 @@ desc = "运行指定模块"
 
 [[commands.tokens]]
 text = " http.server"
-desc = "Python 内置的简单 HTTP 服务模块"
+desc = "Python 内置的简单静态文件 HTTP 服务，仅适合临时本地用途"
 
 [[commands.tokens]]
 text = " 8000"
 desc = "监听端口号"
 
 [[commands.tokens]]
+text = " --bind"
+desc = "指定监听地址"
+
+[[commands.tokens]]
+text = " 127.0.0.1"
+desc = "只监听本机 IPv4 回环地址，不暴露到局域网或公网"
+
+[[commands.tokens]]
+text = " --directory"
+desc = "明确指定允许提供的目录，避免意外共享当前工作目录其他内容"
+
+[[commands.tokens]]
+text = " ./public"
+desc = "预先检查过的静态文件目录"
+
+[[commands.tokens]]
+text = " >http-server.log"
+desc = "把标准输出写入专用日志文件"
+
+[[commands.tokens]]
+text = " 2>&1"
+desc = "把标准错误写入同一个日志文件"
+
+[[commands.tokens]]
 text = " &"
-desc = "把命令放到后台执行"
+desc = "放到后台运行；shell 返回的作业 PID 是提前停止时应复核的精确目标"
 
 [commands.dictation]
-prompt = "让 Python 简单 HTTP 服务在 8000 端口后台运行，并在退出终端后继续保持"
+prompt = "只在 127.0.0.1:8000 后台提供已审核的 ./public 目录，把日志写入 http-server.log，并在 300 秒后自动停止"
 answers = [
-    "nohup python3 -m http.server 8000 &",
+    "nohup timeout 300s python3 -m http.server 8000 --bind 127.0.0.1 --directory ./public >http-server.log 2>&1 &",
 ]

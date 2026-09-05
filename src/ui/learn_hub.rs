@@ -12,7 +12,7 @@ const ITEMS: [(&str, &str); 8] = [
     ("💻 命令专题", "按类别学习命令详解"),
     ("⌨️  符号专题", "管道、重定向、通配符等"),
     ("🏗️  系统架构", "目录结构、权限、进程等"),
-    ("🔄 专题复习", "知识梳理与集中练习"),
+    ("🎯 专题训练", "16 个命令专题分级训练"),
 ];
 
 pub fn render(frame: &mut Frame, app: &App) {
@@ -40,10 +40,11 @@ pub fn render(frame: &mut Frame, app: &App) {
     frame.render_widget(title, chunks[0]);
 
     let menu_area = chunks[1];
+    let selected = app.learn_hub_index.min(ITEMS.len() - 1);
     let mut lines: Vec<Line> = Vec::new();
 
     for (i, (label, desc)) in ITEMS.iter().enumerate() {
-        let is_selected = i == app.learn_hub_index;
+        let is_selected = i == selected;
         let prefix = if is_selected { " ▶ " } else { "   " };
         let style = if is_selected {
             Style::default()
@@ -87,7 +88,12 @@ pub fn render(frame: &mut Frame, app: &App) {
         ])
         .split(menu_area);
 
-    frame.render_widget(Paragraph::new(lines).alignment(Alignment::Left), inner[1]);
+    let selected_line = selected * 2 + usize::from(selected > 3);
+    let window = visible_menu_window(selected_line, lines.len(), 1, inner[1].height);
+    let menu = Paragraph::new(lines)
+        .alignment(Alignment::Left)
+        .scroll((window.start as u16, 0));
+    frame.render_widget(menu, inner[1]);
 
     let hints = hint_line(&[("↑↓", "移动"), ("Enter", "选择"), ("Esc", "返回")]);
     frame.render_widget(

@@ -1,0 +1,109 @@
+[meta]
+command = "command-discovery-rescue"
+full_name = "命令定位与终端自救"
+category = "system"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "识别命令来源，并用最小动作恢复异常终端"
+explanation = """终端出现异常时，先分清是“名称解析问题”还是“终端状态问题”。type 会按当前 shell 的真实规则说明一个名称是别名、函数、内建还是外部程序；which 主要在 PATH 中定位外部可执行文件，因此更适合已确认是程序文件的场景。若只是正常结束当前 shell，exit 会关闭该会话，SSH 连接也会随之断开，执行前必须保存工作。输入字符不可见可能是回显被关闭，可尝试恢复 echo；控制键行为不明确时先用 stty -a 只读查看；输入和回显整体混乱时，stty sane 才是较全面的恢复手段。自救的核心不是尝试更多命令，而是从只读诊断开始，每次只改变一个状态，并保留关闭会话作为最后而非第一选择。"""
+
+[syntax]
+basic = "诊断或恢复工具 [选项] [名称]"
+
+[[syntax.parts]]
+name = "诊断或恢复工具"
+desc = "使用 type、which 判断命令来源，或使用 stty 检查和恢复终端行规程"
+
+[[syntax.parts]]
+name = "选项"
+desc = "例如 stty -a 只读列出全部设置，echo 与 sane 则会修改当前终端状态"
+
+[[syntax.parts]]
+name = "名称"
+desc = "type 或 which 要检查的命令名；应使用当前实际输入的名称"
+
+[[options]]
+flag = "type"
+name = "按 shell 解析规则识别名称"
+example = "type echo"
+note = "可识别别名、函数、内建和外部程序，是排查同名覆盖的首选"
+
+[[options]]
+flag = "which"
+name = "从 PATH 定位外部程序"
+example = "which ssh"
+note = "不完整反映别名或函数；需要判断 shell 实际行为时优先用 type"
+
+[[options]]
+flag = "stty -a"
+name = "只读查看终端设置"
+example = "stty -a"
+note = "先确认 intr、stop、start、susp 与 echo 等状态，再决定是否修改"
+
+[[options]]
+flag = "stty echo"
+name = "重新开启输入回显"
+example = "stty echo"
+note = "适用于键入内容不可见；若只是输出被 Ctrl+S 暂停，应先按 Ctrl+Q"
+
+[[options]]
+flag = "stty sane"
+name = "恢复一组常用终端设置"
+example = "stty sane"
+note = "会同时调整多项状态，宜在更小的针对性恢复无效时使用"
+
+[[options]]
+flag = "exit"
+name = "结束当前 shell"
+example = "exit"
+note = "本地子 shell 会结束，SSH 会断开；退出前保存编辑内容并确认后台工作"
+
+[[examples]]
+id = "v03-20-command-discovery-rescue-01"
+command_id = "type-echo"
+level = 1
+output_explanation = "结果说明 echo 由 Bash 内建实现，因此查询行为时应使用 shell 帮助而非假设存在单一外部文件。"
+
+[[examples]]
+id = "v03-20-command-discovery-rescue-02"
+command_id = "which-ssh"
+level = 1
+output_explanation = "路径表示当前 PATH 中找到的外部程序位置；它不证明没有同名别名或函数改变实际解析。"
+
+[[examples]]
+id = "v03-20-command-discovery-rescue-03"
+command_id = "stty-show-all"
+level = 2
+output_explanation = "输出把 ^C、^S、^Q、^Z 等控制键映射与 echo 状态集中展示，适合在修改前留下诊断依据。"
+
+[[examples]]
+id = "v03-20-command-discovery-rescue-04"
+command_id = "reset-terminal-quiet"
+level = 2
+output_explanation = "成功恢复回显时通常没有文字输出；随后可输入非敏感短文本确认字符重新可见。"
+
+[[examples]]
+id = "v03-20-command-discovery-rescue-05"
+command_id = "stty-sane"
+level = 3
+output_explanation = "该恢复动作通常保持安静，它重置的是当前终端连接的常见交互模式，而不是修复应用数据。"
+
+[[examples]]
+id = "v03-20-command-discovery-rescue-06"
+command_id = "exit-shell"
+level = 3
+output_explanation = "exit 表示 shell 正常结束；在远程会话中，后续表现通常是连接关闭并返回本地终端。"
+
+[[gotchas]]
+title = "which 不能完整代表 shell 最终会执行什么"
+content = """PATH 中存在 /usr/bin/name，不代表输入 name 时一定直接调用它；别名、函数或内建可能优先匹配。排查命令来源时先用 type，只有在明确需要外部可执行文件路径时才依赖 which。不要因为 which 没输出就立刻安装软件，也不要因为有路径就忽略同名覆盖。"""
+
+[[gotchas]]
+title = "无输出可能只是 Ctrl+S 暂停了显示"
+content = """终端看似“卡住”时，先尝试 Ctrl+Q 恢复被软件流控暂停的输出。如果字符只是不可见但命令仍有反应，再考虑 stty echo；只有多项按键和回显都异常时才使用 stty sane。按这个从键盘快捷键、单项恢复到整体恢复的顺序，可减少不必要的状态修改。"""
+
+[[gotchas]]
+title = "退出会话前先确认保存与连接范围"
+content = """exit 不只是清屏，它会终止当前 shell。处于 SSH 中会断开远程连接，处于嵌套 shell 中则返回上一层。执行前保存编辑器内容，检查是否有需要妥善处理的作业，并确认自己知道如何重新连接；不要用反复 exit 代替诊断终端问题。"""

@@ -1,0 +1,109 @@
+[meta]
+command = "cron 定时任务观察与编辑"
+full_name = "Cron schedule reading, editor selection, and guarded changes"
+category = "system"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "先只读核对任务表与守护进程，再理解五段时间字段，最后才进入受控编辑"
+explanation = """cron 学习要区分三层：crontab 内容描述“计划做什么”，cron.service 状态描述“调度守护进程是否运行”，实际脚本及其环境决定“任务是否成功”。crontab -l 是只读观察，管道给 less 只分页标准输出，错误诊断仍留在终端。systemctl status、is-active 和 is-enabled 分别观察详情、当前活动状态和开机启用策略，均不修改服务。五段 cron 时间从左到右是分钟、小时、日、月、星期，字段后才是命令；echo 示例只打印文本，不安装任务。crontab -e 会在保存退出后安装新任务表，是实际变更；临时设置 VISUAL 与 EDITOR 为 nano 只影响这一次编辑器选择。crontab -i -r 即使有确认仍会删除整张个人任务表，必须视为破坏性操作，先备份和复核，不能把交互提示当作充分保护。"""
+
+[syntax]
+basic = "分 时 日 月 周 命令；crontab -l|-e；systemctl status|is-active|is-enabled cron.service"
+[[syntax.parts]]
+name = "分钟与小时"
+desc = "第 1 段是 0-59 分钟，第 2 段是 0-23 小时；0 8 表示本地时间 08:00"
+[[syntax.parts]]
+name = "日、月、星期"
+desc = "第 3 至 5 段限制每月日期、月份和星期；星号表示该字段不限制"
+[[syntax.parts]]
+name = "计划命令"
+desc = "五段之后才是实际任务；cron 的 PATH、工作目录、shell 和环境通常比交互终端更精简"
+[[syntax.parts]]
+name = "观察与变更"
+desc = "-l 和 systemctl 查询只读；-e 保存后安装新表；-r 删除整张表"
+
+[[options]]
+flag = "crontab -l | less"
+name = "分页观察个人任务表"
+example = "crontab -l | less"
+note = "只把标准输出送入 less，未配置任务表等标准错误仍可见；按 q 退出分页器"
+
+[[options]]
+flag = "VISUAL=nano EDITOR=nano crontab -e"
+name = "仅本次选择 nano 编辑"
+example = "VISUAL=nano EDITOR=nano crontab -e"
+note = "环境赋值只作用于这次命令；但在编辑器中保存退出会安装任务表并产生真实调度变更"
+
+[[options]]
+flag = "crontab -i -r"
+name = "交互确认后删除整张表"
+example = "crontab -i -r"
+note = "危险操作：确认 y 后所有个人 cron 条目都会丢失；交互确认不能替代备份、审批和目标复核"
+
+[[options]]
+flag = "systemctl status / is-active / is-enabled"
+name = "三种只读服务观察"
+example = "systemctl status cron.service"
+note = "status 看详情与近期日志，is-active 看当前运行，is-enabled 看开机策略；三个答案不能互相替代"
+
+[[examples]]
+id = "v03-30-cron-edit-nano-once"
+command_id = "crontab-edit-with-nano"
+level = 2
+
+[[examples]]
+id = "v03-30-cron-list-paged"
+command_id = "crontab-list-quiet"
+level = 1
+
+[[examples]]
+id = "v03-30-cron-remove-confirmed-danger"
+command_id = "crontab-remove-interactive"
+level = 3
+
+[[examples]]
+id = "v03-30-cron-minute-field-print"
+command_id = "cron-field-minute-example"
+level = 1
+
+[[examples]]
+id = "v03-30-cron-daemon-status-observe"
+command_id = "cron-daemon-status"
+level = 1
+
+[[examples]]
+id = "v03-30-cron-daemon-active-observe"
+command_id = "cron-daemon-is-active"
+level = 1
+
+[[examples]]
+id = "v03-30-cron-daemon-enabled-observe"
+command_id = "cron-daemon-is-enabled"
+level = 1
+
+[[examples]]
+id = "v03-30-cron-weekday-field-print"
+command_id = "cron-field-weekday-example"
+level = 2
+
+[[gotchas]]
+title = "保存 crontab -e 就会安装变更"
+content = "编辑器只是界面，真正对象是当前用户任务表。打开前先用 -l 记录现状，编辑时保留注释与环境设置，退出后再次只读核对。仅改变 VISUAL/EDITOR 不会让保存动作变成模拟。"
+
+[[gotchas]]
+title = "cron 使用自己的运行环境"
+content = "交互 shell 中可用的 PATH、别名、当前目录、显示会话和环境变量在 cron 中可能不存在。计划命令应使用明确路径、受控工作目录、日志去向和错误处理；先单独验证脚本，再安排调度。"
+
+[[gotchas]]
+title = "星期与日期组合容易产生歧义"
+content = "不同 cron 实现对“日”和“星期”同时受限时的匹配关系可能令人意外。简单计划也应根据目标系统手册验证语义，并把业务时区、节假日和夏令时影响写清楚。"
+
+[[gotchas]]
+title = "服务 active 不代表每个任务成功"
+content = "cron.service 正在运行只说明调度器可工作，不证明任务语法、权限、路径或脚本执行成功。还要检查任务自己的输出、日志和预期产物，并限定明确时间窗口。"
+
+[[gotchas]]
+title = "-r 删除的是整张个人任务表"
+content = "-i 只增加一次 y/Y 确认，不提供逐条选择、撤销或自动备份。若真正需要移除单条任务，应在备份现有表后进行有针对性的编辑；本课程不把整表删除当作清理捷径。"

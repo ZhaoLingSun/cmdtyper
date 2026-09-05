@@ -1,0 +1,87 @@
+[meta]
+command = "v03-pipeline-control"
+full_name = "管道数据形状与边界控制"
+category = "pipeline"
+difficulty = "basic"
+importance = "common"
+
+[overview]
+summary = "控制输入分隔、排序前提、输出上限与分页阅读"
+explanation = """可靠的管道不仅要连接命令，还要约定数据的形状。按行文本适合筛选、排序、去重和截断；把文本转换为命令参数时则必须确认分隔规则，普通空白分割不能安全表示所有文件名。uniq 只合并相邻重复行，因此常需要先排序。head 可以给长输出设置明确上限，less 适合交互分页，而持续输出的生产者必须由能及时停止的下游约束。处理账号或系统清单时，应尽量只提取所需字段，避免传播不必要的信息。每个阶段都应保持可观察、可验证，并避免把未经检查的数据直接交给有副作用的命令。"""
+
+[syntax]
+basic = "生产阶段 | 规范化或筛选阶段 | 有界展示或统计阶段"
+
+[[syntax.parts]]
+name = "记录边界"
+desc = "明确一条记录由换行、NUL 或其他分隔符界定，不能假设所有输入都没有空格"
+
+[[syntax.parts]]
+name = "顺序前提"
+desc = "某些工具只处理相邻记录；需要先排序或以其他方式让相关记录聚集"
+
+[[syntax.parts]]
+name = "输出边界"
+desc = "用行数上限或分页器防止终端被大量或无限输出淹没"
+
+[[options]]
+flag = "-n"
+name = "设置数量边界"
+note = "常用于限制展示行数或每批参数数量；具体含义由所在命令决定"
+
+[[options]]
+flag = "-0"
+name = "读取 NUL 分隔记录"
+note = "处理任意文件名时应与产生 NUL 分隔输出的上游配套使用"
+
+[[options]]
+flag = "head"
+name = "截断到开头若干记录"
+note = "可建立硬上限；上游可能因下游提前关闭而收到正常的管道结束信号"
+
+[[options]]
+flag = "less"
+name = "分页阅读"
+note = "适合人工浏览长输出；退出分页器不会修改被查看的数据"
+
+[[examples]]
+id = "v03-24-pipeline-control-01"
+command_id = "xargs-collect-words"
+level = 1
+
+[[examples]]
+id = "v03-24-pipeline-control-02"
+command_id = "xargs-one-argument-each"
+level = 2
+
+[[examples]]
+id = "v03-24-pipeline-control-03"
+command_id = "xargs-null-delimited-files"
+level = 2
+
+[[examples]]
+id = "v03-24-pipeline-control-04"
+command_id = "xargs-skip-empty-input"
+level = 1
+
+[[examples]]
+id = "v03-24-pipeline-control-05"
+command_id = "yes-limited-by-head"
+level = 3
+
+[[examples]]
+id = "v03-24-pipeline-control-06"
+command_id = "xargs-safe-file-checksums"
+level = 2
+
+[[gotchas]]
+title = "空白分割不适合任意文件名"
+content = "文件名可能包含空格、制表符或换行。需要把路径转换为参数时，应让生产端和消费端共同使用不会与文件名冲突的分隔方式。"
+
+[[gotchas]]
+title = "去重通常依赖相邻关系"
+content = "重复行若分散在输入中，单纯去重可能保留多份。先确认是否允许改变顺序，再决定是否排序后去重。"
+
+[[gotchas]]
+title = "无限生产者必须有可靠下游"
+content = "持续输出命令单独运行会不断占用终端和资源。演示时先设计明确的截断阶段，并理解下游退出如何让上游停止。"

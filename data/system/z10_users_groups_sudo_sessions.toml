@@ -1,0 +1,131 @@
+[meta]
+id = "users_groups_sudo_sessions"
+topic = "用户、组、sudo 与登录会话"
+description = "区分账户身份、有效权限、组成员、sudo 授权和当前登录会话"
+difficulty = "basic"
+icon = "UID"
+
+overview = """Linux 授权依赖数字 UID/GID，用户名和组名是便于人类读取的映射。登录会话、进程身份、文件所有权与 sudo 规则相互关联但不等价。
+安全排查先观察当前身份和对象权限，再验证账户数据库与授权规则，最后选择最小变更。所有命令仅显示预设输出。"""
+
+[[sections]]
+id = "identity-and-group-membership"
+title = "真实身份、有效身份与补充组"
+description = """账户记录把用户名映射到 UID、主 GID、家目录和登录 Shell。内核实际比较数字 ID，而不是显示名称。
+id 同时展示 UID、主组和补充组；groups 更侧重组名列表；getent 通过系统配置的名称服务读取 passwd/group 数据，可能来自本地文件、LDAP 或其他来源。
+进程继承启动时的组列表。管理员刚把用户加入新组后，旧会话通常不会自动获得新组，应重新登录并再次验证。
+不要因为用户名相似就推断身份相同，也不要手工解析 /etc/passwd 代替 getent。"""
+
+[[sections.commands]]
+id = "id-training"
+command_id = "id-training-account"
+
+[[sections.commands]]
+id = "groups-training"
+command_id = "groups-training-account"
+
+[[sections.commands]]
+id = "getent-training-user"
+command_id = "getent-training-account"
+
+[[sections.commands]]
+id = "getent-training-group"
+command_id = "getent-training-group"
+
+[[sections]]
+id = "sudo-authorization-boundary"
+title = "sudo 授权的是命令边界，不是永久变成 root"
+description = """sudo 根据调用者身份、主机、目标用户和命令规则决定是否允许一次操作。sudoers 中的通配、参数匹配和包含文件都可能影响结果。
+sudo -l 用于观察当前用户可运行的规则；sudo -l -U user 适合管理员审查指定账户，但真实环境仍需相应权限。
+能运行某条 sudo 命令不代表拥有任意 root Shell。应优先授权最小命令、固定路径和可审计参数，避免宽泛 ALL。
+编辑规则应使用 visudo 的语法校验流程；本专题不执行编辑，也不建议用 sudo 绕过所有者核对。"""
+
+[[sections.commands]]
+id = "sudo-current-rules"
+command_id = "sudo-current-rules-audit"
+
+[[sections.commands]]
+id = "sudo-training-rules"
+command_id = "sudo-training-rules-audit"
+
+[[sections.commands]]
+id = "sudo-group-record"
+command_id = "getent-sudo-group"
+
+[[sections.commands]]
+id = "passwd-training-status"
+command_id = "passwd-training-status-audit"
+deep_explanation = "passwd -S 展示账户口令状态摘要；锁定状态、sudo 授权和 SSH 密钥登录是不同维度。"
+
+[[sections]]
+id = "login-sessions-and-process-context"
+title = "账户存在、用户已登录、进程正在运行是三件事"
+description = """who 展示当前登录会话和终端；w 在此基础上加入负载与前台活动；last 从登录历史数据库读取过去会话。
+一个服务账户可以运行进程却没有交互登录；一个用户也可以同时拥有多个 SSH、控制台或 tmux 会话。
+su - user 会切换账户并建立类似登录 Shell 的环境，但不会证明这是远程登录记录。sudo 与 su 的审计路径也不同。
+排查会话时要把 USER、TTY、来源地址、登录时间和进程树结合起来，避免仅凭一列命令名判断。"""
+
+[[sections.commands]]
+id = "who-current-sessions"
+command = "who"
+summary = "观察当前登录用户、终端、时间与来源"
+simulated_output = "ace      pts/0        2026-07-26 09:10 (192.0.2.10)\ntraining pts/2        2026-07-26 09:42 (192.0.2.25)"
+
+[[sections.commands]]
+id = "w-session-activity"
+command_id = "w-basic"
+
+[[sections.commands]]
+id = "last-login-history"
+command_id = "last-logins"
+
+[[sections.commands]]
+id = "login-process-view"
+command = "ps -o user,pid,ppid,tty,lstart,args -t pts/2"
+summary = "按终端观察 training 会话中的静态进程树线索"
+simulated_output = "USER       PID  PPID TT       STARTED                  COMMAND\ntraining  5200  5100 pts/2    Sun Jul 26 09:42:01 2026 -bash\ntraining  5312  5200 pts/2    Sun Jul 26 09:47:20 2026 python3 report.py"
+
+[[sections]]
+id = "access-denied-scenario"
+title = "七步场景：training 用户无法读取文件且 sudo 被拒绝"
+description = """按顺序排查：
+1. 观察账户 UID、主组和补充组，不先修改权限。
+2. 验证账户记录、家目录和登录 Shell，排除名称服务异常。
+3. 验证相关组记录及成员来源，注意旧会话可能尚未刷新组列表。
+4. 沿路径检查每级目录权限和所有者，定位真正阻断点。
+5. 观察 sudo 规则，区分“文件权限不足”和“没有该 sudo 授权”。
+6. 核对当前登录会话，必要时让用户安全重新登录后再次验证。
+7. 选择最小动作：修正单个目录组权限、更新明确组成员或增加窄 sudo 规则；变更后复查，不授予 777 或宽泛 ALL。"""
+
+[[sections.commands]]
+id = "scenario-step-1-observe-id"
+command_id = "id-training-account"
+
+[[sections.commands]]
+id = "scenario-step-2-verify-account"
+command_id = "getent-training-account"
+
+[[sections.commands]]
+id = "scenario-step-3-verify-groups"
+command_id = "groups-training-account"
+
+[[sections.commands]]
+id = "scenario-step-4-trace-path"
+command_id = "ownership-path-permissions-audit"
+deep_explanation = "namei -l 逐级观察路径组件，常能发现父目录缺少执行权限。"
+
+[[sections.commands]]
+id = "scenario-step-5-review-sudo"
+command_id = "sudo-training-rules-audit"
+
+[[sections.commands]]
+id = "scenario-step-6-review-session"
+command = "who | grep '^training[[:space:]]'"
+summary = "步骤 6：观察 training 当前会话，判断是否需要重新登录刷新组身份"
+simulated_output = "training pts/2        2026-07-26 09:42 (192.0.2.25)"
+
+[[sections.commands]]
+id = "scenario-step-7-minimal-plan"
+command = "printf 'verify owner -> change the narrowest rule -> relogin if groups changed -> verify again\\n'"
+summary = "步骤 7：输出最小授权行动清单"
+simulated_output = "verify owner -> change the narrowest rule -> relogin if groups changed -> verify again"

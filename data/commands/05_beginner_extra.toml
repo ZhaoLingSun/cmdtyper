@@ -321,9 +321,9 @@ answers = [
 
 [[commands]]
 id = "wc-lines-basic"
-command = "wc -l access.log"
-summary = "统计 access.log 的总行数"
-simulated_output = "4821 access.log"
+command = "wc -l notes.txt"
+summary = "统计 notes.txt 的总行数"
+simulated_output = "128 notes.txt"
 
 [[commands.tokens]]
 text = "wc"
@@ -334,14 +334,14 @@ text = " -l"
 desc = "只统计行数"
 
 [[commands.tokens]]
-text = " access.log"
-desc = "目标文件： access.log"
+text = " notes.txt"
+desc = "要统计行数的练习文本文件"
 
 [commands.dictation]
-prompt = "统计 access.log 一共有多少行"
+prompt = "统计 notes.txt 一共有多少行"
 answers = [
-    "wc -l access.log",
-    "wc --lines access.log",
+    "wc -l notes.txt",
+    "wc --lines notes.txt",
 ]
 
 [[commands]]

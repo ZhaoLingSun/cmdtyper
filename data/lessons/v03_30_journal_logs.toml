@@ -1,0 +1,92 @@
+[meta]
+command = "journalctl 日志范围与权限"
+full_name = "systemd journal permissions, units, boots, and time ranges"
+category = "system"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "把可见权限、筛选对象和时间窗口同时写进日志结论"
+explanation = """journalctl 是观察工具，但“能查询”不代表“能看到全部”。普通账号只会读取权限允许的日志；系统服务、内核或其他用户会话的记录可能缺失。加入特定日志读取组或使用 sudo 会扩大可见范围，这属于授权变化，应由管理员管理，不能为了方便自行绕过。-u 把消息限制到一个 systemd 单元，-b 把范围限制到一次启动，--since today 从本地时区今天零点开始，-f 则先显示末尾再持续等待新消息。查询时间必须同时说明起点、终点、时区和启动边界；“今天”会随本地时区变化，本次启动也可能只覆盖很短时间。-f 是持续观察，不会修复服务，按退出键结束跟踪后再分析完整上下文。日志还可能包含用户名、地址、路径或凭据片段，分享前要按组织规则脱敏。"""
+
+[syntax]
+basic = "journalctl [权限范围内] [-u 单元] [-b] [--since 时间] [-f]"
+[[syntax.parts]]
+name = "可见权限"
+desc = "输出只覆盖当前账号有权读取的 journal；空白或缺行不能直接证明事件没有发生"
+[[syntax.parts]]
+name = "对象筛选"
+desc = "-u 单元把范围缩到服务消息，便于从全系统噪声中定位目标"
+[[syntax.parts]]
+name = "启动范围"
+desc = "-b 不带编号表示当前启动；重启前的事件不在其中"
+[[syntax.parts]]
+name = "时间范围"
+desc = "--since 设置起点；还应记录查询执行时刻作为隐含终点，并说明本地时区"
+[[syntax.parts]]
+name = "持续跟踪"
+desc = "-f 只观察随后新增且当前账号可读的记录，不会扩大权限或改变服务"
+
+[[options]]
+flag = "-u"
+name = "按单元筛选"
+example = "journalctl -u nginx.service"
+note = "适合查看 nginx 单元相关消息，但应用也可能把部分日志写入独立文件或其他单元"
+
+[[options]]
+flag = "-f"
+name = "持续跟踪新消息"
+example = "journalctl -f"
+note = "用于有界观察窗口；长时间跟踪会产生大量输出，应记录开始与结束时刻并主动退出"
+
+[[options]]
+flag = "-b"
+name = "限制到本次启动"
+example = "journalctl -b"
+note = "当前启动之前的故障会被排除；需要跨重启分析时必须明确选择其他启动编号"
+
+[[options]]
+flag = "--since today"
+name = "从本地今天零点开始"
+example = "journalctl --since today"
+note = "today 依赖主机本地时区；夏令时、跨时区协作和时钟校准都应在报告中说明"
+
+[[examples]]
+id = "v03-30-journal-unit-nginx"
+command_id = "journalctl-nginx-unit"
+level = 1
+
+[[examples]]
+id = "v03-30-journal-follow-readable"
+command_id = "journalctl-follow-system"
+level = 2
+
+[[examples]]
+id = "v03-30-journal-current-boot"
+command_id = "journalctl-current-boot"
+level = 2
+
+[[examples]]
+id = "v03-30-journal-since-local-today"
+command_id = "journalctl-since-today"
+level = 2
+
+[[gotchas]]
+title = "看不到不等于不存在"
+content = "普通用户的日志视图可能缺少系统级记录。结论应写成“当前账号可见范围内未发现”，并记录账号、主机和查询条件；是否需要扩大权限由管理员按最小授权原则决定。"
+
+[[gotchas]]
+title = "时间词必须绑定时区"
+content = "today 指主机本地时间的当天零点，不是固定 UTC，也不一定与分析人员所在地一致。事故时间线应使用明确时间戳和时区，并核对系统时钟是否同步。"
+
+[[gotchas]]
+title = "本次启动不是固定时长"
+content = "-b 的起点是当前 boot，可能是几分钟前，也可能是数月前。它能排除旧启动噪声，却也会隐藏重启前故障；记录 boot 边界后再决定是否需要查看前一次启动。"
+
+[[gotchas]]
+title = "follow 只显示到达后的新线索"
+content = "-f 适合复现期间观察，但开始跟踪之前的上下文可能只显示少量末尾记录。不要只截取最后一行做因果判断；结束跟踪后用明确单元与时间窗重新查询完整上下文。"
+
+[[gotchas]]
+title = "日志可能包含敏感信息"
+content = "主机名、用户名、客户端地址、内部路径、查询参数甚至误写入的秘密都可能出现在 journal 中。复制到工单或聊天前先确认共享范围并脱敏，不能因为命令是只读查询就忽视数据暴露。"

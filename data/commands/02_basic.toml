@@ -56,8 +56,8 @@ answers = [
 
 [[commands]]
 id = "chmod-recursive"
-command = "chmod -R 755 scripts"
-summary = "递归把 scripts 目录及其内容设置为 755 权限"
+command = "chmod -R u=rwX,go=rX scripts"
+summary = "递归设置 scripts：目录和原有可执行文件保留执行语义，普通文件不被统一加执行位"
 simulated_output = ""
 
 [[commands.tokens]]
@@ -66,47 +66,53 @@ desc = "修改文件或目录的访问权限"
 
 [[commands.tokens]]
 text = " -R"
-desc = "递归处理目录中的所有文件和子目录"
+desc = "递归处理目录中的所有文件和子目录；使用前必须确认树的边界"
 
 [[commands.tokens]]
-text = " 755"
-desc = "权限模式：所有者可读写执行，组和其他用户可读执行"
+text = " u=rwX,go=rX"
+desc = "所有者读写，组和其他用户只读；大写 X 仅为目录或原本可执行的文件设置执行位"
 
 [[commands.tokens]]
 text = " scripts"
-desc = "要递归修改权限的目录"
+desc = "已核对范围的脚本目录；递归操作前应先审查其中的隐藏项和对象类型"
 
 [commands.dictation]
-prompt = "递归把 scripts 目录及其内容的权限设置为 755"
+prompt = "递归设置 scripts 的权限：所有者可读写，其他人只读，并用大写 X 避免把所有普通文件都改成可执行"
 answers = [
-    "chmod -R 755 scripts",
-    "chmod -R 0755 scripts",
-    "chmod --recursive 755 scripts",
+    "chmod -R u=rwX,go=rX scripts",
+    "chmod --recursive u=rwX,go=rX scripts",
 ]
 
 [[commands]]
 id = "chown-user-group"
-command = "chown alice:alice app.log"
-summary = "把 app.log 的所有者和所属组改为 alice"
+command = "sudo chown -- alice:alice app.log"
+summary = "在核对文件和目标账号后，以管理员权限把 app.log 的所有者和组改为 alice"
 simulated_output = ""
 
 [[commands.tokens]]
-text = "chown"
-desc = "修改文件或目录的所有者和所属组"
+text = "sudo"
+desc = "仅为这条已审查的归属变更请求管理员权限"
+
+[[commands.tokens]]
+text = " chown"
+desc = "修改文件或目录的所有者和所属组；普通用户通常不能把文件所有权转给其他账号"
+
+[[commands.tokens]]
+text = " --"
+desc = "结束选项解析，避免后续操作数被误当成命令选项"
 
 [[commands.tokens]]
 text = " alice:alice"
-desc = "新的所有者和所属组"
+desc = "已确认存在的新所有者和所属组"
 
 [[commands.tokens]]
 text = " app.log"
-desc = "要修改归属的文件"
+desc = "已先用只读元数据检查确认的单个目标文件"
 
 [commands.dictation]
-prompt = "把 app.log 的所有者和所属组都改为 alice"
+prompt = "已确认 alice 用户和组存在，也已核对 app.log 的当前归属与用途；只为这一个文件使用管理员权限，把所有者和组改为 alice"
 answers = [
-    "chown alice:alice app.log",
-    "chown alice:alice ./app.log",
+    "sudo chown -- alice:alice app.log",
 ]
 
 [[commands]]
@@ -277,58 +283,57 @@ answers = [
 
 [[commands]]
 id = "tar-create-gzip"
-command = "tar -czf backup.tar.gz project"
-summary = "把 project 目录打包并压缩为 backup.tar.gz"
-simulated_output = ""
+command = "archive=$(mktemp ./backup-XXXXXX.tar.gz) && tar -czf \"$archive\" project && printf '已创建并检查：%s\\n' \"$archive\" && tar -tzf \"$archive\""
+summary = "创建唯一 gzip 归档后，立即用同一变量只读检查它的成员清单"
+simulated_output = "已创建并检查：./backup-Q7m2Xa.tar.gz\nproject/\nproject/README.md\nproject/src/\nproject/src/main.py"
 
 [[commands.tokens]]
-text = "tar"
-desc = "归档工具：将多个文件打包或从归档中提取"
+text = "archive=$(mktemp ./backup-XXXXXX.tar.gz)"
+desc = "原子创建唯一的新归档路径，重复运行不会覆盖已有备份"
 
 [[commands.tokens]]
-text = " -czf"
-desc = "-c 创建归档 + -z 使用 gzip 压缩 + -f 指定输出文件"
+text = " && tar -czf \"$archive\" project"
+desc = "把 project 写入刚创建的唯一归档"
 
 [[commands.tokens]]
-text = " backup.tar.gz"
-desc = "输出的压缩归档文件名"
+text = " && printf '已创建并检查：%s\\n' \"$archive\""
+desc = "报告本次实际生成的归档路径"
 
 [[commands.tokens]]
-text = " project"
-desc = "要打包的目录"
-
+text = " && tar -tzf \"$archive\""
+desc = "复用同一变量只读列出刚生成归档的成员，保持创建与检查对象一致"
 [commands.dictation]
-prompt = "把 project 目录打包并压缩成 backup.tar.gz"
-answers = [
-    "tar -czf backup.tar.gz project",
-    "tar -zcf backup.tar.gz project",
-    "tar --create --gzip --file backup.tar.gz project",
-]
+prompt = "为 project 创建一个 mktemp 生成的唯一 gzip tar 归档；成功后输出实际文件名，并用同一个 archive 变量立即列出该归档内容以核对成员"
+answers = ["archive=$(mktemp ./backup-XXXXXX.tar.gz) && tar -czf \"$archive\" project && printf '已创建并检查：%s\\n' \"$archive\" && tar -tzf \"$archive\""]
 
 [[commands]]
 id = "tar-extract-gzip"
-command = "tar -xzf backup.tar.gz"
-summary = "解压 backup.tar.gz 压缩归档文件"
-simulated_output = ""
+command = "tar -tzf backup.tar.gz"
+summary = "只读检查当前目录中预先准备的固定示例归档 backup.tar.gz"
+simulated_output = """
+project/
+project/README.md
+project/src/
+project/src/main.py
+"""
 
 [[commands.tokens]]
 text = "tar"
-desc = "归档工具：将多个文件打包或从归档中提取"
+desc = "归档工具；本题只检查归档目录，不写入文件系统"
 
 [[commands.tokens]]
-text = " -xzf"
-desc = "-x 解包归档 + -z 使用 gzip 解压 + -f 指定归档文件"
+text = " -tzf"
+desc = "-t 列出成员 + -z 读取 gzip 压缩 + -f 指定归档文件；不会执行提取"
 
 [[commands.tokens]]
 text = " backup.tar.gz"
-desc = "要解压的压缩归档文件"
+desc = "独立提供的固定示例归档，不是上一题随机命名的产物；只读检查后再规划隔离提取"
 
 [commands.dictation]
-prompt = "解压 backup.tar.gz 压缩归档文件"
+prompt = "把 backup.tar.gz 当作独立提供的固定示例归档：提取前只读列出全部成员路径，检查绝对路径、.. 路径和顶层目录结构"
 answers = [
-    "tar -xzf backup.tar.gz",
-    "tar -zxf backup.tar.gz",
-    "tar --extract --gzip --file backup.tar.gz",
+    "tar -tzf backup.tar.gz",
+    "tar --list --gzip --file backup.tar.gz",
 ]
 
 [[commands]]
@@ -362,28 +367,28 @@ answers = [
 
 [[commands]]
 id = "kill-force"
-command = "kill -9 1234"
-summary = "强制终止 PID 为 1234 的进程"
+command = "kill -TERM 1234"
+summary = "在重新核对 PID 后，先向 1234 发送 SIGTERM 请求正常退出"
 simulated_output = ""
 
 [[commands.tokens]]
 text = "kill"
-desc = "向进程发送信号（默认 SIGTERM）"
+desc = "向指定 PID 发送信号；发送前必须用最新进程信息核对所有者和完整命令行"
 
 [[commands.tokens]]
-text = " -9"
-desc = "发送 SIGKILL 信号，强制结束进程"
+text = " -TERM"
+desc = "请求进程正常退出，使它有机会清理资源；不要把 SIGKILL 作为第一步"
 
 [[commands.tokens]]
 text = " 1234"
-desc = "目标进程的 PID"
+desc = "教学用虚构 PID；真实 PID 可能复用，必须在操作前即时复核"
 
 [commands.dictation]
-prompt = "强制终止 PID 为 1234 的进程"
+prompt = "已用最新 ps 结果确认 PID 1234 仍是目标进程；先发送 SIGTERM 请求它正常退出，不立即使用 SIGKILL"
 answers = [
-    "kill -9 1234",
-    "kill -KILL 1234",
-    "kill -s KILL 1234",
+    "kill -TERM 1234",
+    "kill 1234",
+    "kill -s TERM 1234",
 ]
 
 [[commands]]

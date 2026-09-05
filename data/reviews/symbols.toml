@@ -1,0 +1,3993 @@
+# symbols.toml — Shell 符号复习
+# 自动生成 2026-03-28
+
+[[exercises]]
+command = "ls -l > filelist.txt"
+prompt = "将 ls -l 的输出保存到 filelist.txt 文件中（覆盖写入）"
+difficulty = "basic"
+type = "typing"
+answer = "ls -l > filelist.txt"
+
+[[exercises]]
+command = "ls -l > filelist.txt"
+prompt = "执行命令: ls -l > filelist.txt"
+difficulty = "basic"
+type = "typing"
+answer = "ls -l >filelist.txt"
+
+[[exercises]]
+command = "ls -l > filelist.txt"
+prompt = "键入: ls -l > filelist.txt"
+difficulty = "basic"
+type = "typing"
+answer = "ls -l > filelist.txt"
+
+[[exercises]]
+command = "find /var/log -name \"*.log\" 2>/dev/null"
+prompt = "查找 /var/log 下的所有 .log 文件，忽略权限错误"
+difficulty = "basic"
+type = "typing"
+answer = "find /var/log -name \"*.log\" 2>/dev/null"
+
+[[exercises]]
+command = "find /var/log -name \"*.log\" 2>/dev/null"
+prompt = "执行命令: find /var/log -name \"*.log\" 2>/dev/null"
+difficulty = "basic"
+type = "typing"
+answer = "find /var/log -name '*.log' 2>/dev/null"
+
+[[exercises]]
+command = "find /var/log -name \"*.log\" 2>/dev/null"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "find /var/log -name \"*.log\" 2> /dev/null"
+
+[[exercises]]
+command = "find /var/log -name \"*.log\" 2>/dev/null"
+prompt = "键入: find /var/log -name \"*.log\" 2>/dev/null"
+difficulty = "basic"
+type = "typing"
+answer = "find /var/log -name '*.log' 2> /dev/null"
+
+[[exercises]]
+command = "make build > build.log 2>&1"
+prompt = "将 make build 的标准输出和标准错误都保存到 build.log"
+difficulty = "basic"
+type = "typing"
+answer = "make build > build.log 2>&1"
+
+[[exercises]]
+command = "make build > build.log 2>&1"
+prompt = "执行命令: make build > build.log 2>&1"
+difficulty = "basic"
+type = "typing"
+answer = "make build >build.log 2>&1"
+
+[[exercises]]
+command = "make build > build.log 2>&1"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "make build &> build.log"
+
+[[exercises]]
+command = "make build > build.log 2>&1"
+prompt = "键入: make build > build.log 2>&1"
+difficulty = "basic"
+type = "typing"
+answer = "make build &>build.log"
+
+[[exercises]]
+command = "grep bash /etc/passwd | wc -l"
+prompt = "统计 /etc/passwd 文件中包含 bash 的行数（使用管道）"
+difficulty = "basic"
+type = "typing"
+answer = "grep bash /etc/passwd | wc -l"
+
+[[exercises]]
+command = "grep bash /etc/passwd | wc -l"
+prompt = "执行命令: grep bash /etc/passwd | wc -l"
+difficulty = "basic"
+type = "typing"
+answer = "cat /etc/passwd | grep bash | wc -l"
+
+[[exercises]]
+command = "grep bash /etc/passwd | wc -l"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "grep \"bash\" /etc/passwd | wc -l"
+
+[[exercises]]
+command = "grep bash /etc/passwd | wc -l"
+prompt = "键入: grep bash /etc/passwd | wc -l"
+difficulty = "basic"
+type = "typing"
+answer = "grep 'bash' /etc/passwd | wc -l"
+
+[[exercises]]
+command = "date >> log.txt"
+prompt = "将当前日期追加到 log.txt 文件末尾"
+difficulty = "basic"
+type = "typing"
+answer = "date >> log.txt"
+
+[[exercises]]
+command = "date >> log.txt"
+prompt = "执行命令: date >> log.txt"
+difficulty = "basic"
+type = "typing"
+answer = "date >>log.txt"
+
+[[exercises]]
+command = "date >> log.txt"
+prompt = "键入: date >> log.txt"
+difficulty = "basic"
+type = "typing"
+answer = "date >> log.txt"
+
+[[exercises]]
+command = "cat auth.log | grep -i failed | head -5"
+prompt = "筛选 auth.log 中包含 failed 的前 5 行"
+difficulty = "basic"
+type = "typing"
+answer = "cat auth.log | grep -i failed | head -5"
+
+[[exercises]]
+command = "cat auth.log | grep -i failed | head -5"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "cat auth.log | grep -i failed | head -5"
+
+[[exercises]]
+command = "cat auth.log | grep -i failed | head -5"
+prompt = "键入: cat auth.log | grep -i failed | head -5"
+difficulty = "basic"
+type = "typing"
+answer = "cat auth.log | grep -i failed | head -5"
+
+[[exercises]]
+command = "dmesg | grep -i error >> kernel.err"
+prompt = "将 dmesg 中 error 信息追加到 kernel.err"
+difficulty = "basic"
+type = "typing"
+answer = "dmesg | grep -i error >> kernel.err"
+
+[[exercises]]
+command = "dmesg | grep -i error >> kernel.err"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "dmesg | grep -i error >> kernel.err"
+
+[[exercises]]
+command = "dmesg | grep -i error >> kernel.err"
+prompt = "键入: dmesg | grep -i error >> kernel.err"
+difficulty = "basic"
+type = "typing"
+answer = "dmesg | grep -i error >> kernel.err"
+
+[[exercises]]
+command = "cat nginx.log | grep ' 500 ' | wc -l"
+prompt = "统计 nginx.log 中 500 状态码数量"
+difficulty = "basic"
+type = "typing"
+answer = "cat nginx.log | grep ' 500 ' | wc -l"
+
+[[exercises]]
+command = "cat nginx.log | grep ' 500 ' | wc -l"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "cat nginx.log | grep ' 500 ' | wc -l"
+
+[[exercises]]
+command = "cat nginx.log | grep ' 500 ' | wc -l"
+prompt = "键入: cat nginx.log | grep ' 500 ' | wc -l"
+difficulty = "basic"
+type = "typing"
+answer = "cat nginx.log | grep ' 500 ' | wc -l"
+
+[[exercises]]
+command = "./deploy.sh > deploy.log 2>&1"
+prompt = "把 stdout/stderr 都重定向到 deploy.log"
+difficulty = "basic"
+type = "typing"
+answer = "./deploy.sh > deploy.log 2>&1"
+
+[[exercises]]
+command = "./deploy.sh > deploy.log 2>&1"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "./deploy.sh > deploy.log 2>&1"
+
+[[exercises]]
+command = "./deploy.sh > deploy.log 2>&1"
+prompt = "键入: ./deploy.sh > deploy.log 2>&1"
+difficulty = "basic"
+type = "typing"
+answer = "./deploy.sh > deploy.log 2>&1"
+
+[[exercises]]
+command = "sort -k3 users.txt > sorted.txt"
+prompt = "读取 users.txt 并按第 3 列排序写入 sorted.txt"
+difficulty = "basic"
+type = "typing"
+answer = "sort -k3 users.txt > sorted.txt"
+
+[[exercises]]
+command = "sort -k3 users.txt > sorted.txt"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sort -k3 users.txt > sorted.txt"
+
+[[exercises]]
+command = "sort -k3 users.txt > sorted.txt"
+prompt = "键入: sort -k3 users.txt > sorted.txt"
+difficulty = "basic"
+type = "typing"
+answer = "sort -k3 users.txt > sorted.txt"
+
+[[exercises]]
+command = "ping -c 3 8.8.8.8 | tee ping.out"
+prompt = "用 tee 同时显示并保存 ping 输出"
+difficulty = "basic"
+type = "typing"
+answer = "ping -c 3 8.8.8.8 | tee ping.out"
+
+[[exercises]]
+command = "ping -c 3 8.8.8.8 | tee ping.out"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "ping -c 3 8.8.8.8 | tee ping.out"
+
+[[exercises]]
+command = "ping -c 3 8.8.8.8 | tee ping.out"
+prompt = "键入: ping -c 3 8.8.8.8 | tee ping.out"
+difficulty = "basic"
+type = "typing"
+answer = "ping -c 3 8.8.8.8 | tee ping.out"
+
+[[exercises]]
+command = "ls -la /etc | head -5"
+prompt = "列出 /etc 目录下所有文件的详细信息，通过管道只显示前 5 行"
+difficulty = "basic"
+type = "typing"
+answer = "ls -la /etc | head -5"
+
+[[exercises]]
+command = "ls -la /etc | head -5"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "ls -la /etc | head -5"
+
+[[exercises]]
+command = "ls -la /etc | head -5"
+prompt = "键入: ls -la /etc | head -5"
+difficulty = "basic"
+type = "typing"
+answer = "ls -la /etc | head -5"
+
+[[exercises]]
+command = "cat /var/log/syslog | grep error | wc -l"
+prompt = "读取系统日志文件，过滤包含 error 的行，最后统计行数——典型的三段管道链"
+difficulty = "basic"
+type = "typing"
+answer = "cat /var/log/syslog | grep error | wc -l"
+
+[[exercises]]
+command = "cat /var/log/syslog | grep error | wc -l"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "cat /var/log/syslog | grep error | wc -l"
+
+[[exercises]]
+command = "cat /var/log/syslog | grep error | wc -l"
+prompt = "键入: cat /var/log/syslog | grep error | wc -l"
+difficulty = "basic"
+type = "typing"
+answer = "cat /var/log/syslog | grep error | wc -l"
+
+[[exercises]]
+command = "ps aux | grep nginx | grep -v grep"
+prompt = "列出所有进程，过滤出 nginx 相关进程，再排除 grep 自身的进程"
+difficulty = "basic"
+type = "typing"
+answer = "ps aux | grep nginx | grep -v grep"
+
+[[exercises]]
+command = "ps aux | grep nginx | grep -v grep"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "ps aux | grep nginx | grep -v grep"
+
+[[exercises]]
+command = "ps aux | grep nginx | grep -v grep"
+prompt = "键入: ps aux | grep nginx | grep -v grep"
+difficulty = "basic"
+type = "typing"
+answer = "ps aux | grep nginx | grep -v grep"
+
+[[exercises]]
+command = "echo \"Hello, Linux!\" > greeting.txt"
+prompt = "将字符串写入 greeting.txt 文件。如果文件已存在，原内容被覆盖"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"Hello, Linux!\" > greeting.txt"
+
+[[exercises]]
+command = "echo \"Hello, Linux!\" > greeting.txt"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"Hello, Linux!\" > greeting.txt"
+
+[[exercises]]
+command = "echo \"Hello, Linux!\" > greeting.txt"
+prompt = "键入: echo \"Hello, Linux!\" > greeting.txt"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"Hello, Linux!\" > greeting.txt"
+
+[[exercises]]
+command = "ls -la /home > file_list.txt"
+prompt = "将 /home 目录的详细文件列表保存到 file_list.txt 中"
+difficulty = "basic"
+type = "typing"
+answer = "ls -la /home > file_list.txt"
+
+[[exercises]]
+command = "ls -la /home > file_list.txt"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "ls -la /home > file_list.txt"
+
+[[exercises]]
+command = "ls -la /home > file_list.txt"
+prompt = "键入: ls -la /home > file_list.txt"
+difficulty = "basic"
+type = "typing"
+answer = "ls -la /home > file_list.txt"
+
+[[exercises]]
+command = "date > timestamp.txt && cat timestamp.txt"
+prompt = "将当前日期时间写入文件，然后用 cat 验证内容"
+difficulty = "basic"
+type = "typing"
+answer = "date > timestamp.txt && cat timestamp.txt"
+
+[[exercises]]
+command = "date > timestamp.txt && cat timestamp.txt"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "date > timestamp.txt && cat timestamp.txt"
+
+[[exercises]]
+command = "date > timestamp.txt && cat timestamp.txt"
+prompt = "键入: date > timestamp.txt && cat timestamp.txt"
+difficulty = "basic"
+type = "typing"
+answer = "date > timestamp.txt && cat timestamp.txt"
+
+[[exercises]]
+command = "echo \"第一行\" > notes.txt && echo \"第二行\" >> notes.txt && cat notes.txt"
+prompt = "先用 > 创建文件写入第一行，再用 >> 追加第二行，最后查看完整内容"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"第一行\" > notes.txt && echo \"第二行\" >> notes.txt && cat notes.txt"
+
+[[exercises]]
+command = "echo \"第一行\" > notes.txt && echo \"第二行\" >> notes.txt && cat notes.txt"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"第一行\" > notes.txt && echo \"第二行\" >> notes.txt && cat notes.txt"
+
+[[exercises]]
+command = "echo \"第一行\" > notes.txt && echo \"第二行\" >> notes.txt && cat notes.txt"
+prompt = "键入: echo \"第一行\" > notes.txt && echo \"第二行\" >> notes.txt && cat notes.txt"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"第一行\" > notes.txt && echo \"第二行\" >> notes.txt && cat notes.txt"
+
+[[exercises]]
+command = "echo \"[$(date)] 服务启动\" >> /var/log/app.log"
+prompt = "将带有时间戳的日志信息追加到应用日志文件中"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"[$(date)] 服务启动\" >> /var/log/app.log"
+
+[[exercises]]
+command = "echo \"[$(date)] 服务启动\" >> /var/log/app.log"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"[$(date)] 服务启动\" >> /var/log/app.log"
+
+[[exercises]]
+command = "echo \"[$(date)] 服务启动\" >> /var/log/app.log"
+prompt = "键入: echo \"[$(date)] 服务启动\" >> /var/log/app.log"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"[$(date)] 服务启动\" >> /var/log/app.log"
+
+[[exercises]]
+command = "for i in 1 2 3; do echo \"Item $i\" >> list.txt; done && cat list.txt"
+prompt = "在循环中使用 >> 逐行追加内容到文件"
+difficulty = "basic"
+type = "typing"
+answer = "for i in 1 2 3; do echo \"Item $i\" >> list.txt; done && cat list.txt"
+
+[[exercises]]
+command = "for i in 1 2 3; do echo \"Item $i\" >> list.txt; done && cat list.txt"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "for i in 1 2 3; do echo \"Item $i\" >> list.txt; done && cat list.txt"
+
+[[exercises]]
+command = "for i in 1 2 3; do echo \"Item $i\" >> list.txt; done && cat list.txt"
+prompt = "键入: for i in 1 2 3; do echo \"Item $i\" >> list.txt; done && cat list.txt"
+difficulty = "basic"
+type = "typing"
+answer = "for i in 1 2 3; do echo \"Item $i\" >> list.txt; done && cat list.txt"
+
+[[exercises]]
+command = "ls /nonexistent 2> errors.txt && cat errors.txt"
+prompt = "访问不存在的路径会产生错误，2> 将错误信息保存到 errors.txt"
+difficulty = "basic"
+type = "typing"
+answer = "ls /nonexistent 2> errors.txt && cat errors.txt"
+
+[[exercises]]
+command = "ls /nonexistent 2> errors.txt && cat errors.txt"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "ls /nonexistent 2> errors.txt && cat errors.txt"
+
+[[exercises]]
+command = "ls /nonexistent 2> errors.txt && cat errors.txt"
+prompt = "键入: ls /nonexistent 2> errors.txt && cat errors.txt"
+difficulty = "basic"
+type = "typing"
+answer = "ls /nonexistent 2> errors.txt && cat errors.txt"
+
+[[exercises]]
+command = "find / -name \"*.conf\" 2>/dev/null | head -3"
+prompt = "查找所有 .conf 文件，将权限不足等错误信息丢弃到 /dev/null，只显示正常结果"
+difficulty = "basic"
+type = "typing"
+answer = "find / -name \"*.conf\" 2>/dev/null | head -3"
+
+[[exercises]]
+command = "find / -name \"*.conf\" 2>/dev/null | head -3"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "find / -name \"*.conf\" 2>/dev/null | head -3"
+
+[[exercises]]
+command = "find / -name \"*.conf\" 2>/dev/null | head -3"
+prompt = "键入: find / -name \"*.conf\" 2>/dev/null | head -3"
+difficulty = "basic"
+type = "typing"
+answer = "find / -name \"*.conf\" 2>/dev/null | head -3"
+
+[[exercises]]
+command = "gcc program.c -o program 2> compile_errors.txt"
+prompt = "编译 C 程序，将编译错误和警告保存到文件中以便后续分析"
+difficulty = "basic"
+type = "typing"
+answer = "gcc program.c -o program 2> compile_errors.txt"
+
+[[exercises]]
+command = "gcc program.c -o program 2> compile_errors.txt"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "gcc program.c -o program 2> compile_errors.txt"
+
+[[exercises]]
+command = "gcc program.c -o program 2> compile_errors.txt"
+prompt = "键入: gcc program.c -o program 2> compile_errors.txt"
+difficulty = "basic"
+type = "typing"
+answer = "gcc program.c -o program 2> compile_errors.txt"
+
+[[exercises]]
+command = "ls /etc /nonexistent 2>&1 | grep -i \"cannot\""
+prompt = "同时列出存在和不存在的路径，将 stderr 合并到 stdout 后过滤错误信息"
+difficulty = "basic"
+type = "typing"
+answer = "ls /etc /nonexistent 2>&1 | grep -i \"cannot\""
+
+[[exercises]]
+command = "ls /etc /nonexistent 2>&1 | grep -i \"cannot\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "ls /etc /nonexistent 2>&1 | grep -i \"cannot\""
+
+[[exercises]]
+command = "ls /etc /nonexistent 2>&1 | grep -i \"cannot\""
+prompt = "键入: ls /etc /nonexistent 2>&1 | grep -i \"cannot\""
+difficulty = "basic"
+type = "typing"
+answer = "ls /etc /nonexistent 2>&1 | grep -i \"cannot\""
+
+[[exercises]]
+command = "make build > build.log 2>&1"
+prompt = "将编译的正常输出和错误输出都保存到 build.log 中"
+difficulty = "basic"
+type = "typing"
+answer = "make build > build.log 2>&1"
+
+[[exercises]]
+command = "make build > build.log 2>&1"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "make build > build.log 2>&1"
+
+[[exercises]]
+command = "make build > build.log 2>&1"
+prompt = "键入: make build > build.log 2>&1"
+difficulty = "basic"
+type = "typing"
+answer = "make build > build.log 2>&1"
+
+[[exercises]]
+command = "python3 script.py 2>&1 | tee output.log"
+prompt = "运行 Python 脚本，合并 stdout 和 stderr，同时显示在终端并保存到文件"
+difficulty = "basic"
+type = "typing"
+answer = "python3 script.py 2>&1 | tee output.log"
+
+[[exercises]]
+command = "python3 script.py 2>&1 | tee output.log"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "python3 script.py 2>&1 | tee output.log"
+
+[[exercises]]
+command = "python3 script.py 2>&1 | tee output.log"
+prompt = "键入: python3 script.py 2>&1 | tee output.log"
+difficulty = "basic"
+type = "typing"
+answer = "python3 script.py 2>&1 | tee output.log"
+
+[[exercises]]
+command = "wc -l < /etc/passwd"
+prompt = "统计 /etc/passwd 文件的行数。与 wc -l /etc/passwd 不同的是，不会显示文件名"
+difficulty = "basic"
+type = "typing"
+answer = "wc -l < /etc/passwd"
+
+[[exercises]]
+command = "wc -l < /etc/passwd"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "wc -l < /etc/passwd"
+
+[[exercises]]
+command = "wc -l < /etc/passwd"
+prompt = "键入: wc -l < /etc/passwd"
+difficulty = "basic"
+type = "typing"
+answer = "wc -l < /etc/passwd"
+
+[[exercises]]
+command = "sort < names.txt > sorted_names.txt && head -3 sorted_names.txt"
+prompt = "将 names.txt 的内容排序后保存到新文件，同时演示输入输出重定向的组合"
+difficulty = "basic"
+type = "typing"
+answer = "sort < names.txt > sorted_names.txt && head -3 sorted_names.txt"
+
+[[exercises]]
+command = "sort < names.txt > sorted_names.txt && head -3 sorted_names.txt"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sort < names.txt > sorted_names.txt && head -3 sorted_names.txt"
+
+[[exercises]]
+command = "sort < names.txt > sorted_names.txt && head -3 sorted_names.txt"
+prompt = "键入: sort < names.txt > sorted_names.txt && head -3 sorted_names.txt"
+difficulty = "basic"
+type = "typing"
+answer = "sort < names.txt > sorted_names.txt && head -3 sorted_names.txt"
+
+[[exercises]]
+command = "mysql -u root -p mydb < backup.sql"
+prompt = "将 SQL 备份文件通过输入重定向导入到 MySQL 数据库中"
+difficulty = "basic"
+type = "typing"
+answer = "mysql -u root -p mydb < backup.sql"
+
+[[exercises]]
+command = "mysql -u root -p mydb < backup.sql"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "mysql -u root -p mydb < backup.sql"
+
+[[exercises]]
+command = "mysql -u root -p mydb < backup.sql"
+prompt = "键入: mysql -u root -p mydb < backup.sql"
+difficulty = "basic"
+type = "typing"
+answer = "mysql -u root -p mydb < backup.sql"
+
+[[exercises]]
+command = "cat << EOF Hello, $USER! Today is $(date +%A). EOF"
+prompt = "使用 Here Document 创建包含变量和命令替换的多行文本"
+difficulty = "basic"
+type = "typing"
+answer = "cat << EOF Hello, $USER! Today is $(date +%A). EOF"
+
+[[exercises]]
+command = "cat << EOF Hello, $USER! Today is $(date +%A). EOF"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "cat << EOF Hello, $USER! Today is $(date +%A). EOF"
+
+[[exercises]]
+command = "cat << EOF Hello, $USER! Today is $(date +%A). EOF"
+prompt = "键入: cat << EOF Hello, $USER! Today is $(date +%A). EOF"
+difficulty = "basic"
+type = "typing"
+answer = "cat << EOF Hello, $USER! Today is $(date +%A). EOF"
+
+[[exercises]]
+command = "cat << 'EOF' Price is $100 Path is $HOME EOF"
+prompt = "使用加引号的结束标记来禁止变量展开，所有 $ 符号保持原样"
+difficulty = "basic"
+type = "typing"
+answer = "cat << 'EOF' Price is $100 Path is $HOME EOF"
+
+[[exercises]]
+command = "cat << 'EOF' Price is $100 Path is $HOME EOF"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "cat << 'EOF' Price is $100 Path is $HOME EOF"
+
+[[exercises]]
+command = "cat << 'EOF' Price is $100 Path is $HOME EOF"
+prompt = "键入: cat << 'EOF' Price is $100 Path is $HOME EOF"
+difficulty = "basic"
+type = "typing"
+answer = "cat << 'EOF' Price is $100 Path is $HOME EOF"
+
+[[exercises]]
+command = "tee config.ini << EOF [database] host = localhost port = 5432 name = myapp EOF"
+prompt = "使用 Here Document 配合 tee 创建配置文件"
+difficulty = "basic"
+type = "typing"
+answer = "tee config.ini << EOF [database] host = localhost port = 5432 name = myapp EOF"
+
+[[exercises]]
+command = "tee config.ini << EOF [database] host = localhost port = 5432 name = myapp EOF"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "tee config.ini << EOF [database] host = localhost port = 5432 name = myapp EOF"
+
+[[exercises]]
+command = "tee config.ini << EOF [database] host = localhost port = 5432 name = myapp EOF"
+prompt = "键入: tee config.ini << EOF [database] host = localhost port = 5432 name = myapp EOF"
+difficulty = "basic"
+type = "typing"
+answer = "tee config.ini << EOF [database] host = localhost port = 5432 name = myapp EOF"
+
+[[exercises]]
+command = "df -h | tee disk_usage.txt"
+prompt = "查看磁盘使用情况，结果同时显示在终端并保存到文件"
+difficulty = "basic"
+type = "typing"
+answer = "df -h | tee disk_usage.txt"
+
+[[exercises]]
+command = "df -h | tee disk_usage.txt"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "df -h | tee disk_usage.txt"
+
+[[exercises]]
+command = "df -h | tee disk_usage.txt"
+prompt = "键入: df -h | tee disk_usage.txt"
+difficulty = "basic"
+type = "typing"
+answer = "df -h | tee disk_usage.txt"
+
+[[exercises]]
+command = "echo \"deb http://archive.ubuntu.com/ubuntu jammy main\" | sudo tee /etc/apt/sources.list.d/custom.list"
+prompt = "使用 tee 配合 sudo 写入需要 root 权限的文件（直接用 sudo > 是不行的）"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"deb http://archive.ubuntu.com/ubuntu jammy main\" | sudo tee /etc/apt/sources.list.d/custom.list"
+
+[[exercises]]
+command = "echo \"deb http://archive.ubuntu.com/ubuntu jammy main\" | sudo tee /etc/apt/sources.list.d/custom.list"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"deb http://archive.ubuntu.com/ubuntu jammy main\" | sudo tee /etc/apt/sources.list.d/custom.list"
+
+[[exercises]]
+command = "echo \"deb http://archive.ubuntu.com/ubuntu jammy main\" | sudo tee /etc/apt/sources.list.d/custom.list"
+prompt = "键入: echo \"deb http://archive.ubuntu.com/ubuntu jammy main\" | sudo tee /etc/apt/sources.list.d/custom.list"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"deb http://archive.ubuntu.com/ubuntu jammy main\" | sudo tee /etc/apt/sources.list.d/custom.list"
+
+[[exercises]]
+command = "cat server.log | grep ERROR | tee -a error_report.txt | wc -l"
+prompt = "过滤日志中的错误，追加保存到报告文件，同时统计错误总数"
+difficulty = "basic"
+type = "typing"
+answer = "cat server.log | grep ERROR | tee -a error_report.txt | wc -l"
+
+[[exercises]]
+command = "cat server.log | grep ERROR | tee -a error_report.txt | wc -l"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "cat server.log | grep ERROR | tee -a error_report.txt | wc -l"
+
+[[exercises]]
+command = "cat server.log | grep ERROR | tee -a error_report.txt | wc -l"
+prompt = "键入: cat server.log | grep ERROR | tee -a error_report.txt | wc -l"
+difficulty = "basic"
+type = "typing"
+answer = "cat server.log | grep ERROR | tee -a error_report.txt | wc -l"
+
+[[exercises]]
+command = "ls *.log"
+prompt = "列出当前目录下所有 .log 文件"
+difficulty = "beginner"
+type = "typing"
+answer = "ls *.log"
+
+[[exercises]]
+command = "ls *.log"
+prompt = "执行命令: ls *.log"
+difficulty = "beginner"
+type = "typing"
+answer = "ls -la *.log"
+
+[[exercises]]
+command = "ls *.log"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "ls -l *.log"
+
+[[exercises]]
+command = "rm backup_*.tar.gz"
+prompt = "删除所有以 backup_ 开头、以 .tar.gz 结尾的文件"
+difficulty = "beginner"
+type = "typing"
+answer = "rm backup_*.tar.gz"
+
+[[exercises]]
+command = "rm backup_*.tar.gz"
+prompt = "执行命令: rm backup_*.tar.gz"
+difficulty = "beginner"
+type = "typing"
+answer = "rm -f backup_*.tar.gz"
+
+[[exercises]]
+command = "rm backup_*.tar.gz"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "rm -i backup_*.tar.gz"
+
+[[exercises]]
+command = "mkdir chapter{01..05}"
+prompt = "一次性创建 chapter01 到 chapter05 五个目录"
+difficulty = "beginner"
+type = "typing"
+answer = "mkdir chapter{01..05}"
+
+[[exercises]]
+command = "mkdir chapter{01..05}"
+prompt = "执行命令: mkdir chapter{01..05}"
+difficulty = "beginner"
+type = "typing"
+answer = "mkdir -p chapter{01..05}"
+
+[[exercises]]
+command = "mkdir chapter{01..05}"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "mkdir chapter0{1..5}"
+
+[[exercises]]
+command = "ls data[1-9].csv"
+prompt = "列出 data1.csv 到 data9.csv 中存在的文件"
+difficulty = "beginner"
+type = "typing"
+answer = "ls data[1-9].csv"
+
+[[exercises]]
+command = "ls data[1-9].csv"
+prompt = "执行命令: ls data[1-9].csv"
+difficulty = "beginner"
+type = "typing"
+answer = "ls data?.csv"
+
+[[exercises]]
+command = "ls data[1-9].csv"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "ls data{1..9}.csv"
+
+[[exercises]]
+command = "ls src/*.rs"
+prompt = "列出 src 目录下所有 .rs 文件"
+difficulty = "beginner"
+type = "typing"
+answer = "ls src/*.rs"
+
+[[exercises]]
+command = "ls src/*.rs"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "ls src/*.rs"
+
+[[exercises]]
+command = "ls src/*.rs"
+prompt = "键入: ls src/*.rs"
+difficulty = "beginner"
+type = "typing"
+answer = "ls src/*.rs"
+
+[[exercises]]
+command = "rm -f *.tmp"
+prompt = "删除所有 .tmp 文件"
+difficulty = "beginner"
+type = "typing"
+answer = "rm *.tmp"
+
+[[exercises]]
+command = "rm -f *.tmp"
+prompt = "执行命令: rm -f *.tmp"
+difficulty = "beginner"
+type = "typing"
+answer = "rm -f *.tmp"
+
+[[exercises]]
+command = "rm -f *.tmp"
+prompt = "键入: rm -f *.tmp"
+difficulty = "beginner"
+type = "typing"
+answer = "rm *.tmp"
+
+[[exercises]]
+command = "ls file[1-9].txt"
+prompt = "匹配 file1.txt 到 file9.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "ls file[1-9].txt"
+
+[[exercises]]
+command = "ls file[1-9].txt"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "ls file[1-9].txt"
+
+[[exercises]]
+command = "ls file[1-9].txt"
+prompt = "键入: ls file[1-9].txt"
+difficulty = "beginner"
+type = "typing"
+answer = "ls file[1-9].txt"
+
+[[exercises]]
+command = "ls ?.log"
+prompt = "列出单字符扩展名日志，如 a.log"
+difficulty = "beginner"
+type = "typing"
+answer = "ls ?.log"
+
+[[exercises]]
+command = "ls ?.log"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "ls ?.log"
+
+[[exercises]]
+command = "ls ?.log"
+prompt = "键入: ls ?.log"
+difficulty = "beginner"
+type = "typing"
+answer = "ls ?.log"
+
+[[exercises]]
+command = "mkdir -p day{01..07}"
+prompt = "批量创建 day01 到 day07 目录"
+difficulty = "beginner"
+type = "typing"
+answer = "mkdir -p day{01..07}"
+
+[[exercises]]
+command = "mkdir -p day{01..07}"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "mkdir -p day{01..07}"
+
+[[exercises]]
+command = "mkdir -p day{01..07}"
+prompt = "键入: mkdir -p day{01..07}"
+difficulty = "beginner"
+type = "typing"
+answer = "mkdir -p day{01..07}"
+
+[[exercises]]
+command = "cp settings.json{,.bak}"
+prompt = "快速备份 settings.json 为 settings.json.bak"
+difficulty = "beginner"
+type = "typing"
+answer = "cp settings.json{,.bak}"
+
+[[exercises]]
+command = "cp settings.json{,.bak}"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "cp settings.json{,.bak}"
+
+[[exercises]]
+command = "cp settings.json{,.bak}"
+prompt = "键入: cp settings.json{,.bak}"
+difficulty = "beginner"
+type = "typing"
+answer = "cp settings.json{,.bak}"
+
+[[exercises]]
+command = "ls *.txt"
+prompt = "列出当前目录下所有 .txt 文件"
+difficulty = "beginner"
+type = "typing"
+answer = "ls *.txt"
+
+[[exercises]]
+command = "ls *.txt"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "ls *.txt"
+
+[[exercises]]
+command = "ls *.txt"
+prompt = "键入: ls *.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "ls *.txt"
+
+[[exercises]]
+command = "rm -i temp_*"
+prompt = "删除所有以 temp_ 开头的文件（加 -i 交互确认，防止误删）"
+difficulty = "beginner"
+type = "typing"
+answer = "rm -i temp_*"
+
+[[exercises]]
+command = "rm -i temp_*"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "rm -i temp_*"
+
+[[exercises]]
+command = "rm -i temp_*"
+prompt = "键入: rm -i temp_*"
+difficulty = "beginner"
+type = "typing"
+answer = "rm -i temp_*"
+
+[[exercises]]
+command = "cp /etc/*.conf ~/backup/"
+prompt = "将 /etc 目录下所有 .conf 配置文件复制到家目录的 backup 文件夹"
+difficulty = "beginner"
+type = "typing"
+answer = "cp /etc/*.conf ~/backup/"
+
+[[exercises]]
+command = "cp /etc/*.conf ~/backup/"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "cp /etc/*.conf ~/backup/"
+
+[[exercises]]
+command = "cp /etc/*.conf ~/backup/"
+prompt = "键入: cp /etc/*.conf ~/backup/"
+difficulty = "beginner"
+type = "typing"
+answer = "cp /etc/*.conf ~/backup/"
+
+[[exercises]]
+command = "ls file?.txt"
+prompt = "列出文件名为 file 加恰好一个字符再加 .txt 的文件"
+difficulty = "beginner"
+type = "typing"
+answer = "ls file?.txt"
+
+[[exercises]]
+command = "ls file?.txt"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "ls file?.txt"
+
+[[exercises]]
+command = "ls file?.txt"
+prompt = "键入: ls file?.txt"
+difficulty = "beginner"
+type = "typing"
+answer = "ls file?.txt"
+
+[[exercises]]
+command = "ls /dev/sd?"
+prompt = "列出所有单字母的 SCSI 磁盘设备（如 sda、sdb 等）"
+difficulty = "beginner"
+type = "typing"
+answer = "ls /dev/sd?"
+
+[[exercises]]
+command = "ls /dev/sd?"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "ls /dev/sd?"
+
+[[exercises]]
+command = "ls /dev/sd?"
+prompt = "键入: ls /dev/sd?"
+difficulty = "beginner"
+type = "typing"
+answer = "ls /dev/sd?"
+
+[[exercises]]
+command = "ls image_???.png"
+prompt = "列出 image_ 后面恰好跟三个字符的 PNG 文件（如编号 001-999）"
+difficulty = "beginner"
+type = "typing"
+answer = "ls image_???.png"
+
+[[exercises]]
+command = "ls image_???.png"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "ls image_???.png"
+
+[[exercises]]
+command = "ls image_???.png"
+prompt = "键入: ls image_???.png"
+difficulty = "beginner"
+type = "typing"
+answer = "ls image_???.png"
+
+[[exercises]]
+command = "ls file[0-9].txt"
+prompt = "列出 file0.txt 到 file9.txt 之间存在的文件"
+difficulty = "beginner"
+type = "typing"
+answer = "ls file[0-9].txt"
+
+[[exercises]]
+command = "ls file[0-9].txt"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "ls file[0-9].txt"
+
+[[exercises]]
+command = "ls file[0-9].txt"
+prompt = "键入: ls file[0-9].txt"
+difficulty = "beginner"
+type = "typing"
+answer = "ls file[0-9].txt"
+
+[[exercises]]
+command = "ls [Mm]akefile"
+prompt = "同时匹配 Makefile 和 makefile（兼容不同命名习惯）"
+difficulty = "beginner"
+type = "typing"
+answer = "ls [Mm]akefile"
+
+[[exercises]]
+command = "ls [Mm]akefile"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "ls [Mm]akefile"
+
+[[exercises]]
+command = "ls [Mm]akefile"
+prompt = "键入: ls [Mm]akefile"
+difficulty = "beginner"
+type = "typing"
+answer = "ls [Mm]akefile"
+
+[[exercises]]
+command = "ls *.[ch]"
+prompt = "列出所有 C 语言源文件（.c）和头文件（.h）"
+difficulty = "beginner"
+type = "typing"
+answer = "ls *.[ch]"
+
+[[exercises]]
+command = "ls *.[ch]"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "ls *.[ch]"
+
+[[exercises]]
+command = "ls *.[ch]"
+prompt = "键入: ls *.[ch]"
+difficulty = "beginner"
+type = "typing"
+answer = "ls *.[ch]"
+
+[[exercises]]
+command = "echo {1..5}"
+prompt = "使用序列表达式生成 1 到 5 的数字序列"
+difficulty = "beginner"
+type = "typing"
+answer = "echo {1..5}"
+
+[[exercises]]
+command = "echo {1..5}"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "echo {1..5}"
+
+[[exercises]]
+command = "echo {1..5}"
+prompt = "键入: echo {1..5}"
+difficulty = "beginner"
+type = "typing"
+answer = "echo {1..5}"
+
+[[exercises]]
+command = "mkdir -p project/{src,tests,docs}"
+prompt = "一次性创建项目的三个子目录：src、tests、docs"
+difficulty = "beginner"
+type = "typing"
+answer = "mkdir -p project/{src,tests,docs}"
+
+[[exercises]]
+command = "mkdir -p project/{src,tests,docs}"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "mkdir -p project/{src,tests,docs}"
+
+[[exercises]]
+command = "mkdir -p project/{src,tests,docs}"
+prompt = "键入: mkdir -p project/{src,tests,docs}"
+difficulty = "beginner"
+type = "typing"
+answer = "mkdir -p project/{src,tests,docs}"
+
+[[exercises]]
+command = "cp config.yml{,.bak}"
+prompt = "快速备份文件——展开为 cp config.yml config.yml.bak"
+difficulty = "beginner"
+type = "typing"
+answer = "cp config.yml{,.bak}"
+
+[[exercises]]
+command = "cp config.yml{,.bak}"
+prompt = "完整输入该命令"
+difficulty = "beginner"
+type = "typing"
+answer = "cp config.yml{,.bak}"
+
+[[exercises]]
+command = "cp config.yml{,.bak}"
+prompt = "键入: cp config.yml{,.bak}"
+difficulty = "beginner"
+type = "typing"
+answer = "cp config.yml{,.bak}"
+
+[[exercises]]
+command = "echo '$HOME'"
+prompt = "使用 echo 原样输出字符串 $HOME（不展开变量）"
+difficulty = "basic"
+type = "typing"
+answer = "echo '$HOME'"
+
+[[exercises]]
+command = "echo '$HOME'"
+prompt = "执行命令: echo '$HOME'"
+difficulty = "basic"
+type = "typing"
+answer = "echo \\$HOME"
+
+[[exercises]]
+command = "echo '$HOME'"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"\\$HOME\""
+
+[[exercises]]
+command = "echo \"user: $USER\""
+prompt = "使用 echo 和双引号输出当前用户名，格式为：user: 用户名"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"user: $USER\""
+
+[[exercises]]
+command = "echo \"user: $USER\""
+prompt = "执行命令: echo \"user: $USER\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"user: $(whoami)\""
+
+[[exercises]]
+command = "echo \"user: $USER\""
+prompt = "键入: echo \"user: $USER\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"user: $USER\""
+
+[[exercises]]
+command = "echo $(date)"
+prompt = "使用 $() 命令替换获取当前日期并用 echo 输出"
+difficulty = "basic"
+type = "typing"
+answer = "echo $(date)"
+
+[[exercises]]
+command = "echo $(date)"
+prompt = "执行命令: echo $(date)"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"$(date)\""
+
+[[exercises]]
+command = "echo $(date)"
+prompt = "键入: echo $(date)"
+difficulty = "basic"
+type = "typing"
+answer = "echo $(date)"
+
+[[exercises]]
+command = "kernel=$(uname -r) && echo $kernel"
+prompt = "将 uname -r 的输出赋值给变量 kernel 并用 echo 显示"
+difficulty = "basic"
+type = "typing"
+answer = "kernel=$(uname -r) && echo $kernel"
+
+[[exercises]]
+command = "kernel=$(uname -r) && echo $kernel"
+prompt = "执行命令: kernel=$(uname -r) && echo $kernel"
+difficulty = "basic"
+type = "typing"
+answer = "kernel=$(uname -r) && echo \"$kernel\""
+
+[[exercises]]
+command = "kernel=$(uname -r) && echo $kernel"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "kernel=`uname -r` && echo $kernel"
+
+[[exercises]]
+command = "kernel=$(uname -r) && echo $kernel"
+prompt = "键入: kernel=$(uname -r) && echo $kernel"
+difficulty = "basic"
+type = "typing"
+answer = "kernel=`uname -r` && echo \"$kernel\""
+
+[[exercises]]
+command = "echo \"login user: $USER\""
+prompt = "输出带空格的字符串并包含变量 USER"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"login user: $USER\""
+
+[[exercises]]
+command = "echo \"login user: $USER\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"login user: $USER\""
+
+[[exercises]]
+command = "echo \"login user: $USER\""
+prompt = "键入: echo \"login user: $USER\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"login user: $USER\""
+
+[[exercises]]
+command = "echo '$(date)'"
+prompt = "使用单引号输出字面量 $(date)"
+difficulty = "basic"
+type = "typing"
+answer = "echo '$(date)'"
+
+[[exercises]]
+command = "echo '$(date)'"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo '$(date)'"
+
+[[exercises]]
+command = "echo '$(date)'"
+prompt = "键入: echo '$(date)'"
+difficulty = "basic"
+type = "typing"
+answer = "echo '$(date)'"
+
+[[exercises]]
+command = "echo \"Price: \\$99\""
+prompt = "在双引号中转义美元符号输出 Price: $99"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"Price: \\$99\""
+
+[[exercises]]
+command = "echo \"Price: \\$99\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"Price: \\$99\""
+
+[[exercises]]
+command = "echo \"Price: \\$99\""
+prompt = "键入: echo \"Price: \\$99\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"Price: \\$99\""
+
+[[exercises]]
+command = "echo \"cwd=$(pwd)\""
+prompt = "使用命令替换输出当前目录"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"cwd=$(pwd)\""
+
+[[exercises]]
+command = "echo \"cwd=$(pwd)\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"cwd=$(pwd)\""
+
+[[exercises]]
+command = "echo \"cwd=$(pwd)\""
+prompt = "键入: echo \"cwd=$(pwd)\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"cwd=$(pwd)\""
+
+[[exercises]]
+command = "echo \"she said \\\"ok\\\"\""
+prompt = "在双引号里输出 she said \"ok\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"she said \\\"ok\\\"\""
+
+[[exercises]]
+command = "echo \"she said \\\"ok\\\"\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"she said \\\"ok\\\"\""
+
+[[exercises]]
+command = "echo \"she said \\\"ok\\\"\""
+prompt = "键入: echo \"she said \\\"ok\\\"\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"she said \\\"ok\\\"\""
+
+[[exercises]]
+command = "echo `whoami`@`hostname`"
+prompt = "使用旧式反引号拼接用户和主机"
+difficulty = "basic"
+type = "typing"
+answer = "echo `whoami`@`hostname`"
+
+[[exercises]]
+command = "echo `whoami`@`hostname`"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo `whoami`@`hostname`"
+
+[[exercises]]
+command = "echo `whoami`@`hostname`"
+prompt = "键入: echo `whoami`@`hostname`"
+difficulty = "basic"
+type = "typing"
+answer = "echo `whoami`@`hostname`"
+
+[[exercises]]
+command = "echo '$HOME'"
+prompt = "单引号阻止变量展开，$HOME 被原样输出而非展开为家目录路径"
+difficulty = "basic"
+type = "typing"
+answer = "echo '$HOME'"
+
+[[exercises]]
+command = "echo '$HOME'"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo '$HOME'"
+
+[[exercises]]
+command = "echo '$HOME'"
+prompt = "键入: echo '$HOME'"
+difficulty = "basic"
+type = "typing"
+answer = "echo '$HOME'"
+
+[[exercises]]
+command = "echo 'hello world'"
+prompt = "使用单引号保护包含空格的字符串，防止 Shell 进行单词分割"
+difficulty = "basic"
+type = "typing"
+answer = "echo 'hello world'"
+
+[[exercises]]
+command = "echo 'hello world'"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo 'hello world'"
+
+[[exercises]]
+command = "echo 'hello world'"
+prompt = "键入: echo 'hello world'"
+difficulty = "basic"
+type = "typing"
+answer = "echo 'hello world'"
+
+[[exercises]]
+command = "echo 'price is $100'"
+prompt = "单引号内 $100 不会被当作变量展开，原样输出美元符号和数字"
+difficulty = "basic"
+type = "typing"
+answer = "echo 'price is $100'"
+
+[[exercises]]
+command = "echo 'price is $100'"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo 'price is $100'"
+
+[[exercises]]
+command = "echo 'price is $100'"
+prompt = "键入: echo 'price is $100'"
+difficulty = "basic"
+type = "typing"
+answer = "echo 'price is $100'"
+
+[[exercises]]
+command = "echo \"$HOME\""
+prompt = "双引号内 $HOME 会被展开为用户家目录的实际路径"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"$HOME\""
+
+[[exercises]]
+command = "echo \"$HOME\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"$HOME\""
+
+[[exercises]]
+command = "echo \"$HOME\""
+prompt = "键入: echo \"$HOME\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"$HOME\""
+
+[[exercises]]
+command = "echo \"hello $USER\""
+prompt = "双引号允许变量插值，$USER 被替换为当前登录的用户名"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"hello $USER\""
+
+[[exercises]]
+command = "echo \"hello $USER\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"hello $USER\""
+
+[[exercises]]
+command = "echo \"hello $USER\""
+prompt = "键入: echo \"hello $USER\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"hello $USER\""
+
+[[exercises]]
+command = "echo \"files: $(ls)\""
+prompt = "双引号内的 $() 命令替换仍然有效，ls 的输出被嵌入到字符串中"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"files: $(ls)\""
+
+[[exercises]]
+command = "echo \"files: $(ls)\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"files: $(ls)\""
+
+[[exercises]]
+command = "echo \"files: $(ls)\""
+prompt = "键入: echo \"files: $(ls)\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"files: $(ls)\""
+
+[[exercises]]
+command = "echo \"price is \\$100\""
+prompt = "在双引号内用 \\$ 阻止变量展开，输出字面量的美元符号"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"price is \\$100\""
+
+[[exercises]]
+command = "echo \"price is \\$100\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"price is \\$100\""
+
+[[exercises]]
+command = "echo \"price is \\$100\""
+prompt = "键入: echo \"price is \\$100\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"price is \\$100\""
+
+[[exercises]]
+command = "ls file\\ with\\ spaces"
+prompt = "用反斜杠转义空格，使 Shell 将其视为单个文件名而非三个参数"
+difficulty = "basic"
+type = "typing"
+answer = "ls file\\ with\\ spaces"
+
+[[exercises]]
+command = "ls file\\ with\\ spaces"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "ls file\\ with\\ spaces"
+
+[[exercises]]
+command = "ls file\\ with\\ spaces"
+prompt = "键入: ls file\\ with\\ spaces"
+difficulty = "basic"
+type = "typing"
+answer = "ls file\\ with\\ spaces"
+
+[[exercises]]
+command = "echo \"she said \\\\\"hello\\\\\"\""
+prompt = "在双引号内用 \\\" 输出字面量的双引号字符"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"she said \\\\\"hello\\\\\"\""
+
+[[exercises]]
+command = "echo \"she said \\\\\"hello\\\\\"\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"she said \\\\\"hello\\\\\"\""
+
+[[exercises]]
+command = "echo \"she said \\\\\"hello\\\\\"\""
+prompt = "键入: echo \"she said \\\\\"hello\\\\\"\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"she said \\\\\"hello\\\\\"\""
+
+[[exercises]]
+command = "echo `date`"
+prompt = "反引号内的 date 命令被执行，其输出替换了反引号表达式"
+difficulty = "basic"
+type = "typing"
+answer = "echo `date`"
+
+[[exercises]]
+command = "echo `date`"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo `date`"
+
+[[exercises]]
+command = "echo `date`"
+prompt = "键入: echo `date`"
+difficulty = "basic"
+type = "typing"
+answer = "echo `date`"
+
+[[exercises]]
+command = "echo \"today is `date +%Y-%m-%d`\""
+prompt = "在双引号内使用反引号进行命令替换，获取格式化的当前日期"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"today is `date +%Y-%m-%d`\""
+
+[[exercises]]
+command = "echo \"today is `date +%Y-%m-%d`\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"today is `date +%Y-%m-%d`\""
+
+[[exercises]]
+command = "echo \"today is `date +%Y-%m-%d`\""
+prompt = "键入: echo \"today is `date +%Y-%m-%d`\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"today is `date +%Y-%m-%d`\""
+
+[[exercises]]
+command = "echo `whoami`@`hostname`"
+prompt = "组合两个反引号命令替换，显示 用户名@主机名 的格式"
+difficulty = "basic"
+type = "typing"
+answer = "echo `whoami`@`hostname`"
+
+[[exercises]]
+command = "echo `whoami`@`hostname`"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo `whoami`@`hostname`"
+
+[[exercises]]
+command = "echo `whoami`@`hostname`"
+prompt = "键入: echo `whoami`@`hostname`"
+difficulty = "basic"
+type = "typing"
+answer = "echo `whoami`@`hostname`"
+
+[[exercises]]
+command = "echo $(whoami)"
+prompt = "$(whoami) 执行 whoami 命令，输出被替换为当前用户名"
+difficulty = "basic"
+type = "typing"
+answer = "echo $(whoami)"
+
+[[exercises]]
+command = "echo $(whoami)"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo $(whoami)"
+
+[[exercises]]
+command = "echo $(whoami)"
+prompt = "键入: echo $(whoami)"
+difficulty = "basic"
+type = "typing"
+answer = "echo $(whoami)"
+
+[[exercises]]
+command = "file_count=$(ls | wc -l) && echo $file_count"
+prompt = "将 ls | wc -l 的输出赋值给变量 file_count，然后显示文件数量"
+difficulty = "basic"
+type = "typing"
+answer = "file_count=$(ls | wc -l) && echo $file_count"
+
+[[exercises]]
+command = "file_count=$(ls | wc -l) && echo $file_count"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "file_count=$(ls | wc -l) && echo $file_count"
+
+[[exercises]]
+command = "file_count=$(ls | wc -l) && echo $file_count"
+prompt = "键入: file_count=$(ls | wc -l) && echo $file_count"
+difficulty = "basic"
+type = "typing"
+answer = "file_count=$(ls | wc -l) && echo $file_count"
+
+[[exercises]]
+command = "echo \"kernel: $(uname -r)\""
+prompt = "在双引号字符串中使用命令替换，嵌入内核版本信息"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"kernel: $(uname -r)\""
+
+[[exercises]]
+command = "echo \"kernel: $(uname -r)\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"kernel: $(uname -r)\""
+
+[[exercises]]
+command = "echo \"kernel: $(uname -r)\""
+prompt = "键入: echo \"kernel: $(uname -r)\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"kernel: $(uname -r)\""
+
+[[exercises]]
+command = "echo $HOME"
+prompt = "在终端中显示当前用户的家目录路径"
+difficulty = "basic"
+type = "typing"
+answer = "echo $HOME"
+
+[[exercises]]
+command = "echo $HOME"
+prompt = "执行命令: echo $HOME"
+difficulty = "basic"
+type = "typing"
+answer = "echo ${HOME}"
+
+[[exercises]]
+command = "echo $HOME"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"$HOME\""
+
+[[exercises]]
+command = "echo $HOME"
+prompt = "键入: echo $HOME"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"${HOME}\""
+
+[[exercises]]
+command = "echo $?"
+prompt = "显示上一个命令的退出状态码"
+difficulty = "basic"
+type = "typing"
+answer = "echo $?"
+
+[[exercises]]
+command = "echo $?"
+prompt = "执行命令: echo $?"
+difficulty = "basic"
+type = "typing"
+answer = "echo ${?}"
+
+[[exercises]]
+command = "echo $?"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"$?\""
+
+[[exercises]]
+command = "echo $$"
+prompt = "查看当前 Shell 进程的 PID"
+difficulty = "basic"
+type = "typing"
+answer = "echo $$"
+
+[[exercises]]
+command = "echo $$"
+prompt = "执行命令: echo $$"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"$$\""
+
+[[exercises]]
+command = "echo $$"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo ${$}"
+
+[[exercises]]
+command = "echo ${USER}_data"
+prompt = "使用花括号形式将用户名和 _data 拼接在一起并显示"
+difficulty = "basic"
+type = "typing"
+answer = "echo ${USER}_data"
+
+[[exercises]]
+command = "echo ${USER}_data"
+prompt = "执行命令: echo ${USER}_data"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"${USER}_data\""
+
+[[exercises]]
+command = "echo ${USER}_data"
+prompt = "键入: echo ${USER}_data"
+difficulty = "basic"
+type = "typing"
+answer = "echo ${USER}_data"
+
+[[exercises]]
+command = "sleep 300 & echo $!"
+prompt = "将 sleep 300 放入后台运行，并显示其进程 ID"
+difficulty = "basic"
+type = "typing"
+answer = "sleep 300 & echo $!"
+
+[[exercises]]
+command = "sleep 300 & echo $!"
+prompt = "执行命令: sleep 300 & echo $!"
+difficulty = "basic"
+type = "typing"
+answer = "sleep 300 & echo \"$!\""
+
+[[exercises]]
+command = "sleep 300 & echo $!"
+prompt = "键入: sleep 300 & echo $!"
+difficulty = "basic"
+type = "typing"
+answer = "sleep 300 & echo $!"
+
+[[exercises]]
+command = "bash -c 'echo $#' _ x y z"
+prompt = "检查传入脚本的参数个数（使用 bash -c 模拟，传入参数 x y z）"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo $#' _ x y z"
+
+[[exercises]]
+command = "bash -c 'echo $#' _ x y z"
+prompt = "执行命令: bash -c 'echo $#' _ x y z"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c \"echo $#\" _ x y z"
+
+[[exercises]]
+command = "bash -c 'echo $#' _ x y z"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo \"$#\"' _ x y z"
+
+[[exercises]]
+command = "echo \"$USER:$HOME\""
+prompt = "输出 USER 和 HOME 两个变量"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"$USER:$HOME\""
+
+[[exercises]]
+command = "echo \"$USER:$HOME\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"$USER:$HOME\""
+
+[[exercises]]
+command = "echo \"$USER:$HOME\""
+prompt = "键入: echo \"$USER:$HOME\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"$USER:$HOME\""
+
+[[exercises]]
+command = "PORT=8080 && echo $PORT"
+prompt = "设置临时变量 PORT=8080 并输出"
+difficulty = "basic"
+type = "typing"
+answer = "PORT=8080 && echo $PORT"
+
+[[exercises]]
+command = "PORT=8080 && echo $PORT"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "PORT=8080 && echo $PORT"
+
+[[exercises]]
+command = "PORT=8080 && echo $PORT"
+prompt = "键入: PORT=8080 && echo $PORT"
+difficulty = "basic"
+type = "typing"
+answer = "PORT=8080 && echo $PORT"
+
+[[exercises]]
+command = "echo \"${NAME:-guest}\""
+prompt = "用默认值展开变量 NAME"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"${NAME:-guest}\""
+
+[[exercises]]
+command = "echo \"${NAME:-guest}\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"${NAME:-guest}\""
+
+[[exercises]]
+command = "echo \"${NAME:-guest}\""
+prompt = "键入: echo \"${NAME:-guest}\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"${NAME:-guest}\""
+
+[[exercises]]
+command = "echo \"branch=$(git branch --show-current)\""
+prompt = "命令替换获取当前分支名"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"branch=$(git branch --show-current)\""
+
+[[exercises]]
+command = "echo \"branch=$(git branch --show-current)\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"branch=$(git branch --show-current)\""
+
+[[exercises]]
+command = "echo \"branch=$(git branch --show-current)\""
+prompt = "键入: echo \"branch=$(git branch --show-current)\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"branch=$(git branch --show-current)\""
+
+[[exercises]]
+command = "TODAY=$(date +%F) && echo $TODAY"
+prompt = "把 date +%F 保存到 TODAY 并输出"
+difficulty = "basic"
+type = "typing"
+answer = "TODAY=$(date +%F) && echo $TODAY"
+
+[[exercises]]
+command = "TODAY=$(date +%F) && echo $TODAY"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "TODAY=$(date +%F) && echo $TODAY"
+
+[[exercises]]
+command = "TODAY=$(date +%F) && echo $TODAY"
+prompt = "键入: TODAY=$(date +%F) && echo $TODAY"
+difficulty = "basic"
+type = "typing"
+answer = "TODAY=$(date +%F) && echo $TODAY"
+
+[[exercises]]
+command = "sleep 20 & echo $!"
+prompt = "后台运行 sleep 并显示其 PID"
+difficulty = "basic"
+type = "typing"
+answer = "sleep 20 & echo $!"
+
+[[exercises]]
+command = "sleep 20 & echo $!"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sleep 20 & echo $!"
+
+[[exercises]]
+command = "sleep 20 & echo $!"
+prompt = "键入: sleep 20 & echo $!"
+difficulty = "basic"
+type = "typing"
+answer = "sleep 20 & echo $!"
+
+[[exercises]]
+command = "echo $HOME"
+prompt = "显示当前用户的家目录路径"
+difficulty = "basic"
+type = "typing"
+answer = "echo $HOME"
+
+[[exercises]]
+command = "echo $HOME"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo $HOME"
+
+[[exercises]]
+command = "echo $HOME"
+prompt = "键入: echo $HOME"
+difficulty = "basic"
+type = "typing"
+answer = "echo $HOME"
+
+[[exercises]]
+command = "echo $PATH"
+prompt = "显示系统的可执行文件搜索路径，各路径之间用冒号分隔"
+difficulty = "basic"
+type = "typing"
+answer = "echo $PATH"
+
+[[exercises]]
+command = "echo $PATH"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo $PATH"
+
+[[exercises]]
+command = "echo $PATH"
+prompt = "键入: echo $PATH"
+difficulty = "basic"
+type = "typing"
+answer = "echo $PATH"
+
+[[exercises]]
+command = "echo $SHELL"
+prompt = "显示当前用户的默认 Shell 程序路径"
+difficulty = "basic"
+type = "typing"
+answer = "echo $SHELL"
+
+[[exercises]]
+command = "echo $SHELL"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo $SHELL"
+
+[[exercises]]
+command = "echo $SHELL"
+prompt = "键入: echo $SHELL"
+difficulty = "basic"
+type = "typing"
+answer = "echo $SHELL"
+
+[[exercises]]
+command = "echo \"${HOME}/docs\""
+prompt = "在变量后拼接路径，花括号确保 Shell 正确识别变量名为 HOME"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"${HOME}/docs\""
+
+[[exercises]]
+command = "echo \"${HOME}/docs\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"${HOME}/docs\""
+
+[[exercises]]
+command = "echo \"${HOME}/docs\""
+prompt = "键入: echo \"${HOME}/docs\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"${HOME}/docs\""
+
+[[exercises]]
+command = "echo \"${USER}_backup\""
+prompt = "在用户名后拼接下划线和字符串，生成备份目录名"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"${USER}_backup\""
+
+[[exercises]]
+command = "echo \"${USER}_backup\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"${USER}_backup\""
+
+[[exercises]]
+command = "echo \"${USER}_backup\""
+prompt = "键入: echo \"${USER}_backup\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"${USER}_backup\""
+
+[[exercises]]
+command = "echo \"file_${VERSION}.tar.gz\""
+prompt = "将版本号变量嵌入文件名中，如果 VERSION 未定义则该处为空"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"file_${VERSION}.tar.gz\""
+
+[[exercises]]
+command = "echo \"file_${VERSION}.tar.gz\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"file_${VERSION}.tar.gz\""
+
+[[exercises]]
+command = "echo \"file_${VERSION}.tar.gz\""
+prompt = "键入: echo \"file_${VERSION}.tar.gz\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"file_${VERSION}.tar.gz\""
+
+[[exercises]]
+command = "ls /etc > /dev/null && echo $?"
+prompt = "列出 /etc 目录（输出丢弃），然后显示退出码。ls 成功则输出 0"
+difficulty = "basic"
+type = "typing"
+answer = "ls /etc > /dev/null && echo $?"
+
+[[exercises]]
+command = "ls /etc > /dev/null && echo $?"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "ls /etc > /dev/null && echo $?"
+
+[[exercises]]
+command = "ls /etc > /dev/null && echo $?"
+prompt = "键入: ls /etc > /dev/null && echo $?"
+difficulty = "basic"
+type = "typing"
+answer = "ls /etc > /dev/null && echo $?"
+
+[[exercises]]
+command = "ls /nonexistent 2>/dev/null; echo $?"
+prompt = "尝试列出不存在的目录（错误信息丢弃），然后显示退出码。失败返回 2"
+difficulty = "basic"
+type = "typing"
+answer = "ls /nonexistent 2>/dev/null; echo $?"
+
+[[exercises]]
+command = "ls /nonexistent 2>/dev/null; echo $?"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "ls /nonexistent 2>/dev/null; echo $?"
+
+[[exercises]]
+command = "ls /nonexistent 2>/dev/null; echo $?"
+prompt = "键入: ls /nonexistent 2>/dev/null; echo $?"
+difficulty = "basic"
+type = "typing"
+answer = "ls /nonexistent 2>/dev/null; echo $?"
+
+[[exercises]]
+command = "true && echo $?"
+prompt = "true 命令总是返回成功（0），用于测试退出状态机制"
+difficulty = "basic"
+type = "typing"
+answer = "true && echo $?"
+
+[[exercises]]
+command = "true && echo $?"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "true && echo $?"
+
+[[exercises]]
+command = "true && echo $?"
+prompt = "键入: true && echo $?"
+difficulty = "basic"
+type = "typing"
+answer = "true && echo $?"
+
+[[exercises]]
+command = "echo $0"
+prompt = "在交互式终端中显示当前 Shell 的名称"
+difficulty = "basic"
+type = "typing"
+answer = "echo $0"
+
+[[exercises]]
+command = "echo $0"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo $0"
+
+[[exercises]]
+command = "echo $0"
+prompt = "键入: echo $0"
+difficulty = "basic"
+type = "typing"
+answer = "echo $0"
+
+[[exercises]]
+command = "bash -c 'echo $0' myscript"
+prompt = "通过 bash -c 执行时，紧跟在命令字符串后面的 myscript 会赋值给 $0"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo $0' myscript"
+
+[[exercises]]
+command = "bash -c 'echo $0' myscript"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo $0' myscript"
+
+[[exercises]]
+command = "bash -c 'echo $0' myscript"
+prompt = "键入: bash -c 'echo $0' myscript"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo $0' myscript"
+
+[[exercises]]
+command = "bash -c 'echo $#' _ a b c"
+prompt = "传入 a、b、c 三个参数（_ 是 $0 的占位符），$# 显示参数个数为 3"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo $#' _ a b c"
+
+[[exercises]]
+command = "bash -c 'echo $#' _ a b c"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo $#' _ a b c"
+
+[[exercises]]
+command = "bash -c 'echo $#' _ a b c"
+prompt = "键入: bash -c 'echo $#' _ a b c"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo $#' _ a b c"
+
+[[exercises]]
+command = "bash -c 'echo $#' _"
+prompt = "不传入任何参数时，$# 为 0"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo $#' _"
+
+[[exercises]]
+command = "bash -c 'echo $#' _"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo $#' _"
+
+[[exercises]]
+command = "bash -c 'echo $#' _"
+prompt = "键入: bash -c 'echo $#' _"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo $#' _"
+
+[[exercises]]
+command = "bash -c 'echo \"共 $# 个参数\"' _ x y"
+prompt = "在字符串中嵌入参数个数，显示更友好的提示信息"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo \"共 $# 个参数\"' _ x y"
+
+[[exercises]]
+command = "bash -c 'echo \"共 $# 个参数\"' _ x y"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo \"共 $# 个参数\"' _ x y"
+
+[[exercises]]
+command = "bash -c 'echo \"共 $# 个参数\"' _ x y"
+prompt = "键入: bash -c 'echo \"共 $# 个参数\"' _ x y"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo \"共 $# 个参数\"' _ x y"
+
+[[exercises]]
+command = "bash -c 'echo \"$@\"' _ hello world"
+prompt = "显示所有传入的位置参数，每个参数保持独立"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo \"$@\"' _ hello world"
+
+[[exercises]]
+command = "bash -c 'echo \"$@\"' _ hello world"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo \"$@\"' _ hello world"
+
+[[exercises]]
+command = "bash -c 'echo \"$@\"' _ hello world"
+prompt = "键入: bash -c 'echo \"$@\"' _ hello world"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo \"$@\"' _ hello world"
+
+[[exercises]]
+command = "bash -c 'for arg in \"$@\"; do echo \"参数: $arg\"; done' _ foo bar baz"
+prompt = "使用 for 循环逐个遍历所有位置参数"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'for arg in \"$@\"; do echo \"参数: $arg\"; done' _ foo bar baz"
+
+[[exercises]]
+command = "bash -c 'for arg in \"$@\"; do echo \"参数: $arg\"; done' _ foo bar baz"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'for arg in \"$@\"; do echo \"参数: $arg\"; done' _ foo bar baz"
+
+[[exercises]]
+command = "bash -c 'for arg in \"$@\"; do echo \"参数: $arg\"; done' _ foo bar baz"
+prompt = "键入: bash -c 'for arg in \"$@\"; do echo \"参数: $arg\"; done' _ foo bar baz"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'for arg in \"$@\"; do echo \"参数: $arg\"; done' _ foo bar baz"
+
+[[exercises]]
+command = "bash -c 'echo \"参数列表: $@\"' _ one two three"
+prompt = "将所有参数嵌入到提示字符串中一起显示"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo \"参数列表: $@\"' _ one two three"
+
+[[exercises]]
+command = "bash -c 'echo \"参数列表: $@\"' _ one two three"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo \"参数列表: $@\"' _ one two three"
+
+[[exercises]]
+command = "bash -c 'echo \"参数列表: $@\"' _ one two three"
+prompt = "键入: bash -c 'echo \"参数列表: $@\"' _ one two three"
+difficulty = "basic"
+type = "typing"
+answer = "bash -c 'echo \"参数列表: $@\"' _ one two three"
+
+[[exercises]]
+command = "echo $$"
+prompt = "显示当前 Shell 进程的 PID"
+difficulty = "basic"
+type = "typing"
+answer = "echo $$"
+
+[[exercises]]
+command = "echo $$"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo $$"
+
+[[exercises]]
+command = "echo $$"
+prompt = "键入: echo $$"
+difficulty = "basic"
+type = "typing"
+answer = "echo $$"
+
+[[exercises]]
+command = "echo \"PID: $$\""
+prompt = "在字符串中嵌入当前进程 ID，可用于日志记录"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"PID: $$\""
+
+[[exercises]]
+command = "echo \"PID: $$\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"PID: $$\""
+
+[[exercises]]
+command = "echo \"PID: $$\""
+prompt = "键入: echo \"PID: $$\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"PID: $$\""
+
+[[exercises]]
+command = "echo \"/tmp/work_$$.tmp\""
+prompt = "使用 PID 生成唯一的临时文件名，避免多个进程之间的文件冲突"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"/tmp/work_$$.tmp\""
+
+[[exercises]]
+command = "echo \"/tmp/work_$$.tmp\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"/tmp/work_$$.tmp\""
+
+[[exercises]]
+command = "echo \"/tmp/work_$$.tmp\""
+prompt = "键入: echo \"/tmp/work_$$.tmp\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"/tmp/work_$$.tmp\""
+
+[[exercises]]
+command = "sleep 100 & echo $!"
+prompt = "将 sleep 命令放入后台运行，立即显示其 PID"
+difficulty = "basic"
+type = "typing"
+answer = "sleep 100 & echo $!"
+
+[[exercises]]
+command = "sleep 100 & echo $!"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sleep 100 & echo $!"
+
+[[exercises]]
+command = "sleep 100 & echo $!"
+prompt = "键入: sleep 100 & echo $!"
+difficulty = "basic"
+type = "typing"
+answer = "sleep 100 & echo $!"
+
+[[exercises]]
+command = "sleep 60 & BG_PID=$! && echo \"后台进程: $BG_PID\""
+prompt = "将后台进程的 PID 保存到变量中，以便后续管理该进程"
+difficulty = "basic"
+type = "typing"
+answer = "sleep 60 & BG_PID=$! && echo \"后台进程: $BG_PID\""
+
+[[exercises]]
+command = "sleep 60 & BG_PID=$! && echo \"后台进程: $BG_PID\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sleep 60 & BG_PID=$! && echo \"后台进程: $BG_PID\""
+
+[[exercises]]
+command = "sleep 60 & BG_PID=$! && echo \"后台进程: $BG_PID\""
+prompt = "键入: sleep 60 & BG_PID=$! && echo \"后台进程: $BG_PID\""
+difficulty = "basic"
+type = "typing"
+answer = "sleep 60 & BG_PID=$! && echo \"后台进程: $BG_PID\""
+
+[[exercises]]
+command = "sleep 30 & wait $! && echo \"后台任务已完成\""
+prompt = "启动后台进程后使用 wait 等待其完成，再继续执行后续命令"
+difficulty = "basic"
+type = "typing"
+answer = "sleep 30 & wait $! && echo \"后台任务已完成\""
+
+[[exercises]]
+command = "sleep 30 & wait $! && echo \"后台任务已完成\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sleep 30 & wait $! && echo \"后台任务已完成\""
+
+[[exercises]]
+command = "sleep 30 & wait $! && echo \"后台任务已完成\""
+prompt = "键入: sleep 30 & wait $! && echo \"后台任务已完成\""
+difficulty = "basic"
+type = "typing"
+answer = "sleep 30 & wait $! && echo \"后台任务已完成\""
+
+[[exercises]]
+command = "echo \"开始\"; echo \"结束\""
+prompt = "在同一行中依次执行 echo \"开始\" 和 echo \"结束\"，无论第一条是否成功"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"开始\"; echo \"结束\""
+
+[[exercises]]
+command = "echo \"开始\"; echo \"结束\""
+prompt = "执行命令: echo \"开始\"; echo \"结束\""
+difficulty = "basic"
+type = "typing"
+answer = "echo '开始'; echo '结束'"
+
+[[exercises]]
+command = "echo \"开始\"; echo \"结束\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo 开始; echo 结束"
+
+[[exercises]]
+command = "mkdir myproject && cd myproject"
+prompt = "创建目录 myproject 并在创建成功后进入该目录（使用逻辑与）"
+difficulty = "basic"
+type = "typing"
+answer = "mkdir myproject && cd myproject"
+
+[[exercises]]
+command = "mkdir myproject && cd myproject"
+prompt = "执行命令: mkdir myproject && cd myproject"
+difficulty = "basic"
+type = "typing"
+answer = "mkdir -p myproject && cd myproject"
+
+[[exercises]]
+command = "mkdir myproject && cd myproject"
+prompt = "键入: mkdir myproject && cd myproject"
+difficulty = "basic"
+type = "typing"
+answer = "mkdir myproject && cd myproject"
+
+[[exercises]]
+command = "cd /opt/data || echo \"目录不存在\""
+prompt = "尝试进入 /opt/data 目录，如果失败则输出提示\"目录不存在\"（使用逻辑或）"
+difficulty = "basic"
+type = "typing"
+answer = "cd /opt/data || echo \"目录不存在\""
+
+[[exercises]]
+command = "cd /opt/data || echo \"目录不存在\""
+prompt = "执行命令: cd /opt/data || echo \"目录不存在\""
+difficulty = "basic"
+type = "typing"
+answer = "cd /opt/data || echo '目录不存在'"
+
+[[exercises]]
+command = "cd /opt/data || echo \"目录不存在\""
+prompt = "键入: cd /opt/data || echo \"目录不存在\""
+difficulty = "basic"
+type = "typing"
+answer = "cd /opt/data || echo \"目录不存在\""
+
+[[exercises]]
+command = "./backup.sh &"
+prompt = "将一个耗时脚本 backup.sh 放到后台执行"
+difficulty = "basic"
+type = "typing"
+answer = "./backup.sh &"
+
+[[exercises]]
+command = "./backup.sh &"
+prompt = "执行命令: ./backup.sh &"
+difficulty = "basic"
+type = "typing"
+answer = "bash backup.sh &"
+
+[[exercises]]
+command = "./backup.sh &"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sh backup.sh &"
+
+[[exercises]]
+command = ". ~/.bashrc"
+prompt = "重新加载当前用户的 .bashrc 配置文件（使用点命令）"
+difficulty = "basic"
+type = "typing"
+answer = ". ~/.bashrc"
+
+[[exercises]]
+command = ". ~/.bashrc"
+prompt = "执行命令: . ~/.bashrc"
+difficulty = "basic"
+type = "typing"
+answer = "source ~/.bashrc"
+
+[[exercises]]
+command = ". ~/.bashrc"
+prompt = "键入: . ~/.bashrc"
+difficulty = "basic"
+type = "typing"
+answer = ". ~/.bashrc"
+
+[[exercises]]
+command = "cd ~"
+prompt = "回到当前用户的主目录（使用波浪号）"
+difficulty = "basic"
+type = "typing"
+answer = "cd ~"
+
+[[exercises]]
+command = "cd ~"
+prompt = "执行命令: cd ~"
+difficulty = "basic"
+type = "typing"
+answer = "cd"
+
+[[exercises]]
+command = "cd ~"
+prompt = "键入: cd ~"
+difficulty = "basic"
+type = "typing"
+answer = "cd ~"
+
+[[exercises]]
+command = "sudo apt update && sudo apt install -y nginx"
+prompt = "先更新索引再安装 nginx（仅前者成功时执行后者）"
+difficulty = "basic"
+type = "typing"
+answer = "sudo apt update && sudo apt install -y nginx"
+
+[[exercises]]
+command = "sudo apt update && sudo apt install -y nginx"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sudo apt update && sudo apt install -y nginx"
+
+[[exercises]]
+command = "sudo apt update && sudo apt install -y nginx"
+prompt = "键入: sudo apt update && sudo apt install -y nginx"
+difficulty = "basic"
+type = "typing"
+answer = "sudo apt update && sudo apt install -y nginx"
+
+[[exercises]]
+command = "python3 main.py || echo fallback"
+prompt = "若 main.py 失败则打印 fallback"
+difficulty = "basic"
+type = "typing"
+answer = "python3 main.py || echo fallback"
+
+[[exercises]]
+command = "python3 main.py || echo fallback"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "python3 main.py || echo fallback"
+
+[[exercises]]
+command = "python3 main.py || echo fallback"
+prompt = "键入: python3 main.py || echo fallback"
+difficulty = "basic"
+type = "typing"
+answer = "python3 main.py || echo fallback"
+
+[[exercises]]
+command = "echo start; sleep 1; echo done"
+prompt = "顺序执行三条命令并总是继续"
+difficulty = "basic"
+type = "typing"
+answer = "echo start; sleep 1; echo done"
+
+[[exercises]]
+command = "echo start; sleep 1; echo done"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo start; sleep 1; echo done"
+
+[[exercises]]
+command = "echo start; sleep 1; echo done"
+prompt = "键入: echo start; sleep 1; echo done"
+difficulty = "basic"
+type = "typing"
+answer = "echo start; sleep 1; echo done"
+
+[[exercises]]
+command = "./service.sh & echo $!"
+prompt = "后台启动服务并立即打印 PID"
+difficulty = "basic"
+type = "typing"
+answer = "./service.sh & echo $!"
+
+[[exercises]]
+command = "./service.sh & echo $!"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "./service.sh & echo $!"
+
+[[exercises]]
+command = "./service.sh & echo $!"
+prompt = "键入: ./service.sh & echo $!"
+difficulty = "basic"
+type = "typing"
+answer = "./service.sh & echo $!"
+
+[[exercises]]
+command = "cd app && npm start"
+prompt = "切到 app 目录并仅在成功时启动 npm"
+difficulty = "basic"
+type = "typing"
+answer = "cd app && npm start"
+
+[[exercises]]
+command = "cd app && npm start"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "cd app && npm start"
+
+[[exercises]]
+command = "cd app && npm start"
+prompt = "键入: cd app && npm start"
+difficulty = "basic"
+type = "typing"
+answer = "cd app && npm start"
+
+[[exercises]]
+command = "source env.sh && echo $MODE"
+prompt = "source env.sh 后再打印 MODE"
+difficulty = "basic"
+type = "typing"
+answer = "source env.sh && echo $MODE"
+
+[[exercises]]
+command = "source env.sh && echo $MODE"
+prompt = "执行命令: source env.sh && echo $MODE"
+difficulty = "basic"
+type = "typing"
+answer = ". env.sh && echo $MODE"
+
+[[exercises]]
+command = "source env.sh && echo $MODE"
+prompt = "键入: source env.sh && echo $MODE"
+difficulty = "basic"
+type = "typing"
+answer = "source env.sh && echo $MODE"
+
+[[exercises]]
+command = "echo \"hello\"; echo \"world\""
+prompt = "依次输出两个字符串，无论第一条是否成功，第二条都会执行"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"hello\"; echo \"world\""
+
+[[exercises]]
+command = "echo \"hello\"; echo \"world\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo \"hello\"; echo \"world\""
+
+[[exercises]]
+command = "echo \"hello\"; echo \"world\""
+prompt = "键入: echo \"hello\"; echo \"world\""
+difficulty = "basic"
+type = "typing"
+answer = "echo \"hello\"; echo \"world\""
+
+[[exercises]]
+command = "mkdir test; cd test; pwd"
+prompt = "创建目录、进入目录、打印当前路径——三条命令顺序执行"
+difficulty = "basic"
+type = "typing"
+answer = "mkdir test; cd test; pwd"
+
+[[exercises]]
+command = "mkdir test; cd test; pwd"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "mkdir test; cd test; pwd"
+
+[[exercises]]
+command = "mkdir test; cd test; pwd"
+prompt = "键入: mkdir test; cd test; pwd"
+difficulty = "basic"
+type = "typing"
+answer = "mkdir test; cd test; pwd"
+
+[[exercises]]
+command = "ls /nonexistent; echo \"依然会执行\""
+prompt = "即使 ls 访问不存在的路径报错，分号后的 echo 仍然会执行"
+difficulty = "basic"
+type = "typing"
+answer = "ls /nonexistent; echo \"依然会执行\""
+
+[[exercises]]
+command = "ls /nonexistent; echo \"依然会执行\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "ls /nonexistent; echo \"依然会执行\""
+
+[[exercises]]
+command = "ls /nonexistent; echo \"依然会执行\""
+prompt = "键入: ls /nonexistent; echo \"依然会执行\""
+difficulty = "basic"
+type = "typing"
+answer = "ls /nonexistent; echo \"依然会执行\""
+
+[[exercises]]
+command = "mkdir newdir && cd newdir && pwd"
+prompt = "创建目录成功后才进入该目录，进入成功后才打印路径。任何一步失败就会停止"
+difficulty = "basic"
+type = "typing"
+answer = "mkdir newdir && cd newdir && pwd"
+
+[[exercises]]
+command = "mkdir newdir && cd newdir && pwd"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "mkdir newdir && cd newdir && pwd"
+
+[[exercises]]
+command = "mkdir newdir && cd newdir && pwd"
+prompt = "键入: mkdir newdir && cd newdir && pwd"
+difficulty = "basic"
+type = "typing"
+answer = "mkdir newdir && cd newdir && pwd"
+
+[[exercises]]
+command = "sudo apt update && sudo apt upgrade -y"
+prompt = "先更新软件包索引，只有更新成功才执行升级操作"
+difficulty = "basic"
+type = "typing"
+answer = "sudo apt update && sudo apt upgrade -y"
+
+[[exercises]]
+command = "sudo apt update && sudo apt upgrade -y"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sudo apt update && sudo apt upgrade -y"
+
+[[exercises]]
+command = "sudo apt update && sudo apt upgrade -y"
+prompt = "键入: sudo apt update && sudo apt upgrade -y"
+difficulty = "basic"
+type = "typing"
+answer = "sudo apt update && sudo apt upgrade -y"
+
+[[exercises]]
+command = "ping -c 1 google.com && echo \"网络正常\""
+prompt = "发送一个 ping 包测试网络，成功后打印提示信息"
+difficulty = "basic"
+type = "typing"
+answer = "ping -c 1 google.com && echo \"网络正常\""
+
+[[exercises]]
+command = "ping -c 1 google.com && echo \"网络正常\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "ping -c 1 google.com && echo \"网络正常\""
+
+[[exercises]]
+command = "ping -c 1 google.com && echo \"网络正常\""
+prompt = "键入: ping -c 1 google.com && echo \"网络正常\""
+difficulty = "basic"
+type = "typing"
+answer = "ping -c 1 google.com && echo \"网络正常\""
+
+[[exercises]]
+command = "cd /nonexistent || echo \"目录不存在\""
+prompt = "尝试进入一个不存在的目录，失败后执行 echo 输出提示信息"
+difficulty = "basic"
+type = "typing"
+answer = "cd /nonexistent || echo \"目录不存在\""
+
+[[exercises]]
+command = "cd /nonexistent || echo \"目录不存在\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "cd /nonexistent || echo \"目录不存在\""
+
+[[exercises]]
+command = "cd /nonexistent || echo \"目录不存在\""
+prompt = "键入: cd /nonexistent || echo \"目录不存在\""
+difficulty = "basic"
+type = "typing"
+answer = "cd /nonexistent || echo \"目录不存在\""
+
+[[exercises]]
+command = "command -v git || sudo apt install git -y"
+prompt = "检查 git 是否已安装，如果未安装（命令不存在导致失败）则自动安装"
+difficulty = "basic"
+type = "typing"
+answer = "command -v git || sudo apt install git -y"
+
+[[exercises]]
+command = "command -v git || sudo apt install git -y"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "command -v git || sudo apt install git -y"
+
+[[exercises]]
+command = "command -v git || sudo apt install git -y"
+prompt = "键入: command -v git || sudo apt install git -y"
+difficulty = "basic"
+type = "typing"
+answer = "command -v git || sudo apt install git -y"
+
+[[exercises]]
+command = "test -f config.yml || cp config.yml.example config.yml"
+prompt = "检查配置文件是否存在，不存在时从示例文件复制一份"
+difficulty = "basic"
+type = "typing"
+answer = "test -f config.yml || cp config.yml.example config.yml"
+
+[[exercises]]
+command = "test -f config.yml || cp config.yml.example config.yml"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "test -f config.yml || cp config.yml.example config.yml"
+
+[[exercises]]
+command = "test -f config.yml || cp config.yml.example config.yml"
+prompt = "键入: test -f config.yml || cp config.yml.example config.yml"
+difficulty = "basic"
+type = "typing"
+answer = "test -f config.yml || cp config.yml.example config.yml"
+
+[[exercises]]
+command = "sleep 100 &"
+prompt = "将 sleep 命令放到后台执行，终端立即可用"
+difficulty = "basic"
+type = "typing"
+answer = "sleep 100 &"
+
+[[exercises]]
+command = "sleep 100 &"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "sleep 100 &"
+
+[[exercises]]
+command = "sleep 100 &"
+prompt = "键入: sleep 100 &"
+difficulty = "basic"
+type = "typing"
+answer = "sleep 100 &"
+
+[[exercises]]
+command = "./long_task.sh > output.log 2>&1 &"
+prompt = "在后台运行耗时脚本，同时将标准输出和错误输出都重定向到日志文件"
+difficulty = "basic"
+type = "typing"
+answer = "./long_task.sh > output.log 2>&1 &"
+
+[[exercises]]
+command = "./long_task.sh > output.log 2>&1 &"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "./long_task.sh > output.log 2>&1 &"
+
+[[exercises]]
+command = "./long_task.sh > output.log 2>&1 &"
+prompt = "键入: ./long_task.sh > output.log 2>&1 &"
+difficulty = "basic"
+type = "typing"
+answer = "./long_task.sh > output.log 2>&1 &"
+
+[[exercises]]
+command = "nohup python3 train_model.py &"
+prompt = "使用 nohup 确保即使关闭终端，训练任务也不会被中断"
+difficulty = "basic"
+type = "typing"
+answer = "nohup python3 train_model.py &"
+
+[[exercises]]
+command = "nohup python3 train_model.py &"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "nohup python3 train_model.py &"
+
+[[exercises]]
+command = "nohup python3 train_model.py &"
+prompt = "键入: nohup python3 train_model.py &"
+difficulty = "basic"
+type = "typing"
+answer = "nohup python3 train_model.py &"
+
+[[exercises]]
+command = "!!"
+prompt = "重新执行上一条命令。最经典的用法是 sudo !! —— 用 root 权限重新运行刚才的命令"
+difficulty = "basic"
+type = "typing"
+answer = "!!"
+
+[[exercises]]
+command = "!!"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "!!"
+
+[[exercises]]
+command = "!!"
+prompt = "键入: !!"
+difficulty = "basic"
+type = "typing"
+answer = "!!"
+
+[[exercises]]
+command = "!-2"
+prompt = "执行倒数第二条历史命令"
+difficulty = "basic"
+type = "typing"
+answer = "!-2"
+
+[[exercises]]
+command = "!-2"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "!-2"
+
+[[exercises]]
+command = "!-2"
+prompt = "键入: !-2"
+difficulty = "basic"
+type = "typing"
+answer = "!-2"
+
+[[exercises]]
+command = "! false && echo \"逻辑非：false 取反为 true\""
+prompt = "使用 ! 对 false 命令取反——false 的退出码为 1，取反后为 0（成功），因此 && 后的 echo 会执行"
+difficulty = "basic"
+type = "typing"
+answer = "! false && echo \"逻辑非：false 取反为 true\""
+
+[[exercises]]
+command = "! false && echo \"逻辑非：false 取反为 true\""
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "! false && echo \"逻辑非：false 取反为 true\""
+
+[[exercises]]
+command = "! false && echo \"逻辑非：false 取反为 true\""
+prompt = "键入: ! false && echo \"逻辑非：false 取反为 true\""
+difficulty = "basic"
+type = "typing"
+answer = "! false && echo \"逻辑非：false 取反为 true\""
+
+[[exercises]]
+command = "echo hello # 这是一条注释"
+prompt = "Shell 只执行 echo hello，# 后面的文字被当作注释忽略"
+difficulty = "basic"
+type = "typing"
+answer = "echo hello # 这是一条注释"
+
+[[exercises]]
+command = "echo hello # 这是一条注释"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "echo hello # 这是一条注释"
+
+[[exercises]]
+command = "echo hello # 这是一条注释"
+prompt = "键入: echo hello # 这是一条注释"
+difficulty = "basic"
+type = "typing"
+answer = "echo hello # 这是一条注释"
+
+[[exercises]]
+command = "# 这是一条完整的注释行，不会执行任何操作"
+prompt = "整行都是注释，Shell 会完全跳过，不产生任何输出"
+difficulty = "basic"
+type = "typing"
+answer = "# 这是一条完整的注释行，不会执行任何操作"
+
+[[exercises]]
+command = "# 这是一条完整的注释行，不会执行任何操作"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "# 这是一条完整的注释行，不会执行任何操作"
+
+[[exercises]]
+command = "# 这是一条完整的注释行，不会执行任何操作"
+prompt = "键入: # 这是一条完整的注释行，不会执行任何操作"
+difficulty = "basic"
+type = "typing"
+answer = "# 这是一条完整的注释行，不会执行任何操作"
+
+[[exercises]]
+command = "#!/bin/bash"
+prompt = "Shebang 行——放在脚本第一行，告诉系统使用 /bin/bash 来执行该脚本"
+difficulty = "basic"
+type = "typing"
+answer = "#!/bin/bash"
+
+[[exercises]]
+command = "#!/bin/bash"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "#!/bin/bash"
+
+[[exercises]]
+command = "#!/bin/bash"
+prompt = "键入: #!/bin/bash"
+difficulty = "basic"
+type = "typing"
+answer = "#!/bin/bash"
+
+[[exercises]]
+command = "cd ~"
+prompt = "快速返回当前用户的主目录，等价于 cd $HOME 或 cd /home/ace"
+difficulty = "basic"
+type = "typing"
+answer = "cd ~"
+
+[[exercises]]
+command = "cd ~"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "cd ~"
+
+[[exercises]]
+command = "cd ~"
+prompt = "键入: cd ~"
+difficulty = "basic"
+type = "typing"
+answer = "cd ~"
+
+[[exercises]]
+command = "ls ~/Documents"
+prompt = "列出主目录下 Documents 文件夹的内容"
+difficulty = "basic"
+type = "typing"
+answer = "ls ~/Documents"
+
+[[exercises]]
+command = "ls ~/Documents"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "ls ~/Documents"
+
+[[exercises]]
+command = "ls ~/Documents"
+prompt = "键入: ls ~/Documents"
+difficulty = "basic"
+type = "typing"
+answer = "ls ~/Documents"
+
+[[exercises]]
+command = "cd ~alice"
+prompt = "切换到用户 alice 的主目录（通常为 /home/alice）"
+difficulty = "basic"
+type = "typing"
+answer = "cd ~alice"
+
+[[exercises]]
+command = "cd ~alice"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "cd ~alice"
+
+[[exercises]]
+command = "cd ~alice"
+prompt = "键入: cd ~alice"
+difficulty = "basic"
+type = "typing"
+answer = "cd ~alice"
+
+[[exercises]]
+command = ". ~/.bashrc"
+prompt = "在当前 Shell 中重新加载 .bashrc 配置文件，使修改立即生效"
+difficulty = "basic"
+type = "typing"
+answer = ". ~/.bashrc"
+
+[[exercises]]
+command = ". ~/.bashrc"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = ". ~/.bashrc"
+
+[[exercises]]
+command = ". ~/.bashrc"
+prompt = "键入: . ~/.bashrc"
+difficulty = "basic"
+type = "typing"
+answer = ". ~/.bashrc"
+
+[[exercises]]
+command = "source ~/.bashrc"
+prompt = "与 . ~/.bashrc 完全等价，source 是点命令的可读性更好的写法"
+difficulty = "basic"
+type = "typing"
+answer = "source ~/.bashrc"
+
+[[exercises]]
+command = "source ~/.bashrc"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = "source ~/.bashrc"
+
+[[exercises]]
+command = "source ~/.bashrc"
+prompt = "键入: source ~/.bashrc"
+difficulty = "basic"
+type = "typing"
+answer = "source ~/.bashrc"
+
+[[exercises]]
+command = ". .env && echo $DATABASE_URL"
+prompt = "加载当前目录下的 .env 环境变量文件，然后验证变量是否已生效"
+difficulty = "basic"
+type = "typing"
+answer = ". .env && echo $DATABASE_URL"
+
+[[exercises]]
+command = ". .env && echo $DATABASE_URL"
+prompt = "完整输入该命令"
+difficulty = "basic"
+type = "typing"
+answer = ". .env && echo $DATABASE_URL"
+
+[[exercises]]
+command = ". .env && echo $DATABASE_URL"
+prompt = "键入: . .env && echo $DATABASE_URL"
+difficulty = "basic"
+type = "typing"
+answer = ". .env && echo $DATABASE_URL"
+
+[[exercises]]
+command = "grep '^root' /etc/passwd"
+prompt = "在 /etc/passwd 中查找以 root 开头的行"
+difficulty = "advanced"
+type = "typing"
+answer = "grep '^root' /etc/passwd"
+
+[[exercises]]
+command = "grep '^root' /etc/passwd"
+prompt = "执行命令: grep '^root' /etc/passwd"
+difficulty = "advanced"
+type = "typing"
+answer = "grep \"^root\" /etc/passwd"
+
+[[exercises]]
+command = "grep '^root' /etc/passwd"
+prompt = "键入: grep '^root' /etc/passwd"
+difficulty = "advanced"
+type = "typing"
+answer = "grep '^root' /etc/passwd"
+
+[[exercises]]
+command = "grep -E '(error|warning)' data.txt"
+prompt = "在文件 data.txt 中搜索包含 error 或 warning 的行（使用扩展正则表达式）"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '(error|warning)' data.txt"
+
+[[exercises]]
+command = "grep -E '(error|warning)' data.txt"
+prompt = "执行命令: grep -E '(error|warning)' data.txt"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E \"(error|warning)\" data.txt"
+
+[[exercises]]
+command = "grep -E '(error|warning)' data.txt"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "egrep '(error|warning)' data.txt"
+
+[[exercises]]
+command = "grep -E '(error|warning)' data.txt"
+prompt = "键入: grep -E '(error|warning)' data.txt"
+difficulty = "advanced"
+type = "typing"
+answer = "egrep \"(error|warning)\" data.txt"
+
+[[exercises]]
+command = "grep -E 'colou?r' file"
+prompt = "匹配 color 和 colour 两种拼写（使用扩展正则表达式）"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E 'colou?r' file"
+
+[[exercises]]
+command = "grep -E 'colou?r' file"
+prompt = "执行命令: grep -E 'colou?r' file"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E \"colou?r\" file"
+
+[[exercises]]
+command = "grep -E 'colou?r' file"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "egrep 'colou?r' file"
+
+[[exercises]]
+command = "grep 'bash$' /etc/passwd"
+prompt = "查找 /etc/passwd 中以 bash 结尾的行"
+difficulty = "advanced"
+type = "typing"
+answer = "grep 'bash$' /etc/passwd"
+
+[[exercises]]
+command = "grep 'bash$' /etc/passwd"
+prompt = "执行命令: grep 'bash$' /etc/passwd"
+difficulty = "advanced"
+type = "typing"
+answer = "grep \"bash$\" /etc/passwd"
+
+[[exercises]]
+command = "grep 'bash$' /etc/passwd"
+prompt = "键入: grep 'bash$' /etc/passwd"
+difficulty = "advanced"
+type = "typing"
+answer = "grep 'bash$' /etc/passwd"
+
+[[exercises]]
+command = "grep -E '[0-9]+' log.txt"
+prompt = "在文件 log.txt 中查找包含一个或多个连续数字的行"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '[0-9]+' log.txt"
+
+[[exercises]]
+command = "grep -E '[0-9]+' log.txt"
+prompt = "执行命令: grep -E '[0-9]+' log.txt"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E \"[0-9]+\" log.txt"
+
+[[exercises]]
+command = "grep -E '[0-9]+' log.txt"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "egrep '[0-9]+' log.txt"
+
+[[exercises]]
+command = "grep '^error' app.log"
+prompt = "匹配以 error 开头的日志行"
+difficulty = "advanced"
+type = "typing"
+answer = "grep '^error' app.log"
+
+[[exercises]]
+command = "grep '^error' app.log"
+prompt = "执行命令: grep '^error' app.log"
+difficulty = "advanced"
+type = "typing"
+answer = "grep \"^error\" app.log"
+
+[[exercises]]
+command = "grep '^error' app.log"
+prompt = "键入: grep '^error' app.log"
+difficulty = "advanced"
+type = "typing"
+answer = "grep '^error' app.log"
+
+[[exercises]]
+command = "grep -E '\\.conf$' files.txt"
+prompt = "匹配以 .conf 结尾的文件名"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '\\.conf$' files.txt"
+
+[[exercises]]
+command = "grep -E '\\.conf$' files.txt"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '\\.conf$' files.txt"
+
+[[exercises]]
+command = "grep -E '\\.conf$' files.txt"
+prompt = "键入: grep -E '\\.conf$' files.txt"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '\\.conf$' files.txt"
+
+[[exercises]]
+command = "grep -E '^[0-9]+$' nums.txt"
+prompt = "查找只包含数字的整行"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '^[0-9]+$' nums.txt"
+
+[[exercises]]
+command = "grep -E '^[0-9]+$' nums.txt"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '^[0-9]+$' nums.txt"
+
+[[exercises]]
+command = "grep -E '^[0-9]+$' nums.txt"
+prompt = "键入: grep -E '^[0-9]+$' nums.txt"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '^[0-9]+$' nums.txt"
+
+[[exercises]]
+command = "grep -E '^192\\.168\\.' hosts.txt"
+prompt = "匹配 IPv4 风格前缀 192.168."
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '^192\\.168\\.' hosts.txt"
+
+[[exercises]]
+command = "grep -E '^192\\.168\\.' hosts.txt"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '^192\\.168\\.' hosts.txt"
+
+[[exercises]]
+command = "grep -E '^192\\.168\\.' hosts.txt"
+prompt = "键入: grep -E '^192\\.168\\.' hosts.txt"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '^192\\.168\\.' hosts.txt"
+
+[[exercises]]
+command = "grep '^#' config.ini"
+prompt = "过滤以 # 开头的注释行"
+difficulty = "advanced"
+type = "typing"
+answer = "grep '^#' config.ini"
+
+[[exercises]]
+command = "grep '^#' config.ini"
+prompt = "执行命令: grep '^#' config.ini"
+difficulty = "advanced"
+type = "typing"
+answer = "grep \"^#\" config.ini"
+
+[[exercises]]
+command = "grep '^#' config.ini"
+prompt = "键入: grep '^#' config.ini"
+difficulty = "advanced"
+type = "typing"
+answer = "grep '^#' config.ini"
+
+[[exercises]]
+command = "grep -E '(warning|error)' app.log"
+prompt = "匹配含有 warning 或 error 的行"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '(warning|error)' app.log"
+
+[[exercises]]
+command = "grep -E '(warning|error)' app.log"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '(warning|error)' app.log"
+
+[[exercises]]
+command = "grep -E '(warning|error)' app.log"
+prompt = "键入: grep -E '(warning|error)' app.log"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '(warning|error)' app.log"
+
+[[exercises]]
+command = "echo -e 'hat\\nhit\\nhot\\nhut\\nht' | grep 'h.t'"
+prompt = "用点号匹配 h 和 t 之间的任意一个字符，ht 因为中间没有字符所以不匹配"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'hat\\nhit\\nhot\\nhut\\nht' | grep 'h.t'"
+
+[[exercises]]
+command = "echo -e 'hat\\nhit\\nhot\\nhut\\nht' | grep 'h.t'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'hat\\nhit\\nhot\\nhut\\nht' | grep 'h.t'"
+
+[[exercises]]
+command = "echo -e 'hat\\nhit\\nhot\\nhut\\nht' | grep 'h.t'"
+prompt = "键入: echo -e 'hat\\nhit\\nhot\\nhut\\nht' | grep 'h.t'"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'hat\\nhit\\nhot\\nhut\\nht' | grep 'h.t'"
+
+[[exercises]]
+command = "echo -e 'cat\\ncut\\ncot\\ncart' | grep 'c.t'"
+prompt = "匹配 c 加任意一个字符加 t 的模式；cart 不匹配因为 c 和 t 之间有两个字符"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'cat\\ncut\\ncot\\ncart' | grep 'c.t'"
+
+[[exercises]]
+command = "echo -e 'cat\\ncut\\ncot\\ncart' | grep 'c.t'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'cat\\ncut\\ncot\\ncart' | grep 'c.t'"
+
+[[exercises]]
+command = "echo -e 'cat\\ncut\\ncot\\ncart' | grep 'c.t'"
+prompt = "键入: echo -e 'cat\\ncut\\ncot\\ncart' | grep 'c.t'"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'cat\\ncut\\ncot\\ncart' | grep 'c.t'"
+
+[[exercises]]
+command = "ls /etc | grep 'h..t'"
+prompt = "在 /etc 目录下查找文件名中包含 h 加两个任意字符加 t 的文件"
+difficulty = "advanced"
+type = "typing"
+answer = "ls /etc | grep 'h..t'"
+
+[[exercises]]
+command = "ls /etc | grep 'h..t'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "ls /etc | grep 'h..t'"
+
+[[exercises]]
+command = "ls /etc | grep 'h..t'"
+prompt = "键入: ls /etc | grep 'h..t'"
+difficulty = "advanced"
+type = "typing"
+answer = "ls /etc | grep 'h..t'"
+
+[[exercises]]
+command = "echo -e 'ac\\nabc\\nabbc\\nabbbc' | grep 'ab*c'"
+prompt = "星号使 b 可以出现零次或多次，因此 ac（零个 b）和 abc、abbc 等都匹配"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'ac\\nabc\\nabbc\\nabbbc' | grep 'ab*c'"
+
+[[exercises]]
+command = "echo -e 'ac\\nabc\\nabbc\\nabbbc' | grep 'ab*c'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'ac\\nabc\\nabbc\\nabbbc' | grep 'ab*c'"
+
+[[exercises]]
+command = "echo -e 'ac\\nabc\\nabbc\\nabbbc' | grep 'ab*c'"
+prompt = "键入: echo -e 'ac\\nabc\\nabbc\\nabbbc' | grep 'ab*c'"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'ac\\nabc\\nabbc\\nabbbc' | grep 'ab*c'"
+
+[[exercises]]
+command = "echo -e 'ggle\\ngogle\\ngoogle\\ngooogle' | grep 'go*gle'"
+prompt = "o 出现零次或多次都匹配，所以 ggle 到 gooogle 全部被选中"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'ggle\\ngogle\\ngoogle\\ngooogle' | grep 'go*gle'"
+
+[[exercises]]
+command = "echo -e 'ggle\\ngogle\\ngoogle\\ngooogle' | grep 'go*gle'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'ggle\\ngogle\\ngoogle\\ngooogle' | grep 'go*gle'"
+
+[[exercises]]
+command = "echo -e 'ggle\\ngogle\\ngoogle\\ngooogle' | grep 'go*gle'"
+prompt = "键入: echo -e 'ggle\\ngogle\\ngoogle\\ngooogle' | grep 'go*gle'"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'ggle\\ngogle\\ngoogle\\ngooogle' | grep 'go*gle'"
+
+[[exercises]]
+command = "grep 'error.*timeout' /var/log/syslog"
+prompt = "搜索同一行中先出现 error 后出现 timeout 的日志条目，中间可以有任意内容"
+difficulty = "advanced"
+type = "typing"
+answer = "grep 'error.*timeout' /var/log/syslog"
+
+[[exercises]]
+command = "grep 'error.*timeout' /var/log/syslog"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "grep 'error.*timeout' /var/log/syslog"
+
+[[exercises]]
+command = "grep 'error.*timeout' /var/log/syslog"
+prompt = "键入: grep 'error.*timeout' /var/log/syslog"
+difficulty = "advanced"
+type = "typing"
+answer = "grep 'error.*timeout' /var/log/syslog"
+
+[[exercises]]
+command = "echo -e 'ggle\\ngogle\\ngoogle\\ngooogle' | grep -E 'go+gle'"
+prompt = "加号要求 o 至少出现一次，所以 ggle（零个 o）不匹配，其余都匹配"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'ggle\\ngogle\\ngoogle\\ngooogle' | grep -E 'go+gle'"
+
+[[exercises]]
+command = "echo -e 'ggle\\ngogle\\ngoogle\\ngooogle' | grep -E 'go+gle'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'ggle\\ngogle\\ngoogle\\ngooogle' | grep -E 'go+gle'"
+
+[[exercises]]
+command = "echo -e 'ggle\\ngogle\\ngoogle\\ngooogle' | grep -E 'go+gle'"
+prompt = "键入: echo -e 'ggle\\ngogle\\ngoogle\\ngooogle' | grep -E 'go+gle'"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'ggle\\ngogle\\ngoogle\\ngooogle' | grep -E 'go+gle'"
+
+[[exercises]]
+command = "echo -e 'gl\\ngol\\ngool\\ngoool' | grep -E 'go+l'"
+prompt = "匹配 g 后面跟一个或多个 o 再跟 l 的模式，gl 因为没有 o 而不匹配"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'gl\\ngol\\ngool\\ngoool' | grep -E 'go+l'"
+
+[[exercises]]
+command = "echo -e 'gl\\ngol\\ngool\\ngoool' | grep -E 'go+l'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'gl\\ngol\\ngool\\ngoool' | grep -E 'go+l'"
+
+[[exercises]]
+command = "echo -e 'gl\\ngol\\ngool\\ngoool' | grep -E 'go+l'"
+prompt = "键入: echo -e 'gl\\ngol\\ngool\\ngoool' | grep -E 'go+l'"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'gl\\ngol\\ngool\\ngoool' | grep -E 'go+l'"
+
+[[exercises]]
+command = "echo -e 'abc\\na1b2c3\\n123\\nabc123' | grep -E '[0-9]+'"
+prompt = "匹配包含一个或多个连续数字的行"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'abc\\na1b2c3\\n123\\nabc123' | grep -E '[0-9]+'"
+
+[[exercises]]
+command = "echo -e 'abc\\na1b2c3\\n123\\nabc123' | grep -E '[0-9]+'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'abc\\na1b2c3\\n123\\nabc123' | grep -E '[0-9]+'"
+
+[[exercises]]
+command = "echo -e 'abc\\na1b2c3\\n123\\nabc123' | grep -E '[0-9]+'"
+prompt = "键入: echo -e 'abc\\na1b2c3\\n123\\nabc123' | grep -E '[0-9]+'"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'abc\\na1b2c3\\n123\\nabc123' | grep -E '[0-9]+'"
+
+[[exercises]]
+command = "echo -e 'color\\ncolour\\ncolouur' | grep -E 'colou?r'"
+prompt = "问号使 u 可选，color 和 colour 都匹配，但 colouur 有两个 u 所以不匹配整个模式"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'color\\ncolour\\ncolouur' | grep -E 'colou?r'"
+
+[[exercises]]
+command = "echo -e 'color\\ncolour\\ncolouur' | grep -E 'colou?r'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'color\\ncolour\\ncolouur' | grep -E 'colou?r'"
+
+[[exercises]]
+command = "echo -e 'color\\ncolour\\ncolouur' | grep -E 'colou?r'"
+prompt = "键入: echo -e 'color\\ncolour\\ncolouur' | grep -E 'colou?r'"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'color\\ncolour\\ncolouur' | grep -E 'colou?r'"
+
+[[exercises]]
+command = "echo -e 'http://example.com\\nhttps://example.com\\nhttpss://bad' | grep -E 'https?://'"
+prompt = "匹配 http:// 和 https:// 两种协议前缀，s 是可选的"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'http://example.com\\nhttps://example.com\\nhttpss://bad' | grep -E 'https?://'"
+
+[[exercises]]
+command = "echo -e 'http://example.com\\nhttps://example.com\\nhttpss://bad' | grep -E 'https?://'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'http://example.com\\nhttps://example.com\\nhttpss://bad' | grep -E 'https?://'"
+
+[[exercises]]
+command = "echo -e 'http://example.com\\nhttps://example.com\\nhttpss://bad' | grep -E 'https?://'"
+prompt = "键入: echo -e 'http://example.com\\nhttps://example.com\\nhttpss://bad' | grep -E 'https?://'"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'http://example.com\\nhttps://example.com\\nhttpss://bad' | grep -E 'https?://'"
+
+[[exercises]]
+command = "echo -e '42\\n-7\\n+10\\n3.14' | grep -E '^-?[0-9]+$'"
+prompt = "匹配可选负号后跟一个或多个数字的整数，+10 和 3.14 不匹配"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e '42\\n-7\\n+10\\n3.14' | grep -E '^-?[0-9]+$'"
+
+[[exercises]]
+command = "echo -e '42\\n-7\\n+10\\n3.14' | grep -E '^-?[0-9]+$'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e '42\\n-7\\n+10\\n3.14' | grep -E '^-?[0-9]+$'"
+
+[[exercises]]
+command = "echo -e '42\\n-7\\n+10\\n3.14' | grep -E '^-?[0-9]+$'"
+prompt = "键入: echo -e '42\\n-7\\n+10\\n3.14' | grep -E '^-?[0-9]+$'"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e '42\\n-7\\n+10\\n3.14' | grep -E '^-?[0-9]+$'"
+
+[[exercises]]
+command = "grep '^root' /etc/passwd"
+prompt = "查找 /etc/passwd 中以 root 开头的行，通常会匹配到 root 用户的条目"
+difficulty = "advanced"
+type = "typing"
+answer = "grep '^root' /etc/passwd"
+
+[[exercises]]
+command = "grep '^root' /etc/passwd"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "grep '^root' /etc/passwd"
+
+[[exercises]]
+command = "grep '^root' /etc/passwd"
+prompt = "键入: grep '^root' /etc/passwd"
+difficulty = "advanced"
+type = "typing"
+answer = "grep '^root' /etc/passwd"
+
+[[exercises]]
+command = "echo -e '# 这是注释\\nname=value\\n# 另一个注释\\nport=8080' | grep '^#'"
+prompt = "过滤出以 # 号开头的注释行"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e '# 这是注释\\nname=value\\n# 另一个注释\\nport=8080' | grep '^#'"
+
+[[exercises]]
+command = "echo -e '# 这是注释\\nname=value\\n# 另一个注释\\nport=8080' | grep '^#'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e '# 这是注释\\nname=value\\n# 另一个注释\\nport=8080' | grep '^#'"
+
+[[exercises]]
+command = "echo -e '# 这是注释\\nname=value\\n# 另一个注释\\nport=8080' | grep '^#'"
+prompt = "键入: echo -e '# 这是注释\\nname=value\\n# 另一个注释\\nport=8080' | grep '^#'"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e '# 这是注释\\nname=value\\n# 另一个注释\\nport=8080' | grep '^#'"
+
+[[exercises]]
+command = "grep -c '^$' /etc/config.conf"
+prompt = "统计配置文件中空行的数量（^$ 表示行首紧接行尾，即空行）"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -c '^$' /etc/config.conf"
+
+[[exercises]]
+command = "grep -c '^$' /etc/config.conf"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -c '^$' /etc/config.conf"
+
+[[exercises]]
+command = "grep -c '^$' /etc/config.conf"
+prompt = "键入: grep -c '^$' /etc/config.conf"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -c '^$' /etc/config.conf"
+
+[[exercises]]
+command = "grep 'bash$' /etc/passwd"
+prompt = "查找 /etc/passwd 中以 bash 结尾的行，即使用 bash 作为登录 Shell 的用户"
+difficulty = "advanced"
+type = "typing"
+answer = "grep 'bash$' /etc/passwd"
+
+[[exercises]]
+command = "grep 'bash$' /etc/passwd"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "grep 'bash$' /etc/passwd"
+
+[[exercises]]
+command = "grep 'bash$' /etc/passwd"
+prompt = "键入: grep 'bash$' /etc/passwd"
+difficulty = "advanced"
+type = "typing"
+answer = "grep 'bash$' /etc/passwd"
+
+[[exercises]]
+command = "echo -e 'readme.conf\\nsetup.conf\\nreadme.txt\\nnotes.conf.bak' | grep '\\.conf$'"
+prompt = "查找以 .conf 结尾的行；用 \\. 转义确保匹配字面量点号，$ 确保在行尾"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'readme.conf\\nsetup.conf\\nreadme.txt\\nnotes.conf.bak' | grep '\\.conf$'"
+
+[[exercises]]
+command = "echo -e 'readme.conf\\nsetup.conf\\nreadme.txt\\nnotes.conf.bak' | grep '\\.conf$'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'readme.conf\\nsetup.conf\\nreadme.txt\\nnotes.conf.bak' | grep '\\.conf$'"
+
+[[exercises]]
+command = "echo -e 'readme.conf\\nsetup.conf\\nreadme.txt\\nnotes.conf.bak' | grep '\\.conf$'"
+prompt = "键入: echo -e 'readme.conf\\nsetup.conf\\nreadme.txt\\nnotes.conf.bak' | grep '\\.conf$'"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'readme.conf\\nsetup.conf\\nreadme.txt\\nnotes.conf.bak' | grep '\\.conf$'"
+
+[[exercises]]
+command = "grep -E '^.{0,40}$' data.txt"
+prompt = "查找长度不超过 40 个字符的行（从行首到行尾最多 40 个任意字符）"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '^.{0,40}$' data.txt"
+
+[[exercises]]
+command = "grep -E '^.{0,40}$' data.txt"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '^.{0,40}$' data.txt"
+
+[[exercises]]
+command = "grep -E '^.{0,40}$' data.txt"
+prompt = "键入: grep -E '^.{0,40}$' data.txt"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '^.{0,40}$' data.txt"
+
+[[exercises]]
+command = "echo -e 'apple\\nbanana\\norange\\numbrella' | grep '[aeiou]'"
+prompt = "匹配包含至少一个元音字母的行（几乎所有英文单词都会匹配）"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'apple\\nbanana\\norange\\numbrella' | grep '[aeiou]'"
+
+[[exercises]]
+command = "echo -e 'apple\\nbanana\\norange\\numbrella' | grep '[aeiou]'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'apple\\nbanana\\norange\\numbrella' | grep '[aeiou]'"
+
+[[exercises]]
+command = "echo -e 'apple\\nbanana\\norange\\numbrella' | grep '[aeiou]'"
+prompt = "键入: echo -e 'apple\\nbanana\\norange\\numbrella' | grep '[aeiou]'"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'apple\\nbanana\\norange\\numbrella' | grep '[aeiou]'"
+
+[[exercises]]
+command = "echo -e 'abc\\na1b2\\n123\\n!@#' | grep '[0-9]'"
+prompt = "匹配包含至少一个数字的行"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'abc\\na1b2\\n123\\n!@#' | grep '[0-9]'"
+
+[[exercises]]
+command = "echo -e 'abc\\na1b2\\n123\\n!@#' | grep '[0-9]'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'abc\\na1b2\\n123\\n!@#' | grep '[0-9]'"
+
+[[exercises]]
+command = "echo -e 'abc\\na1b2\\n123\\n!@#' | grep '[0-9]'"
+prompt = "键入: echo -e 'abc\\na1b2\\n123\\n!@#' | grep '[0-9]'"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'abc\\na1b2\\n123\\n!@#' | grep '[0-9]'"
+
+[[exercises]]
+command = "echo -e 'Hello\\nhello\\nHELLO\\n123abc' | grep '[^a-z]'"
+prompt = "匹配包含至少一个非小写字母字符的行；hello 纯小写所以不匹配"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'Hello\\nhello\\nHELLO\\n123abc' | grep '[^a-z]'"
+
+[[exercises]]
+command = "echo -e 'Hello\\nhello\\nHELLO\\n123abc' | grep '[^a-z]'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'Hello\\nhello\\nHELLO\\n123abc' | grep '[^a-z]'"
+
+[[exercises]]
+command = "echo -e 'Hello\\nhello\\nHELLO\\n123abc' | grep '[^a-z]'"
+prompt = "键入: echo -e 'Hello\\nhello\\nHELLO\\n123abc' | grep '[^a-z]'"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'Hello\\nhello\\nHELLO\\n123abc' | grep '[^a-z]'"
+
+[[exercises]]
+command = "echo -e 'ab\\nabab\\nababab\\naabb' | grep -E '(ab)+'"
+prompt = "将 ab 作为一组进行重复匹配，匹配一个或多个连续的 ab 模式"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'ab\\nabab\\nababab\\naabb' | grep -E '(ab)+'"
+
+[[exercises]]
+command = "echo -e 'ab\\nabab\\nababab\\naabb' | grep -E '(ab)+'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'ab\\nabab\\nababab\\naabb' | grep -E '(ab)+'"
+
+[[exercises]]
+command = "echo -e 'ab\\nabab\\nababab\\naabb' | grep -E '(ab)+'"
+prompt = "键入: echo -e 'ab\\nabab\\nababab\\naabb' | grep -E '(ab)+'"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'ab\\nabab\\nababab\\naabb' | grep -E '(ab)+'"
+
+[[exercises]]
+command = "grep -E '(error|warning)' /var/log/syslog | head -5"
+prompt = "在系统日志中搜索包含 error 或 warning 的行，使用分组配合交替符"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '(error|warning)' /var/log/syslog | head -5"
+
+[[exercises]]
+command = "grep -E '(error|warning)' /var/log/syslog | head -5"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '(error|warning)' /var/log/syslog | head -5"
+
+[[exercises]]
+command = "grep -E '(error|warning)' /var/log/syslog | head -5"
+prompt = "键入: grep -E '(error|warning)' /var/log/syslog | head -5"
+difficulty = "advanced"
+type = "typing"
+answer = "grep -E '(error|warning)' /var/log/syslog | head -5"
+
+[[exercises]]
+command = "echo -e 'haha\\nhahaha\\nha\\nho' | grep -E '^(ha){2,}$'"
+prompt = "匹配 ha 重复两次或更多次且占满整行的字符串"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'haha\\nhahaha\\nha\\nho' | grep -E '^(ha){2,}$'"
+
+[[exercises]]
+command = "echo -e 'haha\\nhahaha\\nha\\nho' | grep -E '^(ha){2,}$'"
+prompt = "完整输入该命令"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'haha\\nhahaha\\nha\\nho' | grep -E '^(ha){2,}$'"
+
+[[exercises]]
+command = "echo -e 'haha\\nhahaha\\nha\\nho' | grep -E '^(ha){2,}$'"
+prompt = "键入: echo -e 'haha\\nhahaha\\nha\\nho' | grep -E '^(ha){2,}$'"
+difficulty = "advanced"
+type = "typing"
+answer = "echo -e 'haha\\nhahaha\\nha\\nho' | grep -E '^(ha){2,}$'"
+

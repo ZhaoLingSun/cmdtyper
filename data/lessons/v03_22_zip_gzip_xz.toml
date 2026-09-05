@@ -1,0 +1,133 @@
+[meta]
+command = "zip-gzip-xz"
+full_name = "ZIP、gzip 与 xz 的选择和文件生命周期"
+category = "archive"
+difficulty = "basic"
+importance = "common"
+
+[overview]
+summary = "区分多文件 ZIP 与单文件压缩，并明确原文件是否保留"
+explanation = """ZIP、gzip 和 xz 的文件模型不同。zip 自身能够把多个文件和目录收入一个压缩包，目录要配合 -r 递归；如果目标 ZIP 已存在，zip 往往更新其中条目，并保留没有被本次点名的旧成员，因此创建“全新包”前应确认目标不存在。gzip 与 xz 通常处理单个输入文件，默认成功后以 .gz 或 .xz 文件替换原文件；需要同时保留原件时，gzip 可使用 -k。gunzip 与 unxz 执行相反转换，也通常在成功后移除压缩文件。zcat 则把 gzip 内容发送到标准输出，不创建还原文件，适合先读少量文本。选择工具时要先回答三个问题：是否需要把多个路径打成一个包、压缩率与兼容性哪个更重要、转换后是否必须保留原文件。明确生命周期后再操作，才能避免把压缩误当复制或备份。"""
+
+[syntax]
+basic = "zip [选项] 压缩包 文件...；gzip|gunzip|zcat|xz|unxz [选项] 文件"
+
+[[syntax.parts]]
+name = "工具"
+desc = "zip 管理多成员 ZIP；gzip/xz 压缩单文件；gunzip/unxz 还原；zcat 只向标准输出解码"
+
+[[syntax.parts]]
+name = "选项"
+desc = "zip -r 递归目录，gzip -k 保留输入；省略保留选项时要理解默认替换行为"
+
+[[syntax.parts]]
+name = "目标与输入"
+desc = "ZIP 先写包名再列成员；单文件压缩工具直接接输入文件，并据此生成或还原扩展名"
+
+[[options]]
+flag = "zip -r"
+name = "递归压缩目录"
+example = "zip -r source-code.zip src"
+note = "目标 ZIP 已存在时会更新而非自动重建干净内容，创建前应核对"
+
+[[options]]
+flag = "zip"
+name = "压缩多个指定文件"
+example = "zip documents.zip report.pdf notes.txt"
+note = "不需要 -r 时只加入明确点名的文件；仍应检查目标包是否已存在"
+
+[[options]]
+flag = "gzip"
+name = "压缩单个文件"
+example = "gzip server.log"
+note = "默认成功后移除原文件并留下 .gz，不等同于保留一份副本"
+
+[[options]]
+flag = "gzip -k"
+name = "压缩并保留输入"
+example = "gzip -k audit.log"
+note = "适合需要同时保留原始日志的场景，但要预留两份文件所需空间"
+
+[[options]]
+flag = "gunzip"
+name = "还原 gzip 文件"
+example = "gunzip database.sql.gz"
+note = "默认生成去掉 .gz 的文件并移除压缩输入；先检查同名目标"
+
+[[options]]
+flag = "zcat"
+name = "把 gzip 文本输出到终端"
+example = "zcat service.log.gz"
+note = "不创建还原文件；大型或二进制内容不适合直接刷到终端"
+
+[[options]]
+flag = "xz"
+name = "以较高压缩率压缩单文件"
+example = "xz disk.img"
+note = "通常更耗时间和内存，默认也会以 .xz 替换原文件"
+
+[[options]]
+flag = "unxz"
+name = "还原 xz 文件"
+example = "unxz disk.img.xz"
+note = "默认移除压缩输入并生成原名文件，操作前确认空间和名称冲突"
+
+[[examples]]
+id = "v03-22-zip-gzip-xz-01"
+command_id = "zip-documents"
+level = 1
+output_explanation = "adding 行确认两个指定文件被写入 ZIP；若压缩包原本存在，还需列表检查是否残留旧成员。"
+
+[[examples]]
+id = "v03-22-zip-gzip-xz-02"
+command_id = "zip-r-src"
+level = 1
+output_explanation = "递归模式包含 src 目录及其子项，百分比描述各条目的压缩方式，不代表整个项目已经完整备份。"
+
+[[examples]]
+id = "v03-22-zip-gzip-xz-03"
+command_id = "gzip-keep-audit-log"
+level = 2
+output_explanation = "安静完成后应同时存在原文件与 .gz；保留原件提高可逆性，也会暂时占用更多磁盘。"
+
+[[examples]]
+id = "v03-22-zip-gzip-xz-04"
+command_id = "zcat-service-log"
+level = 2
+output_explanation = "文本被解码到标准输出，压缩文件保持不变；这适合快速查看而不是编辑或永久还原。"
+
+[[examples]]
+id = "v03-22-zip-gzip-xz-05"
+command_id = "gzip-server-log"
+level = 3
+output_explanation = "默认转换通常不显示结果，并以 server.log.gz 替换原日志；执行前要确认没有进程仍需写入原路径。"
+
+[[examples]]
+id = "v03-22-zip-gzip-xz-06"
+command_id = "gunzip-database-sql"
+level = 3
+output_explanation = "还原会生成 database.sql 并默认移除 .gz；应事先检查未压缩体积和同名文件冲突。"
+
+[[examples]]
+id = "v03-22-zip-gzip-xz-07"
+command_id = "xz-disk-image"
+level = 3
+output_explanation = "磁盘镜像通常很大，xz 过程可能耗时且需要额外工作空间；默认完成后只保留 .xz。"
+
+[[examples]]
+id = "v03-22-zip-gzip-xz-08"
+command_id = "unxz-disk-image"
+level = 3
+output_explanation = "还原前应确认 disk.img 不会覆盖现有文件且磁盘容量足够，完成后压缩输入通常被移除。"
+
+[[gotchas]]
+title = "单文件压缩默认可能删除输入文件"
+content = """gzip 和 xz 的常见默认行为是成功后用压缩结果替换输入，gunzip 和 unxz 也会用还原结果替换压缩输入。需要两份时要明确使用保留方式或先准备备份，并检查磁盘空间。不要在日志仍被服务写入、镜像仍在挂载使用或数据库导出尚未验证时直接转换唯一文件。"""
+
+[[gotchas]]
+title = "已有 ZIP 会被更新，不一定被重建"
+content = """对同名 ZIP 再次运行 zip，通常会添加或更新点名条目，但不会自动删除本次未出现的旧成员。这样可能把过期文件或敏感内容留在发布包中。要制作全新交付物，应使用新的目标名或在明确确认后移走旧包，完成后再列出成员核对。"""
+
+[[gotchas]]
+title = "压缩不是备份，解压也需要容量与冲突检查"
+content = """只保留一个压缩文件仍是单点故障，不能替代异地副本、校验和和恢复演练。还原大文件时，未压缩体积可能远超压缩包大小；先查看统计和可用空间，并确认目标文件名不存在。zcat 适合小型文本预览，大型内容应配合受控的分页或后续处理流程，避免终端被大量输出淹没。"""

@@ -92,33 +92,34 @@ impl TokenKind {
 
     /// 推断 token 文本的类型（启发式）
     pub fn infer(text: &str) -> Self {
-        let t = text.trim_matches(|c| c == '\'' || c == '"');
+        let lexical = text.trim();
+        let unquoted = lexical.trim_matches(|c| c == '\'' || c == '"');
         // 操作符
-        if text == "|" {
+        if lexical == "|" {
             return Self::Pipe;
         }
-        if matches!(text, "||" | "&&" | ";" | "&") {
+        if matches!(lexical, "||" | "&&" | ";" | "&") {
             return Self::Operator;
         }
-        if matches!(text, ">" | ">>" | "<" | "<<" | "2>" | "2>&1") {
+        if matches!(lexical, ">" | ">>" | "<" | "<<" | "2>" | "2>&1") {
             return Self::Redirection;
         }
-        if text == "{}" {
+        if lexical == "{}" {
             return Self::Placeholder;
         }
         // 变量/替换
-        if text.starts_with("$(") || text.contains("$(") {
+        if lexical.starts_with("$(") || lexical.contains("$(") {
             return Self::Substitution;
         }
-        if text.starts_with('$') {
+        if lexical.starts_with('$') {
             return Self::Variable;
         }
         // 长选项
-        if text.starts_with("--") {
+        if lexical.starts_with("--") {
             return Self::LongOption;
         }
         // 短选项束/单选项
-        if let Some(rest) = text.strip_prefix('-') {
+        if let Some(rest) = lexical.strip_prefix('-') {
             if rest.len() > 1 && rest.chars().all(|c| c.is_ascii_alphabetic()) {
                 return Self::ShortOptionBundle;
             }
@@ -127,38 +128,42 @@ impl TokenKind {
             }
         }
         // 权限模式
-        if text.len() == 3 && text.chars().all(|c| c.is_ascii_digit()) {
-            let v: u32 = text.parse().unwrap_or(0);
+        if lexical.len() == 3 && lexical.chars().all(|c| c.is_ascii_digit()) {
+            let v: u32 = lexical.parse().unwrap_or(0);
             if v <= 777 {
                 return Self::PermissionMode;
             }
         }
         // 路径
-        if text.starts_with('/') || text.starts_with("./") || text.starts_with("../")
-            || text == "." || text == ".." || text == "~"
+        if lexical.starts_with('/')
+            || lexical.starts_with("./")
+            || lexical.starts_with("../")
+            || lexical.starts_with("~/")
+            || lexical == "."
+            || lexical == ".."
+            || lexical == "~"
         {
-            if text.ends_with('/') {
+            if lexical.ends_with('/') {
                 return Self::Directory;
             }
-            if t.contains('.') {
+            if unquoted.contains('.') {
                 return Self::Filename;
             }
             return Self::Path;
         }
         // URL
-        if text.starts_with("http://") || text.starts_with("https://") {
+        if lexical.starts_with("http://") || lexical.starts_with("https://") {
             return Self::Url;
         }
         // 引号表达式
-        if (text.starts_with('\'') && text.ends_with('\''))
-            || (text.starts_with('"') && text.ends_with('"'))
+        if (lexical.starts_with('\'') && lexical.ends_with('\''))
+            || (lexical.starts_with('"') && lexical.ends_with('"'))
         {
             return Self::QuotedExpr;
         }
         Self::Other
     }
 }
-
 
 // ─────────────────────────────────────────────────────────────
 // 3.1 基础枚举
@@ -317,6 +322,8 @@ pub enum RecordMode {
     ReviewTyping,
     #[serde(alias = "review_dictation")]
     ReviewDictation,
+    #[serde(alias = "review_cloze")]
+    ReviewCloze,
 }
 
 /// 重要程度
@@ -365,12 +372,44 @@ pub struct CommandFile {
     pub commands: Vec<Command>,
 }
 
+/// 单个题库文件可选的专题元数据 — 对应 [meta.topic]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct CommandTopicMeta {
+    pub id: String,
+    pub title: String,
+    #[serde(default)]
+    pub icon: Option<String>,
+    pub order: u16,
+}
+
+/// 命令专题训练元数据与运行时命令映射
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CommandTrainingTopic {
+    pub id: String,
+    pub title: String,
+    pub icon: Option<String>,
+    pub order: u16,
+    pub description: String,
+    pub category: Category,
+    pub difficulty: Difficulty,
+    pub command_ids: Vec<String>,
+}
+
+/// 扁平命令题库及按 order 排序的专题训练记录
+#[derive(Debug, Clone, Default)]
+pub struct CommandCatalog {
+    pub commands: Vec<Command>,
+    pub topics: Vec<CommandTrainingTopic>,
+}
+
 /// 题库文件元信息
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CommandFileMeta {
     pub category: Category,
     pub difficulty: Difficulty,
     pub description: String,
+    #[serde(default)]
+    pub topic: Option<CommandTopicMeta>,
 }
 
 /// 单条命令（题库原子单位）
@@ -432,7 +471,7 @@ pub struct DictationData {
 }
 
 /// 模拟输出注释
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct OutputAnnotation {
     pub pattern: String,
     pub note: String,
@@ -453,6 +492,35 @@ pub struct CommandLesson {
     pub examples: Vec<LessonExample>,
     #[serde(default)]
     pub gotchas: Vec<Gotcha>,
+}
+
+/// Return the persisted progress key for one published lesson example.
+///
+/// Canonical command references share the command's global identity. New inline
+/// examples with stable IDs use a lesson-local namespace. Legacy ID-less inline
+/// examples retain the historical lesson command key for progress compatibility.
+pub fn lesson_example_progress_key(lesson: &CommandLesson, example_index: usize) -> String {
+    let Some(example) = lesson.examples.get(example_index) else {
+        return lesson.meta.command.clone();
+    };
+
+    if let Some(command_id) = example
+        .command_id
+        .as_deref()
+        .filter(|command_id| !command_id.trim().is_empty())
+    {
+        return command_id.to_string();
+    }
+
+    if let Some(example_id) = example
+        .id
+        .as_deref()
+        .filter(|example_id| !example_id.trim().is_empty())
+    {
+        return format!("lesson:{}:{}", lesson.meta.command, example_id);
+    }
+
+    lesson.meta.command.clone()
 }
 
 /// 讲解元信息
@@ -501,7 +569,7 @@ pub struct OptionInfo {
 }
 
 /// 讲解示例中的词元详解
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ExampleTokenDetail {
     pub token: String,
     pub explanation: String,
@@ -520,8 +588,15 @@ impl ExampleTokenDetail {
 /// 讲解示例
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct LessonExample {
+    #[serde(default)]
+    pub id: Option<String>,
+    #[serde(default)]
+    pub command_id: Option<String>,
+    #[serde(default)]
     pub level: u8,
+    #[serde(default)]
     pub command: String,
+    #[serde(default)]
     pub summary: String,
     #[serde(default)]
     pub display: Option<String>,
@@ -582,7 +657,13 @@ pub struct SymbolEntry {
 /// 符号示例
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SymbolExample {
+    #[serde(default)]
+    pub id: Option<String>,
+    #[serde(default)]
+    pub command_id: Option<String>,
+    #[serde(default)]
     pub command: String,
+    #[serde(default)]
     pub explanation: String,
     #[serde(default)]
     pub display: Option<String>,
@@ -603,7 +684,13 @@ pub enum ExerciseKind {
 /// 练习题
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Exercise {
+    #[serde(default)]
+    pub id: Option<String>,
+    #[serde(default)]
+    pub command_id: Option<String>,
+    #[serde(default)]
     pub prompt: String,
+    #[serde(default)]
     pub answers: Vec<String>,
     #[serde(default)]
     pub kind: Option<ExerciseKind>,
@@ -652,7 +739,13 @@ pub struct SystemSection {
 /// 系统命令（含模拟输出）
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SystemCommand {
+    #[serde(default)]
+    pub id: Option<String>,
+    #[serde(default)]
+    pub command_id: Option<String>,
+    #[serde(default)]
     pub command: String,
+    #[serde(default)]
     pub summary: String,
     #[serde(default)]
     pub simulated_output: Option<String>,
@@ -874,6 +967,26 @@ fn default_true() -> bool {
     true
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "lowercase")]
+pub enum TopicTrainingLevel {
+    #[default]
+    L1,
+    L3,
+    L5,
+}
+
+impl TopicTrainingLevel {
+    pub const ALL: [Self; 3] = [Self::L1, Self::L3, Self::L5];
+
+    pub fn label(self) -> &'static str {
+        match self {
+            Self::L1 => "L1 完整输入",
+            Self::L3 => "L3 单词填空",
+            Self::L5 => "L5 命令默写",
+        }
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
 pub struct ResumeState {
@@ -886,6 +999,20 @@ pub struct ResumeState {
     pub section_index: usize,
     #[serde(default)]
     pub overview_scroll: usize,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub lesson_command: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub symbol_topic_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub symbol_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub system_topic_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub system_section_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub review_topic_id: Option<String>,
+    #[serde(default)]
+    pub topic_training_level: TopicTrainingLevel,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
@@ -894,6 +1021,7 @@ pub enum ResumeScreen {
     #[default]
     Home,
     ReviewTopics,
+    ReviewSummary,
     LearnHub,
     CommandTopics,
     CommandLessonOverview,

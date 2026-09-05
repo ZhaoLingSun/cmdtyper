@@ -1,0 +1,112 @@
+[meta]
+command = "permissions-ownership"
+full_name = "Least-privilege modes, umask, and path access"
+category = "permission"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "按对象类型、主体范围与实际用途设置最小权限"
+explanation = """Linux 传统权限把访问者分为所有者、所属组和其他用户，并为每类主体分别表达读、写、执行。数字模式适合已明确最终状态的场景：755 常用于需要所有人读取和进入的目录或公开可执行脚本，644 常用于普通可读文件；符号模式则适合只增减某一位，避免覆盖未知的现有权限。目录的 x 表示穿越与访问目录项，不是“执行目录”；大写 X 只对目录或原本已有执行位的文件增加执行权限，适合递归收紧。`umask` 只影响当前 shell 及其子进程以后创建的对象，不会修复已有文件。权限排障应从 `namei -l` 逐层检查路径开始，因为任意父目录缺少穿越权限都会导致最终文件不可达。本课坚持最小权限：不把 777 当作通用修复，不递归给普通文件增加执行位，也不通过长期 root shell 绕过归属和访问设计。"""
+
+[syntax]
+basic = "chmod [选项] 模式 路径；umask 掩码；namei -l 路径"
+[[syntax.parts]]
+name = "模式"
+desc = "八进制位描述最终权限，符号模式描述对 u/g/o/a 的增删设定；先明确文件与目录需求"
+[[syntax.parts]]
+name = "递归范围"
+desc = "-R 会影响整棵树，必须确认起点、隐藏项、挂载边界与对象类型；大写 X 可减少误加执行位"
+[[syntax.parts]]
+name = "创建掩码"
+desc = "umask 从程序请求的基础权限中屏蔽位，文件通常不以执行位为基础，目录通常允许 x"
+[[syntax.parts]]
+name = "路径链"
+desc = "namei -l 展示从根到目标的每一级权限、所有者和组，适合只读定位访问阻塞点"
+
+[[options]]
+flag = "755"
+name = "公开读取与执行"
+example = "chmod 755 training_lab/bin/start.sh"
+note = "所有者 rwx，组和其他用户 r-x；只有确实需要执行或目录穿越时才给 x"
+
+[[options]]
+flag = "644"
+name = "普通可读文件"
+example = "chmod 644 training_lab/notes.txt"
+note = "所有者 rw-，组和其他用户 r--；配置含敏感信息时应进一步收紧"
+
+[[options]]
+flag = "u+x"
+name = "仅增加所有者执行位"
+example = "chmod u+x training_lab/bin/backup.sh"
+note = "保留其他现有位，比不加区分地覆盖成 755 更精确"
+
+[[options]]
+flag = "-R u+rwX,go-rwx"
+name = "递归保护私有树"
+example = "chmod -R u+rwX,go-rwx training_lab/private"
+note = "大写 X 避免把原本不可执行的普通文件统一变成程序；递归前仍须先列出范围"
+
+[[options]]
+flag = "770"
+name = "受控组共享"
+example = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && mkdir \"$practice_dir/training-share\" && chmod 770 \"$practice_dir/training-share\")"
+note = "先在唯一 0700 私有练习目录内创建对象，再给子目录设置 770；避免固定 /tmp 名称和 777"
+
+[[options]]
+flag = "027"
+name = "收紧新对象默认权限"
+example = "umask 027"
+note = "新文件通常得到 640、新目录通常得到 750；仅影响当前 shell 后续创建"
+
+[[examples]]
+id = "v03-l32-perm-script-755"
+command_id = "chmod-training-755"
+level = 1
+
+[[examples]]
+id = "v03-l32-perm-file-644"
+command_id = "chmod-training-644"
+level = 1
+
+[[examples]]
+id = "v03-l32-perm-owner-exec"
+command_id = "chmod-training-user-exec"
+level = 2
+
+[[examples]]
+id = "v03-l32-perm-recursive-safe"
+command_id = "chmod-training-recursive-safe"
+level = 3
+
+[[examples]]
+id = "v03-l32-perm-no-777"
+command_id = "chmod-777-risk-training"
+level = 2
+
+[[examples]]
+id = "v03-l32-perm-umask"
+command_id = "umask-training-027"
+level = 2
+
+[[examples]]
+id = "v03-l32-perm-path-chain"
+command_id = "ownership-path-permissions-audit"
+level = 3
+
+[[gotchas]]
+title = "777 不是权限故障的诊断步骤"
+content = """777 同时把写权限交给所有用户，常把真实的所有者、组、父目录穿越权限或服务身份问题掩盖成安全漏洞。先用 `namei -l`、`stat`、`id` 只读确认哪一层、哪一类主体缺少哪一位，再做最小变更。共享目录通常应使用明确组、770/2770 等经过设计的模式，而不是全员可写。"""
+
+[[gotchas]]
+title = "递归 chmod 必须区分文件与目录"
+content = """目录需要 x 才能进入，普通数据文件通常不需要 x。`chmod -R 644 目录` 会让目录不可穿越，`chmod -R 755 目录` 又会让所有普通文件看似可执行。符号模式中的大写 X 能降低误操作，但仍应先只读列出树、确认边界并在变更后复核。"""
+
+[[gotchas]]
+title = "umask 不是已有权限的减法工具"
+content = """umask 只参与后续创建，不回溯修改既有对象；其效果还取决于创建程序请求的基础模式。不要看到 027 就机械地把每个对象理解成同一最终权限：普通文件通常从 666 屏蔽，目录通常从 777 屏蔽。"""
+
+[[gotchas]]
+title = "不要用 root shell 绕开权限设计"
+content = """持续的 root shell 会扩大误操作范围，也使审计难以回答“哪一条命令需要特权”。需要管理员权限时应先核对规则和对象，再只对必要的单条命令使用授权；本课示例只在教学路径上表达权限模型，不鼓励更改真实服务树。"""

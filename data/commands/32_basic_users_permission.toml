@@ -1,0 +1,377 @@
+[meta]
+category = "permission"
+difficulty = "basic"
+description = "最小权限设置与账户只读审计"
+
+[meta.topic]
+id = "users_permission"
+title = "用户、组与最小权限"
+icon = "🔐"
+order = 13
+
+[[commands]]
+id = "chmod-training-755"
+command = "chmod 755 training_lab/bin/start.sh"
+summary = "让启动脚本仅所有者可写，所有用户可执行"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "chmod"
+desc = "修改文件或目录的访问权限"
+
+[[commands.tokens]]
+text = " 755"
+desc = "所有者可读写执行，组和其他用户可读执行"
+
+[[commands.tokens]]
+text = " training_lab/bin/start.sh"
+desc = "要设置权限的教学脚本"
+
+[commands.dictation]
+prompt = "把 training_lab/bin/start.sh 设置为所有者可读写执行、其他人可读执行"
+answers = ["chmod 755 training_lab/bin/start.sh"]
+
+[[commands]]
+id = "chmod-training-644"
+command = "chmod 644 training_lab/notes.txt"
+summary = "让笔记仅所有者可写，所有用户可读"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "chmod"
+desc = "修改文件或目录的访问权限"
+
+[[commands.tokens]]
+text = " 644"
+desc = "所有者可读写，组和其他用户只读"
+
+[[commands.tokens]]
+text = " training_lab/notes.txt"
+desc = "要设置权限的教学文件"
+
+[commands.dictation]
+prompt = "把 training_lab/notes.txt 设置为仅所有者可写、所有用户可读"
+answers = ["chmod 644 training_lab/notes.txt"]
+
+[[commands]]
+id = "chmod-training-user-exec"
+command = "chmod u+x training_lab/bin/backup.sh"
+summary = "只给脚本所有者增加执行权限"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "chmod"
+desc = "修改文件或目录的访问权限"
+
+[[commands.tokens]]
+text = " u+x"
+desc = "u 表示所有者，+x 表示在原权限上增加执行权限"
+
+[[commands.tokens]]
+text = " training_lab/bin/backup.sh"
+desc = "要增加执行权限的教学脚本"
+
+[commands.dictation]
+prompt = "只给 training_lab/bin/backup.sh 的所有者增加执行权限"
+answers = ["chmod u+x training_lab/bin/backup.sh"]
+
+[[commands]]
+id = "chmod-training-recursive-safe"
+command = "chmod -R u+rwX,go-rwx training_lab/private"
+summary = "递归收紧私有目录，并避免普通文件误加执行位"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "chmod"
+desc = "修改文件或目录的访问权限"
+
+[[commands.tokens]]
+text = " -R"
+desc = "递归修改目录及其全部后代，使用前应确认范围"
+
+[[commands.tokens]]
+text = " u+rwX,go-rwx"
+desc = "所有者增加读写和条件执行权限，同时移除组与其他用户的全部权限"
+
+[[commands.tokens]]
+text = " training_lab/private"
+desc = "要递归收紧权限的教学目录；大写 X 不会随意让普通文件可执行"
+
+[commands.dictation]
+prompt = "递归保护 training_lab/private：所有者可读写并可进入目录，组和其他用户无权限，且不把普通文件一律变为可执行"
+answers = ["chmod -R u+rwX,go-rwx training_lab/private"]
+
+[[commands]]
+id = "chmod-777-risk-training"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && mkdir \"$practice_dir/training-share\" && chmod 770 \"$practice_dir/training-share\")"
+summary = "在唯一私有练习区演示受控组共享模式"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && mkdir \"$practice_dir/training-share\" && chmod 770 \"$practice_dir/training-share\""
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建当前用户拥有的唯一 0700 练习目录，在其中创建 training-share 并设为 770；父目录保持私有，避免固定 /tmp 名称碰撞"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && mkdir \"$practice_dir/training-share\" && chmod 770 \"$practice_dir/training-share\")"]
+
+[[commands]]
+id = "ownership-notes-audit"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir ownership && printf 'notes\\n' > ownership/notes.txt && stat -c '%U:%G %n' ownership/notes.txt)"
+summary = "在私有夹具中只读核对文件所有者和组"
+simulated_output = "ace:ace ownership/notes.txt"
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && mkdir ownership && printf 'notes\\n' > ownership/notes.txt && stat -c '%U:%G %n' ownership/notes.txt"
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录和 ownership/notes.txt，再只读显示其所有者、所属组和相对路径"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir ownership && printf 'notes\\n' > ownership/notes.txt && stat -c '%U:%G %n' ownership/notes.txt)"]
+
+[[commands]]
+id = "ownership-project-tree-audit"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir -p ownership/project/config && printf 'MODE=demo\\n' > ownership/project/.env && printf 'port=8080\\n' > ownership/project/config/app.conf && find ownership/project -maxdepth 2 -printf '%M %u:%g %p\\n' | sort)"
+summary = "在私有夹具中预览递归范围、隐藏项和归属"
+simulated_output = "-rw------- ace:ace ownership/project/.env\n-rw------- ace:ace ownership/project/config/app.conf\ndrwx------ ace:ace ownership/project\ndrwx------ ace:ace ownership/project/config"
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && mkdir -p ownership/project/config && printf 'MODE=demo\\n' > ownership/project/.env && printf 'port=8080\\n' > ownership/project/config/app.conf && find ownership/project -maxdepth 2 -printf '%M %u:%g %p\\n' | sort"
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录和小型 project 树，再只读列出两层内的权限、所有者、组、隐藏项和路径"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir -p ownership/project/config && printf 'MODE=demo\\n' > ownership/project/.env && printf 'port=8080\\n' > ownership/project/config/app.conf && find ownership/project -maxdepth 2 -printf '%M %u:%g %p\\n' | sort)"]
+
+[[commands]]
+id = "umask-training-027"
+command = "umask 027"
+summary = "收紧当前 shell 后续新建对象的默认权限"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "umask"
+desc = "设置当前 shell 的文件创建权限掩码，不会修改已有文件"
+
+[[commands.tokens]]
+text = " 027"
+desc = "屏蔽组写权限和其他用户全部权限；新文件通常为 640，新目录通常为 750"
+
+[commands.dictation]
+prompt = "让当前 shell 以后新建的文件通常为 640、目录通常为 750"
+answers = ["umask 027"]
+
+[[commands]]
+id = "getent-training-account"
+command = "getent passwd training"
+summary = "只读确认 training 账号是否存在及其登录信息"
+simulated_output = "training:x:1001:1001:Training Account:/home/training:/bin/bash"
+
+[[commands.tokens]]
+text = "getent"
+desc = "通过系统名称服务读取账户数据库，不创建或修改账号"
+
+[[commands.tokens]]
+text = " passwd"
+desc = "查询 passwd 账户记录；结果不包含密码明文"
+
+[[commands.tokens]]
+text = " training"
+desc = "要审计的现有练习账号"
+
+[commands.dictation]
+prompt = "不创建账号，只读确认 training 是否存在，并查看它的 UID、GID、家目录和登录 shell 记录"
+answers = ["getent passwd training"]
+
+[[commands]]
+id = "getent-sudo-group"
+command = "getent group sudo"
+summary = "只读查看 sudo 组记录和显式成员"
+simulated_output = "sudo:x:27:admin"
+
+[[commands.tokens]]
+text = "getent"
+desc = "通过系统名称服务读取数据库，本题不改变组成员"
+
+[[commands.tokens]]
+text = " group"
+desc = "查询组数据库"
+
+[[commands.tokens]]
+text = " sudo"
+desc = "Debian/Ubuntu 常见的管理员组；标准策略下成员通常可执行任意 root 命令，因此这里只审计而不授予"
+
+[commands.dictation]
+prompt = "不改变任何账户权限，只读查看 sudo 组记录及其显式成员"
+answers = ["getent group sudo"]
+
+[[commands]]
+id = "passwd-training-status-audit"
+command = "sudo passwd -S training"
+summary = "经已有授权只读检查 training 的密码状态"
+simulated_output = "training L 2026-07-20 0 99999 7 -1"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "按现有 sudo 策略执行一次只读查询，不开启 root shell"
+
+[[commands.tokens]]
+text = " passwd"
+desc = "查询或管理账号密码；本题带 -S 只显示状态"
+
+[[commands.tokens]]
+text = " -S"
+desc = "只读显示密码是否锁定及相关日期字段，不设置或重置密码"
+
+[[commands.tokens]]
+text = " training"
+desc = "要审计密码状态的现有练习账号"
+
+[commands.dictation]
+prompt = "不设置或重置密码，经已有管理员授权只读查看 training 的密码锁定状态"
+answers = ["sudo passwd -S training"]
+
+[[commands]]
+id = "sudo-training-rules-audit"
+command = "sudo -l -U training"
+summary = "只读核对 training 当前获准使用的 sudo 规则"
+simulated_output = """User training is not allowed to run sudo on lab."""
+
+[[commands.tokens]]
+text = "sudo"
+desc = "按当前账号已有的管理员授权执行一次策略查询"
+
+[[commands.tokens]]
+text = " -l"
+desc = "列出 sudo 策略允许的命令，不授予新权限"
+
+[[commands.tokens]]
+text = " -U"
+desc = "指定要审计的用户；查询其他用户通常需要管理员授权"
+
+[[commands.tokens]]
+text = " training"
+desc = "要核对现有 sudo 规则的练习账号"
+
+[commands.dictation]
+prompt = "不授予权限，经已有管理员授权只读核对 training 当前能使用哪些 sudo 规则"
+answers = ["sudo -l -U training"]
+
+[[commands]]
+id = "groups-training-account"
+command = "groups training"
+summary = "查看教学账号所属的全部用户组"
+simulated_output = "training : training developers"
+
+[[commands.tokens]]
+text = "groups"
+desc = "显示指定用户的组成员资格"
+
+[[commands.tokens]]
+text = " training"
+desc = "要查询的教学账号；查询本身不需要管理员权限"
+
+[commands.dictation]
+prompt = "列出 training 教学账号所属的全部用户组"
+answers = ["groups training"]
+
+[[commands]]
+id = "id-training-account"
+command = "id training"
+summary = "查看教学账号的 UID、GID 和组成员资格"
+simulated_output = "uid=1001(training) gid=1001(training) groups=1001(training),1002(developers)"
+
+[[commands.tokens]]
+text = "id"
+desc = "显示指定用户的身份编号和组信息"
+
+[[commands.tokens]]
+text = " training"
+desc = "要查询的教学账号；查询本身不需要管理员权限"
+
+[commands.dictation]
+prompt = "查看 training 教学账号的 UID、主 GID 和全部组信息"
+answers = ["id training"]
+
+[[commands]]
+id = "ownership-path-permissions-audit"
+command = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir ownership && printf 'notes\\n' > ownership/notes.txt && namei -l ownership/notes.txt)"
+summary = "在私有夹具中逐层检查相对路径权限"
+simulated_output = "f: ownership/notes.txt\ndrwx------ ace ace ownership\n-rw------- ace ace notes.txt"
+
+[[commands.tokens]]
+text = "(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\""
+desc = "在子 shell 中收紧创建权限，用 mktemp -d 原子建立当前用户拥有的唯一 0700 练习目录，并再次明确权限"
+
+[[commands.tokens]]
+text = " && cd \"$practice_dir\" && mkdir ownership && printf 'notes\\n' > ownership/notes.txt && namei -l ownership/notes.txt"
+desc = "在刚创建且不与其他练习共享的目录中准备夹具并完成本题动作"
+
+[[commands.tokens]]
+text = ")"
+desc = "结束子 shell，避免 umask 和变量影响后续命令"
+[commands.dictation]
+prompt = "新建唯一 0700 练习目录和 ownership/notes.txt，再用 namei -l 只读逐层检查相对路径权限、所有者和组"
+answers = ["(umask 077; practice_dir=$(mktemp -d) && chmod 700 \"$practice_dir\" && cd \"$practice_dir\" && mkdir ownership && printf 'notes\\n' > ownership/notes.txt && namei -l ownership/notes.txt)"]
+
+[[commands]]
+id = "getent-training-group"
+command = "getent group training"
+summary = "只读查看 training 主组的数据库记录"
+simulated_output = "training:x:1001:"
+
+[[commands.tokens]]
+text = "getent"
+desc = "通过系统名称服务读取数据库，不切换用户或开启登录 shell"
+
+[[commands.tokens]]
+text = " group"
+desc = "查询组数据库"
+
+[[commands.tokens]]
+text = " training"
+desc = "要查询的练习组名；组记录的成员字段不重复列出以此为主组的用户"
+
+[commands.dictation]
+prompt = "不切换用户，只读查看 training 组的名称、GID 和显式成员记录"
+answers = ["getent group training"]
+
+[[commands]]
+id = "sudo-current-rules-audit"
+command = "sudo -l"
+summary = "只读查看当前账号获准执行的管理员命令"
+simulated_output = """User chen may run the following commands on lab:
+    (root) /usr/bin/systemctl status *"""
+
+[[commands.tokens]]
+text = "sudo"
+desc = "依据当前账号已有的 sudo 策略进行查询，不授予新权限"
+
+[[commands.tokens]]
+text = " -l"
+desc = "列出当前账号获准执行的命令，不开启持续的 root shell；需要提权时优先只给单条命令加 sudo"
+
+[commands.dictation]
+prompt = "不进入 root shell，只读查看当前账号被 sudo 策略允许执行哪些管理员命令"
+answers = ["sudo -l"]

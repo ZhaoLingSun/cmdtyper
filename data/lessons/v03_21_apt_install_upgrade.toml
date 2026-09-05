@@ -1,0 +1,109 @@
+[meta]
+command = "apt-install-upgrade"
+full_name = "APT 安装、升级与可逆卸载"
+category = "system"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "在确认来源与变更清单后安装、升级、验证或卸载"
+explanation = """APT 的价值不仅是下载软件，还在于统一计算依赖、维护包数据库并在执行前展示变更方案。安装单个包时，应先完成索引刷新和详情核对，再阅读 NEW、upgraded、removed、下载量和磁盘变化；升级现有软件同样需要先检查服务影响，而不是见到提示就确认。本地 deb 也可交给 apt 处理依赖，但 ./ 只说明参数是本地路径，并不能证明文件可信，来源和校验值仍需人工验证。安装后用精确包名查询已安装状态，形成“计划—执行—验证”的闭环。--reinstall 适合恢复由包提供的普通文件，却不保证覆盖所有配置。卸载时 remove 通常保留受 dpkg 管理的配置，比 purge 更容易回退；选择动作前应明确是暂时停用、重新部署还是彻底清除。"""
+
+[syntax]
+basic = "sudo apt 动作 [选项] 软件包或本地 deb"
+
+[[syntax.parts]]
+name = "动作"
+desc = "upgrade 更新现有包，install 安装或重装，remove 卸载包文件"
+
+[[syntax.parts]]
+name = "选项"
+desc = "例如 --reinstall 要求即使版本未变也重新下载并解包"
+
+[[syntax.parts]]
+name = "目标"
+desc = "仓库中的准确软件包名，或以 ./、../、绝对路径明确表示的可信本地 deb"
+
+[[options]]
+flag = "upgrade"
+name = "升级可安全处理的现有包"
+example = "sudo apt upgrade"
+note = "确认前阅读升级、保留、新装和移除清单，并评估服务重启影响"
+
+[[options]]
+flag = "install"
+name = "安装指定软件包"
+example = "sudo apt install ripgrep"
+note = "APT 会解析依赖；仍需核对包名、来源、下载量和新增磁盘占用"
+
+[[options]]
+flag = "install ./file.deb"
+name = "安装可信本地 deb"
+example = "sudo apt install ./downloads/tool.deb"
+note = "必须先验证来源与校验值；本地路径不会自动建立信任"
+
+[[options]]
+flag = "--reinstall"
+name = "重新下载并解包同版本"
+example = "sudo apt install --reinstall ca-certificates"
+note = "用于恢复包拥有的普通文件；配置文件仍遵循 dpkg 的配置处理规则"
+
+[[options]]
+flag = "list --installed"
+name = "验证安装状态"
+example = "apt list --installed ripgrep"
+note = "限定准确包名，避免完整已安装列表过长并降低误读"
+
+[[options]]
+flag = "remove"
+name = "卸载并保留受管理配置"
+example = "sudo apt remove ripgrep"
+note = "适合可能重新安装的场景；执行前仍要核对依赖变化与拟释放空间"
+
+[[examples]]
+id = "v03-21-apt-install-upgrade-01"
+command_id = "apt-install-ripgrep"
+level = 1
+output_explanation = "NEW packages、下载量与安装后占用构成执行前的最小核对清单，Setting up 表示包进入配置阶段。"
+
+[[examples]]
+id = "v03-21-apt-install-upgrade-02"
+command_id = "apt-list-installed-ripgrep"
+level = 1
+output_explanation = "包名后的 now 与 installed 标记用于确认本机状态，版本和架构则用于与预期候选项对照。"
+
+[[examples]]
+id = "v03-21-apt-install-upgrade-03"
+command_id = "apt-upgrade-review"
+level = 2
+output_explanation = "升级摘要显示将变更的包、下载量和磁盘差异；在输入确认前仍有机会取消并完成备份或维护评估。"
+
+[[examples]]
+id = "v03-21-apt-install-upgrade-04"
+command_id = "dpkg-install-local-gdebi"
+level = 2
+output_explanation = "APT 会把本地文件映射到包名并补齐仓库依赖，但输出无法替代对 deb 来源、签名或散列值的事前验证。"
+
+[[examples]]
+id = "v03-21-apt-install-upgrade-05"
+command_id = "apt-reinstall-ca-certificates"
+level = 3
+output_explanation = "reinstalled 表示版本未必改变，但包内容被重新获取和展开；证书更新阶段仍应观察是否有错误。"
+
+[[examples]]
+id = "v03-21-apt-install-upgrade-06"
+command_id = "apt-remove-ripgrep"
+level = 3
+output_explanation = "REMOVED 与释放空间描述卸载方案；remove 保留受管理配置的语义不等于所有用户数据都会被保留或删除。"
+
+[[gotchas]]
+title = "确认提示前必须阅读整份变更摘要"
+content = """不要只看目标包名。依赖解析可能新装、升级、保留或移除其他包，磁盘占用也可能与预期相反。先检查列表中是否包含关键服务、远程连接组件或大量依赖，再决定继续。生产环境还应有备份、维护窗口和回滚路径；-y 会跳过人工确认，不适合尚未验证的交互操作。"""
+
+[[gotchas]]
+title = "本地 deb 的 ./ 不是安全认证"
+content = """路径前缀只是告诉 APT 这是文件，不是仓库包名。下载来源不明、校验值未经核对或发行版不匹配的 deb 仍可能带来恶意代码与依赖冲突。先从可信发布渠道获取文件，验证散列或签名，查看包信息和目标架构，再让 APT 提出安装方案。"""
+
+[[gotchas]]
+title = "重装、remove 与 purge 解决的问题不同"
+content = """--reinstall 主要恢复包分发的文件，不能保证清除错误配置或用户目录数据；remove 卸载程序但通常保留受管理配置，便于以后恢复；purge 才会清理包管理器登记的配置，而且更难回退。先定义目标，再选择动作，不要把三个操作当成强弱不同的同一种“修复”。"""

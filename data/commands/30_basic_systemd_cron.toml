@@ -1,0 +1,562 @@
+[meta]
+category = "system"
+difficulty = "basic"
+description = "systemd 服务与定时任务"
+
+[meta.topic]
+id = "systemd_cron"
+title = "systemd 服务与定时任务"
+icon = "⏱️"
+order = 11
+
+[[commands]]
+id = "systemctl-status-ssh-service"
+command = "systemctl status ssh.service"
+summary = "查看 SSH 服务的运行状态与近期日志"
+simulated_output = """
+● ssh.service - OpenBSD Secure Shell server
+     Loaded: loaded (/lib/systemd/system/ssh.service; enabled; preset: enabled)
+     Active: active (running) since Sun 2026-07-26 08:12:41 PDT; 1h 27min ago
+       Docs: man:sshd(8)
+             man:sshd_config(5)
+   Main PID: 842 (sshd)
+      Tasks: 1 (limit: 18918)
+     Memory: 7.4M
+        CPU: 218ms
+     CGroup: /system.slice/ssh.service
+             └─842 /usr/sbin/sshd -D
+"""
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查看和控制 systemd 单元"
+
+[[commands.tokens]]
+text = " status"
+desc = "显示当前运行状态和最近的日志"
+
+[[commands.tokens]]
+text = " ssh.service"
+desc = "要检查的 SSH 服务单元"
+
+[commands.dictation]
+prompt = "查看 SSH 服务当前是否运行，并显示它最近的日志"
+answers = ["systemctl status ssh.service"]
+
+[[commands]]
+id = "systemctl-start-nginx-service"
+command = "sudo systemctl start nginx.service"
+summary = "仅在自有练习机上立即启动 nginx 服务"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "仅在已获授权的自有练习机上，以管理员权限执行单次服务操作"
+
+[[commands.tokens]]
+text = " systemctl"
+desc = "控制 systemd 单元"
+
+[[commands.tokens]]
+text = " start"
+desc = "立即启动服务，但不改变开机启用设置"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "要启动的 nginx 服务单元"
+
+[commands.dictation]
+prompt = "仅在自有练习机上立即启动 nginx 服务，但不改变它的开机启用设置"
+answers = ["sudo systemctl start nginx.service"]
+
+[[commands]]
+id = "systemctl-stop-nginx-service"
+command = "sudo systemctl stop nginx.service"
+summary = "仅在自有练习机确认无人依赖后停止 nginx"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "仅在已获授权的自有练习机上，以管理员权限执行单次服务操作"
+
+[[commands.tokens]]
+text = " systemctl"
+desc = "控制 systemd 单元"
+
+[[commands.tokens]]
+text = " stop"
+desc = "立即停止服务，但不改变开机启用设置"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "要停止的 nginx 服务单元"
+
+[commands.dictation]
+prompt = "仅在自有练习机确认没有用户依赖 nginx 后立即停止它，并保留开机启用设置"
+answers = ["sudo systemctl stop nginx.service"]
+
+[[commands]]
+id = "systemctl-restart-ssh-service"
+command = "sudo systemctl restart ssh.service"
+summary = "仅在自有练习机且有备用连接时重启 SSH"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "仅在已获授权的自有练习机上，以管理员权限执行单次服务操作"
+
+[[commands.tokens]]
+text = " systemctl"
+desc = "控制 systemd 单元"
+
+[[commands.tokens]]
+text = " restart"
+desc = "停止服务再重新启动，现有连接可能受影响"
+
+[[commands.tokens]]
+text = " ssh.service"
+desc = "要重启的 SSH 服务单元；远程操作前应准备备用连接"
+
+[commands.dictation]
+prompt = "仅在自有练习机已准备控制台或备用连接后重启 SSH 服务；现有远程连接可能中断"
+answers = ["sudo systemctl restart ssh.service"]
+
+[[commands]]
+id = "systemctl-reload-nginx-service"
+command = "sudo systemctl reload nginx.service"
+summary = "仅在自有练习机核验配置后重新加载 nginx"
+
+[[commands.tokens]]
+text = "sudo"
+desc = "仅在已获授权的自有练习机上，以管理员权限执行单次服务操作"
+
+[[commands.tokens]]
+text = " systemctl"
+desc = "控制 systemd 单元"
+
+[[commands.tokens]]
+text = " reload"
+desc = "要求服务重新加载配置，不执行完整重启"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "支持重新加载配置的 nginx 服务单元"
+
+[commands.dictation]
+prompt = "仅在自有练习机已核验配置后，让 nginx 进程重新读取配置而不做完整重启"
+answers = ["sudo systemctl reload nginx.service"]
+
+[[commands]]
+id = "systemctl-enable-now-nginx-service"
+command = "sudo systemctl enable --now nginx.service"
+summary = "仅在自有练习机持久启用 nginx 并立即启动"
+simulated_output = """
+Created symlink /etc/systemd/system/multi-user.target.wants/nginx.service → /lib/systemd/system/nginx.service.
+"""
+
+[[commands.tokens]]
+text = "sudo"
+desc = "仅在已获授权的自有练习机上，以管理员权限执行服务操作"
+
+[[commands.tokens]]
+text = " systemctl"
+desc = "控制 systemd 单元"
+
+[[commands.tokens]]
+text = " enable"
+desc = "建立开机启动所需的单元链接，会持久改变以后开机时的行为"
+
+[[commands.tokens]]
+text = " --now"
+desc = "除了启用开机启动，还立刻启动服务"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "要启用并启动的 nginx 服务单元"
+
+[commands.dictation]
+prompt = "仅在自有练习机上，让 nginx 以后开机自动启动并且现在立刻运行"
+answers = ["sudo systemctl enable --now nginx.service"]
+
+[[commands]]
+id = "systemctl-disable-nginx-service"
+command = "sudo systemctl disable nginx.service"
+summary = "仅在自有练习机取消 nginx 开机启动"
+simulated_output = """
+Removed "/etc/systemd/system/multi-user.target.wants/nginx.service".
+"""
+
+[[commands.tokens]]
+text = "sudo"
+desc = "仅在已获授权的自有练习机上，以管理员权限执行服务操作"
+
+[[commands.tokens]]
+text = " systemctl"
+desc = "控制 systemd 单元"
+
+[[commands.tokens]]
+text = " disable"
+desc = "移除开机启动链接，会持久改变以后开机时的行为；不会自动停止当前服务"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "要取消开机启动的 nginx 服务单元"
+
+[commands.dictation]
+prompt = "仅在自有练习机上取消 nginx 的开机自动启动，同时保持当前进程运行"
+answers = ["sudo systemctl disable nginx.service"]
+
+[[commands]]
+id = "systemctl-list-failed-services"
+command = "systemctl list-units --type=service --state=failed"
+summary = "筛出当前处于失败状态的服务"
+simulated_output = """
+  UNIT                   LOAD   ACTIVE SUB    DESCRIPTION
+● app-backup.service     loaded failed failed Nightly application backup
+
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state.
+SUB    = The low-level unit activation state.
+1 loaded units listed.
+"""
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查看和控制 systemd 单元"
+
+[[commands.tokens]]
+text = " list-units"
+desc = "列出 systemd 当前已加载到内存的单元"
+
+[[commands.tokens]]
+text = " --type=service"
+desc = "只保留服务类型的单元"
+
+[[commands.tokens]]
+text = " --state=failed"
+desc = "只保留处于失败状态的单元"
+
+[commands.dictation]
+prompt = "列出当前已加载且处于失败状态的所有服务单元"
+answers = ["systemctl list-units --type=service --state=failed"]
+
+[[commands]]
+id = "journalctl-nginx-unit"
+command = "journalctl -u nginx.service"
+summary = "查看当前账号有权读取的 nginx 服务日志"
+simulated_output = """
+Jul 26 09:31:08 labhost systemd[1]: Starting nginx.service - A high performance web server and a reverse proxy server...
+Jul 26 09:31:08 labhost systemd[1]: Started nginx.service - A high performance web server and a reverse proxy server.
+Jul 26 09:34:17 labhost nginx[2146]: 2026/07/26 09:34:17 [notice] 2146#2146: signal process started
+"""
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取当前账号有权访问的 systemd 日志；普通用户不一定能看到系统服务的完整记录"
+
+[[commands.tokens]]
+text = " -u"
+desc = "按指定单元筛选日志"
+
+[[commands.tokens]]
+text = " nginx.service"
+desc = "只查看 nginx 服务单元的消息"
+
+[commands.dictation]
+prompt = "在当前账号可读范围内，查看属于 nginx 服务单元的消息"
+answers = ["journalctl -u nginx.service"]
+
+[[commands]]
+id = "journalctl-follow-system"
+command = "journalctl -f"
+summary = "持续跟踪当前账号有权读取的新日志"
+simulated_output = """
+Jul 26 09:42:03 labhost NetworkManager[721]: <info>  [1785084123.1082] device (enp1s0): state change: activated -> activated
+Jul 26 09:42:11 labhost sshd[2384]: Accepted publickey for alice from 192.0.2.31 port 51842 ssh2
+"""
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取当前账号有权访问的 systemd 日志；普通用户通常看不到全系统全部记录"
+
+[[commands.tokens]]
+text = " -f"
+desc = "显示末尾日志后持续等待并输出新消息"
+
+[commands.dictation]
+prompt = "显示当前账号可读日志的末尾，并持续输出随后写入且有权读取的新消息"
+answers = ["journalctl -f"]
+
+[[commands]]
+id = "journalctl-current-boot"
+command = "journalctl -b"
+summary = "查看本次启动中当前账号有权读取的日志"
+simulated_output = """
+Jul 26 08:10:14 labhost kernel: Linux version 6.12.0-amd64 (debian-kernel@lists.debian.org)
+Jul 26 08:10:14 labhost systemd[1]: systemd 257.7-1 running in system mode.
+Jul 26 08:10:16 labhost systemd[1]: Reached target multi-user.target - Multi-User System.
+Jul 26 08:10:16 labhost systemd[1]: Startup finished in 3.821s (kernel) + 2.104s (userspace) = 5.925s.
+"""
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取当前账号有权访问的 systemd 日志；可见范围由账号和组权限决定"
+
+[[commands.tokens]]
+text = " -b"
+desc = "把范围限制为本次启动；不带编号时表示当前启动"
+
+[commands.dictation]
+prompt = "排查刚刚开机后的问题，只查看本次启动中当前账号有权读取的日志"
+answers = ["journalctl -b"]
+
+[[commands]]
+id = "journalctl-since-today"
+command = "journalctl --since today"
+summary = "查看今天零点至今当前账号可读的日志"
+simulated_output = """
+Jul 26 00:00:01 labhost systemd[1]: Starting logrotate.service - Rotate log files...
+Jul 26 00:00:01 labhost systemd[1]: logrotate.service: Deactivated successfully.
+Jul 26 00:00:01 labhost systemd[1]: Finished logrotate.service - Rotate log files.
+Jul 26 08:10:14 labhost kernel: Linux version 6.12.0-amd64 (debian-kernel@lists.debian.org)
+"""
+
+[[commands.tokens]]
+text = "journalctl"
+desc = "读取当前账号有权访问的 systemd 日志；不会因为查询时间范围而扩大权限"
+
+[[commands.tokens]]
+text = " --since"
+desc = "设置日志查询的起始时间"
+
+[[commands.tokens]]
+text = " today"
+desc = "从本地时间今天零点开始"
+
+[commands.dictation]
+prompt = "查看从今天零点开始直到现在、当前账号有权读取的日志"
+answers = ["journalctl --since today"]
+
+[[commands]]
+id = "crontab-edit-with-nano"
+command = "VISUAL=nano EDITOR=nano crontab -e"
+summary = "仅为本次操作同时指定 VISUAL 与 EDITOR 为 nano"
+simulated_output = """
+no crontab for alice - using an empty one
+crontab: installing new crontab
+"""
+
+[[commands.tokens]]
+text = "VISUAL=nano"
+desc = "仅为这次 crontab 及其编辑器子进程设置首选可视编辑器为 nano"
+
+[[commands.tokens]]
+text = " EDITOR=nano"
+desc = "同时覆盖后备编辑器变量，避免已有 VISUAL 让命令打开其他编辑器"
+
+[[commands.tokens]]
+text = " crontab"
+desc = "管理当前用户的 cron 定时任务表"
+
+[[commands.tokens]]
+text = " -e"
+desc = "打开编辑器，退出后安装保存的任务表"
+
+[commands.dictation]
+prompt = "仅为本次操作同时覆盖 VISUAL 与 EDITOR，确保用 nano 打开当前用户的定时任务表"
+answers = ["VISUAL=nano EDITOR=nano crontab -e"]
+
+[[commands]]
+id = "crontab-list-quiet"
+command = "crontab -l | less"
+summary = "分页查看个人定时任务并保留错误诊断"
+simulated_output = """
+15 * * * * /usr/local/bin/health-check
+0 2 * * * /usr/local/bin/backup-home
+0 8 * * 1-5 /usr/local/bin/workday-check
+"""
+
+[[commands.tokens]]
+text = "crontab"
+desc = "管理当前用户的 cron 定时任务表"
+
+[[commands.tokens]]
+text = " -l"
+desc = "把当前任务表列到标准输出"
+
+[[commands.tokens]]
+text = " |"
+desc = "只把标准输出通过管道交给分页器；标准错误仍留在终端，不会被隐藏"
+
+[[commands.tokens]]
+text = " less"
+desc = "分页查看较长的任务表，按 q 退出"
+
+[commands.dictation]
+prompt = "把当前用户的定时任务交给分页器查看；若尚未配置或发生故障，仍在终端保留标准错误诊断"
+answers = ["crontab -l | less"]
+
+[[commands]]
+id = "crontab-remove-interactive"
+command = "crontab -i -r"
+summary = "危险：确认后仍会删除全部个人定时任务"
+simulated_output = """
+crontab: really delete alice's crontab? y
+"""
+
+[[commands.tokens]]
+text = "crontab"
+desc = "管理当前用户的 cron 定时任务表"
+
+[[commands.tokens]]
+text = " -i"
+desc = "删除前要求输入 y 或 Y 确认，降低误删风险"
+
+[[commands.tokens]]
+text = " -r"
+desc = "危险：删除当前用户的整张任务表，所有任务都会丢失"
+
+[commands.dictation]
+prompt = "危险操作：在交互确认后删除当前用户的全部定时任务"
+answers = ["crontab -i -r"]
+
+[[commands]]
+id = "cron-field-minute-example"
+command = "echo '15 * * * * /usr/local/bin/health-check'"
+summary = "仅打印每小时第 15 分钟运行的示例"
+simulated_output = "15 * * * * /usr/local/bin/health-check"
+
+[[commands.tokens]]
+text = "echo"
+desc = "只打印示例文本，不安装或运行定时任务"
+
+[[commands.tokens]]
+text = " '15"
+desc = "第 1 段是分钟；15 表示每小时的第 15 分钟"
+
+[[commands.tokens]]
+text = " *"
+desc = "第 2 段是小时；星号表示每个小时"
+
+[[commands.tokens]]
+text = " *"
+desc = "第 3 段是每月第几日；星号表示每天"
+
+[[commands.tokens]]
+text = " *"
+desc = "第 4 段是月份；星号表示每月"
+
+[[commands.tokens]]
+text = " *"
+desc = "第 5 段是星期几；星号表示不限制星期"
+
+[[commands.tokens]]
+text = " /usr/local/bin/health-check'"
+desc = "五段时间字段之后才是计划运行的命令；这里只作为文字打印"
+
+[commands.dictation]
+prompt = "本题练习 cron 五段格式：请用 echo 原样打印每小时第 15 分钟运行健康检查的示例，不写入任务表"
+answers = ["echo '15 * * * * /usr/local/bin/health-check'", "printf '%s\\n' '15 * * * * /usr/local/bin/health-check'"]
+
+[[commands]]
+id = "cron-daemon-status"
+command = "systemctl status cron.service"
+summary = "只读查看 cron 守护进程状态与近期日志"
+simulated_output = """● cron.service - Regular background program processing daemon
+     Loaded: loaded (/lib/systemd/system/cron.service; enabled; preset: enabled)
+     Active: active (running) since Sun 2026-07-26 08:10:16 PDT; 1h 38min ago"""
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查看和控制 systemd 单元；本题只查询"
+
+[[commands.tokens]]
+text = " status"
+desc = "显示当前运行状态和近期日志"
+
+[[commands.tokens]]
+text = " cron.service"
+desc = "Debian/Ubuntu 上负责执行个人 crontab 的 cron 服务单元"
+
+[commands.dictation]
+prompt = "不修改服务，只读查看 Debian/Ubuntu 的 cron 守护进程是否运行及其近期日志"
+answers = ["systemctl status cron.service"]
+
+[[commands]]
+id = "cron-daemon-is-active"
+command = "systemctl is-active cron.service"
+summary = "只输出 cron 服务当前是否处于活动状态"
+simulated_output = "active"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查看和控制 systemd 单元；本题只查询"
+
+[[commands.tokens]]
+text = " is-active"
+desc = "只报告单元当前是否活动，适合脚本化检查"
+
+[[commands.tokens]]
+text = " cron.service"
+desc = "要检查当前运行状态的 cron 服务"
+
+[commands.dictation]
+prompt = "不修改服务，只输出 cron.service 当前是否处于活动状态"
+answers = ["systemctl is-active cron.service"]
+
+[[commands]]
+id = "cron-daemon-is-enabled"
+command = "systemctl is-enabled cron.service"
+summary = "只输出 cron 服务是否设为开机启用"
+simulated_output = "enabled"
+
+[[commands.tokens]]
+text = "systemctl"
+desc = "查看和控制 systemd 单元；本题只查询"
+
+[[commands.tokens]]
+text = " is-enabled"
+desc = "只报告单元是否设为开机启用，不改变设置"
+
+[[commands.tokens]]
+text = " cron.service"
+desc = "要检查开机启用状态的 cron 服务"
+
+[commands.dictation]
+prompt = "不修改服务，只输出 cron.service 是否设为开机启用"
+answers = ["systemctl is-enabled cron.service"]
+
+[[commands]]
+id = "cron-field-weekday-example"
+command = "echo '0 8 * * 1-5 /usr/local/bin/workday-check'"
+summary = "仅打印工作日上午 8 点运行的示例"
+simulated_output = "0 8 * * 1-5 /usr/local/bin/workday-check"
+
+[[commands.tokens]]
+text = "echo"
+desc = "只打印示例文本，不安装或运行定时任务"
+
+[[commands.tokens]]
+text = " '0"
+desc = "第 1 段是分钟；0 表示整点"
+
+[[commands.tokens]]
+text = " 8"
+desc = "第 2 段是小时；8 表示上午 8 点"
+
+[[commands.tokens]]
+text = " *"
+desc = "第 3 段是每月第几日；星号表示每天"
+
+[[commands.tokens]]
+text = " *"
+desc = "第 4 段是月份；星号表示每月"
+
+[[commands.tokens]]
+text = " 1-5"
+desc = "第 5 段是星期几；1-5 表示周一到周五"
+
+[[commands.tokens]]
+text = " /usr/local/bin/workday-check'"
+desc = "五段时间字段之后的检查命令；这里只作为文字打印"
+
+[commands.dictation]
+prompt = "本题练习 cron 五段格式：请用 echo 原样打印周一至周五上午 8 点运行检查脚本的示例，不写入任务表"
+answers = ["echo '0 8 * * 1-5 /usr/local/bin/workday-check'", "printf '%s\\n' '0 8 * * 1-5 /usr/local/bin/workday-check'"]

@@ -1,0 +1,409 @@
+[meta]
+category = "system"
+difficulty = "beginner"
+description = "Vim 生存与编辑器"
+
+[meta.topic]
+id = "vim_survival"
+title = "Vim 生存与编辑器"
+icon = "✍️"
+order = 12
+
+[[commands]]
+id = "vim-open-notes"
+command = "vim notes.txt"
+summary = "用 Vim 打开笔记；进入后按 i 编辑，Esc 后用 :wq 保存退出"
+simulated_output = """
+Project notes
+~
+~
+"notes.txt" 1L, 14B
+"""
+[[commands.tokens]]
+text = "vim"
+desc = "启动模式编辑器；同一个键在不同模式作用不同，按 i 进入插入模式，按 Esc 回到普通模式"
+[[commands.tokens]]
+text = " notes.txt"
+desc = "要打开的笔记文件；普通模式输入 :wq 保存退出，不想保存时输入 :q!"
+[commands.dictation]
+prompt = "用本章的 Vim 打开 notes.txt；进入后按 i 编辑，按 Esc 回普通模式，再用 :wq 保存退出"
+answers = ["vim notes.txt", "vi notes.txt"]
+
+[[commands]]
+id = "less-numbered-deploy"
+command = "less -N deploy.sh"
+summary = "只读分页查看脚本并显示行号"
+simulated_output = """
+      1 #!/bin/sh
+      2 set -eu
+      3
+      4 case "$1" in
+      5     start) run_server ;;
+deploy.sh
+"""
+[[commands.tokens]]
+text = "less"
+desc = "只读分页查看长文本；按 q 退出，不会把文件写回磁盘"
+[[commands.tokens]]
+text = " -N"
+desc = "在左侧显示行号，便于定位和讨论"
+[[commands.tokens]]
+text = " deploy.sh"
+desc = "要安全查看的部署脚本"
+[commands.dictation]
+prompt = "不进入编辑模式，只读分页查看 deploy.sh 并在左侧显示行号"
+answers = ["less -N deploy.sh"]
+
+[[commands]]
+id = "less-search-source"
+command = "less src/main.rs"
+summary = "只读分页查看源码，进入后可用 /TODO 搜索"
+simulated_output = """
+fn main() {
+    // TODO: handle invalid input
+    println!("ready");
+}
+src/main.rs
+"""
+[[commands.tokens]]
+text = "less"
+desc = "只读分页查看长文本；进入后输入 /TODO 并回车可向下搜索，按 n 跳到下一处，按 q 退出"
+[[commands.tokens]]
+text = " src/main.rs"
+desc = "要只读检查的 Rust 源文件"
+[commands.dictation]
+prompt = "只读分页打开 src/main.rs；进入查看器后可输入 /TODO 搜索，按 q 退出"
+answers = ["less src/main.rs"]
+
+[[commands]]
+id = "vim-readonly-hosts"
+command = "view /etc/hosts"
+summary = "用 Vim 的只读入口查看 hosts，减少误写风险"
+simulated_output = """
+127.0.0.1 localhost
+127.0.1.1 workstation
+::1       localhost ip6-localhost ip6-loopback
+~
+"/etc/hosts" [readonly] 7L, 186B
+"""
+[[commands.tokens]]
+text = "view"
+desc = "以只读模式启动 Vim，等价入口是 vim -R；这不是权限隔离，仍不要尝试强制写入"
+[[commands.tokens]]
+text = " /etc/hosts"
+desc = "要查看的主机名映射文件；普通模式输入 :q 可退出"
+[commands.dictation]
+prompt = "用 Vim 的只读入口查看 /etc/hosts，查看后在普通模式输入 :q 退出"
+answers = ["view /etc/hosts", "vim -R /etc/hosts"]
+
+[[commands]]
+id = "less-services-readonly"
+command = "less /etc/services"
+summary = "只读分页查看较长的网络服务名称表"
+simulated_output = """tcpmux          1/tcp
+echo            7/tcp
+echo            7/udp
+discard         9/tcp           sink null
+/etc/services"""
+[[commands.tokens]]
+text = "less"
+desc = "只读分页查看长文件；空格向下翻页，b 向上翻页，q 退出"
+[[commands.tokens]]
+text = " /etc/services"
+desc = "系统的网络服务名称与端口对照表，本题只读取"
+[commands.dictation]
+prompt = "不进入编辑器，只读分页查看较长的 /etc/services，查看后按 q 退出"
+answers = ["less /etc/services"]
+
+[[commands]]
+id = "less-nginx-config"
+command = "less nginx.conf"
+summary = "修改前先只读分页检查 nginx 配置"
+simulated_output = """
+server {
+    listen 8080;
+    server_name localhost;
+}
+nginx.conf
+"""
+[[commands.tokens]]
+text = "less"
+desc = "只读分页查看文件，按 q 退出，不会因查看而改写配置"
+[[commands.tokens]]
+text = " nginx.conf"
+desc = "要在编辑前检查的练习配置文件"
+[commands.dictation]
+prompt = "编辑前先只读分页查看 nginx.conf，查看后按 q 退出"
+answers = ["less nginx.conf"]
+
+[[commands]]
+id = "vimtutor-basic"
+command = "vimtutor"
+summary = "启动随软件附带的交互式基础教程"
+simulated_output = """
+===============================================================================
+=                         V I M   T U T O R                                   =
+===============================================================================
+                         Lesson 1.1: MOVING THE CURSOR
+"""
+[[commands.tokens]]
+text = "vimtutor"
+desc = "打开一份可放心修改的教程副本，练习移动、插入、保存和退出"
+[commands.dictation]
+prompt = "启动 Vim 随附的交互式入门教程，练习移动、插入、撤销、保存和退出"
+answers = ["vimtutor"]
+
+[[commands]]
+id = "vim-version-check"
+command = "vim --version"
+summary = "只读确认 Vim 版本和已编译功能"
+simulated_output = """VIM - Vi IMproved 9.1
+Included patches: 1-16
+Huge version without GUI."""
+[[commands.tokens]]
+text = "vim"
+desc = "Vim 模式编辑器程序"
+[[commands.tokens]]
+text = " --version"
+desc = "只显示版本、功能开关和配置路径，不打开或修改文件"
+[commands.dictation]
+prompt = "不打开文件，只读确认已安装的 Vim 版本和编译功能"
+answers = ["vim --version"]
+
+[[commands]]
+id = "nano-version-check"
+command = "nano --version"
+summary = "只读确认 nano 是否安装及其版本"
+simulated_output = """ GNU nano, version 7.2
+ (C) 2023 the Free Software Foundation and various contributors"""
+[[commands.tokens]]
+text = "nano"
+desc = "带底部快捷键提示的终端编辑器"
+[[commands.tokens]]
+text = " --version"
+desc = "只显示版本和构建信息，不打开或修改文件"
+[commands.dictation]
+prompt = "不打开文件，只读确认 nano 是否安装及其版本"
+answers = ["nano --version"]
+
+[[commands]]
+id = "editor-symlink-target"
+command = "readlink -f /usr/bin/editor"
+summary = "只读确认通用 editor 命令最终指向哪个程序"
+simulated_output = "/usr/bin/nano"
+[[commands.tokens]]
+text = "readlink"
+desc = "读取符号链接指向，不修改链接或目标"
+[[commands.tokens]]
+text = " -f"
+desc = "跟随整条链接链并输出最终的规范路径"
+[[commands.tokens]]
+text = " /usr/bin/editor"
+desc = "Debian 系发行版常用的通用编辑器入口"
+[commands.dictation]
+prompt = "不更改系统设置，只读确认 /usr/bin/editor 最终指向哪个编辑器程序"
+answers = ["readlink -f /usr/bin/editor"]
+
+[[commands]]
+id = "vim-quick-help"
+command = "vim -h"
+summary = "卡在启动选项时查看 Vim 简短帮助"
+simulated_output = """VIM - Vi IMproved
+Usage: vim [arguments] [file ..]
+   --help  Print Help message"""
+[[commands.tokens]]
+text = "vim"
+desc = "Vim 模式编辑器程序"
+[[commands.tokens]]
+text = " -h"
+desc = "在终端打印简短启动帮助，不打开或修改文件"
+[commands.dictation]
+prompt = "忘记 Vim 的启动用法时，在终端查看简短帮助且不打开文件"
+answers = ["vim -h", "vim --help"]
+
+[[commands]]
+id = "nano-open-todo"
+command = "nano todo.txt"
+summary = "用带底部快捷键提示的编辑器打开待办文件"
+simulated_output = """
+  GNU nano 7.2                         todo.txt
+
+- review deployment guide
+- update backup schedule
+
+^G Help      ^O Write Out  ^W Where Is   ^K Cut       ^T Execute
+^X Exit      ^R Read File  ^\\ Replace    ^U Paste     ^J Justify
+"""
+[[commands.tokens]]
+text = "nano"
+desc = "启动适合新手的终端编辑器；Ctrl+O 写入文件，Ctrl+X 退出"
+[[commands.tokens]]
+text = " todo.txt"
+desc = "要打开的待办文件"
+[commands.dictation]
+prompt = "用底部提供快捷键提示的入门终端编辑器打开 todo.txt"
+answers = ["nano todo.txt"]
+
+[[commands]]
+id = "nano-open-line-column"
+command = "nano +12,5 deploy.sh"
+summary = "打开脚本并把光标定位到第 12 行第 5 列"
+simulated_output = """
+  GNU nano 7.2                         deploy.sh
+
+    start) run_server ;;
+    stop) stop_server ;;
+esac
+
+^G Help      ^O Write Out  ^W Where Is   ^K Cut       ^T Execute
+^X Exit      ^R Read File  ^\\ Replace    ^U Paste     ^J Justify
+"""
+[[commands.tokens]]
+text = "nano"
+desc = "启动带底部快捷键提示的终端编辑器"
+[[commands.tokens]]
+text = " +12,5"
+desc = "启动时把光标放到第 12 行第 5 列，行号与列号用逗号分隔"
+[[commands.tokens]]
+text = " deploy.sh"
+desc = "要打开的部署脚本"
+[commands.dictation]
+prompt = "用带底部快捷键提示的终端编辑器打开 deploy.sh，并定位到第 12 行第 5 列"
+answers = ["nano +12,5 deploy.sh"]
+
+[[commands]]
+id = "nano-view-hosts"
+command = "nano -v /etc/hosts"
+summary = "用新手编辑器的只读模式查看 hosts"
+simulated_output = """
+  GNU nano 7.2                       /etc/hosts
+
+127.0.0.1 localhost
+127.0.1.1 workstation
+::1       localhost ip6-localhost ip6-loopback
+
+[ Read 7 lines ]
+^G Help      ^W Where Is   ^\\ Replace    ^Y Prev Page  ^V Next Page
+^X Exit      ^R Read File  ^C Location    M-U Undo      M-E Redo
+"""
+[[commands.tokens]]
+text = "nano"
+desc = "启动带底部快捷键提示的终端编辑器"
+[[commands.tokens]]
+text = " -v"
+desc = "查看模式，不允许修改文件内容"
+[[commands.tokens]]
+text = " /etc/hosts"
+desc = "要只读查看的主机名映射文件"
+[commands.dictation]
+prompt = "用带底部快捷键提示的终端编辑器以只读查看模式打开 /etc/hosts"
+answers = ["nano -v /etc/hosts"]
+
+[[commands]]
+id = "nano-line-numbers"
+command = "nano -l deploy.sh"
+summary = "编辑脚本时在文本区左侧显示行号"
+simulated_output = """
+  GNU nano 7.2                         deploy.sh
+
+  1 #!/bin/sh
+  2 set -eu
+  3
+  4 case "$1" in
+  5     start) run_server ;;
+
+^G Help      ^O Write Out  ^W Where Is   ^K Cut       ^T Execute
+^X Exit      ^R Read File  ^\\ Replace    ^U Paste     ^J Justify
+"""
+[[commands.tokens]]
+text = "nano"
+desc = "启动带底部快捷键提示的终端编辑器"
+[[commands.tokens]]
+text = " -l"
+desc = "在文本区域左侧显示行号，便于定位和讨论代码"
+[[commands.tokens]]
+text = " deploy.sh"
+desc = "要编辑的部署脚本"
+[commands.dictation]
+prompt = "用带底部快捷键提示的终端编辑器打开 deploy.sh，并在左侧显示行号"
+answers = ["nano -l deploy.sh"]
+
+[[commands]]
+id = "cat-number-deploy"
+command = "cat -n deploy.sh"
+summary = "不进编辑器，直接查看脚本并给所有行编号"
+simulated_output = """
+     1  #!/bin/sh
+     2  set -eu
+     3
+     4  cargo test
+     5  cargo build --release
+"""
+[[commands.tokens]]
+text = "cat"
+desc = "把文件内容直接输出到终端，不会进入编辑器"
+[[commands.tokens]]
+text = " -n"
+desc = "给包括空行在内的每一行编号"
+[[commands.tokens]]
+text = " deploy.sh"
+desc = "要快速查看的部署脚本"
+[commands.dictation]
+prompt = "不进入编辑器，直接在终端显示 deploy.sh 并给包括空行在内的每行编号"
+answers = ["cat -n deploy.sh"]
+
+[[commands]]
+id = "crontab-edit-with-vim"
+command = "VISUAL=vim EDITOR=vim crontab -e"
+summary = "仅为本次操作同时指定 Vim；保存后任务表会安装"
+simulated_output = """
+# Edit this file to introduce tasks to be run by cron.
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+0 2 * * * /home/chen/bin/backup.sh
+~
+"/tmp/crontab.4YpQ3h/crontab" 4L, 184B
+"""
+[[commands.tokens]]
+text = "VISUAL=vim"
+desc = "只为本次 crontab 及编辑器子进程设置首选可视编辑器为 Vim"
+[[commands.tokens]]
+text = " EDITOR=vim"
+desc = "同时覆盖后备编辑器变量，确保已有环境设置不会改用其他编辑器"
+[[commands.tokens]]
+text = " crontab"
+desc = "管理当前用户的 cron 定时任务表"
+[[commands.tokens]]
+text = " -e"
+desc = "在编辑器中打开任务表；退出后，保存的修改会自动安装并生效"
+[commands.dictation]
+prompt = "已先用 crontab -l 核对当前任务；仅为本次操作同时覆盖 VISUAL 与 EDITOR，确保用 Vim 编辑，保存退出后修改会立即安装"
+answers = ["VISUAL=vim EDITOR=vim crontab -e"]
+
+[[commands]]
+id = "editor-alternative-display"
+command = "update-alternatives --display editor"
+summary = "只读查看系统默认编辑器及候选项"
+simulated_output = """
+editor - auto mode
+  link best version is /bin/nano
+  link currently points to /bin/nano
+  link editor is /usr/bin/editor
+  slave editor.1.gz is /usr/share/man/man1/editor.1.gz
+/bin/nano - priority 40
+  slave editor.1.gz: /usr/share/man/man1/nano.1.gz
+/usr/bin/vim.basic - priority 30
+  slave editor.1.gz: /usr/share/man/man1/vim.1.gz
+"""
+[[commands.tokens]]
+text = "update-alternatives"
+desc = "查看或管理 Debian 系发行版的系统替代项；本题仅查询"
+[[commands.tokens]]
+text = " --display"
+desc = "只显示替代组的模式、当前链接和所有候选，不更改任何设置"
+[[commands.tokens]]
+text = " editor"
+desc = "要查询的默认文本编辑器替代组"
+[commands.dictation]
+prompt = "在 Debian 系发行版中只读查询默认文本编辑器替代组的当前链接与所有候选"
+answers = ["update-alternatives --display editor"]

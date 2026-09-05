@@ -1,0 +1,92 @@
+[meta]
+command = "v03-environment-variables"
+full_name = "环境变量、引用与生命周期"
+category = "system"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "安全展开变量，并理解当前 shell、导出与子进程继承"
+explanation = """shell 变量存在于当前 shell；添加导出属性后，新启动的子进程才能继承它。修改或取消变量通常只影响当前 shell 及此后创建的子进程，已经运行的进程和其他终端不会被追溯修改。读取变量时，双引号允许展开并把结果保持为一个参数，单引号则把美元符号和变量名当作字面文本。HOME、USER 和 SHELL 等变量提供会话信息，但 SHELL 通常表示登录 shell，不一定等于当前正在运行的解释器。环境变量常用于配置，也常被用来携带令牌、密码和代理凭据；不要把完整环境输出粘贴到工单、聊天、日志或录屏中。"""
+
+[syntax]
+basic = "变量名=值；export 变量名；读取工具 变量名；unset 变量名"
+
+[[syntax.parts]]
+name = "变量名"
+desc = "区分大小写，通常使用字母、数字和下划线，并避免与已有重要变量冲突"
+
+[[syntax.parts]]
+name = "当前 shell"
+desc = "赋值、导出和取消首先发生在当前会话；其他终端拥有各自的变量状态"
+
+[[syntax.parts]]
+name = "子进程"
+desc = "只继承创建它时已导出的环境快照，不能反向修改父 shell 的变量"
+
+[[options]]
+flag = "双引号"
+name = "展开并保护结果"
+note = "变量会展开，同时避免结果被额外分词或通配展开，通常是读取路径和值的稳妥默认"
+
+[[options]]
+flag = "单引号"
+name = "保持字面值"
+note = "其中的变量引用不会展开，适合展示语法本身"
+
+[[options]]
+flag = "export"
+name = "让后续子进程继承"
+note = "不会把值自动写入启动文件，也不会更新已运行进程"
+
+[[options]]
+flag = "unset"
+name = "从当前 shell 移除"
+note = "后续子进程不再继承该变量，但其他会话和已有进程不受影响"
+
+[[examples]]
+id = "v03-25-environment-variables-01"
+command_id = "env-echo-home-quoted"
+level = 1
+
+[[examples]]
+id = "v03-25-environment-variables-02"
+command_id = "env-echo-home-literal"
+level = 1
+
+[[examples]]
+id = "v03-25-environment-variables-03"
+command_id = "env-echo-user"
+level = 1
+
+[[examples]]
+id = "v03-25-environment-variables-04"
+command_id = "env-echo-login-shell"
+level = 1
+
+[[examples]]
+id = "v03-25-environment-variables-05"
+command_id = "env-export-project-mode"
+level = 2
+
+[[examples]]
+id = "v03-25-environment-variables-06"
+command_id = "env-print-project-mode"
+level = 2
+
+[[examples]]
+id = "v03-25-environment-variables-07"
+command_id = "env-unset-project-mode"
+level = 2
+
+[[gotchas]]
+title = "完整环境可能直接暴露凭据"
+content = "访问令牌、云密钥、代理口令和临时认证信息经常存放在环境变量中。分享前只读取必要变量并脱敏，不要上传完整环境快照。"
+
+[[gotchas]]
+title = "导出不是永久保存"
+content = "export 改变的是当前 shell 的导出状态。关闭终端后通常消失；需要持久化时必须选择正确的启动文件，并先备份和审查。"
+
+[[gotchas]]
+title = "子进程继承是单向快照"
+content = "子进程启动时取得环境副本。之后父 shell 的修改不会自动同步给已运行子进程，子进程也不能通过普通环境赋值改回父 shell。"

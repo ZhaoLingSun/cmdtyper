@@ -159,7 +159,7 @@ answers = [
 
 [[commands]]
 id = "curl-status-code"
-command = "curl -s -o /dev/null -w %{http_code}n https://example.com"
+command = "curl -s -o /dev/null -w '%{http_code}\\n' https://example.com"
 summary = "只输出 https://example.com 的 HTTP 状态码"
 simulated_output = "200"
 
@@ -184,7 +184,7 @@ text = " -w"
 desc = "自定义输出格式"
 
 [[commands.tokens]]
-text = " %{http_code}n "
+text = " '%{http_code}\\n' "
 desc = "只输出 HTTP 状态码和换行"
 
 [[commands.tokens]]
@@ -194,8 +194,8 @@ desc = "示例目标 URL"
 [commands.dictation]
 prompt = "只输出 https://example.com 的 HTTP 状态码"
 answers = [
-    "curl -s -o /dev/null -w %{http_code}\n https://example.com",
-    "curl -s -o /dev/null -w \"%{http_code}\n\" https://example.com",
+    "curl -s -o /dev/null -w '%{http_code}\\n' https://example.com",
+    "curl -s -o /dev/null -w \"%{http_code}\\n\" https://example.com",
 ]
 
 [[commands]]

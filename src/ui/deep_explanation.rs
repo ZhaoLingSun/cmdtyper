@@ -54,7 +54,10 @@ pub fn render(frame: &mut Frame, app: &App, source: &DeepSource, scroll: usize) 
             .or_else(|| raw_line.strip_prefix("* "))
         {
             lines.push(Line::from(vec![
-                Span::styled("• ", Style::default().fg(ACCENT).add_modifier(Modifier::BOLD)),
+                Span::styled(
+                    "• ",
+                    Style::default().fg(ACCENT).add_modifier(Modifier::BOLD),
+                ),
                 Span::styled(bullet.to_string(), Style::default().fg(Color::White)),
             ]));
             continue;
@@ -62,7 +65,10 @@ pub fn render(frame: &mut Frame, app: &App, source: &DeepSource, scroll: usize) 
 
         if let Some(tip) = raw_line.strip_prefix("> ") {
             lines.push(Line::from(vec![
-                Span::styled("💡 ", Style::default().fg(WARNING).add_modifier(Modifier::BOLD)),
+                Span::styled(
+                    "💡 ",
+                    Style::default().fg(WARNING).add_modifier(Modifier::BOLD),
+                ),
                 Span::styled(tip.to_string(), Style::default().fg(WARNING)),
             ]));
             continue;
@@ -75,19 +81,14 @@ pub fn render(frame: &mut Frame, app: &App, source: &DeepSource, scroll: usize) 
     }
 
     let visible_height = chunks[1].height as usize;
-    let total_lines = lines.len();
+    let total_lines = rendered_wrapped_line_count(&lines, chunks[1].width, false);
     let clamped_scroll = clamp_scroll(scroll, total_lines, visible_height);
-
     let content = Paragraph::new(lines)
         .wrap(Wrap { trim: false })
         .scroll((clamped_scroll as u16, 0));
     frame.render_widget(content, chunks[1]);
 
-    let hints = hint_line(&[
-        ("Esc", "返回"),
-        ("→", "下一条"),
-        ("↑↓/j k", "滚动"),
-    ]);
+    let hints = hint_line(&[("Esc", "返回"), ("→", "下一条"), ("↑↓/j k", "滚动")]);
     frame.render_widget(
         Paragraph::new(hints).alignment(Alignment::Center),
         chunks[2],

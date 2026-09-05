@@ -1,7 +1,7 @@
 services:
   cmdtyper:
     build: .
-    image: cmdtyper:v0.2-dev
+    image: cmdtyper:v0.3
     container_name: cmdtyper
     stdin_open: true
     tty: true

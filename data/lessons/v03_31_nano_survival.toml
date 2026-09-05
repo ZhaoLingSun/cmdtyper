@@ -1,0 +1,103 @@
+[meta]
+command = "nano 生存指南"
+full_name = "GNU nano opening, positioning, read-only viewing, saving, and exiting"
+category = "system"
+difficulty = "beginner"
+importance = "core"
+
+[overview]
+summary = "用底部快捷键提示完成定位、编辑、写出、退出与只读查看"
+explanation = """nano 没有 Vim 那样的普通/插入模式切换，打开文件后通常可以直接输入文本，底部两行持续显示快捷键。符号 ^ 表示 Ctrl，所以 ^O 是 Ctrl+O 写出文件，^X 是 Ctrl+X 退出；如果存在未保存修改，退出时会询问是否保存，必须根据意图回答，而不是连续确认。Ctrl+O 会进入文件名确认步骤，核对目标路径后才写入。+12,5 在启动时定位到第 12 行第 5 列，适合依据诊断位置打开脚本；-l 用小写字母 l 显示行号；-v 用小写 v 启用查看模式，减少误编辑。查看模式仍不是权限隔离，也不能防止其他程序修改文件。nano --version 只在终端显示版本，不打开文件。所有启动选项都区分大小写，尤其小写 -l 容易与数字 1 混淆。"""
+
+[syntax]
+basic = "nano [选项] [+行,列] 文件；Ctrl+O 写出；Ctrl+X 退出"
+[[syntax.parts]]
+name = "直接编辑"
+desc = "打开后直接输入；无需先按 i。底部 ^G、^O、^W、^X 等提示中的 ^ 代表 Ctrl"
+[[syntax.parts]]
+name = "写出文件"
+desc = "Ctrl+O 后核对文件名并确认写入；保存路径可能与最初打开路径不同"
+[[syntax.parts]]
+name = "退出流程"
+desc = "Ctrl+X 退出；有未保存修改时按提示决定保存、放弃或取消返回编辑"
+[[syntax.parts]]
+name = "定位与显示"
+desc = "+行,列 直接定位，-l 显示行号；两者只改变起始位置或界面显示"
+[[syntax.parts]]
+name = "查看模式"
+desc = "-v 禁止常规修改，适合观察；它不提升文件权限，也不是安全沙箱"
+
+[[options]]
+flag = "--version"
+name = "显示 nano 版本"
+example = "nano --version"
+note = "两个连字符的长选项，只输出版本与构建信息，不打开文件"
+
+[[options]]
+flag = "+行,列"
+name = "启动时定位"
+example = "nano +12,5 deploy.sh"
+note = "行号和列号用逗号分隔；定位不验证诊断是否仍对应当前文件版本"
+
+[[options]]
+flag = "-v"
+name = "查看模式"
+example = "nano -v /etc/hosts"
+note = "v 必须小写；只读意图可减少误改，但真正保护仍取决于文件权限和流程"
+
+[[options]]
+flag = "-l"
+name = "显示行号"
+example = "nano -l deploy.sh"
+note = "是小写字母 l，不是数字 1，也不是大写 I；显示行号不会改变文件内容"
+
+[[options]]
+flag = "Ctrl+O / Ctrl+X"
+name = "写出与退出"
+example = "先 Ctrl+O 核对文件名并保存，再 Ctrl+X 退出"
+note = "Ctrl+X 遇到未保存修改会询问；读清问题再选择，不把退出提示当自动保存"
+
+[[examples]]
+id = "v03-31-nano-version-observe"
+command_id = "nano-version-check"
+level = 1
+
+[[examples]]
+id = "v03-31-nano-open-todo"
+command_id = "nano-open-todo"
+level = 1
+
+[[examples]]
+id = "v03-31-nano-open-line-column"
+command_id = "nano-open-line-column"
+level = 2
+
+[[examples]]
+id = "v03-31-nano-view-hosts"
+command_id = "nano-view-hosts"
+level = 2
+
+[[examples]]
+id = "v03-31-nano-line-numbers"
+command_id = "nano-line-numbers"
+level = 1
+
+[[gotchas]]
+title = "^ 代表 Ctrl，不是要输入的字符"
+content = "底部的 ^O 表示按住 Ctrl 再按 O，^X 表示 Ctrl+X。M- 前缀通常表示 Meta/Alt。快捷键字母按界面原样识别，键盘布局或终端拦截也可能影响结果。"
+
+[[gotchas]]
+title = "Ctrl+O 之后还要确认写入目标"
+content = "写出流程会显示文件名。若误改路径，可能创建新文件或覆盖另一个目标；保存前逐字核对目录和文件名。关键配置还应先备份并确认权限。"
+
+[[gotchas]]
+title = "Ctrl+X 不总是立即退出"
+content = "有未保存修改时 nano 会询问是否保存。回答 Yes 会继续进入文件名确认，No 会丢弃修改，Cancel 会回到编辑。提示语言和按键可能随版本或 locale 不同，应阅读当前界面。"
+
+[[gotchas]]
+title = "查看模式不等于操作系统只读"
+content = "nano -v 限制编辑器中的修改能力，但不能阻止其他进程改写文件，也不提供权限隔离。查看系统文件时仍应保持最小权限，并使用独立的变更流程。"
+
+[[gotchas]]
+title = "大小写、字母和数字必须分清"
+content = "-v 与 -l 都是小写；-l 是字母 l，不是 1。+12,5 中的数字和逗号也有固定结构。输错选项可能启动不同功能或报错，不能凭外观猜测。"

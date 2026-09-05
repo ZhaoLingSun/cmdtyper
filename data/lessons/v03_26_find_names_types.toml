@@ -1,0 +1,125 @@
+[meta]
+command = "find（名称、类型与属性）"
+full_name = "find file trees by name, type, time, and size"
+category = "search"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "先限定目录树，再按名称、类型、时间或大小逐层缩小文件候选集"
+explanation = """find 解决的是“路径对象在哪里”，搜索对象是文件名、目录名以及文件元数据，而不是文件正文。家庭电脑上可用它找下载包、文档和照片；开发目录中可用它盘点源码、测试目录与配置；服务器上则常按修改时间或大小定位日志与备份。稳定的工作流是：先选择尽可能小的起点，再用 -type 明确对象种类，最后叠加 -name、-iname、-mtime 或 -size。默认条件之间是逻辑与。先只读打印结果并检查边界，再决定是否进入复制、归档或清理步骤；本课全部示例都只查找，不执行后续命令。"""
+
+[syntax]
+basic = "find 起始路径 [条件 ...]"
+[[syntax.parts]]
+name = "起始路径"
+desc = "递归遍历从哪里开始；范围越准确，结果越少，耗时和权限噪声也越低"
+[[syntax.parts]]
+name = "对象类型"
+desc = "用 -type f 只看普通文件，用 -type d 只看目录，避免同名但不同类型的对象混入"
+[[syntax.parts]]
+name = "名称模式"
+desc = "-name 区分大小写，-iname 忽略大小写；通配符应放在引号中交给 find 处理"
+[[syntax.parts]]
+name = "属性条件"
+desc = "-mtime 按数据修改时间筛选，-size 按文件长度（表观大小）筛选"
+
+[[options]]
+flag = "-type f"
+name = "只匹配普通文件"
+example = "find src -type f"
+note = "不会把目录、符号链接或套接字当成普通文件；默认不会跟随遍历中遇到的符号链接"
+
+[[options]]
+flag = "-type d"
+name = "只匹配目录"
+example = "find . -type d -name 'tests'"
+note = "适合盘点目录布局；名称相同的普通文件不会进入结果"
+
+[[options]]
+flag = "-name 模式"
+name = "区分大小写匹配基本名称"
+example = "find ~/Documents -type f -name '*.pdf'"
+note = "只匹配路径最后一段的名称；引号阻止 shell 在当前目录提前展开 *"
+
+[[options]]
+flag = "-iname 模式"
+name = "忽略大小写匹配基本名称"
+example = "find ~/Downloads -type f -iname '*.zip'"
+note = "可同时匹配 .zip、.ZIP 等大小写变体，但不改变文件系统本身的大小写规则"
+
+[[options]]
+flag = "-mtime -N"
+name = "匹配最近 N 个 24 小时周期内修改的文件"
+example = "find /var/log -type f -mtime -7"
+note = "find 按完整 24 小时周期取整，并非自然日；需要更细粒度时应另选分钟级条件"
+
+[[options]]
+flag = "-size +NM"
+name = "按文件长度筛选较大的对象"
+example = "find /srv/backups -type f -size +100M"
+note = "GNU find 的 M 表示 MiB 级单位；这里检查 st_size 表观大小，不等同于实际分配磁盘块"
+
+[[examples]]
+id = "v03-26-find-names-types-pdf"
+command_id = "find-pdf-by-name"
+level = 1
+deep_explanation = "家庭文档整理从明确的 Documents 起点开始。-type f 排除名为 *.pdf 的目录等非普通文件，-name 只检查基本名称。模式必须加引号，否则 shell 可能先把当前目录中的 PDF 展开，改变 find 实际收到的参数。"
+
+[[examples]]
+id = "v03-26-find-names-types-zip-case"
+command_id = "find-zip-ignore-case"
+level = 1
+deep_explanation = "下载目录常混有来自不同平台的 ZIP、Zip 或 zip 后缀。-iname 只放宽名称大小写，不会搜索压缩包正文，也不会验证文件是否真是 ZIP 格式；它回答的是“名字看起来像 ZIP 的普通文件在哪里”。"
+
+[[examples]]
+id = "v03-26-find-names-types-source-files"
+command_id = "find-source-regular-files"
+level = 1
+deep_explanation = "开发目录盘点时先用 -type f 得到全部普通文件，建立可审阅的基线。结果会递归包含子目录中的文件，但不会列出目录本身。若目标是搜索源码内容，应把候选文件交给 grep，而不是误以为 find 会读取正文。"
+
+[[examples]]
+id = "v03-26-find-names-types-test-dirs"
+command_id = "find-tests-directories"
+level = 2
+deep_explanation = "这里寻找的是目录布局：起点 . 表示当前工作目录，-type d 明确对象必须是目录，-name 'tests' 要求最后一段名称恰为 tests。它可以发现嵌套工程或依赖树中的测试目录，但不会判断目录里是否真的含有测试代码。"
+
+[[examples]]
+id = "v03-26-find-names-types-recent-logs"
+command_id = "find-logs-modified-seven-days"
+level = 2
+deep_explanation = "日志排查通常先缩小到 /var/log，再按普通文件和修改时间筛选。-mtime -7 表示修改时间距离现在不足七个完整的 24 小时周期，不是“本周”或七个日历日期。读取某些目录可能受权限限制，缺少结果不一定表示文件不存在。"
+
+[[examples]]
+id = "v03-26-find-names-types-large-backups"
+command_id = "find-large-backup-files"
+level = 2
+deep_explanation = "备份目录容量异常时，可先按文件长度找出超过 100 MiB 的普通文件。-size 依据表观大小；稀疏文件的表观大小可能很大，实际占用却较小。若要回答“磁盘块真正被谁占用”，应转到 du 工作流，而不是直接把 find 的大小结果当成磁盘占用。"
+
+[[examples]]
+id = "v03-26-find-names-types-configs"
+command_id = "find-exec-list-configs"
+level = 2
+deep_explanation = "题目名称保留了历史 ID，但规范命令只执行只读查找，没有 -exec。它递归列出当前目录树中名称以 .conf 结尾的普通文件，适合在变更前建立配置清单。不要仅因 ID 含 exec 就假设命令会执行动作，应以规范 command_id 对应的命令文本为准。"
+
+[[examples]]
+id = "v03-26-find-names-types-javascript"
+command_id = "find-javascript-prune-vcs-deps"
+level = 2
+deep_explanation = "该规范命令只从 src 搜索 JavaScript 普通文件，并没有 -prune。把起点直接设为 src 已自然避开项目根目录下常见的依赖与版本控制目录。若起点扩大到 .，才需要认真设计排除规则；不要从历史 ID 猜测未出现的选项。"
+
+[[gotchas]]
+title = "文件名搜索不等于文件内容搜索"
+content = "find 的 -name/-iname 匹配路径最后一段名称，不能找出正文中出现某个词的文件。找“名为 app.conf 的文件”用 find；找“正文含 api_url 的行”用 grep。先分清问题对象，可避免扫描很久却得到错误答案。"
+
+[[gotchas]]
+title = "通配符交给谁展开取决于引号"
+content = "写成 -name '*.pdf' 时，引号让 find 收到星号模式，并在遍历到的每个基本名称上匹配。若省略引号，shell 会先根据当前目录展开；展开为零个、一个或多个路径时，行为都可能与预期不同。"
+
+[[gotchas]]
+title = "表观大小不是已分配空间"
+content = "find -size 依据文件长度筛选，适合找逻辑上很大的文件。稀疏文件、压缩、写时复制或文件系统块分配会让实际占用不同。容量排查应结合 du；文件系统总体余量则看 df。"
+
+[[gotchas]]
+title = "时间条件按周期取整"
+content = "-mtime 的单位是完整的 24 小时周期并会取整，-mtime -7 不等于从七天前零点开始。审计或清理边界敏感时，应先打印结果并核对时间戳，绝不能把近似时间条件直接接到破坏性动作。"

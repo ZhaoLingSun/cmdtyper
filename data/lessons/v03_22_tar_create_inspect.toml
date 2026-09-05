@@ -1,0 +1,97 @@
+[meta]
+command = "tar-create-inspect"
+full_name = "tar 归档创建与压缩信息检查"
+category = "archive"
+difficulty = "basic"
+importance = "core"
+
+[overview]
+summary = "先确定归档边界和目标文件，再用只读列表验证结果"
+explanation = """归档与压缩是两个相关但不同的动作：tar 负责把目录树和多个文件组织成一个归档，gzip 或 xz 等算法负责减小数据体积。创建时，c 表示新建，f 表示下一参数是归档文件名，z 表示通过 gzip 压缩；未压缩的 .tar 只完成打包。安全工作流从确认源目录和目标文件名开始，因为 tar 创建操作可能覆盖同名普通文件。完成后不要立刻删除源数据，应先用 t 列出归档成员，检查是否保留了预期根目录、是否遗漏文件、是否意外包含敏感路径。对于单文件压缩格式，gzip -l 与 xz -l 能在不还原内容的前提下查看压缩前后大小、比例和校验信息。把“创建”和“检查”固定成连续步骤，比仅凭文件扩展名判断成功更可靠。"""
+
+[syntax]
+basic = "tar 创建或列表选项 归档文件 [源路径]；压缩工具 -l 压缩文件"
+
+[[syntax.parts]]
+name = "操作选项"
+desc = "c 创建新归档，t 只读列出成员，z 表示 gzip，f 指定紧随其后的归档文件名"
+
+[[syntax.parts]]
+name = "归档或压缩文件"
+desc = "创建前确认目标名不存在，检查时确认文件来自可信流程且扩展名与格式一致"
+
+[[syntax.parts]]
+name = "源路径"
+desc = "创建归档时收入的文件或目录；相对路径通常比绝对路径更便于安全还原"
+
+[[options]]
+flag = "-cf"
+name = "创建未压缩 tar 归档"
+example = "tar -cf logs.tar logs"
+note = "只打包不压缩；f 后必须紧跟目标归档名"
+
+[[options]]
+flag = "-czf"
+name = "创建 gzip 压缩归档"
+example = "tar -czf website.tar.gz public"
+note = "创建前确认目标文件不存在，完成后再用列表模式验证成员"
+
+[[options]]
+flag = "-tzf"
+name = "列出 gzip 归档内容"
+example = "tar -tzf website.tar.gz"
+note = "不写出成员文件，是解压前和创建后的关键检查步骤"
+
+[[options]]
+flag = "gzip -l"
+name = "查看 gzip 压缩统计"
+example = "gzip -l service.log.gz"
+note = "显示压缩大小、原始大小和比例，不创建还原文件"
+
+[[options]]
+flag = "xz -l"
+name = "查看 xz 流与大小信息"
+example = "xz -l release.tar.xz"
+note = "用于检查封装和压缩信息；若要看 tar 成员仍需使用 tar 的列表操作"
+
+[[examples]]
+id = "v03-22-tar-create-inspect-01"
+command_id = "unzip-cp936-legacy"
+level = 1
+output_explanation = "未压缩 tar 创建成功时往往没有终端输出；应随后检查目标文件存在并列出成员，而不是据沉默直接删除源目录。"
+
+[[examples]]
+id = "v03-22-tar-create-inspect-02"
+command_id = "tar-czf-public"
+level = 1
+output_explanation = "组合选项同时完成归档和 gzip 压缩；目标名若已存在可能被覆盖，因此事前确认比事后补救更重要。"
+
+[[examples]]
+id = "v03-22-tar-create-inspect-03"
+command_id = "tar-tzf-website"
+level = 2
+output_explanation = "成员列表显示统一的 public 根目录，说明将来提取时内容不会直接散落到目标目录顶层。"
+
+[[examples]]
+id = "v03-22-tar-create-inspect-04"
+command_id = "gzip-list-service-log"
+level = 2
+output_explanation = "统计行用于比较压缩前后大小与比例；它验证元信息，不等于已经逐字检查日志内容。"
+
+[[examples]]
+id = "v03-22-tar-create-inspect-05"
+command_id = "xz-list-release"
+level = 3
+output_explanation = "流数、块数、压缩比例和 CRC 类型描述 xz 层；release.tar.xz 内部成员仍需通过 tar 列表另行核对。"
+
+[[gotchas]]
+title = "f 后面的参数就是归档文件名"
+content = """tar 的短选项可组合，但 f 需要一个值，因此通常把 f 放在组合末尾，让下一段明确成为归档名。若顺序写错，tar 可能把另一个字母或路径解释为文件名。阅读命令时不要只背 czf，要逐项确认操作模式、压缩算法、归档目标和源路径各自位置。"""
+
+[[gotchas]]
+title = "创建归档可能覆盖同名文件"
+content = """目标路径存在时，创建模式通常不会替你做安全备份。先检查目标名、目录和剩余空间，使用新的可追踪文件名；创建后先列成员并保存校验信息，确认归档可读、范围正确，再考虑清理源文件。不要在唯一数据副本上把压缩成功当作备份完成。"""
+
+[[gotchas]]
+title = "压缩信息与归档成员是两层检查"
+content = """gzip -l 或 xz -l 可以说明压缩容器的大小和校验类型，却不会完整展示 tar 里有哪些路径。对 .tar.gz 和 .tar.xz，既要检查压缩层，也要用 tar 的列表模式检查成员结构。尤其关注绝对路径、.. 路径、没有统一根目录以及不应收录的密钥或缓存文件。"""

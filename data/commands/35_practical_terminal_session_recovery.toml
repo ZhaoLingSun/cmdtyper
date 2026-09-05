@@ -1,0 +1,397 @@
+[meta]
+category = "process"
+difficulty = "practical"
+description = "tmux 会话观察、终端关系诊断与 reptyr 任务接管的安全恢复流程"
+
+[meta.topic]
+id = "terminal_session_recovery"
+title = "终端会话与任务接管"
+icon = "🧷"
+order = 16
+
+[[commands]]
+id = "tmux-new-session"
+command = "tmux new -s dev"
+summary = "创建名为 dev 的 tmux 新会话，并立即进入该会话"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "tmux"
+desc = "终端复用器，可保持长期会话（通常需要额外安装）"
+
+[[commands.tokens]]
+text = " new"
+desc = "创建新会话，并让当前客户端立即进入"
+
+[[commands.tokens]]
+text = " -s"
+desc = "指定会话名称"
+
+[[commands.tokens]]
+text = " dev"
+desc = "要创建并立即进入的新会话名称"
+
+[commands.dictation]
+prompt = "创建一个名为 dev 的 tmux 新会话，并让当前客户端立即进入该会话"
+answers = [
+    "tmux new -s dev",
+    "tmux new-session -s dev",
+]
+
+[[commands]]
+id = "tmux-attach-session"
+command = "tmux attach -t dev"
+summary = "重新连接到名为 dev 的 tmux 会话"
+simulated_output = "[attached to session dev]"
+
+[[commands.tokens]]
+text = "tmux"
+desc = "终端复用器"
+
+[[commands.tokens]]
+text = " attach"
+desc = "连接到已有会话"
+
+[[commands.tokens]]
+text = " -t"
+desc = "指定目标会话"
+
+[[commands.tokens]]
+text = " dev"
+desc = "要连接的会话名"
+
+[commands.dictation]
+prompt = "重新连接到名为 dev 的 tmux 会话"
+answers = [
+    "tmux attach -t dev",
+    "tmux attach-session -t dev",
+]
+
+[[commands]]
+id = "tmux-list-sessions-recovery"
+command = "tmux list-sessions"
+summary = "只读列出当前用户的 tmux 会话，先核对名称、窗口数与连接状态"
+simulated_output = """dev: 2 windows (created Sun Jul 26 09:12:04 2026) (attached)
+ops: 1 windows (created Sun Jul 26 08:40:17 2026) (detached)"""
+
+[[commands.tokens]]
+text = "tmux"
+desc = "访问当前用户的 tmux 服务端；不会跨用户列出其他账号的会话"
+
+[[commands.tokens]]
+text = " list-sessions"
+desc = "只读列出会话名称、窗口数量和 attached/detached 状态，供连接或清理前核对"
+
+[commands.dictation]
+prompt = "在连接、分离或结束任何会话前，只读列出当前用户的全部 tmux 会话，核对目标会话名和连接状态"
+answers = ["tmux list-sessions"]
+
+[[commands]]
+id = "tmux-detach-dev-clients"
+command = "tmux detach-client -s dev"
+summary = "在核对会话后分离所有连接到 dev 的客户端，但保留会话内任务"
+simulated_output = "(无输出；dev 会话仍运行，已连接客户端被分离)"
+
+[[commands.tokens]]
+text = "tmux"
+desc = "管理当前用户拥有的 tmux 会话和客户端"
+
+[[commands.tokens]]
+text = " detach-client"
+desc = "分离客户端连接；不会结束目标会话及其中的窗格任务"
+
+[[commands.tokens]]
+text = " -s"
+desc = "按会话选择客户端；会影响连接到该会话的所有客户端"
+
+[[commands.tokens]]
+text = " dev"
+desc = "已通过 list-sessions 核对、且确认由当前用户拥有的目标会话"
+
+[commands.dictation]
+prompt = "已确认 dev 是当前用户拥有的目标会话，并已告知其他连接者分离会中断他们的当前终端视图；分离所有连接到 dev 的客户端，但保留会话和任务"
+answers = ["tmux detach-client -s dev"]
+
+[[commands]]
+id = "tmux-list-windows-dev"
+command = "tmux list-windows -t dev"
+summary = "只读查看 dev 会话的窗口编号、名称、布局与活动状态"
+simulated_output = """0: editor* (2 panes) [120x36] [layout 7d15,120x36,0,0{78x36,0,0,1,41x36,79,0,2}] @1 (active)
+1: server- (1 panes) [120x36] [layout b25d,120x36,0,0,3] @2"""
+
+[[commands.tokens]]
+text = "tmux"
+desc = "终端复用器的客户端命令"
+
+[[commands.tokens]]
+text = " list-windows"
+desc = "只读列出目标会话中的窗口，不切换或关闭窗口"
+
+[[commands.tokens]]
+text = " -t"
+desc = "指定要检查的目标会话"
+
+[[commands.tokens]]
+text = " dev"
+desc = "已从会话清单确认存在的示例会话名"
+
+[commands.dictation]
+prompt = "只读列出 dev 会话里的窗口，检查编号、名称和活动窗口，不连接或修改会话"
+answers = ["tmux list-windows -t dev"]
+
+[[commands]]
+id = "tmux-list-panes-recovery-format"
+command = "tmux list-panes -t dev:0 -F '#{pane_id} #{pane_pid} #{pane_tty} #{pane_current_command}'"
+summary = "按固定字段查看 dev:0 各窗格的 ID、PID、TTY 与当前命令"
+simulated_output = """%1 4100 /dev/pts/7 python3
+%2 4300 /dev/pts/4 vim"""
+
+[[commands.tokens]]
+text = "tmux"
+desc = "查询当前用户的 tmux 服务端"
+
+[[commands.tokens]]
+text = " list-panes"
+desc = "只读列出目标窗口中的窗格"
+
+[[commands.tokens]]
+text = " -t"
+desc = "指定目标窗口"
+
+[[commands.tokens]]
+text = " dev:0"
+desc = "dev 会话的 0 号窗口；应先用会话和窗口清单确认"
+
+[[commands.tokens]]
+text = " -F"
+desc = "使用自定义输出格式"
+
+[[commands.tokens]]
+text = " '#{pane_id} #{pane_pid} #{pane_tty} #{pane_current_command}'"
+desc = "依次输出窗格 ID、窗格启动进程 PID、终端设备和当前前台命令，便于定位而不修改任务"
+
+[commands.dictation]
+prompt = "已确认目标为 dev 会话的 0 号窗口；只读列出每个窗格的窗格 ID、启动 PID、TTY 和当前命令，字段之间用空格分隔"
+answers = ["tmux list-panes -t dev:0 -F '#{pane_id} #{pane_pid} #{pane_tty} #{pane_current_command}'"]
+
+[[commands]]
+id = "tmux-capture-pane-recent-output"
+command = "tmux capture-pane -p -t dev:0.0 -S -50 | tail -n 50"
+summary = "只读捕获窗格历史与可见区域，再保留合并输出中最新的 50 行"
+simulated_output = """2026-07-26 09:28:10 INFO worker started
+2026-07-26 09:28:14 INFO processed batch 17
+2026-07-26 09:28:18 WARN retrying request 3/3
+2026-07-26 09:28:21 INFO batch completed"""
+
+[[commands.tokens]]
+text = "tmux"
+desc = "读取当前用户 tmux 会话中的窗格历史"
+
+[[commands.tokens]]
+text = " capture-pane"
+desc = "捕获目标窗格的屏幕和可用历史内容，不向窗格发送按键"
+
+[[commands.tokens]]
+text = " -p"
+desc = "把捕获内容打印到标准输出，而不是保存到 tmux 缓冲区"
+
+[[commands.tokens]]
+text = " -t"
+desc = "指定要读取的目标窗格"
+
+[[commands.tokens]]
+text = " dev:0.0"
+desc = "已核对的 dev 会话、0 号窗口、0 号窗格"
+
+[[commands.tokens]]
+text = " -S"
+desc = "指定捕获从可见区域上方的历史相对位置开始"
+
+[[commands.tokens]]
+text = " -50"
+desc = "额外包含可见区域之前的 50 行历史，使候选范围覆盖历史与当前可见行"
+
+[[commands.tokens]]
+text = " |"
+desc = "把完整捕获结果传给 tail"
+
+[[commands.tokens]]
+text = " tail"
+desc = "从合并后的历史与可见输出末端截取"
+
+[[commands.tokens]]
+text = " -n"
+desc = "指定要保留的行数"
+
+[[commands.tokens]]
+text = " 50"
+desc = "只保留最终输出中最新的 50 行"
+
+[commands.dictation]
+prompt = "已核对目标窗格是 dev:0.0；只读捕获历史与可见区域，并用 tail 精确保留合并输出中最新的 50 行"
+answers = ["tmux capture-pane -p -t dev:0.0 -S -50 | tail -n 50"]
+
+[[commands]]
+id = "tmux-kill-session-dev-confirmed"
+command = "tmux kill-session -t dev"
+summary = "在多层确认后结束 dev；仅由该会话独占的窗口和窗格会随之关闭"
+simulated_output = "(无输出；dev 会话已结束；同时链接到其他会话的窗口仍在其他会话中保留)"
+
+[[commands.tokens]]
+text = "tmux"
+desc = "管理当前用户的 tmux 会话"
+
+[[commands.tokens]]
+text = " kill-session"
+desc = "永久删除目标会话；会话独占的窗口和窗格随之关闭，但链接到其他会话的窗口不会因此被销毁"
+
+[[commands.tokens]]
+text = " -t"
+desc = "指定唯一目标会话"
+
+[[commands.tokens]]
+text = " dev"
+desc = "已通过 list-sessions、list-windows 和窗格检查再次确认的会话名"
+
+[commands.dictation]
+prompt = "破坏性操作：已确认 dev 由当前用户拥有、会话名无误、独占窗口中的任务可终止且输出已保存，并已核对是否有窗口同时链接到其他会话；现在删除 dev 会话，理解共享链接窗口仍会保留在其他会话中"
+answers = ["tmux kill-session -t dev"]
+
+[[commands]]
+id = "tty-current-terminal"
+command = "tty"
+summary = "只读显示当前标准输入连接的终端设备，建立接管前的 TTY 基线"
+simulated_output = "/dev/pts/9"
+
+[[commands.tokens]]
+text = "tty"
+desc = "输出当前标准输入所连接的终端设备名；不会修改会话或进程"
+
+[commands.dictation]
+prompt = "在比较目标进程终端之前，只读显示当前 shell 标准输入连接的 TTY 设备"
+answers = ["tty"]
+
+[[commands]]
+id = "ps-session-terminal-review"
+command = "ps ww -o user,pid,ppid,sid,tty,stat,args -p 4242"
+summary = "按 PID 宽幅查看所有者、父进程、会话 ID、TTY、状态与完整命令行"
+simulated_output = """USER       PID  PPID   SID TT       STAT COMMAND
+alice     4242  4100  4100 pts/7    S+   python3 worker.py --queue demo"""
+
+[[commands.tokens]]
+text = "ps"
+desc = "只读查看进程快照；PID 可能被复用，接管前必须重新检查"
+
+[[commands.tokens]]
+text = " ww"
+desc = "重复宽输出选项，避免长参数按当前终端宽度截断"
+
+[[commands.tokens]]
+text = " -o"
+desc = "指定需要显示的列"
+
+[[commands.tokens]]
+text = " user,pid,ppid,sid,tty,stat,args"
+desc = "显示所有者、PID、父 PID、会话 ID、TTY、状态和完整参数，综合判断进程归属与终端关系"
+
+[[commands.tokens]]
+text = " -p"
+desc = "只检查指定 PID"
+
+[[commands.tokens]]
+text = " 4242"
+desc = "安全练习用的虚构 PID；真实操作前必须从最新只读清单重新取得"
+
+[commands.dictation]
+prompt = "接管前只读复核虚构 PID 4242：用 ps ww 防止长参数截断，并显示 USER、PID、PPID、SID、TTY、STAT 和完整 ARGS，确认所有者、会话与命令行"
+answers = ["ps ww -o user,pid,ppid,sid,tty,stat,args -p 4242"]
+
+[[commands]]
+id = "command-v-reptyr"
+command = "command -v reptyr"
+summary = "只读确认当前 shell 能否从 PATH 找到 reptyr"
+simulated_output = "/usr/bin/reptyr"
+
+[[commands.tokens]]
+text = "command"
+desc = "shell 内建命令，可在不启动目标程序的情况下查询命令解析结果"
+
+[[commands.tokens]]
+text = " -v"
+desc = "输出给定命令会被解析到的别名、函数、内建或可执行文件路径"
+
+[[commands.tokens]]
+text = " reptyr"
+desc = "要检查是否已安装且可由当前 shell 找到的任务接管工具"
+
+[commands.dictation]
+prompt = "在尝试任何进程接管前，不运行 reptyr，只读确认当前 shell 能从 PATH 找到它"
+answers = ["command -v reptyr"]
+
+[[commands]]
+id = "yama-ptrace-scope-read"
+command = "cat /proc/sys/kernel/yama/ptrace_scope"
+summary = "只读查看 Yama ptrace_scope；值 1 仍需结合后代关系、显式授权和能力判断"
+simulated_output = "1"
+
+[[commands.tokens]]
+text = "cat"
+desc = "只读输出文件内容；本题不写入 procfs，也不调用 sysctl 修改设置"
+
+[[commands.tokens]]
+text = " /proc/sys/kernel/yama/ptrace_scope"
+desc = "值 1 通常允许满足同用户等基础条件的后代进程，或经 PR_SET_PTRACER 授权、具备 CAP_SYS_PTRACE 的跟踪者；不能仅凭“不是直接父进程”断言失败"
+
+[commands.dictation]
+prompt = "普通接管前只读检查 ptrace_scope；记录目标是否为跟踪者后代、是否通过 PR_SET_PTRACER 授权，以及调用者是否在目标用户命名空间具备 CAP_SYS_PTRACE，不修改任何策略"
+answers = ["cat /proc/sys/kernel/yama/ptrace_scope"]
+
+[[commands]]
+id = "reptyr-attach-normal"
+command = "reptyr 4242"
+summary = "在明确排除 Yama 例外的静态场景中尝试普通接管，并预期权限拒绝"
+simulated_output = "Unable to attach to pid 4242: Operation not permitted"
+
+[[commands.tokens]]
+text = "reptyr"
+desc = "尝试重新关联进程与当前终端；实际结果取决于同用户/dumpable 条件、后代关系、PR_SET_PTRACER、CAP_SYS_PTRACE 及其他安全模块"
+
+[[commands.tokens]]
+text = " 4242"
+desc = "虚构 PID；本场景明确规定目标不是当前跟踪者的后代、未通过 PR_SET_PTRACER 授权，且调用者在目标用户命名空间没有 CAP_SYS_PTRACE"
+
+[commands.dictation]
+prompt = "静态场景已确认 ptrace_scope=1、目标不是当前 reptyr 跟踪者的后代、目标未用 PR_SET_PTRACER 授权该跟踪者，且调用者在目标用户命名空间没有 CAP_SYS_PTRACE；普通模式应预期 Operation not permitted，记录失败后停止"
+answers = ["reptyr 4242"]
+
+[[commands]]
+id = "ps-tty-session-scope-review"
+command = "ps -t pts/7 -o user,pid,ppid,sid,tty,stat,cmd"
+summary = "在任何整条 TTY 操作前，只读盘点 pts/7 上的所有者与进程范围"
+simulated_output = """USER       PID  PPID   SID TT       STAT CMD
+alice     4100     1  4100 pts/7    Ss   bash
+alice     4242  4100  4100 pts/7    S+   python3 worker.py --queue demo"""
+
+[[commands.tokens]]
+text = "ps"
+desc = "只读获取进程快照，不改变目标 TTY 或其中的任务"
+
+[[commands.tokens]]
+text = " -t"
+desc = "按终端选择进程，盘点整条 TTY 上的范围而不是只看单个 PID"
+
+[[commands.tokens]]
+text = " pts/7"
+desc = "已从最新只读检查确认的示例 TTY；真实操作必须重新核对终端名称"
+
+[[commands.tokens]]
+text = " -o"
+desc = "指定需要显示的进程字段"
+
+[[commands.tokens]]
+text = " user,pid,ppid,sid,tty,stat,cmd"
+desc = "显示所有者、进程关系、会话、终端、状态和命令，确认整条 TTY 上有哪些进程及其归属"
+
+[commands.dictation]
+prompt = "在考虑任何会影响整条 TTY 的操作前，只读列出 pts/7 上的全部进程，并显示 USER、PID、PPID、SID、TTY、STAT 和 CMD，以核对所有者与完整影响范围"
+answers = ["ps -t pts/7 -o user,pid,ppid,sid,tty,stat,cmd"]

@@ -1,0 +1,528 @@
+[meta]
+category = "system"
+difficulty = "basic"
+description = "磁盘空间排查"
+
+[meta.topic]
+id = "disk_space"
+title = "磁盘空间排查"
+icon = "💽"
+order = 8
+
+[[commands]]
+id = "disk-df-human-root"
+command = "df -h /"
+summary = "查看根文件系统的容量和可用空间"
+simulated_output = """Filesystem      Size  Used Avail Use% Mounted on
+/dev/nvme0n1p2  468G  163G  282G  37% /
+"""
+
+[[commands.tokens]]
+text = "df"
+desc = "显示文件系统空间使用情况"
+
+[[commands.tokens]]
+text = " -h"
+desc = "用 KiB、MiB、GiB 等易读单位显示容量"
+
+[[commands.tokens]]
+text = " /"
+desc = "只查看根目录所在的文件系统"
+
+[commands.dictation]
+prompt = "查看根目录所在文件系统的总容量、已用和可用空间，并使用易读单位"
+answers = ["df -h /"]
+
+[[commands]]
+id = "disk-df-type-root"
+command = "df -T /"
+summary = "确认根文件系统类型和块使用量"
+simulated_output = """Filesystem     Type  1K-blocks      Used Available Use% Mounted on
+/dev/nvme0n1p2 ext4   490770432 170655884 295164348  37% /
+"""
+
+[[commands.tokens]]
+text = "df"
+desc = "显示文件系统空间使用情况"
+
+[[commands.tokens]]
+text = " -T"
+desc = "增加 Type 列以显示文件系统类型"
+
+[[commands.tokens]]
+text = " /"
+desc = "只查看根目录所在的文件系统"
+
+[commands.dictation]
+prompt = "查看根目录所在设备的文件系统类型以及以块计量的空间使用情况"
+answers = ["df -T /"]
+
+[[commands]]
+id = "disk-df-inodes-root"
+command = "df -i /"
+summary = "检查根文件系统的索引节点余量"
+simulated_output = """Filesystem       Inodes  IUsed    IFree IUse% Mounted on
+/dev/nvme0n1p2 30638080 984321 29653759    4% /
+"""
+
+[[commands.tokens]]
+text = "df"
+desc = "显示文件系统使用情况"
+
+[[commands.tokens]]
+text = " -i"
+desc = "改为显示索引节点总数、已用数和可用数"
+
+[[commands.tokens]]
+text = " /"
+desc = "只检查根目录所在的文件系统"
+
+[commands.dictation]
+prompt = "排查根目录明明还有容量却无法新建文件的问题，检查索引节点余量"
+answers = ["df -i /"]
+
+[[commands]]
+id = "disk-du-summary-downloads"
+command = "du -sh ~/Downloads"
+summary = "汇总下载目录实际占用空间"
+simulated_output = "12G\t/home/ace/Downloads"
+
+[[commands.tokens]]
+text = "du"
+desc = "统计文件或目录实际占用的磁盘空间"
+
+[[commands.tokens]]
+text = " -sh"
+desc = "只显示汇总值，并使用易读单位"
+
+[[commands.tokens]]
+text = " ~/Downloads"
+desc = "要汇总的当前用户下载目录"
+
+[commands.dictation]
+prompt = "汇总当前用户下载目录占用的磁盘空间，并使用易读单位"
+answers = ["du -sh ~/Downloads"]
+
+[[commands]]
+id = "disk-du-project-depth-one"
+command = "du -h --max-depth=1 ~/projects"
+summary = "比较项目目录下一级子目录的占用"
+simulated_output = """384M\t/home/ace/projects/dashboard
+1.7G\t/home/ace/projects/ml-notes
+92M\t/home/ace/projects/cmdtyper
+2.2G\t/home/ace/projects
+"""
+
+[[commands.tokens]]
+text = "du"
+desc = "统计目录树实际占用的磁盘空间"
+
+[[commands.tokens]]
+text = " -h"
+desc = "用 KiB、MiB、GiB 等易读单位显示大小"
+
+[[commands.tokens]]
+text = " --max-depth=1"
+desc = "只展开到参数目录之下第一层"
+
+[[commands.tokens]]
+text = " ~/projects"
+desc = "要检查的当前用户项目目录"
+
+[commands.dictation]
+prompt = "查看当前用户项目目录及其每个一级子目录的占用，并使用易读单位"
+answers = ["du -h --max-depth=1 ~/projects"]
+
+[[commands]]
+id = "disk-du-largest-downloads"
+command = "du -sh ~/Downloads/* | sort -rh | head"
+summary = "找出下载目录中占用最大的项目"
+simulated_output = """4.7G\t/home/ace/Downloads/ubuntu-24.04.2-desktop-amd64.iso
+2.3G\t/home/ace/Downloads/conference-recording.mkv
+1.6G\t/home/ace/Downloads/android-studio.tar.gz
+824M\t/home/ace/Downloads/photos-archive
+216M\t/home/ace/Downloads/driver-pack.zip
+"""
+
+[[commands.tokens]]
+text = "du"
+desc = "统计每个匹配项目实际占用的磁盘空间"
+
+[[commands.tokens]]
+text = " -sh"
+desc = "逐项汇总并使用易读单位"
+
+[[commands.tokens]]
+text = " ~/Downloads/*"
+desc = "匹配下载目录中的非隐藏项目"
+
+[[commands.tokens]]
+text = " |"
+desc = "把空间统计结果交给后续排序"
+
+[[commands.tokens]]
+text = " sort"
+desc = "对每行结果排序"
+
+[[commands.tokens]]
+text = " -rh"
+desc = "按易读大小识别数值，并从大到小排列"
+
+[[commands.tokens]]
+text = " |"
+desc = "把排序结果交给后续截取"
+
+[[commands.tokens]]
+text = " head"
+desc = "默认只显示最前面的 10 行"
+
+[commands.dictation]
+prompt = "按占用空间从大到小列出下载目录中的项目，只保留前 10 项"
+answers = ["du -sh ~/Downloads/* | sort -rh | head"]
+
+[[commands]]
+id = "disk-lsblk-size-mountpoints"
+command = "lsblk -o NAME,SIZE,TYPE,MOUNTPOINTS"
+summary = "查看磁盘层级、容量和挂载点"
+simulated_output = """NAME          SIZE TYPE MOUNTPOINTS
+nvme0n1       477G disk
+├─nvme0n1p1   512M part /boot/efi
+└─nvme0n1p2 476.4G part /
+sdb           1.8T disk
+└─sdb1        1.8T part /srv/data
+"""
+
+[[commands.tokens]]
+text = "lsblk"
+desc = "以树形结构列出块设备"
+
+[[commands.tokens]]
+text = " -o"
+desc = "指定要显示的列"
+
+[[commands.tokens]]
+text = " NAME,SIZE,TYPE,MOUNTPOINTS"
+desc = "显示名称、容量、设备类型和全部挂载点"
+
+[commands.dictation]
+prompt = "按树形结构查看块设备名称、容量、设备类型和挂载点"
+answers = ["lsblk -o NAME,SIZE,TYPE,MOUNTPOINTS"]
+
+[[commands]]
+id = "disk-lsblk-filesystems"
+command = "lsblk -f"
+summary = "查看块设备的文件系统标识"
+simulated_output = """NAME        FSTYPE FSVER LABEL  UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+nvme0n1
+├─nvme0n1p1 vfat   FAT32 EFI    C2A1-7F3B                              503M     2% /boot/efi
+└─nvme0n1p2 ext4   1.0   system 3c05ffff-01f9-4dd6-ae28-7ee463c09d90 282.1G    37% /
+sdb
+└─sdb1      ext4   1.0   data   b812d4ae-70d1-4f8e-960d-a7e433c24b62   1.2T    34% /srv/data
+"""
+
+[[commands.tokens]]
+text = "lsblk"
+desc = "列出块设备及其层级关系"
+
+[[commands.tokens]]
+text = " -f"
+desc = "显示文件系统类型、版本、标签、UUID 和空间字段"
+
+[commands.dictation]
+prompt = "查看各块设备的文件系统类型、版本、标签、UUID、可用空间和挂载点"
+answers = ["lsblk -f"]
+
+[[commands]]
+id = "disk-mount-root-filter"
+command = "du -sh ~/.cache"
+summary = "汇总用户缓存目录的实际磁盘占用"
+simulated_output = "3.6G\t/home/ace/.cache"
+
+[[commands.tokens]]
+text = "du"
+desc = "统计路径实际占用的文件系统空间"
+
+[[commands.tokens]]
+text = " -s"
+desc = "只显示整个目录的汇总值，不逐项展开"
+
+[[commands.tokens]]
+text = "h"
+desc = "自动选择 K、M、G 等易读单位"
+
+[[commands.tokens]]
+text = " ~/.cache"
+desc = "当前用户的缓存目录；这里只读统计，不删除内容"
+
+[commands.dictation]
+prompt = "只读汇总当前用户 ~/.cache 目录的实际磁盘占用，并使用易读单位"
+answers = ["du -sh ~/.cache"]
+
+[[commands]]
+id = "disk-mount-ext4-filter"
+command = "du -sh ~/Videos"
+summary = "汇总视频目录的实际磁盘占用"
+simulated_output = "18G\t/home/ace/Videos"
+
+[[commands.tokens]]
+text = "du"
+desc = "统计路径实际占用的文件系统空间"
+
+[[commands.tokens]]
+text = " -s"
+desc = "只显示整个目录的汇总值"
+
+[[commands.tokens]]
+text = "h"
+desc = "自动选择 K、M、G 等易读单位"
+
+[[commands.tokens]]
+text = " ~/Videos"
+desc = "要检查占用的视频目录"
+
+[commands.dictation]
+prompt = "汇总当前用户 Videos 目录的实际磁盘占用，并使用易读单位"
+answers = ["du -sh ~/Videos"]
+
+[[commands]]
+id = "disk-free-human-wide"
+command = "du -xh --max-depth=1 ~"
+summary = "比较家目录一级子目录的占用且不跨文件系统"
+simulated_output = """3.6G	/home/ace/.cache
+1.8G	/home/ace/Documents
+6.4G	/home/ace/Downloads
+18G	/home/ace/Videos
+31G	/home/ace
+"""
+
+[[commands.tokens]]
+text = "du"
+desc = "统计目录和文件实际占用的文件系统空间"
+
+[[commands.tokens]]
+text = " -x"
+desc = "只统计与起点相同的文件系统，避免跨入其他挂载"
+
+[[commands.tokens]]
+text = "h"
+desc = "自动选择 K、M、G 等易读单位"
+
+[[commands.tokens]]
+text = " --max-depth=1"
+desc = "显示家目录汇总及一级子目录汇总；默认不会单列家目录顶层的普通文件"
+
+[[commands.tokens]]
+text = " ~"
+desc = "从当前用户家目录开始统计"
+
+[commands.dictation]
+prompt = "比较家目录及其一级子目录的实际磁盘占用，使用易读单位且不跨入其他文件系统"
+answers = ["du -xh --max-depth=1 ~"]
+
+[[commands]]
+id = "disk-findmnt-tree"
+command = "df -h --total"
+summary = "查看各文件系统容量并在末尾汇总"
+simulated_output = """Filesystem      Size  Used Avail Use% Mounted on
+/dev/root       476G  176G  276G  39% /
+/dev/sdb1       1.8T  612G  1.1T  36% /srv/data
+total           2.3T  788G  1.4T  37% -
+"""
+
+[[commands.tokens]]
+text = "df"
+desc = "查看已挂载文件系统的容量使用情况"
+
+[[commands.tokens]]
+text = " -h"
+desc = "自动选择易读的二进制单位"
+
+[[commands.tokens]]
+text = " --total"
+desc = "在输出末尾增加汇总行；伪文件系统和重复设备可能被 df 排除"
+
+[commands.dictation]
+prompt = "用易读单位查看各文件系统容量，并在输出末尾增加汇总行"
+answers = ["df -h --total"]
+
+[[commands]]
+id = "disk-findmnt-root"
+command = "findmnt /"
+summary = "精确查看根目录的挂载信息"
+simulated_output = """TARGET SOURCE         FSTYPE OPTIONS
+/      /dev/nvme0n1p2 ext4   rw,relatime,errors=remount-ro
+"""
+
+[[commands.tokens]]
+text = "findmnt"
+desc = "在系统挂载表中查找匹配项"
+
+[[commands.tokens]]
+text = " /"
+desc = "查询根目录挂载点"
+
+[commands.dictation]
+prompt = "精确查看根目录对应的来源设备、文件系统类型和挂载选项"
+answers = ["findmnt /"]
+
+[[commands]]
+id = "disk-findmnt-path-target"
+command = "findmnt -T /var/log"
+summary = "查明路径所在的文件系统"
+simulated_output = """TARGET SOURCE         FSTYPE OPTIONS
+/      /dev/nvme0n1p2 ext4   rw,relatime,errors=remount-ro
+"""
+
+[[commands.tokens]]
+text = "findmnt"
+desc = "查询系统挂载表"
+
+[[commands.tokens]]
+text = " -T"
+desc = "接受任意文件或目录路径并查找其所属文件系统"
+
+[[commands.tokens]]
+text = " /var/log"
+desc = "要定位所属文件系统的目录"
+
+[commands.dictation]
+prompt = "确定 /var/log 目录实际位于哪个挂载点和来源设备上"
+answers = ["findmnt -T /var/log"]
+
+[[commands]]
+id = "disk-findmnt-ext4-only"
+command = "findmnt -no SOURCE /"
+summary = "只取根文件系统的来源名称"
+simulated_output = "/dev/root"
+
+[[commands.tokens]]
+text = "findmnt"
+desc = "查询系统挂载表"
+
+[[commands.tokens]]
+text = " -n"
+desc = "不显示列标题"
+
+[[commands.tokens]]
+text = "o SOURCE"
+desc = "只选择来源列；与前一个短选项合写为 -no SOURCE"
+
+[[commands.tokens]]
+text = " /"
+desc = "查询根目录挂载点，不假定设备名是 sda、nvme、LVM 或其他形式"
+
+[commands.dictation]
+prompt = "不猜测硬件设备名，只输出根文件系统在当前机器上的来源名称"
+answers = ["findmnt -no SOURCE /"]
+
+[[commands]]
+id = "disk-blkid-all"
+command = "blkid"
+summary = "只读识别块设备的文件系统标识"
+simulated_output = """/dev/nvme0n1p1: LABEL_FATBOOT="EFI" LABEL="EFI" UUID="C2A1-7F3B" BLOCK_SIZE="512" TYPE="vfat" PARTUUID="a1198cd6-01"
+/dev/nvme0n1p2: LABEL="system" UUID="3c05ffff-01f9-4dd6-ae28-7ee463c09d90" BLOCK_SIZE="4096" TYPE="ext4" PARTUUID="a1198cd6-02"
+/dev/sdb1: LABEL="data" UUID="b812d4ae-70d1-4f8e-960d-a7e433c24b62" BLOCK_SIZE="4096" TYPE="ext4" PARTUUID="fd0b7f25-01"
+"""
+
+[[commands.tokens]]
+text = "blkid"
+desc = "只读识别块设备内容类型及 LABEL、UUID 等属性，不会格式化磁盘"
+
+[commands.dictation]
+prompt = "以只读方式识别可见块设备的文件系统类型、标签和 UUID"
+answers = ["blkid"]
+
+[[commands]]
+id = "disk-blkid-root-device"
+command = "ls -lhS ~/Downloads | head"
+summary = "按表观大小查看下载目录开头的条目"
+simulated_output = """total 6.4G
+-rw-r--r-- 1 ace ace 4.1G Jul 21 18:40 system-image.iso
+-rw-r--r-- 1 ace ace 1.7G Jul 18 09:12 training-video.mkv
+-rw-r--r-- 1 ace ace 420M Jul 25 14:08 dataset.zip
+"""
+
+[[commands.tokens]]
+text = "ls"
+desc = "列出目录项；不会递归统计子目录内容"
+
+[[commands.tokens]]
+text = " -l"
+desc = "使用长格式显示权限、所有者、表观大小和时间"
+
+[[commands.tokens]]
+text = "h"
+desc = "把表观大小换算为 K、M、G 等易读单位"
+
+[[commands.tokens]]
+text = "S"
+desc = "按表观大小从大到小排序；目录这一行的大小不代表目录内容总量"
+
+[[commands.tokens]]
+text = " ~/Downloads"
+desc = "要快速观察的下载目录"
+
+[[commands.tokens]]
+text = " |"
+desc = "把排序结果交给右侧命令"
+
+[[commands.tokens]]
+text = " head"
+desc = "只显示输出开头，避免长列表刷屏"
+
+[commands.dictation]
+prompt = "按表观大小从大到小查看 Downloads 的目录项，并只保留列表开头；目录内容总量仍应使用 du"
+answers = ["ls -lhS ~/Downloads | head"]
+
+[[commands]]
+id = "disk-blkid-uuid-value"
+command = "du -ah ~/Downloads | sort -rh | head -n 20"
+summary = "找出下载目录树中占用最大的路径"
+simulated_output = """6.4G	/home/ace/Downloads
+4.1G	/home/ace/Downloads/system-image.iso
+1.7G	/home/ace/Downloads/training-video.mkv
+420M	/home/ace/Downloads/dataset.zip"""
+
+[[commands.tokens]]
+text = "du"
+desc = "统计路径实际占用的文件系统空间"
+
+[[commands.tokens]]
+text = " -a"
+desc = "同时列出普通文件和目录，而不只列目录汇总"
+
+[[commands.tokens]]
+text = "h"
+desc = "用 K、M、G 等易读单位输出"
+
+[[commands.tokens]]
+text = " ~/Downloads"
+desc = "递归统计当前用户的下载目录树"
+
+[[commands.tokens]]
+text = " |"
+desc = "把占用清单交给右侧排序"
+
+[[commands.tokens]]
+text = " sort"
+desc = "按行排序输入"
+
+[[commands.tokens]]
+text = " -rh"
+desc = "按易读数字从大到小排序"
+
+[[commands.tokens]]
+text = " |"
+desc = "把排序结果交给右侧截取"
+
+[[commands.tokens]]
+text = " head"
+desc = "只保留开头若干行"
+
+[[commands.tokens]]
+text = " -n 20"
+desc = "显示占用最大的前 20 个文件或目录路径"
+
+[commands.dictation]
+prompt = "递归统计 Downloads 中每个文件和目录的实际占用，按易读数值从大到小只看前 20 项"
+answers = ["du -ah ~/Downloads | sort -rh | head -n 20"]

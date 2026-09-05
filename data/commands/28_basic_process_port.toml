@@ -1,0 +1,396 @@
+[meta]
+category = "process"
+difficulty = "basic"
+description = "进程与端口排查"
+
+[meta.topic]
+id = "process_port"
+title = "进程与端口排查"
+icon = "🔬"
+order = 9
+
+[[commands]]
+id = "uptime-pretty-process"
+command = "uptime -p"
+summary = "以易读格式显示系统运行时长"
+simulated_output = "up 2 weeks, 3 days, 4 hours, 18 minutes"
+
+[[commands.tokens]]
+text = "uptime"
+desc = "报告系统运行时长；常规输出还包含登录人数与 1、5、15 分钟负载"
+
+[[commands.tokens]]
+text = " -p"
+desc = "只以易读格式显示系统已运行多久"
+
+[commands.dictation]
+prompt = "以易读格式查看系统已经持续运行多久"
+answers = ["uptime -p"]
+
+[[commands]]
+id = "ps-aux-sort-cpu"
+command = "ps aux --sort=-%cpu"
+summary = "查看全量进程并按 CPU 使用率降序排列"
+simulated_output = """USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+www-data  24871 42.8  1.3 412380 54492 ?        R    09:40  14:33 nginx: worker process
+postgres   1842  1.2  0.9 301224 38640 ?        Ssl  Jul25  18:06 /usr/lib/postgresql/16/bin/postgres
+chen      31452  0.4  0.1  26844  9820 pts/2    S+   10:02   0:03 python3 -m http.server 8080
+root       1368  0.0  0.1  55284  6984 ?        Ss   Jul25   0:12 nginx: master process /usr/sbin/nginx
+"""
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示当前进程的快照"
+
+[[commands.tokens]]
+text = " aux"
+desc = "以 BSD 格式列出所有用户及无终端进程，并显示资源占用列"
+
+[[commands.tokens]]
+text = " --sort=-%cpu"
+desc = "按 CPU 使用率从高到低排序"
+
+[commands.dictation]
+prompt = "按 CPU 使用率从高到低查看系统中的全部进程"
+answers = ["ps aux --sort=-%cpu"]
+
+[[commands]]
+id = "ps-user-chen-processes"
+command = "ps -u chen -o pid,stat,cmd"
+summary = "只读查看 chen 名下进程的 PID、状态和命令行"
+simulated_output = """    PID STAT CMD
+  31580 Sl   node /home/chen/apps/api/server.js
+  31592 Sl   node /home/chen/apps/worker/index.js
+"""
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示当前进程的快照"
+
+[[commands.tokens]]
+text = " -u"
+desc = "只选择有效用户属于指定账号的进程"
+
+[[commands.tokens]]
+text = " chen"
+desc = "本题要只读检查的示例账号"
+
+[[commands.tokens]]
+text = " -o pid,stat,cmd"
+desc = "只显示 PID、进程状态和命令行，不依赖 ps 输出文本再做 grep"
+
+[commands.dictation]
+prompt = "不使用文本筛选，只读列出 chen 名下进程的 PID、状态和命令行"
+answers = ["ps -u chen -o pid,stat,cmd"]
+
+[[commands]]
+id = "ps-pid-owner-command-review"
+command = "ps -p 31452 -o user,pid,ppid,stat,etime,cmd"
+summary = "发送信号前复核 PID 的所有者、状态和命令行"
+simulated_output = """USER       PID    PPID STAT     ELAPSED CMD
+chen     31452   30218 S+          18:04 python3 -m http.server 8080
+"""
+
+[[commands.tokens]]
+text = "ps"
+desc = "显示当前进程的快照"
+
+[[commands.tokens]]
+text = " -p"
+desc = "只选择指定 PID"
+
+[[commands.tokens]]
+text = " 31452"
+desc = "刚从端口排查得到的 PID；PID 会被复用，发送信号前必须重新查询"
+
+[[commands.tokens]]
+text = " -o"
+desc = "自定义输出字段"
+
+[[commands.tokens]]
+text = " user,pid,ppid,stat,etime,cmd"
+desc = "依次显示所有者、PID、父 PID、状态、已运行时长和命令行"
+
+[commands.dictation]
+prompt = "准备发送信号前，只读复核 PID 31452 的所有者、父 PID、状态、运行时长和命令行"
+answers = ["ps -p 31452 -o user,pid,ppid,stat,etime,cmd"]
+
+[[commands]]
+id = "pgrep-full-nginx"
+command = "pgrep -af nginx"
+summary = "按完整命令行查找 nginx 并显示 PID"
+simulated_output = """1368 nginx: master process /usr/sbin/nginx
+24871 nginx: worker process
+24872 nginx: worker process
+"""
+
+[[commands.tokens]]
+text = "pgrep"
+desc = "按条件查找运行中的进程"
+
+[[commands.tokens]]
+text = " -a"
+desc = "同时列出 PID 和完整命令行"
+
+[[commands.tokens]]
+text = "f"
+desc = "让模式匹配完整命令行，而不只是进程名"
+
+[[commands.tokens]]
+text = " nginx"
+desc = "要在完整命令行中查找的模式"
+
+[commands.dictation]
+prompt = "按完整命令行查找 nginx，并同时显示 PID 与命令行"
+answers = ["pgrep -af nginx"]
+
+[[commands]]
+id = "lsof-port-8080"
+command = "lsof -i:8080"
+summary = "定位占用 8080 端口的进程和文件描述符"
+simulated_output = """COMMAND   PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+python3 31452 chen    3u  IPv4  82931      0t0  TCP *:http-alt (LISTEN)
+"""
+
+[[commands.tokens]]
+text = "lsof"
+desc = "列出进程打开的文件和套接字"
+
+[[commands.tokens]]
+text = " -i:8080"
+desc = "只选择 Internet 地址中端口为 8080 的网络文件"
+
+[commands.dictation]
+prompt = "找出正在使用 8080 端口的进程及其文件描述符"
+answers = ["lsof -i:8080"]
+
+[[commands]]
+id = "ss-tcp-listen-process"
+command = "ss -tlnp"
+summary = "列出 TCP 监听端口及进程，权限不足可能隐藏进程"
+simulated_output = """State  Recv-Q Send-Q Local Address:Port Peer Address:Port Process
+LISTEN 0      128          0.0.0.0:22        0.0.0.0:*     users:((\"sshd\",pid=842,fd=3))
+LISTEN 0      5            0.0.0.0:8080      0.0.0.0:*     users:((\"python3\",pid=31452,fd=3))
+LISTEN 0      244        127.0.0.1:5432      0.0.0.0:*     users:((\"postgres\",pid=1842,fd=7))
+"""
+
+[[commands.tokens]]
+text = "ss"
+desc = "检查系统套接字"
+
+[[commands.tokens]]
+text = " -tlnp"
+desc = "限定 TCP 和监听状态，保留数字端口并显示关联进程"
+
+[commands.dictation]
+prompt = "列出所有正在监听的 TCP 端口，保留数字端口并显示关联进程"
+answers = ["ss -tlnp"]
+
+[[commands]]
+id = "ss-listen-port-8080"
+command = "ss -tlnp 'sport = :8080'"
+summary = "只检查本机 8080 端口的 TCP 监听进程"
+simulated_output = """State  Recv-Q Send-Q Local Address:Port Peer Address:Port Process
+LISTEN 0      5            0.0.0.0:8080      0.0.0.0:*     users:((\"python3\",pid=31452,fd=3))
+"""
+
+[[commands.tokens]]
+text = "ss"
+desc = "检查系统套接字"
+
+[[commands.tokens]]
+text = " -tlnp"
+desc = "限定 TCP 和监听状态，保留数字端口并显示关联进程"
+
+[[commands.tokens]]
+text = " 'sport = :8080'"
+desc = "只保留本地源端口等于 8080 的套接字"
+
+[commands.dictation]
+prompt = "只查看本机 8080 端口上正在监听的 TCP 套接字和关联进程"
+answers = ["ss -tlnp 'sport = :8080'"]
+
+[[commands]]
+id = "kill-term-pid-31452"
+command = "kill 31452"
+summary = "复核后向自己拥有的进程发送 TERM，请求正常退出"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "kill"
+desc = "向指定 PID 发送信号；省略信号时默认发送 SIGTERM，且不会绕过进程所有权检查"
+
+[[commands.tokens]]
+text = " 31452"
+desc = "上一步已重新确认仍由当前用户 chen 拥有、且命令行为 python3 HTTP 服务的 PID"
+
+[commands.dictation]
+prompt = "已重新确认 PID 31452 仍由当前用户 chen 拥有且是目标 HTTP 服务；发送 TERM 请求它清理后退出"
+answers = ["kill 31452", "kill -TERM 31452", "kill -SIGTERM 31452", "kill -15 31452"]
+
+[[commands]]
+id = "pgrep-user-node-review"
+command = "pgrep -a -x -u chen node"
+summary = "发送范围信号前只读列出 chen 名下进程名恰为 node 的进程"
+simulated_output = """31580 node /home/chen/apps/api/server.js
+31592 node /home/chen/apps/worker/index.js"""
+
+[[commands.tokens]]
+text = "pgrep"
+desc = "按条件查找进程，本题只查询而不发送信号"
+
+[[commands.tokens]]
+text = " -a"
+desc = "同时显示 PID 和命令行，便于逐项核对"
+
+[[commands.tokens]]
+text = " -x"
+desc = "要求进程名完整匹配 node，避免误含 node_exporter 等名字"
+
+[[commands.tokens]]
+text = " -u chen"
+desc = "把范围限制为示例账号 chen 拥有的进程"
+
+[[commands.tokens]]
+text = " node"
+desc = "要完整匹配的进程名；核对清单后再决定是否批量发送信号"
+
+[commands.dictation]
+prompt = "批量发送信号前，只读列出 chen 名下进程名完整等于 node 的进程及命令行"
+answers = ["pgrep -a -x -u chen node"]
+
+[[commands]]
+id = "pkill-term-user-node"
+command = "pkill -TERM -x -u chen node"
+summary = "核对清单后，仅向 chen 名下进程名恰为 node 的进程发送 TERM"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "pkill"
+desc = "按条件向匹配进程发送信号"
+
+[[commands.tokens]]
+text = " -TERM"
+desc = "发送允许进程清理后退出的 SIGTERM"
+
+[[commands.tokens]]
+text = " -x"
+desc = "要求进程名完整匹配 node，避免向名称仅包含 node 的其他进程发送信号"
+
+[[commands.tokens]]
+text = " -u"
+desc = "按进程的有效用户筛选"
+
+[[commands.tokens]]
+text = " chen"
+desc = "只匹配有效用户为当前示例账号 chen 的进程，避免碰到其他用户的同名进程"
+
+[[commands.tokens]]
+text = " node"
+desc = "要完整匹配的目标进程名；该用户所有恰好名为 node 的进程都会匹配"
+
+[commands.dictation]
+prompt = "已逐项核对上一题清单后，仅向 chen 名下进程名完整等于 node 的进程发送 TERM"
+answers = ["pkill -TERM -x -u chen node", "pkill -x -u chen node"]
+
+[[commands]]
+id = "nohup-worker-background"
+command = "nohup ./worker.sh &"
+summary = "让 worker 脚本退出终端后仍在后台运行"
+simulated_output = """[1] 32014
+nohup: ignoring input and appending output to 'nohup.out'
+"""
+
+[[commands.tokens]]
+text = "nohup"
+desc = "忽略终端挂断信号，并在需要时把输出追加到 nohup.out"
+
+[[commands.tokens]]
+text = " ./worker.sh"
+desc = "当前目录中要运行的可执行脚本"
+
+[[commands.tokens]]
+text = " &"
+desc = "由 shell 把命令放到后台；nohup 本身不会自动后台运行"
+
+[commands.dictation]
+prompt = "让当前目录的 worker.sh 在后台运行，退出终端后也继续，并使用默认输出文件"
+answers = ["nohup ./worker.sh &"]
+
+[[commands]]
+id = "jobs-pids-only"
+command = "jobs -p"
+summary = "只列出当前 shell 各活动作业的进程号"
+simulated_output = """32014
+32108
+"""
+
+[[commands.tokens]]
+text = "jobs"
+desc = "列出当前 shell 管理的活动作业"
+
+[[commands.tokens]]
+text = " -p"
+desc = "只输出各活动作业的进程组首进程 PID，便于交给其他命令处理"
+
+[commands.dictation]
+prompt = "只输出当前 shell 中各活动作业的进程号，不显示状态和命令行"
+answers = ["jobs -p"]
+
+[[commands]]
+id = "bg-job-two-process-port"
+command = "bg %2"
+summary = "让编号 2 的已暂停作业在后台继续运行"
+simulated_output = "[2]+ tail -f worker.log &"
+
+[[commands.tokens]]
+text = "bg"
+desc = "让已暂停作业在后台恢复运行的 shell 内建命令"
+
+[[commands.tokens]]
+text = " %2"
+desc = "当前 shell 中编号为 2 的作业"
+
+[commands.dictation]
+prompt = "让当前 shell 中编号为 2 的已暂停作业在后台继续运行"
+answers = ["bg %2"]
+
+[[commands]]
+id = "fg-job-two-process-port"
+command = "fg %2"
+summary = "把编号 2 的后台作业调回前台"
+simulated_output = "tail -f worker.log"
+
+[[commands.tokens]]
+text = "fg"
+desc = "恢复指定作业并把它置于前台的 shell 内建命令"
+
+[[commands.tokens]]
+text = " %2"
+desc = "当前 shell 中编号为 2 的作业"
+
+[commands.dictation]
+prompt = "把当前 shell 中编号为 2 的后台作业调回前台"
+answers = ["fg %2"]
+
+[[commands]]
+id = "kill-sigkill-last-resort-31452"
+command = "kill -9 31452"
+summary = "TERM 无效且再次复核身份后，最后才发送 SIGKILL"
+simulated_output = ""
+
+[[commands.tokens]]
+text = "kill"
+desc = "向指定 PID 发送信号；SIGKILL 也不会绕过进程所有权检查"
+
+[[commands.tokens]]
+text = " -9"
+desc = "发送无法捕获或忽略的 SIGKILL，进程没有机会清理；仅作最后手段"
+
+[[commands.tokens]]
+text = " 31452"
+desc = "TERM 后再次用 ps 核对仍由 chen 拥有且命令行未变的目标 PID，防止 PID 已被复用"
+
+[commands.dictation]
+prompt = "TERM 无效后，已再次确认 PID 31452 仍由 chen 拥有且命令行未变；作为最后手段发送 SIGKILL"
+answers = ["kill -9 31452", "kill -KILL 31452", "kill -SIGKILL 31452"]

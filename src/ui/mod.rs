@@ -55,6 +55,7 @@ pub fn render(frame: &mut Frame, app: &App) {
             topic_index,
             section_index,
             phase,
+            scroll,
         } => match phase {
             SystemPhase::Overview => system_lesson::render_overview(frame, app, *topic_index),
             SystemPhase::Detail => {
@@ -66,10 +67,16 @@ pub fn render(frame: &mut Frame, app: &App) {
                 *topic_index,
                 *section_index,
                 *command_idx,
+                *scroll,
             ),
-            SystemPhase::ConfigFile(cf_idx) => {
-                system_lesson::render_config_file(frame, app, *topic_index, *section_index, *cf_idx)
-            }
+            SystemPhase::ConfigFile(cf_idx) => system_lesson::render_config_file(
+                frame,
+                app,
+                *topic_index,
+                *section_index,
+                *cf_idx,
+                *scroll,
+            ),
         },
         AppState::DeepExplanation { source, scroll } => {
             deep_explanation::render(frame, app, source, *scroll)
